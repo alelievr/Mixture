@@ -19,17 +19,22 @@ public class TextureNode : BaseNode
 
 	public override string		name => "Texture";
 
-	[System.NonSerialized]
-	Material			material;
+	public Material			material;
 
 	protected override void Enable()
 	{
 		if (shader == null)
-			return ;
+		{
+			shader = Resources.Load<Shader>("TextureNodeDefaultBlack");
+			Debug.Log("shader: " + shader);
+		}
 
 		// For now, we allocate one render target per node
 		output = new RenderTexture(512, 512, 0, GraphicsFormat.R8G8B8A8_UNorm);
-		material = new Material(shader);
+
+		Debug.Log("CReate material");
+		if (material == null)
+			material = new Material(shader);
 	}
 
 	protected override void Process()
