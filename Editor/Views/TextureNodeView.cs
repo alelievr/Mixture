@@ -38,13 +38,12 @@ public class TextureNodeView : BaseNodeView
 			UpdateShaderCreationUI();
 		});
 
-		SerializeMaterialIfNeeded();
-
 		controlsContainer.Add(shaderField);
 
 		shaderCreationUI = new VisualElement();
 		controlsContainer.Add(shaderCreationUI);
-		
+		UpdateShaderCreationUI();
+
 		materialEditorUI = new VisualElement();
 		materialEditorUI.Add(new IMGUIContainer(MaterialGUI));
 		controlsContainer.Add(materialEditorUI);
@@ -52,25 +51,31 @@ public class TextureNodeView : BaseNodeView
 		materialEditor = Editor.CreateEditor(textureNode.material) as MaterialEditor;
 	}
 
-	void SerializeMaterialIfNeeded()
-	{
-		
-	}
-
 	void UpdateShaderCreationUI()
 	{
 		shaderCreationUI.Clear();
-		
-		if (textureNode.shader == null)
+
+		if (textureNode.shader?.name == TextureNode.DefaultShaderName)
 		{
 			shaderCreationUI.Add(new Button(CreateEmbeededShader) {
 				text = "New Shader"
+			});
+		}
+		else
+		{
+			shaderCreationUI.Add(new Button(OpenCurrentShader){
+				text = "Open"
 			});
 		}
 
 		void CreateEmbeededShader()
 		{
 			Debug.Log("TODO");
+		}
+
+		void OpenCurrentShader()
+		{
+			AssetDatabase.OpenAsset(textureNode.shader);
 		}
 	}
 

@@ -5,6 +5,7 @@ using GraphProcessor;
 using System.Linq;
 using System.IO;
 using System;
+using UnityEngine.Rendering;
 
 using UnityEngine.Experimental.Rendering;
 
@@ -12,31 +13,40 @@ using UnityEngine.Experimental.Rendering;
 public class OutputNode : BaseNode
 {
 	[Input(name = "In")]
-	public Texture		input;
+	public Texture			input;
 
 	// TODO
 	// [Input(name = "Target size")]
 	// public Vector2		targetSize;
 
+	[HideInInspector, SerializeField]
+	public Vector2Int		targetSize = new Vector2Int(512, 512);
+	[HideInInspector, SerializeField]
+	public RenderTexture	outputTexture;
+	[HideInInspector, SerializeField]
+	public GraphicsFormat	format = GraphicsFormat.R8G8B8A8_UNorm;
+
 	public override string		name => "Output";
+
+	protected override void Enable()
+	{
+		// Create a dummy render texture that will be resized later on
+		if (outputTexture == null)
+			outputTexture = new RenderTexture(1, 1, 0, format);
+	}
 
 	protected override void Process()
 	{
-		// Currently runtime texture generation is not supported
-		#if UNITY_EDITOR
-		if (input != null && (input is RenderTexture rt))
+		// Update the renderTexture size and format:
+		if (outputTexture.width != targetSize.x || outputTexture.height != targetSize.y || outputTexture.graphicsFormat != format)
 		{
-			var outPath = "Assets/test.png";
-			RenderTexture.active = rt;
-			Texture2D o = new Texture2D(rt.width, rt.height, rt.graphicsFormat, TextureCreationFlags.None);
-			o.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
-			o.Apply();
-			var bytes = o.EncodeToPNG();
-			outPath = Path.GetFullPath(outPath);
-			Debug.Log("OutPath: " + outPath);
-			File.WriteAllBytes(outPath, bytes);
-			UnityEditor.AssetDatabase.Refresh();
+			outputTexture.Release();
+			outputTexture.width = targetSize.x;
+			outputTexture.height = targetSize.y;
+			outputTexture.graphicsFormat = format;
+			outputTexture.Create();
 		}
-		#endif
+
+		Graphics.Blit(input, outputTexture);
 	}
 }
