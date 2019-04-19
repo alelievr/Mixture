@@ -32,7 +32,9 @@ public class OutputNode : BaseNode
 	{
 		// Create a dummy render texture that will be resized later on
 		if (outputTexture == null)
+		{
 			outputTexture = new RenderTexture(1, 1, 0, format);
+		}
 	}
 
 	protected override void Process()
@@ -41,6 +43,7 @@ public class OutputNode : BaseNode
 		if (outputTexture.width != targetSize.x || outputTexture.height != targetSize.y || outputTexture.graphicsFormat != format)
 		{
 			outputTexture.Release();
+			outputTexture.name = "Mixture Output";
 			outputTexture.width = targetSize.x;
 			outputTexture.height = targetSize.y;
 			outputTexture.graphicsFormat = format;

@@ -26,6 +26,10 @@ public class OutputNodeView : BaseNodeView
 
 	public override void Enable()
 	{
+        // Fix the size of the node
+        var currentPos = GetPosition();
+        SetPosition(new Rect(currentPos.x, currentPos.y, 200, 400));
+
 		outputNode = nodeTarget as OutputNode;
 
         var targetSizeField = FieldFactory.CreateField(typeof(Vector2Int), outputNode.targetSize, (newValue) => {
