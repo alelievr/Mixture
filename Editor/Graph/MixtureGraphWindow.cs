@@ -21,7 +21,7 @@ public class MixtureGraphWindow : BaseGraphWindow
 	{
 		titleContent = new GUIContent("Mixture Graph");
 
-		var graphView = new MixtureToolbarGraphView();
+		var graphView = new MixtureGraphView();
 
 		rootView.Add(graphView);
 

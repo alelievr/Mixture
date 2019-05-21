@@ -6,11 +6,11 @@ using Unity.Jobs;
 using Unity.Collections;
 using GraphProcessor;
 
-public class ProcessGraphProcessor : BaseGraphProcessor
+public class MixtureProcessor : BaseGraphProcessor
 {
 	List< BaseNode >		processList;
-	
-	public ProcessGraphProcessor(BaseGraph graph) : base(graph) {}
+
+	public MixtureProcessor(BaseGraph graph) : base(graph) {}
 
 	public override void UpdateComputeOrder()
 	{

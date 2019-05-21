@@ -7,6 +7,9 @@ using System.Linq;
 [System.Serializable]
 public class MixtureGraph : BaseGraph
 {
+	// Serialized datas for the editor:
+	public bool		realtimePreview;
+
 	public MixtureGraph()
 	{
 		base.onEnabled += Enabled;

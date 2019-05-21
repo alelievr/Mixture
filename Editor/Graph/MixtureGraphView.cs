@@ -5,9 +5,12 @@ using GraphProcessor;
 using System;
 using System.Linq;
 
-public class MixtureToolbarGraphView : BaseGraphView
+public class MixtureGraphView : BaseGraphView
 {
-	public MixtureToolbarGraphView()
+	// For now we will let the processor in the graph view
+	public MixtureProcessor	processor { get; private set; }
+
+	public MixtureGraphView()
 	{
 		initialized += Initialize;
 	}
@@ -36,6 +39,9 @@ public class MixtureToolbarGraphView : BaseGraphView
 		{
 			AddNode(BaseNode.CreateFromType< OutputNode >(Vector2.zero));
 		}
+
+		processor = new MixtureProcessor(graph);
+		computeOrderUpdated += processor.UpdateComputeOrder;
 	}
 
 	void CreateNodeOfType(Type type, Vector2 position)

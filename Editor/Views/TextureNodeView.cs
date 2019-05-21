@@ -6,6 +6,7 @@ using UnityEditor.UIElements;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using GraphProcessor;
+using System.Linq;
 
 [NodeCustomEditor(typeof(TextureNode))]
 public class TextureNodeView : BaseNodeView
@@ -36,6 +37,9 @@ public class TextureNodeView : BaseNodeView
 			textureNode.shader = (Shader)v.newValue;
 			textureNode.material.shader = textureNode.shader;
 			UpdateShaderCreationUI();
+
+			// We fore the update of node ports
+			ForceUpdatePorts();
 		});
 
 		controlsContainer.Add(shaderField);
@@ -81,7 +85,29 @@ public class TextureNodeView : BaseNodeView
 
 	void MaterialGUI()
 	{
-		materialEditor.PropertiesGUI();
+		// Custom property draw, we don't want things that are connected to an edge or useless like the render queue
+		MaterialPropertiesGUI(MaterialEditor.GetMaterialProperties(new []{textureNode.material}));
+	}
+
+	void MaterialPropertiesGUI(MaterialProperty[] properties)
+	{
+		var portViews = GetPortViewsFromFieldName(nameof(TextureNode.materialInputs));
+
+		foreach (var property in properties)
+		{
+			if ((property.flags & (MaterialProperty.PropFlags.HideInInspector | MaterialProperty.PropFlags.PerRendererData)) != 0)
+				continue;
+
+			// Retreive the port view from the property name
+			var portView = portViews.FirstOrDefault(p => p.portData.identifier == property.name);
+			if (portView == null || portView.connected)
+				continue;
+
+			float h = materialEditor.GetPropertyHeight(property, property.displayName);
+			Rect r = EditorGUILayout.GetControlRect(true, h, EditorStyles.layerMaskField);
+
+			materialEditor.ShaderProperty(r, property, property.displayName);
+		}
 	}
 
 	public override void OnRemoved()
