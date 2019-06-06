@@ -6,24 +6,27 @@ using Unity.Jobs;
 using Unity.Collections;
 using GraphProcessor;
 
-public class MixtureProcessor : BaseGraphProcessor
+namespace Mixture
 {
-	List< BaseNode >		processList;
-
-	public MixtureProcessor(BaseGraph graph) : base(graph) {}
-
-	public override void UpdateComputeOrder()
+	public class MixtureProcessor : BaseGraphProcessor
 	{
-		processList = graph.nodes.OrderBy(n => n.computeOrder).ToList();
-	}
+		List< BaseNode >		processList;
 
-	public override void Run()
-	{
-		int count = processList.Count;
+		public MixtureProcessor(BaseGraph graph) : base(graph) {}
 
-		for (int i = 0; i < count; i++)
+		public override void UpdateComputeOrder()
 		{
-			processList[i].OnProcess();
+			processList = graph.nodes.OrderBy(n => n.computeOrder).ToList();
+		}
+
+		public override void Run()
+		{
+			int count = processList.Count;
+
+			for (int i = 0; i < count; i++)
+			{
+				processList[i].OnProcess();
+			}
 		}
 	}
 }

@@ -4,34 +4,73 @@ using UnityEngine;
 using UnityEditor;
 using GraphProcessor;
 using UnityEditor.Callbacks;
+using System.Linq;
+using UnityEditor.ProjectWindowCallback;
+using System.IO;
 
-public class MixtureAssetCallbacks
+namespace Mixture
 {
-	[MenuItem("Assets/Create/Mixture", false, 100)]
-	public static void CreateMixtureGraph()
+	public class MixtureAssetCallbacks
 	{
-		var		obj = Selection.activeObject;
-		string	path;
-
-		if (obj == null)
-			path = "Assets";
-		else
-			path = AssetDatabase.GetAssetPath(obj.GetInstanceID());
-
-		var graph = ScriptableObject.CreateInstance< MixtureGraph >();
-		ProjectWindowUtil.CreateAsset(graph, path + "/Mixture.asset");
-	}
-
-	[OnOpenAsset(0)]
-	public static bool OnBaseGraphOpened(int instanceID, int line)
-	{
-		var asset = EditorUtility.InstanceIDToObject(instanceID);
-
-		if (asset is MixtureGraph graph)
+		public static readonly string	Extension = "asset";
+		static Texture2D				_icon;
+		public static Texture2D			Icon
 		{
-			MixtureGraphWindow.Open().InitializeGraph(graph);
-			return true;
+			get => _icon == null ? _icon = Resources.Load< Texture2D >("MixtureIcon") : _icon;
 		}
-		return false;
+
+		[MenuItem("Assets/Create/Mixture Graph", false, 100)]
+		public static void CreateMixtureGraph()
+		{
+			var graphItem = ScriptableObject.CreateInstance< MixtureGraphAction >();
+            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
+                string.Format("New Mixture Graph.{0}", Extension), Icon, null);
+		}
+
+		[OnOpenAsset(0)]
+		public static bool OnBaseGraphOpened(int instanceID, int line)
+		{
+			var asset = EditorUtility.InstanceIDToObject(instanceID);
+
+			if (asset is Texture)
+			{
+				// Check if the CustomRenderTexture we're opening is a Mixture graph
+				var path = AssetDatabase.GetAssetPath(EditorUtility.InstanceIDToObject(instanceID));
+				var graph = AssetDatabase.LoadAllAssetsAtPath(path).FirstOrDefault(o => o is MixtureGraph) as MixtureGraph;
+
+				if (graph == null)
+					return false;
+
+				MixtureGraphWindow.Open().InitializeGraph(graph);
+				return true;
+			}
+			return false;
+		}
+
+		class MixtureGraphAction : EndNameEditAction
+		{
+			public override void Action(int instanceId, string pathName, string resourceFile)
+			{
+				var mixture = ScriptableObject.CreateInstance< MixtureGraph >();
+				mixture.name = Path.GetFileNameWithoutExtension(pathName);
+				mixture.hideFlags = HideFlags.HideInHierarchy;
+
+				AssetDatabase.CreateAsset(mixture, pathName);
+
+				// Generate the output texture:
+				mixture.UpdateOutputTexture(false);
+
+				// Then set it as main object
+				AssetDatabase.AddObjectToAsset(mixture.outputTexture, mixture);
+				AssetDatabase.SetMainObject(mixture.outputTexture, pathName);
+				AssetDatabase.SaveAssets();
+				AssetDatabase.Refresh();
+
+				UnityEngine.Object obj = AssetDatabase.LoadAssetAtPath< Texture >(pathName);
+
+				if (obj != null)
+					EditorGUIUtility.PingObject(obj);
+			}
+		}
 	}
 }

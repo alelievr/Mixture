@@ -4,51 +4,65 @@ using UnityEngine;
 using GraphProcessor;
 using System;
 using System.Linq;
+using UnityEditor;
+using Object = UnityEngine.Object;
 
-public class MixtureGraphView : BaseGraphView
+namespace Mixture
 {
-	// For now we will let the processor in the graph view
-	public MixtureProcessor	processor { get; private set; }
-
-	public MixtureGraphView()
+	public class MixtureGraphView : BaseGraphView
 	{
-		initialized += Initialize;
-	}
+		// For now we will let the processor in the graph view
+		public MixtureProcessor	processor { get; private set; }
+		public new MixtureGraph	graph => base.graph as MixtureGraph;
 
-	public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-	{
-		evt.menu.AppendSeparator();
-
-		foreach (var nodeMenuItem in NodeProvider.GetNodeMenuEntries())
+		public MixtureGraphView(EditorWindow window) : base(window)
 		{
-			var mousePos = (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
-			Vector2 nodePosition = mousePos;
-			evt.menu.AppendAction("Create/" + nodeMenuItem.Key,
-				(e) => CreateNodeOfType(nodeMenuItem.Value, nodePosition),
-				DropdownMenuAction.AlwaysEnabled
-			);
+			initialized += Initialize;
 		}
 
-		base.BuildContextualMenu(evt);
-	}
-
-	void Initialize()
-	{
-		// Create an output node if it does not exists
-		if (!graph.nodes.Any(n => n is OutputNode))
+		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
-			AddNode(BaseNode.CreateFromType< OutputNode >(Vector2.zero));
+			evt.menu.AppendSeparator();
+
+			foreach (var nodeMenuItem in NodeProvider.GetNodeMenuEntries())
+			{
+				var mousePos = (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
+				Vector2 nodePosition = mousePos;
+				evt.menu.AppendAction("Create/" + nodeMenuItem.Key,
+					(e) => CreateNodeOfType(nodeMenuItem.Value, nodePosition),
+					DropdownMenuAction.AlwaysEnabled
+				);
+			}
+
+			base.BuildContextualMenu(evt);
 		}
 
-		processor = new MixtureProcessor(graph);
-		computeOrderUpdated += processor.UpdateComputeOrder;
-	}
+		void Initialize()
+		{
+			RegisterCallback< KeyDownEvent >(KeyCallback);
 
-	void CreateNodeOfType(Type type, Vector2 position)
-	{
-		RegisterCompleteObjectUndo("Added " + type + " node");
-		AddNode(BaseNode.CreateFromType(type, position));
-	}
+			processor = new MixtureProcessor(graph);
+			computeOrderUpdated += processor.UpdateComputeOrder;
 
-	// TODO: override the delete function to prevent deleting the output node
+			// Run the processor when we open the graph
+			processor.Run();
+		}
+
+		void CreateNodeOfType(Type type, Vector2 position)
+		{
+			RegisterCompleteObjectUndo("Added " + type + " node");
+			AddNode(BaseNode.CreateFromType(type, position));
+		}
+
+		void KeyCallback(KeyDownEvent k)
+		{
+			// Handle mixture shortcuts
+			switch (k.keyCode)
+			{
+				case KeyCode.P:
+					processor.Run();
+					break ;
+			}
+		}
+	}
 }

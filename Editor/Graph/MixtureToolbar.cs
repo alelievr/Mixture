@@ -4,84 +4,89 @@ using UnityEngine;
 using UnityEditor;
 using GraphProcessor;
 
-using Status = UnityEngine.UIElements.DropdownMenuAction.Status;
-
-public class MixtureToolbar : ToolbarView
+namespace Mixture
 {
-	public MixtureToolbar(BaseGraphView graphView) : base(graphView) {}
+	using Status = UnityEngine.UIElements.DropdownMenuAction.Status;
 
-	MixtureGraph			graph => graphView.graph as MixtureGraph;
-	new MixtureGraphView	graphView => base.graphView as MixtureGraphView;
-
-	// TODO: move this elsewhere
-	static class MixtureUpdater
+	public class MixtureToolbar : ToolbarView
 	{
-		static List< MixtureGraphView > views = new List< MixtureGraphView >();
-		static MixtureUpdater()
-		{
-			EditorApplication.update += Update;
-		}
+		public MixtureToolbar(BaseGraphView graphView) : base(graphView) {}
 
-		public static void AddGraphToProcess(MixtureGraphView view)
-		{
-			views.Add(view);
-		}
+		MixtureGraph			graph => graphView.graph as MixtureGraph;
+		new MixtureGraphView	graphView => base.graphView as MixtureGraphView;
 
-		public static void RemoveGraphToProcess(MixtureGraphView view)
+		// TODO: move this elsewhere
+		static class MixtureUpdater
 		{
-			views.Remove(view);
-		}
-
-		public static void Update()
-		{
-			// TODO: check if view is visible and alive
-			foreach (var view in views)
+			static List< MixtureGraphView > views = new List< MixtureGraphView >();
+			static MixtureUpdater()
 			{
-				view.processor.Run();
-				view.MarkDirtyRepaint();
+				EditorApplication.update += Update;
+			}
+
+			public static void AddGraphToProcess(MixtureGraphView view)
+			{
+				views.Add(view);
+			}
+
+			public static void RemoveGraphToProcess(MixtureGraphView view)
+			{
+				views.Remove(view);
+			}
+
+			public static void Update()
+			{
+				views.RemoveAll(v => v?.graph == null);
+
+				// TODO: check if view is visible
+				foreach (var view in views)
+				{
+					view.processor.Run();
+					view.MarkDirtyRepaint();
+				}
 			}
 		}
-	}
 
-	class Styles
-	{
-		public const string realtimeToggleText = "RealTime";
-		public const string processButtonText = "Process";
-	}
-
-	protected override void AddButtons()
-	{
-		// Add the hello world button on the left of the toolbar
-		ToggleRealtime(graph.realtimePreview);
-		AddToggle(Styles.realtimeToggleText, graph.realtimePreview, ToggleRealtime, left: false);
-
-		bool exposedParamsVisible = graphView.GetPinnedElementStatus< ExposedParameterView >() != Status.Hidden;
-		AddToggle("Show Parameters", exposedParamsVisible, (v) => graphView.ToggleView< ExposedParameterView>());
-		AddButton("Show In Project", () => EditorGUIUtility.PingObject(graphView.graph));
-	}
-
-	void ToggleRealtime(bool state)
-	{
-		if (state)
+		class Styles
 		{
-			RemoveButton(Styles.processButtonText, false);
-			MixtureUpdater.AddGraphToProcess(graphView);
+			public const string realtimePreviewToggleText = "RealTime Preview";
+			public const string processButtonText = "Process";
 		}
-		else
+
+		protected override void AddButtons()
 		{
-			AddProcessButton();
-			MixtureUpdater.RemoveGraphToProcess(graphView);
+			// Add the hello world button on the left of the toolbar
+			ToggleRealtime(graph.realtimePreview);
+			AddToggle(Styles.realtimePreviewToggleText, graph.realtimePreview, ToggleRealtime, left: false);
+
+			bool exposedParamsVisible = graphView.GetPinnedElementStatus< ExposedParameterView >() != Status.Hidden;
+			AddToggle("Show Parameters", exposedParamsVisible, (v) => graphView.ToggleView< ExposedParameterView>());
+			AddButton("Show In Project", () => EditorGUIUtility.PingObject(graphView.graph));
 		}
-		graph.realtimePreview = state;
-	}
 
-	void AddProcessButton()
-	{
-		AddButton(Styles.processButtonText, Process, left: false);
-	}
+		void ToggleRealtime(bool state)
+		{
+			if (state)
+			{
+				RemoveButton(Styles.processButtonText, false);
+				MixtureUpdater.AddGraphToProcess(graphView);
+			}
+			else
+			{
+				AddProcessButton();
+				MixtureUpdater.RemoveGraphToProcess(graphView);
+			}
+			graph.realtimePreview = state;
+		}
 
-	void Process()
-	{
-		graphView.processor.Run();
+		void AddProcessButton()
+		{
+			AddButton(Styles.processButtonText, Process, left: false);
+		}
+
+		void Process()
+		{
+			graphView.processor.Run();
+		}
 	}
 }
