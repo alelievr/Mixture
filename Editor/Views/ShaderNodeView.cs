@@ -18,8 +18,6 @@ namespace Mixture
 		MaterialEditor	materialEditor;
 		ShaderNode		shaderNode;
 
-		MaterialProperty[]	oldProperties = null;
-
 		public override void OnCreated()
 		{
 			if (shaderNode.material != null)
@@ -91,67 +89,12 @@ namespace Mixture
 
 		void MaterialGUI()
 		{
-			// Custom property draw, we don't want things that are connected to an edge or useless like the render queue
-			MaterialPropertiesGUI(MaterialEditor.GetMaterialProperties(new []{shaderNode.material}));
-		}
-
-		void CheckPropertyChanged(MaterialProperty[] properties)
-		{
-			bool propertyChanged = false;
-			if (oldProperties != null)
-			{
-				// Check if shader was changed (new/deleted properties)
-				if (properties.Length != oldProperties.Length)
-				{
-					propertyChanged = true;
-				}
-				else
-				{
-					for (int i = 0; i < properties.Length; i++)
-					{
-						if (properties[i].type != oldProperties[i].type)
-							propertyChanged = true;
-						if (properties[i].displayName != oldProperties[i].displayName)
-							propertyChanged = true;
-						if (properties[i].flags != oldProperties[i].flags)
-							propertyChanged = true;
-						if (properties[i].name != oldProperties[i].name)
-							propertyChanged = true;
-					}
-				}
-			}
-
 			// Update the GUI when shader is modified
-			if (propertyChanged)
+			if (MaterialPropertiesGUI(shaderNode.material))
 			{
 				UpdateShaderCreationUI();
 				// We fore the update of node ports
 				ForceUpdatePorts();
-			}
-
-			oldProperties = properties;
-		}
-
-		void MaterialPropertiesGUI(MaterialProperty[] properties)
-		{
-			var portViews = GetPortViewsFromFieldName(nameof(ShaderNode.materialInputs));
-
-			CheckPropertyChanged(properties);
-
-			foreach (var property in properties)
-			{
-				if ((property.flags & (MaterialProperty.PropFlags.HideInInspector | MaterialProperty.PropFlags.PerRendererData)) != 0)
-					continue;
-
-				// Retrieve the port view from the property name
-				var portView = portViews.FirstOrDefault(p => p.portData.identifier == property.name);
-				if (portView == null || portView.connected)
-					continue;
-
-				float h = materialEditor.GetPropertyHeight(property, property.displayName);
-				Rect r = EditorGUILayout.GetControlRect(true, h, EditorStyles.layerMaskField);
-
-				materialEditor.ShaderProperty(r, property, property.displayName);
 			}
 		}
 

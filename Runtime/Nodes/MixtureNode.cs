@@ -13,8 +13,36 @@ namespace Mixture
 {
 	public abstract class MixtureNode : BaseNode
 	{
-		protected void AddObjectToGraph(Object obj) => (graph as MixtureGraph).AddObjectToGraph(obj);
-		protected void RemoveObjectFromGraph(Object obj) => (graph as MixtureGraph).RemoveObjectFromGraph(obj);
+		protected new MixtureGraph	graph => base.graph as MixtureGraph;
+
+		protected void AddObjectToGraph(Object obj) => graph.AddObjectToGraph(obj);
+		protected void RemoveObjectFromGraph(Object obj) => graph.RemoveObjectFromGraph(obj);
+
+		protected bool	UpdateTempRenderTexture(ref RenderTexture target)
+		{
+			if (target == null)
+			{
+				target = new RenderTexture(graph.outputTexture.width, graph.outputTexture.height, 0, graph.outputTexture.graphicsFormat);
+				return true;
+			}
+
+			if (target.width != graph.outputTexture.width
+				|| target.height != graph.outputTexture.height
+				|| target.graphicsFormat != graph.outputTexture.graphicsFormat
+				|| target.dimension != graph.outputTexture.dimension
+				|| target.filterMode != graph.outputTexture.filterMode)
+			{
+				target.Release();
+				target.width = graph.outputTexture.width;
+				target.height = graph.outputTexture.height;
+				target.graphicsFormat = graph.outputTexture.graphicsFormat;
+				target.dimension = graph.outputTexture.dimension;
+				target.filterMode = graph.outputTexture.filterMode;
+				target.Create();
+			}
+
+			return false;
+		}
 
 #if UNITY_EDITOR
 		protected Type GetPropertyType(MaterialProperty.PropType type)

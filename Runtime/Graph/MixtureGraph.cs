@@ -27,6 +27,8 @@ namespace Mixture
 		[SerializeField]
 		List< Object >			objectReferences = new List< Object >();
 
+		public event Action		onOutputTextureUpdated;
+
 		[System.NonSerialized]
 		string					_mainAssetPath;
 		public string			mainAssetPath
@@ -39,8 +41,6 @@ namespace Mixture
 					return _mainAssetPath = AssetDatabase.GetAssetPath(this);
 			}
 		}
-		[System.NonSerialized]
-		bool					dirty = false;
 
 		public MixtureGraph()
 		{
@@ -91,9 +91,11 @@ namespace Mixture
 			{
 				case TextureDimension.Tex2D:
 					outputTexture = new Texture2D(outputNode.targetSize.x, outputNode.targetSize.y, outputNode.format, outputNode.mipmapCount, TextureCreationFlags.None); // By default we compress the texture
+					onOutputTextureUpdated?.Invoke();
 					break;
 				case TextureDimension.Tex2DArray:
 					outputTexture = new Texture2DArray(outputNode.targetSize.x, outputNode.targetSize.y, outputNode.sliceCount, outputNode.format, TextureCreationFlags.None, outputNode.mipmapCount);
+					onOutputTextureUpdated?.Invoke();
 					break;
 				default:
 					Debug.LogError("Texture format " + outputNode.dimension + " is not supported");
@@ -106,10 +108,10 @@ namespace Mixture
 			{
 				if (oldTextureObject != null)
 					AssetDatabase.RemoveObjectFromAsset(oldTextureObject);
-				Debug.Log("outputTexture: " + outputTexture);
 				AssetDatabase.AddObjectToAsset(outputTexture, this);
 				AssetDatabase.SetMainObject(outputTexture, mainAssetPath);
-				Debug.Log("main Asset path: " + mainAssetPath);
+				AssetDatabase.SaveAssets();
+				AssetDatabase.Refresh();
 			}
 #endif
 		}

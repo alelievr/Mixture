@@ -17,7 +17,7 @@ namespace Mixture
 		public List< object >	materialInputs;
 
 		[Output(name = "Out"), SerializeField]
-		public RenderTexture	output;
+		public RenderTexture	output = null;
 
 		public Shader			shader;
 		public override string	name => "Shader";
@@ -31,9 +31,6 @@ namespace Mixture
 			{
 				shader = Resources.Load<Shader>(DefaultShaderName);
 			}
-
-			// For now, we allocate one render target per node
-			output = new RenderTexture(512, 512, 0, GraphicsFormat.R8G8B8A8_UNorm);
 
 			if (material == null)
 				material = new Material(shader);
@@ -53,6 +50,8 @@ namespace Mixture
 
 		protected override void Process()
 		{
+			UpdateTempRenderTexture(ref output);
+
 			if (material == null)
 			{
 				Debug.LogError($"Can't process {name}, missing material/shader");

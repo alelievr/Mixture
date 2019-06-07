@@ -26,6 +26,7 @@ namespace Mixture
 		[HideInInspector, SerializeField]
 		public GraphicsFormat	format = GraphicsFormat.R8G8B8A8_SRGB;
 		public int				mipmapCount = 1;
+		public FilterMode		filterMode;
 
 		// We use a temporary renderTexture to display the result of the graph
 		// in the preview so we don't have to readback the memory each time we change something
@@ -36,7 +37,7 @@ namespace Mixture
 		public int				sliceCount = 1;
 		public TextureDimension	dimension = TextureDimension.Tex2D;
 
-		public event Action		onTempRenderTextureReferenceUpdated;
+		public event Action		onTempRenderTextureUpdated;
 
 		new MixtureGraph		graph;
 
@@ -46,7 +47,7 @@ namespace Mixture
 		{
 			graph = base.graph as MixtureGraph;
 
-			CreateTempTargetIfNeeded();
+			UpdateTempRenderTexture(ref tempRenderTexture);
 		}
 
 		protected override void Process()
@@ -57,18 +58,14 @@ namespace Mixture
 				return ;
 			}
 
-			CreateTempTargetIfNeeded();
-
 			// Update the renderTexture size and format:
-			if (tempRenderTexture.width != targetSize.x || tempRenderTexture.height != targetSize.y || tempRenderTexture.graphicsFormat != format)
+			if (UpdateTempRenderTexture(ref tempRenderTexture))
+				onTempRenderTextureUpdated?.Invoke();
+
+			if (input?.GetType() != graph.outputTexture.GetType())
 			{
-				tempRenderTexture.Release();
-				tempRenderTexture.name = "Mixture Output";
-				tempRenderTexture.width = targetSize.x;
-				tempRenderTexture.height = targetSize.y;
-				tempRenderTexture.graphicsFormat = format;
-				tempRenderTexture.Create();
-				onTempRenderTextureReferenceUpdated?.Invoke();
+				Debug.LogError("Error: Expected texture type input for the OutputNode is " + graph.outputTexture.GetType() + " but " + input?.GetType() + " was provided");
+				return ;
 			}
 
 			// TODO: instead of a blit, use a copytexture
@@ -78,28 +75,14 @@ namespace Mixture
 					Graphics.Blit(input, tempRenderTexture);
 					break ;
 				case Texture2DArray t:
-					if (!(input is Texture2DArray))
-						Debug.LogError("Error: Expected Texture2DArray input for the OutputNode");
-					else
-					{
-						for (int sliceIndex = 0; sliceIndex < t.depth; sliceIndex++)
-							Graphics.Blit(input, tempRenderTexture, sliceIndex, sliceIndex);
-					}
+					for (int sliceIndex = 0; sliceIndex < t.depth; sliceIndex++)
+						Graphics.Blit(input, tempRenderTexture, sliceIndex, sliceIndex);
 					break ;
 				case Texture3D t:
 					break ;
 				default:
 					Debug.LogError("Output Texture type " + graph.outputTexture + " is not supported");
 					break ;
-			}
-		}
-
-		void CreateTempTargetIfNeeded()
-		{
-			if (tempRenderTexture == null)
-			{
-				tempRenderTexture = new RenderTexture(targetSize.x, targetSize.y, 0, DefaultFormat.LDR);
-				Graphics.Blit(Texture2D.blackTexture, tempRenderTexture);
 			}
 		}
 	}

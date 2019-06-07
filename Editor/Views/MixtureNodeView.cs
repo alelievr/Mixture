@@ -7,6 +7,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using GraphProcessor;
 using System.Linq;
+using System;
 
 namespace Mixture
 {
@@ -15,104 +16,72 @@ namespace Mixture
         protected new MixtureGraphView  owner => base.owner as MixtureGraphView;
         protected new MixtureNode       nodeTarget => base.nodeTarget as MixtureNode;
 
-        // TODO: function for this:
-		// void UpdateShaderCreationUI()
-		// {
-		// 	shaderCreationUI.Clear();
+        Dictionary< Material, MaterialProperty[] >  oldMaterialProperties = new Dictionary<Material, MaterialProperty[]>();
+        Dictionary< Material, MaterialEditor >      materialEditors = new Dictionary<Material, MaterialEditor>();
 
-		// 	if (textureNode.shader?.name == ShaderNode.DefaultShaderName)
-		// 	{
-		// 		shaderCreationUI.Add(new Button(CreateEmbeededShader) {
-		// 			text = "New Shader"
-		// 		});
-		// 	}
-		// 	else
-		// 	{
-		// 		shaderCreationUI.Add(new Button(OpenCurrentShader){
-		// 			text = "Open"
-		// 		});
-		// 	}
+		bool CheckPropertyChanged(Material material, MaterialProperty[] properties)
+		{
+			bool propertyChanged = false;
+            MaterialProperty[]  oldProperties;
+            oldMaterialProperties.TryGetValue(material, out oldProperties);
 
-		// 	void CreateEmbeededShader()
-		// 	{
-		// 		Debug.Log("TODO");
-		// 	}
+			if (oldProperties != null)
+			{
+				// Check if shader was changed (new/deleted properties)
+				if (properties.Length != oldProperties.Length)
+				{
+					propertyChanged = true;
+				}
+				else
+				{
+					for (int i = 0; i < properties.Length; i++)
+					{
+						if (properties[i].type != oldProperties[i].type)
+							propertyChanged = true;
+						if (properties[i].displayName != oldProperties[i].displayName)
+							propertyChanged = true;
+						if (properties[i].flags != oldProperties[i].flags)
+							propertyChanged = true;
+						if (properties[i].name != oldProperties[i].name)
+							propertyChanged = true;
+					}
+				}
+			}
 
-		// 	void OpenCurrentShader()
-		// 	{
-		// 		AssetDatabase.OpenAsset(textureNode.shader);
-		// 	}
-		// }
+            oldMaterialProperties[material] = MaterialEditor.GetMaterialProperties(new []{material});
 
-		// protected void DrawMaterialGUI(Material material)
-		// {
-		// 	// Custom property draw, we don't want things that are connected to an edge or useless like the render queue
-		// 	MaterialPropertiesGUI(MaterialEditor.GetMaterialProperties(new []{material}));
-		// }
+            return propertyChanged;
+		}
 
-		// void CheckPropertyChanged(MaterialProperty[] properties)
-		// {
-		// 	bool propertyChanged = false;
-		// 	if (oldProperties != null)
-		// 	{
-		// 		// Check if shader was changed (new/deleted properties)
-		// 		if (properties.Length != oldProperties.Length)
-		// 		{
-		// 			propertyChanged = true;
-		// 		}
-		// 		else
-		// 		{
-		// 			for (int i = 0; i < properties.Length; i++)
-		// 			{
-		// 				if (properties[i].type != oldProperties[i].type)
-		// 					propertyChanged = true;
-		// 				if (properties[i].displayName != oldProperties[i].displayName)
-		// 					propertyChanged = true;
-		// 				if (properties[i].flags != oldProperties[i].flags)
-		// 					propertyChanged = true;
-		// 				if (properties[i].name != oldProperties[i].name)
-		// 					propertyChanged = true;
-		// 			}
-		// 		}
-		// 	}
+        // Custom property draw, we don't want things that are connected to an edge or useless like the render queue
+		protected bool MaterialPropertiesGUI(Material material)
+		{
+            MaterialProperty[] properties = MaterialEditor.GetMaterialProperties(new []{material});
+			var portViews = GetPortViewsFromFieldName(nameof(ShaderNode.materialInputs));
 
-		// 	// Update the GUI when shader is modified
-		// 	if (propertyChanged)
-		// 	{
-		// 		UpdateShaderCreationUI();
-		// 		// We fore the update of node ports
-		// 		ForceUpdatePorts();
-		// 	}
+            MaterialEditor  editor;
+            if (!materialEditors.TryGetValue(material, out editor))
+                editor = materialEditors[material] = Editor.CreateEditor(material) as MaterialEditor;
 
-		// 	oldProperties = properties;
-		// }
+			bool propertiesChanged = CheckPropertyChanged(material, properties);
 
-		// void MaterialPropertiesGUI(MaterialProperty[] properties)
-		// {
-		// 	var portViews = GetPortViewsFromFieldName(nameof(ShaderNode.materialInputs));
+			foreach (var property in properties)
+			{
+				if ((property.flags & (MaterialProperty.PropFlags.HideInInspector | MaterialProperty.PropFlags.PerRendererData)) != 0)
+					continue;
 
-		// 	CheckPropertyChanged(properties);
+				// Retrieve the port view from the property name
+				var portView = portViews.FirstOrDefault(p => p.portData.identifier == property.name);
+				if (portView == null || portView.connected)
+					continue;
 
-		// 	foreach (var property in properties)
-		// 	{
-		// 		if ((property.flags & (MaterialProperty.PropFlags.HideInInspector | MaterialProperty.PropFlags.PerRendererData)) != 0)
-		// 			continue;
+				float h = editor.GetPropertyHeight(property, property.displayName);
+				Rect r = EditorGUILayout.GetControlRect(true, h, EditorStyles.layerMaskField);
 
-		// 		// Retrieve the port view from the property name
-		// 		var portView = portViews.FirstOrDefault(p => p.portData.identifier == property.name);
-		// 		if (portView == null || portView.connected)
-		// 			continue;
+				editor.ShaderProperty(r, property, property.displayName);
+			}
 
-		// 		float h = materialEditor.GetPropertyHeight(property, property.displayName);
-		// 		Rect r = EditorGUILayout.GetControlRect(true, h, EditorStyles.layerMaskField);
-
-		// 		materialEditor.ShaderProperty(r, property, property.displayName);
-		// 	}
-		// }
-
-		// public override void OnRemoved()
-		// {
-		// 	graphv(textureNode.material);
-		// }
+            return propertiesChanged;
+		}
 	}
 }
