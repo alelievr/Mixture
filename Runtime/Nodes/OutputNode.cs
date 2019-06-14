@@ -17,12 +17,8 @@ namespace Mixture
 		[Input(name = "In")]
 		public Texture			input;
 
-		// TODO
-		// [Input(name = "Target size")]
-		// public Vector2		targetSize;
-
 		[HideInInspector, SerializeField]
-		public Vector3Int		targetSize = new Vector3Int(512, 512, 1);
+		public Vector2Int		targetSize = new Vector2Int(512, 512);
 		[HideInInspector, SerializeField]
 		public GraphicsFormat	format = GraphicsFormat.R8G8B8A8_SRGB;
 		public int				mipmapCount = 1;
@@ -37,16 +33,15 @@ namespace Mixture
 		public int				sliceCount = 1;
 		public TextureDimension	dimension = TextureDimension.Tex2D;
 
-		public event Action		onTempRenderTextureUpdated;
+		// Serialized properties for the view:
+		public int				currentSlice;
 
-		new MixtureGraph		graph;
+		public event Action		onTempRenderTextureUpdated;
 
 		public override string	name => "Output";
 
 		protected override void Enable()
 		{
-			graph = base.graph as MixtureGraph;
-
 			UpdateTempRenderTexture(ref tempRenderTexture);
 		}
 
@@ -58,13 +53,21 @@ namespace Mixture
 				return ;
 			}
 
+			if (input == null)
+			{
+				Debug.LogWarning("Output node input is not connected");
+				input = TextureUtils.GetBlackTexture(dimension, sliceCount);
+				// TODO: set a black texture of texture dimension as default value
+				return;
+			}
+
 			// Update the renderTexture size and format:
 			if (UpdateTempRenderTexture(ref tempRenderTexture))
 				onTempRenderTextureUpdated?.Invoke();
 
-			if (input?.GetType() != graph.outputTexture.GetType())
+			if (input.dimension != graph.outputTexture.dimension)
 			{
-				Debug.LogError("Error: Expected texture type input for the OutputNode is " + graph.outputTexture.GetType() + " but " + input?.GetType() + " was provided");
+				Debug.LogError("Error: Expected texture type input for the OutputNode is " + graph.outputTexture.dimension + " but " + input?.dimension + " was provided");
 				return ;
 			}
 

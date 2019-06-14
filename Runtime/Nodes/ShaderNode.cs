@@ -58,6 +58,7 @@ namespace Mixture
 				return ;
 			}
 
+			// TODO: make this work wit Texture2DArray and Texture3D
 			Graphics.Blit(Texture2D.whiteTexture, output, material, 0);
 		}
 	}
