@@ -22,7 +22,17 @@ namespace Mixture
 		{
 			if (target == null)
 			{
-				target = new RenderTexture(graph.outputTexture.width, graph.outputTexture.height, 0, graph.outputTexture.graphicsFormat);
+				RenderTextureDescriptor	desc = new RenderTextureDescriptor {
+					width = graph.outputTexture.width,
+					height = graph.outputTexture.height,
+					depthBufferBits = 0,
+					volumeDepth = graph.outputNode.sliceCount,
+					dimension = graph.outputTexture.dimension,
+					graphicsFormat = graph.outputTexture.graphicsFormat,
+					msaaSamples = 1,
+				};
+				target = new RenderTexture(desc);
+				target.name = $"Mixture Temp {name}";
 				return true;
 			}
 
@@ -30,6 +40,7 @@ namespace Mixture
 				|| target.height != graph.outputTexture.height
 				|| target.graphicsFormat != graph.outputTexture.graphicsFormat
 				|| target.dimension != graph.outputTexture.dimension
+				|| target.volumeDepth != TextureUtils.GetSliceCount(graph.outputTexture)
 				|| target.filterMode != graph.outputTexture.filterMode)
 			{
 				target.Release();
@@ -38,6 +49,7 @@ namespace Mixture
 				target.graphicsFormat = graph.outputTexture.graphicsFormat;
 				target.dimension = graph.outputTexture.dimension;
 				target.filterMode = graph.outputTexture.filterMode;
+				target.volumeDepth = TextureUtils.GetSliceCount(graph.outputTexture);
 				target.Create();
 			}
 

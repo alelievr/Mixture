@@ -18,15 +18,17 @@ namespace Mixture
         VisualElement	shaderCreationUI;
         VisualElement	materialEditorUI;
 
-        Image           previewImage;
+        VisualElement   previewContainer;
         MaterialEditor	materialEditor;
         OutputNode		outputNode;
         MixtureGraph    graph;
 
-        static readonly Vector2 nodeViewSize = new Vector2(330, 400);
+        static readonly Vector2 nodeViewSize = new Vector2(330, 480);
 
         public override void Enable()
         {
+            base.Enable();
+
             outputNode = nodeTarget as OutputNode;
             graph = owner.graph as MixtureGraph;
             outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
@@ -42,16 +44,23 @@ namespace Mixture
 
         void AddControls()
         {
-            var targetSizeField = FieldFactory.CreateField(typeof(Vector3Int), outputNode.targetSize, (newValue) => {
-                Vector3Int v = (Vector3Int)newValue;
+            var targetSizeField = FieldFactory.CreateField(typeof(Vector2Int), outputNode.targetSize, (newValue) => {
+                Vector2Int v = (Vector2Int)newValue;
                 v.x = Mathf.Clamp(v.x, 2, 32768);
                 v.y = Mathf.Clamp(v.y, 2, 32768);
-                v.z = Mathf.Clamp(v.z, 2, 32768);
                 owner.RegisterCompleteObjectUndo("Updated Target Size " + newValue);
                 outputNode.targetSize = v;
                 graph.UpdateOutputTexture();
             });
-            (targetSizeField as Vector3IntField).label = "Final size";
+            (targetSizeField as Vector2IntField).label = "Final Size";
+
+            var sliceCountField = FieldFactory.CreateField(typeof(int), outputNode.sliceCount, (newValue) => {
+                int v = Mathf.Clamp((int)newValue, 1, 128);
+                owner.RegisterCompleteObjectUndo("Updated Slice Count " + newValue);
+                outputNode.sliceCount = v;
+                graph.UpdateOutputTexture();
+            });
+            (sliceCountField as IntegerField).label = "Slice Count";
 
             var graphicsFormatField = new EnumField(outputNode.format) {
                 label = "Format",
@@ -81,10 +90,13 @@ namespace Mixture
             });
 
             controlsContainer.Add(targetSizeField);
+            controlsContainer.Add(sliceCountField);
             controlsContainer.Add(graphicsFormatField);
             controlsContainer.Add(textureDimensionField);
             controlsContainer.Add(filterModeField);
 
+            previewContainer = new VisualElement();
+            controlsContainer.Add(previewContainer);
             UpdatePreviewImage();
 
             // Enforce the image size so we don't have a giant preview
@@ -98,49 +110,7 @@ namespace Mixture
 
         void UpdatePreviewImage()
         {
-            if (previewImage == null)
-            {
-                switch (graph.outputTexture)
-                {
-                    case Texture2D t:
-                        AddPreviewImage();
-                        break;
-                    // TODO: Texture2DArray and Texture3D
-                    default:
-                        Debug.LogError(graph.outputTexture + " is not a supported type for preview");
-                        return;
-                }
-                return;
-            }
-            else
-            {
-                controlsContainer.Remove(previewImage);
-                AddPreviewImage();
-            }
-
-            void AddPreviewImage()
-            {
-                if (outputNode.tempRenderTexture == null)
-                    return;
-
-                switch (graph.outputTexture)
-                {
-                    case Texture2D t:
-                        previewImage = new Image
-                        {
-                            image = outputNode.tempRenderTexture,
-                            scaleMode = ScaleMode.StretchToFill,
-                        };
-                        controlsContainer.Add(previewImage);
-                        break;
-                    case Texture2DArray t:
-                        break;
-                    // TODO: Texture2DArray and Texture3D
-                    default:
-                        Debug.LogError(graph.outputTexture + " is not a supported type for preview");
-                        return;
-                }
-            }
+            CreateTexturePreview(previewContainer, outputNode.tempRenderTexture, outputNode.currentSlice);
         }
 
         // Write the rendertexture value to the graph main texture asset
@@ -152,6 +122,8 @@ namespace Mixture
                 WriteRequestResult(r, graph.outputTexture);
             });
 
+            request.Update();
+
             request.WaitForCompletion();
         }
 
@@ -159,7 +131,13 @@ namespace Mixture
         {
             NativeArray< Color32 >    colors;
 
-            switch (graph.outputTexture)
+            if (request.hasError)
+            {
+                Debug.LogError("Can't readback the texture from GPU");
+                return ;
+            }
+
+            switch (output)
             {
                 case Texture2D t:
                     colors = request.GetData< Color32 >(0);
@@ -183,9 +161,11 @@ namespace Mixture
                     t.Apply();
                     break;
                 default:
-                    Debug.LogError(graph.outputTexture + " is not a supported type for saving");
+                    Debug.LogError(output + " is not a supported type for saving");
                     return ;
             }
+
+            EditorGUIUtility.PingObject(output);
         }
     }
 }

@@ -25,6 +25,8 @@ namespace Mixture
 
 		public static string	DefaultShaderName = "ShaderNodeDefault";
 
+		public int				sliceIndexMaterialProperty = Shader.PropertyToID("_SliceIndex");
+
 		protected override void Enable()
 		{
 			if (shader == null)
@@ -58,7 +60,23 @@ namespace Mixture
 				return ;
 			}
 
-			Graphics.Blit(Texture2D.whiteTexture, output, material, 0);
+			// TODO: make this work wit Texture2DArray and Texture3D
+			switch (output.dimension)
+			{
+				case TextureDimension.Tex2D:
+				case TextureDimension.Tex2DArray:
+				case TextureDimension.Tex3D:
+					for (int i = 0; i < output.volumeDepth; i++)
+					{
+						if (material.HasProperty(sliceIndexMaterialProperty))
+							material.SetInt(sliceIndexMaterialProperty, i);
+						Graphics.Blit(Texture2D.whiteTexture, output, material, 0);
+					}
+					break ;
+				default:
+					Debug.LogError("Shader Node output not supported");
+					break;
+			}
 		}
 	}
 }

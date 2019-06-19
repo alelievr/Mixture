@@ -19,15 +19,25 @@ namespace Mixture
 		// Serialized datas for the editor:
 		public bool				realtimePreview;
 
-		[SerializeField]
-		public Texture			outputTexture;
-
 		public OutputNode		outputNode;
 
 		[SerializeField]
 		List< Object >			objectReferences = new List< Object >();
 
-		public event Action		onOutputTextureUpdated;
+		[SerializeField]
+		Texture					_outputTexture;
+		public Texture			outputTexture
+		{
+			get
+			{
+#if UNITY_EDITOR
+				if (_outputTexture == null)
+					_outputTexture = AssetDatabase.LoadAssetAtPath< Texture >(mainAssetPath);
+#endif
+				return _outputTexture;
+			}
+			set => _outputTexture = value;
+		}
 
 		[System.NonSerialized]
 		string					_mainAssetPath;
@@ -41,6 +51,8 @@ namespace Mixture
 					return _mainAssetPath = AssetDatabase.GetAssetPath(this);
 			}
 		}
+
+		public event Action		onOutputTextureUpdated;
 
 		public MixtureGraph()
 		{
