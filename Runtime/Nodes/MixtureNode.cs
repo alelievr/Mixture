@@ -40,6 +40,7 @@ namespace Mixture
 				|| target.height != graph.outputTexture.height
 				|| target.graphicsFormat != graph.outputTexture.graphicsFormat
 				|| target.dimension != graph.outputTexture.dimension
+				|| target.volumeDepth != TextureUtils.GetSliceCount(graph.outputTexture)
 				|| target.filterMode != graph.outputTexture.filterMode)
 			{
 				target.Release();
@@ -48,6 +49,7 @@ namespace Mixture
 				target.graphicsFormat = graph.outputTexture.graphicsFormat;
 				target.dimension = graph.outputTexture.dimension;
 				target.filterMode = graph.outputTexture.filterMode;
+				target.volumeDepth = TextureUtils.GetSliceCount(graph.outputTexture);
 				target.Create();
 			}
 

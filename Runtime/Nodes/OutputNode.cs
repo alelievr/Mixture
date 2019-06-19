@@ -43,6 +43,9 @@ namespace Mixture
 		protected override void Enable()
 		{
 			UpdateTempRenderTexture(ref tempRenderTexture);
+            graph.onOutputTextureUpdated += () => {
+				UpdateTempRenderTexture(ref tempRenderTexture);
+			};
 		}
 
 		protected override void Process()

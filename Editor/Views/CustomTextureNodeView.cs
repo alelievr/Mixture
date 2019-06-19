@@ -19,6 +19,8 @@ namespace Mixture
 
 		public override void Enable()
 		{
+			base.Enable();
+
 			node = nodeTarget as CustomTextureNode;
 
 			// Create your fields using node's variables and add them to the controlsContainer

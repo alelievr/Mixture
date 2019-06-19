@@ -28,6 +28,8 @@ namespace Mixture
 
 		public override void Enable()
 		{
+			base.Enable();
+
 			shaderNode = nodeTarget as ShaderNode;
 
 			ObjectField shaderField = new ObjectField
