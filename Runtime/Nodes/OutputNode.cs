@@ -43,6 +43,10 @@ namespace Mixture
 		protected override void Enable()
 		{
 			UpdateTempRenderTexture(ref tempRenderTexture);
+            graph.onOutputTextureUpdated += () => {
+				Debug.Log("nbugerwgb");
+				UpdateTempRenderTexture(ref tempRenderTexture);
+			};
 		}
 
 		protected override void Process()

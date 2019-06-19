@@ -23,14 +23,12 @@ namespace Mixture
         OutputNode		outputNode;
         MixtureGraph    graph;
 
-        // Materials used to draw the UI:
-        Material        drawTextureArraySliceMaterial;
-        // Texture3D materials
-
         static readonly Vector2 nodeViewSize = new Vector2(330, 400);
 
         public override void Enable()
         {
+            base.Enable();
+
             outputNode = nodeTarget as OutputNode;
             graph = owner.graph as MixtureGraph;
             outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
@@ -40,8 +38,6 @@ namespace Mixture
             SetPosition(new Rect(currentPos.x, currentPos.y, nodeViewSize.x, nodeViewSize.y));
 
             graph.onOutputTextureUpdated += UpdatePreviewImage;
-
-            drawTextureArraySliceMaterial = new Material(Shader.Find("Hidden/MixtureTextureArrayPreview"));
 
             AddControls();
         }
@@ -114,44 +110,7 @@ namespace Mixture
 
         void UpdatePreviewImage()
         {
-            previewContainer.Clear();
-
-            if (outputNode.tempRenderTexture == null)
-                return;
-
-            switch (graph.outputTexture)
-            {
-                case Texture2D t:
-                    var previewImage = new Image
-                    {
-                        image = outputNode.tempRenderTexture,
-                        scaleMode = ScaleMode.StretchToFill,
-                    };
-                    previewContainer.Add(previewImage);
-                    break;
-                case Texture2DArray t:
-                    var previewSliceIndex = new SliderInt(0, outputNode.tempRenderTexture.volumeDepth)
-                    {
-                        label = "Slice",
-                        value = outputNode.currentSlice,
-                    };
-                    var previewImageSlice = new IMGUIContainer(() => {
-                        var rect = EditorGUILayout.GetControlRect(GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
-                        drawTextureArraySliceMaterial.SetTexture("_TextureArray", outputNode.tempRenderTexture);
-                        drawTextureArraySliceMaterial.SetFloat("_Slice", outputNode.currentSlice);
-                        EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, drawTextureArraySliceMaterial);
-                    });
-                    previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
-                        outputNode.currentSlice = a.newValue;
-                    });
-                    previewContainer.Add(previewSliceIndex);
-                    previewContainer.Add(previewImageSlice);
-                    break;
-                // TODO: Texture2DArray and Texture3D
-                default:
-                    Debug.LogError(graph.outputTexture + " is not a supported type for preview");
-                    return;
-            }
+            CreateTexturePreview(previewContainer, outputNode.tempRenderTexture, outputNode.currentSlice);
         }
 
         // Write the rendertexture value to the graph main texture asset
@@ -159,10 +118,11 @@ namespace Mixture
         {
             // Retrieve the texture from the GPU:
             var src = outputNode.tempRenderTexture;
-            Debug.Log("src: " + src.dimension);
             var request = AsyncGPUReadback.Request(src, 0, 0, src.width, 0, src.height, 0, src.volumeDepth, (r) => {
                 WriteRequestResult(r, graph.outputTexture);
             });
+
+            request.Update();
 
             request.WaitForCompletion();
         }
@@ -177,7 +137,7 @@ namespace Mixture
                 return ;
             }
 
-            switch (graph.outputTexture)
+            switch (output)
             {
                 case Texture2D t:
                     colors = request.GetData< Color32 >(0);
@@ -201,9 +161,11 @@ namespace Mixture
                     t.Apply();
                     break;
                 default:
-                    Debug.LogError(graph.outputTexture + " is not a supported type for saving");
+                    Debug.LogError(output + " is not a supported type for saving");
                     return ;
             }
+
+            EditorGUIUtility.PingObject(output);
         }
     }
 }

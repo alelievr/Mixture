@@ -1,13 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.UIElements;
-using UnityEditor.Experimental.GraphView;
+using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 using GraphProcessor;
 using System.Linq;
-using System;
 
 namespace Mixture
 {
@@ -18,6 +15,8 @@ namespace Mixture
 
         Dictionary< Material, MaterialProperty[] >  oldMaterialProperties = new Dictionary<Material, MaterialProperty[]>();
         Dictionary< Material, MaterialEditor >      materialEditors = new Dictionary<Material, MaterialEditor>();
+
+		public override void Enable() {}
 
 		bool CheckPropertyChanged(Material material, MaterialProperty[] properties)
 		{
@@ -56,6 +55,9 @@ namespace Mixture
         // Custom property draw, we don't want things that are connected to an edge or useless like the render queue
 		protected bool MaterialPropertiesGUI(Material material)
 		{
+			if (material == null || material.shader == null)
+				return false;
+
             MaterialProperty[] properties = MaterialEditor.GetMaterialProperties(new []{material});
 			var portViews = GetPortViewsFromFieldName(nameof(ShaderNode.materialInputs));
 
@@ -82,6 +84,58 @@ namespace Mixture
 			}
 
             return propertiesChanged;
+		}
+
+		protected void CreateTexturePreview(VisualElement previewContainer, Texture texture, int currentSlice = 0)
+		{
+            previewContainer.Clear();
+
+            if (texture == null)
+                return;
+
+            switch (texture.dimension)
+            {
+                case TextureDimension.Tex2D:
+					CreateTexture2DPreview(previewContainer, texture);
+                    break;
+                case TextureDimension.Tex2DArray:
+					CreateTexture2DArrayPreview(previewContainer, texture, currentSlice);
+                    break;
+                // TODO: Texture3D
+                default:
+                    Debug.LogError(texture + " is not a supported type for preview");
+                    return;
+            }
+		}
+
+		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)
+		{
+			var previewImage = new Image
+			{
+				image = texture,
+				scaleMode = ScaleMode.StretchToFill,
+			};
+			previewContainer.Add(previewImage);
+		}
+
+		void CreateTexture2DArrayPreview(VisualElement previewContainer, Texture texture, int currentSlice)
+		{
+			var previewSliceIndex = new SliderInt(0, TextureUtils.GetSliceCount(texture) - 1)
+			{
+				label = "Slice",
+				value = currentSlice,
+			};
+			var previewImageSlice = new IMGUIContainer(() => {
+				var rect = EditorGUILayout.GetControlRect(GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
+				MixtureUtils.textureArrayPreviewMaterial.SetTexture("_TextureArray", texture);
+				MixtureUtils.textureArrayPreviewMaterial.SetFloat("_Slice", currentSlice);
+				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial);
+			});
+			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
+				currentSlice = a.newValue;
+			});
+			previewContainer.Add(previewSliceIndex);
+			previewContainer.Add(previewImageSlice);
 		}
 	}
 }

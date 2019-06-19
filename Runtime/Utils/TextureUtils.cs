@@ -50,5 +50,29 @@ namespace Mixture
 
             return blackTexture;
         }
+
+        public static int GetSliceCount(Texture tex)
+        {
+            if (tex == null)
+                return 0;
+
+            switch (tex)
+            {
+                case Texture2D _:
+                    return 1;
+                case Texture2DArray t:
+                    return t.depth;
+                case Texture3D t:
+                    return t.depth;
+                case CubemapArray t:
+                    return t.cubemapCount;
+                case Cubemap _:
+                    return 1;
+                case RenderTexture rt:
+                    return rt.volumeDepth;
+                default:
+                    return 0;
+            }
+        }
     }
 }

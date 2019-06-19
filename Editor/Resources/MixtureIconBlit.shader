@@ -1,9 +1,9 @@
-﻿Shader "Hidden/MixtureTextureArrayPreview"
+Shader "Hidden/MixtureIconBlit"
 {
     Properties
     {
-        _TextureArray ("Texture", 2DArray) = "" {}
-        _Slice ("Slice", Float) = 0
+        _MixtureIcon ("Texture", 2D) = "" {}
+        _Texture ("Texture", 2D) = "" {}
     }
     SubShader
     {
@@ -17,6 +17,9 @@
             #pragma fragment frag
 
             #include "UnityCG.cginc"
+
+            // TODO
+            // #pragma multi_compile
 
             struct appdata
             {
