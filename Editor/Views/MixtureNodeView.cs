@@ -126,7 +126,9 @@ namespace Mixture
 				value = currentSlice,
 			};
 			var previewImageSlice = new IMGUIContainer(() => {
-				var rect = EditorGUILayout.GetControlRect(GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
+				// square image:
+				int size = (int)previewContainer.parent.style.width.value.value;
+				var rect = EditorGUILayout.GetControlRect(GUILayout.Height(size), GUILayout.Width(size));
 				MixtureUtils.textureArrayPreviewMaterial.SetTexture("_TextureArray", texture);
 				MixtureUtils.textureArrayPreviewMaterial.SetFloat("_Slice", currentSlice);
 				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial);

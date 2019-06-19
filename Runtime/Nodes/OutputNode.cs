@@ -44,7 +44,6 @@ namespace Mixture
 		{
 			UpdateTempRenderTexture(ref tempRenderTexture);
             graph.onOutputTextureUpdated += () => {
-				Debug.Log("nbugerwgb");
 				UpdateTempRenderTexture(ref tempRenderTexture);
 			};
 		}

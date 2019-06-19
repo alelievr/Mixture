@@ -23,7 +23,7 @@ namespace Mixture
         OutputNode		outputNode;
         MixtureGraph    graph;
 
-        static readonly Vector2 nodeViewSize = new Vector2(330, 400);
+        static readonly Vector2 nodeViewSize = new Vector2(330, 480);
 
         public override void Enable()
         {
