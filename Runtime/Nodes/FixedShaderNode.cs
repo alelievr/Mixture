@@ -10,7 +10,7 @@ using System;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Test Shader")]
+	[System.Serializable]
 	public abstract class FixedShaderNode : MixtureNode
 	{
 		[Input(name = "In"), SerializeField]
@@ -23,14 +23,15 @@ namespace Mixture
 		public override string	name => shader.name.Split('/').Last();
 		public Material			material;
 
-		public abstract string ShaderName { get; }
-        public abstract bool displayMaterialInspector { get; }
+        public virtual  float   width { get { return 340.0f; } }
+		public abstract string  shaderName { get; }
+        public abstract bool    displayMaterialInspector { get; }
 
-		protected override void Enable()
+        protected override void Enable()
 		{
 			if (shader == null)
 			{
-				shader = Shader.Find(ShaderName);
+				shader = Shader.Find(shaderName);
 			}
 
 			if (material == null)

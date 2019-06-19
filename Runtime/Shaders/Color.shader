@@ -1,10 +1,8 @@
-﻿Shader "Hidden/Mixture/Texture"
+﻿Shader "Hidden/Mixture/Color"
 {	
     Properties
     {
-		[MixtureTexture2D]_Texture("Texture", 2D) = "white" {}
-		[MixtureVector2]_Scale("UV Scale", Vector) = (1.0,1.0,0.0,0.0)
-		[MixtureVector2]_Bias("UV Bias", Vector) = (0.0,0.0,0.0,0.0)
+		_Color("Color", Color) = (1.0,0.3,0.1,1.0)
 	}
     SubShader
     {
@@ -22,31 +20,25 @@
             struct appdata
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
             };
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
             };
 
-			sampler2D _Texture;
-			float4 _Scale;
-			float4 _Bias;
+			float4 _Color;
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = (v.uv * _Scale.xy) + _Bias.xy;
                 return o;
             }
 
             float4 frag (v2f i) : SV_Target
             {
-                float4 col = tex2D(_Texture, i.uv);
-                return col;
+                return _Color;
             }
             ENDCG
         }

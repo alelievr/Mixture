@@ -1,10 +1,10 @@
-﻿Shader "Hidden/Mixture/Texture"
+﻿Shader "Hidden/Mixture/Gradient"
 {	
     Properties
     {
-		[MixtureTexture2D]_Texture("Texture", 2D) = "white" {}
-		[MixtureVector2]_Scale("UV Scale", Vector) = (1.0,1.0,0.0,0.0)
-		[MixtureVector2]_Bias("UV Bias", Vector) = (0.0,0.0,0.0,0.0)
+		[Enum(Horizontal,0,Vertical,1,Radial,2,Circular,3)]_Mode("Gradient Type", Float) = 0
+		[HDR]_Color1("Color 1", Color) = (0.0,0.0,0.0,0.0)
+		[HDR]_Color2("Color 2", Color) = (1.0,1.0,1.0,1.0)
 	}
     SubShader
     {
@@ -31,22 +31,32 @@
                 float4 vertex : SV_POSITION;
             };
 
-			sampler2D _Texture;
-			float4 _Scale;
-			float4 _Bias;
+			float _Mode;
+			float4 _Color1;
+			float4 _Color2;
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = (v.uv * _Scale.xy) + _Bias.xy;
+				o.uv = v.uv;
                 return o;
             }
 
             float4 frag (v2f i) : SV_Target
             {
-                float4 col = tex2D(_Texture, i.uv);
-                return col;
+				float2 uv = float2(i.uv.x, i.uv.y);
+				float gradient = 0.0f;
+
+				uint mode = (uint)_Mode;
+				switch (mode)
+				{
+					case 0: gradient = uv.x; break;
+					case 1: gradient = uv.y; break;
+					case 2: uv -= 0.5; gradient = pow(saturate(1.0 - (dot(uv, uv) * 4.0)), 2.0); break;
+					case 3: uv -= 0.5; gradient = saturate((atan2(uv.y, uv.x) / 6.283185307179586476924) + 0.5); break;
+				}
+				return lerp(_Color1,_Color2,gradient);
             }
             ENDCG
         }
