@@ -71,7 +71,7 @@ namespace Mixture
 					continue;
 
 				// Retrieve the port view from the property name
-				var portView = portViews.FirstOrDefault(p => p.portData.identifier == property.name);
+				var portView = portViews?.FirstOrDefault(p => p.portData.identifier == property.name);
 				if (portView == null || portView.connected)
 					continue;
 
