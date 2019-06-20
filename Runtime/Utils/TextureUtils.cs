@@ -74,5 +74,24 @@ namespace Mixture
                     return 0;
             }
         }
+
+        public static Type GetTypeFromDimension(TextureDimension dimension)
+        {
+            switch (dimension)
+            {
+                case TextureDimension.Tex2D:
+                    return typeof(Texture2D);
+                case TextureDimension.Tex2DArray:
+                    return typeof(Texture2DArray);
+                case TextureDimension.Tex3D:
+                    return typeof(Texture3D);
+                case TextureDimension.Cube:
+                    return typeof(Cubemap);
+                case TextureDimension.CubeArray:
+                    return typeof(CubemapArray);
+                default:
+                    return typeof(Texture);
+            }
+        }
     }
 }

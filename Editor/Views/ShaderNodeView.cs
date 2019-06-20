@@ -65,9 +65,9 @@ namespace Mixture
 		{
 			shaderCreationUI.Clear();
 
-			if (shaderNode.shader?.name == ShaderNode.DefaultShaderName)
+			if (shaderNode?.shader?.name == ShaderNode.DefaultShaderName)
 			{
-				shaderCreationUI.Add(new Button(CreateEmbeededShader) {
+				shaderCreationUI.Add(new Button(CreateEmbeddedShader) {
 					text = "New Shader"
 				});
 			}
@@ -78,7 +78,7 @@ namespace Mixture
 				});
 			}
 
-			void CreateEmbeededShader()
+			void CreateEmbeddedShader()
 			{
 				Debug.Log("TODO");
 			}

@@ -1,11 +1,11 @@
 ﻿using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
+using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System;
 using System.Linq;
 using UnityEditor;
-using Object = UnityEngine.Object;
 
 namespace Mixture
 {
@@ -20,21 +20,47 @@ namespace Mixture
 			initialized += Initialize;
 		}
 
-		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+		public override List< Port > GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
 		{
-			evt.menu.AppendSeparator();
+			var compatiblePorts = new List< Port >();
+			PortView startPortView = startPort as PortView;
 
-			foreach (var nodeMenuItem in NodeProvider.GetNodeMenuEntries())
-			{
-				var mousePos = (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
-				Vector2 nodePosition = mousePos;
-				evt.menu.AppendAction("Create/" + nodeMenuItem.Key,
-					(e) => CreateNodeOfType(nodeMenuItem.Value, nodePosition),
-					DropdownMenuAction.AlwaysEnabled
-				);
-			}
+			compatiblePorts.AddRange(ports.ToList().Where(p => {
+				var portView = p as PortView;
 
-			base.BuildContextualMenu(evt);
+				if (p.direction == startPort.direction)
+					return false;
+
+				//Check if there is custom adapters for this assignation
+				if (CustomPortIO.IsAssignable(startPort.portType, p.portType))
+					return true;
+
+				// Allow connection between RenderTexture and all texture types:
+				Type startType = startPortView.portData.displayType ?? startPortView.portType;
+				Type endType = portView.portData.displayType ?? portView.portType;
+				if (startType == typeof(RenderTexture))
+				{
+					if (endType.IsSubclassOf(typeof(Texture)))
+						return true;
+				}
+				if (endType == typeof(RenderTexture))
+				{
+					if (startType.IsSubclassOf(typeof(Texture)))
+						return true;
+				}
+
+				//Check for type assignability
+				if (!p.portType.IsReallyAssignableFrom(startPort.portType))
+					return false;
+
+				//Check if the edge already exists
+				if (portView.GetEdges().Any(e => e.input == startPort || e.output == startPort))
+					return false;
+
+				return true;
+			}));
+
+			return compatiblePorts;
 		}
 
 		void Initialize()
