@@ -91,5 +91,15 @@ namespace Mixture
 					break ;
 			}
 		}
+
+		[CustomPortBehavior(nameof(input))]
+		IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
+		{
+			yield return new PortData{
+				displayName = "output",
+				displayType = TextureUtils.GetTypeFromDimension(graph.outputNode.dimension),
+				identifier = "outout",
+			};
+		}
 	}
 }

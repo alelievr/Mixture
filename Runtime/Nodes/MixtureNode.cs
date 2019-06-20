@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using GraphProcessor;
-using System.Linq;
 using System;
 using Object = UnityEngine.Object;
 #if UNITY_EDITOR
@@ -57,9 +56,9 @@ namespace Mixture
 		}
 
 #if UNITY_EDITOR
-		protected Type GetPropertyType(MaterialProperty.PropType type)
+		protected Type GetPropertyType(MaterialProperty prop)
 		{
-			switch (type)
+			switch (prop.type)
 			{
 				case MaterialProperty.PropType.Color:
 					return typeof(Color);
@@ -67,7 +66,7 @@ namespace Mixture
 				case MaterialProperty.PropType.Range:
 					return typeof(float);
 				case MaterialProperty.PropType.Texture:
-					return typeof(Texture);
+					return TextureUtils.GetTypeFromDimension(prop.textureDimension);
 				default:
 				case MaterialProperty.PropType.Vector:
 					return typeof(Vector4);
@@ -89,7 +88,7 @@ namespace Mixture
 				yield return new PortData{
 					identifier = prop.name,
 					displayName = prop.displayName,
-					displayType = GetPropertyType(prop.type),
+					displayType = GetPropertyType(prop),
 				};
 			}
 		}

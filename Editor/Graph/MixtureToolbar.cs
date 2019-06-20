@@ -60,7 +60,8 @@ namespace Mixture
 			AddToggle(Styles.realtimePreviewToggleText, graph.realtimePreview, ToggleRealtime, left: false);
 
 			bool exposedParamsVisible = graphView.GetPinnedElementStatus< ExposedParameterView >() != Status.Hidden;
-			AddToggle("Show Parameters", exposedParamsVisible, (v) => graphView.ToggleView< ExposedParameterView>());
+			// For now we don't display the show parameters
+			// AddToggle("Show Parameters", exposedParamsVisible, (v) => graphView.ToggleView< ExposedParameterView>());
 			AddButton("Show In Project", () => EditorGUIUtility.PingObject(graphView.graph));
 		}
 

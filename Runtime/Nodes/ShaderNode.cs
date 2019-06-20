@@ -50,6 +50,16 @@ namespace Mixture
 			AssignMaterialPropertiesFromEdges(edges, material);
 		}
 
+		[CustomPortBehavior(nameof(output))]
+		IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
+		{
+			yield return new PortData{
+				displayName = "output",
+				displayType = TextureUtils.GetTypeFromDimension(graph.outputNode.dimension),
+				identifier = "outout",
+			};
+		}
+
 		protected override void Process()
 		{
 			UpdateTempRenderTexture(ref output);
@@ -60,7 +70,6 @@ namespace Mixture
 				return ;
 			}
 
-			// TODO: make this work wit Texture2DArray and Texture3D
 			switch (output.dimension)
 			{
 				case TextureDimension.Tex2D:
