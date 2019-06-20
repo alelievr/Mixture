@@ -6,15 +6,16 @@ using System.Linq;
 
 namespace Mixture
 {
-    [System.Serializable, NodeMenuItem("Color/Blend")]
-    public class BlendNode : FixedShaderNode
+    [System.Serializable, NodeMenuItem("Coordinates/UV")]
+    public class UVNode : FixedShaderNode
     {
-        public override string name => "Blend";
+        public override string name => "UV";
 
-        public override string shaderName => "Hidden/Mixture/Blend";
+        public override string shaderName => "Hidden/Mixture/UV";
 
         public override bool displayMaterialInspector => true;
 
         public override Precision precision => Precision.Float;
+
     }
 }

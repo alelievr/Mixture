@@ -9,7 +9,7 @@ namespace Mixture
     [System.Serializable, NodeMenuItem("Matte/Color")]
     public class ColorNode : FixedShaderNode
     {
-        public override string name => "Color";
+        public override string name => "Color Matte";
 
         public override string shaderName => "Hidden/Mixture/Color";
 

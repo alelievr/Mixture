@@ -6,12 +6,13 @@ using System.Linq;
 
 namespace Mixture
 {
-    [System.Serializable, NodeMenuItem("Color/Blend")]
-    public class BlendNode : FixedShaderNode
+    [System.Serializable, NodeMenuItem("Math/Scale & Bias")]
+    public class ScaleBiasNode : FixedShaderNode
     {
-        public override string name => "Blend";
+        public override string name => "Scale & Bias";
 
-        public override string shaderName => "Hidden/Mixture/Blend";
+
+        public override string shaderName => "Hidden/Mixture/ScaleBias";
 
         public override bool displayMaterialInspector => true;
 

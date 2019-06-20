@@ -9,7 +9,7 @@ namespace Mixture
     [System.Serializable, NodeMenuItem("Matte/Gradient")]
     public class GradientNode : FixedShaderNode
     {
-        public override string name => "Gradient";
+        public override string name => "Gradient Matte";
 
         public override string shaderName => "Hidden/Mixture/Gradient";
 

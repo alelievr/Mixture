@@ -5,6 +5,7 @@ using GraphProcessor;
 using System.Linq;
 using System;
 using Object = UnityEngine.Object;
+using UnityEngine.Experimental.Rendering;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -18,17 +19,21 @@ namespace Mixture
 		protected void AddObjectToGraph(Object obj) => graph.AddObjectToGraph(obj);
 		protected void RemoveObjectFromGraph(Object obj) => graph.RemoveObjectFromGraph(obj);
 
-		protected bool	UpdateTempRenderTexture(ref RenderTexture target)
+		protected bool UpdateTempRenderTexture(ref RenderTexture target, GraphicsFormat targetFormat = GraphicsFormat.None)
 		{
+            if (targetFormat == GraphicsFormat.None)
+                targetFormat = graph.outputTexture.graphicsFormat;
+
 			if (target == null)
 			{
+
 				RenderTextureDescriptor	desc = new RenderTextureDescriptor {
 					width = graph.outputTexture.width,
 					height = graph.outputTexture.height,
 					depthBufferBits = 0,
 					volumeDepth = graph.outputNode.sliceCount,
 					dimension = graph.outputTexture.dimension,
-					graphicsFormat = graph.outputTexture.graphicsFormat,
+					graphicsFormat = targetFormat,
 					msaaSamples = 1,
 				};
 				target = new RenderTexture(desc);
@@ -38,7 +43,7 @@ namespace Mixture
 
 			if (target.width != graph.outputTexture.width
 				|| target.height != graph.outputTexture.height
-				|| target.graphicsFormat != graph.outputTexture.graphicsFormat
+				|| target.graphicsFormat != targetFormat
 				|| target.dimension != graph.outputTexture.dimension
 				|| target.volumeDepth != TextureUtils.GetSliceCount(graph.outputTexture)
 				|| target.filterMode != graph.outputTexture.filterMode)
@@ -46,7 +51,7 @@ namespace Mixture
 				target.Release();
 				target.width = graph.outputTexture.width;
 				target.height = graph.outputTexture.height;
-				target.graphicsFormat = graph.outputTexture.graphicsFormat;
+				target.graphicsFormat = targetFormat;
 				target.dimension = graph.outputTexture.dimension;
 				target.filterMode = graph.outputTexture.filterMode;
 				target.volumeDepth = TextureUtils.GetSliceCount(graph.outputTexture);

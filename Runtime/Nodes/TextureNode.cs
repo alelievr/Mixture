@@ -9,7 +9,7 @@ namespace Mixture
     [System.Serializable, NodeMenuItem("Matte/Texture")]
     public class TextureNode : FixedShaderNode
     {
-        public override string name => "Texture2D";
+        public override string name => "Texture Matte";
 
         public override string shaderName => "Hidden/Mixture/Texture";
 

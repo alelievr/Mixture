@@ -26,6 +26,14 @@ namespace Mixture
         public virtual  float   width { get { return 340.0f; } }
 		public abstract string  shaderName { get; }
         public abstract bool    displayMaterialInspector { get; }
+        public virtual Precision precision { get { return Precision.SameAsOutput; } }
+
+        public enum Precision
+        {
+            SameAsOutput,
+            Byte,
+            Float
+        }
 
         protected override void Enable()
 		{
@@ -52,7 +60,15 @@ namespace Mixture
 
 		protected override void Process()
 		{
-			UpdateTempRenderTexture(ref output);
+            GraphicsFormat graphicsFormat = GraphicsFormat.None;
+
+            switch(precision)
+            {
+                case Precision.Byte: graphicsFormat = GraphicsFormat.R8G8B8A8_SRGB; break;
+                case Precision.Float: graphicsFormat = GraphicsFormat.R32G32B32A32_SFloat; break;
+            }
+
+            UpdateTempRenderTexture(ref output, graphicsFormat);
 
 			if (material == null)
 			{
