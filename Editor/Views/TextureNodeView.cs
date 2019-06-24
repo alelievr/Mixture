@@ -21,22 +21,16 @@ namespace Mixture
 		{
 			textureNode = nodeTarget as TextureNode;
 
-			var title = new Label("Properties");
-			title.style.unityFontStyleAndWeight = FontStyle.Bold;
-			title.style.fontSize = 14;
-			title.style.marginBottom = 6;
-
 			textureEditorUI = new VisualElement();
 			textureEditorUI.style.paddingBottom = 8;
 			textureEditorUI.style.paddingLeft = 8;
 			textureEditorUI.style.paddingTop = 8;
 			textureEditorUI.style.paddingRight = 8;
 
-			textureEditorUI.Add(title);
-
 			var textureField = new ObjectField() {
 				label = "Texture",
-				objectType = typeof(Texture2D)
+				objectType = typeof(Texture2D),
+				value = textureNode.texture
 			};
 			textureField.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Texture " + e.newValue);
