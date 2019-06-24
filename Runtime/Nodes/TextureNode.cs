@@ -12,13 +12,7 @@ namespace Mixture
 		[Output(name = "Texture")]
 		public Texture2D texture;
 
-		public Texture2D Texture;
-
 		public override string	name => "Texture2D";
 
-		protected override void Process()
-		{
-			texture = Texture;
-		}
 	}
 }

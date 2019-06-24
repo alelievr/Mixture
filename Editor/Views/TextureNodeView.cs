@@ -13,9 +13,7 @@ namespace Mixture
 	[NodeCustomEditor(typeof(TextureNode))]
 	public class TextureNodeView : BaseNodeView
 	{
-		VisualElement	    shaderCreationUI;
-		VisualElement	    textureEditorUI;
-		MaterialEditor	    materialEditor;
+		VisualElement	textureEditorUI;
 		TextureNode		textureNode;
 
 
@@ -42,7 +40,7 @@ namespace Mixture
 			};
 			textureField.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Texture " + e.newValue);
-				textureNode.Texture = (Texture2D)e.newValue;
+				textureNode.texture = (Texture2D)e.newValue;
 			});
 
 			textureEditorUI.Add(textureField);
