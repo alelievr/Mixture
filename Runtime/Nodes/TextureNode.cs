@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Utils/Texture")]
+	[System.Serializable, NodeMenuItem("Constants/Texture")]
 	public class TextureNode : BaseNode
 	{
 		[Output(name = "Texture")]
