@@ -23,19 +23,19 @@ namespace Mixture
 		public override string	name => shader.name.Split('/').Last();
 		public Material			material;
 
-        public virtual  float   width { get { return 340.0f; } }
+		public virtual  float   width { get { return 340.0f; } }
 		public abstract string  shaderName { get; }
-        public abstract bool    displayMaterialInspector { get; }
-        public virtual Precision precision { get { return Precision.SameAsOutput; } }
+		public abstract bool    displayMaterialInspector { get; }
+		public virtual Precision precision { get { return Precision.SameAsOutput; } }
 
-        public enum Precision
-        {
-            SameAsOutput,
-            Byte,
-            Float
-        }
+		public enum Precision
+		{
+			SameAsOutput,
+			Byte,
+			Float
+		}
 
-        protected override void Enable()
+		protected override void Enable()
 		{
 			if (shader == null)
 			{
@@ -56,19 +56,20 @@ namespace Mixture
 		public void GetMaterialInputs(List< SerializableEdge > edges)
 		{
 			AssignMaterialPropertiesFromEdges(edges, material);
+
 		}
 
 		protected override void Process()
 		{
-            GraphicsFormat graphicsFormat = GraphicsFormat.None;
+			GraphicsFormat graphicsFormat = GraphicsFormat.None;
 
-            switch(precision)
-            {
-                case Precision.Byte: graphicsFormat = GraphicsFormat.R8G8B8A8_SRGB; break;
-                case Precision.Float: graphicsFormat = GraphicsFormat.R32G32B32A32_SFloat; break;
-            }
+			switch(precision)
+			{
+				case Precision.Byte: graphicsFormat = GraphicsFormat.R8G8B8A8_SRGB; break;
+				case Precision.Float: graphicsFormat = GraphicsFormat.R32G32B32A32_SFloat; break;
+			}
 
-            UpdateTempRenderTexture(ref output, graphicsFormat);
+			UpdateTempRenderTexture(ref output, graphicsFormat);
 
 			if (material == null)
 			{

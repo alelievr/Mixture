@@ -6,13 +6,19 @@ using System.Linq;
 
 namespace Mixture
 {
-    [System.Serializable, NodeMenuItem("Matte/Texture")]
-    public class TextureNode : FixedShaderNode
-    {
-        public override string name => "Texture Matte";
+	[System.Serializable, NodeMenuItem("Utils/Texture")]
+	public class TextureNode : BaseNode
+	{
+		[Output(name = "Texture")]
+		public Texture2D texture;
 
-        public override string shaderName => "Hidden/Mixture/Texture";
+		public Texture2D Texture;
 
-        public override bool displayMaterialInspector => true;
-    }
+		public override string	name => "Texture2D";
+
+		protected override void Process()
+		{
+			texture = Texture;
+		}
+	}
 }
