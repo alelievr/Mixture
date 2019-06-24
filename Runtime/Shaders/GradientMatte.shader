@@ -1,23 +1,23 @@
 ﻿Shader "Hidden/Mixture/GradientMatte"
 {	
-    Properties
-    {
+	Properties
+	{
 		[Enum(Horizontal,0,Vertical,1,Radial,2,Circular,3)]_Mode("Gradient Type", Float) = 0
 		[HDR]_Color1("Color 1", Color) = (0.0,0.0,0.0,0.0)
 		[HDR]_Color2("Color 2", Color) = (1.0,1.0,1.0,1.0)
 	}
-    SubShader
-    {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
+	SubShader
+	{
+		Tags { "RenderType"="Opaque" }
+		LOD 100
 
-        Pass
-        {
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment mixture
+		Pass
+		{
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment mixture
 
-            #include "UnityCG.cginc"
+			#include "UnityCG.cginc"
 			#define USE_UV
 			#include "MixtureFixed.cginc"
 			
@@ -25,8 +25,8 @@
 			float4 _Color1;
 			float4 _Color2;
 
-            float4 mixture (MixtureInputs i) : SV_Target
-            {
+			float4 mixture (MixtureInputs i) : SV_Target
+			{
 				float2 uv = float2(i.uv.x, i.uv.y);
 				float gradient = 0.0f;
 
@@ -39,8 +39,8 @@
 					case 3: uv -= 0.5; gradient = saturate((atan2(uv.y, uv.x) / 6.283185307179586476924) + 0.5); break;
 				}
 				return lerp(_Color1,_Color2,gradient);
-            }
-            ENDCG
-        }
-    }
+			}
+			ENDCG
+		}
+	}
 }

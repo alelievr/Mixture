@@ -1,6 +1,5 @@
 // Mixture Fixed Pipeline helper
 
-
 // Macros
 #define MERGE_NAME(p1,p2) p1##p2
 
@@ -12,14 +11,10 @@
 	SamplerState SAMPLER2D(Tex); \
 	float4 TEXELSIZE2D(Tex);
 
-#define SAMPLE2D(Texture, uv) Texture.Sample(SAMPLER2D(Texture), GetUV(uv,TEXELSIZE2D(Texture).y))
-#define SAMPLE2D_S(Texture, Sampler, uv) Texture.Sample(Sampler, GetUV(uv,TEXELSIZE2D(Texture).y))
-
-float2 GetUV(float2 uv, float sign)
-{
-	uv.y = 1 - uv.y;
-	return uv;
-}
+#define SAMPLE2D(Texture, uv) Texture.Sample(SAMPLER2D(Texture), uv)
+#define SAMPLE2D_S(Texture, Sampler, uv) Texture.Sample(Sampler, uv)
+#define SAMPLE2D_LOD(Texture, uv, lod) Texture.Sample(SAMPLER2D(Texture), float4(uv.xy,0,lod))
+#define SAMPLE2D_LOD_S(Texture, Sampler, uv) Texture.Sample(Sampler, float4(uv.xy,0,lod))
 
 // Inline Helopers
 struct appdata
@@ -42,9 +37,12 @@ MixtureInputs InitializeMixtureInputs(appdata v)
 {
 	MixtureInputs o;
 	o.vertex = UnityObjectToClipPos(v.vertex);
-	#ifdef USE_UV
+#ifdef USE_UV
 		o.uv = v.uv;
+	#if UNITY_UV_STARTS_AT_TOP
+		o.uv.y = 1 - o.uv.y;
 	#endif
+#endif
 	return o;
 }
  

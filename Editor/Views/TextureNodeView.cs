@@ -16,6 +16,9 @@ namespace Mixture
 		VisualElement	textureEditorUI;
 		TextureNode		textureNode;
 
+		Image preview;
+
+		const int nodeWidth = 340;
 
 		public override void Enable()
 		{
@@ -26,6 +29,7 @@ namespace Mixture
 			textureEditorUI.style.paddingLeft = 8;
 			textureEditorUI.style.paddingTop = 8;
 			textureEditorUI.style.paddingRight = 8;
+			preview = new Image();
 
 			var textureField = new ObjectField() {
 				label = "Texture",
@@ -35,15 +39,44 @@ namespace Mixture
 			textureField.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Texture " + e.newValue);
 				textureNode.texture = (Texture2D)e.newValue;
+				UpdatePreview();
 			});
 
 			textureEditorUI.Add(textureField);
 			controlsContainer.Add(textureEditorUI);
+			controlsContainer.Add(preview);
+			UpdatePreview();
+
 			controlsContainer.style.backgroundColor = new StyleColor(new Color(.16f, .16f, .16f));
 			controlsContainer.style.borderTopWidth = 1;
 			controlsContainer.style.borderColor = new StyleColor(new Color(.12f, .12f, .12f));
 
-			style.width = 340;
+			style.width = nodeWidth;
+		}
+
+		void UpdatePreview()
+		{
+			if(textureNode.texture != null)
+			{
+				preview.image = textureNode.texture;
+				float ratio = (float)textureNode.texture.height / textureNode.texture.width;
+				if(ratio > 1.0f)
+				{
+					preview.scaleMode = ScaleMode.ScaleToFit;
+					preview.style.height = nodeWidth;
+				}
+				else
+				{
+					preview.scaleMode = ScaleMode.StretchToFill;
+					preview.style.height = (float) nodeWidth * ratio;
+				}
+			} 
+			else
+			{
+				preview.image = null;
+				preview.style.height = 0;
+			}
+
 		}
 
 	}

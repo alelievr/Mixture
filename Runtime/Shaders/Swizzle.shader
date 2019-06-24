@@ -24,7 +24,7 @@
 			#define USE_UV
 			#include "MixtureFixed.cginc"
 
-			sampler2D _Source;
+			TEXTURE2D(_Source);
 			float _RMode;
 			float _GMode;
 			float _BMode;
@@ -50,9 +50,7 @@
 
 			float4 mixture (MixtureInputs i) : SV_Target
 			{
-				float4 uv = float4(i.uv.x, i.uv.y, 0, 0);
-
-				float4	source	= tex2Dlod(_Source, uv);
+				float4	source	= SAMPLE2D_LOD(_Source, i.uv, 0);
 				float r = Swizzle(source, _RMode, _Custom.r);
 				float g = Swizzle(source, _GMode, _Custom.g);
 				float b = Swizzle(source, _BMode, _Custom.b);

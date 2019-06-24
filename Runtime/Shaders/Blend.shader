@@ -24,26 +24,25 @@
 			#define USE_UV
 			#include "MixtureFixed.cginc"
 
-			sampler2D _Source;
-			sampler2D _Target;
-			sampler2D _Mask;
+			TEXTURE2D(_Source);
+			TEXTURE2D(_Target);
+			TEXTURE2D(_Mask);
 			float _BlendMode;
 			float _MaskMode;
 
 			float4 mixture (MixtureInputs i) : SV_Target
 			{
-				float4 uv = float4(i.uv.x, i.uv.y, 0, 0);
 
-				float4	source	= tex2Dlod(_Source, uv);
-				float4	target	= tex2Dlod(_Target, uv);
+				float4	source	= SAMPLE2D_LOD(_Source, i.uv,0);
+				float4	target	= SAMPLE2D_LOD(_Target, i.uv,0);
 				float4	mask;
 				
 				uint maskMode = (uint)_MaskMode;
 
 				switch(maskMode)
 				{
-					case 0 : mask= tex2Dlod(_Mask, uv).aaaa; break;
-					case 1 : mask= tex2Dlod(_Mask, uv).rgba; break;
+					case 0 : mask= SAMPLE2D_LOD(_Mask, i.uv, 0).aaaa; break;
+					case 1 : mask= SAMPLE2D_LOD(_Mask, i.uv, 0).rgba; break;
 				}
 
 				uint mode = (uint)_BlendMode;

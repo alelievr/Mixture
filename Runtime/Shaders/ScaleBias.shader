@@ -22,14 +22,14 @@
 			#define USE_UV
 			#include "MixtureFixed.cginc"
 
-			sampler2D _Texture;
+			TEXTURE2D(_Texture);
 			float _Mode;
 			float4 _Scale;
 			float4 _Bias;
 
 			float4 mixture (MixtureInputs i) : SV_Target
 			{
-				float4 col = tex2D(_Texture, i.uv);
+				float4 col = SAMPLE2D_LOD(_Texture, i.uv, 0);
 				uint mode = (uint)_Mode;
 				switch (mode)
 				{
