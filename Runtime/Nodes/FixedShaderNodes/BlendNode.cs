@@ -17,13 +17,7 @@ namespace Mixture
 
 		public override Precision precision => Precision.Float;
 
-		protected override IEnumerable<PortData> ListMaterialProperties(List< SerializableEdge > edges)
-		{
-			foreach(var prop in base.ListMaterialProperties(edges))
-			{
-				if (prop.identifier != "_BlendMode" && prop.identifier != "_MaskMode")
-					yield return prop;
-			}
-		}
+		protected override IEnumerable<string> filteredOutProperties => new string[]{"_BlendMode", "_MaskMode"};
+
 	}
 }

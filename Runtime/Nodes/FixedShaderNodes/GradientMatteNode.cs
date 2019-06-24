@@ -14,5 +14,8 @@ namespace Mixture
 		public override string shaderName => "Hidden/Mixture/GradientMatte";
 
 		public override bool displayMaterialInspector => true;
+
+		protected override IEnumerable<string> filteredOutProperties => new string[]{"_Mode"};
+
 	}
 }

@@ -28,7 +28,9 @@ namespace Mixture
 		public abstract bool    displayMaterialInspector { get; }
 		public virtual Precision precision { get { return Precision.SameAsOutput; } }
 
-		public enum Precision
+        protected virtual IEnumerable<string> filteredOutProperties { get { return Enumerable.Empty<string>(); } }
+
+        public enum Precision
 		{
 			SameAsOutput,
 			Byte,
@@ -49,14 +51,17 @@ namespace Mixture
 		[CustomPortBehavior(nameof(materialInputs))]
 		protected virtual IEnumerable<PortData> ListMaterialProperties(List< SerializableEdge > edges)
 		{
-			return GetMaterialPortDatas(material);
+			foreach(var prop in base.GetMaterialPortDatas(material))
+			{
+				if(!filteredOutProperties.Contains(prop.identifier))
+					yield return prop;
+			}
 		}
 
 		[CustomPortInput(nameof(materialInputs), typeof(object))]
 		public void GetMaterialInputs(List< SerializableEdge > edges)
 		{
 			AssignMaterialPropertiesFromEdges(edges, material);
-
 		}
 
 		protected override void Process()
