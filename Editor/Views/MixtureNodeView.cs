@@ -10,19 +10,42 @@ namespace Mixture
 {
 	public class MixtureNodeView : BaseNodeView
 	{
-        protected new MixtureGraphView  owner => base.owner as MixtureGraphView;
-        protected new MixtureNode       nodeTarget => base.nodeTarget as MixtureNode;
+		protected VisualElement propertyEditorUI;
+		protected new MixtureGraphView  owner => base.owner as MixtureGraphView;
+		protected new MixtureNode       nodeTarget => base.nodeTarget as MixtureNode;
 
-        Dictionary< Material, MaterialProperty[] >  oldMaterialProperties = new Dictionary<Material, MaterialProperty[]>();
-        Dictionary< Material, MaterialEditor >      materialEditors = new Dictionary<Material, MaterialEditor>();
+		Dictionary< Material, MaterialProperty[] >  oldMaterialProperties = new Dictionary<Material, MaterialProperty[]>();
+		Dictionary< Material, MaterialEditor >      materialEditors = new Dictionary<Material, MaterialEditor>();
 
-		public override void Enable() => Debug.Log("New Node View: " + this);
+		protected virtual string header {get { return string.Empty; } }
+
+		const string stylesheetName = "MixtureCommon";
+
+		public override void Enable()
+		{
+			var stylesheet = Resources.Load<StyleSheet>(stylesheetName);
+			if(!styleSheets.Contains(stylesheet))
+				styleSheets.Add(stylesheet);
+			
+			propertyEditorUI = new VisualElement();
+			controlsContainer.Add(propertyEditorUI);
+
+			propertyEditorUI.AddToClassList("PropertyEditorUI");
+			controlsContainer.AddToClassList("ControlsContainer");
+			
+			if(header != string.Empty)
+			{
+				var title = new Label(header);
+				title.AddToClassList("PropertyEditorTitle");
+				propertyEditorUI.Add(title);
+			}
+		}
 
 		bool CheckPropertyChanged(Material material, MaterialProperty[] properties)
 		{
 			bool propertyChanged = false;
-            MaterialProperty[]  oldProperties;
-            oldMaterialProperties.TryGetValue(material, out oldProperties);
+			MaterialProperty[]  oldProperties;
+			oldMaterialProperties.TryGetValue(material, out oldProperties);
 
 			if (oldProperties != null)
 			{
@@ -47,23 +70,23 @@ namespace Mixture
 				}
 			}
 
-            oldMaterialProperties[material] = MaterialEditor.GetMaterialProperties(new []{material});
+			oldMaterialProperties[material] = MaterialEditor.GetMaterialProperties(new []{material});
 
-            return propertyChanged;
+			return propertyChanged;
 		}
 
-        // Custom property draw, we don't want things that are connected to an edge or useless like the render queue
+		// Custom property draw, we don't want things that are connected to an edge or useless like the render queue
 		protected bool MaterialPropertiesGUI(Material material)
 		{
 			if (material == null || material.shader == null)
 				return false;
 
-            MaterialProperty[] properties = MaterialEditor.GetMaterialProperties(new []{material});
+			MaterialProperty[] properties = MaterialEditor.GetMaterialProperties(new []{material});
 			var portViews = GetPortViewsFromFieldName(nameof(ShaderNode.materialInputs));
 
-            MaterialEditor  editor;
-            if (!materialEditors.TryGetValue(material, out editor))
-                editor = materialEditors[material] = Editor.CreateEditor(material) as MaterialEditor;
+			MaterialEditor  editor;
+			if (!materialEditors.TryGetValue(material, out editor))
+				editor = materialEditors[material] = Editor.CreateEditor(material) as MaterialEditor;
 
 			bool propertiesChanged = CheckPropertyChanged(material, properties);
 
@@ -73,8 +96,8 @@ namespace Mixture
 					continue;
 
 				// Retrieve the port view from the property name
-				var portView = portViews.FirstOrDefault(p => p.portData.identifier == property.name);
-				if (portView == null || portView.connected)
+				var portView = portViews?.FirstOrDefault(p => p.portData.identifier == property.name);
+				if (portView != null && portView.connected)
 					continue;
 
 				float h = editor.GetPropertyHeight(property, property.displayName);
@@ -83,29 +106,29 @@ namespace Mixture
 				editor.ShaderProperty(r, property, property.displayName);
 			}
 
-            return propertiesChanged;
+			return propertiesChanged;
 		}
 
 		protected void CreateTexturePreview(VisualElement previewContainer, Texture texture, int currentSlice = 0)
 		{
-            previewContainer.Clear();
+			previewContainer.Clear();
 
-            if (texture == null)
-                return;
+			if (texture == null)
+				return;
 
-            switch (texture.dimension)
-            {
-                case TextureDimension.Tex2D:
+			switch (texture.dimension)
+			{
+				case TextureDimension.Tex2D:
 					CreateTexture2DPreview(previewContainer, texture);
-                    break;
-                case TextureDimension.Tex2DArray:
+					break;
+				case TextureDimension.Tex2DArray:
 					CreateTexture2DArrayPreview(previewContainer, texture, currentSlice);
-                    break;
-                // TODO: Texture3D
-                default:
-                    Debug.LogError(texture + " is not a supported type for preview");
-                    return;
-            }
+					break;
+				// TODO: Texture3D
+				default:
+					Debug.LogError(texture + " is not a supported type for preview");
+					return;
+			}
 		}
 
 		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)

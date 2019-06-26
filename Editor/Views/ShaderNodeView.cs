@@ -18,6 +18,8 @@ namespace Mixture
 		MaterialEditor	materialEditor;
 		ShaderNode		shaderNode;
 
+		protected override string header { get { return "Shader Properties"; } }
+
 		public override void OnCreated()
 		{
 			if (shaderNode.material != null)
@@ -48,16 +50,13 @@ namespace Mixture
 				ForceUpdatePorts();
 			});
 
-			controlsContainer.Add(shaderField);
+			propertyEditorUI.Add(shaderField);
 
 			shaderCreationUI = new VisualElement();
-			controlsContainer.Add(shaderCreationUI);
+			propertyEditorUI.Add(shaderCreationUI);
 			UpdateShaderCreationUI();
 
-			materialEditorUI = new VisualElement();
-			materialEditorUI.Add(new IMGUIContainer(MaterialGUI));
-			controlsContainer.Add(materialEditorUI);
-
+			propertyEditorUI.Add(new IMGUIContainer(MaterialGUI));
 			materialEditor = Editor.CreateEditor(shaderNode.material) as MaterialEditor;
 		}
 
