@@ -43,7 +43,7 @@ namespace Mixture
 		protected override void Enable()
 		{
 			UpdateTempRenderTexture(ref tempRenderTexture);
-            graph.onOutputTextureUpdated += () => {
+			graph.onOutputTextureUpdated += () => {
 				UpdateTempRenderTexture(ref tempRenderTexture);
 			};
 		}
@@ -78,11 +78,11 @@ namespace Mixture
 			switch (graph.outputTexture)
 			{
 				case Texture2D t:
-					Graphics.Blit(input, tempRenderTexture);
+					Graphics.Blit(input, tempRenderTexture, new Vector2(1,-1), new Vector2(0,1));
 					break ;
 				case Texture2DArray t:
 					for (int sliceIndex = 0; sliceIndex < t.depth; sliceIndex++)
-						Graphics.Blit(input, tempRenderTexture, sliceIndex, sliceIndex);
+						Graphics.Blit(input, tempRenderTexture, new Vector2(1,-1), new Vector2(0,1), sliceIndex, sliceIndex );
 					break ;
 				case Texture3D t:
 					break ;

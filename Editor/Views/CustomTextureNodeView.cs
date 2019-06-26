@@ -15,6 +15,8 @@ namespace Mixture
 		Editor				customTextureEditor;
 		CustomTextureNode	node;
 
+		protected override string header { get { return "Custom Texture Properties"; } }
+
 		static readonly int	inspectorWidth = 330;
 
 		public override void Enable()
@@ -33,7 +35,7 @@ namespace Mixture
 
 			AddShaderFields();
 
-			controlsContainer.Add(new IMGUIContainer(CustomTextureEditor));
+			propertyEditorUI.Add(new IMGUIContainer(CustomTextureEditor));
 		}
 
 		void AddShaderFields()
@@ -55,7 +57,7 @@ namespace Mixture
 				ForceUpdatePorts();
 			});
 
-			controlsContainer.Add(new Button(OpenCurrentShader){
+			propertyEditorUI.Add(new Button(OpenCurrentShader){
 				text = "Open"
 			});
 
@@ -81,8 +83,8 @@ namespace Mixture
 				ForceUpdatePorts();
 			});
 
-			controlsContainer.Add(initializationShader);
-			controlsContainer.Add(shaderField);
+			propertyEditorUI.Add(initializationShader);
+			propertyEditorUI.Add(shaderField);
 		}
 
 		void CustomTextureEditor()
