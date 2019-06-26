@@ -16,7 +16,7 @@ namespace Mixture
         Dictionary< Material, MaterialProperty[] >  oldMaterialProperties = new Dictionary<Material, MaterialProperty[]>();
         Dictionary< Material, MaterialEditor >      materialEditors = new Dictionary<Material, MaterialEditor>();
 
-		public override void Enable() {}
+		public override void Enable() => Debug.Log("New Node View: " + this);
 
 		bool CheckPropertyChanged(Material material, MaterialProperty[] properties)
 		{

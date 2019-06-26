@@ -19,6 +19,9 @@ namespace Mixture
 
 		protected bool	UpdateTempRenderTexture(ref RenderTexture target)
 		{
+			if (graph.outputTexture == null)
+				return false;
+
 			if (target == null)
 			{
 				RenderTextureDescriptor	desc = new RenderTextureDescriptor {

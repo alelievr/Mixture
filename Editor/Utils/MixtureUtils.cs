@@ -37,7 +37,7 @@ namespace Mixture
 				return _textureArrayPreviewMaterial;
 			}
 		}
-		
+
 		static Texture2D				_icon;
 		public static Texture2D			icon
 		{

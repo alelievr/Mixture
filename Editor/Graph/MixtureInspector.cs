@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using GraphProcessor;
 using UnityEditor;
 using UnityEditor.Experimental.AssetImporters;
@@ -9,6 +10,65 @@ namespace Mixture
 {
 	public class MixtureEditor : Editor
 	{
+		public virtual void OnEnable()
+		{
+			 EditorApplication.projectWindowItemOnGUI += DrawSmallMixtureIcon;
+		}
+
+		void DrawSmallMixtureIcon(string guid, Rect rect)
+		{
+            bool isSmall = rect.width > rect.height;
+			int iconSize = (int)EditorGUIUtility.singleLineHeight;
+
+			// We only display the mixture icon when we're in small mode
+			if (isSmall)
+			{
+				var path = AssetDatabase.GUIDToAssetPath(guid);
+				var texture = AssetDatabase.LoadAssetAtPath(path, typeof(Texture));
+				var mixtureRect = new Rect(rect.x + 3, rect.y, rect.width, rect.height);
+
+				if (texture == null)
+					return;
+
+				if (AssetDatabase.LoadAllAssetsAtPath(path).Length <= 1)
+					return;
+
+				mixtureRect.width = iconSize;
+				mixtureRect.height = iconSize;
+
+				GUI.DrawTexture(mixtureRect, MixtureUtils.icon);
+			}
+		}
+
+		protected void BlitMixtureIcon(Texture preview, RenderTexture target)
+		{
+			// Disable all material keywords:
+			foreach (var keyword in MixtureUtils.blitIconMaterial.shaderKeywords)
+				MixtureUtils.blitIconMaterial.DisableKeyword(keyword);
+
+			switch (preview.dimension)
+			{
+				case TextureDimension.Tex2D:
+					MixtureUtils.blitIconMaterial.SetTexture("_Texture2D", preview);
+					MixtureUtils.blitIconMaterial.EnableKeyword("TEXTURE2D");
+					Graphics.Blit(preview, target, MixtureUtils.blitIconMaterial, 0);
+					break;
+				case TextureDimension.Tex2DArray:
+					MixtureUtils.blitIconMaterial.SetTexture("_Texture2DArray", preview);
+					MixtureUtils.blitIconMaterial.EnableKeyword("TEXTURE2D_ARRAY");
+					Graphics.Blit(preview, target, MixtureUtils.blitIconMaterial, 0);
+					break;
+				case TextureDimension.Tex3D:
+					MixtureUtils.blitIconMaterial.SetTexture("_Texture3D", preview);
+					MixtureUtils.blitIconMaterial.EnableKeyword("TEXTURE3D");
+					Graphics.Blit(preview, target, MixtureUtils.blitIconMaterial, 0);
+					break;
+				default:
+					Debug.LogError($"{preview.dimension} is not supported for icon preview");
+					break;
+			}
+		}
+
 		public override void OnInspectorGUI()
 		{
 			Texture t = target as Texture;
@@ -43,8 +103,7 @@ namespace Mixture
 			Texture2D		icon = new Texture2D(width, height);
 			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
 
-			MixtureUtils.blitIconMaterial.SetTexture("_Texture", target as Texture2D);
-			Graphics.Blit(target as Texture2D, rt, MixtureUtils.blitIconMaterial, 0);
+			BlitMixtureIcon(target as Texture, rt);
 
 			RenderTexture.active = rt;
 			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);
@@ -62,8 +121,9 @@ namespace Mixture
 		Texture2DArray	array;
 		int				slice;
 
-		void OnEnable()
+		public override void OnEnable()
 		{
+			base.OnEnable();
 			array = target as Texture2DArray;
 		}
 
@@ -92,7 +152,7 @@ namespace Mixture
 			var icon = new Texture2D(width, height);
 			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
 
-			Graphics.Blit(array, rt, 0, 0);
+			BlitMixtureIcon(target as Texture, rt);
 
 			RenderTexture.active = rt;
 			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);
@@ -103,15 +163,16 @@ namespace Mixture
 			return icon;
 		}
 	}
-	
+
 	[CustomEditor(typeof(Texture3D), false)]
 	public class MixtureInspectorTexture3D : MixtureEditor
 	{
 		Texture3D	volume;
 		int			slice;
 
-		void OnEnable()
+		public override void OnEnable()
 		{
+			base.OnEnable();
 			volume = target as Texture3D;
 		}
 
@@ -140,7 +201,7 @@ namespace Mixture
 			var icon = new Texture2D(width, height);
 			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
 
-			Graphics.Blit(volume, rt, 0, 0);
+			BlitMixtureIcon(target as Texture, rt);
 
 			RenderTexture.active = rt;
 			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);

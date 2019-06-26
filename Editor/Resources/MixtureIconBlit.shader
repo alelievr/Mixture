@@ -3,7 +3,9 @@ Shader "Hidden/MixtureIconBlit"
     Properties
     {
         _MixtureIcon ("Texture", 2D) = "" {}
-        _Texture ("Texture", 2D) = "" {}
+        _Texture2D ("Texture2D", 2D) = "" {}
+        _Texture2DArray ("Texture2DArray", 2DArray) = "" {}
+        _Texture3D ("Texture3D", 3D) = "" {}
     }
     SubShader
     {
@@ -15,6 +17,9 @@ Shader "Hidden/MixtureIconBlit"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+
+            // TOOD: multi compile for cubemap and array
+            #pragma multi_compile TEXTURE2D TEXTURE2D_ARRAY TEXTURE3D
 
             #include "UnityCG.cginc"
 
@@ -35,8 +40,12 @@ Shader "Hidden/MixtureIconBlit"
 
             UNITY_DECLARE_TEX2D(_MixtureIcon);
             float4 _MixtureIcon_ST;
-            UNITY_DECLARE_TEX2D(_Texture);
-            float4 _Texture_ST;
+            UNITY_DECLARE_TEX2D(_Texture2D);
+            float4 _Texture2D_ST;
+            UNITY_DECLARE_TEX2DARRAY(_Texture2DArray);
+            float4 _Texture2DArray_ST;
+            UNITY_DECLARE_TEX3D(_Texture3D);
+            float4 _Texture3D_ST;
 
             v2f vert (appdata v)
             {
@@ -53,8 +62,16 @@ Shader "Hidden/MixtureIconBlit"
                 fixed4 iconColor = 0;
 				if (all(iconUV < 1))
 					iconColor = UNITY_SAMPLE_TEX2D(_MixtureIcon, iconUV);
-                fixed4 t = UNITY_SAMPLE_TEX2D(_Texture, i.uv);
-                return iconColor + t;
+#if TEXTURE2D
+                fixed4 t = UNITY_SAMPLE_TEX2D(_Texture2D, i.uv);
+#elif TEXTURE2D_ARRAY
+                // For texture arrays, we take the first slice
+                fixed4 t = UNITY_SAMPLE_TEX2DARRAY(_Texture2DArray, float3(i.uv, 0));
+#elif TEXTURE3D
+                // For texture 3D, we take the first slice
+                fixed4 t = UNITY_SAMPLE_TEX3D(_Texture, float3(i.uv, 0));
+#endif
+                return (iconColor.a > 0.01) ? iconColor : t;
             }
             ENDCG
         }
