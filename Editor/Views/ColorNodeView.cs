@@ -11,43 +11,28 @@ using System.Linq;
 namespace Mixture
 {
 	[NodeCustomEditor(typeof(ColorNode))]
-	public class ColorNodeView : BaseNodeView
+	public class ColorNodeView : ConstNodeView
 	{
-		VisualElement	textureEditorUI;
 		ColorNode		colorNode;
 
-		const int nodeWidth = 340;
+		protected override int nodeWidth {get { return 340; } }
 
 		public override void Enable()
 		{
+			base.Enable();
 			colorNode = nodeTarget as ColorNode;
 
-			textureEditorUI = new VisualElement();
-			textureEditorUI.style.paddingBottom = 8;
-			textureEditorUI.style.paddingLeft = 8;
-			textureEditorUI.style.paddingTop = 8;
-			textureEditorUI.style.paddingRight = 8;
-
-
-			var textureField = new ColorField() {
+			var colorField = new ColorField() {
 				label = "Color",
 				value = colorNode.color
 			};
-			textureField.RegisterValueChangedCallback(e => {
+			colorField.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Color " + e.newValue);
 				colorNode.color = e.newValue;
 
 			});
 
-			textureEditorUI.Add(textureField);
-			controlsContainer.Add(textureEditorUI);
-
-
-			controlsContainer.style.backgroundColor = new StyleColor(new Color(.16f, .16f, .16f));
-			controlsContainer.style.borderTopWidth = 1;
-			controlsContainer.style.borderColor = new StyleColor(new Color(.12f, .12f, .12f));
-
-			style.width = nodeWidth;
+			propertyEditorUI.Add(colorField);
 		}
 
 	}

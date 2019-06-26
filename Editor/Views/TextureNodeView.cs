@@ -11,24 +11,18 @@ using System.Linq;
 namespace Mixture
 {
 	[NodeCustomEditor(typeof(TextureNode))]
-	public class TextureNodeView : BaseNodeView
+	public class TextureNodeView : ConstNodeView
 	{
-		VisualElement	textureEditorUI;
 		TextureNode		textureNode;
 
 		Image preview;
 
-		const int nodeWidth = 340;
+		protected override int nodeWidth {get { return 340; } }
 
 		public override void Enable()
 		{
+			base.Enable();
 			textureNode = nodeTarget as TextureNode;
-
-			textureEditorUI = new VisualElement();
-			textureEditorUI.style.paddingBottom = 8;
-			textureEditorUI.style.paddingLeft = 8;
-			textureEditorUI.style.paddingTop = 8;
-			textureEditorUI.style.paddingRight = 8;
 			preview = new Image();
 
 			var textureField = new ObjectField() {
@@ -42,16 +36,9 @@ namespace Mixture
 				UpdatePreview();
 			});
 
-			textureEditorUI.Add(textureField);
-			controlsContainer.Add(textureEditorUI);
+			propertyEditorUI.Add(textureField);
 			controlsContainer.Add(preview);
 			UpdatePreview();
-
-			controlsContainer.style.backgroundColor = new StyleColor(new Color(.16f, .16f, .16f));
-			controlsContainer.style.borderTopWidth = 1;
-			controlsContainer.style.borderColor = new StyleColor(new Color(.12f, .12f, .12f));
-
-			style.width = nodeWidth;
 		}
 
 		void UpdatePreview()
