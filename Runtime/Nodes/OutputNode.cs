@@ -17,12 +17,7 @@ namespace Mixture
 		[Input(name = "In")]
 		public Texture			input;
 
-		[HideInInspector, SerializeField]
-		public Vector2Int		targetSize = new Vector2Int(512, 512);
-		[HideInInspector, SerializeField]
-		public GraphicsFormat	format = GraphicsFormat.R8G8B8A8_SRGB;
 		public int				mipmapCount = 1;
-		public FilterMode		filterMode;
 
 		// We use a temporary renderTexture to display the result of the graph
 		// in the preview so we don't have to readback the memory each time we change something
@@ -40,9 +35,27 @@ namespace Mixture
 
 		public override string	name => "Output";
 
+		public override Texture previewTexture {get { return tempRenderTexture; } }
+
+		public override MixtureRTSettings defaultRTSettings
+		{
+			get 
+			{
+				return new MixtureRTSettings()
+            	{
+					widthMode = OutputSizeMode.Fixed,
+					heightMode = OutputSizeMode.Fixed,
+					depthMode = OutputSizeMode.Fixed,
+					width = 512,
+					height = 512,
+					depth = 1,
+					editFlags = EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat
+				};
+			}
+		}
 		protected override void Enable()
 		{
-			UpdateTempRenderTexture(ref tempRenderTexture);
+            UpdateTempRenderTexture(ref tempRenderTexture);
 			graph.onOutputTextureUpdated += () => {
 				UpdateTempRenderTexture(ref tempRenderTexture);
 			};

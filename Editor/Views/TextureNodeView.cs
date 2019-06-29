@@ -33,15 +33,15 @@ namespace Mixture
 			textureField.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Texture " + e.newValue);
 				textureNode.texture = (Texture2D)e.newValue;
-				UpdatePreview();
+				UpdatePreviewImage();
 			});
 
 			propertyEditorUI.Add(textureField);
 			controlsContainer.Add(preview);
-			UpdatePreview();
+			UpdatePreviewImage();
 		}
 
-		void UpdatePreview()
+		void UpdatePreviewImage()
 		{
 			if(textureNode.texture != null)
 			{
@@ -63,7 +63,6 @@ namespace Mixture
 				preview.image = null;
 				preview.style.height = 0;
 			}
-
 		}
 
 	}

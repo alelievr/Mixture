@@ -15,8 +15,6 @@ namespace Mixture
 
 		public override bool displayMaterialInspector => true;
 
-		public override Precision precision => Precision.Float;
-
 		protected override IEnumerable<string> filteredOutProperties => new string[]{"_BlendMode", "_MaskMode"};
 
 	}

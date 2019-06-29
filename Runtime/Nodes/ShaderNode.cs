@@ -27,6 +27,8 @@ namespace Mixture
 
 		public int				sliceIndexMaterialProperty = Shader.PropertyToID("_SliceIndex");
 
+		public override Texture previewTexture { get { return output;}}
+
 		protected override void Enable()
 		{
 			if (shader == null)
