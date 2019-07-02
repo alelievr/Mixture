@@ -69,7 +69,6 @@ namespace Mixture
 			{
                 CreateTexturePreview(previewContainer, mixtureNode.previewTexture); // TODO : Add Slice Preview
                 controlsContainer.Add(previewContainer);
-
             }
 
             titleButtonContainer.Add(new Button(ToggleSettings) { text = "S" });
@@ -318,12 +317,16 @@ namespace Mixture
 
 		protected void CreateTexturePreview(VisualElement previewContainer, Texture texture, int currentSlice = 0)
 		{
-			previewContainer.Clear();
+			if(previewContainer == null)
+                previewContainer = new VisualElement();
+			else
+            	previewContainer.Clear();
 
 			if (texture == null)
 				return;
 
-			switch (texture.dimension)
+
+            switch (texture.dimension)
 			{
 				case TextureDimension.Tex2D:
 					CreateTexture2DPreview(previewContainer, texture);
@@ -336,7 +339,7 @@ namespace Mixture
 					Debug.LogError(texture + " is not a supported type for preview");
 					return;
 			}
-		}
+        }
 
 		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)
 		{
@@ -344,8 +347,12 @@ namespace Mixture
 			{
 				image = texture,
 				scaleMode = ScaleMode.StretchToFill,
+				
 			};
-			previewContainer.Add(previewImage);
+            previewImage.style.borderTopWidth = 64;
+            previewImage.style.borderColor = Color.red;
+            previewImage.style.height = 128;
+            previewContainer.Add(previewImage);
 		}
 
 		void CreateTexture2DArrayPreview(VisualElement previewContainer, Texture texture, int currentSlice)
