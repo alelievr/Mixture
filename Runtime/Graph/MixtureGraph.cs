@@ -109,6 +109,10 @@ namespace Mixture
 					outputTexture = new Texture2DArray(outputNode.targetSize.x, outputNode.targetSize.y, outputNode.sliceCount, outputNode.format, TextureCreationFlags.None, outputNode.mipmapCount);
 					onOutputTextureUpdated?.Invoke();
 					break;
+				case TextureDimension.Tex3D:
+					outputTexture = new Texture3D(outputNode.targetSize.x, outputNode.targetSize.y, outputNode.sliceCount, outputNode.format, TextureCreationFlags.None, outputNode.mipmapCount);
+					onOutputTextureUpdated?.Invoke();
+					break;
 				default:
 					Debug.LogError("Texture format " + outputNode.dimension + " is not supported");
 					return;

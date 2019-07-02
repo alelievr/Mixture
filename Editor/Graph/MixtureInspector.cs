@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering;
-using GraphProcessor;
 using UnityEditor;
-using UnityEditor.Experimental.AssetImporters;
+using System.Linq;
 
 namespace Mixture
 {
@@ -30,7 +27,8 @@ namespace Mixture
 				if (texture == null)
 					return;
 
-				if (AssetDatabase.LoadAllAssetsAtPath(path).Length <= 1)
+				var allAssets = AssetDatabase.LoadAllAssetsAtPath(path);
+				if (!allAssets.Any(a => a is MixtureGraph))
 					return;
 
 				mixtureRect.width = iconSize;
@@ -102,8 +100,15 @@ namespace Mixture
 		{
 			Texture2D		icon = new Texture2D(width, height);
 			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
+			
+			if (target == null)
+				target = AssetDatabase.LoadAssetAtPath< Texture2D >(assetPath);
 
-			BlitMixtureIcon(target as Texture, rt);
+			// Texture2D could be a standard unity texture, in this case we don't want the mixture icon on it
+			if (!subAssets.Any(s => s is MixtureGraph))
+				Graphics.Blit(target as Texture, rt);
+			else
+				BlitMixtureIcon(target as Texture, rt);
 
 			RenderTexture.active = rt;
 			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);

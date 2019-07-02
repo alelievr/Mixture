@@ -71,7 +71,7 @@ Shader "Hidden/MixtureIconBlit"
                 // For texture 3D, we take the first slice
                 fixed4 t = UNITY_SAMPLE_TEX3D(_Texture, float3(i.uv, 0));
 #endif
-                return (iconColor.a > 0.01) ? iconColor : t;
+                return lerp(t, iconColor, iconColor.a);
             }
             ENDCG
         }

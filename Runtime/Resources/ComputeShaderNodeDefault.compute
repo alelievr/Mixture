@@ -1,0 +1,10 @@
+﻿#pragma kernel CSMain
+
+RWTexture3D< float4 >   output;
+float3                  outputSize;
+
+[numthreads(8,8,8)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    output[id.xy] = float4(id / outputSize.xyz);
+}
