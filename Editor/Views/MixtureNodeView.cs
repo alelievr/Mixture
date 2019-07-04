@@ -13,7 +13,6 @@ namespace Mixture
 	public class MixtureNodeView : BaseNodeView
 	{
 		protected VisualElement propertyEditorUI;
-		protected VisualElement rtSettingsContainerUI;
         protected VisualElement previewContainer;
 
         protected new MixtureGraphView  owner => base.owner as MixtureGraphView;
@@ -25,21 +24,11 @@ namespace Mixture
 		protected virtual string header => string.Empty;
 		protected virtual bool showPreview => false;
 
-		const string stylesheetName = "MixtureCommon";
+		protected override bool hasSettings => true;
 
-        EnumField outputWidthMode;
-		EnumField outputHeightMode;
-		EnumField outputDepthMode;
-		EnumField outputDimension;
-		EnumField outputFormat;
-		
-        IntegerField outputWidth;
-		FloatField outputWidthPercentage;
-        IntegerField outputHeight;
-		FloatField outputHeightPercentage;
-        IntegerField outputDepth;
-		FloatField outputDepthPercentage;
-		
+		protected override VisualElement CreateSettingsView() => new MixtureRTSettingsView(nodeTarget, owner);
+
+		const string stylesheetName = "MixtureCommon";
 
         public override void Enable()
 		{
@@ -54,32 +43,20 @@ namespace Mixture
 			propertyEditorUI.AddToClassList("PropertyEditorUI");
 			controlsContainer.AddToClassList("ControlsContainer");
 
-			rtSettingsContainerUI = GetRTSettingsContainer(mixtureNode);
-			rtSettingsContainerUI.AddToClassList("PropertyEditorUI");
-			controlsContainer.Add(rtSettingsContainerUI);
-
-			if(header != string.Empty)
+			if (header != string.Empty)
 			{
 				var title = new Label(header);
 				title.AddToClassList("PropertyEditorTitle");
 				propertyEditorUI.Add(title);
 			}
 
-			if(showPreview)
+			if (showPreview)
 			{
-                CreateTexturePreview(previewContainer, mixtureNode.previewTexture); // TODO : Add Slice Preview
+                CreateTexturePreview(ref previewContainer, mixtureNode.previewTexture); // TODO : Add Slice Preview
                 controlsContainer.Add(previewContainer);
             }
 
-            titleButtonContainer.Add(new Button(ToggleSettings) { text = "S" });
             propertyEditorUI.style.display = DisplayStyle.Flex;
-            rtSettingsContainerUI.style.display = DisplayStyle.None;
-        }
-
-		void ToggleSettings()
-		{
-            propertyEditorUI.style.display = propertyEditorUI.style.display == DisplayStyle.None ? DisplayStyle.Flex : DisplayStyle.None;
-            rtSettingsContainerUI.style.display = rtSettingsContainerUI.style.display == DisplayStyle.None ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
 		bool CheckPropertyChanged(Material material, MaterialProperty[] properties)
@@ -116,171 +93,6 @@ namespace Mixture
 			return propertyChanged;
 		}
 
-		void SetVisible(VisualElement element, bool visible)
-		{
-            element.style.display = visible? DisplayStyle.Flex: DisplayStyle.None;
-        }
-
-		void UpdateFieldVisibility(MixtureNode node)
-		{
-            var editFlags = node.rtSettings.editFlags;
-            var rtSettings = node.rtSettings;
-            SetVisible(outputWidthMode, rtSettings.CanEdit(EditFlags.WidthMode));
-            SetVisible(outputHeightMode, rtSettings.CanEdit(EditFlags.HeightMode));
-            SetVisible(outputDepthMode, rtSettings.CanEdit(EditFlags.DepthMode));
-            SetVisible(outputWidth, rtSettings.CanEdit(EditFlags.Width) && node.rtSettings.widthMode == OutputSizeMode.Fixed);
-            SetVisible(outputWidthPercentage, rtSettings.CanEdit(EditFlags.Width) && node.rtSettings.widthMode == OutputSizeMode.PercentageOfOutput);
-			SetVisible(outputHeight, rtSettings.CanEdit(EditFlags.Height) && node.rtSettings.heightMode == OutputSizeMode.Fixed);
-            SetVisible(outputHeightPercentage, rtSettings.CanEdit(EditFlags.Height) && node.rtSettings.heightMode == OutputSizeMode.PercentageOfOutput);
-			SetVisible(outputDepth, rtSettings.CanEdit(EditFlags.Depth) && node.rtSettings.depthMode == OutputSizeMode.Fixed);
-            SetVisible(outputDepthPercentage, rtSettings.CanEdit(EditFlags.Depth) && node.rtSettings.depthMode == OutputSizeMode.PercentageOfOutput);
-		}
-
-		protected VisualElement GetRTSettingsContainer(MixtureNode node)
-		{
-			var graph = owner.graph as MixtureGraph;
-			var container = new VisualElement();
-			var title = new Label("Node Output Settings");
-			title.AddToClassList("PropertyEditorTitle");
-			container.Add(title);
-
-			// Size Modes
-			outputWidthMode = new EnumField(node.rtSettings.widthMode) {
-				label = "Width Mode",
-			};
-			outputWidthMode.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
-				node.rtSettings.widthMode = (OutputSizeMode)e.newValue;
-				graph.UpdateOutputTexture();
-                UpdateFieldVisibility(node);
-            });
-			container.Add(outputWidthMode);
-
-			outputHeightMode = new EnumField(node.rtSettings.heightMode) {
-				label = "Height Mode",
-			};
-			outputHeightMode.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
-				node.rtSettings.heightMode = (OutputSizeMode)e.newValue;
-				graph.UpdateOutputTexture();
-				UpdateFieldVisibility(node);
-            });
-			container.Add(outputHeightMode);
-
-			outputDepthMode = new EnumField(node.rtSettings.depthMode) {
-				label = "Depth Mode",
-			};
-			outputDepthMode.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
-				node.rtSettings.depthMode = (OutputSizeMode)e.newValue;
-				graph.UpdateOutputTexture();
-                UpdateFieldVisibility(node);
-            });
-			container.Add(outputDepthMode);
-
-			outputWidth = new IntegerField()
-			{
-				value = node.rtSettings.width,
-				label = "Width"
-			};
-			outputWidth.RegisterValueChangedCallback(e =>
-			{
-				owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
-				node.rtSettings.width = e.newValue;
-				graph.UpdateOutputTexture();
-			});
-			container.Add(outputWidth);
-
-			outputWidthPercentage = new FloatField()
-			{
-				value = node.rtSettings.widthPercent,
-				label = "Width Percentage"
-			};
-			outputWidthPercentage.RegisterValueChangedCallback(e =>
-			{
-				owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
-				node.rtSettings.widthPercent = e.newValue;
-				graph.UpdateOutputTexture();
-			});
-			container.Add(outputWidthPercentage);
-
-			outputHeight = new IntegerField()
-			{
-				value = node.rtSettings.height,
-				label = "Height"
-			};
-			outputHeight.RegisterValueChangedCallback(e =>
-			{
-				owner.RegisterCompleteObjectUndo("Updated Height " + e.newValue);
-				node.rtSettings.height = e.newValue;
-				graph.UpdateOutputTexture();
-			});
-			container.Add(outputHeight);
-
-			outputHeightPercentage = new FloatField()
-			{
-				value = node.rtSettings.heightPercent,
-				label = "Height Percentage"
-			};
-			outputHeightPercentage.RegisterValueChangedCallback(e =>
-			{
-				owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
-				node.rtSettings.heightPercent = e.newValue;
-				graph.UpdateOutputTexture();
-			});
-			container.Add(outputHeightPercentage);
-
-			outputDepth = new IntegerField()
-			{
-				value = node.rtSettings.depth,
-				label = "Depth"
-			};
-			outputDepth.RegisterValueChangedCallback(e =>
-			{
-				owner.RegisterCompleteObjectUndo("Updated Depth " + e.newValue);
-				node.rtSettings.depth = e.newValue;
-				graph.UpdateOutputTexture();
-			});
-			container.Add(outputDepth);
-
-			outputDepthPercentage = new FloatField()
-			{
-				value = node.rtSettings.depthPercent,
-				label = "Depth Percentage"
-			};
-			outputDepthPercentage.RegisterValueChangedCallback(e =>
-			{
-				owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
-				node.rtSettings.depthPercent = e.newValue;
-				graph.UpdateOutputTexture();
-			});
-			container.Add(outputDepthPercentage);
-
-			outputDimension = new EnumField(node.rtSettings.dimension) {
-				label = "Dimension",
-			};
-			outputDimension.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
-				node.rtSettings.dimension = (OutputDimension)e.newValue;
-				graph.UpdateOutputTexture();
-			});
-
-			outputFormat = new EnumField(node.rtSettings.targetFormat) {
-				label = "Pixel Format",
-			};
-			outputFormat.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Updated Graphics Format " + e.newValue);
-				node.rtSettings.targetFormat = (OutputFormat)e.newValue;
-				graph.UpdateOutputTexture();
-			});
-
-			container.Add(outputDimension);
-			container.Add(outputFormat);
-
-			UpdateFieldVisibility(node);
-			return container;
-		}
-
 		// Custom property draw, we don't want things that are connected to an edge or useless like the render queue
 		protected bool MaterialPropertiesGUI(Material material)
 		{
@@ -315,7 +127,7 @@ namespace Mixture
 			return propertiesChanged;
 		}
 
-		protected void CreateTexturePreview(VisualElement previewContainer, Texture texture, int currentSlice = 0)
+		protected void CreateTexturePreview(ref VisualElement previewContainer, Texture texture, int currentSlice = 0)
 		{
 			if(previewContainer == null)
                 previewContainer = new VisualElement();
@@ -324,7 +136,6 @@ namespace Mixture
 
 			if (texture == null)
 				return;
-
 
             switch (texture.dimension)
 			{

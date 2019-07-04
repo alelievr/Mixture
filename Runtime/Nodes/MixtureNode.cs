@@ -155,7 +155,7 @@ namespace Mixture
 		[Min(1)]
 		public int height;
 		[Min(1)]
-		public int depth;
+		public int sliceCount;
 		public OutputSizeMode widthMode;
 		public OutputSizeMode heightMode;
 		public OutputSizeMode depthMode;
@@ -174,7 +174,7 @@ namespace Mixture
 					depthPercent = 1.0f,
 					width = 512,
 					height = 512,
-					depth = 1,
+					sliceCount = 1,
 					widthMode = OutputSizeMode.Default,
 					heightMode = OutputSizeMode.Default,
 					depthMode = OutputSizeMode.Default,
@@ -218,19 +218,27 @@ namespace Mixture
 			{
 				default:
 				case OutputSizeMode.Default : return graph.outputNode.sliceCount;
-				case OutputSizeMode.Fixed : return depth;
+				case OutputSizeMode.Fixed : return sliceCount;
 				case OutputSizeMode.PercentageOfOutput : return (int)(graph.outputNode.sliceCount * depthPercent);
 			}
 		}
 
 		public GraphicsFormat GetGraphicsFormat(MixtureGraph graph)
 		{
-			return targetFormat == OutputFormat.Default ? graph.outputNode.tempRenderTexture.graphicsFormat : (GraphicsFormat)targetFormat;
+			// if this function is called from the output node and the format is none, then we set it to a default value
+			if (graph.outputNode.rtSettings.targetFormat == OutputFormat.Default)
+				return (GraphicsFormat)OutputFormat.RGBA_Float;
+			else
+				return targetFormat == OutputFormat.Default ? (GraphicsFormat)graph.outputNode.rtSettings.targetFormat : (GraphicsFormat)targetFormat;
 		}
 		
 		public TextureDimension GetTextureDimension(MixtureGraph graph)
 		{
-			return dimension == OutputDimension.Default ? graph.outputNode.tempRenderTexture.dimension : (TextureDimension)dimension;
+			// if this function is called from the output node and the dimension is default, then we set it to a default value
+			if (graph.outputNode.rtSettings.dimension == OutputDimension.Default)
+				return TextureDimension.Tex2D;
+			else
+				return dimension == OutputDimension.Default ? graph.outputNode.tempRenderTexture.dimension : (TextureDimension)dimension;
 		}
 	}
 
@@ -255,15 +263,14 @@ namespace Mixture
 		PercentageOfOutput = 2
 	}
 
-
 	public enum OutputDimension
 	{
 		Default = TextureDimension.None,
 		Texture2D = TextureDimension.Tex2D,
-		CubeMap = TextureDimension.Cube,
-		Texture3D = TextureDimension.Tex3D,
+		// CubeMap = TextureDimension.Cube, // Not supported currently
+		// Texture3D = TextureDimension.Tex3D, // Not supported currently
 		Texture2DArray = TextureDimension.Tex2DArray,
-		CubemapArray = TextureDimension.CubeArray
+		// CubemapArray = TextureDimension.CubeArray // Not supported currently
 	}
 
 	public enum OutputFormat
@@ -275,6 +282,5 @@ namespace Mixture
 		RGB_Half = GraphicsFormat.R16G16B16_SFloat,
 		RGBA_Float = GraphicsFormat.R32G32B32A32_SFloat,
 		RGB_Float = GraphicsFormat.R32G32B32_SFloat,
-
 	}
 }

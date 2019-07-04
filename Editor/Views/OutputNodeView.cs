@@ -23,7 +23,7 @@ namespace Mixture
 
 		static readonly Vector2 nodeViewSize = new Vector2(330, 480);
 
-		protected override bool showPreview { get { return true; } }
+		protected override bool showPreview => true;
 
 		public override void Enable()
 		{
@@ -39,6 +39,9 @@ namespace Mixture
 
 			graph.onOutputTextureUpdated += UpdatePreviewImage;
 
+			UpdatePreviewImage();
+			controlsContainer.Add(previewContainer);
+
 			controlsContainer.Add(new Button(SaveTexture) {
 				text = "Save"
 			});
@@ -46,7 +49,7 @@ namespace Mixture
 
 		void UpdatePreviewImage()
 		{
-			CreateTexturePreview(previewContainer, outputNode.tempRenderTexture, outputNode.currentSlice);
+			CreateTexturePreview(ref previewContainer, outputNode.tempRenderTexture, outputNode.currentSlice);
 		}
 
 		// Write the rendertexture value to the graph main texture asset

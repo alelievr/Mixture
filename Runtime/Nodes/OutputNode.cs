@@ -48,7 +48,7 @@ namespace Mixture
 					depthMode = OutputSizeMode.Fixed,
 					width = 512,
 					height = 512,
-					depth = 1,
+					sliceCount = 1,
 					editFlags = EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat
 				};
 			}

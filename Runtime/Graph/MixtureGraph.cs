@@ -106,7 +106,7 @@ namespace Mixture
 					onOutputTextureUpdated?.Invoke();
 					break;
 				case TextureDimension.Tex2DArray:
-					outputTexture = new Texture2DArray(outputNode.rtSettings.width, outputNode.rtSettings.height, outputNode.rtSettings.depth, (GraphicsFormat)outputNode.rtSettings.targetFormat, TextureCreationFlags.None, outputNode.mipmapCount);
+					outputTexture = new Texture2DArray(outputNode.rtSettings.width, outputNode.rtSettings.height, outputNode.rtSettings.sliceCount, (GraphicsFormat)outputNode.rtSettings.targetFormat, TextureCreationFlags.None, outputNode.mipmapCount);
 					onOutputTextureUpdated?.Invoke();
 					break;
 				default:
