@@ -23,11 +23,11 @@ namespace Mixture
 		public override string	name => shader.name.Split('/').Last();
 		public Material			material;
 
-		public virtual  float   width { get { return 340.0f; } }
+		public virtual  float   width => 340.0f;
 		public abstract string  shaderName { get; }
 		public abstract bool    displayMaterialInspector { get; }
 
-		public override Texture previewTexture {get { return output; } } 
+		public override Texture previewTexture => output;
 
 		public override MixtureRTSettings defaultRTSettings
 		{

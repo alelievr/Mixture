@@ -22,7 +22,7 @@ namespace Mixture
 
 		public abstract Texture previewTexture { get; }
 
-		public virtual MixtureRTSettings defaultRTSettings { get { return MixtureRTSettings.defaultValue; } }
+		public virtual MixtureRTSettings defaultRTSettings => MixtureRTSettings.defaultValue;
 
 		public MixtureNode() : base()
 		{

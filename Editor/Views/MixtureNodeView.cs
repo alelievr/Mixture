@@ -22,8 +22,8 @@ namespace Mixture
 		Dictionary< Material, MaterialProperty[] >  oldMaterialProperties = new Dictionary<Material, MaterialProperty[]>();
 		Dictionary< Material, MaterialEditor >      materialEditors = new Dictionary<Material, MaterialEditor>();
 
-		protected virtual string header {get { return string.Empty; } }
-		protected virtual bool showPreview { get { return false; } }
+		protected virtual string header => string.Empty;
+		protected virtual bool showPreview => false;
 
 		const string stylesheetName = "MixtureCommon";
 
