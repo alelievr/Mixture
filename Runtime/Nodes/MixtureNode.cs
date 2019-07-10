@@ -217,9 +217,9 @@ namespace Mixture
 			switch(depthMode)
 			{
 				default:
-				case OutputSizeMode.Default : return graph.outputNode.sliceCount;
+				case OutputSizeMode.Default : return graph.outputNode.rtSettings.sliceCount;
 				case OutputSizeMode.Fixed : return sliceCount;
-				case OutputSizeMode.PercentageOfOutput : return (int)(graph.outputNode.sliceCount * depthPercent);
+				case OutputSizeMode.PercentageOfOutput : return (int)(graph.outputNode.rtSettings.sliceCount * depthPercent);
 			}
 		}
 

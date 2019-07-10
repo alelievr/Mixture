@@ -24,10 +24,6 @@ namespace Mixture
 		[NonSerialized, HideInInspector]
 		public RenderTexture	tempRenderTexture;
 
-		// Output texture properties
-		public int				sliceCount = 1;
-		public TextureDimension	dimension = TextureDimension.Tex2D;
-
 		// Serialized properties for the view:
 		public int				currentSlice;
 
@@ -53,8 +49,15 @@ namespace Mixture
 				};
 			}
 		}
+		
 		protected override void Enable()
 		{
+			// Sanitize the RT Settings for the output node, they must contains only valid information for the output node
+			if (rtSettings.targetFormat == OutputFormat.Default)
+				rtSettings.targetFormat = OutputFormat.RGBA_Float;
+			if (rtSettings.dimension == OutputDimension.Default)
+				rtSettings.dimension = OutputDimension.Texture2D;
+
             UpdateTempRenderTexture(ref tempRenderTexture);
 			graph.onOutputTextureUpdated += () => {
 				UpdateTempRenderTexture(ref tempRenderTexture);
@@ -72,7 +75,7 @@ namespace Mixture
 			if (input == null)
 			{
 				Debug.LogWarning("Output node input is not connected");
-				input = TextureUtils.GetBlackTexture(dimension, sliceCount);
+				input = TextureUtils.GetBlackTexture(rtSettings);
 				// TODO: set a black texture of texture dimension as default value
 				return;
 			}
@@ -110,7 +113,7 @@ namespace Mixture
 		{
 			yield return new PortData{
 				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension(graph.outputNode.dimension),
+				displayType = TextureUtils.GetTypeFromDimension((TextureDimension)graph.outputNode.rtSettings.dimension),
 				identifier = "outout",
 			};
 		}

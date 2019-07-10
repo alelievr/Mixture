@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.UIElements;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using GraphProcessor;
-using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 using Unity.Collections;
+using System;
 
 namespace Mixture
 {
@@ -23,7 +19,7 @@ namespace Mixture
 
 		static readonly Vector2 nodeViewSize = new Vector2(330, 480);
 
-		protected override bool showPreview => true;
+		protected override bool hasPreview => true;
 
 		public override void Enable()
 		{
@@ -68,35 +64,52 @@ namespace Mixture
 
 		void WriteRequestResult(AsyncGPUReadbackRequest request, Texture output)
 		{
-			NativeArray< Color32 >    colors;
-
 			if (request.hasError)
 			{
 				Debug.LogError("Can't readback the texture from GPU");
 				return ;
 			}
 
+			void FetchSlice(int slice, Action< Color32[] > SetPixelsColor32, Action< Color[] > SetPixelsColor)
+			{
+				NativeArray< Color32 >    	colors32;
+				NativeArray< Color >    	colors;
+
+				var outputFormat = (OutputFormat)output.graphicsFormat;
+				switch (outputFormat)
+				{
+					case OutputFormat.RGBA_Float:
+					case OutputFormat.RGB_Float:
+						colors = request.GetData< Color >(slice);
+						SetPixelsColor(colors.ToArray());
+						break;
+					case OutputFormat.RGBA_LDR:
+					case OutputFormat.RGB_LDR:
+						colors32 = request.GetData< Color32 >(slice);
+						SetPixelsColor32(colors32.ToArray());
+						break;
+					case OutputFormat.RGBA_Half: // For now we don't support half readback
+					case OutputFormat.RGB_Half:
+					default:
+						Debug.LogError("Can't readback an image with format: " + outputFormat);
+						break;
+				}
+			}
+
 			switch (output)
 			{
 				case Texture2D t:
-					colors = request.GetData< Color32 >(0);
-					t.SetPixels32(colors.ToArray());
+					FetchSlice(0, t.SetPixels32, t.SetPixels);
 					t.Apply();
 					break;
 				case Texture2DArray t:
 					for (int i = 0; i < outputNode.tempRenderTexture.volumeDepth; i++)
-					{
-						colors = request.GetData< Color32 >(i);
-						t.SetPixels32(colors.ToArray(), i);
-					}
+						FetchSlice(i, colors => t.SetPixels32(colors, i), colors => t.SetPixels(colors, i));
 					t.Apply();
 					break;
 				case Texture3D t:
 					for (int i = 0; i < outputNode.tempRenderTexture.volumeDepth; i++)
-					{
-						colors = request.GetData< Color32 >(i);
-						t.SetPixels32(colors.ToArray(), i);
-					}
+						FetchSlice(i, colors => t.SetPixels32(colors, i), colors => t.SetPixels(colors, i));
 					t.Apply();
 					break;
 				default:

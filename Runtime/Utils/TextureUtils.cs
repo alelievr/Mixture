@@ -15,6 +15,11 @@ namespace Mixture
     {
         static Dictionary< TextureDimension, Texture >  blackTextures = new Dictionary< TextureDimension, Texture >();
 
+        public static Texture GetBlackTexture(MixtureRTSettings settings)
+        {
+            return GetBlackTexture((TextureDimension)settings.dimension, settings.sliceCount);
+        }
+
         public static Texture GetBlackTexture(TextureDimension dim, int sliceCount = 0)
         {
             Texture blackTexture;

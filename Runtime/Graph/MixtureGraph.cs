@@ -99,18 +99,18 @@ namespace Mixture
 			Texture		oldTextureObject = outputTexture;
 
 			// TODO: compression options (TextureCreationFlags.Crunch)
-			switch (outputNode.dimension)
+			switch (outputNode.rtSettings.dimension)
 			{
-				case TextureDimension.Tex2D:
+				case OutputDimension.Texture2D:
 					outputTexture = new Texture2D(outputNode.rtSettings.width, outputNode.rtSettings.height, (GraphicsFormat)outputNode.rtSettings.targetFormat, outputNode.mipmapCount, TextureCreationFlags.None); // By default we compress the texture
 					onOutputTextureUpdated?.Invoke();
 					break;
-				case TextureDimension.Tex2DArray:
+				case OutputDimension.Texture2DArray:
 					outputTexture = new Texture2DArray(outputNode.rtSettings.width, outputNode.rtSettings.height, outputNode.rtSettings.sliceCount, (GraphicsFormat)outputNode.rtSettings.targetFormat, TextureCreationFlags.None, outputNode.mipmapCount);
 					onOutputTextureUpdated?.Invoke();
 					break;
 				default:
-					Debug.LogError("Texture format " + outputNode.dimension + " is not supported");
+					Debug.LogError("Texture format " + outputNode.rtSettings.dimension + " is not supported");
 					return;
 			}
 

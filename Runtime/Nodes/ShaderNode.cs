@@ -57,7 +57,7 @@ namespace Mixture
 		{
 			yield return new PortData{
 				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension(graph.outputNode.dimension),
+				displayType = TextureUtils.GetTypeFromDimension((TextureDimension)graph.outputNode.rtSettings.dimension),
 				identifier = "outout",
 			};
 		}

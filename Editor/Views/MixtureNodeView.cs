@@ -22,8 +22,8 @@ namespace Mixture
 		Dictionary< Material, MaterialEditor >      materialEditors = new Dictionary<Material, MaterialEditor>();
 
 		protected virtual string header => string.Empty;
-		protected virtual bool showPreview => false;
 
+		protected virtual bool hasPreview => false;
 		protected override bool hasSettings => true;
 
 		protected override VisualElement CreateSettingsView() => new MixtureRTSettingsView(nodeTarget, owner);
@@ -50,7 +50,7 @@ namespace Mixture
 				propertyEditorUI.Add(title);
 			}
 
-			if (showPreview)
+			if (hasPreview)
 			{
                 CreateTexturePreview(ref previewContainer, mixtureNode.previewTexture); // TODO : Add Slice Preview
                 controlsContainer.Add(previewContainer);
@@ -157,12 +157,9 @@ namespace Mixture
 			var previewImage = new Image
 			{
 				image = texture,
-				scaleMode = ScaleMode.StretchToFill,
+				scaleMode = ScaleMode.ScaleToFit,
 				
 			};
-            previewImage.style.borderTopWidth = 64;
-            previewImage.style.borderColor = Color.red;
-            previewImage.style.height = 128;
             previewContainer.Add(previewImage);
 		}
 
@@ -175,8 +172,7 @@ namespace Mixture
 			};
 			var previewImageSlice = new IMGUIContainer(() => {
 				// square image:
-				int size = (int)previewContainer.parent.style.width.value.value;
-				var rect = EditorGUILayout.GetControlRect(GUILayout.Height(size), GUILayout.Width(size));
+				var rect = EditorGUILayout.GetControlRect(GUILayout.Height(400), GUILayout.Width(400));
 				MixtureUtils.textureArrayPreviewMaterial.SetTexture("_TextureArray", texture);
 				MixtureUtils.textureArrayPreviewMaterial.SetFloat("_Slice", currentSlice);
 				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial);

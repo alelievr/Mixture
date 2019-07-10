@@ -20,6 +20,8 @@ namespace Mixture
 
 		protected override string header => "Shader Properties";
 
+		protected override bool hasPreview => true;
+
 		public override void OnCreated()
 		{
 			if (shaderNode.material != null)
