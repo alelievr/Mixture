@@ -18,7 +18,9 @@ namespace Mixture
 		MaterialEditor	materialEditor;
 		ShaderNode		shaderNode;
 
-		protected override string header { get { return "Shader Properties"; } }
+		protected override string header => "Shader Properties";
+
+		protected override bool hasPreview => true;
 
 		public override void OnCreated()
 		{

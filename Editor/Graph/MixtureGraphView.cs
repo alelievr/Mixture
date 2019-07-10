@@ -69,6 +69,7 @@ namespace Mixture
 
 			processor = new MixtureProcessor(graph);
 			computeOrderUpdated += processor.UpdateComputeOrder;
+			graph.onOutputTextureUpdated += () => processor.Run();
 
 			// Run the processor when we open the graph
 			processor.Run();

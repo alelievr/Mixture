@@ -27,6 +27,8 @@ namespace Mixture
 
 		public int				sliceIndexMaterialProperty = Shader.PropertyToID("_SliceIndex");
 
+		public override Texture previewTexture { get { return output;}}
+
 		protected override void Enable()
 		{
 			if (shader == null)
@@ -55,7 +57,7 @@ namespace Mixture
 		{
 			yield return new PortData{
 				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension(graph.outputNode.dimension),
+				displayType = TextureUtils.GetTypeFromDimension((TextureDimension)graph.outputNode.rtSettings.dimension),
 				identifier = "outout",
 			};
 		}
