@@ -8,7 +8,7 @@ namespace Mixture
 {
 	public class MixtureGraphWindow : BaseGraphWindow
 	{
-		// Currenly the only way to open a graph is to use an asset
+		// Currently the only way to open a graph is to use an asset
 		// [MenuItem("Window/Mixture")]
 		public static BaseGraphWindow Open()
 		{
@@ -21,7 +21,7 @@ namespace Mixture
 
 		protected override void InitializeWindow(BaseGraph graph)
 		{
-			titleContent = new GUIContent("Mixture Graph");
+			titleContent = new GUIContent("Mixture Graph", MixtureUtils.icon);
 
 			var graphView = new MixtureGraphView(this);
 

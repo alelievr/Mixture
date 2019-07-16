@@ -18,10 +18,32 @@ namespace Mixture
 		protected void AddObjectToGraph(Object obj) => graph.AddObjectToGraph(obj);
 		protected void RemoveObjectFromGraph(Object obj) => graph.RemoveObjectFromGraph(obj);
 
-		protected bool UpdateTempRenderTexture(ref RenderTexture target, GraphicsFormat targetFormat = GraphicsFormat.None)
+		public MixtureRTSettings rtSettings;
+
+		public virtual MixtureRTSettings defaultRTSettings => MixtureRTSettings.defaultValue;
+
+		public abstract Texture previewTexture { get; }
+
+		public event Action onSettingsChanged;
+
+		public MixtureNode() : base() {}
+		
+		public override void OnNodeCreated()
+		{
+			base.OnNodeCreated();
+			rtSettings = defaultRTSettings;
+		}
+
+		protected bool UpdateTempRenderTexture(ref RenderTexture target)
 		{
 			if (graph.outputTexture == null)
 				return false;
+
+			int width = rtSettings.GetWidth(graph);
+			int height = rtSettings.GetHeight(graph);
+			int depth = rtSettings.GetDepth(graph);
+			GraphicsFormat targetFormat = rtSettings.GetGraphicsFormat(graph);
+			TextureDimension dimension = rtSettings.GetTextureDimension(graph);
 
             if (targetFormat == GraphicsFormat.None)
                 targetFormat = graph.outputTexture.graphicsFormat;
@@ -30,11 +52,11 @@ namespace Mixture
 			{
 
 				RenderTextureDescriptor	desc = new RenderTextureDescriptor {
-					width = graph.outputTexture.width,
-					height = graph.outputTexture.height,
+					width = Math.Max(1, width),
+					height = Math.Max(1, height),
 					depthBufferBits = 0,
-					volumeDepth = graph.outputNode.sliceCount,
-					dimension = graph.outputTexture.dimension,
+					volumeDepth = Math.Max(1,depth),
+					dimension = dimension,
 					graphicsFormat = targetFormat,
 					msaaSamples = 1,
 				};
@@ -43,20 +65,20 @@ namespace Mixture
 				return true;
 			}
 
-			if (target.width != graph.outputTexture.width
-				|| target.height != graph.outputTexture.height
+			if (target.width != width
+				|| target.height != height
 				|| target.graphicsFormat != targetFormat
-				|| target.dimension != graph.outputTexture.dimension
-				|| target.volumeDepth != TextureUtils.GetSliceCount(graph.outputTexture)
+				|| target.dimension != dimension
+				|| target.volumeDepth != depth
 				|| target.filterMode != graph.outputTexture.filterMode)
 			{
 				target.Release();
-				target.width = graph.outputTexture.width;
-				target.height = graph.outputTexture.height;
-				target.graphicsFormat = targetFormat;
-				target.dimension = graph.outputTexture.dimension;
-				target.filterMode = graph.outputTexture.filterMode;
-				target.volumeDepth = TextureUtils.GetSliceCount(graph.outputTexture);
+				target.width = Math.Max(1, width);
+				target.height = Math.Max(1, height);
+				target.graphicsFormat = (GraphicsFormat)targetFormat;
+				target.dimension = (TextureDimension)dimension;
+				target.filterMode = graph.outputTexture.filterMode; // TODO Set FilterMode per-node, add FilterMode to RTSettings
+				target.volumeDepth = depth;
 				target.Create();
 			}
 
@@ -127,6 +149,50 @@ namespace Mixture
 				}
 			}
 		}
+
+		public void OnSettingsChanged() => onSettingsChanged?.Invoke();
 #endif
+	}
+
+	public enum EditFlags
+	{
+		None = 0,
+		Width = 1,
+		WidthMode = 2,
+		Height = 4,
+		HeightMode = 8,
+		Depth = 16,
+		DepthMode = 32,
+		Dimension = 64,
+		TargetFormat = 128,
+		All = 255,
+	}
+
+	public enum OutputSizeMode
+	{
+		Default = 0,
+		Fixed = 1,
+		PercentageOfOutput = 2
+	}
+
+	public enum OutputDimension
+	{
+		Default = TextureDimension.None,
+		Texture2D = TextureDimension.Tex2D,
+		// CubeMap = TextureDimension.Cube, // Not supported currently
+		Texture3D = TextureDimension.Tex3D, // Not supported currently
+		Texture2DArray = TextureDimension.Tex2DArray,
+		// CubemapArray = TextureDimension.CubeArray // Not supported currently
+	}
+
+	public enum OutputFormat
+	{
+		Default = GraphicsFormat.None,
+		RGBA_LDR = GraphicsFormat.R8G8B8A8_UNorm,
+		RGB_LDR = GraphicsFormat.R8G8B8_UNorm,
+		RGBA_Half = GraphicsFormat.R16G16B16A16_SFloat,
+		RGB_Half = GraphicsFormat.R16G16B16_SFloat,
+		RGBA_Float = GraphicsFormat.R32G32B32A32_SFloat,
+		RGB_Float = GraphicsFormat.R32G32B32_SFloat,
 	}
 }

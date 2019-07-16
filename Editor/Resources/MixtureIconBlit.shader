@@ -69,7 +69,7 @@ Shader "Hidden/MixtureIconBlit"
                 fixed4 t = UNITY_SAMPLE_TEX2DARRAY(_Texture2DArray, float3(i.uv, 0));
 #elif TEXTURE3D
                 // For texture 3D, we take the first slice
-                fixed4 t = UNITY_SAMPLE_TEX3D(_Texture, float3(i.uv, 0));
+                fixed4 t = UNITY_SAMPLE_TEX3D(_Texture3D, float3(i.uv, 0));
 #endif
                 return lerp(t, iconColor, iconColor.a);
             }

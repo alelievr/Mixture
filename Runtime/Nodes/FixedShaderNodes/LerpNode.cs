@@ -6,12 +6,12 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Coordinates/UV")]
-	public class UVNode : FixedShaderNode
+	[System.Serializable, NodeMenuItem("Operations/Lerp")]
+	public class LerpNode : FixedShaderNode
 	{
-		public override string name => "UV";
+		public override string name => "Lerp";
 
-		public override string shaderName => "Hidden/Mixture/UV";
+		public override string shaderName => "Hidden/Mixture/Lerp";
 
 		public override bool displayMaterialInspector => true;
 

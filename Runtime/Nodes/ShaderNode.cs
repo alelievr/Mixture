@@ -27,6 +27,10 @@ namespace Mixture
 
 		public int				sliceIndexMaterialProperty = Shader.PropertyToID("_SliceIndex");
 
+        protected virtual IEnumerable<string> filteredOutProperties => Enumerable.Empty<string>();
+
+		public override Texture previewTexture => output;
+
 		protected override void Enable()
 		{
 			if (shader == null)
@@ -38,25 +42,31 @@ namespace Mixture
 				material = new Material(shader);
 		}
 
+		// Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code
 		[CustomPortBehavior(nameof(materialInputs))]
-		IEnumerable< PortData > ListMaterialProperties(List< SerializableEdge > edges)
+		protected IEnumerable< PortData > ListMaterialProperties(List< SerializableEdge > edges)
 		{
-			return GetMaterialPortDatas(material);
+			foreach (var p in GetMaterialPortDatas(material))
+			{
+				if (filteredOutProperties.Contains(p.identifier))
+					continue;
+				yield return p;
+			}
 		}
 
 		[CustomPortInput(nameof(materialInputs), typeof(object))]
-		public void GetMaterialInputs(List< SerializableEdge > edges)
+		protected void GetMaterialInputs(List< SerializableEdge > edges)
 		{
 			AssignMaterialPropertiesFromEdges(edges, material);
 		}
 
 		[CustomPortBehavior(nameof(output))]
-		IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
+		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{
 			yield return new PortData{
 				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension(graph.outputNode.dimension),
-				identifier = "outout",
+				displayType = TextureUtils.GetTypeFromDimension((TextureDimension)rtSettings.dimension),
+				identifier = "output",
 			};
 		}
 

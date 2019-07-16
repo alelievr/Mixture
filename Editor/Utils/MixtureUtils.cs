@@ -38,6 +38,20 @@ namespace Mixture
 			}
 		}
 
+		static Material _texture3DPreviewMaterial;
+		public static Material texture3DPreviewMaterial
+		{
+			get
+			{
+				if (_texture3DPreviewMaterial == null)
+				{
+					_texture3DPreviewMaterial = new Material(Shader.Find("Hidden/MixtureTexture3DPreview"));
+				}
+
+				return _texture3DPreviewMaterial;
+			}
+		}
+
 		static Texture2D				_icon;
 		public static Texture2D			icon
 		{

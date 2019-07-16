@@ -27,6 +27,9 @@ namespace Mixture
 		public Material				initializationMaterial { get; private set; }
 		public Material				updateMaterial { get; private set; }
 
+		public override Texture previewTexture { get { return output; } }
+
+
 		static readonly string		defaultCRTInitShader = "Hidden/DefaultCRTInitialization";
 		static readonly string		defaultCRTUpdateShader = "Hidden/DefaultCRTUpdate";
 
@@ -35,13 +38,13 @@ namespace Mixture
 		#region Ports control
 
 		[CustomPortBehavior(nameof(initMaterialInputs))]
-		IEnumerable< PortData > ListMaterialProperties(List< SerializableEdge > edges)
+		protected IEnumerable< PortData > ListMaterialProperties(List< SerializableEdge > edges)
 		{
 			return GetMaterialPortDatas(initializationMaterial);
 		}
 
 		[CustomPortBehavior(nameof(updateMaterialInputs))]
-		IEnumerable< PortData > ListMaterialProperties2(List< SerializableEdge > edges)
+		protected IEnumerable< PortData > ListMaterialProperties2(List< SerializableEdge > edges)
 		{
 			return GetMaterialPortDatas(updateMaterial);
 		}

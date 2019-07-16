@@ -105,7 +105,7 @@ namespace Mixture
 				target = AssetDatabase.LoadAssetAtPath< Texture2D >(assetPath);
 
 			// Texture2D could be a standard unity texture, in this case we don't want the mixture icon on it
-			if (!subAssets.Any(s => s is MixtureGraph))
+			if (!subAssets.Any(s => s is Material))
 				Graphics.Blit(target as Texture, rt);
 			else
 				BlitMixtureIcon(target as Texture, rt);
@@ -196,9 +196,9 @@ namespace Mixture
 
         public override void OnPreviewGUI(Rect r, GUIStyle background)
 		{
-			MixtureUtils.textureArrayPreviewMaterial.SetFloat("_Slice", slice);
-			MixtureUtils.textureArrayPreviewMaterial.SetTexture("_TextureArray", volume);
-			EditorGUI.DrawPreviewTexture(r, Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial);
+			MixtureUtils.texture3DPreviewMaterial.SetFloat("_Slice", slice);
+			MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", volume);
+			EditorGUI.DrawPreviewTexture(r, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial);
 		}
 
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)

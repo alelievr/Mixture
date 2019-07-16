@@ -17,21 +17,12 @@ namespace Mixture
 		[Input(name = "In")]
 		public Texture			input;
 
-		[HideInInspector, SerializeField]
-		public Vector2Int		targetSize = new Vector2Int(512, 512);
-		[HideInInspector, SerializeField]
-		public GraphicsFormat	format = GraphicsFormat.R8G8B8A8_SRGB;
 		public int				mipmapCount = 1;
-		public FilterMode		filterMode;
 
 		// We use a temporary renderTexture to display the result of the graph
 		// in the preview so we don't have to readback the memory each time we change something
 		[NonSerialized, HideInInspector]
 		public RenderTexture	tempRenderTexture;
-
-		// Output texture properties
-		public int				sliceCount = 1;
-		public TextureDimension	dimension = TextureDimension.Tex2D;
 
 		// Serialized properties for the view:
 		public int				currentSlice;
@@ -40,11 +31,40 @@ namespace Mixture
 
 		public override string	name => "Output";
 
+		public override Texture previewTexture {get { return tempRenderTexture; } }
+
+		public override MixtureRTSettings defaultRTSettings
+		{
+			get 
+			{
+				return new MixtureRTSettings()
+            	{
+					widthMode = OutputSizeMode.Fixed,
+					heightMode = OutputSizeMode.Fixed,
+					depthMode = OutputSizeMode.Fixed,
+					width = 512,
+					height = 512,
+					sliceCount = 1,
+					editFlags = EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat
+				};
+			}
+		}
+		
 		protected override void Enable()
 		{
-			UpdateTempRenderTexture(ref tempRenderTexture);
+			// Sanitize the RT Settings for the output node, they must contains only valid information for the output node
+			if (rtSettings.targetFormat == OutputFormat.Default)
+				rtSettings.targetFormat = OutputFormat.RGBA_Float;
+			if (rtSettings.dimension == OutputDimension.Default)
+				rtSettings.dimension = OutputDimension.Texture2D;
+
+            UpdateTempRenderTexture(ref tempRenderTexture);
 			graph.onOutputTextureUpdated += () => {
 				UpdateTempRenderTexture(ref tempRenderTexture);
+			};
+
+			onSettingsChanged += () => {
+				graph.UpdateOutputTexture();
 			};
 		}
 
@@ -56,10 +76,12 @@ namespace Mixture
 				return ;
 			}
 
-			if (input == null)
+			var inputPort = GetPort(nameof(input), nameof(input));
+
+			if (inputPort.GetEdges().Count == 0)
 			{
 				Debug.LogWarning("Output node input is not connected");
-				input = TextureUtils.GetBlackTexture(dimension, sliceCount);
+				input = TextureUtils.GetBlackTexture(rtSettings);
 				// TODO: set a black texture of texture dimension as default value
 				return;
 			}
@@ -93,12 +115,12 @@ namespace Mixture
 		}
 
 		[CustomPortBehavior(nameof(input))]
-		IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
+		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{
 			yield return new PortData{
-				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension(graph.outputNode.dimension),
-				identifier = "outout",
+				displayName = "input",
+				displayType = TextureUtils.GetTypeFromDimension((TextureDimension)rtSettings.dimension),
+				identifier = "input",
 			};
 		}
 	}

@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.Rendering;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 using GraphProcessor;
 using System.Linq;
 
@@ -11,35 +13,63 @@ namespace Mixture
 	public class MixtureNodeView : BaseNodeView
 	{
 		protected VisualElement propertyEditorUI;
-		protected new MixtureGraphView  owner => base.owner as MixtureGraphView;
+        protected VisualElement previewContainer;
+
+        protected new MixtureGraphView  owner => base.owner as MixtureGraphView;
 		protected new MixtureNode       nodeTarget => base.nodeTarget as MixtureNode;
 
 		Dictionary< Material, MaterialProperty[] >  oldMaterialProperties = new Dictionary<Material, MaterialProperty[]>();
 		Dictionary< Material, MaterialEditor >      materialEditors = new Dictionary<Material, MaterialEditor>();
 
-		protected virtual string header {get { return string.Empty; } }
+		protected virtual string header => string.Empty;
+
+		protected virtual bool hasPreview => false;
+		protected override bool hasSettings => true;
+
+		protected override VisualElement CreateSettingsView()
+		{
+			var view = new MixtureRTSettingsView(nodeTarget, owner);
+
+			view.RegisterChangedCallback(nodeTarget.OnSettingsChanged);
+
+			return view;
+		}
 
 		const string stylesheetName = "MixtureCommon";
 
-		public override void Enable()
+        public override void Enable()
 		{
+            var mixtureNode = nodeTarget as MixtureNode;
 			var stylesheet = Resources.Load<StyleSheet>(stylesheetName);
 			if(!styleSheets.Contains(stylesheet))
 				styleSheets.Add(stylesheet);
+
+			nodeTarget.onSettingsChanged += () => {
+				nodeTarget.UpdateAllPorts();
+				RefreshPorts();
+			};
 			
 			propertyEditorUI = new VisualElement();
 			controlsContainer.Add(propertyEditorUI);
 
 			propertyEditorUI.AddToClassList("PropertyEditorUI");
 			controlsContainer.AddToClassList("ControlsContainer");
-			
-			if(header != string.Empty)
+
+			if (header != string.Empty)
 			{
 				var title = new Label(header);
 				title.AddToClassList("PropertyEditorTitle");
 				propertyEditorUI.Add(title);
 			}
-		}
+
+			if (hasPreview)
+			{
+                CreateTexturePreview(ref previewContainer, mixtureNode.previewTexture); // TODO : Add Slice Preview
+                controlsContainer.Add(previewContainer);
+            }
+
+            propertyEditorUI.style.display = DisplayStyle.Flex;
+        }
 
 		bool CheckPropertyChanged(Material material, MaterialProperty[] properties)
 		{
@@ -109,14 +139,17 @@ namespace Mixture
 			return propertiesChanged;
 		}
 
-		protected void CreateTexturePreview(VisualElement previewContainer, Texture texture, int currentSlice = 0)
+		protected void CreateTexturePreview(ref VisualElement previewContainer, Texture texture, int currentSlice = 0)
 		{
-			previewContainer.Clear();
+			if(previewContainer == null)
+                previewContainer = new VisualElement();
+			else
+            	previewContainer.Clear();
 
 			if (texture == null)
 				return;
 
-			switch (texture.dimension)
+            switch (texture.dimension)
 			{
 				case TextureDimension.Tex2D:
 					CreateTexture2DPreview(previewContainer, texture);
@@ -124,21 +157,25 @@ namespace Mixture
 				case TextureDimension.Tex2DArray:
 					CreateTexture2DArrayPreview(previewContainer, texture, currentSlice);
 					break;
+				case TextureDimension.Tex3D:
+					CreateTexture3DPreview(previewContainer, texture, currentSlice);
+					break;
 				// TODO: Texture3D
 				default:
 					Debug.LogError(texture + " is not a supported type for preview");
 					return;
 			}
-		}
+        }
 
 		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)
 		{
 			var previewImage = new Image
 			{
 				image = texture,
-				scaleMode = ScaleMode.StretchToFill,
+				scaleMode = ScaleMode.ScaleToFit,
+				
 			};
-			previewContainer.Add(previewImage);
+            previewContainer.Add(previewImage);
 		}
 
 		void CreateTexture2DArrayPreview(VisualElement previewContainer, Texture texture, int currentSlice)
@@ -150,11 +187,32 @@ namespace Mixture
 			};
 			var previewImageSlice = new IMGUIContainer(() => {
 				// square image:
-				int size = (int)previewContainer.parent.style.width.value.value;
-				var rect = EditorGUILayout.GetControlRect(GUILayout.Height(size), GUILayout.Width(size));
+				var rect = EditorGUILayout.GetControlRect(GUILayout.Height(400), GUILayout.Width(400));
 				MixtureUtils.textureArrayPreviewMaterial.SetTexture("_TextureArray", texture);
 				MixtureUtils.textureArrayPreviewMaterial.SetFloat("_Slice", currentSlice);
 				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial);
+			});
+			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
+				currentSlice = a.newValue;
+			});
+			previewContainer.Add(previewSliceIndex);
+			previewContainer.Add(previewImageSlice);
+		}
+		
+		void CreateTexture3DPreview(VisualElement previewContainer, Texture texture, int currentSlice)
+		{
+			// TODO: 3D Texture preview material with ray-marching
+			var previewSliceIndex = new SliderInt(0, TextureUtils.GetSliceCount(texture) - 1)
+			{
+				label = "Slice",
+				value = currentSlice,
+			};
+			var previewImageSlice = new IMGUIContainer(() => {
+				// square image:
+				var rect = EditorGUILayout.GetControlRect(GUILayout.Height(400), GUILayout.Width(400));
+				MixtureUtils.texture3DPreviewMaterial.SetTexture("_TextureArray", texture);
+				MixtureUtils.texture3DPreviewMaterial.SetFloat("_Slice", currentSlice);
+				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial);
 			});
 			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
 				currentSlice = a.newValue;

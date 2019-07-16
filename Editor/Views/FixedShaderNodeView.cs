@@ -54,7 +54,6 @@ namespace Mixture
 
 		public override void OnRemoved()
 		{
-			Debug.Log("Material shader node: " + fixedShaderNode.material);
 			owner.graph.RemoveObjectFromGraph(fixedShaderNode.material);
 		}
 	}
