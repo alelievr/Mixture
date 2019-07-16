@@ -11,19 +11,11 @@ using System;
 namespace Mixture
 {
 	[System.Serializable]
-	public abstract class FixedShaderNode : MixtureNode
+	public abstract class FixedShaderNode : ShaderNode
 	{
-		[Input(name = "In"), SerializeField]
-		public List<object>	materialInputs;
-
-		[Output(name = "Out"), SerializeField]
-		public RenderTexture	output = null;
-
-		public Shader			shader;
 		public override string	name => shader.name.Split('/').Last();
-		public Material			material;
 
-		public virtual  float   width => 340.0f;
+		public virtual  float   width => 340.0f; // TODO: factorise this and remove nodeViewSize in the outputnodeView
 		public abstract string  shaderName { get; }
 		public abstract bool    displayMaterialInspector { get; }
 
@@ -31,16 +23,11 @@ namespace Mixture
 
 		public override MixtureRTSettings defaultRTSettings
 		{
-			get 
+			get => new MixtureRTSettings()
 			{
-                return new MixtureRTSettings()
-                {
-                    editFlags = EditFlags.All
-            	};
-			}
+				editFlags = EditFlags.All
+			};
 		}
-
-        protected virtual IEnumerable<string> filteredOutProperties { get { return Enumerable.Empty<string>(); } }
 
 		protected override void Enable()
 		{
@@ -51,36 +38,6 @@ namespace Mixture
 
 			if (material == null)
 				material = new Material(shader);
-		}
-
-		[CustomPortBehavior(nameof(materialInputs))]
-		protected virtual IEnumerable<PortData> ListMaterialProperties(List< SerializableEdge > edges)
-		{
-			foreach(var prop in base.GetMaterialPortDatas(material))
-			{
-				if(!filteredOutProperties.Contains(prop.identifier))
-					yield return prop;
-			}
-		}
-
-		[CustomPortInput(nameof(materialInputs), typeof(object))]
-		public void GetMaterialInputs(List< SerializableEdge > edges)
-		{
-			AssignMaterialPropertiesFromEdges(edges, material);
-		}
-
-		protected override void Process()
-		{
-			UpdateTempRenderTexture(ref output);
-
-			if (material == null)
-			{
-				Debug.LogError($"Can't process {name}, missing material/shader");
-				return ;
-			}
-
-			// TODO: make this work wit Texture2DArray and Texture3D
-			Graphics.Blit(Texture2D.whiteTexture, output, material, 0);
 		}
 	}
 }

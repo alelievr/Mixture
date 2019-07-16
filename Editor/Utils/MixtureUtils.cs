@@ -9,7 +9,7 @@ namespace Mixture
 {
     public static class MixtureUtils
     {
-		public static Material  _blitIconMaterial;
+		static Material  _blitIconMaterial;
 		public static Material  blitIconMaterial
 		{
 			get
@@ -17,13 +17,14 @@ namespace Mixture
 				if (_blitIconMaterial == null)
 				{
 					_blitIconMaterial = new Material(Shader.Find("Hidden/MixtureIconBlit"));
+					_blitIconMaterial.SetTexture("_MixtureIcon", icon);
 				}
 
 				return _blitIconMaterial;
 			}
 		}
 
-		public static Material	_textureArrayPreviewMaterial;
+		static Material	_textureArrayPreviewMaterial;
 		public static Material	textureArrayPreviewMaterial
 		{
 			get
@@ -37,5 +38,24 @@ namespace Mixture
 			}
 		}
 
+		static Material _texture3DPreviewMaterial;
+		public static Material texture3DPreviewMaterial
+		{
+			get
+			{
+				if (_texture3DPreviewMaterial == null)
+				{
+					_texture3DPreviewMaterial = new Material(Shader.Find("Hidden/MixtureTexture3DPreview"));
+				}
+
+				return _texture3DPreviewMaterial;
+			}
+		}
+
+		static Texture2D				_icon;
+		public static Texture2D			icon
+		{
+			get => _icon == null ? _icon = Resources.Load< Texture2D >("MixtureIcon") : _icon;
+		}
     }
 }

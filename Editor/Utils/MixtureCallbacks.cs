@@ -13,18 +13,13 @@ namespace Mixture
 	public class MixtureAssetCallbacks
 	{
 		public static readonly string	Extension = "asset";
-		static Texture2D				_icon;
-		public static Texture2D			Icon
-		{
-			get => _icon == null ? _icon = Resources.Load< Texture2D >("MixtureIcon") : _icon;
-		}
 
 		[MenuItem("Assets/Create/Mixture Graph", false, 100)]
 		public static void CreateMixtureGraph()
 		{
 			var graphItem = ScriptableObject.CreateInstance< MixtureGraphAction >();
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
-                string.Format("New Mixture Graph.{0}", Extension), Icon, null);
+                string.Format("New Mixture Graph.{0}", Extension), MixtureUtils.icon, null);
 		}
 
 		[OnOpenAsset(0)]

@@ -26,7 +26,14 @@ namespace Mixture
 		protected virtual bool hasPreview => false;
 		protected override bool hasSettings => true;
 
-		protected override VisualElement CreateSettingsView() => new MixtureRTSettingsView(nodeTarget, owner);
+		protected override VisualElement CreateSettingsView()
+		{
+			var view = new MixtureRTSettingsView(nodeTarget, owner);
+
+			view.RegisterChangedCallback(nodeTarget.OnSettingsChanged);
+
+			return view;
+		}
 
 		const string stylesheetName = "MixtureCommon";
 
@@ -36,6 +43,11 @@ namespace Mixture
 			var stylesheet = Resources.Load<StyleSheet>(stylesheetName);
 			if(!styleSheets.Contains(stylesheet))
 				styleSheets.Add(stylesheet);
+
+			nodeTarget.onSettingsChanged += () => {
+				nodeTarget.UpdateAllPorts();
+				RefreshPorts();
+			};
 			
 			propertyEditorUI = new VisualElement();
 			controlsContainer.Add(propertyEditorUI);
@@ -145,6 +157,9 @@ namespace Mixture
 				case TextureDimension.Tex2DArray:
 					CreateTexture2DArrayPreview(previewContainer, texture, currentSlice);
 					break;
+				case TextureDimension.Tex3D:
+					CreateTexture3DPreview(previewContainer, texture, currentSlice);
+					break;
 				// TODO: Texture3D
 				default:
 					Debug.LogError(texture + " is not a supported type for preview");
@@ -176,6 +191,28 @@ namespace Mixture
 				MixtureUtils.textureArrayPreviewMaterial.SetTexture("_TextureArray", texture);
 				MixtureUtils.textureArrayPreviewMaterial.SetFloat("_Slice", currentSlice);
 				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial);
+			});
+			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
+				currentSlice = a.newValue;
+			});
+			previewContainer.Add(previewSliceIndex);
+			previewContainer.Add(previewImageSlice);
+		}
+		
+		void CreateTexture3DPreview(VisualElement previewContainer, Texture texture, int currentSlice)
+		{
+			// TODO: 3D Texture preview material with ray-marching
+			var previewSliceIndex = new SliderInt(0, TextureUtils.GetSliceCount(texture) - 1)
+			{
+				label = "Slice",
+				value = currentSlice,
+			};
+			var previewImageSlice = new IMGUIContainer(() => {
+				// square image:
+				var rect = EditorGUILayout.GetControlRect(GUILayout.Height(400), GUILayout.Width(400));
+				MixtureUtils.texture3DPreviewMaterial.SetTexture("_TextureArray", texture);
+				MixtureUtils.texture3DPreviewMaterial.SetFloat("_Slice", currentSlice);
+				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial);
 			});
 			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
 				currentSlice = a.newValue;

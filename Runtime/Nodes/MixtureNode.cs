@@ -20,22 +20,33 @@ namespace Mixture
 
 		public MixtureRTSettings rtSettings;
 
-		public abstract Texture previewTexture { get; }
-
 		public virtual MixtureRTSettings defaultRTSettings => MixtureRTSettings.defaultValue;
 
-		public MixtureNode() : base()
+		public abstract Texture previewTexture { get; }
+
+		public event Action onSettingsChanged;
+
+		public MixtureNode() : base() {}
+		
+		public override void OnNodeCreated()
 		{
+			base.OnNodeCreated();
 			rtSettings = defaultRTSettings;
 		}
 
 		protected bool UpdateTempRenderTexture(ref RenderTexture target)
 		{
+			if (graph.outputTexture == null)
+				return false;
+
 			int width = rtSettings.GetWidth(graph);
 			int height = rtSettings.GetHeight(graph);
 			int depth = rtSettings.GetDepth(graph);
 			GraphicsFormat targetFormat = rtSettings.GetGraphicsFormat(graph);
 			TextureDimension dimension = rtSettings.GetTextureDimension(graph);
+
+            if (targetFormat == GraphicsFormat.None)
+                targetFormat = graph.outputTexture.graphicsFormat;
 
 			if (target == null)
 			{
@@ -138,108 +149,9 @@ namespace Mixture
 				}
 			}
 		}
+
+		public void OnSettingsChanged() => onSettingsChanged?.Invoke();
 #endif
-	}
-
-	[System.Serializable]
-	public struct MixtureRTSettings
-	{
-		[Range(0.0001f, 1.0f)]
-		public float widthPercent;
-		[Range(0.0001f, 1.0f)]
-		public float heightPercent;
-		[Range(0.0001f, 1.0f)]
-		public float depthPercent;
-		[Min(1)]
-		public int width;
-		[Min(1)]
-		public int height;
-		[Min(1)]
-		public int sliceCount;
-		public OutputSizeMode widthMode;
-		public OutputSizeMode heightMode;
-		public OutputSizeMode depthMode;
-		public OutputDimension dimension;
-		public OutputFormat targetFormat;
-		public EditFlags editFlags;
-
-		public static MixtureRTSettings defaultValue
-		{
-			get
-			{
-				return new MixtureRTSettings()
-				{
-					widthPercent = 1.0f,
-					heightPercent = 1.0f,
-					depthPercent = 1.0f,
-					width = 512,
-					height = 512,
-					sliceCount = 1,
-					widthMode = OutputSizeMode.Default,
-					heightMode = OutputSizeMode.Default,
-					depthMode = OutputSizeMode.Default,
-					dimension = OutputDimension.Default,
-					targetFormat = OutputFormat.Default,
-					editFlags = EditFlags.None
-				};
-			}
-	
-		}
-		public bool CanEdit(EditFlags flag)
-		{
-			return (this.editFlags & flag) != 0;
-		}
-
-		public int GetWidth(MixtureGraph graph)
-		{
-			switch(widthMode)
-			{
-				default:
-				case OutputSizeMode.Default : return graph.outputNode.tempRenderTexture.width;
-				case OutputSizeMode.Fixed : return width;
-				case OutputSizeMode.PercentageOfOutput : return (int)(graph.outputNode.tempRenderTexture.width * widthPercent);
-			}
-		}
-
-		public int GetHeight(MixtureGraph graph)
-		{
-			switch(heightMode)
-			{
-				default:
-				case OutputSizeMode.Default : return graph.outputNode.tempRenderTexture.height;
-				case OutputSizeMode.Fixed : return height;
-				case OutputSizeMode.PercentageOfOutput : return (int)(graph.outputNode.tempRenderTexture.height * height);
-			}
-		}
-
-		public int GetDepth(MixtureGraph graph)
-		{
-			switch(depthMode)
-			{
-				default:
-				case OutputSizeMode.Default : return graph.outputNode.rtSettings.sliceCount;
-				case OutputSizeMode.Fixed : return sliceCount;
-				case OutputSizeMode.PercentageOfOutput : return (int)(graph.outputNode.rtSettings.sliceCount * depthPercent);
-			}
-		}
-
-		public GraphicsFormat GetGraphicsFormat(MixtureGraph graph)
-		{
-			// if this function is called from the output node and the format is none, then we set it to a default value
-			if (graph.outputNode.rtSettings.targetFormat == OutputFormat.Default)
-				return (GraphicsFormat)OutputFormat.RGBA_Float;
-			else
-				return targetFormat == OutputFormat.Default ? (GraphicsFormat)graph.outputNode.rtSettings.targetFormat : (GraphicsFormat)targetFormat;
-		}
-		
-		public TextureDimension GetTextureDimension(MixtureGraph graph)
-		{
-			// if this function is called from the output node and the dimension is default, then we set it to a default value
-			if (graph.outputNode.rtSettings.dimension == OutputDimension.Default)
-				return TextureDimension.Tex2D;
-			else
-				return dimension == OutputDimension.Default ? graph.outputNode.tempRenderTexture.dimension : (TextureDimension)dimension;
-		}
 	}
 
 	public enum EditFlags
@@ -268,7 +180,7 @@ namespace Mixture
 		Default = TextureDimension.None,
 		Texture2D = TextureDimension.Tex2D,
 		// CubeMap = TextureDimension.Cube, // Not supported currently
-		// Texture3D = TextureDimension.Tex3D, // Not supported currently
+		Texture3D = TextureDimension.Tex3D, // Not supported currently
 		Texture2DArray = TextureDimension.Tex2DArray,
 		// CubemapArray = TextureDimension.CubeArray // Not supported currently
 	}

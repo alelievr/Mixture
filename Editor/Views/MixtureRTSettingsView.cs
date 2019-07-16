@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using GraphProcessor;
 using System.Linq;
+using System;
 
 namespace Mixture
 {
@@ -25,6 +26,8 @@ namespace Mixture
         IntegerField outputDepth;
 		FloatField outputDepthPercentage;
 
+        Action  onChanged;
+
         public MixtureRTSettingsView(MixtureNode node, MixtureGraphView owner)
         {
 			var graph = owner.graph as MixtureGraph;
@@ -39,7 +42,7 @@ namespace Mixture
 			outputWidthMode.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
 				node.rtSettings.widthMode = (OutputSizeMode)e.newValue;
-				graph.UpdateOutputTexture();
+                onChanged?.Invoke();
                 UpdateFieldVisibility(node);
             });
 			this.Add(outputWidthMode);
@@ -50,7 +53,7 @@ namespace Mixture
 			outputHeightMode.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
 				node.rtSettings.heightMode = (OutputSizeMode)e.newValue;
-				graph.UpdateOutputTexture();
+                onChanged?.Invoke();
 				UpdateFieldVisibility(node);
             });
 			this.Add(outputHeightMode);
@@ -61,7 +64,7 @@ namespace Mixture
 			outputDepthMode.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
 				node.rtSettings.depthMode = (OutputSizeMode)e.newValue;
-				graph.UpdateOutputTexture();
+                onChanged?.Invoke();
                 UpdateFieldVisibility(node);
             });
 			this.Add(outputDepthMode);
@@ -76,7 +79,7 @@ namespace Mixture
 			{
 				owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
 				node.rtSettings.width = e.newValue;
-				graph.UpdateOutputTexture();
+                onChanged?.Invoke();
 			});
 			this.Add(outputWidth);
 
@@ -90,7 +93,7 @@ namespace Mixture
 			{
 				owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
 				node.rtSettings.widthPercent = e.newValue;
-				graph.UpdateOutputTexture();
+                onChanged?.Invoke();
 			});
 			this.Add(outputWidthPercentage);
 
@@ -104,7 +107,7 @@ namespace Mixture
 			{
 				owner.RegisterCompleteObjectUndo("Updated Height " + e.newValue);
 				node.rtSettings.height = e.newValue;
-				graph.UpdateOutputTexture();
+                onChanged?.Invoke();
 			});
 			this.Add(outputHeight);
 
@@ -118,7 +121,7 @@ namespace Mixture
 			{
 				owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
 				node.rtSettings.heightPercent = e.newValue;
-				graph.UpdateOutputTexture();
+                onChanged?.Invoke();
 			});
 			this.Add(outputHeightPercentage);
 
@@ -132,7 +135,7 @@ namespace Mixture
 			{
 				owner.RegisterCompleteObjectUndo("Updated Depth " + e.newValue);
 				node.rtSettings.sliceCount = e.newValue;
-				graph.UpdateOutputTexture();
+                onChanged?.Invoke();
 			});
 			this.Add(outputDepth);
 
@@ -146,7 +149,7 @@ namespace Mixture
 			{
 				owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
 				node.rtSettings.depthPercent = e.newValue;
-				graph.UpdateOutputTexture();
+                onChanged?.Invoke();
 			});
 			this.Add(outputDepthPercentage);
 
@@ -156,7 +159,7 @@ namespace Mixture
 			outputDimension.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
 				node.rtSettings.dimension = (OutputDimension)e.newValue;
-				graph.UpdateOutputTexture();
+                onChanged?.Invoke();
 			});
 
 			outputFormat = new EnumField(node.rtSettings.targetFormat) {
@@ -165,7 +168,7 @@ namespace Mixture
 			outputFormat.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Graphics Format " + e.newValue);
 				node.rtSettings.targetFormat = (OutputFormat)e.newValue;
-				graph.UpdateOutputTexture();
+                onChanged?.Invoke();
 			});
 
 			this.Add(outputDimension);
@@ -194,5 +197,6 @@ namespace Mixture
             SetVisible(outputDepthPercentage, rtSettings.CanEdit(EditFlags.Depth) && node.rtSettings.depthMode == OutputSizeMode.PercentageOfOutput);
 		}
 
+        public void RegisterChangedCallback(Action callback) => onChanged = callback;
     }
 }

@@ -38,7 +38,7 @@ namespace Mixture
                     break ;
                 case TextureDimension.Tex3D:
                     blackTexture = new Texture3D(1, 1, 1, DefaultFormat.HDR, TextureCreationFlags.None);
-                    (blackTexture as Texture3D).SetPixels(new []{Color.black});
+                    (blackTexture as Texture3D).SetPixels(new []{Color.red});
                     (blackTexture as Texture3D).Apply();
                     break ;
                 case TextureDimension.Tex2DArray:

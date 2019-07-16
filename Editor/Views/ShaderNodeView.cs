@@ -20,7 +20,7 @@ namespace Mixture
 
 		protected override string header => "Shader Properties";
 
-		protected override bool hasPreview => true;
+		protected override bool hasPreview => false;
 
 		public override void OnCreated()
 		{
@@ -103,7 +103,6 @@ namespace Mixture
 
 		public override void OnRemoved()
 		{
-			Debug.Log("Material shader node: " + shaderNode.material);
 			owner.graph.RemoveObjectFromGraph(shaderNode.material);
 		}
 	}

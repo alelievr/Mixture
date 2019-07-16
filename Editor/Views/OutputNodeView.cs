@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using GraphProcessor;
+using System.Collections.Generic;
 using UnityEngine.Rendering;
 using Unity.Collections;
 using System;
@@ -108,14 +109,24 @@ namespace Mixture
 					t.Apply();
 					break;
 				case Texture3D t:
+					List< Color32 >	colors32List = new List< Color32 >();
+					List< Color >	colorsList = new List< Color >();
 					for (int i = 0; i < outputNode.tempRenderTexture.volumeDepth; i++)
-						FetchSlice(i, colors => t.SetPixels32(colors, i), colors => t.SetPixels(colors, i));
+						FetchSlice(0, c => colors32List.AddRange(c), c => colorsList.AddRange(c));
+					
+					if (colors32List.Count != 0)
+						t.SetPixels32(colors32List.ToArray());
+					else
+						t.SetPixels(colorsList.ToArray());
+
 					t.Apply();
 					break;
 				default:
 					Debug.LogError(output + " is not a supported type for saving");
 					return ;
 			}
+
+			// TODO: EditorUtility.CompressTexture
 
 			EditorGUIUtility.PingObject(output);
 		}

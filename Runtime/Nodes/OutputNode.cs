@@ -62,6 +62,10 @@ namespace Mixture
 			graph.onOutputTextureUpdated += () => {
 				UpdateTempRenderTexture(ref tempRenderTexture);
 			};
+
+			onSettingsChanged += () => {
+				graph.UpdateOutputTexture();
+			};
 		}
 
 		protected override void Process()
@@ -72,7 +76,9 @@ namespace Mixture
 				return ;
 			}
 
-			if (input == null)
+			var inputPort = GetPort(nameof(input), nameof(input));
+
+			if (inputPort.GetEdges().Count == 0)
 			{
 				Debug.LogWarning("Output node input is not connected");
 				input = TextureUtils.GetBlackTexture(rtSettings);
@@ -109,12 +115,12 @@ namespace Mixture
 		}
 
 		[CustomPortBehavior(nameof(input))]
-		IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
+		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{
 			yield return new PortData{
-				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension((TextureDimension)graph.outputNode.rtSettings.dimension),
-				identifier = "outout",
+				displayName = "input",
+				displayType = TextureUtils.GetTypeFromDimension((TextureDimension)rtSettings.dimension),
+				identifier = "input",
 			};
 		}
 	}

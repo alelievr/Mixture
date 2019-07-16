@@ -38,13 +38,13 @@ namespace Mixture
 		#region Ports control
 
 		[CustomPortBehavior(nameof(initMaterialInputs))]
-		IEnumerable< PortData > ListMaterialProperties(List< SerializableEdge > edges)
+		protected IEnumerable< PortData > ListMaterialProperties(List< SerializableEdge > edges)
 		{
 			return GetMaterialPortDatas(initializationMaterial);
 		}
 
 		[CustomPortBehavior(nameof(updateMaterialInputs))]
-		IEnumerable< PortData > ListMaterialProperties2(List< SerializableEdge > edges)
+		protected IEnumerable< PortData > ListMaterialProperties2(List< SerializableEdge > edges)
 		{
 			return GetMaterialPortDatas(updateMaterial);
 		}
