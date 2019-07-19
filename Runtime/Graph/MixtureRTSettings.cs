@@ -53,7 +53,6 @@ namespace Mixture
 					editFlags = EditFlags.None
 				};
 			}
-	
 		}
 		public bool CanEdit(EditFlags flag)
 		{

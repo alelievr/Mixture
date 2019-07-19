@@ -14,21 +14,24 @@
 		Pass
 		{
 			CGPROGRAM
-			#pragma vertex vert
+			// #pragma vertex vert
 			#pragma fragment mixture
 
-			#include "UnityCG.cginc"
-			#define USE_UV
+			// #include "UnityCG.cginc"
+			// #define USE_UV
 			#include "MixtureFixed.cginc"
+			#include "UnityCustomRenderTexture.cginc"
+            #pragma vertex CustomRenderTextureVertexShader
+			#pragma target 3.0
 
 			TEXTURE2D(_A);
 			TEXTURE2D(_B);
 			TEXTURE2D(_T);
 
-			float4 mixture (MixtureInputs i) : SV_Target
+			float4 mixture (v2f_customrendertexture IN) : SV_Target
 			{
 				// Fow now we only use the r chanell, TODO: make it an option
-				return lerp(SAMPLE2D_LOD(_A, i.uv, 0), SAMPLE2D_LOD(_B, i.uv, 0), SAMPLE2D_LOD(_T, i.uv, 0).r);
+				return lerp(SAMPLE2D_LOD(_A, IN.localTexcoord.xy, 0), SAMPLE2D_LOD(_B, IN.localTexcoord.xy, 0), SAMPLE2D_LOD(_T, IN.localTexcoord.xy, 0).r);
 			}
 			ENDCG
 		}

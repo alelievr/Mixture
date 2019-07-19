@@ -11,6 +11,7 @@ namespace Mixture
 	public class MixtureProcessor : BaseGraphProcessor
 	{
 		List< BaseNode >		processList;
+		new MixtureGraph		graph => base.graph as MixtureGraph;
 
 		public MixtureProcessor(BaseGraph graph) : base(graph) {}
 
@@ -23,10 +24,14 @@ namespace Mixture
 		{
 			int count = processList.Count;
 
+			// The process of the mixture graph will update all CRTs,
+			// assign their materials and set local material values
 			for (int i = 0; i < count; i++)
 			{
 				processList[i].OnProcess();
 			}
+
+			graph.outputNode.tempRenderTexture.Update();
 		}
 	}
 }

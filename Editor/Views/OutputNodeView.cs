@@ -1,11 +1,14 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 using GraphProcessor;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
 using Unity.Collections;
 using System;
+using TextureCompressionQuality = UnityEngine.TextureCompressionQuality;
+using UnityEngine.Experimental.Rendering;
 
 namespace Mixture
 {
@@ -31,17 +34,44 @@ namespace Mixture
 			outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
 
 			// Fix the size of the node
-			var currentPos = GetPosition();
-			SetPosition(new Rect(currentPos.x, currentPos.y, nodeViewSize.x, nodeViewSize.y));
+			style.width = nodeViewSize.x;
+			style.height = nodeViewSize.y;
 
 			graph.onOutputTextureUpdated += UpdatePreviewImage;
 
 			UpdatePreviewImage();
 			controlsContainer.Add(previewContainer);
 
+			AddCompressionSettings();
+
 			controlsContainer.Add(new Button(SaveTexture) {
 				text = "Save"
 			});
+		}
+		
+		void AddCompressionSettings()
+		{
+			var formatField = new EnumField("Format", outputNode.compressionFormat);
+			formatField.RegisterValueChangedCallback((e) => outputNode.compressionFormat = (TextureFormat)e.newValue);
+			var qualityField = new EnumField("Quality", outputNode.compressionQuality);
+			qualityField.RegisterValueChangedCallback((e) => outputNode.compressionQuality = (TextureCompressionQuality)e.newValue);
+
+			if (!outputNode.enableCompression)
+			{
+				qualityField.ToggleInClassList("Hidden");
+				formatField.ToggleInClassList("Hidden");
+			}
+			
+			var enabledField = new Toggle("Compression") { value = outputNode.enableCompression };
+			enabledField.RegisterValueChangedCallback((e) => {
+				qualityField.ToggleInClassList("Hidden");
+				formatField.ToggleInClassList("Hidden");
+				outputNode.enableCompression = e.newValue;
+			});
+
+			controlsContainer.Add(enabledField);
+			controlsContainer.Add(formatField);
+			controlsContainer.Add(qualityField);
 		}
 
 		void UpdatePreviewImage()
@@ -102,6 +132,8 @@ namespace Mixture
 				case Texture2D t:
 					FetchSlice(0, t.SetPixels32, t.SetPixels);
 					t.Apply();
+					if (outputNode.enableCompression)
+						t = CompressTexture(t);
 					break;
 				case Texture2DArray t:
 					for (int i = 0; i < outputNode.tempRenderTexture.volumeDepth; i++)
@@ -126,9 +158,16 @@ namespace Mixture
 					return ;
 			}
 
-			// TODO: EditorUtility.CompressTexture
-
 			EditorGUIUtility.PingObject(output);
+		}
+
+		Texture2D CompressTexture(Texture2D t)
+		{
+			Texture2D compressedTexture = new Texture2D(t.width, t.height, t.graphicsFormat, TextureCreationFlags.None);
+			compressedTexture.SetPixels(t.GetPixels());
+			compressedTexture.Apply();
+			EditorUtility.CompressTexture(compressedTexture, outputNode.compressionFormat, (UnityEditor.TextureCompressionQuality)outputNode.compressionQuality);
+			return compressedTexture;
 		}
 	}
 }

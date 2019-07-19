@@ -10,12 +10,15 @@ using System.Linq;
 
 namespace Mixture
 {
+	// TODO: factorize this with ShaderNodeView
 	[NodeCustomEditor(typeof(FixedShaderNode))]
 	public class FixedShaderNodeView : MixtureNodeView
 	{
 		VisualElement	    shaderCreationUI;
 		MaterialEditor	    materialEditor;
-		FixedShaderNode		fixedShaderNode;
+		FixedShaderNode		fixedShaderNode => nodeTarget as FixedShaderNode;
+
+		ObjectField		debugCustomRenderTextureField;
 
 		public override void OnCreated()
 		{
@@ -29,18 +32,32 @@ namespace Mixture
 		{
 			base.Enable();
 
-			fixedShaderNode = nodeTarget as FixedShaderNode;
+			InitializeDebug();
 
-			if(fixedShaderNode.displayMaterialInspector)
+			if (fixedShaderNode.displayMaterialInspector)
 			{
 				var materialIMGUI = new IMGUIContainer(MaterialGUI);
 				materialIMGUI.AddToClassList("MaterialInspector");
 
 				propertyEditorUI.Add(materialIMGUI);
 				materialEditor = Editor.CreateEditor(fixedShaderNode.material) as MaterialEditor;
-				
 			}
 			style.width = fixedShaderNode.width;
+		}
+
+		void InitializeDebug()
+		{
+			fixedShaderNode.onProcessed += () => {
+				debugCustomRenderTextureField.value = fixedShaderNode.output;
+			};
+
+			debugCustomRenderTextureField = new ObjectField("CRT")
+			{
+				value = fixedShaderNode.output,
+				objectType = typeof(CustomRenderTexture)
+			};
+			
+			debugContainer.Add(debugCustomRenderTextureField);
 		}
 
 		void MaterialGUI()

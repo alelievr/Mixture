@@ -22,7 +22,7 @@ namespace Mixture
 		// We use a temporary renderTexture to display the result of the graph
 		// in the preview so we don't have to readback the memory each time we change something
 		[NonSerialized, HideInInspector]
-		public RenderTexture	tempRenderTexture;
+		public CustomRenderTexture	tempRenderTexture;
 
 		// Serialized properties for the view:
 		public int				currentSlice;
@@ -30,8 +30,15 @@ namespace Mixture
 		public event Action		onTempRenderTextureUpdated;
 
 		public override string	name => "Output";
+		public override Texture previewTexture => tempRenderTexture;
+		
+		Material				finalCopyMaterial;
 
-		public override Texture previewTexture {get { return tempRenderTexture; } }
+		// Compression settings
+		// TODO: there are too many formats, reduce them with a new enum
+		public TextureFormat				compressionFormat = TextureFormat.RGBA32;
+		public TextureCompressionQuality	compressionQuality = TextureCompressionQuality.Best;
+		public bool							enableCompression = true;
 
 		public override MixtureRTSettings defaultRTSettings
 		{
@@ -57,6 +64,9 @@ namespace Mixture
 				rtSettings.targetFormat = OutputFormat.RGBA_Float;
 			if (rtSettings.dimension == OutputDimension.Default)
 				rtSettings.dimension = OutputDimension.Texture2D;
+			
+			if (finalCopyMaterial == null)
+				finalCopyMaterial = new Material(Shader.Find("Hidden/Mixture/FinalCopy"));
 
             UpdateTempRenderTexture(ref tempRenderTexture);
 			graph.onOutputTextureUpdated += () => {
@@ -96,22 +106,8 @@ namespace Mixture
 				return ;
 			}
 
-			// TODO: instead of a blit, use a copytexture
-			switch (graph.outputTexture)
-			{
-				case Texture2D t:
-					Graphics.Blit(input, tempRenderTexture, new Vector2(1,-1), new Vector2(0,1));
-					break ;
-				case Texture2DArray t:
-					for (int sliceIndex = 0; sliceIndex < t.depth; sliceIndex++)
-						Graphics.Blit(input, tempRenderTexture, new Vector2(1,-1), new Vector2(0,1), sliceIndex, sliceIndex );
-					break ;
-				case Texture3D t:
-					break ;
-				default:
-					Debug.LogError("Output Texture type " + graph.outputTexture + " is not supported");
-					break ;
-			}
+			finalCopyMaterial.SetTexture("_Source", input);
+			tempRenderTexture.material = finalCopyMaterial;
 		}
 
 		[CustomPortBehavior(nameof(input))]

@@ -18,7 +18,7 @@ Shader "Hidden/MixtureIconBlit"
             #pragma vertex vert
             #pragma fragment frag
 
-            // TOOD: multi compile for cubemap and array
+            // TOOD: multi compile for cubemap
             #pragma multi_compile TEXTURE2D TEXTURE2D_ARRAY TEXTURE3D
 
             #include "UnityCG.cginc"

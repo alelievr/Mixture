@@ -3,10 +3,12 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using GraphProcessor;
 using System;
+using System.Linq;
 using Object = UnityEngine.Object;
 using UnityEngine.Experimental.Rendering;
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.Rendering;
 #endif
 
 namespace Mixture
@@ -34,7 +36,7 @@ namespace Mixture
 			rtSettings = defaultRTSettings;
 		}
 
-		protected bool UpdateTempRenderTexture(ref RenderTexture target)
+		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target)
 		{
 			if (graph.outputTexture == null)
 				return false;
@@ -47,23 +49,29 @@ namespace Mixture
 
             if (targetFormat == GraphicsFormat.None)
                 targetFormat = graph.outputTexture.graphicsFormat;
+			if (dimension == TextureDimension.None)
+				dimension = TextureDimension.Tex2D;
 
 			if (target == null)
 			{
-
 				RenderTextureDescriptor	desc = new RenderTextureDescriptor {
 					width = Math.Max(1, width),
 					height = Math.Max(1, height),
-					depthBufferBits = 0,
+				};
+				target = new CustomRenderTexture(width, height, targetFormat)
+				{
+					depth = 0,
 					volumeDepth = Math.Max(1,depth),
 					dimension = dimension,
-					graphicsFormat = targetFormat,
-					msaaSamples = 1,
+					name = $"Mixture Temp {name}",
+					updateMode = CustomRenderTextureUpdateMode.OnDemand,
 				};
-				target = new RenderTexture(desc);
-				target.name = $"Mixture Temp {name}";
+				target.Create();
+
 				return true;
 			}
+
+			// TODO: check if format is supported by current system
 
 			if (target.width != width
 				|| target.height != height
@@ -79,6 +87,7 @@ namespace Mixture
 				target.dimension = (TextureDimension)dimension;
 				target.filterMode = graph.outputTexture.filterMode; // TODO Set FilterMode per-node, add FilterMode to RTSettings
 				target.volumeDepth = depth;
+				Debug.Log("GraphicsFormat: " + target.graphicsFormat);
 				target.Create();
 			}
 
@@ -148,6 +157,17 @@ namespace Mixture
 						break;
 				}
 			}
+		}
+
+		protected bool IsShaderCompiled(Shader s)
+		{
+			return !ShaderUtil.GetShaderMessages(s).Any(m => m.severity == ShaderCompilerMessageSeverity.Error);
+		}
+
+		protected void LogShaderErrors(Shader s)
+		{
+			foreach (var m in ShaderUtil.GetShaderMessages(s).Where(m => m.severity == ShaderCompilerMessageSeverity.Error))
+				Debug.LogError($"{m.file}:{m.line} {m.message} {m.messageDetails}");
 		}
 
 		public void OnSettingsChanged() => onSettingsChanged?.Invoke();

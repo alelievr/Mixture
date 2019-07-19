@@ -71,8 +71,6 @@ namespace Mixture
 		{
 			Texture t = target as Texture;
 
-			EditorGUILayout.LabelField("Hello World !");
-
 			t.wrapMode = (TextureWrapMode)EditorGUILayout.EnumPopup("Wrap Mode", t.wrapMode);
 			t.filterMode = (FilterMode)EditorGUILayout.EnumPopup("Filter Mode", t.filterMode);
 			t.anisoLevel = EditorGUILayout.IntSlider("Aniso Level", t.anisoLevel, 1, 9);
@@ -90,6 +88,7 @@ namespace Mixture
 
 		public override bool HasPreviewGUI() => true;
 
+		// TODO: use the preview of the true Texture2D inspector
         public override void OnPreviewGUI(Rect r, GUIStyle background)
 		{
 			if (target != null)

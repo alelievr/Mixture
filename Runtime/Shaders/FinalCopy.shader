@@ -1,8 +1,8 @@
-﻿Shader "Hidden/Mixture/ColorMatte"
+Shader "Hidden/Mixture/FinalCopy"
 {	
 	Properties
 	{
-		_Color("Color", Color) = (1.0,0.3,0.1,1.0)
+		_Source("Source", 2D) = "white" {}
 	}
 	SubShader
 	{
@@ -12,22 +12,19 @@
 		Pass
 		{
 			CGPROGRAM
-			// #pragma vertex vert
-			#pragma fragment mixture
 
-			// #include "UnityCG.cginc"
 			#include "MixtureFixed.cginc"
-
 			#include "UnityCustomRenderTexture.cginc"
+
+			#pragma fragment mixture
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma target 3.0
 
+			TEXTURE2D(_Source);
 
-			float4 _Color;
-
-			float4 mixture (MixtureInputs i) : SV_Target
+			float4 mixture (v2f_customrendertexture IN) : SV_Target
 			{
-				return _Color;
+				return SAMPLE2D_LOD(_Source, IN.localTexcoord.xy, 0);
 			}
 			ENDCG
 		}

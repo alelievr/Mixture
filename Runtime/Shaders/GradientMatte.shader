@@ -14,20 +14,23 @@
 		Pass
 		{
 			CGPROGRAM
-			#pragma vertex vert
+			// #pragma vertex vert
 			#pragma fragment mixture
 
-			#include "UnityCG.cginc"
-			#define USE_UV
+			#include "UnityCustomRenderTexture.cginc"
+			// #include "UnityCG.cginc"
+			// #define USE_UV
 			#include "MixtureFixed.cginc"
-			
+			#pragma vertex CustomRenderTextureVertexShader
+			#pragma target 3.0
+	
 			float _Mode;
 			float4 _Color1;
 			float4 _Color2;
 
-			float4 mixture (MixtureInputs i) : SV_Target
+			float4 mixture (v2f_customrendertexture IN) : SV_Target
 			{
-				float2 uv = float2(i.uv.x, i.uv.y);
+				float2 uv = float2(IN.localTexcoord.x, IN.localTexcoord.y);
 				float gradient = 0.0f;
 
 				uint mode = (uint)_Mode;

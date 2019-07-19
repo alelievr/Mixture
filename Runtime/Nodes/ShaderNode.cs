@@ -13,15 +13,16 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Shader")]
 	public class ShaderNode : MixtureNode
 	{
-		[Input(name = "In"), SerializeField]
-		public List< object >	materialInputs;
+		[Input(name = "In")]
+		public List< object >		materialInputs;
 
-		[Output(name = "Out"), SerializeField]
-		public RenderTexture	output = null;
+		[Output(name = "Out")]
+		public CustomRenderTexture	output = null;
 
 		public Shader			shader;
 		public override string	name => "Shader";
 		public Material			material;
+
 
 		public static string	DefaultShaderName = "ShaderNodeDefault";
 
@@ -74,27 +75,23 @@ namespace Mixture
 		{
 			UpdateTempRenderTexture(ref output);
 
-			if (material == null)
+			if (material == null || material.shader == null)
 			{
-				Debug.LogError($"Can't process {name}, missing material/shader");
+				Debug.LogError($"Can't process {name}, missing material/shader.");
 				return ;
 			}
 
-			switch (output.dimension)
+#if UNITY_EDITOR // IsShaderCompiled is editor only
+			if (!IsShaderCompiled(material.shader))
 			{
-				case TextureDimension.Tex2D:
-				case TextureDimension.Tex2DArray:
-				case TextureDimension.Tex3D:
-					for (int i = 0; i < output.volumeDepth; i++)
-					{
-						if (material.HasProperty(sliceIndexMaterialProperty))
-							material.SetInt(sliceIndexMaterialProperty, i);
-						Graphics.Blit(Texture2D.whiteTexture, output, material, 0);
-					}
-					break ;
-				default:
-					Debug.LogError("Shader Node output not supported");
-					break;
+				output.material = null;
+				Debug.LogError($"Can't process {name}, shader has errors.");
+				LogShaderErrors(material.shader);
+			}
+			else
+#endif
+			{
+				output.material = material;
 			}
 		}
 	}

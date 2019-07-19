@@ -16,7 +16,9 @@ namespace Mixture
 		VisualElement	shaderCreationUI;
 		VisualElement	materialEditorUI;
 		MaterialEditor	materialEditor;
-		ShaderNode		shaderNode;
+		ShaderNode		shaderNode => nodeTarget as ShaderNode;
+
+		ObjectField		debugCustomRenderTextureField;
 
 		protected override string header => "Shader Properties";
 
@@ -34,8 +36,6 @@ namespace Mixture
 		{
 			base.Enable();
 
-			shaderNode = nodeTarget as ShaderNode;
-
 			ObjectField shaderField = new ObjectField
 			{
 				value = shaderNode.shader,
@@ -51,6 +51,8 @@ namespace Mixture
 				// We fore the update of node ports
 				ForceUpdatePorts();
 			});
+			
+			InitializeDebug();
 
 			propertyEditorUI.Add(shaderField);
 
@@ -60,6 +62,20 @@ namespace Mixture
 
 			propertyEditorUI.Add(new IMGUIContainer(MaterialGUI));
 			materialEditor = Editor.CreateEditor(shaderNode.material) as MaterialEditor;
+		}
+
+		void InitializeDebug()
+		{
+			shaderNode.onProcessed += () => {
+				debugCustomRenderTextureField.value = shaderNode.output;
+			};
+
+			debugCustomRenderTextureField = new ObjectField("Output")
+			{
+				value = shaderNode.output
+			};
+			
+			debugContainer.Add(debugCustomRenderTextureField);
 		}
 
 		void UpdateShaderCreationUI()

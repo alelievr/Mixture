@@ -1,0 +1,66 @@
+SubShader
+{
+	Pass
+	{
+		Lighting Off
+		Blend One Zero
+
+		CGPROGRAM
+		#include "Assets/Mixture/Editor/CustomTextureShaderGraph/CustomRenderTexture.hlsl"
+		#pragma vertex CustomRenderTextureVertexShader
+		#pragma fragment frag
+		#pragma target 3.0
+
+		// TODO: put this in an include file
+		float4 SRGBToLinear( float4 c ) { return c; }
+		float3 SRGBToLinear( float3 c ) { return c; }
+		
+		bool IsGammaSpace()
+		{
+		#ifdef UNITY_COLORSPACE_GAMMA
+			return true;
+		#else
+			return false;
+		#endif
+		}
+
+		struct SurfaceDescriptionInputs
+		{
+			// update input values
+			float3 uv0;
+			float3 uv1;
+			uint primitiveID;
+			float3 direction;
+		};
+
+		SurfaceDescriptionInputs ConvertV2FToSurfaceInputs( v2f_customrendertexture IN )
+		{
+			SurfaceDescriptionInputs o;
+			
+			o.uv0 = IN.localTexcoord;
+			o.uv1 = IN.globalTexcoord;
+			o.primitiveID = IN.primitiveID;
+			o.direction = IN.direction;
+
+			return o;
+		}
+
+		///----------------------------------------------------------
+		/// Begin Generated Graph Code
+		///----------------------------------------------------------
+    	${Graph}
+		///----------------------------------------------------------
+		/// End Generated Graph Code
+		///----------------------------------------------------------
+
+		float4 frag(v2f_customrendertexture IN) : COLOR
+		{
+			SurfaceDescriptionInputs surfaceInput = ConvertV2FToSurfaceInputs(IN);
+
+			SurfaceDescription surf = PopulateSurfaceData(surfaceInput);
+
+			return surf.Color;
+		}
+		ENDCG
+	}
+}

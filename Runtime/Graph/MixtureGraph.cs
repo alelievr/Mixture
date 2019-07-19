@@ -45,7 +45,7 @@ namespace Mixture
 		{
 			get
 			{
-				if (!String.IsNullOrEmpty(_mainAssetPath))
+				if (!String.IsNullOrEmpty(_mainAssetPath) && AssetDatabase.IsMainAssetAtPathLoaded(_mainAssetPath))
 					return _mainAssetPath;
 				else
 					return _mainAssetPath = AssetDatabase.GetAssetPath(this);
