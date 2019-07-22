@@ -51,7 +51,6 @@ namespace Mixture
             var pixelRequirements = ShaderGraphRequirements.FromNodes(pixelNodes, ShaderStageCapability.Fragment);
             var graphRequirements = pixelRequirements;
             var surfaceRequirements = ShaderGraphRequirements.FromNodes(pixelNodes, ShaderStageCapability.Fragment, false);
-            var modelRequirements = new ShaderGraphRequirements();
 
             // ----------------------------------------------------- //
             //                START SHADER GENERATION                //
@@ -152,7 +151,12 @@ namespace Mixture
         {
             // this is the format string for building the 'C# qualified assembly type names' for $buildType() commands
             // string buildTypeAssemblyNameFormat = "UnityEditor.Rendering.HighDefinition.HDRPShaderStructs+{0}, " + typeof(HDSubShaderUtilities).Assembly.FullName.ToString();
-            string buildTypeAssemblyNameFormat = "";
+
+            if (sourceAssetDependencyPaths != null)
+            {
+                sourceAssetDependencyPaths.Add(AssetDatabase.GUIDToAssetPath("5b2d4724a38a5485ba5e7dc2f7d86f1a")); // CustomTextureSubShader.cs
+                sourceAssetDependencyPaths.Add(AssetDatabase.GUIDToAssetPath(customTextureTemplateGUID));
+            }
 
             string templateLocation = AssetDatabase.GUIDToAssetPath(customTextureTemplateGUID);
             string templateCode = File.ReadAllText(templateLocation);

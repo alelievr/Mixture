@@ -1,9 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using System;
-using UnityEngine.Rendering;
-
-using UnityEngine.Experimental.Rendering;
 
 namespace Mixture
 {

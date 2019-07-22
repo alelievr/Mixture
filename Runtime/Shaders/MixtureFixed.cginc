@@ -16,6 +16,8 @@
 #define SAMPLE2D_LOD(Texture, uv, lod) Texture.Sample(SAMPLER2D(Texture), float4(uv.xy,0,lod))
 #define SAMPLE2D_LOD_S(Texture, Sampler, uv) Texture.Sample(Sampler, float4(uv.xy,0,lod))
 
+// TODO: cleanup all this stuff for CRT (no more UV flip, ...)
+
 // Inline Helopers
 struct appdata
 {
