@@ -1,8 +1,8 @@
-﻿Shader "Hidden/Mixture/ColorMatte"
+﻿Shader "CustomTexture/ShaderTextTexture3DTemplate"
 {	
 	Properties
 	{
-		_Color("Color", Color) = (1.0,0.3,0.1,1.0)
+		_Input("Input", 2D) = "white" {}
 	}
 	SubShader
 	{
@@ -14,17 +14,15 @@
 			CGPROGRAM
 			#pragma fragment mixture
 
-			#include "MixtureFixed.cginc"
 			#include "UnityCustomRenderTexture.cginc"
-
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma target 3.0
 
-			float4 _Color;
+            sampler2D _Input;
 
-			float4 mixture (v2f_customrendertexture IN) : SV_Target
+			float4 mixture(v2f_customrendertexture IN) : SV_Target
 			{
-				return _Color;
+				return tex2D(_Input, IN.localTexcoord.xy);
 			}
 			ENDCG
 		}

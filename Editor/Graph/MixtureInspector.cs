@@ -40,25 +40,20 @@ namespace Mixture
 
 		protected void BlitMixtureIcon(Texture preview, RenderTexture target)
 		{
-			// Disable all material keywords:
-			foreach (var keyword in MixtureUtils.blitIconMaterial.shaderKeywords)
-				MixtureUtils.blitIconMaterial.DisableKeyword(keyword);
+			MixtureUtils.SetupDimensionKeyword(MixtureUtils.blitIconMaterial, preview.dimension);
 
 			switch (preview.dimension)
 			{
 				case TextureDimension.Tex2D:
 					MixtureUtils.blitIconMaterial.SetTexture("_Texture2D", preview);
-					MixtureUtils.blitIconMaterial.EnableKeyword("TEXTURE2D");
 					Graphics.Blit(preview, target, MixtureUtils.blitIconMaterial, 0);
 					break;
 				case TextureDimension.Tex2DArray:
 					MixtureUtils.blitIconMaterial.SetTexture("_Texture2DArray", preview);
-					MixtureUtils.blitIconMaterial.EnableKeyword("TEXTURE2D_ARRAY");
 					Graphics.Blit(preview, target, MixtureUtils.blitIconMaterial, 0);
 					break;
 				case TextureDimension.Tex3D:
 					MixtureUtils.blitIconMaterial.SetTexture("_Texture3D", preview);
-					MixtureUtils.blitIconMaterial.EnableKeyword("TEXTURE3D");
 					Graphics.Blit(preview, target, MixtureUtils.blitIconMaterial, 0);
 					break;
 				default:

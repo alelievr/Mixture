@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine.Rendering;
 using Unity.Collections;
 using System;
+using System.Linq;
 using TextureCompressionQuality = UnityEngine.TextureCompressionQuality;
 using UnityEngine.Experimental.Rendering;
 
@@ -20,6 +21,9 @@ namespace Mixture
 		MaterialEditor	materialEditor;
 		OutputNode		outputNode;
 		MixtureGraph    graph;
+
+		// Debug fields
+		ObjectField		debugCustomRenderTextureField;
 
 		static readonly Vector2 nodeViewSize = new Vector2(330, 480);
 
@@ -39,6 +43,8 @@ namespace Mixture
 
 			graph.onOutputTextureUpdated += UpdatePreviewImage;
 
+			InitializeDebug();
+
 			UpdatePreviewImage();
 			controlsContainer.Add(previewContainer);
 
@@ -47,6 +53,20 @@ namespace Mixture
 			controlsContainer.Add(new Button(SaveTexture) {
 				text = "Save"
 			});
+		}
+
+		void InitializeDebug()
+		{
+			outputNode.onProcessed += () => {
+				debugCustomRenderTextureField.value = outputNode.tempRenderTexture;
+			};
+
+			debugCustomRenderTextureField = new ObjectField("Output")
+			{
+				value = outputNode.tempRenderTexture
+			};
+			
+			debugContainer.Add(debugCustomRenderTextureField);
 		}
 		
 		void AddCompressionSettings()
@@ -151,6 +171,12 @@ namespace Mixture
 					else
 						t.SetPixels(colorsList.ToArray());
 
+					t.Apply();
+					break;
+				case Cubemap t:
+					for (int i = 0; i < 6; i++)
+						FetchSlice(i, c => t.SetPixels(c.Cast<Color>().ToArray(), (CubemapFace)i, 0), c =>  t.SetPixels(c, (CubemapFace)i, 0));
+					
 					t.Apply();
 					break;
 				default:

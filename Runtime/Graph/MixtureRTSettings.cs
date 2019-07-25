@@ -107,7 +107,7 @@ namespace Mixture
 			if (graph.outputNode.rtSettings.dimension == OutputDimension.Default)
 				return TextureDimension.Tex2D;
 			else
-				return dimension == OutputDimension.Default ? graph.outputNode.tempRenderTexture.dimension : (TextureDimension)dimension;
+				return dimension == OutputDimension.Default ? (TextureDimension)graph.outputNode.rtSettings.dimension : (TextureDimension)dimension;
 		}
 	}
 }

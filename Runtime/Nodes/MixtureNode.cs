@@ -61,7 +61,7 @@ namespace Mixture
 				target = new CustomRenderTexture(width, height, targetFormat)
 				{
 					depth = 0,
-					volumeDepth = Math.Max(1,depth),
+					volumeDepth = Math.Max(1, depth),
 					dimension = dimension,
 					name = $"Mixture Temp {name}",
 					updateMode = CustomRenderTextureUpdateMode.OnDemand,
@@ -199,10 +199,9 @@ namespace Mixture
 	{
 		Default = TextureDimension.None,
 		Texture2D = TextureDimension.Tex2D,
-		// CubeMap = TextureDimension.Cube, // Not supported currently
-		Texture3D = TextureDimension.Tex3D, // Not supported currently
-		Texture2DArray = TextureDimension.Tex2DArray,
-		// CubemapArray = TextureDimension.CubeArray // Not supported currently
+		CubeMap = TextureDimension.Cube,
+		Texture3D = TextureDimension.Tex3D,
+		// Texture2DArray = TextureDimension.Tex2DArray, // Not supported by CRT, will be handled as Texture3D and then saved as Tex2DArray
 	}
 
 	public enum OutputFormat

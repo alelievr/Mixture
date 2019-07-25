@@ -106,14 +106,21 @@ namespace Mixture
 				return ;
 			}
 
-			finalCopyMaterial.SetTexture("_Source", input);
+			MixtureUtils.SetupDimensionKeyword(finalCopyMaterial, input.dimension);
+			if (input.dimension == TextureDimension.Tex2D)
+				finalCopyMaterial.SetTexture("_Source2D", input);
+			else if (input.dimension == TextureDimension.Tex3D)
+				finalCopyMaterial.SetTexture("_Source3D", input);
+			else
+				finalCopyMaterial.SetTexture("_SourceCube", input);
+				
 			tempRenderTexture.material = finalCopyMaterial;
 		}
 
 		[CustomPortBehavior(nameof(input))]
 		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{
-			yield return new PortData{
+		yield return new PortData{
 				displayName = "input",
 				displayType = TextureUtils.GetTypeFromDimension((TextureDimension)rtSettings.dimension),
 				identifier = "input",

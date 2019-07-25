@@ -39,7 +39,7 @@ namespace Mixture
 		{
 			var graphItem = ScriptableObject.CreateInstance< CustomtextureShaderGraphAction >();
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
-                $"New Custom Texture Graph.{ShaderGraphImporter.Extension}", null, null);
+                $"New Custom Texture Graph.{ShaderGraphImporter.Extension}", Resources.Load<Texture2D>("sg_graph_icon@64"), null);
 		}
 
 		[OnOpenAsset(0)]

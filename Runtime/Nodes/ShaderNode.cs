@@ -13,6 +13,8 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Shader")]
 	public class ShaderNode : MixtureNode
 	{
+		public static readonly string	DefaultShaderName = "ShaderNodeDefault";
+
 		[Input(name = "In")]
 		public List< object >		materialInputs;
 
@@ -23,24 +25,17 @@ namespace Mixture
 		public override string	name => "Shader";
 		public Material			material;
 
-
-		public static string	DefaultShaderName = "ShaderNodeDefault";
-
-		public int				sliceIndexMaterialProperty = Shader.PropertyToID("_SliceIndex");
-
         protected virtual IEnumerable<string> filteredOutProperties => Enumerable.Empty<string>();
-
 		public override Texture previewTexture => output;
+
+		Shader					defaultShader;
 
 		protected override void Enable()
 		{
-			if (shader == null)
-			{
-				shader = Resources.Load<Shader>(DefaultShaderName);
-			}
+			defaultShader = Resources.Load<Shader>(DefaultShaderName);
 
 			if (material == null)
-				material = new Material(shader);
+				material = new Material(shader ?? defaultShader);
 		}
 
 		// Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code
@@ -66,7 +61,7 @@ namespace Mixture
 		{
 			yield return new PortData{
 				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension((TextureDimension)rtSettings.dimension),
+				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
 				identifier = "output",
 			};
 		}

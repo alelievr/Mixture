@@ -15,10 +15,13 @@ SubShader
 		struct SurfaceDescriptionInputs
 		{
 			// update input values
-			float4 uv0;
-			float4 uv1;
-			uint primitiveID;
-			float3 direction;
+			float4	uv0;
+			float4	uv1;
+			uint	primitiveID;
+			float3	direction;
+
+			// ShaderGraph accessors:
+			float3 WorldSpaceViewDirection;
 		};
 
 		SurfaceDescriptionInputs ConvertV2FToSurfaceInputs( v2f_customrendertexture IN )
@@ -29,6 +32,9 @@ SubShader
 			o.uv1 = float4(IN.globalTexcoord, 0);
 			o.primitiveID = IN.primitiveID;
 			o.direction = IN.direction;
+
+			// other space of view direction are not supported
+			o.WorldSpaceViewDirection = o.direction;
 
 			return o;
 		}
