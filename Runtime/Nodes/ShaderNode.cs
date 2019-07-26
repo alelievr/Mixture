@@ -38,7 +38,6 @@ namespace Mixture
 			{
 				material = new Material(shader ?? defaultShader);
 				material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
-				Debug.Log("HideFlags: " + material.hideFlags);
 			}
 		}
 

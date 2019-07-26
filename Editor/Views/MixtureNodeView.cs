@@ -70,8 +70,12 @@ namespace Mixture
                 controlsContainer.Add(previewContainer);
             }
 
+			onPortConnected += _ => owner.ProcessGraph();
+			onPortDisconnected += _ => owner.ProcessGraph();
+
             propertyEditorUI.style.display = DisplayStyle.Flex;
         }
+
 
 		void UpdatePorts()
 		{
@@ -197,7 +201,7 @@ namespace Mixture
 			};
 			var previewImageSlice = new IMGUIContainer(() => {
 				// square image:
-				var rect = GUILayoutUtility.GetRect(1, 400, 1, 400);
+				var rect = GUILayoutUtility.GetRect(1, nodeTarget.nodeWidth, 1, nodeTarget.nodeWidth);
 				MixtureUtils.textureArrayPreviewMaterial.SetTexture("_TextureArray", texture);
 				MixtureUtils.textureArrayPreviewMaterial.SetFloat("_Slice", currentSlice);
 				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial);
@@ -219,7 +223,7 @@ namespace Mixture
 			};
 			var previewImageSlice = new IMGUIContainer(() => {
 				// square image:
-				var rect = GUILayoutUtility.GetRect(1, 400, 1, 400);
+				var rect = GUILayoutUtility.GetRect(1, nodeTarget.nodeWidth, 1, nodeTarget.nodeWidth);
 				MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", texture);
 				MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", (float)currentSlice / (nodeTarget.rtSettings.GetDepth(owner.graph) - 1));
 				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial);
@@ -241,7 +245,7 @@ namespace Mixture
 			};
 			var previewImageSlice = new IMGUIContainer(() => {
 				// square image:
-				var rect = GUILayoutUtility.GetRect(1, 400, 1, 400);
+				var rect = GUILayoutUtility.GetRect(1, nodeTarget.nodeWidth, 1, nodeTarget.nodeWidth);
 				MixtureUtils.textureCubePreviewMaterial.SetTexture("_Cubemap", texture);
 				MixtureUtils.textureCubePreviewMaterial.SetFloat("_Slice", currentSlice);
 				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial);

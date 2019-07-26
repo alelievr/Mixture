@@ -75,6 +75,8 @@ namespace Mixture
 			processor.Run();
 		}
 
+		public void ProcessGraph() => processor?.Run();
+
 		void CreateNodeOfType(Type type, Vector2 position)
 		{
 			RegisterCompleteObjectUndo("Added " + type + " node");
