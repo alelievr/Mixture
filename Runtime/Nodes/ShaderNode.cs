@@ -35,7 +35,11 @@ namespace Mixture
 			defaultShader = Resources.Load<Shader>(DefaultShaderName);
 
 			if (material == null)
+			{
 				material = new Material(shader ?? defaultShader);
+				material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+				Debug.Log("HideFlags: " + material.hideFlags);
+			}
 		}
 
 		// Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code

@@ -35,8 +35,7 @@ namespace Mixture
 				shader = Shader.Find(shaderName);
 			}
 
-			if (material == null)
-				material = new Material(shader);
+			base.Enable();
 		}
 	}
 }
