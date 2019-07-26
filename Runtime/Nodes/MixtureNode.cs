@@ -15,20 +15,16 @@ namespace Mixture
 {
 	public abstract class MixtureNode : BaseNode
 	{
-		protected new MixtureGraph	graph => base.graph as MixtureGraph;
+		protected new MixtureGraph			graph => base.graph as MixtureGraph;
 
-		protected void AddObjectToGraph(Object obj) => graph.AddObjectToGraph(obj);
-		protected void RemoveObjectFromGraph(Object obj) => graph.RemoveObjectFromGraph(obj);
+		public MixtureRTSettings			rtSettings;
 
-		public MixtureRTSettings rtSettings;
+		protected virtual MixtureRTSettings	defaultRTSettings => MixtureRTSettings.defaultValue;
+		public virtual  float   			nodeWidth => 250.0f;
+		public virtual Texture				previewTexture { get => null; }
+		public virtual bool					hasSettings => true;
 
-		public virtual MixtureRTSettings defaultRTSettings => MixtureRTSettings.defaultValue;
-
-		public abstract Texture previewTexture { get; }
-
-		public event Action onSettingsChanged;
-
-		public MixtureNode() : base() {}
+		public event Action					onSettingsChanged;
 		
 		public override void OnNodeCreated()
 		{
@@ -87,12 +83,14 @@ namespace Mixture
 				target.dimension = (TextureDimension)dimension;
 				target.filterMode = graph.outputTexture.filterMode; // TODO Set FilterMode per-node, add FilterMode to RTSettings
 				target.volumeDepth = depth;
-				Debug.Log("GraphicsFormat: " + target.graphicsFormat);
 				target.Create();
 			}
 
 			return false;
 		}
+
+		protected void AddObjectToGraph(Object obj) => graph.AddObjectToGraph(obj);
+		protected void RemoveObjectFromGraph(Object obj) => graph.RemoveObjectFromGraph(obj);
 
 #if UNITY_EDITOR
 		protected Type GetPropertyType(MaterialProperty prop)

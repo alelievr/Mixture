@@ -15,8 +15,6 @@ namespace Mixture
 		Editor				customTextureEditor;
 		CustomTextureNode	node;
 
-		static readonly int	inspectorWidth = 330;
-
 		public override void Enable()
 		{
 			base.Enable();
@@ -28,8 +26,6 @@ namespace Mixture
 			Editor.CreateCachedEditor(node.customTexture, null, ref customTextureEditor);
 
 			// TODO: store the CRT and the materials into the asset so we're saved
-
-			style.width = inspectorWidth;
 
 			AddShaderFields();
 

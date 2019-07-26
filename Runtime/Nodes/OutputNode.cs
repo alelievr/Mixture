@@ -25,40 +25,38 @@ namespace Mixture
 		public CustomRenderTexture	tempRenderTexture;
 
 		// Serialized properties for the view:
-		public int				currentSlice;
+		public int					currentSlice;
 
-		public event Action		onTempRenderTextureUpdated;
+		public event Action			onTempRenderTextureUpdated;
 
-		public override string	name => "Output";
-		public override Texture previewTexture => tempRenderTexture;
+		public override string		name => "Output";
+		public override Texture 	previewTexture => tempRenderTexture;
+		public override float		nodeWidth => 400;
 		
-		Material				finalCopyMaterial;
+		Material					finalCopyMaterial;
 
 		// Compression settings
 		// TODO: there are too many formats, reduce them with a new enum
 		public TextureFormat				compressionFormat = TextureFormat.RGBA32;
 		public TextureCompressionQuality	compressionQuality = TextureCompressionQuality.Best;
-		public bool							enableCompression = true;
+		public bool							enableCompression = false;
 
-		public override MixtureRTSettings defaultRTSettings
-		{
-			get 
-			{
-				return new MixtureRTSettings()
-            	{
-					widthMode = OutputSizeMode.Fixed,
-					heightMode = OutputSizeMode.Fixed,
-					depthMode = OutputSizeMode.Fixed,
-					width = 512,
-					height = 512,
-					sliceCount = 1,
-					editFlags = EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat
-				};
-			}
-		}
-		
-		protected override void Enable()
-		{
+		protected override MixtureRTSettings defaultRTSettings
+        {
+            get => new MixtureRTSettings()
+            {
+                widthMode = OutputSizeMode.Fixed,
+                heightMode = OutputSizeMode.Fixed,
+                depthMode = OutputSizeMode.Fixed,
+                width = 512,
+                height = 512,
+                sliceCount = 1,
+                editFlags = EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat
+            };
+        }
+
+        protected override void Enable()
+        {
 			// Sanitize the RT Settings for the output node, they must contains only valid information for the output node
 			if (rtSettings.targetFormat == OutputFormat.Default)
 				rtSettings.targetFormat = OutputFormat.RGBA_Float;

@@ -42,7 +42,6 @@ namespace Mixture
 				propertyEditorUI.Add(materialIMGUI);
 				materialEditor = Editor.CreateEditor(fixedShaderNode.material) as MaterialEditor;
 			}
-			style.width = fixedShaderNode.width;
 		}
 
 		void InitializeDebug()

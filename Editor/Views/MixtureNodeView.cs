@@ -24,7 +24,7 @@ namespace Mixture
 		protected virtual string header => string.Empty;
 
 		protected virtual bool hasPreview => false;
-		protected override bool hasSettings => true;
+		protected override bool hasSettings => nodeTarget.hasSettings;
 
 		protected override VisualElement CreateSettingsView()
 		{
@@ -50,6 +50,9 @@ namespace Mixture
 			
 			propertyEditorUI = new VisualElement();
 			controlsContainer.Add(propertyEditorUI);
+
+			// Fix the size of the node
+			style.width = nodeTarget.nodeWidth;
 
 			propertyEditorUI.AddToClassList("PropertyEditorUI");
 			controlsContainer.AddToClassList("ControlsContainer");

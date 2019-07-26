@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Constants/Vector")]
-	public class VectorNode : BaseNode
+	public class VectorNode : MixtureNode
 	{
 		[Output(name = "Vector")]
 		public Vector4 vector = Vector4.one;

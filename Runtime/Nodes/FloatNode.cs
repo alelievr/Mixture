@@ -7,12 +7,12 @@ using System;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Constants/Float")]
-	public class FloatNode : BaseNode
+	public class FloatNode : MixtureNode
 	{
 		[Output(name = "Float")]
 		public float Float = 1.0f;
 
+		public override bool 	hasSettings => false;
 		public override string	name => "Float";
-
 	}
 }

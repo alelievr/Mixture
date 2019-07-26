@@ -25,8 +25,6 @@ namespace Mixture
 		// Debug fields
 		ObjectField		debugCustomRenderTextureField;
 
-		static readonly Vector2 nodeViewSize = new Vector2(330, 480);
-
 		protected override bool hasPreview => true;
 
 		public override void Enable()
@@ -37,10 +35,6 @@ namespace Mixture
 			graph = owner.graph as MixtureGraph;
 			outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
 
-			// Fix the size of the node
-			style.width = nodeViewSize.x;
-			style.height = nodeViewSize.y;
-
 			graph.onOutputTextureUpdated += UpdatePreviewImage;
 
 			InitializeDebug();
@@ -48,7 +42,8 @@ namespace Mixture
 			UpdatePreviewImage();
 			controlsContainer.Add(previewContainer);
 
-			AddCompressionSettings();
+			// For now compression is not supported (it does not works)
+			// AddCompressionSettings();
 
 			controlsContainer.Add(new Button(SaveTexture) {
 				text = "Save"
