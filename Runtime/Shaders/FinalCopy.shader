@@ -42,7 +42,7 @@ Shader "Hidden/Mixture/FinalCopy"
 #if CRT_2D
 				return tex2Dlod(_Source2D, float4(IN.localTexcoord.xy, 0, 0));
 #elif CRT_3D
-				return tex3Dlod(_Source3D, float4(IN.localTexcoord.xy, _CustomRenderTexture3DSlice, 0));
+				return tex3Dlod(_Source3D, float4(IN.localTexcoord.xyz, 0));
 #else // CUBEMAP
 				return texCUBElod(_SourceCube, float4(IN.direction, 0));
 #endif

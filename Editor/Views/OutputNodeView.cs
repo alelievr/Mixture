@@ -159,7 +159,7 @@ namespace Mixture
 					List< Color32 >	colors32List = new List< Color32 >();
 					List< Color >	colorsList = new List< Color >();
 					for (int i = 0; i < outputNode.tempRenderTexture.volumeDepth; i++)
-						FetchSlice(0, c => colors32List.AddRange(c), c => colorsList.AddRange(c));
+						FetchSlice(i, c => colors32List.AddRange(c), c => colorsList.AddRange(c));
 					
 					if (colors32List.Count != 0)
 						t.SetPixels32(colors32List.ToArray());

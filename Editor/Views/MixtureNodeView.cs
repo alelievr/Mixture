@@ -220,8 +220,8 @@ namespace Mixture
 			var previewImageSlice = new IMGUIContainer(() => {
 				// square image:
 				var rect = GUILayoutUtility.GetRect(1, 400, 1, 400);
-				MixtureUtils.texture3DPreviewMaterial.SetTexture("_TextureArray", texture);
-				MixtureUtils.texture3DPreviewMaterial.SetFloat("_Slice", currentSlice);
+				MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", texture);
+				MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", (float)currentSlice / (nodeTarget.rtSettings.GetDepth(owner.graph) - 1));
 				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial);
 			});
 			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {

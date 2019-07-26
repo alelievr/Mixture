@@ -63,6 +63,7 @@ namespace Mixture
 				customTexture.initializationMaterial = initializationMaterial;
 
 				// Add all objects to the graph asset:
+				// TODO: remove all materials from the asset when the node is destroyed
 				AddObjectToGraph(customTexture);
 				AddObjectToGraph(initializationMaterial);
 				AddObjectToGraph(updateMaterial);

@@ -37,9 +37,9 @@ namespace Mixture
 			if (graph.outputTexture == null)
 				return false;
 
-			int width = rtSettings.GetWidth(graph);
-			int height = rtSettings.GetHeight(graph);
-			int depth = rtSettings.GetDepth(graph);
+			int outputWidth = rtSettings.GetWidth(graph);
+			int outputHeight = rtSettings.GetHeight(graph);
+			int outputDepth = rtSettings.GetDepth(graph);
 			GraphicsFormat targetFormat = rtSettings.GetGraphicsFormat(graph);
 			TextureDimension dimension = rtSettings.GetTextureDimension(graph);
 
@@ -50,14 +50,9 @@ namespace Mixture
 
 			if (target == null)
 			{
-				RenderTextureDescriptor	desc = new RenderTextureDescriptor {
-					width = Math.Max(1, width),
-					height = Math.Max(1, height),
-				};
-				target = new CustomRenderTexture(width, height, targetFormat)
+				target = new CustomRenderTexture(outputWidth, outputHeight, targetFormat)
 				{
-					depth = 0,
-					volumeDepth = Math.Max(1, depth),
+					volumeDepth = Math.Max(1, outputDepth),
 					dimension = dimension,
 					name = $"Mixture Temp {name}",
 					updateMode = CustomRenderTextureUpdateMode.OnDemand,
@@ -69,20 +64,21 @@ namespace Mixture
 
 			// TODO: check if format is supported by current system
 
-			if (target.width != width
-				|| target.height != height
+			// Warning: here we use directly the settings from the 
+			if (target.width != outputWidth
+				|| target.height != outputHeight
 				|| target.graphicsFormat != targetFormat
 				|| target.dimension != dimension
-				|| target.volumeDepth != depth
+				|| target.volumeDepth != outputDepth
 				|| target.filterMode != graph.outputTexture.filterMode)
 			{
 				target.Release();
-				target.width = Math.Max(1, width);
-				target.height = Math.Max(1, height);
+				target.width = Math.Max(1, outputWidth);
+				target.height = Math.Max(1, outputHeight);
 				target.graphicsFormat = (GraphicsFormat)targetFormat;
 				target.dimension = (TextureDimension)dimension;
 				target.filterMode = graph.outputTexture.filterMode; // TODO Set FilterMode per-node, add FilterMode to RTSettings
-				target.volumeDepth = depth;
+				target.volumeDepth = outputDepth;
 				target.Create();
 			}
 

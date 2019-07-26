@@ -71,6 +71,8 @@ SubShader
 #elif CRT_3D
                 // For texture 3D, we take the first slice
                 fixed4 t = UNITY_SAMPLE_TEX3D(_Texture3D, float3(i.uv, 0));
+                // humm, i need a better way to visualize a Texture3D
+                t.a = 1;
 #elif CRT_CUBE
                 fixed4 t = UNITY_SAMPLE_TEXCUBE(_Cubemap, LatlongToDirectionCoordinate(i.uv));
 #endif
