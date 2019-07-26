@@ -3,7 +3,7 @@
     Properties
     {
         _Texture3D ("Texture", 3D) = "" {}
-        _Slice ("Slice", Float) = 0
+        _Depth ("Depth", Float) = 0
     }
     SubShader
     {
@@ -31,8 +31,11 @@
             };
 
             UNITY_DECLARE_TEX3D(_Texture3D);
+            // SamplerState sampler_Point_Clamp_Texture3D;
+            SamplerState sampler_Linear_Clamp_Texture3D;
             float4 _Texture3D_ST;
-            float _Slice;
+            float4 _Texture3D_TexelSize;
+            float _Depth;
 
             v2f vert (appdata v)
             {
@@ -45,7 +48,9 @@
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                return UNITY_SAMPLE_TEX3D(_Texture3D, float3(i.uv, _Slice));
+                // For debug we can use a point sampler: TODO make it an option in the UI
+                // return _Texture3D.Sample(sampler_Point_Clamp_Texture3D, float3(i.uv, _Depth));
+                return _Texture3D.Sample(sampler_Linear_Clamp_Texture3D, float3(i.uv, _Depth));
             }
             ENDCG
         }

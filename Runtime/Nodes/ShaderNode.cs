@@ -13,33 +13,29 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Shader")]
 	public class ShaderNode : MixtureNode
 	{
-		[Input(name = "In"), SerializeField]
-		public List< object >	materialInputs;
+		public static readonly string	DefaultShaderName = "ShaderNodeDefault";
 
-		[Output(name = "Out"), SerializeField]
-		public RenderTexture	output = null;
+		[Input(name = "In")]
+		public List< object >		materialInputs;
+
+		[Output(name = "Out")]
+		public CustomRenderTexture	output = null;
 
 		public Shader			shader;
 		public override string	name => "Shader";
 		public Material			material;
 
-		public static string	DefaultShaderName = "ShaderNodeDefault";
-
-		public int				sliceIndexMaterialProperty = Shader.PropertyToID("_SliceIndex");
-
         protected virtual IEnumerable<string> filteredOutProperties => Enumerable.Empty<string>();
-
 		public override Texture previewTexture => output;
+
+		Shader					defaultShader;
 
 		protected override void Enable()
 		{
-			if (shader == null)
-			{
-				shader = Resources.Load<Shader>(DefaultShaderName);
-			}
+			defaultShader = Resources.Load<Shader>(DefaultShaderName);
 
 			if (material == null)
-				material = new Material(shader);
+				material = new Material(shader ?? defaultShader);
 		}
 
 		// Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code
@@ -65,7 +61,7 @@ namespace Mixture
 		{
 			yield return new PortData{
 				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension((TextureDimension)rtSettings.dimension),
+				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
 				identifier = "output",
 			};
 		}
@@ -74,27 +70,23 @@ namespace Mixture
 		{
 			UpdateTempRenderTexture(ref output);
 
-			if (material == null)
+			if (material == null || material.shader == null)
 			{
-				Debug.LogError($"Can't process {name}, missing material/shader");
+				Debug.LogError($"Can't process {name}, missing material/shader.");
 				return ;
 			}
 
-			switch (output.dimension)
+#if UNITY_EDITOR // IsShaderCompiled is editor only
+			if (!IsShaderCompiled(material.shader))
 			{
-				case TextureDimension.Tex2D:
-				case TextureDimension.Tex2DArray:
-				case TextureDimension.Tex3D:
-					for (int i = 0; i < output.volumeDepth; i++)
-					{
-						if (material.HasProperty(sliceIndexMaterialProperty))
-							material.SetInt(sliceIndexMaterialProperty, i);
-						Graphics.Blit(Texture2D.whiteTexture, output, material, 0);
-					}
-					break ;
-				default:
-					Debug.LogError("Shader Node output not supported");
-					break;
+				output.material = null;
+				Debug.LogError($"Can't process {name}, shader has errors.");
+				LogShaderErrors(material.shader);
+			}
+			else
+#endif
+			{
+				output.material = material;
 			}
 		}
 	}

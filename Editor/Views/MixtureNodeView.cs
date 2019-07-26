@@ -24,7 +24,7 @@ namespace Mixture
 		protected virtual string header => string.Empty;
 
 		protected virtual bool hasPreview => false;
-		protected override bool hasSettings => true;
+		protected override bool hasSettings => nodeTarget.hasSettings;
 
 		protected override VisualElement CreateSettingsView()
 		{
@@ -44,13 +44,15 @@ namespace Mixture
 			if(!styleSheets.Contains(stylesheet))
 				styleSheets.Add(stylesheet);
 
-			nodeTarget.onSettingsChanged += () => {
-				nodeTarget.UpdateAllPorts();
-				RefreshPorts();
-			};
+			// When we change the output dimension, we want to update the output ports
+			owner.graph.onOutputTextureUpdated += UpdatePorts;
+			nodeTarget.onSettingsChanged += UpdatePorts;
 			
 			propertyEditorUI = new VisualElement();
 			controlsContainer.Add(propertyEditorUI);
+
+			// Fix the size of the node
+			style.width = nodeTarget.nodeWidth;
 
 			propertyEditorUI.AddToClassList("PropertyEditorUI");
 			controlsContainer.AddToClassList("ControlsContainer");
@@ -70,6 +72,12 @@ namespace Mixture
 
             propertyEditorUI.style.display = DisplayStyle.Flex;
         }
+
+		void UpdatePorts()
+		{
+			nodeTarget.UpdateAllPorts();
+			RefreshPorts();
+		}
 
 		bool CheckPropertyChanged(Material material, MaterialProperty[] properties)
 		{
@@ -160,7 +168,9 @@ namespace Mixture
 				case TextureDimension.Tex3D:
 					CreateTexture3DPreview(previewContainer, texture, currentSlice);
 					break;
-				// TODO: Texture3D
+				case TextureDimension.Cube:
+					CreateTextureCubePreview(previewContainer, texture, currentSlice);
+					break;
 				default:
 					Debug.LogError(texture + " is not a supported type for preview");
 					return;
@@ -187,7 +197,7 @@ namespace Mixture
 			};
 			var previewImageSlice = new IMGUIContainer(() => {
 				// square image:
-				var rect = EditorGUILayout.GetControlRect(GUILayout.Height(400), GUILayout.Width(400));
+				var rect = GUILayoutUtility.GetRect(1, 400, 1, 400);
 				MixtureUtils.textureArrayPreviewMaterial.SetTexture("_TextureArray", texture);
 				MixtureUtils.textureArrayPreviewMaterial.SetFloat("_Slice", currentSlice);
 				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial);
@@ -209,10 +219,32 @@ namespace Mixture
 			};
 			var previewImageSlice = new IMGUIContainer(() => {
 				// square image:
-				var rect = EditorGUILayout.GetControlRect(GUILayout.Height(400), GUILayout.Width(400));
-				MixtureUtils.texture3DPreviewMaterial.SetTexture("_TextureArray", texture);
-				MixtureUtils.texture3DPreviewMaterial.SetFloat("_Slice", currentSlice);
+				var rect = GUILayoutUtility.GetRect(1, 400, 1, 400);
+				MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", texture);
+				MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", (float)currentSlice / (nodeTarget.rtSettings.GetDepth(owner.graph) - 1));
 				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial);
+			});
+			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
+				currentSlice = a.newValue;
+			});
+			previewContainer.Add(previewSliceIndex);
+			previewContainer.Add(previewImageSlice);
+		}
+
+		void CreateTextureCubePreview(VisualElement previewContainer, Texture texture, int currentSlice)
+		{
+			// TODO: 3D Texture preview material with ray-marching
+			var previewSliceIndex = new SliderInt(0, TextureUtils.GetSliceCount(texture) - 1)
+			{
+				label = "Slice",
+				value = currentSlice,
+			};
+			var previewImageSlice = new IMGUIContainer(() => {
+				// square image:
+				var rect = GUILayoutUtility.GetRect(1, 400, 1, 400);
+				MixtureUtils.textureCubePreviewMaterial.SetTexture("_Cubemap", texture);
+				MixtureUtils.textureCubePreviewMaterial.SetFloat("_Slice", currentSlice);
+				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial);
 			});
 			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
 				currentSlice = a.newValue;

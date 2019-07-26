@@ -12,15 +12,17 @@
 		Pass
 		{
 			CGPROGRAM
-			#pragma vertex vert
 			#pragma fragment mixture
 
-			#include "UnityCG.cginc"
 			#include "MixtureFixed.cginc"
+			#include "UnityCustomRenderTexture.cginc"
+
+            #pragma vertex CustomRenderTextureVertexShader
+			#pragma target 3.0
 
 			float4 _Color;
 
-			float4 mixture (MixtureInputs i) : SV_Target
+			float4 mixture (v2f_customrendertexture IN) : SV_Target
 			{
 				return _Color;
 			}

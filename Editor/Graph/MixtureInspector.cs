@@ -7,58 +7,28 @@ namespace Mixture
 {
 	public class MixtureEditor : Editor
 	{
-		public virtual void OnEnable()
-		{
-			 EditorApplication.projectWindowItemOnGUI += DrawSmallMixtureIcon;
-		}
-
-		void DrawSmallMixtureIcon(string guid, Rect rect)
-		{
-            bool isSmall = rect.width > rect.height;
-			int iconSize = (int)EditorGUIUtility.singleLineHeight;
-
-			// We only display the mixture icon when we're in small mode
-			if (isSmall)
-			{
-				var path = AssetDatabase.GUIDToAssetPath(guid);
-				var texture = AssetDatabase.LoadAssetAtPath(path, typeof(Texture));
-				var mixtureRect = new Rect(rect.x + 3, rect.y, rect.width, rect.height);
-
-				if (texture == null)
-					return;
-
-				var allAssets = AssetDatabase.LoadAllAssetsAtPath(path);
-				if (!allAssets.Any(a => a is MixtureGraph))
-					return;
-
-				mixtureRect.width = iconSize;
-				mixtureRect.height = iconSize;
-
-				GUI.DrawTexture(mixtureRect, MixtureUtils.icon);
-			}
-		}
+		public virtual void OnEnable() {}
 
 		protected void BlitMixtureIcon(Texture preview, RenderTexture target)
 		{
-			// Disable all material keywords:
-			foreach (var keyword in MixtureUtils.blitIconMaterial.shaderKeywords)
-				MixtureUtils.blitIconMaterial.DisableKeyword(keyword);
+			MixtureUtils.SetupDimensionKeyword(MixtureUtils.blitIconMaterial, preview.dimension);
 
 			switch (preview.dimension)
 			{
 				case TextureDimension.Tex2D:
 					MixtureUtils.blitIconMaterial.SetTexture("_Texture2D", preview);
-					MixtureUtils.blitIconMaterial.EnableKeyword("TEXTURE2D");
 					Graphics.Blit(preview, target, MixtureUtils.blitIconMaterial, 0);
 					break;
 				case TextureDimension.Tex2DArray:
 					MixtureUtils.blitIconMaterial.SetTexture("_Texture2DArray", preview);
-					MixtureUtils.blitIconMaterial.EnableKeyword("TEXTURE2D_ARRAY");
 					Graphics.Blit(preview, target, MixtureUtils.blitIconMaterial, 0);
 					break;
 				case TextureDimension.Tex3D:
 					MixtureUtils.blitIconMaterial.SetTexture("_Texture3D", preview);
-					MixtureUtils.blitIconMaterial.EnableKeyword("TEXTURE3D");
+					Graphics.Blit(preview, target, MixtureUtils.blitIconMaterial, 0);
+					break;
+				case TextureDimension.Cube:
+					MixtureUtils.blitIconMaterial.SetTexture("_Cubemap", preview);
 					Graphics.Blit(preview, target, MixtureUtils.blitIconMaterial, 0);
 					break;
 				default:
@@ -70,8 +40,6 @@ namespace Mixture
 		public override void OnInspectorGUI()
 		{
 			Texture t = target as Texture;
-
-			EditorGUILayout.LabelField("Hello World !");
 
 			t.wrapMode = (TextureWrapMode)EditorGUILayout.EnumPopup("Wrap Mode", t.wrapMode);
 			t.filterMode = (FilterMode)EditorGUILayout.EnumPopup("Filter Mode", t.filterMode);
@@ -90,6 +58,7 @@ namespace Mixture
 
 		public override bool HasPreviewGUI() => true;
 
+		// TODO: use the preview of the true Texture2D inspector
         public override void OnPreviewGUI(Rect r, GUIStyle background)
 		{
 			if (target != null)
@@ -196,9 +165,54 @@ namespace Mixture
 
         public override void OnPreviewGUI(Rect r, GUIStyle background)
 		{
-			MixtureUtils.texture3DPreviewMaterial.SetFloat("_Slice", slice);
+			float depth = (float)slice / ((float)volume.depth - 1);
+			MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", depth);
 			MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", volume);
 			EditorGUI.DrawPreviewTexture(r, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial);
+		}
+
+		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
+		{
+			var icon = new Texture2D(width, height);
+			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
+
+			BlitMixtureIcon(target as Texture, rt);
+
+			RenderTexture.active = rt;
+			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+			icon.Apply();
+			RenderTexture.active = null;
+			rt.Release();
+
+			return icon;
+		}
+	}
+
+	[CustomEditor(typeof(Cubemap), false)]
+	public class MixtureInspectorTextureCube : MixtureEditor
+	{
+		Cubemap		cubemap;
+		int			slice;
+
+		public override void OnEnable()
+		{
+			base.OnEnable();
+			cubemap = target as Cubemap;
+		}
+
+		public override void DrawPreview(Rect previewArea)
+		{
+			OnPreviewGUI(previewArea, GUIStyle.none);
+		}
+
+		public override bool HasPreviewGUI() => true;
+
+		public override void OnPreviewSettings() {}
+
+        public override void OnPreviewGUI(Rect r, GUIStyle background)
+		{
+			MixtureUtils.textureCubePreviewMaterial.SetTexture("_Cubemap", cubemap);
+			EditorGUI.DrawPreviewTexture(r, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial);
 		}
 
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)

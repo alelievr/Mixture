@@ -27,12 +27,12 @@ namespace Mixture
 		public Material				initializationMaterial { get; private set; }
 		public Material				updateMaterial { get; private set; }
 
-		public override Texture previewTexture { get { return output; } }
-
+		public override Texture previewTexture => output;
 
 		static readonly string		defaultCRTInitShader = "Hidden/DefaultCRTInitialization";
 		static readonly string		defaultCRTUpdateShader = "Hidden/DefaultCRTUpdate";
 
+		public override float		nodeWidth => 350f;
 		public override string		name => "CustomTexture";
 
 		#region Ports control
@@ -63,6 +63,7 @@ namespace Mixture
 				customTexture.initializationMaterial = initializationMaterial;
 
 				// Add all objects to the graph asset:
+				// TODO: remove all materials from the asset when the node is destroyed
 				AddObjectToGraph(customTexture);
 				AddObjectToGraph(initializationMaterial);
 				AddObjectToGraph(updateMaterial);

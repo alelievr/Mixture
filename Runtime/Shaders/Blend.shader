@@ -16,13 +16,11 @@
 		Pass
 		{
 			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment mixture
-
-			#include "UnityCG.cginc"
-
-			#define USE_UV
 			#include "MixtureFixed.cginc"
+			#include "UnityCustomRenderTexture.cginc"
+            #pragma vertex CustomRenderTextureVertexShader
+			#pragma fragment mixture
+			#pragma target 3.0
 
 			TEXTURE2D(_Source);
 			TEXTURE2D(_Target);
@@ -30,19 +28,18 @@
 			float _BlendMode;
 			float _MaskMode;
 
-			float4 mixture (MixtureInputs i) : SV_Target
+			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-
-				float4	source	= SAMPLE2D_LOD(_Source, i.uv,0);
-				float4	target	= SAMPLE2D_LOD(_Target, i.uv,0);
-				float4	mask;
+				float4	source	= tex2Dlod(_Source, float4(i.localTexcoord.xy, 0, 0));
+				float4	target	= tex2Dlod(_Target, float4(i.localTexcoord.xy, 0, 0));
+				float4	mask = 0;
 				
 				uint maskMode = (uint)_MaskMode;
 
 				switch(maskMode)
 				{
-					case 0 : mask= SAMPLE2D_LOD(_Mask, i.uv, 0).aaaa; break;
-					case 1 : mask= SAMPLE2D_LOD(_Mask, i.uv, 0).rgba; break;
+					case 0 : mask= tex2Dlod(_Mask, float4(i.localTexcoord.xy, 0, 0)).aaaa; break;
+					case 1 : mask= tex2Dlod(_Mask, float4(i.localTexcoord.xy, 0, 0)).rgba; break;
 				}
 
 				uint mode = (uint)_BlendMode;

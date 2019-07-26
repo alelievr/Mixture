@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Utils/Time")]
-	public class TimeNode : BaseNode
+	public class TimeNode : MixtureNode
 	{
 		[Output(name = "Time")]
 		public float				time;
@@ -24,6 +24,8 @@ namespace Mixture
 		[Output(name = "Frame Count")]
 		public float				frameCount;
 
+		public override bool 		hasSettings => false;
+		public override float		nodeWidth => 70;
 		public override string		name => "Time";
 
 		protected override void Process()

@@ -3,30 +3,28 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using GraphProcessor;
 using System;
+using System.Linq;
 using Object = UnityEngine.Object;
 using UnityEngine.Experimental.Rendering;
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.Rendering;
 #endif
 
 namespace Mixture
 {
 	public abstract class MixtureNode : BaseNode
 	{
-		protected new MixtureGraph	graph => base.graph as MixtureGraph;
+		protected new MixtureGraph			graph => base.graph as MixtureGraph;
 
-		protected void AddObjectToGraph(Object obj) => graph.AddObjectToGraph(obj);
-		protected void RemoveObjectFromGraph(Object obj) => graph.RemoveObjectFromGraph(obj);
+		public MixtureRTSettings			rtSettings;
 
-		public MixtureRTSettings rtSettings;
+		protected virtual MixtureRTSettings	defaultRTSettings => MixtureRTSettings.defaultValue;
+		public virtual  float   			nodeWidth => 250.0f;
+		public virtual Texture				previewTexture { get => null; }
+		public virtual bool					hasSettings => true;
 
-		public virtual MixtureRTSettings defaultRTSettings => MixtureRTSettings.defaultValue;
-
-		public abstract Texture previewTexture { get; }
-
-		public event Action onSettingsChanged;
-
-		public MixtureNode() : base() {}
+		public event Action					onSettingsChanged;
 		
 		public override void OnNodeCreated()
 		{
@@ -34,56 +32,61 @@ namespace Mixture
 			rtSettings = defaultRTSettings;
 		}
 
-		protected bool UpdateTempRenderTexture(ref RenderTexture target)
+		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target)
 		{
 			if (graph.outputTexture == null)
 				return false;
 
-			int width = rtSettings.GetWidth(graph);
-			int height = rtSettings.GetHeight(graph);
-			int depth = rtSettings.GetDepth(graph);
+			int outputWidth = rtSettings.GetWidth(graph);
+			int outputHeight = rtSettings.GetHeight(graph);
+			int outputDepth = rtSettings.GetDepth(graph);
 			GraphicsFormat targetFormat = rtSettings.GetGraphicsFormat(graph);
 			TextureDimension dimension = rtSettings.GetTextureDimension(graph);
 
             if (targetFormat == GraphicsFormat.None)
                 targetFormat = graph.outputTexture.graphicsFormat;
+			if (dimension == TextureDimension.None)
+				dimension = TextureDimension.Tex2D;
 
 			if (target == null)
 			{
-
-				RenderTextureDescriptor	desc = new RenderTextureDescriptor {
-					width = Math.Max(1, width),
-					height = Math.Max(1, height),
-					depthBufferBits = 0,
-					volumeDepth = Math.Max(1,depth),
+				target = new CustomRenderTexture(outputWidth, outputHeight, targetFormat)
+				{
+					volumeDepth = Math.Max(1, outputDepth),
 					dimension = dimension,
-					graphicsFormat = targetFormat,
-					msaaSamples = 1,
+					name = $"Mixture Temp {name}",
+					updateMode = CustomRenderTextureUpdateMode.OnDemand,
 				};
-				target = new RenderTexture(desc);
-				target.name = $"Mixture Temp {name}";
+				target.Create();
+
 				return true;
 			}
 
-			if (target.width != width
-				|| target.height != height
+			// TODO: check if format is supported by current system
+
+			// Warning: here we use directly the settings from the 
+			if (target.width != outputWidth
+				|| target.height != outputHeight
 				|| target.graphicsFormat != targetFormat
 				|| target.dimension != dimension
-				|| target.volumeDepth != depth
+				|| target.volumeDepth != outputDepth
 				|| target.filterMode != graph.outputTexture.filterMode)
 			{
 				target.Release();
-				target.width = Math.Max(1, width);
-				target.height = Math.Max(1, height);
+				target.width = Math.Max(1, outputWidth);
+				target.height = Math.Max(1, outputHeight);
 				target.graphicsFormat = (GraphicsFormat)targetFormat;
 				target.dimension = (TextureDimension)dimension;
 				target.filterMode = graph.outputTexture.filterMode; // TODO Set FilterMode per-node, add FilterMode to RTSettings
-				target.volumeDepth = depth;
+				target.volumeDepth = outputDepth;
 				target.Create();
 			}
 
 			return false;
 		}
+
+		protected void AddObjectToGraph(Object obj) => graph.AddObjectToGraph(obj);
+		protected void RemoveObjectFromGraph(Object obj) => graph.RemoveObjectFromGraph(obj);
 
 #if UNITY_EDITOR
 		protected Type GetPropertyType(MaterialProperty prop)
@@ -150,6 +153,17 @@ namespace Mixture
 			}
 		}
 
+		protected bool IsShaderCompiled(Shader s)
+		{
+			return !ShaderUtil.GetShaderMessages(s).Any(m => m.severity == ShaderCompilerMessageSeverity.Error);
+		}
+
+		protected void LogShaderErrors(Shader s)
+		{
+			foreach (var m in ShaderUtil.GetShaderMessages(s).Where(m => m.severity == ShaderCompilerMessageSeverity.Error))
+				Debug.LogError($"{m.file}:{m.line} {m.message} {m.messageDetails}");
+		}
+
 		public void OnSettingsChanged() => onSettingsChanged?.Invoke();
 #endif
 	}
@@ -179,10 +193,9 @@ namespace Mixture
 	{
 		Default = TextureDimension.None,
 		Texture2D = TextureDimension.Tex2D,
-		// CubeMap = TextureDimension.Cube, // Not supported currently
-		Texture3D = TextureDimension.Tex3D, // Not supported currently
-		Texture2DArray = TextureDimension.Tex2DArray,
-		// CubemapArray = TextureDimension.CubeArray // Not supported currently
+		CubeMap = TextureDimension.Cube,
+		Texture3D = TextureDimension.Tex3D,
+		// Texture2DArray = TextureDimension.Tex2DArray, // Not supported by CRT, will be handled as Texture3D and then saved as Tex2DArray
 	}
 
 	public enum OutputFormat

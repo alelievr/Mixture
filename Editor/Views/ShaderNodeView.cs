@@ -16,7 +16,10 @@ namespace Mixture
 		VisualElement	shaderCreationUI;
 		VisualElement	materialEditorUI;
 		MaterialEditor	materialEditor;
-		ShaderNode		shaderNode;
+		ShaderNode		shaderNode => nodeTarget as ShaderNode;
+
+		ObjectField		debugCustomRenderTextureField;
+		ObjectField		shaderField;
 
 		protected override string header => "Shader Properties";
 
@@ -34,23 +37,17 @@ namespace Mixture
 		{
 			base.Enable();
 
-			shaderNode = nodeTarget as ShaderNode;
-
-			ObjectField shaderField = new ObjectField
+			shaderField = new ObjectField
 			{
 				value = shaderNode.shader,
 				objectType = typeof(Shader),
 			};
 
 			shaderField.RegisterValueChangedCallback((v) => {
-				owner.RegisterCompleteObjectUndo("Updated Shader of ShaderNode");
-				shaderNode.shader = (Shader)v.newValue;
-				shaderNode.material.shader = shaderNode.shader;
-				UpdateShaderCreationUI();
-
-				// We fore the update of node ports
-				ForceUpdatePorts();
+				SetShader((Shader)v.newValue);
 			});
+			
+			InitializeDebug();
 
 			propertyEditorUI.Add(shaderField);
 
@@ -62,13 +59,27 @@ namespace Mixture
 			materialEditor = Editor.CreateEditor(shaderNode.material) as MaterialEditor;
 		}
 
+		void InitializeDebug()
+		{
+			shaderNode.onProcessed += () => {
+				debugCustomRenderTextureField.value = shaderNode.output;
+			};
+
+			debugCustomRenderTextureField = new ObjectField("Output")
+			{
+				value = shaderNode.output
+			};
+			
+			debugContainer.Add(debugCustomRenderTextureField);
+		}
+
 		void UpdateShaderCreationUI()
 		{
 			shaderCreationUI.Clear();
 
-			if (shaderNode?.shader?.name == ShaderNode.DefaultShaderName)
+			if (shaderNode.shader == null)
 			{
-				shaderCreationUI.Add(new Button(CreateEmbeddedShader) {
+				shaderCreationUI.Add(new Button(CreateNewShader) {
 					text = "New Shader"
 				});
 			}
@@ -79,15 +90,37 @@ namespace Mixture
 				});
 			}
 
-			void CreateEmbeddedShader()
+			void CreateNewShader()
 			{
-				Debug.Log("TODO");
+				GUIContent shaderGraphContent = EditorGUIUtility.TrTextContentWithIcon("Graph", Resources.Load<Texture2D>("sg_graph_icon@64"));
+				GUIContent shaderTextContent = EditorGUIUtility.TrTextContentWithIcon("Text", "Shader Icon");
+
+				// TODO: create a popupwindow instead of a context menu
+
+				var menu = new GenericMenu();
+				var dim = (OutputDimension)shaderNode.rtSettings.GetTextureDimension(owner.graph);
+
+				menu.AddItem(shaderGraphContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderGraph(title, dim)));
+				menu.AddItem(shaderTextContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderText(title, dim)));
+				menu.ShowAsContext();
 			}
 
 			void OpenCurrentShader()
 			{
 				AssetDatabase.OpenAsset(shaderNode.shader);
 			}
+		}
+
+		void SetShader(Shader newShader)
+		{
+			owner.RegisterCompleteObjectUndo("Updated Shader of ShaderNode");
+			shaderNode.shader = newShader;
+			shaderField.value = newShader;
+			shaderNode.material.shader = newShader;
+			UpdateShaderCreationUI();
+
+			// We fore the update of node ports
+			ForceUpdatePorts();
 		}
 
 		void MaterialGUI()

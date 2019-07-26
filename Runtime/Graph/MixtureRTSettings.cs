@@ -35,39 +35,33 @@ namespace Mixture
 
 		public static MixtureRTSettings defaultValue
 		{
-			get
+			get => new MixtureRTSettings()
 			{
-				return new MixtureRTSettings()
-				{
-					widthPercent = 1.0f,
-					heightPercent = 1.0f,
-					depthPercent = 1.0f,
-					width = 512,
-					height = 512,
-					sliceCount = 1,
-					widthMode = OutputSizeMode.Default,
-					heightMode = OutputSizeMode.Default,
-					depthMode = OutputSizeMode.Default,
-					dimension = OutputDimension.Default,
-					targetFormat = OutputFormat.Default,
-					editFlags = EditFlags.None
-				};
-			}
-	
+				widthPercent = 1.0f,
+				heightPercent = 1.0f,
+				depthPercent = 1.0f,
+				width = 512,
+				height = 512,
+				sliceCount = 1,
+				widthMode = OutputSizeMode.Default,
+				heightMode = OutputSizeMode.Default,
+				depthMode = OutputSizeMode.Default,
+				dimension = OutputDimension.Default,
+				targetFormat = OutputFormat.Default,
+				editFlags = EditFlags.None
+			};
 		}
-		public bool CanEdit(EditFlags flag)
-		{
-			return (this.editFlags & flag) != 0;
-		}
+		
+		public bool CanEdit(EditFlags flag) => (this.editFlags & flag) != 0;
 
 		public int GetWidth(MixtureGraph graph)
 		{
 			switch(widthMode)
 			{
 				default:
-				case OutputSizeMode.Default : return graph.outputNode.tempRenderTexture.width;
+				case OutputSizeMode.Default : return graph.outputNode.rtSettings.width;
 				case OutputSizeMode.Fixed : return width;
-				case OutputSizeMode.PercentageOfOutput : return (int)(graph.outputNode.tempRenderTexture.width * widthPercent);
+				case OutputSizeMode.PercentageOfOutput : return (int)(graph.outputNode.rtSettings.width * widthPercent);
 			}
 		}
 
@@ -76,9 +70,9 @@ namespace Mixture
 			switch(heightMode)
 			{
 				default:
-				case OutputSizeMode.Default : return graph.outputNode.tempRenderTexture.height;
+				case OutputSizeMode.Default : return graph.outputNode.rtSettings.height;
 				case OutputSizeMode.Fixed : return height;
-				case OutputSizeMode.PercentageOfOutput : return (int)(graph.outputNode.tempRenderTexture.height * height);
+				case OutputSizeMode.PercentageOfOutput : return (int)(graph.outputNode.rtSettings.height * height);
 			}
 		}
 
@@ -108,7 +102,7 @@ namespace Mixture
 			if (graph.outputNode.rtSettings.dimension == OutputDimension.Default)
 				return TextureDimension.Tex2D;
 			else
-				return dimension == OutputDimension.Default ? graph.outputNode.tempRenderTexture.dimension : (TextureDimension)dimension;
+				return dimension == OutputDimension.Default ? (TextureDimension)graph.outputNode.rtSettings.dimension : (TextureDimension)dimension;
 		}
 	}
 }

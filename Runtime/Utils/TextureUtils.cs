@@ -47,6 +47,11 @@ namespace Mixture
                         (blackTexture as Texture2DArray).SetPixels(new []{Color.black}, i);
                     (blackTexture as Texture2DArray).Apply();
                     break ;
+                case TextureDimension.Cube:
+                    blackTexture = new Cubemap(1, DefaultFormat.HDR, TextureCreationFlags.None);
+                    for (int i = 0; i < 6; i++)
+                        (blackTexture as Cubemap).SetPixel((CubemapFace)i, 0, 0, Color.black);
+                    break ;
                 default: // TextureDimension.Any / TextureDimension.Unknown
                     throw new Exception($"Unable to create black texture for type {dim}");
             }

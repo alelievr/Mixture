@@ -11,6 +11,7 @@ namespace Mixture
 	public class MixtureProcessor : BaseGraphProcessor
 	{
 		List< BaseNode >		processList;
+		new MixtureGraph		graph => base.graph as MixtureGraph;
 
 		public MixtureProcessor(BaseGraph graph) : base(graph) {}
 
@@ -23,10 +24,21 @@ namespace Mixture
 		{
 			int count = processList.Count;
 
+			// The process of the mixture graph will update all CRTs,
+			// assign their materials and set local material values
 			for (int i = 0; i < count; i++)
 			{
+				var node = processList[i];
+
 				processList[i].OnProcess();
+
+				// Temporary hack: Custom Textures are not updated when the Shader / the Material is updated
+				// and inside the dependency tree of a CRT. So we need to manually update all CRTs.
+				if (node is ShaderNode s)
+					s.output.Update();
 			}
+
+			graph.outputNode.tempRenderTexture.Update();
 		}
 	}
 }

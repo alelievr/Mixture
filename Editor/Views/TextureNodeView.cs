@@ -11,13 +11,11 @@ using System.Linq;
 namespace Mixture
 {
 	[NodeCustomEditor(typeof(TextureNode))]
-	public class TextureNodeView : ConstNodeView
+	public class TextureNodeView : MixtureNodeView
 	{
 		TextureNode		textureNode;
 
 		Image preview;
-
-		protected override int nodeWidth {get { return 340; } }
 
 		public override void Enable()
 		{
@@ -50,12 +48,12 @@ namespace Mixture
 				if(ratio > 1.0f)
 				{
 					preview.scaleMode = ScaleMode.ScaleToFit;
-					preview.style.height = nodeWidth;
+					preview.style.height = nodeTarget.nodeWidth;
 				}
 				else
 				{
 					preview.scaleMode = ScaleMode.StretchToFill;
-					preview.style.height = (float) nodeWidth * ratio;
+					preview.style.height = nodeTarget.nodeWidth * ratio;
 				}
 			} 
 			else

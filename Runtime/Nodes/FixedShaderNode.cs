@@ -15,13 +15,12 @@ namespace Mixture
 	{
 		public override string	name => shader.name.Split('/').Last();
 
-		public virtual  float   width => 340.0f; // TODO: factorise this and remove nodeViewSize in the outputnodeView
 		public abstract string  shaderName { get; }
 		public abstract bool    displayMaterialInspector { get; }
 
 		public override Texture previewTexture => output;
 
-		public override MixtureRTSettings defaultRTSettings
+		protected override MixtureRTSettings defaultRTSettings
 		{
 			get => new MixtureRTSettings()
 			{

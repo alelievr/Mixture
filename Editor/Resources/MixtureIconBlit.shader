@@ -6,8 +6,9 @@ Shader "Hidden/MixtureIconBlit"
         _Texture2D ("Texture2D", 2D) = "" {}
         _Texture2DArray ("Texture2DArray", 2DArray) = "" {}
         _Texture3D ("Texture3D", 3D) = "" {}
+        _Cubemap("Cubemap", Cube) = "" {}
     }
-    SubShader
+SubShader
     {
         Tags { "RenderType"="Opaque" }
         LOD 100
@@ -18,13 +19,11 @@ Shader "Hidden/MixtureIconBlit"
             #pragma vertex vert
             #pragma fragment frag
 
-            // TOOD: multi compile for cubemap and array
-            #pragma multi_compile TEXTURE2D TEXTURE2D_ARRAY TEXTURE3D
+            // TOOD: multi compile for cubemap
+            #pragma multi_compile CRT_2D CRT_2D_ARRAY CRT_3D CRT_CUBE
 
             #include "UnityCG.cginc"
-
-            // TODO
-            // #pragma multi_compile
+            #include "MixtureUtils.cginc"
 
             struct appdata
             {
@@ -46,6 +45,8 @@ Shader "Hidden/MixtureIconBlit"
             float4 _Texture2DArray_ST;
             UNITY_DECLARE_TEX3D(_Texture3D);
             float4 _Texture3D_ST;
+            UNITY_DECLARE_TEXCUBE(_Cubemap);
+            float4 _Cubemap_ST;
 
             v2f vert (appdata v)
             {
@@ -62,14 +63,18 @@ Shader "Hidden/MixtureIconBlit"
                 fixed4 iconColor = 0;
 				if (all(iconUV < 1))
 					iconColor = UNITY_SAMPLE_TEX2D(_MixtureIcon, iconUV);
-#if TEXTURE2D
+#if CRT_2D
                 fixed4 t = UNITY_SAMPLE_TEX2D(_Texture2D, i.uv);
-#elif TEXTURE2D_ARRAY
+#elif CRT_2D_ARRAY
                 // For texture arrays, we take the first slice
                 fixed4 t = UNITY_SAMPLE_TEX2DARRAY(_Texture2DArray, float3(i.uv, 0));
-#elif TEXTURE3D
+#elif CRT_3D
                 // For texture 3D, we take the first slice
                 fixed4 t = UNITY_SAMPLE_TEX3D(_Texture3D, float3(i.uv, 0));
+                // humm, i need a better way to visualize a Texture3D
+                t.a = 1;
+#elif CRT_CUBE
+                fixed4 t = UNITY_SAMPLE_TEXCUBE(_Cubemap, LatlongToDirectionCoordinate(i.uv));
 #endif
                 return lerp(t, iconColor, iconColor.a);
             }

@@ -11,11 +11,9 @@ using System.Linq;
 namespace Mixture
 {
 	[NodeCustomEditor(typeof(ColorNode))]
-	public class ColorNodeView : ConstNodeView
+	public class ColorNodeView : MixtureNodeView
 	{
 		ColorNode		colorNode;
-
-		protected override int nodeWidth {get { return 340; } }
 
 		public override void Enable()
 		{

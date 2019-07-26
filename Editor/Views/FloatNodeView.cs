@@ -11,7 +11,7 @@ using System.Linq;
 namespace Mixture
 {
 	[NodeCustomEditor(typeof(FloatNode))]
-	public class FloatNodeView : ConstNodeView
+	public class FloatNodeView : MixtureNodeView
 	{
 		FloatNode		floatNode;
 

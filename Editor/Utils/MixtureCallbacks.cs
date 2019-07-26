@@ -1,25 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
-using GraphProcessor;
 using UnityEditor.Callbacks;
 using System.Linq;
 using UnityEditor.ProjectWindowCallback;
 using System.IO;
+using UnityEditor.ShaderGraph;
+using System.Reflection;
 
 namespace Mixture
 {
 	public class MixtureAssetCallbacks
 	{
 		public static readonly string	Extension = "asset";
+		public static readonly string	customTextureShaderTemplate = "CustomTextureShaderTemplate";
 
 		[MenuItem("Assets/Create/Mixture Graph", false, 100)]
 		public static void CreateMixtureGraph()
 		{
 			var graphItem = ScriptableObject.CreateInstance< MixtureGraphAction >();
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
-                string.Format("New Mixture Graph.{0}", Extension), MixtureUtils.icon, null);
+                $"New Mixture Graph.{Extension}", MixtureUtils.icon, null);
+		}
+
+		[MenuItem("Assets/Create/Shader/Custom Texture", false, 100)]
+		public static void CreateCustomTextureShader()
+		{
+			var graphItem = ScriptableObject.CreateInstance< CustomTextureShaderAction >();
+			var shaderTemplate = Resources.Load(customTextureShaderTemplate, typeof(Shader));
+            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
+                $"New Custom Texture Shader.shader",
+				EditorGUIUtility.ObjectContent(null, typeof(Shader)).image as Texture2D,
+				AssetDatabase.GetAssetPath(shaderTemplate)
+			);
+		}
+
+		[MenuItem("Assets/Create/Shader/Custom Texture Graph", false, 200)]
+		public static void CreateCustomTextureShaderGraph()
+		{
+			var graphItem = ScriptableObject.CreateInstance< CustomtextureShaderGraphAction >();
+            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
+                $"New Custom Texture Graph.{ShaderGraphImporter.Extension}", Resources.Load<Texture2D>("sg_graph_icon@64"), null);
 		}
 
 		[OnOpenAsset(0)]
@@ -61,10 +81,37 @@ namespace Mixture
 				AssetDatabase.SaveAssets();
 				AssetDatabase.Refresh();
 
-				UnityEngine.Object obj = AssetDatabase.LoadAssetAtPath< Texture >(pathName);
+				EditorGUIUtility.PingObject(mixture.outputTexture);
+			}
+		}
 
-				if (obj != null)
-					EditorGUIUtility.PingObject(obj);
+		class CustomTextureShaderAction : EndNameEditAction
+		{
+			static MethodInfo	createScriptAsset = typeof(ProjectWindowUtil).GetMethod("CreateScriptAssetFromTemplate", BindingFlags.Static | BindingFlags.NonPublic);
+
+			public override void Action(int instanceId, string pathName, string resourceFile)
+			{
+				if (!File.Exists(resourceFile))
+                {
+                    Debug.LogError("Can't find template: " + resourceFile);
+                    return ;
+                }
+
+				createScriptAsset.Invoke(null, new object[]{ pathName, resourceFile });
+				ProjectWindowUtil.ShowCreatedAsset(AssetDatabase.LoadAssetAtPath<Shader>(pathName));
+				AssetDatabase.Refresh();
+			}
+		}
+
+		class CustomtextureShaderGraphAction : EndNameEditAction
+		{
+			public static readonly string template = "CustomTextureGraphTemplate";
+
+			public override void Action(int instanceId, string pathName, string resourceFile)
+			{
+				var s = Resources.Load(template, typeof(Shader));
+				AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(s), pathName);
+				ProjectWindowUtil.ShowCreatedAsset(AssetDatabase.LoadAssetAtPath<Shader>(pathName));
 			}
 		}
 	}
