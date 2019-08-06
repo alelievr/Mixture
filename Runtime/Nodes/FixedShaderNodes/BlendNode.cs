@@ -16,6 +16,5 @@ namespace Mixture
 		public override bool displayMaterialInspector => true;
 
 		protected override IEnumerable<string> filteredOutProperties => new string[]{"_BlendMode", "_MaskMode"};
-
 	}
 }

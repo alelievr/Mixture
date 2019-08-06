@@ -2,8 +2,8 @@
 {	
 	Properties
 	{
-		[MixtureTexture2D]_Texture("Texture", 2D) = "white" {}
-		[MixtureTexture2D]_UV("UV", 2D) = "white" {}
+		[InlineTexture]_Texture("Texture", 2D) = "white" {}
+		[InlineTexture]_UV("UV", 2D) = "white" {}
 	}
 	SubShader
 	{

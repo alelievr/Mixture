@@ -1,6 +1,8 @@
 #ifndef MIXTURE_FIXED
 #define MIXTURE_FIXED
 
+#pragma multi_compile fueiwbgf
+
 // Mixture Fixed Pipeline helper
 
 // Macros
@@ -22,5 +24,16 @@
 #define SAMPLE2D_S(Texture, Sampler, uv) Texture.Sample(Sampler, uv)
 #define SAMPLE2D_LOD(Texture, uv, lod) Texture.Sample(SAMPLER2D(Texture), float4(uv.xy,0,lod))
 #define SAMPLE2D_LOD_S(Texture, Sampler, uv) Texture.Sample(Sampler, float4(uv.xy,0,lod))
+
+#ifdef CRT_2D
+	#define SAMPLE_X(tex, uv, dir)	tex2Dlod(MERGE_NAME(tex,_2D), float4(uv, 0))
+	#define TEXTURE_X(tex)			TEXTURE2D(MERGE_NAME(tex,_2D))
+#elif CRT_3D
+	#define SAMPLE_X(tex, uv, dir)	tex3Dlod(MERGE_NAME(tex,_3D), float4(uv, 0))
+	#define TEXTURE_X(tex)			TEXTURE3D(MERGE_NAME(tex,_3D))
+#else
+	#define SAMPLE_X(tex, uv, dir)	texCUBElod(MERGE_NAME(tex,_Cube), float4(dir, 0))
+	#define TEXTURE_X(tex)			TEXTURECUBE(MERGE_NAME(tex,_Cube))
+#endif
 
 #endif

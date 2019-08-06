@@ -20,9 +20,15 @@ namespace Mixture
 		public MixtureRTSettings			rtSettings;
 
 		protected virtual MixtureRTSettings	defaultRTSettings => MixtureRTSettings.defaultValue;
-		public virtual  float   			nodeWidth => 250.0f;
-		public virtual Texture				previewTexture { get => null; }
+		public virtual float   				nodeWidth => 250.0f;
+		public virtual Texture				previewTexture => null;
 		public virtual bool					hasSettings => true;
+		// TODO: Add an error badge when the output of the node is not supported by the current dimension + process error
+		public virtual List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
+			OutputDimension.Texture2D,
+			OutputDimension.Texture3D,
+			OutputDimension.CubeMap,
+		};
 
 		public event Action					onSettingsChanged;
 		
@@ -111,11 +117,16 @@ namespace Mixture
 			if (material == null)
 				yield break;
 
+			var currentDimension = rtSettings.GetTextureDimension(graph);
+				
 			foreach (var prop in MaterialEditor.GetMaterialProperties(new []{material}))
 			{
 				if (prop.flags == MaterialProperty.PropFlags.HideInInspector
 					|| prop.flags == MaterialProperty.PropFlags.NonModifiableTextureData
 					|| prop.flags == MaterialProperty.PropFlags.PerRendererData)
+					continue;
+				
+				if (!PropertySupportsDimension(prop, currentDimension))
 					continue;
 
 				yield return new PortData{
@@ -124,6 +135,11 @@ namespace Mixture
 					displayType = GetPropertyType(prop),
 				};
 			}
+		}
+
+		bool PropertySupportsDimension(MaterialProperty prop, TextureDimension dim)
+		{
+			return MixtureUtils.GetAllowedDimenions(prop.name).Contains(dim);
 		}
 
 		protected void AssignMaterialPropertiesFromEdges(List< SerializableEdge > edges, Material material)
@@ -161,7 +177,10 @@ namespace Mixture
 		protected void LogShaderErrors(Shader s)
 		{
 			foreach (var m in ShaderUtil.GetShaderMessages(s).Where(m => m.severity == ShaderCompilerMessageSeverity.Error))
-				Debug.LogError($"{m.file}:{m.line} {m.message} {m.messageDetails}");
+			{
+				string file = String.IsNullOrEmpty(m.file) ? s.name : m.file;
+				Debug.LogError($"{file}:{m.line} {m.message} {m.messageDetails}");
+			}
 		}
 
 		public void OnSettingsChanged() => onSettingsChanged?.Invoke();

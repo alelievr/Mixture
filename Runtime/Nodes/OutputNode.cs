@@ -33,7 +33,16 @@ namespace Mixture
 		public override Texture 	previewTexture => tempRenderTexture;
 		public override float		nodeWidth => 400;
 		
-		Material					finalCopyMaterial;
+		Material					_finalCopyMaterial;
+		Material					finalCopyMaterial
+		{
+			get
+			{
+				if (_finalCopyMaterial == null)
+					_finalCopyMaterial = new Material(Shader.Find("Hidden/Mixture/FinalCopy"));
+				return _finalCopyMaterial;
+			}
+		}
 
 		// Compression settings
 		// TODO: there are too many formats, reduce them with a new enum
@@ -62,9 +71,6 @@ namespace Mixture
 				rtSettings.targetFormat = OutputFormat.RGBA_Float;
 			if (rtSettings.dimension == OutputDimension.Default)
 				rtSettings.dimension = OutputDimension.Texture2D;
-			
-			if (finalCopyMaterial == null)
-				finalCopyMaterial = new Material(Shader.Find("Hidden/Mixture/FinalCopy"));
 
             UpdateTempRenderTexture(ref tempRenderTexture);
 			graph.onOutputTextureUpdated += () => {

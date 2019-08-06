@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class MixtureVector3Drawer : MaterialPropertyDrawer
+namespace Mixture
 {
-    public override void OnGUI (Rect position, MaterialProperty prop, string label, MaterialEditor editor)
+    public class MixtureVector3Drawer : MixturePropertyDrawer
     {
-        EditorGUIUtility.wideMode = true;
-        Vector3 value = EditorGUI.Vector3Field(position, prop.displayName, prop.vectorValue);
+        protected override void DrawerGUI (Rect position, MaterialProperty prop, string label, MaterialEditor editor, MixtureGraph graph, MixtureNodeView nodeView)
+        {
+            EditorGUIUtility.wideMode = true;
+            Vector3 value = EditorGUI.Vector3Field(position, prop.displayName, prop.vectorValue);
 
-        if (GUI.changed)
-            prop.vectorValue = new Vector4(value.x, value.y, value.z, 0);
+            if (GUI.changed)
+                prop.vectorValue = new Vector4(value.x, value.y, value.z, 0);
+        }
     }
 }

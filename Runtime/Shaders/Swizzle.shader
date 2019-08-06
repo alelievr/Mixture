@@ -2,7 +2,7 @@
 {	
 	Properties
 	{
-		[MixtureTexture2D]_Source("Input", 2D) = "white" {}
+		[InlineTexture]_Source("Input", 2D) = "white" {}
 		[MixtureSwizzle]_RMode("Output Red", Float) = 0
 		[MixtureSwizzle]_GMode("Output Green", Float) = 1
 		[MixtureSwizzle]_BMode("Output Blue", Float) = 2

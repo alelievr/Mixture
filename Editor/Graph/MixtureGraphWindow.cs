@@ -21,13 +21,18 @@ namespace Mixture
 
 		protected override void InitializeWindow(BaseGraph graph)
 		{
-			titleContent = new GUIContent("Mixture Graph", MixtureUtils.icon);
+			titleContent = new GUIContent("Mixture Graph", MixtureUtils.icon32);
 
 			var graphView = new MixtureGraphView(this);
 
 			rootView.Add(graphView);
 
 			graphView.Add(new MixtureToolbar(graphView));
+		}
+
+		void OnDestroy()
+		{
+			MixtureUpdater.RemoveGraphToProcess(graphView as MixtureGraphView);
 		}
 	}
 }

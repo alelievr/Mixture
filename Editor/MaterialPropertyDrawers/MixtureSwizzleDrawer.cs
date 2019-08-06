@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class MixtureSwizzleDrawer : MaterialPropertyDrawer
+namespace Mixture
 {
-    public override void OnGUI (Rect position, MaterialProperty prop, string label, MaterialEditor editor)
+    public class MixtureSwizzleDrawer : MixturePropertyDrawer
     {
-        //[Enum(Red,0,Green,1,Blue,2,Alpha,3,Black,4,Gray,5,White,6,Custom,7)]
-        
-        int value = EditorGUI.IntPopup(position, label, (int)prop.floatValue, displayedOptions, optionValues);
+        protected override void DrawerGUI (Rect position, MaterialProperty prop, string label, MaterialEditor editor, MixtureGraph graph, MixtureNodeView nodeView)
+        {
+            //[Enum(Red,0,Green,1,Blue,2,Alpha,3,Black,4,Gray,5,White,6,Custom,7)]
+            
+            int value = EditorGUI.IntPopup(position, label, (int)prop.floatValue, displayedOptions, optionValues);
 
-        if (GUI.changed)
-            prop.floatValue = (float)value;
+            if (GUI.changed)
+                prop.floatValue = (float)value;
+        }
+
+        static string[] displayedOptions = { "Input.Red", "Input.Green", "Input.Blue", "Input.Alpha", "Black", "Gray", "White", "Custom" };
+        static int[] optionValues = { 0, 1, 2, 3, 4, 5, 6, 7 };
     }
-
-    static string[] displayedOptions = { "Input.Red", "Input.Green", "Input.Blue", "Input.Alpha", "Black", "Gray", "White", "Custom" };
-    static int[] optionValues = { 0, 1, 2, 3, 4, 5, 6, 7 };
 }

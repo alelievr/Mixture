@@ -2,7 +2,7 @@
 {	
 	Properties
 	{
-		[MixtureTexture2D]_Texture("Texture", 2D) = "white" {}
+		[InlineTexture]_Texture("Texture", 2D) = "white" {}
 		[MixtureVector2]_Scale("UV Scale", Vector) = (1.0,1.0,0.0,0.0)
 		[MixtureVector2]_Bias("UV Bias", Vector) = (0.0,0.0,0.0,0.0)
 	}

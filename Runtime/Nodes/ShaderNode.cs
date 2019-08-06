@@ -79,6 +79,8 @@ namespace Mixture
 				return ;
 			}
 
+			MixtureUtils.SetupDimensionKeyword(material, rtSettings.GetTextureDimension(graph));
+
 #if UNITY_EDITOR // IsShaderCompiled is editor only
 			if (!IsShaderCompiled(material.shader))
 			{

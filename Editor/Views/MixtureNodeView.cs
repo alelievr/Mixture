@@ -76,6 +76,10 @@ namespace Mixture
             propertyEditorUI.style.display = DisplayStyle.Flex;
         }
 
+		~MixtureNodeView()
+		{
+			MixturePropertyDrawer.UnregisterGraph(owner.graph);
+		}
 
 		void UpdatePorts()
 		{
@@ -128,7 +132,10 @@ namespace Mixture
 
 			MaterialEditor  editor;
 			if (!materialEditors.TryGetValue(material, out editor))
+			{
 				editor = materialEditors[material] = Editor.CreateEditor(material) as MaterialEditor;
+				MixturePropertyDrawer.RegisterEditor(editor, this, owner.graph);
+			}
 
 			bool propertiesChanged = CheckPropertyChanged(material, properties);
 
@@ -181,15 +188,20 @@ namespace Mixture
 			}
         }
 
+		Rect GetPreviewRect(Texture texture)
+		{
+			float width = Mathf.Min(nodeTarget.nodeWidth, texture.width);
+			float height = Mathf.Min(nodeTarget.nodeWidth, texture.height);
+			return GUILayoutUtility.GetRect(1, width, 1, height);
+		}
+
 		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)
 		{
-			var previewImage = new Image
-			{
-				image = texture,
-				scaleMode = ScaleMode.ScaleToFit,
-				
-			};
-            previewContainer.Add(previewImage);
+			var previewImageSlice = new IMGUIContainer(() => {
+				// square image:
+				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), texture);
+			});
+			previewContainer.Add(previewImageSlice);
 		}
 
 		void CreateTexture2DArrayPreview(VisualElement previewContainer, Texture texture, int currentSlice)
@@ -201,10 +213,9 @@ namespace Mixture
 			};
 			var previewImageSlice = new IMGUIContainer(() => {
 				// square image:
-				var rect = GUILayoutUtility.GetRect(1, nodeTarget.nodeWidth, 1, nodeTarget.nodeWidth);
 				MixtureUtils.textureArrayPreviewMaterial.SetTexture("_TextureArray", texture);
 				MixtureUtils.textureArrayPreviewMaterial.SetFloat("_Slice", currentSlice);
-				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial);
+				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial);
 			});
 			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
 				currentSlice = a.newValue;
@@ -223,10 +234,9 @@ namespace Mixture
 			};
 			var previewImageSlice = new IMGUIContainer(() => {
 				// square image:
-				var rect = GUILayoutUtility.GetRect(1, nodeTarget.nodeWidth, 1, nodeTarget.nodeWidth);
 				MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", texture);
 				MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", (float)currentSlice / (nodeTarget.rtSettings.GetDepth(owner.graph) - 1));
-				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial);
+				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial);
 			});
 			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
 				currentSlice = a.newValue;
@@ -237,23 +247,12 @@ namespace Mixture
 
 		void CreateTextureCubePreview(VisualElement previewContainer, Texture texture, int currentSlice)
 		{
-			// TODO: 3D Texture preview material with ray-marching
-			var previewSliceIndex = new SliderInt(0, TextureUtils.GetSliceCount(texture) - 1)
-			{
-				label = "Slice",
-				value = currentSlice,
-			};
 			var previewImageSlice = new IMGUIContainer(() => {
 				// square image:
-				var rect = GUILayoutUtility.GetRect(1, nodeTarget.nodeWidth, 1, nodeTarget.nodeWidth);
 				MixtureUtils.textureCubePreviewMaterial.SetTexture("_Cubemap", texture);
 				MixtureUtils.textureCubePreviewMaterial.SetFloat("_Slice", currentSlice);
-				EditorGUI.DrawPreviewTexture(rect, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial);
+				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial);
 			});
-			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
-				currentSlice = a.newValue;
-			});
-			previewContainer.Add(previewSliceIndex);
 			previewContainer.Add(previewImageSlice);
 		}
 	}

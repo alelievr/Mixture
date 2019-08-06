@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Mixture
 {
@@ -66,7 +67,13 @@ namespace Mixture
 		static Texture2D				_icon;
 		public static Texture2D			icon
 		{
-			get => _icon == null ? _icon = Resources.Load< Texture2D >("MixtureIcon") : _icon;
+			get => _icon == null ? _icon = Resources.Load< Texture2D >("MixtureIcon_128") : _icon;
+		}
+
+		static Texture2D				_icon32;
+		public static Texture2D			icon32
+		{
+			get => _icon32 == null ? _icon32 = Resources.Load< Texture2D >("MixtureIcon_32") : _icon32;
 		}
 
 		public static void SetupDimensionKeyword(Material material, TextureDimension dimension)
@@ -92,5 +99,33 @@ namespace Mixture
 					break;
 			}
 		}
+
+		static readonly Dictionary< TextureDimension, string >	shaderPropertiesDimension = new Dictionary<TextureDimension, string>{
+            { TextureDimension.Tex2D, "_2D" },
+            { TextureDimension.Tex3D, "_3D" },
+            { TextureDimension.Cube, "_Cube" },
+        };
+
+        static readonly List< TextureDimension > allDimensions = new List<TextureDimension>() {
+            TextureDimension.Tex2D, TextureDimension.Tex3D, TextureDimension.Cube,
+        };
+
+		public static List<TextureDimension> GetAllowedDimenions(string propertyName)
+        {
+            // if there is no modifier in the name, then it supports all the dimensions
+            if (!shaderPropertiesDimension.Values.Any(dim => propertyName.Contains(dim)))
+                return allDimensions;
+
+            List<TextureDimension>  dimensions = new List<TextureDimension>();
+
+            foreach (var kp in shaderPropertiesDimension)
+            {
+                if (propertyName.ToUpper().Contains(kp.Value.ToUpper()))
+                    dimensions.Add(kp.Key);
+            }
+
+            return dimensions;
+        }
+
     }
 }

@@ -19,7 +19,6 @@ SubShader
             #pragma vertex vert
             #pragma fragment frag
 
-            // TOOD: multi compile for cubemap
             #pragma multi_compile CRT_2D CRT_2D_ARRAY CRT_3D CRT_CUBE
 
             #include "UnityCG.cginc"

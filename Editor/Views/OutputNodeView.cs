@@ -99,7 +99,8 @@ namespace Mixture
 		{
 			// Retrieve the texture from the GPU:
 			var src = outputNode.tempRenderTexture;
-			var request = AsyncGPUReadback.Request(src, 0, 0, src.width, 0, src.height, 0, src.volumeDepth, (r) => {
+			int depth = src.dimension == TextureDimension.Cube ? 6 : src.volumeDepth;
+			var request = AsyncGPUReadback.Request(src, 0, 0, src.width, 0, src.height, 0, depth, (r) => {
 				WriteRequestResult(r, graph.outputTexture);
 			});
 

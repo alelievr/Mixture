@@ -74,10 +74,10 @@ namespace Mixture
 				target = AssetDatabase.LoadAssetAtPath< Texture2D >(assetPath);
 
 			// Texture2D could be a standard unity texture, in this case we don't want the mixture icon on it
-			if (!subAssets.Any(s => s is Material))
-				Graphics.Blit(target as Texture, rt);
-			else
+			if (assetPath.EndsWith(".asset")) // If the texture is an asset, then it means that it have not been imported from png, jpg, ...
 				BlitMixtureIcon(target as Texture, rt);
+			else
+				Graphics.Blit(target as Texture, rt);
 
 			RenderTexture.active = rt;
 			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);
