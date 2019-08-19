@@ -19,6 +19,12 @@ namespace Mixture
 			return graphWindow;
 		}
 
+		protected new void OnEnable()
+		{
+			base.OnEnable();
+			graphUnloaded += g => MixtureUpdater.RemoveGraphToProcess(g as MixtureGraph);
+		}
+
 		protected override void InitializeWindow(BaseGraph graph)
 		{
 			titleContent = new GUIContent("Mixture Graph", MixtureUtils.icon32);

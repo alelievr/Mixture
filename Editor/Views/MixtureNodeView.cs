@@ -47,6 +47,7 @@ namespace Mixture
 			// When we change the output dimension, we want to update the output ports
 			owner.graph.onOutputTextureUpdated += UpdatePorts;
 			nodeTarget.onSettingsChanged += UpdatePorts;
+			nodeTarget.onSettingsChanged += () => owner.processor.Run();
 			
 			propertyEditorUI = new VisualElement();
 			controlsContainer.Add(propertyEditorUI);

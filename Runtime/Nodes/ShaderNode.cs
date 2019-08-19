@@ -69,7 +69,7 @@ namespace Mixture
 			};
 		}
 
-		protected override void Process()
+		protected sealed override void Process()
 		{
 			UpdateTempRenderTexture(ref output);
 
@@ -79,7 +79,19 @@ namespace Mixture
 				return ;
 			}
 
-			MixtureUtils.SetupDimensionKeyword(material, rtSettings.GetTextureDimension(graph));
+			var outputDimension = rtSettings.GetTextureDimension(graph);
+
+			if (!supportedDimensions.Contains((OutputDimension)outputDimension))
+			{
+				AddMessage($"Dimension {outputDimension} is not supported by this node", NodeMessageType.Error);
+				return ;
+			}
+			else
+			{
+				ClearMessages();
+			}
+
+			MixtureUtils.SetupDimensionKeyword(material, outputDimension);
 
 #if UNITY_EDITOR // IsShaderCompiled is editor only
 			if (!IsShaderCompiled(material.shader))

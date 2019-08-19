@@ -2,8 +2,14 @@
 {	
 	Properties
 	{
-		[InlineTexture]_Texture("Texture", 2D) = "white" {}
-		[InlineTexture]_UV("UV", 2D) = "white" {}
+		[InlineTexture]_Texture_2D("Texture", 2D) = "white" {}
+		[InlineTexture]_UV_2D("UV", 2D) = "white" {}
+		
+		[InlineTexture]_Texture_3D("Texture", 3D) = "white" {}
+		[InlineTexture]_UV_3D("UV", 3D) = "white" {}
+		
+		[InlineTexture]_Texture_Cube("Texture", Cube) = "white" {}
+		[InlineTexture]_UV_Cube("Direction", Cube) = "white" {}
 	}
 	SubShader
 	{
@@ -13,20 +19,20 @@
 		Pass
 		{
 			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment mixture
-
-			#include "UnityCG.cginc"
-			#define USE_UV
-			#include "MixtureFixed.cginc"
 			
-			TEXTURE2D(_Texture);
-			TEXTURE2D(_UV);
+			#include "MixtureFixed.cginc"
+			#include "UnityCustomRenderTexture.cginc"
+            #pragma vertex CustomRenderTextureVertexShader
+			#pragma fragment mixture
+			#pragma target 3.0
+			
+			TEXTURE_X(_Texture);
+			TEXTURE_X(_UV);
 
-			float4 mixture (MixtureInputs i) : SV_Target
+			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				float2 uv = SAMPLE2D_LOD(_UV, i.uv, 0).rg;
-				float4 col = SAMPLE2D_LOD(_Texture, uv, 0);
+				float3 uv = SAMPLE_X(_UV, float3(i.localTexcoord.xy, 0), i.direction).rgb;
+				float4 col = SAMPLE_X(_Texture, uv, uv);
 				return col;
 			}
 			ENDCG

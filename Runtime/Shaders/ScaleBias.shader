@@ -2,7 +2,10 @@
 {	
 	Properties
 	{
-		[InlineTexture]_Texture("Texture", 2D) = "white" {}
+		[InlineTexture]_Texture_2D("Texture", 2D) = "white" {}
+		[InlineTexture]_Texture_3D("Texture", 3D) = "white" {}
+		[InlineTexture]_Texture_Cube("Texture", Cube) = "white" {}
+
 		[Enum(ScaleBias,0,BiasScale,1,Scale,2,Bias,3)]_Mode("Mode", Float) = 0
 		_Scale("Scale", Vector) = (1.0,1.0,0.0,0.0)
 		_Bias("Bias", Vector) = (0.0,0.0,0.0,0.0)
@@ -15,21 +18,21 @@
 		Pass
 		{
 			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment mixture
 
-			#include "UnityCG.cginc"
-			#define USE_UV
 			#include "MixtureFixed.cginc"
+			#include "UnityCustomRenderTexture.cginc"
+            #pragma vertex CustomRenderTextureVertexShader
+			#pragma fragment mixture
+			#pragma target 3.0
 
-			TEXTURE2D(_Texture);
+			TEXTURE_X(_Texture);
 			float _Mode;
 			float4 _Scale;
 			float4 _Bias;
 
-			float4 mixture (MixtureInputs i) : SV_Target
+			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				float4 col = SAMPLE2D_LOD(_Texture, i.uv, 0);
+				float4 col = SAMPLE_X(_Texture, float3(i.localTexcoord.xy, 0), i.direction);
 				uint mode = (uint)_Mode;
 				switch (mode)
 				{

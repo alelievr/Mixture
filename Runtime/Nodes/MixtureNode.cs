@@ -23,7 +23,6 @@ namespace Mixture
 		public virtual float   				nodeWidth => 250.0f;
 		public virtual Texture				previewTexture => null;
 		public virtual bool					hasSettings => true;
-		// TODO: Add an error badge when the output of the node is not supported by the current dimension + process error
 		public virtual List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
 			OutputDimension.Texture2D,
 			OutputDimension.Texture3D,

@@ -12,14 +12,24 @@ namespace Mixture
 	public class MixtureAssetCallbacks
 	{
 		public static readonly string	Extension = "asset";
-		public static readonly string	customTextureShaderTemplate = "CustomTextureShaderTemplate";
+		public static readonly string	customTextureShaderTemplate = "Templates/CustomTextureShaderTemplate";
 
-		[MenuItem("Assets/Create/Mixture Graph", false, 100)]
+		public static readonly string	mixtureShaderNodeCSharpTemplate = "Templates/MixtureShaderNodeTemplate";
+		public static readonly string	mixtureShaderNodeDefaultName = "MixtureShaderNode.cs";
+
+		[MenuItem("Assets/Create/Mixture/Mixture Graph", false, 100)]
 		public static void CreateMixtureGraph()
 		{
 			var graphItem = ScriptableObject.CreateInstance< MixtureGraphAction >();
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
                 $"New Mixture Graph.{Extension}", MixtureUtils.icon, null);
+		}
+		
+		[MenuItem("Assets/Create/Mixture/C# Shader Node", false, 101)]
+		public static void CreateMixtureNode()
+		{
+			var template = Resources.Load< TextAsset >(mixtureShaderNodeCSharpTemplate);
+			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), mixtureShaderNodeDefaultName);
 		}
 
 		[MenuItem("Assets/Create/Shader/Custom Texture", false, 100)]
@@ -105,7 +115,7 @@ namespace Mixture
 
 		class CustomtextureShaderGraphAction : EndNameEditAction
 		{
-			public static readonly string template = "CustomTextureGraphTemplate";
+			public static readonly string template = "Templates/CustomTextureGraphTemplate";
 
 			public override void Action(int instanceId, string pathName, string resourceFile)
 			{

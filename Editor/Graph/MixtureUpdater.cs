@@ -18,10 +18,8 @@ namespace Mixture
             views.Add(view);
         }
 
-        public static void RemoveGraphToProcess(MixtureGraphView view)
-        {
-            views.Remove(view);
-        }
+        public static void RemoveGraphToProcess(MixtureGraph graph) => RemoveGraphToProcess(views.Find(v => v.graph == graph));
+        public static void RemoveGraphToProcess(MixtureGraphView view) => views.Remove(view);
 
         public static void Update()
         {

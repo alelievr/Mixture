@@ -2,11 +2,15 @@
 {	
 	Properties
 	{
-		[InlineTexture]_Source("Input", 2D) = "white" {}
+		[InlineTexture]_Source_2D("Input", 2D) = "white" {}
+		[InlineTexture]_Source_3D("Input", 3D) = "white" {}
+		[InlineTexture]_Source_Cube("Input", Cube) = "white" {}
+
 		[MixtureSwizzle]_RMode("Output Red", Float) = 0
 		[MixtureSwizzle]_GMode("Output Green", Float) = 1
 		[MixtureSwizzle]_BMode("Output Blue", Float) = 2
 		[MixtureSwizzle]_AMode("Output Alpha", Float) = 3
+
 		[HDR]_Custom("Custom", Color) = (1.0,1.0,1.0,1.0)
 	}
 	SubShader
@@ -17,17 +21,17 @@
 		Pass
 		{
 			CGPROGRAM
-			// #pragma vertex vert
-			#pragma fragment mixture
 
-			// #include "UnityCG.cginc"
-			#include "UnityCustomRenderTexture.cginc"
-			// #define USE_UV
 			#include "MixtureFixed.cginc"
+			#include "UnityCustomRenderTexture.cginc"
             #pragma vertex CustomRenderTextureVertexShader
+			#pragma fragment mixture
 			#pragma target 3.0
 
-			TEXTURE2D(_Source);
+            #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
+
+			TEXTURE_X(_Source);
+
 			float _RMode;
 			float _GMode;
 			float _BMode;
@@ -51,14 +55,14 @@
 				return 0;
 			}
 
-			float4 mixture (v2f_customrendertexture IN) : SV_Target
+			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				float4	source	= SAMPLE2D_LOD(_Source, IN.localTexcoord.xy, 0);
+				float4 source = SAMPLE_X(_Source, float3(i.localTexcoord.xy, 0), i.direction);
 				float r = Swizzle(source, _RMode, _Custom.r);
 				float g = Swizzle(source, _GMode, _Custom.g);
 				float b = Swizzle(source, _BMode, _Custom.b);
 				float a = Swizzle(source, _AMode, _Custom.a);
-				return float4(r,g,b,a);
+				return float4(r, g, b, a);
 			}
 			ENDCG
 		}
