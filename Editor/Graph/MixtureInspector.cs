@@ -165,7 +165,7 @@ namespace Mixture
 
         public override void OnPreviewGUI(Rect r, GUIStyle background)
 		{
-			float depth = (float)slice / ((float)volume.depth - 1);
+			float depth = ((float)slice + 0.5f) / (float)volume.depth;
 			MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", depth);
 			MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", volume);
 			EditorGUI.DrawPreviewTexture(r, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial);

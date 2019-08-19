@@ -8,7 +8,7 @@ Shader "Hidden/MixtureIconBlit"
         _Texture3D ("Texture3D", 3D) = "" {}
         _Cubemap("Cubemap", Cube) = "" {}
     }
-SubShader
+	SubShader
     {
         Tags { "RenderType"="Opaque" }
         LOD 100
