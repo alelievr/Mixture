@@ -2,9 +2,55 @@
 using UnityEngine.Rendering;
 using UnityEditor;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Mixture
 {
+	[InitializeOnLoad]
+	class MixtureSmallIconRenderer
+	{
+		static HashSet< string >	mixtureAssets = new HashSet< string >();
+
+		static MixtureSmallIconRenderer() => EditorApplication.projectWindowItemOnGUI += DrawMixtureSmallIcon;
+		
+		static void DrawMixtureSmallIcon(string assetGUID, Rect rect)
+		{
+			// If the icon is not small
+			if (rect.height != 16)
+				return ;
+			
+			if (mixtureAssets.Contains(assetGUID))
+				DrawMixtureSmallIcon(rect);
+			
+			string assetPath = AssetDatabase.GUIDToAssetPath(assetGUID);
+
+			// Mixture assets are saved as .asset files
+			if (!assetPath.EndsWith($".{MixtureAssetCallbacks.Extension}"))
+				return ;
+
+			// ensure that the asset is a texture:
+			if (AssetDatabase.LoadAssetAtPath< Texture >(assetPath) == null)
+				return ;
+
+			mixtureAssets.Add(assetGUID);
+			DrawMixtureSmallIcon(rect);
+		}
+
+		static void DrawMixtureSmallIcon(Rect rect)
+		{
+			Rect clearRect = new Rect(rect.x, rect.y, 20, 16);
+			Rect iconRect = new Rect(rect.x + 2, rect.y, 16, 16);
+
+			// Draw a quad of the color of the background
+			Color backgroundColor = EditorGUIUtility.isProSkin
+				? new Color32(56, 56, 56, 255)
+				: new Color32(194, 194, 194, 255);
+
+			EditorGUI.DrawRect(clearRect, backgroundColor);
+			GUI.DrawTexture(iconRect, MixtureUtils.icon32);
+		}
+	}
+
 	public class MixtureEditor : Editor
 	{
 		public virtual void OnEnable() {}
