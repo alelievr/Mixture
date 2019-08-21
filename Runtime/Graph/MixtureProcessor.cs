@@ -35,7 +35,11 @@ namespace Mixture
 				// Temporary hack: Custom Textures are not updated when the Shader / the Material is updated
 				// and inside the dependency tree of a CRT. So we need to manually update all CRTs.
 				if (node is ShaderNode s)
-					s.output.Update();
+				{
+					// the CRT output will be null if there are procesing errors
+					if (s.output != null)
+						s.output.Update();
+				}
 			}
 
 			graph.outputNode.tempRenderTexture.Update();

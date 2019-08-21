@@ -82,12 +82,12 @@ namespace Mixture
 			};
 		}
 
-		protected override void Process()
+		protected override bool ProcessNode()
 		{
 			if (graph.outputTexture == null)
 			{
 				Debug.LogError("Output Node can't write to target texture, Graph references a null output texture");
-				return ;
+				return false;
 			}
 
 			var inputPort = GetPort(nameof(input), nameof(input));
@@ -97,7 +97,7 @@ namespace Mixture
 				Debug.LogWarning("Output node input is not connected");
 				input = TextureUtils.GetBlackTexture(rtSettings);
 				// TODO: set a black texture of texture dimension as default value
-				return;
+				return false;
 			}
 
 			// Update the renderTexture size and format:
@@ -107,7 +107,7 @@ namespace Mixture
 			if (input.dimension != graph.outputTexture.dimension)
 			{
 				Debug.LogError("Error: Expected texture type input for the OutputNode is " + graph.outputTexture.dimension + " but " + input?.dimension + " was provided");
-				return ;
+				return false;
 			}
 
 			MixtureUtils.SetupDimensionKeyword(finalCopyMaterial, input.dimension);
@@ -117,8 +117,10 @@ namespace Mixture
 				finalCopyMaterial.SetTexture("_Source3D", input);
 			else
 				finalCopyMaterial.SetTexture("_SourceCube", input);
-				
+
 			tempRenderTexture.material = finalCopyMaterial;
+
+			return true;
 		}
 
 		[CustomPortBehavior(nameof(input))]

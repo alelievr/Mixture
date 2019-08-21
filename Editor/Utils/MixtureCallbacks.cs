@@ -14,8 +14,10 @@ namespace Mixture
 		public static readonly string	Extension = "asset";
 		public static readonly string	customTextureShaderTemplate = "Templates/CustomTextureShaderTemplate";
 
-		public static readonly string	mixtureShaderNodeCSharpTemplate = "Templates/MixtureShaderNodeTemplate";
+		public static readonly string	mixtureShaderNodeCSharpTemplate = "Templates/FixedShaderNodeTemplate";
+		public static readonly string	mixtureShaderNodeCGTemplate = "Templates/FixedShaderTemplate";
 		public static readonly string	mixtureShaderNodeDefaultName = "MixtureShaderNode.cs";
+		public static readonly string	mixtureShaderName = "MixtureShader.shader";
 
 		[MenuItem("Assets/Create/Mixture/Mixture Graph", false, 100)]
 		public static void CreateMixtureGraph()
@@ -25,11 +27,18 @@ namespace Mixture
                 $"New Mixture Graph.{Extension}", MixtureUtils.icon, null);
 		}
 		
-		[MenuItem("Assets/Create/Mixture/C# Shader Node", false, 101)]
-		public static void CreateMixtureNode()
+		[MenuItem("Assets/Create/Mixture/C# Fixed Shader Node", false, 101)]
+		public static void CreateCSharpFixedShaderNode()
 		{
 			var template = Resources.Load< TextAsset >(mixtureShaderNodeCSharpTemplate);
 			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), mixtureShaderNodeDefaultName);
+		}
+
+		[MenuItem("Assets/Create/Mixture/Fixed Shader", false, 101)]
+		public static void CreateCGFixedShaderNode()
+		{
+			var template = Resources.Load< TextAsset >(mixtureShaderNodeCGTemplate);
+			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), mixtureShaderName);
 		}
 
 		[MenuItem("Assets/Create/Shader/Custom Texture", false, 100)]

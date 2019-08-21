@@ -14,6 +14,16 @@ namespace Mixture
 	{
 		Editor				customTextureEditor;
 		CustomTextureNode	node;
+		
+		public override void OnCreated()
+		{
+			if (node.customTexture != null)
+			{
+				owner.graph.AddObjectToGraph(node.customTexture);
+				owner.graph.AddObjectToGraph(node.updateMaterial);
+				owner.graph.AddObjectToGraph(node.initializationMaterial);
+			}
+		}
 
 		public override void Enable()
 		{
@@ -90,6 +100,13 @@ namespace Mixture
 
 			// Because of animation bugs in ImGUI context we're forced to repaint in loop
 			MarkDirtyRepaint();
+		}
+
+		public override void OnRemoved()
+		{
+			owner.graph.RemoveObjectFromGraph(node.customTexture);
+			owner.graph.RemoveObjectFromGraph(node.updateMaterial);
+			owner.graph.RemoveObjectFromGraph(node.initializationMaterial);
 		}
 	}
 }

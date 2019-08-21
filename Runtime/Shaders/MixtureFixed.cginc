@@ -1,8 +1,6 @@
 #ifndef MIXTURE_FIXED
 #define MIXTURE_FIXED
 
-#pragma multi_compile fueiwbgf
-
 // Mixture Fixed Pipeline helper
 
 // Macros

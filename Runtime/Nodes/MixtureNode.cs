@@ -90,6 +90,25 @@ namespace Mixture
 			return false;
 		}
 
+		protected sealed override void Process()
+		{
+			var outputDimension = rtSettings.GetTextureDimension(graph);
+
+			if (!supportedDimensions.Contains((OutputDimension)outputDimension))
+			{
+				AddMessage($"Dimension {outputDimension} is not supported by this node", NodeMessageType.Error);
+				return ;
+			}
+			else
+			{
+				ClearMessages();
+			}
+
+			ProcessNode();
+		}
+
+		protected virtual bool ProcessNode() => true;
+
 		protected void AddObjectToGraph(Object obj) => graph.AddObjectToGraph(obj);
 		protected void RemoveObjectFromGraph(Object obj) => graph.RemoveObjectFromGraph(obj);
 
