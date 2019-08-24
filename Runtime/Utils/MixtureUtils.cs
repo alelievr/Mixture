@@ -21,6 +21,22 @@ namespace Mixture
 				return _blitIconMaterial;
 			}
 		}
+		
+		static Material  _blitRealtimeIconMaterial;
+		public static Material  blitRealtimeIconMaterial
+		{
+			get
+			{
+				if (_blitRealtimeIconMaterial == null)
+				{
+					_blitRealtimeIconMaterial = new Material(Shader.Find("Hidden/MixtureIconBlit"));
+					_blitRealtimeIconMaterial.SetTexture("_MixtureIcon", realtimeIcon);
+				}
+
+				return _blitRealtimeIconMaterial;
+			}
+		}
+
 
 		static Material	_textureArrayPreviewMaterial;
 		public static Material	textureArrayPreviewMaterial
@@ -75,6 +91,19 @@ namespace Mixture
 		{
 			get => _icon32 == null ? _icon32 = Resources.Load< Texture2D >("MixtureIcon_32") : _icon32;
 		}
+		
+		static Texture2D				_realtimeIcon;
+		public static Texture2D			realtimeIcon
+		{
+			get => _realtimeIcon == null ? _realtimeIcon = Resources.Load< Texture2D >("MixtureRealtimeIcon_128") : _realtimeIcon;
+		}
+
+		static Texture2D				_realtimeIcon32;
+		public static Texture2D			realtimeIcon32
+		{
+			get => _realtimeIcon32 == null ? _realtimeIcon32 = Resources.Load< Texture2D >("MixtureRealtimeIcon_32") : _realtimeIcon32;
+		}
+
 
 		public static void SetupDimensionKeyword(Material material, TextureDimension dimension)
 		{

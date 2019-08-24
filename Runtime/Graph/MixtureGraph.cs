@@ -16,8 +16,11 @@ namespace Mixture
 	[System.Serializable]
 	public class MixtureGraph : BaseGraph
 	{
-		// Serialized datas for the editor:
+		// Serialized data for the editor:
 		public bool				realtimePreview;
+
+		// Whether or not the mixture is realtime
+		public bool				isRealtime;
 
 		public OutputNode		outputNode;
 
@@ -66,6 +69,11 @@ namespace Mixture
 
 			if (outputNode == null)
 				outputNode = AddNode(BaseNode.CreateFromType< OutputNode >(Vector2.zero)) as OutputNode;
+
+#if UNITY_EDITOR
+			if (isRealtime)
+				RealtimeMixtureReferences.realtimeMixtureCRTs.Add(outputTexture as CustomRenderTexture);
+#endif
 		}
 
 		public List< Object >		GetObjectsReferences()
@@ -92,32 +100,21 @@ namespace Mixture
 		}
 
 		/// <summary>
-		/// Warning: this function will create a new output texture from scratch, It means that you will loose all datas in the former outputTexture
+		/// Warning: this function will create a new output texture from scratch, It means that you will loose all data in the former outputTexture
 		/// </summary>
 		public void					UpdateOutputTexture(bool updateMainAsset = true)
 		{
 			Texture		oldTextureObject = outputTexture;
 
-			// TODO: compression options (TextureCreationFlags.Crunch)
-			switch (outputNode.rtSettings.dimension)
+			if (isRealtime)
 			{
-				case OutputDimension.Texture2D:
-					outputTexture = new Texture2D(outputNode.rtSettings.width, outputNode.rtSettings.height, (GraphicsFormat)outputNode.rtSettings.targetFormat, outputNode.mipmapCount, TextureCreationFlags.None); // By default we compress the texture
-					onOutputTextureUpdated?.Invoke();
-					break;
-				case OutputDimension.Texture3D:
-					outputTexture = new Texture3D(outputNode.rtSettings.width, outputNode.rtSettings.height, outputNode.rtSettings.sliceCount, (GraphicsFormat)outputNode.rtSettings.targetFormat, TextureCreationFlags.None, outputNode.mipmapCount);
-					onOutputTextureUpdated?.Invoke();
-					break;
-				case OutputDimension.CubeMap:
-					outputTexture = new Cubemap(outputNode.rtSettings.width, (GraphicsFormat)outputNode.rtSettings.targetFormat, TextureCreationFlags.None, outputNode.mipmapCount);
-					onOutputTextureUpdated?.Invoke();
-					break;
-				default:
-					Debug.LogError("Texture format " + outputNode.rtSettings.dimension + " is not supported");
-					return;
+				UpdateOutputRealtimeTexture();
+				// We don't ever need to change the main asset in realtime, it's always a CRT
+				updateMainAsset = false;
 			}
-
+			else
+				UpdateOutputStaticTexture();
+				
 			// In editor we need to refresh the main asset view
 #if UNITY_EDITOR
 			if (updateMainAsset)
@@ -130,6 +127,64 @@ namespace Mixture
 				AssetDatabase.Refresh();
 			}
 #endif
+		}
+
+		void UpdateOutputRealtimeTexture()
+		{
+			var s = outputNode.rtSettings;
+			bool useMipMap = outputNode.mipmapCount > 1;
+
+			if (outputTexture == null)
+			{
+				outputTexture = new CustomRenderTexture(s.width, s.height, (GraphicsFormat)s.targetFormat);
+				Debug.Log("Created new output texture !");
+			}
+
+			var crt = outputTexture as CustomRenderTexture;
+			bool needsUpdate = crt.width != s.width
+				|| crt.height != s.height
+				|| crt.useMipMap != useMipMap
+				|| crt.volumeDepth != s.sliceCount
+				|| crt.graphicsFormat != (GraphicsFormat)s.targetFormat;
+
+			if (needsUpdate)
+			{
+				if (crt.IsCreated())
+					crt.Release();
+				crt.width = s.width;
+				crt.height = s.height;
+				crt.graphicsFormat = (GraphicsFormat)s.targetFormat;
+				crt.useMipMap = useMipMap;
+				crt.autoGenerateMips = false;
+				crt.updateMode = CustomRenderTextureUpdateMode.Realtime;
+				crt.volumeDepth = s.sliceCount;
+				crt.Create();
+			}
+		}
+
+		void UpdateOutputStaticTexture()
+		{
+			var s = outputNode.rtSettings;
+
+			// TODO: compression options (TextureCreationFlags.Crunch)
+			switch (outputNode.rtSettings.dimension)
+			{
+				case OutputDimension.Texture2D:
+					outputTexture = new Texture2D(s.width, s.height, (GraphicsFormat)s.targetFormat, outputNode.mipmapCount, TextureCreationFlags.None); // By default we compress the texture
+					onOutputTextureUpdated?.Invoke();
+					break;
+				case OutputDimension.Texture3D:
+					outputTexture = new Texture3D(s.width, s.height, s.sliceCount, (GraphicsFormat)s.targetFormat, TextureCreationFlags.None, outputNode.mipmapCount);
+					onOutputTextureUpdated?.Invoke();
+					break;
+				case OutputDimension.CubeMap:
+					outputTexture = new Cubemap(s.width, (GraphicsFormat)s.targetFormat, TextureCreationFlags.None, outputNode.mipmapCount);
+					onOutputTextureUpdated?.Invoke();
+					break;
+				default:
+					Debug.LogError("Texture format " + s.dimension + " is not supported");
+					return;
+			}
 		}
 	}
 }

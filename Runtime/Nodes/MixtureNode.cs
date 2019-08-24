@@ -101,7 +101,10 @@ namespace Mixture
 			}
 			else
 			{
-				ClearMessages();
+				// TODO: simplify this with the node graph processor remove badges with matching words feature
+				RemoveMessage($"Dimension {TextureDimension.Tex2D} is not supported by this node");
+				RemoveMessage($"Dimension {TextureDimension.Tex3D} is not supported by this node");
+				RemoveMessage($"Dimension {TextureDimension.Cube} is not supported by this node");
 			}
 
 			ProcessNode();

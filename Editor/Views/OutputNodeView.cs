@@ -45,9 +45,12 @@ namespace Mixture
 			// For now compression is not supported (it does not works)
 			// AddCompressionSettings();
 
-			controlsContainer.Add(new Button(SaveTexture) {
-				text = "Save"
-			});
+			if (!graph.isRealtime)
+			{
+				controlsContainer.Add(new Button(SaveTexture) {
+					text = "Save"
+				});
+			}
 		}
 
 		void InitializeDebug()
@@ -91,7 +94,7 @@ namespace Mixture
 
 		void UpdatePreviewImage()
 		{
-			CreateTexturePreview(ref previewContainer, outputNode.tempRenderTexture, outputNode.currentSlice);
+			CreateTexturePreview(ref previewContainer, graph.isRealtime ? graph.outputTexture : outputNode.tempRenderTexture, outputNode.currentSlice);
 		}
 
 		// Write the rendertexture value to the graph main texture asset

@@ -27,7 +27,7 @@ namespace Mixture
 
 		protected override void InitializeWindow(BaseGraph graph)
 		{
-			titleContent = new GUIContent("Mixture Graph", MixtureUtils.icon32);
+			titleContent = new GUIContent("Mixture Graph", (graph as MixtureGraph).isRealtime ? MixtureUtils.realtimeIcon32 : MixtureUtils.icon32);
 
 			var graphView = new MixtureGraphView(this);
 
