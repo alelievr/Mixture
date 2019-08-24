@@ -28,13 +28,15 @@ namespace Mixture
 		public override float		nodeWidth => 70;
 		public override string		name => "Time";
 
-		protected override void Process()
+		protected override bool ProcessNode()
 		{
 			time = Time.time;
 			sinTime = Mathf.Sin(Time.time);
 			cosTime = Mathf.Cos(Time.time);
 			deltaTime = Time.deltaTime;
 			frameCount = Time.frameCount;
+
+			return true;
 		}
 	}
 }

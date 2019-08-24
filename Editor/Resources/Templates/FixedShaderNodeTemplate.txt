@@ -11,10 +11,11 @@ namespace Mixture
 	{
 		public override string name => "#NAME#";
 
-		public override string shaderName => "Hidden/Custom/#NAME#";
+		public override string shaderName => "Hidden/Mixture/#NAME#";
 
 		public override bool displayMaterialInspector => true;
 
+		// Enumerate the list of material properties that you don't want to be turned into a connectable port.
 		protected override IEnumerable<string> filteredOutProperties => new string[]{};
 
 		// Override this if you node is not compatible with all dimensions

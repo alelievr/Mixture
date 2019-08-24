@@ -6,8 +6,8 @@ SubShader
 		Blend One Zero
 
 		CGPROGRAM
-		#include "Assets/Mixture/Editor/CustomTextureShaderGraph/CustomTexture.hlsl"
-		#include "Assets/Mixture/Editor/CustomTextureShaderGraph/CustomTextureGraph.hlsl"
+		#include "Packages/com.alelievr.mixture/Runtime/CustomTextureShaderGraph/CustomTexture.hlsl"
+		#include "Packages/com.alelievr.mixture/Runtime/CustomTextureShaderGraph/CustomTextureGraph.hlsl"
 		#pragma vertex CustomRenderTextureVertexShader
 		#pragma fragment frag
 		#pragma target 3.0

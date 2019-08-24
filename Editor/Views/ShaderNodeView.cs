@@ -134,9 +134,6 @@ namespace Mixture
 			}
 		}
 
-		public override void OnRemoved()
-		{
-			owner.graph.RemoveObjectFromGraph(shaderNode.material);
-		}
+		public override void OnRemoved() => owner.graph.RemoveObjectFromGraph(shaderNode.material);
 	}
 }

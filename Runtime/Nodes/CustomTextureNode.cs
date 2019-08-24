@@ -58,21 +58,22 @@ namespace Mixture
 				customTexture = new CustomRenderTexture(512, 512, GraphicsFormat.R8G8B8A8_UNorm);
 				initializationMaterial = new Material(Shader.Find(defaultCRTInitShader));
 				updateMaterial = new Material(Shader.Find(defaultCRTUpdateShader));
+				customTexture.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+				initializationMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+				updateMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 
 				customTexture.material = updateMaterial;
 				customTexture.initializationMaterial = initializationMaterial;
-
-				// Add all objects to the graph asset:
-				// TODO: remove all materials from the asset when the node is destroyed
-				AddObjectToGraph(customTexture);
-				AddObjectToGraph(initializationMaterial);
-				AddObjectToGraph(updateMaterial);
 			}
 		}
 
-		protected override void Process()
+		protected override bool ProcessNode()
 		{
 			output = customTexture;
+
+			customTexture.Update(); // TODO: remove this when the CRT dependency is fixed
+
+			return true;
 		}
 	}
 }

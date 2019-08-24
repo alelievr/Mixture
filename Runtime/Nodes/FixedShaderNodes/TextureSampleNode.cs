@@ -14,10 +14,5 @@ namespace Mixture
 		public override string shaderName => "Hidden/Mixture/TextureSample";
 
 		public override bool displayMaterialInspector => true;
-
-		// TODO: remove me (test only)
-		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
-			OutputDimension.Texture2D,
-		};
 	}
 }
