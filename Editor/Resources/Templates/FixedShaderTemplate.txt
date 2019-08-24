@@ -17,7 +17,7 @@ Shader "Hidden/Mixture/#SCRIPTNAME#"
 		Pass
 		{
 			CGPROGRAM
-			#include "MixtureFixed.cginc"
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
 			#include "UnityCustomRenderTexture.cginc"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment mixture

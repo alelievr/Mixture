@@ -53,6 +53,7 @@ namespace Mixture
 			);
 		}
 
+		[MenuItem("Assets/Create/Mixture/Fixed Shader Graph", false, 102)]
 		[MenuItem("Assets/Create/Shader/Custom Texture Graph", false, 200)]
 		public static void CreateCustomTextureShaderGraph()
 		{
