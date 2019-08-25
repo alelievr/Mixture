@@ -89,6 +89,12 @@ namespace Mixture
 				}
 			}
 		}
+
+		public virtual void OnDisable()
+		{
+			if (defaultTextureEditor != null)
+				DestroyImmediate(defaultTextureEditor);
+		}
 		
 		// This block of functions allow us to use the default behavior of the texture inspector instead of re-writing
 		// the preview / static icon code for each texture type, we use the one from the default texture inspector.
@@ -100,13 +106,12 @@ namespace Mixture
 		public override void OnPreviewGUI(Rect r, GUIStyle background) { if (defaultTextureEditor != null) defaultTextureEditor.OnPreviewGUI(r, background); else base.OnPreviewGUI(r, background); }
 		public override void OnPreviewSettings() { if (defaultTextureEditor != null) defaultTextureEditor.OnPreviewSettings(); else base.OnPreviewSettings(); }
 		public override void ReloadPreviewInstances() { if (defaultTextureEditor != null) defaultTextureEditor.ReloadPreviewInstances(); else base.ReloadPreviewInstances(); }
-		public override Texture2D RenderStaticPreview(string assetPath, UnityEngine.Object[] subAssets, int width, int height) { if (defaultTextureEditor != null) return defaultTextureEditor.RenderStaticPreview(assetPath, subAssets, width, height); else return base.RenderStaticPreview(assetPath, subAssets, width, height); }
 		public override bool RequiresConstantRepaint() { if (defaultTextureEditor != null) return defaultTextureEditor.RequiresConstantRepaint(); else return base.RequiresConstantRepaint(); }
 		public override bool UseDefaultMargins() { if (defaultTextureEditor != null) return defaultTextureEditor.UseDefaultMargins(); else return base.UseDefaultMargins(); }
 
-		protected void BlitMixtureIcon(Texture preview, RenderTexture target)
+		protected void BlitMixtureIcon(Texture preview, RenderTexture target, bool realtime = false)
 		{
-			var blitMaterial = (preview is CustomRenderTexture) ? MixtureUtils.blitRealtimeIconMaterial : MixtureUtils.blitIconMaterial;
+			var blitMaterial = (realtime) ? MixtureUtils.blitRealtimeIconMaterial : MixtureUtils.blitIconMaterial;
 			MixtureUtils.SetupDimensionKeyword(blitMaterial, preview.dimension);
 
 			switch (preview.dimension)
@@ -141,27 +146,25 @@ namespace Mixture
 			t.filterMode = (FilterMode)EditorGUILayout.EnumPopup("Filter Mode", t.filterMode);
 			t.anisoLevel = EditorGUILayout.IntSlider("Aniso Level", t.anisoLevel, 1, 9);
 		}
-	}
-
-	// By default textures don't have any CustomEditors so we can define them for Mixture
-	[CustomEditor(typeof(Texture2D), false)]
-	class MixtureInspectorTexture2D : MixtureEditor
-	{
-		public override void OnEnable() => LoadInspectorFor(typeof(Texture2D));
-
-        public override Texture2D RenderStaticPreview(string assetPath, UnityEngine.Object[] subAssets, int width, int height)
+		
+		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
 		{
-			Texture2D		icon = new Texture2D(width, height);
-			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
-			
-			if (target == null)
-				target = AssetDatabase.LoadAssetAtPath< Texture2D >(assetPath);
+			// If the CRT is not a realtime mixture, then we display the default inspector
+			if (defaultTextureEditor == null)
+			{
+				Debug.LogError("Can't generate static preview for asset " + target);
+				return base.RenderStaticPreview(assetPath, subAssets, width, height);
+			}
 
-			// Texture2D could be a standard unity texture, in this case we don't want the mixture icon on it
-			if (assetPath.EndsWith(".asset")) // If the texture is an asset, then it means that it have not been imported from png, jpg, ...
-				BlitMixtureIcon(target as Texture, rt);
-			else
-				Graphics.Blit(target as Texture, rt);
+			var defaultPreview = defaultTextureEditor.RenderStaticPreview(assetPath, subAssets, width, height);
+			
+			if (!assetPath.EndsWith(".asset")) // If the texture is an asset, then it means that it's a mixture
+				return defaultPreview;
+
+			var icon = new Texture2D(width, height);
+			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
+
+			BlitMixtureIcon(defaultPreview, rt, target is CustomRenderTexture);
 
 			RenderTexture.active = rt;
 			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);
@@ -171,6 +174,13 @@ namespace Mixture
 
 			return icon;
 		}
+	}
+
+	// By default textures don't have any CustomEditors so we can define them for Mixture
+	[CustomEditor(typeof(Texture2D), false)]
+	class MixtureInspectorTexture2D : MixtureEditor
+	{
+		public override void OnEnable() => LoadInspectorFor(typeof(Texture2D));
 	}
 
 	[CustomEditor(typeof(Texture2DArray), false)]
@@ -284,22 +294,6 @@ namespace Mixture
 			cubemap = target as Cubemap;
 			LoadInspectorFor(typeof(Cubemap));
 		}
-
-		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
-		{
-			var icon = new Texture2D(width, height);
-			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
-
-			BlitMixtureIcon(target as Texture, rt);
-
-			RenderTexture.active = rt;
-			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-			icon.Apply();
-			RenderTexture.active = null;
-			rt.Release();
-
-			return icon;
-		}
 	}
 	
 	[CustomEditor(typeof(CustomRenderTexture), false)]
@@ -316,25 +310,13 @@ namespace Mixture
 
 			isMixture = RealtimeMixtureReferences.realtimeMixtureCRTs.Contains(crt);
 		}
-		
+
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
 		{
 			// If the CRT is not a realtime mixture, then we display the default inspector
 			if (!isMixture)
 				return defaultTextureEditor.RenderStaticPreview(assetPath, subAssets, width, height);
-
-			var icon = new Texture2D(width, height);
-			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
-
-			BlitMixtureIcon(crt, rt);
-
-			RenderTexture.active = rt;
-			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-			icon.Apply();
-			RenderTexture.active = null;
-			rt.Release();
-
-			return icon;
+			return base.RenderStaticPreview(assetPath, subAssets, width, height);
 		}
 
 		public override void OnInspectorGUI()

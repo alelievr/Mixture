@@ -32,6 +32,7 @@ namespace Mixture
 		public OutputDimension dimension;
 		public OutputFormat targetFormat;
 		public EditFlags editFlags;
+		public bool doubleBuffered;
 
 		public static MixtureRTSettings defaultValue
 		{
@@ -48,7 +49,8 @@ namespace Mixture
 				depthMode = OutputSizeMode.Default,
 				dimension = OutputDimension.Default,
 				targetFormat = OutputFormat.Default,
-				editFlags = EditFlags.None
+				editFlags = EditFlags.None,
+				doubleBuffered = false,
 			};
 		}
 		

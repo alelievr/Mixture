@@ -61,6 +61,7 @@ namespace Mixture
 					dimension = dimension,
 					name = $"Mixture Temp {name}",
 					updateMode = CustomRenderTextureUpdateMode.OnDemand,
+					doubleBuffered = rtSettings.doubleBuffered,
 				};
 				target.Create();
 
@@ -75,7 +76,8 @@ namespace Mixture
 				|| target.graphicsFormat != targetFormat
 				|| target.dimension != dimension
 				|| target.volumeDepth != outputDepth
-				|| target.filterMode != graph.outputTexture.filterMode)
+				|| target.filterMode != graph.outputTexture.filterMode
+				|| target.doubleBuffered != rtSettings.doubleBuffered)
 			{
 				target.Release();
 				target.width = Math.Max(1, outputWidth);
@@ -84,6 +86,7 @@ namespace Mixture
 				target.dimension = (TextureDimension)dimension;
 				target.filterMode = graph.outputTexture.filterMode; // TODO Set FilterMode per-node, add FilterMode to RTSettings
 				target.volumeDepth = outputDepth;
+				target.doubleBuffered = rtSettings.doubleBuffered;
 				target.Create();
 			}
 

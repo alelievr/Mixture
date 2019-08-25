@@ -73,9 +73,6 @@ namespace Mixture
                 controlsContainer.Add(previewContainer);
             }
 
-			onPortConnected += _ => owner.ProcessGraph();
-			onPortDisconnected += _ => owner.ProcessGraph();
-
             propertyEditorUI.style.display = DisplayStyle.Flex;
         }
 

@@ -70,9 +70,10 @@ namespace Mixture
 			processor = new MixtureProcessor(graph);
 			computeOrderUpdated += processor.UpdateComputeOrder;
 			graph.onOutputTextureUpdated += () => processor.Run();
+			graph.onGraphChanges += _ => this.schedule.Execute(() => ProcessGraph()).ExecuteLater(10);
 
 			// Run the processor when we open the graph
-			processor.Run();
+			ProcessGraph();
 		}
 
 		public void ProcessGraph() => processor?.Run();
@@ -89,7 +90,7 @@ namespace Mixture
 			switch (k.keyCode)
 			{
 				case KeyCode.P:
-					processor.Run();
+					ProcessGraph();
 					break ;
 			}
 		}

@@ -26,6 +26,8 @@ namespace Mixture
         IntegerField outputDepth;
 		FloatField outputDepthPercentage;
 
+		Toggle doubleBuffered;
+
         Action  onChanged;
 
         public MixtureRTSettingsView(MixtureNode node, MixtureGraphView owner)
@@ -175,7 +177,22 @@ namespace Mixture
 			this.Add(outputFormat);
 
 			UpdateFieldVisibility(node);
+
+			if (owner.graph.isRealtime)
+				AddRealtimeFields(node, owner);
         }
+
+		void AddRealtimeFields(MixtureNode node, MixtureGraphView owner)
+		{
+			doubleBuffered = new Toggle("Double Buffered") {
+				value = node.rtSettings.doubleBuffered,
+			};
+			doubleBuffered.RegisterValueChangedCallback(e => {
+				owner.RegisterCompleteObjectUndo("Set Double Buffered " + e.newValue);
+				node.rtSettings.doubleBuffered = e.newValue;
+                onChanged?.Invoke();
+			});
+		}
         
 		void SetVisible(VisualElement element, bool visible)
 		{

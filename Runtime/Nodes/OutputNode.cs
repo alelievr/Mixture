@@ -151,7 +151,7 @@ namespace Mixture
 		[CustomPortBehavior(nameof(input))]
 		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{
-		yield return new PortData{
+			yield return new PortData{
 				displayName = "input",
 				displayType = TextureUtils.GetTypeFromDimension((TextureDimension)rtSettings.dimension),
 				identifier = "input",
