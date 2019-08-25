@@ -192,6 +192,8 @@ namespace Mixture
 				node.rtSettings.doubleBuffered = e.newValue;
                 onChanged?.Invoke();
 			});
+
+			Add(doubleBuffered);
 		}
         
 		void SetVisible(VisualElement element, bool visible)
