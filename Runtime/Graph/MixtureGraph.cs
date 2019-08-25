@@ -114,7 +114,7 @@ namespace Mixture
 			}
 			else
 				UpdateOutputStaticTexture();
-				
+
 			// In editor we need to refresh the main asset view
 #if UNITY_EDITOR
 			if (updateMainAsset)
@@ -134,10 +134,9 @@ namespace Mixture
 			var s = outputNode.rtSettings;
 			bool useMipMap = outputNode.mipmapCount > 1;
 
-			if (outputTexture == null)
+			if (!(outputTexture is CustomRenderTexture))
 			{
 				outputTexture = new CustomRenderTexture(s.width, s.height, (GraphicsFormat)s.targetFormat);
-				Debug.Log("Created new output texture !");
 			}
 
 			var crt = outputTexture as CustomRenderTexture;

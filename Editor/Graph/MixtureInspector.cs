@@ -2,6 +2,7 @@
 using UnityEngine.Rendering;
 using UnityEditor;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Object = UnityEngine.Object;
 
@@ -145,6 +146,16 @@ namespace Mixture
 			t.wrapMode = (TextureWrapMode)EditorGUILayout.EnumPopup("Wrap Mode", t.wrapMode);
 			t.filterMode = (FilterMode)EditorGUILayout.EnumPopup("Filter Mode", t.filterMode);
 			t.anisoLevel = EditorGUILayout.IntSlider("Aniso Level", t.anisoLevel, 1, 9);
+
+			// var graph = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(target)).FirstOrDefault(o => o is MixtureGraph) as MixtureGraph;
+			// if (graph != null)
+			// {
+			// 	string mode = graph.isRealtime ? "Static" : "Realtime";
+			// 	if (GUILayout.Button($"Convert to {mode}"))
+			// 	{
+			// 		MixtureEditorUtils.ToggleMode(graph);
+			// 	}
+			// }
 		}
 		
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)

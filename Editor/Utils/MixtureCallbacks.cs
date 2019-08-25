@@ -69,7 +69,7 @@ namespace Mixture
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
                 $"New Custom Texture Graph.{ShaderGraphImporter.Extension}", Resources.Load<Texture2D>("sg_graph_icon@64"), null);
 		}
-
+		
 		[OnOpenAsset(0)]
 		public static bool OnBaseGraphOpened(int instanceID, int line)
 		{
