@@ -10,7 +10,6 @@ using System.Linq;
 
 namespace Mixture
 {
-	// TODO: factorize this with ShaderNodeView
 	[NodeCustomEditor(typeof(FixedShaderNode))]
 	public class FixedShaderNodeView : MixtureNodeView
 	{
@@ -18,7 +17,7 @@ namespace Mixture
 		MaterialEditor	    materialEditor;
 		FixedShaderNode		fixedShaderNode => nodeTarget as FixedShaderNode;
 
-		ObjectField		debugCustomRenderTextureField;
+		ObjectField			debugCustomRenderTextureField;
 
 		public override void OnCreated()
 		{

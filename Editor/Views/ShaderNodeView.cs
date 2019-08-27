@@ -92,15 +92,15 @@ namespace Mixture
 
 			void CreateNewShader()
 			{
-				GUIContent shaderGraphContent = EditorGUIUtility.TrTextContentWithIcon("Graph", Resources.Load<Texture2D>("sg_graph_icon@64"));
-				GUIContent shaderTextContent = EditorGUIUtility.TrTextContentWithIcon("Text", "Shader Icon");
-
 				// TODO: create a popupwindow instead of a context menu
-
 				var menu = new GenericMenu();
 				var dim = (OutputDimension)shaderNode.rtSettings.GetTextureDimension(owner.graph);
 
+#if MIXTURE_SHADERGRAPH
+				GUIContent shaderGraphContent = EditorGUIUtility.TrTextContentWithIcon("Graph", Resources.Load<Texture2D>("sg_graph_icon@64"));
 				menu.AddItem(shaderGraphContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderGraph(title, dim)));
+#endif
+				GUIContent shaderTextContent = EditorGUIUtility.TrTextContentWithIcon("Text", "Shader Icon");
 				menu.AddItem(shaderTextContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderText(title, dim)));
 				menu.ShowAsContext();
 			}

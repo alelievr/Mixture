@@ -122,10 +122,16 @@ namespace Mixture
 		}
 
 		// Custom property draw, we don't want things that are connected to an edge or useless like the render queue
-		protected bool MaterialPropertiesGUI(Material material)
+		protected bool MaterialPropertiesGUI(Material material, bool autoLabelWidth = true)
 		{
 			if (material == null || material.shader == null)
 				return false;
+				
+			if (autoLabelWidth)
+			{
+				EditorGUIUtility.wideMode = false;
+				EditorGUIUtility.labelWidth = nodeTarget.nodeWidth / 3.0f;
+			}
 
 			MaterialProperty[] properties = MaterialEditor.GetMaterialProperties(new []{material});
 			var portViews = GetPortViewsFromFieldName(nameof(ShaderNode.materialInputs));
