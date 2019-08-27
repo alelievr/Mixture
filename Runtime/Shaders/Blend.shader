@@ -1,4 +1,4 @@
-﻿Shader "Hidden/Mixture/Blend"
+Shader "Hidden/Mixture/Blend"
 {	
 	Properties
 	{
@@ -47,14 +47,14 @@
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				float4	source = SAMPLE_X(_Source, float3(i.localTexcoord.xy, 0), i.direction);
-				float4	target = SAMPLE_X(_Target, float3(i.localTexcoord.xy, 0), i.direction);
+				float4	source = SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
+				float4	target = SAMPLE_X(_Target, i.localTexcoord.xyz, i.direction);
 				float4	mask = 0;
 				
 				switch((uint)_MaskMode)
 				{
-					case 0 : mask = SAMPLE_X(_Mask, float3(i.localTexcoord.xy, 0), i.direction).aaaa; break;
-					case 1 : mask = SAMPLE_X(_Mask, float3(i.localTexcoord.xy, 0), i.direction).rgba; break;
+					case 0 : mask = SAMPLE_X(_Mask, i.localTexcoord.xyz, i.direction).aaaa; break;
+					case 1 : mask = SAMPLE_X(_Mask, i.localTexcoord.xyz, i.direction).rgba; break;
 				}
 
 				switch ((uint)_BlendMode)
