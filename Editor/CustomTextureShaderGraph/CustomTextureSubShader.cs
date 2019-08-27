@@ -10,8 +10,13 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+    interface ICustomTextureSubShader : ISubShader
+    {
+
+    }
+
     [Serializable]
-    class CustomTextureSubShader : ISubShader
+    class CustomTextureSubShader : ICustomTextureSubShader
     {
         readonly string customTextureTemplateGUID = "afa536a0de48246de92194c9e987b0b8";
 

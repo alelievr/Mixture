@@ -10,7 +10,7 @@ namespace Mixture
 {
     [Serializable]
     [Title("Master", "Custom Texture")]
-    class CustomTextureMasterNode : MasterNode<ISubShader>
+    class CustomTextureMasterNode : MasterNode<ICustomTextureSubShader>
     {
         public const string ColorSlotName = "Color";
 
