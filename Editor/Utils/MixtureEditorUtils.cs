@@ -84,5 +84,12 @@ namespace Mixture
                     return null;
 			}
 		}
+
+		public static void ToggleMode(MixtureGraph mixture)
+		{
+			mixture.isRealtime = !mixture.isRealtime;
+			mixture.UpdateOutputTexture(true);
+			AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(mixture), ImportAssetOptions.ForceUpdate | ImportAssetOptions.ImportRecursive);
+		}
     }
 }

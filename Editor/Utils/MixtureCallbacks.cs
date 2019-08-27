@@ -19,22 +19,30 @@ namespace Mixture
 		public static readonly string	mixtureShaderNodeDefaultName = "MixtureShaderNode.cs";
 		public static readonly string	mixtureShaderName = "MixtureShader.shader";
 
-		[MenuItem("Assets/Create/Mixture/Mixture Graph", false, 100)]
-		public static void CreateMixtureGraph()
+		[MenuItem("Assets/Create/Mixture/Static Mixture Graph", false, 100)]
+		public static void CreateStaticMixtureGraph()
 		{
-			var graphItem = ScriptableObject.CreateInstance< MixtureGraphAction >();
+			var graphItem = ScriptableObject.CreateInstance< StaticMixtureGraphAction >();
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
-                $"New Mixture Graph.{Extension}", MixtureUtils.icon, null);
+                $"New Static Mixture Graph.{Extension}", MixtureUtils.icon, null);
+		}
+
+		[MenuItem("Assets/Create/Mixture/Realtime Mixture Graph", false, 101)]
+		public static void CreateRealtimeMixtureGraph()
+		{
+			var graphItem = ScriptableObject.CreateInstance< RealtimeMixtureGraphAction >();
+            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
+                $"New Realtime Mixture Graph.{Extension}", MixtureUtils.realtimeIcon, null);
 		}
 		
-		[MenuItem("Assets/Create/Mixture/C# Fixed Shader Node", false, 101)]
+		[MenuItem("Assets/Create/Mixture/C# Fixed Shader Node", false, 200)]
 		public static void CreateCSharpFixedShaderNode()
 		{
 			var template = Resources.Load< TextAsset >(mixtureShaderNodeCSharpTemplate);
 			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), mixtureShaderNodeDefaultName);
 		}
 
-		[MenuItem("Assets/Create/Mixture/Fixed Shader", false, 101)]
+		[MenuItem("Assets/Create/Mixture/Fixed Shader", false, 201)]
 		public static void CreateCGFixedShaderNode()
 		{
 			var template = Resources.Load< TextAsset >(mixtureShaderNodeCGTemplate);
@@ -53,7 +61,7 @@ namespace Mixture
 			);
 		}
 
-		[MenuItem("Assets/Create/Mixture/Fixed Shader Graph", false, 102)]
+		[MenuItem("Assets/Create/Mixture/Fixed Shader Graph", false, 202)]
 		[MenuItem("Assets/Create/Shader/Custom Texture Graph", false, 200)]
 		public static void CreateCustomTextureShaderGraph()
 		{
@@ -61,7 +69,7 @@ namespace Mixture
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
                 $"New Custom Texture Graph.{ShaderGraphImporter.Extension}", Resources.Load<Texture2D>("sg_graph_icon@64"), null);
 		}
-
+		
 		[OnOpenAsset(0)]
 		public static bool OnBaseGraphOpened(int instanceID, int line)
 		{
@@ -82,11 +90,13 @@ namespace Mixture
 			return false;
 		}
 
-		class MixtureGraphAction : EndNameEditAction
+		abstract class MixtureGraphAction : EndNameEditAction
 		{
+			public abstract MixtureGraph CreateMixtureGraphAsset();
+
 			public override void Action(int instanceId, string pathName, string resourceFile)
 			{
-				var mixture = ScriptableObject.CreateInstance< MixtureGraph >();
+				var mixture = CreateMixtureGraphAsset();
 				mixture.name = Path.GetFileNameWithoutExtension(pathName);
 				mixture.hideFlags = HideFlags.HideInHierarchy;
 
@@ -101,8 +111,39 @@ namespace Mixture
 				AssetDatabase.SaveAssets();
 				AssetDatabase.Refresh();
 
-				EditorGUIUtility.PingObject(mixture.outputTexture);
+				ProjectWindowUtil.ShowCreatedAsset(mixture);
 			}
+		}
+
+		class StaticMixtureGraphAction : MixtureGraphAction
+		{
+			// By default isRealtime is false so we don't need to initialize it like in the realtime mixture create function
+			public override MixtureGraph CreateMixtureGraphAsset()
+				=> ScriptableObject.CreateInstance< MixtureGraph >();
+		}
+
+		class RealtimeMixtureGraphAction : MixtureGraphAction
+		{
+			static MixtureGraph	_realtimeGraph;
+			static MixtureGraph realtimeGraph
+			{
+				get
+				{
+					if (_realtimeGraph == null)
+					{
+						_realtimeGraph = ScriptableObject.CreateInstance< MixtureGraph >();
+						_realtimeGraph.isRealtime = true;
+						_realtimeGraph.realtimePreview = true;
+					}
+					return _realtimeGraph;
+				}
+			}
+
+			public override MixtureGraph CreateMixtureGraphAsset()
+			// We use Instantiate instead of CreateObject because we can use anther mixture graph that
+			// have the parameters setup for realtime mixtures. This avoid the issue to have the ScriptableObject
+			// OnEnable() function called before the isRealtime is assigned
+				=> Object.Instantiate(realtimeGraph);
 		}
 
 		class CustomTextureShaderAction : EndNameEditAction

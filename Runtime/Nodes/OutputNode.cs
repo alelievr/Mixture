@@ -49,6 +49,10 @@ namespace Mixture
 		public TextureFormat				compressionFormat = TextureFormat.RGBA32;
 		public TextureCompressionQuality	compressionQuality = TextureCompressionQuality.Best;
 		public bool							enableCompression = false;
+		
+		// TODO: move this to NodeGraphProcessor
+		[NonSerialized]
+		HashSet< string > uniqueMessages = new HashSet< string >();
 
 		protected override MixtureRTSettings defaultRTSettings
         {
@@ -72,10 +76,17 @@ namespace Mixture
 			if (rtSettings.dimension == OutputDimension.Default)
 				rtSettings.dimension = OutputDimension.Texture2D;
 
-            UpdateTempRenderTexture(ref tempRenderTexture);
-			graph.onOutputTextureUpdated += () => {
+			if (graph.isRealtime)
+			{
+				tempRenderTexture = graph.outputTexture as CustomRenderTexture;
+			}
+			else
+			{
 				UpdateTempRenderTexture(ref tempRenderTexture);
-			};
+				graph.onOutputTextureUpdated += () => {
+					UpdateTempRenderTexture(ref tempRenderTexture);
+				};
+			}
 
 			onSettingsChanged += () => {
 				graph.UpdateOutputTexture();
@@ -89,15 +100,29 @@ namespace Mixture
 				Debug.LogError("Output Node can't write to target texture, Graph references a null output texture");
 				return false;
 			}
+			
+			// Update the renderTexture reference for realtime graph
+			if (graph.isRealtime)
+			{
+				if (tempRenderTexture != graph.outputTexture)
+					onTempRenderTextureUpdated?.Invoke();
+				tempRenderTexture = graph.outputTexture as CustomRenderTexture;
+			}
 
 			var inputPort = GetPort(nameof(input), nameof(input));
 
 			if (inputPort.GetEdges().Count == 0)
 			{
-				Debug.LogWarning("Output node input is not connected");
+				if (uniqueMessages.Add("OutputNotConnected"))
+					AddMessage("Output node input is not connected", NodeMessageType.Warning);
 				input = TextureUtils.GetBlackTexture(rtSettings);
 				// TODO: set a black texture of texture dimension as default value
 				return false;
+			}
+			else
+			{
+				uniqueMessages.Clear();
+				ClearMessages();
 			}
 
 			// Update the renderTexture size and format:
@@ -126,7 +151,7 @@ namespace Mixture
 		[CustomPortBehavior(nameof(input))]
 		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{
-		yield return new PortData{
+			yield return new PortData{
 				displayName = "input",
 				displayType = TextureUtils.GetTypeFromDimension((TextureDimension)rtSettings.dimension),
 				identifier = "input",
