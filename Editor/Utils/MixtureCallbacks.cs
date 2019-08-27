@@ -4,8 +4,11 @@ using UnityEditor.Callbacks;
 using System.Linq;
 using UnityEditor.ProjectWindowCallback;
 using System.IO;
-using UnityEditor.ShaderGraph;
 using System.Reflection;
+
+#if MIXTURE_SHADERGRAPH
+using UnityEditor.ShaderGraph;
+#endif
 
 namespace Mixture
 {
@@ -19,6 +22,7 @@ namespace Mixture
 		public static readonly string	mixtureShaderNodeDefaultName = "MixtureShaderNode.cs";
 		public static readonly string	mixtureShaderName = "MixtureShader.shader";
 
+#if MIXTURE_SHADERGRAPH
 		[MenuItem("Assets/Create/Mixture/Static Mixture Graph", false, 100)]
 		public static void CreateStaticMixtureGraph()
 		{
@@ -34,6 +38,16 @@ namespace Mixture
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
                 $"New Realtime Mixture Graph.{Extension}", MixtureUtils.realtimeIcon, null);
 		}
+		
+		[MenuItem("Assets/Create/Mixture/Fixed Shader Graph", false, 202)]
+		[MenuItem("Assets/Create/Shader/Custom Texture Graph", false, 200)]
+		public static void CreateCustomTextureShaderGraph()
+		{
+			var graphItem = ScriptableObject.CreateInstance< CustomtextureShaderGraphAction >();
+            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
+                $"New Custom Texture Graph.{ShaderGraphImporter.Extension}", Resources.Load<Texture2D>("sg_graph_icon@64"), null);
+		}
+#endif
 		
 		[MenuItem("Assets/Create/Mixture/C# Fixed Shader Node", false, 200)]
 		public static void CreateCSharpFixedShaderNode()
@@ -52,22 +66,13 @@ namespace Mixture
 		[MenuItem("Assets/Create/Shader/Custom Texture", false, 100)]
 		public static void CreateCustomTextureShader()
 		{
-			var graphItem = ScriptableObject.CreateInstance< CustomTextureShaderAction >();
+			var shaderAction = ScriptableObject.CreateInstance< CustomTextureShaderAction >();
 			var shaderTemplate = Resources.Load(customTextureShaderTemplate, typeof(Shader));
-            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
+            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, shaderAction,
                 $"New Custom Texture Shader.shader",
 				EditorGUIUtility.ObjectContent(null, typeof(Shader)).image as Texture2D,
 				AssetDatabase.GetAssetPath(shaderTemplate)
 			);
-		}
-
-		[MenuItem("Assets/Create/Mixture/Fixed Shader Graph", false, 202)]
-		[MenuItem("Assets/Create/Shader/Custom Texture Graph", false, 200)]
-		public static void CreateCustomTextureShaderGraph()
-		{
-			var graphItem = ScriptableObject.CreateInstance< CustomtextureShaderGraphAction >();
-            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
-                $"New Custom Texture Graph.{ShaderGraphImporter.Extension}", Resources.Load<Texture2D>("sg_graph_icon@64"), null);
 		}
 		
 		[OnOpenAsset(0)]

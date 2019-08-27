@@ -44,6 +44,7 @@ Shader "Hidden/MixtureIconBlit"
             float4 _Texture2DArray_ST;
             UNITY_DECLARE_TEX3D(_Texture3D);
             float4 _Texture3D_ST;
+            float4 _Texture3D_TexelSize;
             UNITY_DECLARE_TEXCUBE(_Cubemap);
             float4 _Cubemap_ST;
 
@@ -69,7 +70,7 @@ Shader "Hidden/MixtureIconBlit"
                 fixed4 t = UNITY_SAMPLE_TEX2DARRAY(_Texture2DArray, float3(i.uv, 0));
 #elif CRT_3D
                 // For texture 3D, we take the first slice
-                fixed4 t = UNITY_SAMPLE_TEX3D(_Texture3D, float3(i.uv, 0));
+                fixed4 t = UNITY_SAMPLE_TEX3D(_Texture3D, float3(i.uv, _Texture3D_TexelSize.x / 2.0));
                 // humm, i need a better way to visualize a Texture3D
                 t.a = 1;
 #elif CRT_CUBE

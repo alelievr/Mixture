@@ -53,6 +53,15 @@ namespace Mixture
 			}
 		}
 
+		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			base.BuildContextualMenu(evt);
+			
+			string mode = graph.isRealtime ? "Static" : "Realtime";
+			evt.menu.AppendSeparator();
+			evt.menu.AppendAction($"Convert Mixture to {mode}", _ => MixtureEditorUtils.ToggleMode(graph), DropdownMenuAction.AlwaysEnabled);
+		}
+
 		void InitializeDebug()
 		{
 			outputNode.onProcessed += () => {

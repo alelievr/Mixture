@@ -88,8 +88,11 @@ namespace Mixture
 		public static void ToggleMode(MixtureGraph mixture)
 		{
 			mixture.isRealtime = !mixture.isRealtime;
-			mixture.UpdateOutputTexture(true);
-			AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(mixture), ImportAssetOptions.ForceUpdate | ImportAssetOptions.ImportRecursive);
+            AssetDatabase.SaveAssets();
+            mixture.UpdateOutputTexture(true);
+			AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(mixture), ImportAssetOptions.ForceUpdate | ImportAssetOptions.ImportRecursive | ImportAssetOptions.DontDownloadFromCacheServer);
+            AssetDatabase.Refresh();
+            MixtureGraphWindow.Open().InitializeGraph(mixture);
 		}
     }
 }
