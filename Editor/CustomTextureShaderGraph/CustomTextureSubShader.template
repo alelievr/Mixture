@@ -22,6 +22,7 @@ SubShader
 
 			// ShaderGraph accessors:
 			float3 WorldSpaceViewDirection;
+			float3 TimeParameters;
 		};
 
 		SurfaceDescriptionInputs ConvertV2FToSurfaceInputs( v2f_customrendertexture IN )
@@ -35,6 +36,7 @@ SubShader
 
 			// other space of view direction are not supported
 			o.WorldSpaceViewDirection = o.direction;
+			o.TimeParameters = float3(_Time.y, _SinTime.x, _CosTime.y);
 
 			return o;
 		}

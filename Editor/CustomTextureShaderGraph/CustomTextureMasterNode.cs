@@ -1,3 +1,4 @@
+#if MIXTURE_SHADERGRAPH
 using System;
 using System.Linq;
 using UnityEditor.Graphing;
@@ -39,3 +40,4 @@ namespace Mixture
         }
     }
 }
+#endif

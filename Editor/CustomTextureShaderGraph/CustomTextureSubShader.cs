@@ -1,3 +1,4 @@
+#if MIXTURE_SHADERGRAPH
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -262,3 +263,4 @@ namespace Mixture
         int ISubShader.GetPreviewPassIndex() => 0;
     }
 }
+#endif

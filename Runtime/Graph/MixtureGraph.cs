@@ -109,8 +109,13 @@ namespace Mixture
 			if (isRealtime)
 			{
 				UpdateOutputRealtimeTexture();
-				// We don't ever need to change the main asset in realtime, it's always a CRT
-				updateMainAsset = false;
+				// We don't ever need to the main asset in realtime if it's already a CRT
+				if (oldTextureObject is CustomRenderTexture)
+					updateMainAsset = false;
+#if UNITY_EDITOR
+				else
+					RealtimeMixtureReferences.realtimeMixtureCRTs.Add(outputTexture as CustomRenderTexture);
+#endif
 			}
 			else
 				UpdateOutputStaticTexture();
@@ -120,7 +125,10 @@ namespace Mixture
 			if (updateMainAsset)
 			{
 				if (oldTextureObject != null)
+				{
+					DestroyImmediate(oldTextureObject);
 					AssetDatabase.RemoveObjectFromAsset(oldTextureObject);
+				}
 				AssetDatabase.AddObjectToAsset(outputTexture, this);
 				AssetDatabase.SetMainObject(outputTexture, mainAssetPath);
 				AssetDatabase.SaveAssets();
@@ -144,7 +152,8 @@ namespace Mixture
 				|| crt.height != s.height
 				|| crt.useMipMap != useMipMap
 				|| crt.volumeDepth != s.sliceCount
-				|| crt.graphicsFormat != (GraphicsFormat)s.targetFormat;
+				|| crt.graphicsFormat != (GraphicsFormat)s.targetFormat
+				|| crt.updateMode != CustomRenderTextureUpdateMode.Realtime;
 
 			if (needsUpdate)
 			{

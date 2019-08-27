@@ -146,16 +146,6 @@ namespace Mixture
 			t.wrapMode = (TextureWrapMode)EditorGUILayout.EnumPopup("Wrap Mode", t.wrapMode);
 			t.filterMode = (FilterMode)EditorGUILayout.EnumPopup("Filter Mode", t.filterMode);
 			t.anisoLevel = EditorGUILayout.IntSlider("Aniso Level", t.anisoLevel, 1, 9);
-
-			// var graph = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(target)).FirstOrDefault(o => o is MixtureGraph) as MixtureGraph;
-			// if (graph != null)
-			// {
-			// 	string mode = graph.isRealtime ? "Static" : "Realtime";
-			// 	if (GUILayout.Button($"Convert to {mode}"))
-			// 	{
-			// 		MixtureEditorUtils.ToggleMode(graph);
-			// 	}
-			// }
 		}
 		
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
@@ -171,7 +161,7 @@ namespace Mixture
 			
 			if (!assetPath.EndsWith(".asset")) // If the texture is an asset, then it means that it's a mixture
 				return defaultPreview;
-
+			
 			var icon = new Texture2D(width, height);
 			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
 
