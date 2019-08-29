@@ -13,25 +13,10 @@ namespace Mixture
 	[NodeCustomEditor(typeof(VectorNode))]
 	public class VectorNodeView : MixtureNodeView
 	{
-		VectorNode		vectorNode;
-
 		public override void Enable()
 		{
 			base.Enable();
-			vectorNode = nodeTarget as VectorNode;
-
-			var vectorField = new Vector4Field() {
-				label = "Vector",
-				value = vectorNode.vector
-			};
-			vectorField.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Updated Vector " + e.newValue);
-				vectorNode.vector = e.newValue;
-
-			});
-
-			propertyEditorUI.Add(vectorField);
+			DrawDefaultInspector();
 		}
-
 	}
 }
