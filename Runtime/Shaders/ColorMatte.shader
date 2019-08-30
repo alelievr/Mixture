@@ -19,6 +19,7 @@
 			#pragma target 3.0
 
 			#pragma multi_compile CRT_2D CRT_3D CRT_CUBE
+
 			float4 _Color;
 
 			float4 mixture(v2f_customrendertexture IN) : SV_Target

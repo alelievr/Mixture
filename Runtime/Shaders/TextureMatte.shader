@@ -3,8 +3,8 @@ Shader "Hidden/Mixture/TextureMatte"
 	Properties
 	{
 		[InlineTexture]_Texture_2D("Texture", 2D) = "white" {}
-		[InlineTexture]_Texture_3D("Texture", 2D) = "white" {}
-		[InlineTexture]_Texture_Cube("Texture", 2D) = "white" {}
+		[InlineTexture]_Texture_3D("Texture", 3D) = "white" {}
+		[InlineTexture]_Texture_Cube("Texture", Cube) = "white" {}
 		[MixtureVector3]_Scale("UV Scale", Vector) = (1.0,1.0,1.0,0.0)
 		[MixtureVector3]_Bias("UV Bias", Vector) = (0.0,0.0,0.0,0.0)
 	}
@@ -21,6 +21,7 @@ Shader "Hidden/Mixture/TextureMatte"
 			#pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment mixture
 			#pragma target 3.0
+
 			#pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 
 			TEXTURE_X(_Texture);
