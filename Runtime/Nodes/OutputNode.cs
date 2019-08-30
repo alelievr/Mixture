@@ -31,7 +31,7 @@ namespace Mixture
 
 		public override string		name => "Output";
 		public override Texture 	previewTexture => tempRenderTexture;
-		public override float		nodeWidth => 400;
+		public override float		nodeWidth => 320;
 		
 		Material					_finalCopyMaterial;
 		Material					finalCopyMaterial

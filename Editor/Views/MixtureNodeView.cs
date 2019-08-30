@@ -171,6 +171,8 @@ namespace Mixture
 			else
             	previewContainer.Clear();
 
+
+
 			if (texture == null)
 				return;
 
@@ -201,12 +203,49 @@ namespace Mixture
 			return GUILayoutUtility.GetRect(1, width, 1, height);
 		}
 
+        enum PreviewMode
+        {
+            RGBA,
+            RGB,
+            Alpha
+        }
+        PreviewMode m_PreviewMode = PreviewMode.RGBA;
+
 		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)
 		{
 			var previewImageSlice = new IMGUIContainer(() => {
-				// square image:
-				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), texture);
-			});
+                // square image:
+                using(new GUILayout.HorizontalScope(EditorStyles.toolbar, GUILayout.Height(16)))
+                {
+                    if (GUILayout.Button(m_PreviewMode.ToString(), EditorStyles.toolbarButton))
+                    {
+                        GenericMenu menu = new GenericMenu();
+                        menu.AddItem(new GUIContent("RGBA"), m_PreviewMode == PreviewMode.RGBA, () => m_PreviewMode = PreviewMode.RGBA);
+                        menu.AddItem(new GUIContent("RGB"), m_PreviewMode == PreviewMode.RGB, () => m_PreviewMode = PreviewMode.RGB);
+                        menu.AddItem(new GUIContent("Alpha"), m_PreviewMode == PreviewMode.Alpha, () => m_PreviewMode = PreviewMode.Alpha);
+                        Rect r = GUILayoutUtility.GetLastRect();
+                        r.xMin += 8;
+                        r.yMax += 16;
+                        menu.DropDown(r);
+                    }
+                    GUILayout.FlexibleSpace();
+                }
+                GUILayout.Space(8);
+                switch(m_PreviewMode)
+                {
+                    case PreviewMode.RGBA:
+                        EditorGUI.DrawTextureTransparent(GetPreviewRect(texture), texture, ScaleMode.ScaleToFit, 0, 0);
+                        break;
+                    case PreviewMode.RGB:
+                        EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), texture, null, ScaleMode.ScaleToFit, 0, 0);
+                        break;
+                    case PreviewMode.Alpha:
+                        EditorGUI.DrawTextureAlpha(GetPreviewRect(texture), texture, ScaleMode.ScaleToFit, 0, 0);
+                        break;
+                }
+                GUILayout.Space(8);
+
+            });
 			previewContainer.Add(previewImageSlice);
 		}
 
@@ -221,8 +260,8 @@ namespace Mixture
 				// square image:
 				MixtureUtils.textureArrayPreviewMaterial.SetTexture("_TextureArray", texture);
 				MixtureUtils.textureArrayPreviewMaterial.SetFloat("_Slice", currentSlice);
-				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial);
-			});
+				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+            });
 			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
 				currentSlice = a.newValue;
 			});
@@ -242,8 +281,8 @@ namespace Mixture
 				// square image:
 				MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", texture);
 				MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", ((float)currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
-				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial);
-			});
+				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+            });
 			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
 				currentSlice = a.newValue;
 			});
@@ -257,8 +296,8 @@ namespace Mixture
 				// square image:
 				MixtureUtils.textureCubePreviewMaterial.SetTexture("_Cubemap", texture);
 				MixtureUtils.textureCubePreviewMaterial.SetFloat("_Slice", currentSlice);
-				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial);
-			});
+				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+            });
 			previewContainer.Add(previewImageSlice);
 		}
 	}
