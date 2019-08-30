@@ -18,7 +18,6 @@
 		Pass
 		{
 			CGPROGRAM
-
 			#include "MixtureFixed.cginc"
 			#include "UnityCustomRenderTexture.cginc"
             #pragma vertex CustomRenderTextureVertexShader

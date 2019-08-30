@@ -18,14 +18,15 @@
 
 		Pass
 		{
-			CGPROGRAM
-			
+			CGPROGRAM		
 			#include "MixtureFixed.cginc"
 			#include "UnityCustomRenderTexture.cginc"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment mixture
 			#pragma target 3.0
-			
+
+			#pragma multi_compile CRT_2D CRT_3D CRT_CUBE
+
 			TEXTURE_X(_Texture);
 			TEXTURE_X(_UV);
 

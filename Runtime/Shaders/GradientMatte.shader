@@ -14,15 +14,13 @@
 		Pass
 		{
 			CGPROGRAM
-			// #pragma vertex vert
-			#pragma fragment mixture
-
-			#include "UnityCustomRenderTexture.cginc"
-			// #include "UnityCG.cginc"
-			// #define USE_UV
 			#include "MixtureFixed.cginc"
+			#include "UnityCustomRenderTexture.cginc"
 			#pragma vertex CustomRenderTextureVertexShader
+			#pragma fragment mixture
 			#pragma target 3.0
+
+			#pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 	
 			float _Mode;
 			float4 _Color1;
