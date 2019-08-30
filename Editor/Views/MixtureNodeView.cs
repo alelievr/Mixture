@@ -29,7 +29,7 @@ namespace Mixture
 		protected override VisualElement CreateSettingsView()
 		{
 			var view = new MixtureRTSettingsView(nodeTarget, owner);
-
+            view.AddToClassList("RTSettingsView");
 			view.RegisterChangedCallback(nodeTarget.OnSettingsChanged);
 
 			return view;

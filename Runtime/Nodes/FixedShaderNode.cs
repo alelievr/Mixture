@@ -33,6 +33,8 @@ namespace Mixture
 			if (shader == null)
 			{
 				shader = Shader.Find(shaderName);
+                output.wrapMode = TextureWrapMode.Repeat;
+                output.filterMode = FilterMode.Trilinear;
 			}
 
 			base.Enable();
