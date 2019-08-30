@@ -18,7 +18,9 @@ namespace Mixture
 		EnumField outputDepthMode;
 		EnumField outputDimension;
 		EnumField outputFormat;
-		
+        EnumField wrapMode;
+        EnumField filterMode;
+
         IntegerField outputWidth;
 		FloatField outputWidthPercentage;
         IntegerField outputHeight;
@@ -32,151 +34,191 @@ namespace Mixture
 
         public MixtureRTSettingsView(MixtureNode node, MixtureGraphView owner)
         {
-			var graph = owner.graph as MixtureGraph;
-			var title = new Label("Node Output Settings");
-			title.AddToClassList("PropertyEditorTitle");
-			this.Add(title);
+            var graph = owner.graph as MixtureGraph;
+            var title = new Label("Node Output Settings");
+            title.AddToClassList("PropertyEditorTitle");
+            this.Add(title);
 
-			// Size Modes
-			outputWidthMode = new EnumField(node.rtSettings.widthMode) {
-				label = "Width Mode",
-			};
-			outputWidthMode.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
-				node.rtSettings.widthMode = (OutputSizeMode)e.newValue;
+            // Wrap and Filter Modes
+            var smpHeader = new Label("Sampler States");
+            smpHeader.AddToClassList("PropertyEditorHeader");
+            this.Add(smpHeader);
+
+            wrapMode = new EnumField(node.rtSettings.wrapMode)
+            {
+                label = "Wrap Mode",
+            };
+            wrapMode.RegisterValueChangedCallback(e =>
+            {
+                owner.RegisterCompleteObjectUndo("Updated Wrap Mode " + e.newValue);
+                node.rtSettings.wrapMode = (TextureWrapMode)e.newValue;
+                onChanged?.Invoke();
+            });
+
+            filterMode = new EnumField(node.rtSettings.filterMode)
+            {
+                label = "Filter Mode",
+            };
+            filterMode.RegisterValueChangedCallback(e =>
+            {
+                owner.RegisterCompleteObjectUndo("Updated Filter Mode " + e.newValue);
+                node.rtSettings.filterMode = (FilterMode)e.newValue;
+                onChanged?.Invoke();
+            });
+
+            this.Add(wrapMode);
+            this.Add(filterMode);
+
+            // Size Modes
+            var sizeHeader = new Label("Size Properties");
+            sizeHeader.AddToClassList("PropertyEditorHeader");
+            this.Add(sizeHeader);
+
+            outputWidthMode = new EnumField(node.rtSettings.widthMode) {
+                label = "Width Mode",
+            };
+            outputWidthMode.RegisterValueChangedCallback(e => {
+                owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
+                node.rtSettings.widthMode = (OutputSizeMode)e.newValue;
                 onChanged?.Invoke();
                 UpdateFieldVisibility(node);
             });
-			this.Add(outputWidthMode);
+            this.Add(outputWidthMode);
 
-			outputHeightMode = new EnumField(node.rtSettings.heightMode) {
-				label = "Height Mode",
-			};
-			outputHeightMode.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
-				node.rtSettings.heightMode = (OutputSizeMode)e.newValue;
-                onChanged?.Invoke();
-				UpdateFieldVisibility(node);
-            });
-			this.Add(outputHeightMode);
-
-			outputDepthMode = new EnumField(node.rtSettings.depthMode) {
-				label = "Depth Mode",
-			};
-			outputDepthMode.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
-				node.rtSettings.depthMode = (OutputSizeMode)e.newValue;
+            outputHeightMode = new EnumField(node.rtSettings.heightMode) {
+                label = "Height Mode",
+            };
+            outputHeightMode.RegisterValueChangedCallback(e => {
+                owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
+                node.rtSettings.heightMode = (OutputSizeMode)e.newValue;
                 onChanged?.Invoke();
                 UpdateFieldVisibility(node);
             });
-			this.Add(outputDepthMode);
+            this.Add(outputHeightMode);
 
-			outputWidth = new IntegerField()
-			{
-				value = node.rtSettings.width,
-				label = "Width",
+            outputDepthMode = new EnumField(node.rtSettings.depthMode) {
+                label = "Depth Mode",
+            };
+            outputDepthMode.RegisterValueChangedCallback(e => {
+                owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
+                node.rtSettings.depthMode = (OutputSizeMode)e.newValue;
+                onChanged?.Invoke();
+                UpdateFieldVisibility(node);
+            });
+            this.Add(outputDepthMode);
+
+            outputWidth = new IntegerField()
+            {
+                value = node.rtSettings.width,
+                label = "Width",
                 isDelayed = true,
-			};
-			outputWidth.RegisterValueChangedCallback(e =>
-			{
-				owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
-				node.rtSettings.width = e.newValue;
+            };
+            outputWidth.RegisterValueChangedCallback(e =>
+            {
+                owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
+                node.rtSettings.width = e.newValue;
                 onChanged?.Invoke();
-			});
-			this.Add(outputWidth);
+            });
+            this.Add(outputWidth);
 
-			outputWidthPercentage = new FloatField()
-			{
-				value = node.rtSettings.widthPercent,
-				label = "Width Percentage",
+            outputWidthPercentage = new FloatField()
+            {
+                value = node.rtSettings.widthPercent,
+                label = "Width Percentage",
                 isDelayed = true,
-			};
-			outputWidthPercentage.RegisterValueChangedCallback(e =>
-			{
-				owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
-				node.rtSettings.widthPercent = e.newValue;
+            };
+            outputWidthPercentage.RegisterValueChangedCallback(e =>
+            {
+                owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
+                node.rtSettings.widthPercent = e.newValue;
                 onChanged?.Invoke();
-			});
-			this.Add(outputWidthPercentage);
+            });
+            this.Add(outputWidthPercentage);
 
-			outputHeight = new IntegerField()
-			{
-				value = node.rtSettings.height,
-				label = "Height",
+            outputHeight = new IntegerField()
+            {
+                value = node.rtSettings.height,
+                label = "Height",
                 isDelayed = true,
-			};
-			outputHeight.RegisterValueChangedCallback(e =>
-			{
-				owner.RegisterCompleteObjectUndo("Updated Height " + e.newValue);
-				node.rtSettings.height = e.newValue;
+            };
+            outputHeight.RegisterValueChangedCallback(e =>
+            {
+                owner.RegisterCompleteObjectUndo("Updated Height " + e.newValue);
+                node.rtSettings.height = e.newValue;
                 onChanged?.Invoke();
-			});
-			this.Add(outputHeight);
+            });
+            this.Add(outputHeight);
 
-			outputHeightPercentage = new FloatField()
-			{
-				value = node.rtSettings.heightPercent,
-				label = "Height Percentage",
+            outputHeightPercentage = new FloatField()
+            {
+                value = node.rtSettings.heightPercent,
+                label = "Height Percentage",
                 isDelayed = true,
-			};
-			outputHeightPercentage.RegisterValueChangedCallback(e =>
-			{
-				owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
-				node.rtSettings.heightPercent = e.newValue;
+            };
+            outputHeightPercentage.RegisterValueChangedCallback(e =>
+            {
+                owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
+                node.rtSettings.heightPercent = e.newValue;
                 onChanged?.Invoke();
-			});
-			this.Add(outputHeightPercentage);
+            });
+            this.Add(outputHeightPercentage);
 
-			outputDepth = new IntegerField()
-			{
-				value = node.rtSettings.sliceCount,
-				label = "Depth",
+            outputDepth = new IntegerField()
+            {
+                value = node.rtSettings.sliceCount,
+                label = "Depth",
                 isDelayed = true,
-			};
-			outputDepth.RegisterValueChangedCallback(e =>
-			{
-				owner.RegisterCompleteObjectUndo("Updated Depth " + e.newValue);
-				node.rtSettings.sliceCount = e.newValue;
+            };
+            outputDepth.RegisterValueChangedCallback(e =>
+            {
+                owner.RegisterCompleteObjectUndo("Updated Depth " + e.newValue);
+                node.rtSettings.sliceCount = e.newValue;
                 onChanged?.Invoke();
-			});
-			this.Add(outputDepth);
+            });
+            this.Add(outputDepth);
 
-			outputDepthPercentage = new FloatField()
-			{
-				value = node.rtSettings.depthPercent,
-				label = "Depth Percentage",
+            outputDepthPercentage = new FloatField()
+            {
+                value = node.rtSettings.depthPercent,
+                label = "Depth Percentage",
                 isDelayed = true,
-			};
-			outputDepthPercentage.RegisterValueChangedCallback(e =>
-			{
-				owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
-				node.rtSettings.depthPercent = e.newValue;
+            };
+            outputDepthPercentage.RegisterValueChangedCallback(e =>
+            {
+                owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
+                node.rtSettings.depthPercent = e.newValue;
                 onChanged?.Invoke();
-			});
-			this.Add(outputDepthPercentage);
+            });
+            this.Add(outputDepthPercentage);
 
-			outputDimension = new EnumField(node.rtSettings.dimension) {
-				label = "Dimension",
-			};
-			outputDimension.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
-				node.rtSettings.dimension = (OutputDimension)e.newValue;
-                onChanged?.Invoke();
-			});
 
-			outputFormat = new EnumField(node.rtSettings.targetFormat) {
-				label = "Pixel Format",
-			};
-			outputFormat.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Updated Graphics Format " + e.newValue);
-				node.rtSettings.targetFormat = (OutputFormat)e.newValue;
+            // Dimension and Pixel Format
+            var formatHeader = new Label("Format");
+            formatHeader.AddToClassList("PropertyEditorHeader");
+            this.Add(formatHeader);
+
+            outputDimension = new EnumField(node.rtSettings.dimension) {
+                label = "Dimension",
+            };
+            outputDimension.RegisterValueChangedCallback(e => {
+                owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
+                node.rtSettings.dimension = (OutputDimension)e.newValue;
                 onChanged?.Invoke();
-			});
+            });
+
+            outputFormat = new EnumField(node.rtSettings.targetFormat) {
+                label = "Pixel Format",
+            };
+            outputFormat.RegisterValueChangedCallback(e => {
+                owner.RegisterCompleteObjectUndo("Updated Graphics Format " + e.newValue);
+                node.rtSettings.targetFormat = (OutputFormat)e.newValue;
+                onChanged?.Invoke();
+            });
 
 			this.Add(outputDimension);
 			this.Add(outputFormat);
 
-			UpdateFieldVisibility(node);
+            UpdateFieldVisibility(node);
 
 			if (owner.graph.isRealtime)
 				AddRealtimeFields(node, owner);

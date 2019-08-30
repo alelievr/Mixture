@@ -22,10 +22,12 @@ namespace Mixture
 
 		protected override MixtureRTSettings defaultRTSettings
 		{
-			get => new MixtureRTSettings()
+			get
 			{
-				editFlags = EditFlags.All
-			};
+                var settings = base.defaultRTSettings;
+                settings.editFlags = EditFlags.All;
+                return settings;
+			}
 		}
 
 		protected override void Enable()
@@ -33,11 +35,10 @@ namespace Mixture
 			if (shader == null)
 			{
 				shader = Shader.Find(shaderName);
-                output.wrapMode = TextureWrapMode.Repeat;
-                output.filterMode = FilterMode.Trilinear;
 			}
 
 			base.Enable();
-		}
+
+        }
 	}
 }

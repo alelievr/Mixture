@@ -57,13 +57,15 @@ namespace Mixture
 
 			if (target == null)
 			{
-				target = new CustomRenderTexture(outputWidth, outputHeight, targetFormat)
-				{
-					volumeDepth = Math.Max(1, outputDepth),
-					dimension = dimension,
-					name = $"Mixture Temp {name}",
-					updateMode = CustomRenderTextureUpdateMode.OnDemand,
-					doubleBuffered = rtSettings.doubleBuffered,
+                target = new CustomRenderTexture(outputWidth, outputHeight, targetFormat)
+                {
+                    volumeDepth = Math.Max(1, outputDepth),
+                    dimension = dimension,
+                    name = $"Mixture Temp {name}",
+                    updateMode = CustomRenderTextureUpdateMode.OnDemand,
+                    doubleBuffered = rtSettings.doubleBuffered,
+                    wrapMode = rtSettings.wrapMode,
+                    filterMode = rtSettings.filterMode,
 				};
 				target.Create();
 
@@ -79,16 +81,19 @@ namespace Mixture
 				|| target.dimension != dimension
 				|| target.volumeDepth != outputDepth
 				|| target.filterMode != graph.outputTexture.filterMode
-				|| target.doubleBuffered != rtSettings.doubleBuffered)
+				|| target.doubleBuffered != rtSettings.doubleBuffered
+                || target.wrapMode != rtSettings.wrapMode
+                || target.filterMode != rtSettings.filterMode)
 			{
 				target.Release();
 				target.width = Math.Max(1, outputWidth);
 				target.height = Math.Max(1, outputHeight);
 				target.graphicsFormat = (GraphicsFormat)targetFormat;
 				target.dimension = (TextureDimension)dimension;
-				target.filterMode = graph.outputTexture.filterMode; // TODO Set FilterMode per-node, add FilterMode to RTSettings
 				target.volumeDepth = outputDepth;
 				target.doubleBuffered = rtSettings.doubleBuffered;
+                target.wrapMode = rtSettings.wrapMode;
+                target.filterMode = rtSettings.filterMode;
 				target.Create();
 			}
 

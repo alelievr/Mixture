@@ -33,6 +33,8 @@ namespace Mixture
 		public OutputFormat targetFormat;
 		public EditFlags editFlags;
 		public bool doubleBuffered;
+        public TextureWrapMode wrapMode;
+        public FilterMode filterMode;
 
 		public static MixtureRTSettings defaultValue
 		{
@@ -51,6 +53,8 @@ namespace Mixture
 				targetFormat = OutputFormat.Default,
 				editFlags = EditFlags.None,
 				doubleBuffered = false,
+                wrapMode = TextureWrapMode.Repeat,
+                filterMode = FilterMode.Bilinear,
 			};
 		}
 		
