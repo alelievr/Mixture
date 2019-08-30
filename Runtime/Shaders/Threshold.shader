@@ -1,16 +1,16 @@
-﻿Shader "Hidden/Mixture/Mask"
+﻿Shader "Hidden/Mixture/Threshold"
 {	
 	Properties
 	{
-		[InlineTexture]_Target_2D("Target", 2D) = "white" {}
-		[InlineTexture]_Target_3D("Target", 3D) = "white" {}
-		[InlineTexture]_Target_Cube("Target", Cube) = "white" {}
-
 		[InlineTexture]_Source_2D("Input", 2D) = "white" {}
 		[InlineTexture]_Source_3D("Input", 3D) = "white" {}
 		[InlineTexture]_Source_Cube("Input", Cube) = "white" {}
 
-		[MixtureChannel]_Mask("Alpha", Float) = 3
+		[MixtureChannel]_Channel("Channel", Float) = 3
+
+		_Threshold("Threshold", Float) = 0.3333
+		_Feather("Feather", Float) = 0.01
+
 	}
 	SubShader
 	{
@@ -28,10 +28,11 @@
 
             #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 
-			TEXTURE_X(_Target);
 			TEXTURE_X(_Source);
 
-			float _Mask;
+			float _Threshold;
+			float _Feather;
+			float _Channel;
 
 			float ChannelMask(float4 sourceValue, uint mode)
 			{
@@ -49,10 +50,11 @@
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
 				float4 source = SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
-				float4 target = SAMPLE_X(_Target, i.localTexcoord.xyz, i.direction);
 
-				float a = ChannelMask(source, _Mask);
-				return float4(target.r, target.g, target.b, a);
+				float a = ChannelMask(source, _Channel);
+				float f = _Feather * 0.5;
+				a = smoothstep(_Threshold - f, _Threshold + f, a);
+				return float4(a, a, a, a);
 			}
 			ENDCG
 		}
