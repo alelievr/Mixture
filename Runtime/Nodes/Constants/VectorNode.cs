@@ -21,7 +21,7 @@ namespace Mixture
 		[Output(name = "W")]
 		public float w = 0;
 
-		public override float nodeWidth => defaultNodeWidth;
+		public override float nodeWidth => 150.0f;
 
 		public override string	name => "Vector";
 

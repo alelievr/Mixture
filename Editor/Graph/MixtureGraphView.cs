@@ -50,7 +50,7 @@ namespace Mixture
 				}
 
 				//Check for type assignability
-				if (!p.portType.IsReallyAssignableFrom(startPort.portType))
+				if (!BaseGraph.TypesAreConnectable(startPort.portType, p.portType))
 					return false;
 
 				//Check if the edge already exists

@@ -16,7 +16,10 @@ namespace Mixture
 		public override void Enable()
 		{
 			base.Enable();
-			DrawDefaultInspector();
+
+			var vectorNode = nodeTarget as VectorNode;
+
+			AddControlField(nameof(vectorNode.vector));
 		}
 	}
 }

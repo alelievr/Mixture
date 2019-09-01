@@ -10,6 +10,7 @@ using System.Linq;
 
 namespace Mixture
 {
+	[NodeCustomEditor(typeof(FixedShaderNode))]
 	public class MixtureNodeView : BaseNodeView
 	{
 		protected VisualElement propertyEditorUI;

@@ -14,14 +14,14 @@ namespace Mixture
 			{
 				if (_blitIconMaterial == null)
 				{
-					_blitIconMaterial = new Material(Shader.Find("Hidden/MixtureIconBlit"));
+					_blitIconMaterial = new Material(Resources.Load< Shader >("MixtureIconBlit"));
 					_blitIconMaterial.SetTexture("_MixtureIcon", icon);
 				}
 
 				return _blitIconMaterial;
 			}
 		}
-		
+
 		static Material  _blitRealtimeIconMaterial;
 		public static Material  blitRealtimeIconMaterial
 		{
@@ -29,7 +29,7 @@ namespace Mixture
 			{
 				if (_blitRealtimeIconMaterial == null)
 				{
-					_blitRealtimeIconMaterial = new Material(Shader.Find("Hidden/MixtureIconBlit"));
+					_blitRealtimeIconMaterial = new Material(Resources.Load< Shader >("MixtureIconBlit"));
 					_blitRealtimeIconMaterial.SetTexture("_MixtureIcon", realtimeIcon);
 				}
 

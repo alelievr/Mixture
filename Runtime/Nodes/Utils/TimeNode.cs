@@ -25,7 +25,7 @@ namespace Mixture
 		public float				frameCount;
 
 		public override bool 		hasSettings => false;
-		public override float		nodeWidth => 70;
+		public override float		nodeWidth => 100;
 		public override string		name => "Time";
 
 		protected override bool ProcessNode()
