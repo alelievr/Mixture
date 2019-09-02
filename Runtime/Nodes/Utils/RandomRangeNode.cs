@@ -12,10 +12,10 @@ namespace Mixture
 		[Output("Random")]
 		public float	random;
 
-		public float	min;
-		public float	max;
+		public float	min = 0.0f;
+		public float	max = 1.0f;
 
-		public override string name => "RandomRange";
+		public override string name => "Random Range";
 
 		protected override bool ProcessNode()
 		{

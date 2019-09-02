@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Math/Scale & Bias")]
+	[System.Serializable, NodeMenuItem("Color/Scale & Bias")]
 	public class ScaleBiasNode : FixedShaderNode
 	{
 		public override string name => "Scale & Bias";

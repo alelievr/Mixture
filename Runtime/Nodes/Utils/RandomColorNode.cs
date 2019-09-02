@@ -9,17 +9,17 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Utils/Random Color")]
 	public class RandomColorNode : MixtureNode
 	{
-		[Input("Color")]
+		[Output("Color")]
 		public Color	r;
 
-		public float	minHue;
-		public float	maxHue;
-		public float	minSat;
-		public float	maxSat;
-		public float	minValue;
-		public float	maxValue;
+		public float	minHue = 0.0f;
+		public float	maxHue = 1.0f;
+		public float	minSat = 0.0f;
+		public float	maxSat = 1.0f;
+		public float	minValue = 0.0f;
+		public float	maxValue = 1.0f;
 
-		public override string name => "RandomColor";
+		public override string name => "Random Color";
 
 		protected override bool ProcessNode()
 		{
