@@ -80,13 +80,18 @@ namespace Mixture
 			}
 		}
 
-		static Texture2D				_icon;
-		public static Texture2D			icon
-		{
-			get => _icon == null ? _icon = Resources.Load< Texture2D >("MixtureIcon_128") : _icon;
-		}
+        static Texture2D _windowIcon;
+        public static Texture2D windowIcon
+        {
+            get => _windowIcon == null ? _windowIcon = Resources.Load<Texture2D>("MixtureIcon") : _windowIcon;
+        }
+        static Texture2D _icon;
+        public static Texture2D icon
+        {
+            get => _icon == null ? _icon = Resources.Load<Texture2D>("MixtureIcon_128") : _icon;
+        }
 
-		static Texture2D				_icon32;
+        static Texture2D				_icon32;
 		public static Texture2D			icon32
 		{
 			get => _icon32 == null ? _icon32 = Resources.Load< Texture2D >("MixtureIcon_32") : _icon32;
