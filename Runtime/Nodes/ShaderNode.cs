@@ -66,6 +66,7 @@ namespace Mixture
 				displayName = "output",
 				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
 				identifier = "output",
+				acceptMultipleEdges = true,
 			};
 		}
 

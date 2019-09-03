@@ -38,7 +38,6 @@ namespace Mixture
 			}
 
 			base.Enable();
-
         }
 	}
 }

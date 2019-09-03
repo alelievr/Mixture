@@ -3,12 +3,19 @@
 
 // Mixture Fixed Pipeline helper
 
+// Utility samplers:
+sampler s_linear_clamp_sampler;
+sampler s_linear_repeat_sampler;
+sampler s_point_clamp_sampler;
+sampler s_point_repeat_sampler;
+
 // Macros
 #define MERGE_NAME(p1,p2) p1##p2
 
 #define TEXELSIZE2D(Tex) MERGE_NAME(Tex,_TexelSize)
 #define SAMPLER2D(Tex) MERGE_NAME(sampler,Tex)
 
+// TODO: rename these to sampler2D and add an actual Texture2D define (steal it from D3D11.hlsl)
 #define TEXTURE2D(Tex) \
 	sampler2D Tex;
 
@@ -25,6 +32,7 @@
 
 #ifdef CRT_2D
 	#define SAMPLE_X(tex, uv, dir)	tex2Dlod(MERGE_NAME(tex,_2D), float4(uv, 0))
+	#define SAMPLE_X_LINEAR_CLAMP(tex, uv, dir)	MERGE_NAME(tex,_2D).SampleLevel(s_linear_clamp_sampler, uv, 0)
 	#define TEXTURE_X(tex)			TEXTURE2D(MERGE_NAME(tex,_2D))
 #elif CRT_3D
 	#define SAMPLE_X(tex, uv, dir)	tex3Dlod(MERGE_NAME(tex,_3D), float4(uv, 0))
