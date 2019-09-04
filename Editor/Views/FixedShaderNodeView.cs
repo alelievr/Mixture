@@ -19,7 +19,9 @@ namespace Mixture
 
 		ObjectField			debugCustomRenderTextureField;
 
-		public override void OnCreated()
+        protected override bool hasPreview { get { return fixedShaderNode.hasPreview; } }
+
+        public override void OnCreated()
 		{
 			if (fixedShaderNode.material != null)
 			{
@@ -29,6 +31,7 @@ namespace Mixture
 
 		public override void Enable()
 		{
+
 			base.Enable();
 
 			InitializeDebug();
@@ -71,5 +74,5 @@ namespace Mixture
 		{
 			owner.graph.RemoveObjectFromGraph(fixedShaderNode.material);
 		}
-	}
+    }
 }
