@@ -10,6 +10,89 @@
 		_Radius("Radius", Float) = 0
 		// Other parameters
 	}
+
+	CGINCLUDE
+	
+	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+
+	#pragma target 3.0
+	// The list of defines that will be active when processing the node with a certain dimension
+	#pragma multi_compile CRT_2D CRT_3D CRT_CUBE
+	#pragma vertex CustomRenderTextureVertexShader
+	#pragma fragment mixture
+
+	static float gaussianWeights[32] = {0.03740084,
+		0.03723684,
+		0.03674915,
+		0.03595048,
+		0.03486142,
+		0.03350953,
+		0.03192822,
+		0.03015531,
+		0.02823164,
+		0.02619939,
+		0.02410068,
+		0.02197609,
+		0.01986344,
+		0.01779678,
+		0.01580561,
+		0.01391439,
+		0.01214227,
+		0.01050313,
+		0.009005766,
+		0.007654299,
+		0.006448714,
+		0.005385472,
+		0.004458177,
+		0.003658254,
+		0.002975593,
+		0.002399142,
+		0.001917438,
+		0.001519042,
+		0.001192892,
+		0.0009285718,
+		0.0007164943,
+		0.0005480157,
+	};
+	
+	TEXTURE_X(_Source);
+	float _Radius;
+
+	float4 GaussianBlur(v2f_customrendertexture i, float3 direction, bool sampleSelf)
+	{
+		float4 color;
+		
+		if (sampleSelf)
+			color = SAMPLE_SELF_LINEAR_CLAMP(float3(i.localTexcoord.xy, 0), i.direction);
+		else
+			color = SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy, 0), i.direction);
+
+		if (_Radius == 0)
+			return color;
+
+		color *= gaussianWeights[0];
+
+		for (int j = 1; j < 32; j++)
+		{
+			float3 uvOffset = direction * j * _Radius / _CustomRenderTextureWidth;
+
+			if (sampleSelf)
+			{
+				color += SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz + uvOffset, i.direction) * gaussianWeights[j];
+				color += SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz - uvOffset, i.direction) * gaussianWeights[j];
+			}
+			else
+			{
+				color += SAMPLE_X_LINEAR_CLAMP(_Source, i.localTexcoord.xyz + uvOffset, i.direction) * gaussianWeights[j];
+				color += SAMPLE_X_LINEAR_CLAMP(_Source, i.localTexcoord.xyz - uvOffset, i.direction) * gaussianWeights[j];
+			}
+		}
+
+		return color;
+	}
+
+	ENDCG
+
 	SubShader
 	{
 		Tags { "RenderType"="Opaque" }
@@ -17,73 +100,36 @@
 
 		Pass
 		{
+			Name "Vertical Blur"
+
 			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
-			#include "UnityCustomRenderTexture.cginc"
-            #pragma vertex CustomRenderTextureVertexShader
-			#pragma fragment mixture
-			#pragma target 3.0
-
-			static float gaussianWeights[32] = {0.03740084,
-				0.03723684,
-				0.03674915,
-				0.03595048,
-				0.03486142,
-				0.03350953,
-				0.03192822,
-				0.03015531,
-				0.02823164,
-				0.02619939,
-				0.02410068,
-				0.02197609,
-				0.01986344,
-				0.01779678,
-				0.01580561,
-				0.01391439,
-				0.01214227,
-				0.01050313,
-				0.009005766,
-				0.007654299,
-				0.006448714,
-				0.005385472,
-				0.004458177,
-				0.003658254,
-				0.002975593,
-				0.002399142,
-				0.001917438,
-				0.001519042,
-				0.001192892,
-				0.0009285718,
-				0.0007164943,
-				0.0005480157,
-			};
-
-			// The list of defines that will be active when processing the node with a certain dimension
-            #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
-
-			// This macro will declare a version for each dimention (2D, 3D and Cube)
-			TEXTURE_X(_Source);
-			float _Radius;
-
-			float4 mixture (v2f_customrendertexture i) : SV_Target
+			float4 mixture(v2f_customrendertexture i) : SV_Target
 			{
-				float4 color = SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy, 0), i.direction);
+				return GaussianBlur(i, float3(1, 0, 0), false);
+			}
+			ENDCG
+		}
 
-				if (_Radius == 0)
-					return color;
+		Pass
+		{
+			Name "Horizontal Blur"
 
-				color *= gaussianWeights[0];
+			CGPROGRAM
+			float4 mixture(v2f_customrendertexture i) : SV_Target
+			{
+				return GaussianBlur(i, float3(0, 1, 0), true);
+			}
+			ENDCG
+		}
 
-				for (int j = 1; j < 32; j++)
-				{
-					float2 uvOffset = float2(0.0, j * _Radius) / _CustomRenderTextureWidth;
+		Pass
+		{
+			Name "Depth Blur"
 
-					// TODO: direction offset
-					color += SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy + uvOffset, 0), i.direction) * gaussianWeights[j];
-					color += SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy - uvOffset, 0), i.direction) * gaussianWeights[j];
-				}
-
-				return color;
+			CGPROGRAM
+			float4 mixture(v2f_customrendertexture i) : SV_Target
+			{
+				return GaussianBlur(i, float3(0, 0, 1), true);
 			}
 			ENDCG
 		}

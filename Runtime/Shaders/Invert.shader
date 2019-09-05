@@ -19,14 +19,13 @@
 		{
 			CGPROGRAM
 			#include "MixtureFixed.cginc"
-			#include "UnityCustomRenderTexture.cginc"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment mixture
 			#pragma target 3.0
 
             #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 
-			TEXTURE_X(_Source);
+			TEXTURE_SAMPLER_X(_Source);
 
 			float _Hue;
 			float _Saturation;

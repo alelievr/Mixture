@@ -65,7 +65,7 @@ namespace Mixture
 			};
 		}
 
-		protected sealed override bool ProcessNode()
+		protected override bool ProcessNode()
 		{
 			UpdateTempRenderTexture(ref output);
 

@@ -19,7 +19,6 @@
 		{
 			CGPROGRAM
 			#include "MixtureFixed.cginc"
-			#include "UnityCustomRenderTexture.cginc"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment mixture
 			#pragma target 3.0

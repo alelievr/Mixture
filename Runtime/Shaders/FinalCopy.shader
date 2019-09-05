@@ -16,7 +16,6 @@ Shader "Hidden/Mixture/FinalCopy"
 			CGPROGRAM
 
 			#include "MixtureFixed.cginc"
-			#include "UnityCustomRenderTexture.cginc"
 			
             #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 
