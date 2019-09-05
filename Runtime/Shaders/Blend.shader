@@ -38,9 +38,9 @@ Shader "Hidden/Mixture/Blend"
             #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 
 			// This macro will declare a version for each dimention (2D, 3D and Cube)
-			TEXTURE_X(_Source);
-			TEXTURE_X(_Target);
-			TEXTURE_X(_Mask);
+			TEXTURE_SAMPLER_X(_Source);
+			TEXTURE_SAMPLER_X(_Target);
+			TEXTURE_SAMPLER_X(_Mask);
 
 			float _BlendMode;
 			float _MaskMode;

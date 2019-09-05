@@ -26,7 +26,7 @@
 
             #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 
-			TEXTURE_X(_Input);
+			TEXTURE_SAMPLER_X(_Input);
 			TEXTURE2D(_Map);
 
 			float _Mode;

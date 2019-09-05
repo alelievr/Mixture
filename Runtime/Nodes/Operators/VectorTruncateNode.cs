@@ -7,7 +7,7 @@ using System;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/VectorTruncate")]
+	[System.Serializable, NodeMenuItem("Operators/Vector Truncate")]
 	public class VectorTruncateNode : MixtureNode
 	{
 		// TODO: multi VectorTruncate port
@@ -19,11 +19,12 @@ namespace Mixture
 		public Vector4	o;
 
 		public override string name => "Truncate";
+		public override float nodeWidth => MixtureUtils.operatorNodeWidth;
 
 		protected override bool ProcessNode()
 		{
 			o = new Vector4((float)Math.Truncate((double)a.x), (float)Math.Truncate((double)a.y), (float)Math.Truncate((double)a.z), (float)Math.Truncate((double)a.w));
-			return false;
+			return true;
 		}
 	}
 }

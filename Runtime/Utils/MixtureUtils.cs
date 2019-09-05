@@ -7,6 +7,9 @@ namespace Mixture
 {
     public static class MixtureUtils
     {
+		public static readonly float		defaultNodeWidth = 250f;
+		public static readonly float		operatorNodeWidth = 100f;
+
 		static Material  _blitIconMaterial;
 		public static Material  blitIconMaterial
 		{

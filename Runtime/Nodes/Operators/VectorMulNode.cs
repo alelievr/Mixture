@@ -21,11 +21,12 @@ namespace Mixture
 		public Vector4	o;
 
 		public override string name => "Mul";
+		public override float nodeWidth => MixtureUtils.operatorNodeWidth;
 
 		protected override bool ProcessNode()
 		{
 			o = Vector4.Scale(a, b);
-			return false;
+			return true;
 		}
 	}
 }

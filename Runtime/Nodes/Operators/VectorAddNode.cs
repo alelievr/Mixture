@@ -21,11 +21,12 @@ namespace Mixture
 		public Vector4	o;
 
 		public override string name => "Add";
+		public override float nodeWidth => MixtureUtils.operatorNodeWidth;
 
 		protected override bool ProcessNode()
 		{
 			o = a + b;
-			return false;
+			return true;
 		}
 	}
 }

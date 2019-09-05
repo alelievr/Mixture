@@ -2,9 +2,9 @@ Shader "Hidden/Mixture/FinalCopy"
 {	
 	Properties
 	{
-		_Source2D("Source", 2D) = "white" {}
-		_Source3D("Source", 3D) = "white" {}
-		_SourceCube("Source", Cube) = "white" {}
+		_Source_2D("Source", 2D) = "white" {}
+		_Source_3D("Source", 3D) = "white" {}
+		_Source_Cube("Source", Cube) = "white" {}
 	}
 	SubShader
 	{
@@ -24,28 +24,11 @@ Shader "Hidden/Mixture/FinalCopy"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma target 3.0
 
-			TEXTURE2D(_Source2D);
-			TEXTURE3D(_Source3D);
-			TEXTURECUBE(_SourceCube);
+			TEXTURE_SAMPLER_X(_Source);
 
-			static const float3 faceVectors[6] = {
-				float3(1, 0, 0),
-				float3(-1, 0, 0),
-				float3(0, 1, 0),
-				float3(0, -1, 0),
-				float3(0, 0, 1),
-				float3(0, 0, -1),
-			};
-
-			float4 mixture (v2f_customrendertexture IN) : SV_Target
+			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-#if CRT_2D
-				return tex2Dlod(_Source2D, float4(IN.localTexcoord.xy, 0, 0));
-#elif CRT_3D
-				return tex3Dlod(_Source3D, float4(IN.localTexcoord.xyz, 0));
-#else // CUBEMAP
-				return texCUBElod(_SourceCube, float4(IN.direction, 0));
-#endif
+				return SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
 			}
 			ENDCG
 		}

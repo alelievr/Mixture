@@ -1,12 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Experimental.Rendering;
 using GraphProcessor;
 using System.Linq;
-using UnityEditor;
-using System;
 
 namespace Mixture
 {
@@ -22,7 +17,7 @@ namespace Mixture
 		public CustomRenderTexture	output = null;
 
 		public Shader			shader;
-		public override string	name => "Shader";
+		public override string	name => shader?.name?.Split('/')?.Last() ?? "Shader";
 		public Material			material;
 
         protected virtual IEnumerable<string> filteredOutProperties => Enumerable.Empty<string>();

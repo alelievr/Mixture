@@ -137,11 +137,11 @@ namespace Mixture
 
 			MixtureUtils.SetupDimensionKeyword(finalCopyMaterial, input.dimension);
 			if (input.dimension == TextureDimension.Tex2D)
-				finalCopyMaterial.SetTexture("_Source2D", input);
+				finalCopyMaterial.SetTexture("_Source_2D", input);
 			else if (input.dimension == TextureDimension.Tex3D)
-				finalCopyMaterial.SetTexture("_Source3D", input);
+				finalCopyMaterial.SetTexture("_Source_3D", input);
 			else
-				finalCopyMaterial.SetTexture("_SourceCube", input);
+				finalCopyMaterial.SetTexture("_Source_Cube", input);
 
 			tempRenderTexture.material = finalCopyMaterial;
 

@@ -13,8 +13,6 @@ namespace Mixture
 	[System.Serializable]
 	public abstract class FixedShaderNode : ShaderNode
 	{
-		public override string	name => shader.name.Split('/').Last();
-
 		public abstract string  shaderName { get; }
 		public abstract bool    displayMaterialInspector { get; }
 

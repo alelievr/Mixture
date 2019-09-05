@@ -27,7 +27,7 @@ Shader "Hidden/Mixture/#SCRIPTNAME#"
             #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 
 			// This macro will declare a version for each dimention (2D, 3D and Cube)
-			TEXTURE_X(_Source);
+			TEXTURE_SAMPLER_X(_Source);
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{

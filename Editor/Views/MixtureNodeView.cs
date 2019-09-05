@@ -68,6 +68,11 @@ namespace Mixture
 				propertyEditorUI.Add(title);
 			}
 
+			if (nodeTarget.showDefaultInspector)
+			{
+				DrawDefaultInspector();
+			}
+
 			if (hasPreview)
 			{
                 CreateTexturePreview(ref previewContainer, mixtureNode.previewTexture); // TODO : Add Slice Preview

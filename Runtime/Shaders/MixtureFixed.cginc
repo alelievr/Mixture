@@ -15,33 +15,46 @@ sampler s_point_repeat_sampler;
 #define TEXELSIZE2D(Tex) MERGE_NAME(Tex,_TexelSize)
 #define SAMPLER2D(Tex) MERGE_NAME(sampler,Tex)
 
-// TODO: rename these to sampler2D and add an actual Texture2D define (steal it from D3D11.hlsl)
-#define TEXTURE2D(Tex) \
-	sampler2D Tex;
+#define TEXTURE2D(textureName)                Texture2D textureName
+#define TEXTURE2D_ARRAY(textureName)          Texture2DArray textureName
+#define TEXTURECUBE(textureName)              TextureCube textureName
+#define TEXTURECUBE_ARRAY(textureName)        TextureCubeArray textureName
+#define TEXTURE3D(textureName)                Texture3D textureName
 
-#define TEXTURE3D(Tex) \
-	sampler3D Tex;
+#define SAMPLER(samplerName)                  SamplerState samplerName
+#define SAMPLER_CMP(samplerName)              SamplerComparisonState samplerName
 
-#define TEXTURECUBE(Tex) \
-	samplerCUBE Tex; \
+#define SAMPLE_TEXTURE2D(textureName, samplerName, coord2)                               textureName.Sample(samplerName, coord2)
+#define SAMPLE_TEXTURE2D_LOD(textureName, samplerName, coord2, lod)                      textureName.SampleLevel(samplerName, coord2, lod)
+#define SAMPLE_TEXTURECUBE(textureName, samplerName, coord3)                             textureName.Sample(samplerName, coord3)
+#define SAMPLE_TEXTURECUBE_LOD(textureName, samplerName, coord3, lod)                    textureName.SampleLevel(samplerName, coord3, lod)
+#define SAMPLE_TEXTURE3D(textureName, samplerName, coord3)                               textureName.Sample(samplerName, coord3)
+#define SAMPLE_TEXTURE3D_LOD(textureName, samplerName, coord3, lod)                      textureName.SampleLevel(samplerName, coord3, lod)
 
-#define SAMPLE2D(Texture, uv) Texture.Sample(SAMPLER2D(Texture), uv)
-#define SAMPLE2D_S(Texture, Sampler, uv) Texture.Sample(Sampler, uv)
-#define SAMPLE2D_LOD(Texture, uv, lod) Texture.Sample(SAMPLER2D(Texture), float4(uv.xy,0,lod))
-#define SAMPLE2D_LOD_S(Texture, Sampler, uv) Texture.Sample(Sampler, float4(uv.xy,0,lod))
+#define LOAD_TEXTURE2D(textureName, unCoord2)                                   textureName.Load(int3(unCoord2, 0))
+#define LOAD_TEXTURE2D_LOD(textureName, unCoord2, lod)                          textureName.Load(int3(unCoord2, lod))
+#define LOAD_TEXTURE3D(textureName, unCoord3)                                   textureName.Load(int4(unCoord3, 0))
+#define LOAD_TEXTURE3D_LOD(textureName, unCoord3, lod)                          textureName.Load(int4(unCoord3, lod))
+
+#define TEXTURE_SAMPLER2D(name) sampler2D name
+#define TEXTURE_SAMPLER3D(name) sampler3D name
+#define TEXTURE_SAMPLERCUBE(name) samplerCUBE name
 
 #ifdef CRT_2D
 	#define SAMPLE_X(tex, uv, dir)	tex2Dlod(MERGE_NAME(tex,_2D), float4(uv, 0))
-	#define SAMPLE_X_LINEAR_CLAMP(tex, uv, dir)	MERGE_NAME(tex,_2D).SampleLevel(s_linear_clamp_sampler, uv, 0)
-	#define TEXTURE_X(tex)			TEXTURE2D(MERGE_NAME(tex,_2D))
+	#define SAMPLE_X_LINEAR_CLAMP(tex, uv, dir)	SAMPLE_TEXTURE2D_LOD(MERGE_NAME(tex,_2D), s_linear_clamp_sampler, uv.xy, 0)
+	#define TEXTURE_SAMPLER_X(tex)	TEXTURE_SAMPLER2D(MERGE_NAME(tex,_2D))
+	#define TEXTURE_X(name) TEXTURE2D(MERGE_NAME(name,_2D))
 #elif CRT_3D
 	#define SAMPLE_X(tex, uv, dir)	tex3Dlod(MERGE_NAME(tex,_3D), float4(uv, 0))
-	#define TEXTURE_X(tex)			TEXTURE3D(MERGE_NAME(tex,_3D))
+	#define SAMPLE_X_LINEAR_CLAMP(tex, uv, dir)	SAMPLE_TEXTURE3D_LOD(MERGE_NAME(tex,_3D), s_linear_clamp_sampler, uv.xyz, 0)
+	#define TEXTURE_SAMPLER_X(tex)	TEXTURE_SAMPLER3D(MERGE_NAME(tex,_3D))
+	#define TEXTURE_X(name) TEXTURE3D(MERGE_NAME(name,_3D))
 #else
 	#define SAMPLE_X(tex, uv, dir)	texCUBElod(MERGE_NAME(tex,_Cube), float4(dir, 0))
-	#define TEXTURE_X(tex)			TEXTURECUBE(MERGE_NAME(tex,_Cube))
-#endif
-
+	#define SAMPLE_X_LINEAR_CLAMP(tex, uv, dir)	SAMPLE_TEXTURECUBE_LOD(MERGE_NAME(tex,_Cube), s_linear_clamp_sampler, dir, 0)
+	#define TEXTURE_SAMPLER_X(tex)	TEXTURE_SAMPLERCUBE(MERGE_NAME(tex,_Cube))
+	#define TEXTURE_X(name) TEXTURECUBE(MERGE_NAME(name,_Cube))
 #endif
 
 /////////////////////////////////////////////////////////////////////////
@@ -93,3 +106,4 @@ float3 RGBtoHSV(float3 RGB)
 	return HSV;
 }
 
+#endif

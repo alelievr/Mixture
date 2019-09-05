@@ -29,7 +29,7 @@
 
             #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 
-			TEXTURE_X(_Source);
+			TEXTURE_SAMPLER_X(_Source);
 
 			float _RMode;
 			float _GMode;

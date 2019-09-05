@@ -63,7 +63,7 @@
             #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 
 			// This macro will declare a version for each dimention (2D, 3D and Cube)
-			Texture2D _Source_2D;
+			TEXTURE_X(_Source);
 			sampler sampler_Clamp_Point_Source;
 			float _Radius;
 			float2 _Direction;
@@ -81,7 +81,6 @@
 				{
 					float2 uvOffset = _Direction * _Radius / _CustomRenderTextureWidth;
 
-					// TODO: direction offset
 					color += SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy + uvOffset, 0), i.direction) * gaussianWeights[j];
 					color += SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy - uvOffset, 0), i.direction) * gaussianWeights[j];
 				}

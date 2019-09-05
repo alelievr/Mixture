@@ -67,7 +67,7 @@
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				float4 color = SAMPLE_X(_Source, float3(i.localTexcoord.xy, 0), i.direction);
+				float4 color = SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy, 0), i.direction);
 
 				if (_Radius == 0)
 					return color;
@@ -79,8 +79,8 @@
 					float2 uvOffset = float2(0.0, j * _Radius) / _CustomRenderTextureWidth;
 
 					// TODO: direction offset
-					color += SAMPLE_X(_Source, float3(i.localTexcoord.xy + uvOffset, 0), i.direction) * gaussianWeights[j];
-					color += SAMPLE_X(_Source, float3(i.localTexcoord.xy - uvOffset, 0), i.direction) * gaussianWeights[j];
+					color += SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy + uvOffset, 0), i.direction) * gaussianWeights[j];
+					color += SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy - uvOffset, 0), i.direction) * gaussianWeights[j];
 				}
 
 				return color;

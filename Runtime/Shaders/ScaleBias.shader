@@ -26,7 +26,7 @@
 
             #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 
-			TEXTURE_X(_Texture);
+			TEXTURE_SAMPLER_X(_Texture);
 			float _Mode;
 			float4 _Scale;
 			float4 _Bias;

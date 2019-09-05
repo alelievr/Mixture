@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Utils/VectorSwizzle")]
+	[System.Serializable, NodeMenuItem("Utils/Vector Swizzle")]
 	public class VectorSwizzle : MixtureNode
 	{
 		[Input("Input")]
@@ -14,6 +14,8 @@ namespace Mixture
 
 		[Output]
 		public Vector4	output;
+		
+		public override bool showDefaultInspector => true;
 
 		public Component	compX = Component.X;
 		public Component	compY = Component.Y;
@@ -39,7 +41,7 @@ namespace Mixture
 			};
 		}
 
-		public override string name => "VectorSwizzle";
+		public override string name => "Vector Swizzle";
 
 		float Swizzle(Component c, Vector4 v)
 		{

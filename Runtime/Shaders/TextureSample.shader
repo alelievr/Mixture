@@ -27,8 +27,8 @@
 
 			#pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 
-			TEXTURE_X(_Texture);
-			TEXTURE_X(_UV);
+			TEXTURE_SAMPLER_X(_Texture);
+			TEXTURE_SAMPLER_X(_UV);
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{

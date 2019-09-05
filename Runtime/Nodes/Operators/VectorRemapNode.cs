@@ -24,12 +24,14 @@ namespace Mixture
 
 		public override string name => "Remap";
 
+		public override bool showDefaultInspector => true;
+
 		protected override bool ProcessNode()
 		{
 			Vector4 iMin = MixtureConversions.ConvertFloatToVector4(inputMin);
 			Vector4 oMin = MixtureConversions.ConvertFloatToVector4(outputMin);
 			o = oMin + (a - iMin) * (outputMax - outputMin) / (inputMax - inputMin);
-			return false;
+			return true;
 		}
 	}
 }

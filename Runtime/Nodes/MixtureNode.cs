@@ -15,14 +15,12 @@ namespace Mixture
 {
 	public abstract class MixtureNode : BaseNode
 	{
-		public static readonly float		defaultNodeWidth = 250f;
-
 		protected new MixtureGraph			graph => base.graph as MixtureGraph;
 
 		public MixtureRTSettings			rtSettings;
 
 		protected virtual MixtureRTSettings	defaultRTSettings => MixtureRTSettings.defaultValue;
-		public virtual float   				nodeWidth => defaultNodeWidth;
+		public virtual float   				nodeWidth => MixtureUtils.defaultNodeWidth;
 		public virtual Texture				previewTexture => null;
 		public virtual bool					hasSettings => true;
 		public virtual List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
@@ -30,6 +28,8 @@ namespace Mixture
 			OutputDimension.Texture3D,
 			OutputDimension.CubeMap,
 		};
+
+		public virtual bool					showDefaultInspector => false;
 
 		public event Action					onSettingsChanged;
 		

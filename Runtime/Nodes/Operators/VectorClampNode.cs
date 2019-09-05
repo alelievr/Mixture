@@ -21,11 +21,12 @@ namespace Mixture
 		public float	max;
 
 		public override string name => "Clamp";
+		public override bool showDefaultInspector => true;
 
 		protected override bool ProcessNode()
 		{
 			o = new Vector4(Mathf.Clamp(a.x, min, max), Mathf.Clamp(a.y, min, max), Mathf.Clamp(a.z, min, max), Mathf.Clamp(a.w, min, max));
-			return false;
+			return true;
 		}
 	}
 }

@@ -18,11 +18,12 @@ namespace Mixture
 		public Vector4	o;
 
 		public override string name => "Frac";
+		public override float nodeWidth => MixtureUtils.operatorNodeWidth;
 
 		protected override bool ProcessNode()
 		{
 			o = new Vector4(a.x % 1.0f, a.y % 1.0f, a.z % 1.0f, a.w % 1.0f);
-			return false;
+			return true;
 		}
 	}
 }

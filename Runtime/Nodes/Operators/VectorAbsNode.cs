@@ -18,11 +18,12 @@ namespace Mixture
 		public Vector4	o;
 
 		public override string name => "Abs";
+		public override float nodeWidth => MixtureUtils.operatorNodeWidth;
 
 		protected override bool ProcessNode()
 		{
 			o = new Vector4(Mathf.Abs(a.x), Mathf.Abs(a.y), Mathf.Abs(a.z), Mathf.Abs(a.w));
-			return false;
+			return true;
 		}
 	}
 }
