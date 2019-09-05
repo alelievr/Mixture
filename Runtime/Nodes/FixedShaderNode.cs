@@ -15,7 +15,7 @@ namespace Mixture
 	{
 		public abstract string  shaderName { get; }
 		public abstract bool    displayMaterialInspector { get; }
-
+        public virtual bool hasPreview => true;
 		public override Texture previewTexture => output;
 
 		protected override MixtureRTSettings defaultRTSettings

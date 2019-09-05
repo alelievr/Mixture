@@ -14,5 +14,6 @@ namespace Mixture
 
 		public override bool 	hasSettings => false;
 		public override string	name => "Texture2D";
-	}
+        public override Texture previewTexture => texture;
+    }
 }
