@@ -26,7 +26,7 @@
             #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 
 			TEXTURE_SAMPLER_X(_Input);
-			TEXTURE2D(_Map);
+			TEXTURE_SAMPLER2D(_Map);
 
 			float _Mode;
 			
@@ -38,18 +38,18 @@
 				{
 				default:
 				case 0: // Full RGBA Gradient
-					return tex2Dlod(_Map, float4(hsv.zzz,0));
+					return SAMPLE_2D(_Map, hsv.zzz);
 				case 1: // Alpha from Curve
-					sourceValue.a = tex2Dlod(_Map, float4(sourceValue.aaa,0)).r;
+					sourceValue.a = SAMPLE_2D(_Map, sourceValue.aaa).r;
 					return sourceValue;
 				case 2: // Brightness from Curve
-					hsv.z = tex2Dlod(_Map, float4(hsv.zzz,0)).r;
+					hsv.z = SAMPLE_2D(_Map, hsv.zzz).r;
 					return float4(HSVtoRGB(hsv), sourceValue.a);
 				case 3: // Saturation from Curve
-					hsv.y = tex2Dlod(_Map, float4(hsv.yyy,0)).r;
+					hsv.y = SAMPLE_2D(_Map, hsv.yyy).r;
 					return float4(HSVtoRGB(hsv), sourceValue.a);
 				case 4: // Hue from Curve
-					hsv.x = tex2Dlod(_Map, float4(hsv.xxx,0)).r;
+					hsv.x = SAMPLE_2D(_Map, hsv.xxx).r;
 					return float4(HSVtoRGB(hsv), sourceValue.a);
 				}
 				return 0;

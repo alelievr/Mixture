@@ -15,6 +15,7 @@ namespace Mixture
 	{
 		protected VisualElement propertyEditorUI;
         protected VisualElement previewContainer;
+        protected Button togglePreviewButton;
 
         protected new MixtureGraphView  owner => base.owner as MixtureGraphView;
 		protected new MixtureNode       nodeTarget => base.nodeTarget as MixtureNode;
@@ -77,6 +78,13 @@ namespace Mixture
 			{
                 CreateTexturePreview(ref previewContainer, mixtureNode.previewTexture); // TODO : Add Slice Preview
                 controlsContainer.Add(previewContainer);
+
+                togglePreviewButton = new Button(TogglePreview) { };
+                togglePreviewButton.ClearClassList();
+                togglePreviewButton.AddToClassList("PreviewToggleButton");
+                controlsContainer.Add(togglePreviewButton);
+
+                UpdatePreview();
             }
 
             propertyEditorUI.style.display = DisplayStyle.Flex;
@@ -177,8 +185,6 @@ namespace Mixture
 			else
             	previewContainer.Clear();
 
-
-
 			if (texture == null)
 				return;
 
@@ -202,6 +208,26 @@ namespace Mixture
 			}
         }
 
+        void TogglePreview()
+        {
+            m_PreviewVisible = !m_PreviewVisible;
+            UpdatePreview();
+        }
+
+        void UpdatePreview()
+        {
+            if (m_PreviewVisible)
+            {
+                previewContainer.style.display = DisplayStyle.Flex;
+                togglePreviewButton.RemoveFromClassList("Collapsed");
+            }
+            else
+            {
+                previewContainer.style.display = DisplayStyle.None;
+                togglePreviewButton.AddToClassList("Collapsed");
+            }
+        }
+
 		Rect GetPreviewRect(Texture texture)
 		{
 			float width = Mathf.Min(nodeTarget.nodeWidth, texture.width);
@@ -215,13 +241,17 @@ namespace Mixture
             RGB,
             Alpha
         }
+
+        [SerializeField]
         PreviewMode m_PreviewMode = PreviewMode.RGBA;
+        [SerializeField]
+        bool m_PreviewVisible = true;
 
 		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)
 		{
-			var previewImageSlice = new IMGUIContainer(() => {
+		        var previewElement = new IMGUIContainer(() => {
                 // square image:
-                using(new GUILayout.HorizontalScope(EditorStyles.toolbar, GUILayout.Height(16)))
+                using(new GUILayout.HorizontalScope(EditorStyles.toolbar, GUILayout.Height(12)))
                 {
                     if (GUILayout.Button(m_PreviewMode.ToString(), EditorStyles.toolbarButton))
                     {
@@ -236,7 +266,6 @@ namespace Mixture
                     }
                     GUILayout.FlexibleSpace();
                 }
-                GUILayout.Space(8);
                 switch(m_PreviewMode)
                 {
                     case PreviewMode.RGBA:
@@ -249,10 +278,8 @@ namespace Mixture
                         EditorGUI.DrawTextureAlpha(GetPreviewRect(texture), texture, ScaleMode.ScaleToFit, 0, 0);
                         break;
                 }
-                GUILayout.Space(8);
-
             });
-			previewContainer.Add(previewImageSlice);
+			previewContainer.Add(previewElement);
 		}
 
 		void CreateTexture2DArrayPreview(VisualElement previewContainer, Texture texture, int currentSlice)

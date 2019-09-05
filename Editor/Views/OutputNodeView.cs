@@ -29,28 +29,29 @@ namespace Mixture
 
 		public override void Enable()
 		{
-			base.Enable();
+            outputNode = nodeTarget as OutputNode;
+            graph = owner.graph as MixtureGraph;
 
-			outputNode = nodeTarget as OutputNode;
-			graph = owner.graph as MixtureGraph;
+            if (!graph.isRealtime)
+            {
+                controlsContainer.Add(new Button(SaveTexture)
+                {
+                    text = "Save"
+                });
+            }
+
+            base.Enable();
+
+
 			outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
-
 			graph.onOutputTextureUpdated += UpdatePreviewImage;
 
 			InitializeDebug();
-
-			UpdatePreviewImage();
-			controlsContainer.Add(previewContainer);
+            UpdatePreviewImage();
 
 			// For now compression is not supported (it does not works)
 			// AddCompressionSettings();
 
-			if (!graph.isRealtime)
-			{
-				controlsContainer.Add(new Button(SaveTexture) {
-					text = "Save"
-				});
-			}
 		}
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)

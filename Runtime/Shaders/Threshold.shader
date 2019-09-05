@@ -9,8 +9,8 @@
 		[MixtureChannel]_Channel("Channel", Float) = 3
 
 		_Threshold("Threshold", Float) = 0.3333
-		_Feather("Feather", Float) = 0.01
-
+		[Range]_Feather("Feather", Range(0.0,1.0)) = 0.01
+		[MaterialToggle] _Invert("Invert", Float) = 0.0
 	}
 	SubShader
 	{
@@ -32,6 +32,7 @@
 			float _Threshold;
 			float _Feather;
 			float _Channel;
+			float _Invert;
 
 			float ChannelMask(float4 sourceValue, uint mode)
 			{
@@ -51,8 +52,18 @@
 				float4 source = SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
 
 				float a = ChannelMask(source, _Channel);
-				float f = _Feather * 0.5;
-				a = smoothstep(_Threshold - f, _Threshold + f, a);
+				if (_Feather > 0.0)
+				{
+					_Feather *= _Invert == 0.0 ? 1.0 : -1.0;
+					float f = _Feather * 0.5;
+					a = smoothstep(_Threshold - f, _Threshold + f, a);
+				}
+				else
+				{
+					a = step(_Threshold, a);
+					a = _Invert == 0.0 ? a : 1.0 - a;
+				}
+
 				return float4(a, a, a, a);
 			}
 			ENDCG

@@ -20,6 +20,9 @@ sampler s_point_repeat_sampler;
 #define TEXTURE_SAMPLER3D(name) sampler3D name
 #define TEXTURE_SAMPLERCUBE(name) samplerCUBE name
 
+#define SAMPLE_2D(tex, uv) tex2Dlod(tex, float4(uv, 0))
+
+
 #ifdef CRT_2D
 	#define SAMPLE_X(tex, uv, dir)	tex2Dlod(MERGE_NAME(tex,_2D), float4(uv, 0))
 
