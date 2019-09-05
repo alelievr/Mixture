@@ -58,6 +58,24 @@
 	TEXTURE_X(_Source);
 	float _Radius;
 
+	float4x4 rotationMatrix(float3 axis, float angle)
+	{
+		axis = normalize(axis);
+		float s = sin(angle);
+		float c = cos(angle);
+		float oc = 1.0 - c;
+		
+		return float4x4(oc * axis.x * axis.x + c,           oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,  0.0,
+					oc * axis.x * axis.y + axis.z * s,  oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,  0.0,
+					oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c,           0.0,
+					0.0,                                0.0,                                0.0,                                1.0);
+	}
+
+	float3 Rotate(float3 axis, float3 vec, float deg)
+	{
+		return mul(rotationMatrix(axis, deg * (PI / 180.0)), float4(vec, 0));
+	}
+
 	float4 GaussianBlur(v2f_customrendertexture i, float3 direction, bool sampleSelf)
 	{
 		float4 color;
@@ -75,16 +93,19 @@
 		for (int j = 1; j < 32; j++)
 		{
 			float3 uvOffset = direction * j * _Radius / _CustomRenderTextureWidth;
+			float cubemapDirectionOffset = j * _Radius / (4.0 * _CustomRenderTextureWidth); // humm ?
+			float3 positiveDirectionOffset = Rotate(direction, i.direction, cubemapDirectionOffset);
+			float3 negativeDirectionOffset = Rotate(direction, i.direction, -cubemapDirectionOffset);
 
 			if (sampleSelf)
 			{
-				color += SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz + uvOffset, i.direction) * gaussianWeights[j];
-				color += SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz - uvOffset, i.direction) * gaussianWeights[j];
+				color += SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz + uvOffset, positiveDirectionOffset) * gaussianWeights[j];
+				color += SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz - uvOffset, negativeDirectionOffset) * gaussianWeights[j];
 			}
 			else
 			{
-				color += SAMPLE_X_LINEAR_CLAMP(_Source, i.localTexcoord.xyz + uvOffset, i.direction) * gaussianWeights[j];
-				color += SAMPLE_X_LINEAR_CLAMP(_Source, i.localTexcoord.xyz - uvOffset, i.direction) * gaussianWeights[j];
+				color += SAMPLE_X_LINEAR_CLAMP(_Source, i.localTexcoord.xyz + uvOffset, positiveDirectionOffset) * gaussianWeights[j];
+				color += SAMPLE_X_LINEAR_CLAMP(_Source, i.localTexcoord.xyz - uvOffset, negativeDirectionOffset) * gaussianWeights[j];
 			}
 		}
 
