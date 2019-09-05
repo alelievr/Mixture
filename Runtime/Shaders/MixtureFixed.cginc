@@ -16,28 +16,6 @@ sampler s_point_repeat_sampler;
 // Macros
 #define MERGE_NAME(p1,p2) p1##p2
 
-
-// #define TEXTURE2D(textureName)                Texture2D textureName
-// #define TEXTURE2D_ARRAY(textureName)          Texture2DArray textureName
-// #define TEXTURECUBE(textureName)              TextureCube textureName
-// #define TEXTURECUBE_ARRAY(textureName)        TextureCubeArray textureName
-// #define TEXTURE3D(textureName)                Texture3D textureName
-
-// #define SAMPLER(samplerName)                  SamplerState samplerName
-// #define SAMPLER_CMP(samplerName)              SamplerComparisonState samplerName
-
-// #define SAMPLE_TEXTURE2D(textureName, samplerName, coord2)                               textureName.Sample(samplerName, coord2)
-// #define SAMPLE_TEXTURE2D_LOD(textureName, samplerName, coord2, lod)                      textureName.SampleLevel(samplerName, coord2, lod)
-// #define SAMPLE_TEXTURECUBE(textureName, samplerName, coord3)                             textureName.Sample(samplerName, coord3)
-// #define SAMPLE_TEXTURECUBE_LOD(textureName, samplerName, coord3, lod)                    textureName.SampleLevel(samplerName, coord3, lod)
-// #define SAMPLE_TEXTURE3D(textureName, samplerName, coord3)                               textureName.Sample(samplerName, coord3)
-// #define SAMPLE_TEXTURE3D_LOD(textureName, samplerName, coord3, lod)                      textureName.SampleLevel(samplerName, coord3, lod)
-
-// #define LOAD_TEXTURE2D(textureName, unCoord2)                                   textureName.Load(int3(unCoord2, 0))
-// #define LOAD_TEXTURE2D_LOD(textureName, unCoord2, lod)                          textureName.Load(int3(unCoord2, lod))
-// #define LOAD_TEXTURE3D(textureName, unCoord3)                                   textureName.Load(int4(unCoord3, 0))
-// #define LOAD_TEXTURE3D_LOD(textureName, unCoord3, lod)                          textureName.Load(int4(unCoord3, lod))
-
 #define TEXTURE_SAMPLER2D(name) sampler2D name
 #define TEXTURE_SAMPLER3D(name) sampler3D name
 #define TEXTURE_SAMPLERCUBE(name) samplerCUBE name
@@ -58,7 +36,8 @@ sampler s_point_repeat_sampler;
 	#define TEXTURE_SAMPLER_X(tex)	TEXTURE_SAMPLER3D(MERGE_NAME(tex,_3D))
 	#define TEXTURE_X(name) TEXTURE3D(MERGE_NAME(name,_3D))
 
-	#define SAMPLE_SELF(uv, dir) tex3Dlod(_SelfTexture3D, float4(uv, 0))
+	#define SAMPLE_SELF(uv, dir) SAMPLE_TEXTURE3D_LOD(_SelfTexture3D, sampler_SelfTexture3D, uv, 0)
+	#define SAMPLE_SELF_LINEAR_CLAMP(uv, dir) SAMPLE_TEXTURE3D_LOD(_SelfTexture3D, s_linear_clamp_sampler, uv, 0)
 #else
 	#define SAMPLE_X(tex, uv, dir)	texCUBElod(MERGE_NAME(tex,_Cube), float4(dir, 0))
 	#define SAMPLE_X_LINEAR_CLAMP(tex, uv, dir)	SAMPLE_TEXTURECUBE_LOD(MERGE_NAME(tex,_Cube), s_linear_clamp_sampler, dir, 0)
@@ -66,7 +45,8 @@ sampler s_point_repeat_sampler;
 	#define TEXTURE_SAMPLER_X(tex)	TEXTURE_SAMPLERCUBE(MERGE_NAME(tex,_Cube))
 	#define TEXTURE_X(name) TEXTURECUBE(MERGE_NAME(name,_Cube))
 
-	#define SAMPLE_SELF(uv, dir) texCUBElod(_SelfTextureCube, float4(dir, 0))
+	#define SAMPLE_SELF(uv, dir) SAMPLE_TEXTURECUBE_LOD(_SelfTextureCube, sampler_SelfTextureCube, dir, 0)
+	#define SAMPLE_SELF_LINEAR_CLAMP(uv, dir) SAMPLE_TEXTURECUBE_LOD(_SelfTextureCube, s_linear_clamp_sampler, dir, 0)
 #endif
 
 /////////////////////////////////////////////////////////////////////////
