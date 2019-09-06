@@ -15,7 +15,6 @@ namespace Mixture
 	{
 		protected VisualElement propertyEditorUI;
         protected VisualElement previewContainer;
-        protected Button togglePreviewButton;
 
         protected new MixtureGraphView  owner => base.owner as MixtureGraphView;
 		protected new MixtureNode       nodeTarget => base.nodeTarget as MixtureNode;
@@ -41,7 +40,6 @@ namespace Mixture
 
         public override void Enable()
 		{
-            var mixtureNode = nodeTarget as MixtureNode;
 			var stylesheet = Resources.Load<StyleSheet>(stylesheetName);
 			if(!styleSheets.Contains(stylesheet))
 				styleSheets.Add(stylesheet);
@@ -52,6 +50,7 @@ namespace Mixture
 			owner.graph.onOutputTextureUpdated += UpdatePorts;
 			nodeTarget.onSettingsChanged += UpdatePorts;
 			nodeTarget.onSettingsChanged += () => owner.processor.Run();
+			nodeTarget.onProcessed += UpdateTexturePreview;
 			
 			propertyEditorUI = new VisualElement();
 			controlsContainer.Add(propertyEditorUI);
@@ -74,18 +73,7 @@ namespace Mixture
 				DrawDefaultInspector();
 			}
 
-			if (hasPreview)
-			{
-                CreateTexturePreview(ref previewContainer, mixtureNode.previewTexture); // TODO : Add Slice Preview
-                controlsContainer.Add(previewContainer);
-
-                togglePreviewButton = new Button(TogglePreview) { };
-                togglePreviewButton.ClearClassList();
-                togglePreviewButton.AddToClassList("PreviewToggleButton");
-                controlsContainer.Add(togglePreviewButton);
-
-                UpdatePreview();
-            }
+			UpdateTexturePreview();
 
             propertyEditorUI.style.display = DisplayStyle.Flex;
         }
@@ -99,6 +87,15 @@ namespace Mixture
 		{
 			nodeTarget.UpdateAllPorts();
 			RefreshPorts();
+		}
+
+		void UpdateTexturePreview()
+		{
+			if (hasPreview && previewContainer == null)
+			{
+                CreateTexturePreview(ref previewContainer, nodeTarget.previewTexture); // TODO : Add Slice Preview
+                controlsContainer.Add(previewContainer);
+			}
 		}
 
 		bool CheckPropertyChanged(Material material, MaterialProperty[] properties)
@@ -180,53 +177,65 @@ namespace Mixture
 
 		protected void CreateTexturePreview(ref VisualElement previewContainer, Texture texture, int currentSlice = 0)
 		{
-			if(previewContainer == null)
+			if (texture == null)
+			{
+				previewContainer = null;
+				return;
+			}
+
+			if (previewContainer == null)
                 previewContainer = new VisualElement();
 			else
             	previewContainer.Clear();
 
-			if (texture == null)
-				return;
+			VisualElement texturePreview = new VisualElement();
+			previewContainer.Add(texturePreview);
 
             switch (texture.dimension)
 			{
 				case TextureDimension.Tex2D:
-					CreateTexture2DPreview(previewContainer, texture);
+					CreateTexture2DPreview(texturePreview, texture);
 					break;
 				case TextureDimension.Tex2DArray:
-					CreateTexture2DArrayPreview(previewContainer, texture, currentSlice);
+					CreateTexture2DArrayPreview(texturePreview, texture, currentSlice);
 					break;
 				case TextureDimension.Tex3D:
-					CreateTexture3DPreview(previewContainer, texture, currentSlice);
+					CreateTexture3DPreview(texturePreview, texture, currentSlice);
 					break;
 				case TextureDimension.Cube:
-					CreateTextureCubePreview(previewContainer, texture, currentSlice);
+					CreateTextureCubePreview(texturePreview, texture, currentSlice);
 					break;
 				default:
 					Debug.LogError(texture + " is not a supported type for preview");
 					return;
 			}
+			
+			Button togglePreviewButton = null;
+			togglePreviewButton = new Button(() => {
+				m_PreviewVisible = !m_PreviewVisible;
+				UpdatePreviewCollapseState();
+			});
+			togglePreviewButton.ClearClassList();
+			togglePreviewButton.AddToClassList("PreviewToggleButton");
+			previewContainer.Add(togglePreviewButton);
+
+			UpdatePreviewCollapseState();
+
+			void UpdatePreviewCollapseState()
+			{
+				if (m_PreviewVisible)
+				{
+					texturePreview.style.display = DisplayStyle.Flex;
+					togglePreviewButton.RemoveFromClassList("Collapsed");
+				}
+				else
+				{
+					texturePreview.style.display = DisplayStyle.None;
+					togglePreviewButton.AddToClassList("Collapsed");
+				}
+			}
         }
 
-        void TogglePreview()
-        {
-            m_PreviewVisible = !m_PreviewVisible;
-            UpdatePreview();
-        }
-
-        void UpdatePreview()
-        {
-            if (m_PreviewVisible)
-            {
-                previewContainer.style.display = DisplayStyle.Flex;
-                togglePreviewButton.RemoveFromClassList("Collapsed");
-            }
-            else
-            {
-                previewContainer.style.display = DisplayStyle.None;
-                togglePreviewButton.AddToClassList("Collapsed");
-            }
-        }
 
 		Rect GetPreviewRect(Texture texture)
 		{

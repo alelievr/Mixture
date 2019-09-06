@@ -1,4 +1,4 @@
-Shader "Hidden/Mixture/#SCRIPTNAME#"
+﻿Shader "Hidden/Mixture/Distance"
 {	
 	Properties
 	{
@@ -8,6 +8,8 @@ Shader "Hidden/Mixture/#SCRIPTNAME#"
 		[InlineTexture]_Source_Cube("Source", Cube) = "white" {}
 
 		// Other parameters
+		[Range]_Threshold("Threshold", Range(0, 1)) = 0.5
+		[Range]_Radius("Radius", Range(0, 32)) = 4
 	}
 	SubShader
 	{
@@ -27,12 +29,39 @@ Shader "Hidden/Mixture/#SCRIPTNAME#"
             #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 
 			// This macro will declare a version for each dimention (2D, 3D and Cube)
-			TEXTURE_SAMPLER_X(_Source);
+			TEXTURE_X(_Source);
+			float _Threshold;
+			float _Radius;
 
-			float4 mixture (v2f_customrendertexture i) : SV_Target
+			float4 mixture (v2f_customrendertexture crt) : SV_Target
 			{
 				// The SAMPLE_X macro handles sampling for 2D, 3D and cube textures
-				return SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
+				float4 input = LOAD_X(_Source, crt.localTexcoord.xyz, crt.direction);
+				float4 color = input;
+
+				int i = -_Radius, j = -_Radius, k = -_Radius;
+				for (; i <= _Radius; i++)
+				{
+					for (; j <= _Radius; j++)
+#if defined(CRT_3D)
+						for (; k <= _Radius; k++)
+#endif
+						{
+							if (i == 0 && j == 0 && k == 0)
+								continue;
+
+							float uvOffset = float3(i, j, k) / float3(_CustomRenderTextureWidth, _CustomRenderTextureHeight, _CustomRenderTextureDepth);
+							float4 neighbour = LOAD_X(_Source, crt.localTexcoord.xyz + uvOffset, crt.direction);
+
+							if (any(neighbour.r < _Threshold))
+							{
+								color = neighbour;
+								// break;
+							}
+						}
+				}
+
+				return color;
 			}
 			ENDCG
 		}

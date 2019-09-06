@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using UnityEditorInternal;
 
 namespace Mixture
 {
@@ -23,6 +24,10 @@ namespace Mixture
 
         public static void Update()
         {
+            // When the editor is not focused we disable the realtime preview
+			if (!InternalEditorUtility.isApplicationActive)
+				return;
+
             views.RemoveAll(v => v?.graph == null);
 
             // TODO: check if view is visible

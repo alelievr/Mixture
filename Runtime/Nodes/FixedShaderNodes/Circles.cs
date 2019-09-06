@@ -6,12 +6,12 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Procedural/CheckerBoard")]
-	public class CheckerBoard : FixedShaderNode
+	[System.Serializable, NodeMenuItem("Procedural/Circles")]
+	public class Circles : FixedShaderNode
 	{
-		public override string name => "CheckerBoard";
+		public override string name => "Circles";
 
-		public override string shaderName => "Hidden/Mixture/CheckerBoard";
+		public override string shaderName => "Hidden/Mixture/Circles";
 
 		public override bool displayMaterialInspector => true;
 
