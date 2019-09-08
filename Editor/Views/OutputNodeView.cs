@@ -19,8 +19,8 @@ namespace Mixture
 		VisualElement	shaderCreationUI;
 		VisualElement	materialEditorUI;
 		MaterialEditor	materialEditor;
-		OutputNode		outputNode;
-		MixtureGraph    graph;
+		protected OutputNode		outputNode;
+		protected MixtureGraph    graph;
 
 		// Debug fields
 		ObjectField		debugCustomRenderTextureField;
@@ -34,7 +34,7 @@ namespace Mixture
 
             if (!graph.isRealtime)
             {
-                controlsContainer.Add(new Button(SaveTexture)
+                controlsContainer.Add(new Button(SaveMasterTexture)
                 {
                     text = "Save"
                 });
@@ -107,14 +107,19 @@ namespace Mixture
 			CreateTexturePreview(ref previewContainer, graph.isRealtime ? graph.outputTexture : outputNode.tempRenderTexture, outputNode.currentSlice);
 		}
 
+        protected virtual void SaveMasterTexture()
+        {
+            SaveTexture();
+        }
+
 		// Write the rendertexture value to the graph main texture asset
-		void SaveTexture()
+		protected void SaveTexture(Texture externalTexture = null)
 		{
 			// Retrieve the texture from the GPU:
 			var src = outputNode.tempRenderTexture;
 			int depth = src.dimension == TextureDimension.Cube ? 6 : src.volumeDepth;
 			var request = AsyncGPUReadback.Request(src, 0, 0, src.width, 0, src.height, 0, depth, (r) => {
-				WriteRequestResult(r, graph.outputTexture);
+				WriteRequestResult(r, (externalTexture != null ? graph.outputTexture : externalTexture));
 			});
 
 			request.Update();
@@ -122,7 +127,7 @@ namespace Mixture
 			request.WaitForCompletion();
 		}
 
-		void WriteRequestResult(AsyncGPUReadbackRequest request, Texture output)
+		protected void WriteRequestResult(AsyncGPUReadbackRequest request, Texture output)
 		{
 			if (request.hasError)
 			{
