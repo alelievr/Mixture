@@ -109,17 +109,17 @@ namespace Mixture
 
         protected virtual void SaveMasterTexture()
         {
-            SaveTexture();
+            ReadBackTexture();
         }
 
 		// Write the rendertexture value to the graph main texture asset
-		protected void SaveTexture(Texture externalTexture = null)
+		protected void ReadBackTexture(Texture externalTexture = null)
 		{
 			// Retrieve the texture from the GPU:
 			var src = outputNode.tempRenderTexture;
 			int depth = src.dimension == TextureDimension.Cube ? 6 : src.volumeDepth;
 			var request = AsyncGPUReadback.Request(src, 0, 0, src.width, 0, src.height, 0, depth, (r) => {
-				WriteRequestResult(r, (externalTexture != null ? graph.outputTexture : externalTexture));
+				WriteRequestResult(r, (externalTexture == null ? graph.outputTexture : externalTexture));
 			});
 
 			request.Update();

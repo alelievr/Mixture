@@ -21,7 +21,7 @@ namespace Mixture
             ExternalOutputNode external = outputNode as ExternalOutputNode;
             Texture outputTexture = null;
             OutputDimension dimension = (OutputDimension)(external.rtSettings.dimension == OutputDimension.Default ? (OutputDimension)external.rtSettings.GetTextureDimension(graph) : external.rtSettings.dimension);
-            DefaultFormat format =  external.rtSettings.targetFormat.ToString().Contains("LDR")? DefaultFormat.LDR : DefaultFormat.HDR;
+            GraphicsFormat format = (GraphicsFormat)external.rtSettings.targetFormat;
 
             switch (dimension)
             {
@@ -37,8 +37,10 @@ namespace Mixture
                     break;
             }
 
-            SaveTexture(outputTexture);
+            ReadBackTexture(outputTexture);
 
+            Color p = (outputTexture as Texture2D).GetPixel(10, 10);
+            Debug.Log(p);
             // Check Output Type
 
             string assetPath;
@@ -51,7 +53,7 @@ namespace Mixture
                     assetPath += ".asset";
                 else
                 {
-                    if (format == DefaultFormat.LDR)
+                    if (((OutputFormat)format).ToString().Contains("LDR"))
                         assetPath += ".png";
                     else
                         assetPath += ".exr";
@@ -73,7 +75,7 @@ namespace Mixture
             {
                 byte[] contents = null;
 
-                if (format == DefaultFormat.LDR)
+                if (((OutputFormat)format).ToString().Contains("LDR"))
                     contents = ImageConversion.EncodeToPNG(outputTexture as Texture2D);
                 else
                     contents = ImageConversion.EncodeToEXR(outputTexture as Texture2D);
@@ -85,7 +87,8 @@ namespace Mixture
                 throw new System.NotImplementedException(); // Todo : find a solution
                 //System.IO.File.WriteAllBytes(assetPath, ImageConversion.EncodeToPNG(outputTexture as Cubemap).);
             }
-            AssetDatabase.SaveAssets();                
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();                
         }
     }
 }
