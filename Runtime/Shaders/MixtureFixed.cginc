@@ -1,8 +1,6 @@
 #ifndef MIXTURE_FIXED
 #define MIXTURE_FIXED
 
-#undef SAMPLE_DEPTH_TEXTURE
-#undef SAMPLE_DEPTH_TEXTURE_LOD
 #include "Packages/com.alelievr.mixture/Runtime/Shaders/CustomTexture.hlsl"
 
 // Mixture Fixed Pipeline helper
@@ -27,20 +25,30 @@ sampler s_point_repeat_sampler;
 	#define SAMPLE_X(tex, uv, dir)	tex2Dlod(MERGE_NAME(tex,_2D), float4(uv, 0))
 	#define SAMPLE_X_LINEAR_CLAMP(tex, uv, dir)	SAMPLE_TEXTURE2D_LOD(MERGE_NAME(tex,_2D), s_linear_clamp_sampler, (uv).xy, 0)
 	#define LOAD_X(tex, uv, dir) LOAD_TEXTURE2D_LOD(MERGE_NAME(tex,_2D), (uv).xy * float2(_CustomRenderTextureWidth, _CustomRenderTextureHeight), 0)
+	#define SET_X(tex, uv, value) MERGE_NAME(tex,_2D)[uint2((uv).xy * float2(_CustomRenderTextureWidth, _CustomRenderTextureHeight))] = value
+	#define FLOAT_X float2
+	#define INT_X int2
 
 	#define TEXTURE_SAMPLER_X(tex)	TEXTURE_SAMPLER2D(MERGE_NAME(tex,_2D))
 	#define TEXTURE_X(name) TEXTURE2D(MERGE_NAME(name,_2D))
+	#define RW_TEXTURE_X(type, name) RW_TEXTURE2D(type, MERGE_NAME(name,_2D))
 
+	#define LOAD_SELF(uv, dir) LOAD_TEXTURE2D_LOD(_SelfTexture2D, (uv) * float2(_CustomRenderTextureWidth, _CustomRenderTextureHeight), 0);
 	#define SAMPLE_SELF(uv, dir) SAMPLE_TEXTURE2D_LOD(_SelfTexture2D, sampler_SelfTexture2D, uv, 0)
 	#define SAMPLE_SELF_LINEAR_CLAMP(uv, dir) SAMPLE_TEXTURE2D_LOD(_SelfTexture2D, s_linear_clamp_sampler, uv, 0)
 #elif CRT_3D
 	#define SAMPLE_X(tex, uv, dir)	tex3Dlod(MERGE_NAME(tex,_3D), float4(uv, 0))
 	#define SAMPLE_X_LINEAR_CLAMP(tex, uv, dir)	SAMPLE_TEXTURE3D_LOD(MERGE_NAME(tex,_3D), s_linear_clamp_sampler, uv.xyz, 0)
 	#define LOAD_X(tex, uv, dir) LOAD_TEXTURE3D_LOD(MERGE_NAME(tex,_3D), (uv) * float3(_CustomRenderTextureWidth, _CustomRenderTextureHeight, _CustomRenderTextureDepth), 0)
+	#define SET_X(tex, uv, value) MERGE_NAME(tex,_3D)[uint3((uv).xyz * float3(_CustomRenderTextureWidth, _CustomRenderTextureHeight, _CustomRenderTextureDepth))] = value
+	#define FLOAT_X float3
+	#define INT_X int3
 
 	#define TEXTURE_SAMPLER_X(tex)	TEXTURE_SAMPLER3D(MERGE_NAME(tex,_3D))
 	#define TEXTURE_X(name) TEXTURE3D(MERGE_NAME(name,_3D))
+	#define RW_TEXTURE_X(type, name) RW_TEXTURE3D(type, MERGE_NAME(name,_3D))
 
+	#define LOAD_SELF(uv, dir) LOAD_TEXTURE3D_LOD(_SelfTexture3D, (uv) * float3(_CustomRenderTextureWidth, _CustomRenderTextureHeight, _CustomRenderTextureDepth), 0);
 	#define SAMPLE_SELF(uv, dir) SAMPLE_TEXTURE3D_LOD(_SelfTexture3D, sampler_SelfTexture3D, uv, 0)
 	#define SAMPLE_SELF_LINEAR_CLAMP(uv, dir) SAMPLE_TEXTURE3D_LOD(_SelfTexture3D, s_linear_clamp_sampler, uv, 0)
 #else

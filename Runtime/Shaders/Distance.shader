@@ -39,27 +39,38 @@
 				float4 input = LOAD_X(_Source, crt.localTexcoord.xyz, crt.direction);
 				float4 color = input;
 
-				int i = -_Radius, j = -_Radius, k = -_Radius;
-				for (; i <= _Radius; i++)
+				if (all(input.rgb > _Threshold))
+					return color;
+
+				float minLength = 1e20;
+				int k = 0;
+				for (int i = -_Radius; i <= _Radius; i++)
 				{
-					for (; j <= _Radius; j++)
+					for (int j = -_Radius; j <= _Radius; j++)
 #if defined(CRT_3D)
-						for (; k <= _Radius; k++)
+						for (k = -_Radius; k <= _Radius; k++)
 #endif
 						{
 							if (i == 0 && j == 0 && k == 0)
 								continue;
+								
+							float l = length(float3(i, j, k) / _Radius);
+							if (l > 1.0)
+								continue;
 
-							float uvOffset = float3(i, j, k) / float3(_CustomRenderTextureWidth, _CustomRenderTextureHeight, _CustomRenderTextureDepth);
+							float3 uvOffset = float3(i, j, k) / float3(_CustomRenderTextureWidth, _CustomRenderTextureHeight, _CustomRenderTextureDepth);
 							float4 neighbour = LOAD_X(_Source, crt.localTexcoord.xyz + uvOffset, crt.direction);
 
-							if (any(neighbour.r < _Threshold))
+							if (all(neighbour.rgb > _Threshold))
 							{
+								minLength = min(minLength, l);
 								color = neighbour;
-								// break;
 							}
 						}
 				}
+
+				if (minLength <= 1.0)
+					color = lerp(input, color, 1.0 - minLength);
 
 				return color;
 			}

@@ -169,7 +169,12 @@ namespace Mixture
 				float h = editor.GetPropertyHeight(property, property.displayName);
 				Rect r = EditorGUILayout.GetControlRect(true, h, EditorStyles.layerMaskField);
 
-				editor.ShaderProperty(r, property, property.displayName);
+				if (property.name.Contains("Vector2"))
+					property.vectorValue = (Vector4)EditorGUI.Vector2Field(r, property.displayName, (Vector2)property.vectorValue);
+				else if (property.name.Contains("Vector3"))
+					property.vectorValue = (Vector4)EditorGUI.Vector3Field(r, property.displayName, (Vector3)property.vectorValue);
+				else
+					editor.ShaderProperty(r, property, property.displayName);
 			}
 
 			return propertiesChanged;
@@ -209,10 +214,10 @@ namespace Mixture
 					Debug.LogError(texture + " is not a supported type for preview");
 					return;
 			}
-			
+
 			Button togglePreviewButton = null;
 			togglePreviewButton = new Button(() => {
-				m_PreviewVisible = !m_PreviewVisible;
+				nodeTarget.isPreviewCollapsed = !nodeTarget.isPreviewCollapsed;
 				UpdatePreviewCollapseState();
 			});
 			togglePreviewButton.ClearClassList();
@@ -223,7 +228,7 @@ namespace Mixture
 
 			void UpdatePreviewCollapseState()
 			{
-				if (m_PreviewVisible)
+				if (!nodeTarget.isPreviewCollapsed)
 				{
 					texturePreview.style.display = DisplayStyle.Flex;
 					togglePreviewButton.RemoveFromClassList("Collapsed");
@@ -253,8 +258,6 @@ namespace Mixture
 
         [SerializeField]
         PreviewMode m_PreviewMode = PreviewMode.RGBA;
-        [SerializeField]
-        bool m_PreviewVisible = true;
 
 		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)
 		{
@@ -299,6 +302,8 @@ namespace Mixture
 				value = currentSlice,
 			};
 			var previewImageSlice = new IMGUIContainer(() => {
+				if (texture == null)
+					return;
 				// square image:
 				MixtureUtils.textureArrayPreviewMaterial.SetTexture("_TextureArray", texture);
 				MixtureUtils.textureArrayPreviewMaterial.SetFloat("_Slice", currentSlice);
@@ -320,6 +325,8 @@ namespace Mixture
 				value = currentSlice,
 			};
 			var previewImageSlice = new IMGUIContainer(() => {
+				if (texture == null)
+					return;
 				// square image:
 				MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", texture);
 				MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", ((float)currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
@@ -335,6 +342,8 @@ namespace Mixture
 		void CreateTextureCubePreview(VisualElement previewContainer, Texture texture, int currentSlice)
 		{
 			var previewImageSlice = new IMGUIContainer(() => {
+				if (texture == null)
+					return;
 				// square image:
 				MixtureUtils.textureCubePreviewMaterial.SetTexture("_Cubemap", texture);
 				MixtureUtils.textureCubePreviewMaterial.SetFloat("_Slice", currentSlice);

@@ -28,6 +28,8 @@ namespace Mixture
 			OutputDimension.Texture3D,
 			OutputDimension.CubeMap,
 		};
+		[SerializeField]
+		public bool							isPreviewCollapsed = false;
 
 		public virtual bool					showDefaultInspector => false;
 
@@ -92,6 +94,53 @@ namespace Mixture
 				target.dimension = (TextureDimension)dimension;
 				target.volumeDepth = outputDepth;
 				target.doubleBuffered = rtSettings.doubleBuffered;
+                target.wrapMode = rtSettings.wrapMode;
+                target.filterMode = rtSettings.filterMode;
+				target.Create();
+			}
+
+			return false;
+		}
+
+		protected bool UpdateRenderTextureSize(ref RenderTexture target, GraphicsFormat format)
+		{
+			int outputWidth = rtSettings.GetWidth(graph);
+			int outputHeight = rtSettings.GetHeight(graph);
+			int outputDepth = rtSettings.GetDepth(graph);
+			TextureDimension dimension = rtSettings.GetTextureDimension(graph);
+
+			if (dimension == TextureDimension.None)
+				dimension = TextureDimension.Tex2D;
+
+			if (target == null)
+			{
+                target = new RenderTexture(outputWidth, outputHeight, 0, format)
+                {
+                    volumeDepth = Math.Max(1, outputDepth),
+                    dimension = dimension,
+                    name = $"Mixture Temp {name}",
+                    wrapMode = rtSettings.wrapMode,
+                    filterMode = rtSettings.filterMode,
+				};
+				target.Create();
+
+				return true;
+			}
+
+			// Warning: here we use directly the settings from the 
+			if (target.width != outputWidth
+				|| target.height != outputHeight
+				|| target.dimension != dimension
+				|| target.volumeDepth != outputDepth
+				|| target.filterMode != graph.outputTexture.filterMode
+                || target.wrapMode != rtSettings.wrapMode
+                || target.filterMode != rtSettings.filterMode)
+			{
+				target.Release();
+				target.width = Math.Max(1, outputWidth);
+				target.height = Math.Max(1, outputHeight);
+				target.dimension = (TextureDimension)dimension;
+				target.volumeDepth = outputDepth;
                 target.wrapMode = rtSettings.wrapMode;
                 target.filterMode = rtSettings.filterMode;
 				target.Create();
