@@ -17,7 +17,22 @@ namespace Mixture
         public override string name => "External Output";
 
         public Texture asset;
-        public string assetName = "OutputTexture";
+
+        public override bool hasSettings => true;
+        protected override MixtureRTSettings defaultRTSettings => new MixtureRTSettings
+        {
+            heightMode = OutputSizeMode.Fixed,
+            widthMode = OutputSizeMode.Fixed,
+            depthMode = OutputSizeMode.Fixed,
+            height = 512,
+            width = 512,
+            sliceCount = 1,
+            dimension = OutputDimension.Texture2D,
+            targetFormat = OutputFormat.RGBA_LDR,
+            editFlags = EditFlags.Height | EditFlags.Width| EditFlags.TargetFormat,
+            wrapMode = TextureWrapMode.Repeat,
+            filterMode = FilterMode.Bilinear,
+        };
 
         protected override void Enable()
         {
@@ -29,6 +44,20 @@ namespace Mixture
                 rtSettings.targetFormat = OutputFormat.RGBA_Float;
             if (rtSettings.dimension == OutputDimension.Default)
                 rtSettings.dimension = OutputDimension.Texture2D;
+
+            if (graph.isRealtime)
+            {
+                tempRenderTexture = graph.outputTexture as CustomRenderTexture;
+            }
+            else
+            {
+                UpdateTempRenderTexture(ref tempRenderTexture);
+            }
+
+            onSettingsChanged += () =>
+            {
+                ProcessNode();
+            };
         }
 
         protected override bool ProcessNode()

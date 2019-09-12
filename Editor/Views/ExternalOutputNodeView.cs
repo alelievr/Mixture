@@ -16,10 +16,13 @@ namespace Mixture
     [NodeCustomEditor(typeof(ExternalOutputNode))]
     public class ExternalOutputNodeView : OutputNodeView
     {
+
         protected override void SaveMasterTexture()
         {
             ExternalOutputNode external = outputNode as ExternalOutputNode;
             Texture outputTexture = null;
+            bool isHDR = external.rtSettings.isHDR;
+
             OutputDimension dimension = (OutputDimension)(external.rtSettings.dimension == OutputDimension.Default ? (OutputDimension)external.rtSettings.GetTextureDimension(graph) : external.rtSettings.dimension);
             GraphicsFormat format = (GraphicsFormat)external.rtSettings.targetFormat;
 
@@ -39,25 +42,26 @@ namespace Mixture
 
             ReadBackTexture(outputTexture);
 
-            Color p = (outputTexture as Texture2D).GetPixel(10, 10);
-            Debug.Log(p);
             // Check Output Type
-
             string assetPath;
             if (external.asset != null)
                 assetPath = AssetDatabase.GetAssetPath(external.asset);
             else
             {
-                assetPath = System.IO.Path.GetDirectoryName(AssetDatabase.GetAssetPath(graph)) + "/" + external.assetName;
-                if (dimension == OutputDimension.Texture3D)
-                    assetPath += ".asset";
-                else
+                string extension = "asset";
+
+                if (dimension == OutputDimension.Texture2D)
                 {
-                    if (((OutputFormat)format).ToString().Contains("LDR"))
-                        assetPath += ".png";
+                    if (isHDR) 
+                        extension = "exr";
                     else
-                        assetPath += ".exr";
+                        extension = "png";
                 }
+
+                assetPath = EditorUtility.SaveFilePanelInProject("Save Texture", AssetDatabase.GetAssetPath(graph) + "/ExternalTexture", extension, "Save Texture");
+
+                if (string.IsNullOrEmpty(assetPath))
+                    return; // Canceled
             }
 
             if(dimension == OutputDimension.Texture3D)
@@ -70,17 +74,29 @@ namespace Mixture
                 }
                 volume.SetPixels((outputTexture as Texture3D).GetPixels());
                 volume.Apply();
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
+                external.asset = volume;
             }
             else if (dimension == OutputDimension.Texture2D)
             {
                 byte[] contents = null;
 
-                if (((OutputFormat)format).ToString().Contains("LDR"))
-                    contents = ImageConversion.EncodeToPNG(outputTexture as Texture2D);
-                else
+                if (isHDR)
                     contents = ImageConversion.EncodeToEXR(outputTexture as Texture2D);
+                else
+                {
+                    contents = ImageConversion.EncodeToPNG(outputTexture as Texture2D);
+                }
 
                 System.IO.File.WriteAllBytes(System.IO.Path.GetDirectoryName(Application.dataPath) +"/"+assetPath, contents);
+
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
+                var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
+                external.asset = texture;
             }
             else if (dimension == OutputDimension.CubeMap)
             {
@@ -88,7 +104,8 @@ namespace Mixture
                 //System.IO.File.WriteAllBytes(assetPath, ImageConversion.EncodeToPNG(outputTexture as Cubemap).);
             }
             AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();                
+            AssetDatabase.Refresh();
+
         }
     }
 }
