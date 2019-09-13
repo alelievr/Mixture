@@ -66,6 +66,7 @@ namespace Mixture
                     doubleBuffered = rtSettings.doubleBuffered,
                     wrapMode = rtSettings.wrapMode,
                     filterMode = rtSettings.filterMode,
+                    useMipMap = true,
 				};
 				target.Create();
 
@@ -94,6 +95,7 @@ namespace Mixture
 				target.doubleBuffered = rtSettings.doubleBuffered;
                 target.wrapMode = rtSettings.wrapMode;
                 target.filterMode = rtSettings.filterMode;
+                target.useMipMap = true;
 				target.Create();
 			}
 

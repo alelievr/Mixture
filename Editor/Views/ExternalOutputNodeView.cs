@@ -87,6 +87,13 @@ namespace Mixture
                     contents = ImageConversion.EncodeToEXR(outputTexture as Texture2D);
                 else
                 {
+                    var colors = (outputTexture as Texture2D).GetPixels();
+                    for(int i = 0; i < colors.Length; i++)
+                    {
+                        colors[i] = colors[i].gamma;
+                    }
+                    (outputTexture as Texture2D).SetPixels(colors);
+
                     contents = ImageConversion.EncodeToPNG(outputTexture as Texture2D);
                 }
 

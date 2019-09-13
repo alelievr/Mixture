@@ -301,19 +301,15 @@ namespace Mixture
                         GUILayout.Space(8);
 
                         m_PreviewMip = GUILayout.HorizontalSlider(m_PreviewMip, 0.0f, 5.0f, GUILayout.Width(64));
+                        GUILayout.Label("Mip #"+m_PreviewMip.ToString("0"), EditorStyles.toolbarButton);
 
                         GUILayout.FlexibleSpace();
-                        if(!nodeTarget.rtSettings.isHDR)
-                        {
-                            m_PreviewSRGB = GUILayout.Toggle(m_PreviewSRGB, "sRGB", EditorStyles.toolbarButton);
-                        }
                     }
 
                     MixtureUtils.texture2DPreviewMaterial.SetTexture("_MainTex", texture);
                     MixtureUtils.texture2DPreviewMaterial.SetVector("_Size", new Vector4(texture.width,texture.height,1,1));
                     MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", GetChannelsMask(m_PreviewMode));
-                    MixtureUtils.texture2DPreviewMaterial.SetFloat("_SRGB", (m_PreviewSRGB && !nodeTarget.rtSettings.isHDR) ? 1.0f : 0.0f);
-                    MixtureUtils.texture2DPreviewMaterial.SetFloat("_Mip", m_PreviewMip);
+                    MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", m_PreviewMip);
                     EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), texture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
                  
                 });
