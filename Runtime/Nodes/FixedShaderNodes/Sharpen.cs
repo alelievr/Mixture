@@ -7,12 +7,12 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Color/EdgeDetect")]
-	public class EdgeDetect : FixedShaderNode
+	[System.Serializable, NodeMenuItem("Color/Sharpen")]
+	public class Sharpen : FixedShaderNode
 	{
-		public override string name => "EdgeDetect";
+		public override string name => "Sharpen";
 
-		public override string shaderName => "Hidden/Mixture/EdgeDetect";
+		public override string shaderName => "Hidden/Mixture/Sharpen";
 
 		public override bool displayMaterialInspector => true;
 	}

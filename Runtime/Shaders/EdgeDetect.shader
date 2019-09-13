@@ -9,7 +9,6 @@
 
 		_Step("Step", Range(0.01, 2)) = 1
 		[Enum(Edge, 0, ColorEdge, 1)] _Mode("Mode", Float) = 0
-		// Other parameters
 	}
 
 	CGINCLUDE
@@ -89,25 +88,7 @@
 					SamplePixelLuminance(float3(-1,  1, 0), i.localTexcoord.xyz), SamplePixelLuminance(float3( 0,  1, 0), i.localTexcoord.xyz), SamplePixelLuminance(float3( 1,  1, 0), i.localTexcoord.xyz)
 				);
 
-				float3 center = i.localTexcoord.xyz;
-				float stepx = rcp(_CustomRenderTextureWidth);
-				float stepy = stepx;
-				float3x3 image = float3x3(
-					length(SAMPLE_X(_Source,center + float3(-stepx,stepy, 0), float3(0, 0, 0)).rgb),
-					length(SAMPLE_X(_Source,center + float3(0,stepy, 0), float3(0, 0, 0)).rgb),
-					length(SAMPLE_X(_Source,center + float3(stepx,stepy, 0), float3(0, 0, 0)).rgb),
-
-					length(SAMPLE_X(_Source,center + float3(-stepx,0, 0), float3(0, 0, 0)).rgb),
-					length(SAMPLE_X(_Source,center, float3(0, 0, 0)).rgb),
-					length(SAMPLE_X(_Source,center + float3(stepx,0, 0), float3(0, 0, 0)).rgb),
-
-					length(SAMPLE_X(_Source,center + float3(-stepx,-stepy, 0), float3(0, 0, 0)).rgb),
-					length(SAMPLE_X(_Source,center + float3(0,-stepy, 0), float3(0, 0, 0)).rgb),
-					length(SAMPLE_X(_Source,center + float3(stepx,-stepy, 0), float3(0, 0, 0)).rgb)
-				);
-
 				float2 edgeValue = float2(EdgeDetect(horizontalPixels, true), EdgeDetect(horizontalPixels, false));
-
 				float edge = length(edgeValue);
 
 				switch (_Mode)
