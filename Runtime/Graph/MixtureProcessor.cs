@@ -15,13 +15,12 @@ namespace Mixture
 
 		public MixtureProcessor(BaseGraph graph) : base(graph) {}
 
-		public override void UpdateComputeOrder()
-		{
-			processList = graph.nodes.OrderBy(n => n.computeOrder).ToList();
-		}
+		public override void UpdateComputeOrder() {}
 
 		public override void Run()
 		{
+			processList = graph.nodes.OrderBy(n => n.computeOrder).ToList();
+
 			int count = processList.Count;
 
 			// The process of the mixture graph will update all CRTs,

@@ -261,9 +261,13 @@ namespace Mixture
 
 		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)
 		{
-		        var previewElement = new IMGUIContainer(() => {
+            var previewElement = new IMGUIContainer(() =>
+            {
+				if (texture == null)
+					return;
+
                 // square image:
-                using(new GUILayout.HorizontalScope(EditorStyles.toolbar, GUILayout.Height(12)))
+                using (new GUILayout.HorizontalScope(EditorStyles.toolbar, GUILayout.Height(12)))
                 {
                     if (GUILayout.Button(m_PreviewMode.ToString(), EditorStyles.toolbarButton))
                     {
@@ -278,7 +282,7 @@ namespace Mixture
                     }
                     GUILayout.FlexibleSpace();
                 }
-                switch(m_PreviewMode)
+                switch (m_PreviewMode)
                 {
                     case PreviewMode.RGBA:
                         EditorGUI.DrawTextureTransparent(GetPreviewRect(texture), texture, ScaleMode.ScaleToFit, 0, 0);
@@ -291,7 +295,7 @@ namespace Mixture
                         break;
                 }
             });
-			previewContainer.Add(previewElement);
+            previewContainer.Add(previewElement);
 		}
 
 		void CreateTexture2DArrayPreview(VisualElement previewContainer, Texture texture, int currentSlice)
