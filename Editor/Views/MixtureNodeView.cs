@@ -244,50 +244,79 @@ namespace Mixture
 			return GUILayoutUtility.GetRect(1, width, 1, height);
 		}
 
-        enum PreviewMode
+        enum PreviewChannels
         {
-            RGBA,
-            RGB,
-            Alpha
+            R       = 1,
+            G       = 2,
+            B       = 4,
+            A       = 8,
+            RG      = R|G,
+            RB      = R|B,
+            GB      = G|B,
+            RGB     = R|G|B,
+            RGBA    = R|G|B|A,
+        }
+
+        static Vector4 GetChannelsMask(PreviewChannels channels)
+        {
+            return new Vector4(
+                (channels & PreviewChannels.R) == 0 ? 0 : 1,
+                (channels & PreviewChannels.G) == 0 ? 0 : 1,
+                (channels & PreviewChannels.B) == 0 ? 0 : 1,
+                (channels & PreviewChannels.A) == 0 ? 0 : 1
+                );
         }
 
         [SerializeField]
-        PreviewMode m_PreviewMode = PreviewMode.RGBA;
+        PreviewChannels m_PreviewMode = PreviewChannels.RGBA;
+        [SerializeField]
+        float m_PreviewMip = 0.0f;
+        [SerializeField]
+        bool m_PreviewSRGB = true;
         [SerializeField]
         bool m_PreviewVisible = true;
 
 		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)
 		{
 		        var previewElement = new IMGUIContainer(() => {
-                // square image:
-                using(new GUILayout.HorizontalScope(EditorStyles.toolbar, GUILayout.Height(12)))
-                {
-                    if (GUILayout.Button(m_PreviewMode.ToString(), EditorStyles.toolbarButton))
+                    // square image:
+                    using(new GUILayout.HorizontalScope(EditorStyles.toolbar, GUILayout.Height(12)))
                     {
-                        GenericMenu menu = new GenericMenu();
-                        menu.AddItem(new GUIContent("RGBA"), m_PreviewMode == PreviewMode.RGBA, () => m_PreviewMode = PreviewMode.RGBA);
-                        menu.AddItem(new GUIContent("RGB"), m_PreviewMode == PreviewMode.RGB, () => m_PreviewMode = PreviewMode.RGB);
-                        menu.AddItem(new GUIContent("Alpha"), m_PreviewMode == PreviewMode.Alpha, () => m_PreviewMode = PreviewMode.Alpha);
-                        Rect r = GUILayoutUtility.GetLastRect();
-                        r.xMin += 8;
-                        r.yMax += 16;
-                        menu.DropDown(r);
+                        EditorGUI.BeginChangeCheck();
+
+                        bool r = GUILayout.Toggle( (m_PreviewMode & PreviewChannels.R) != 0,"R", EditorStyles.toolbarButton);
+                        bool g = GUILayout.Toggle( (m_PreviewMode & PreviewChannels.G) != 0,"G", EditorStyles.toolbarButton);
+                        bool b = GUILayout.Toggle( (m_PreviewMode & PreviewChannels.B) != 0,"B", EditorStyles.toolbarButton);
+                        bool a = GUILayout.Toggle( (m_PreviewMode & PreviewChannels.A) != 0,"A", EditorStyles.toolbarButton);
+
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            m_PreviewMode =
+                            (r ? PreviewChannels.R : 0) |
+                            (g ? PreviewChannels.G : 0) |
+                            (b ? PreviewChannels.B : 0) |
+                            (a ? PreviewChannels.A : 0);
+                        }
+
+                        GUILayout.Space(8);
+
+                        m_PreviewMip = GUILayout.HorizontalSlider(m_PreviewMip, 0.0f, 5.0f, GUILayout.Width(64));
+
+                        GUILayout.FlexibleSpace();
+                        if(!nodeTarget.rtSettings.isHDR)
+                        {
+                            m_PreviewSRGB = GUILayout.Toggle(m_PreviewSRGB, "sRGB", EditorStyles.toolbarButton);
+                        }
                     }
-                    GUILayout.FlexibleSpace();
-                }
-                switch(m_PreviewMode)
-                {
-                    case PreviewMode.RGBA:
-                        EditorGUI.DrawTextureTransparent(GetPreviewRect(texture), texture, ScaleMode.ScaleToFit, 0, 0);
-                        break;
-                    case PreviewMode.RGB:
-                        EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), texture, null, ScaleMode.ScaleToFit, 0, 0);
-                        break;
-                    case PreviewMode.Alpha:
-                        EditorGUI.DrawTextureAlpha(GetPreviewRect(texture), texture, ScaleMode.ScaleToFit, 0, 0);
-                        break;
-                }
-            });
+
+                    MixtureUtils.texture2DPreviewMaterial.SetTexture("_MainTex", texture);
+                    MixtureUtils.texture2DPreviewMaterial.SetVector("_Size", new Vector4(texture.width,texture.height,1,1));
+                    MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", GetChannelsMask(m_PreviewMode));
+                    MixtureUtils.texture2DPreviewMaterial.SetFloat("_SRGB", (m_PreviewSRGB && !nodeTarget.rtSettings.isHDR) ? 1.0f : 0.0f);
+                    MixtureUtils.texture2DPreviewMaterial.SetFloat("_Mip", m_PreviewMip);
+                    EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), texture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+                 
+                });
 			previewContainer.Add(previewElement);
 		}
 
