@@ -6,12 +6,12 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Noises/White Noise")]
-	public class WhiteNoise : FixedShaderNode
+	[System.Serializable, NodeMenuItem("Custom/PerlinNoise")]
+	public class PerlinNoise : FixedShaderNode
 	{
-		public override string name => "White Noise";
+		public override string name => "PerlinNoise";
 
-		public override string shaderName => "Hidden/Mixture/WhiteNoise";
+		public override string shaderName => "Hidden/Mixture/PerlinNoise";
 
 		public override bool displayMaterialInspector => true;
 
@@ -24,5 +24,22 @@ namespace Mixture
 		// 	OutputDimension.Texture3D,
 		// 	OutputDimension.CubeMap,
 		// };
+
+		protected override bool ProcessNode()
+		{
+			if (!base.ProcessNode())
+				return false;
+
+			// Check if the UVs are connected or not:
+			var port = inputPorts.Find(p => p.portData.identifier.Contains("_UV_"));
+			bool customUVs = port.GetEdges().Count != 0;
+
+			if (customUVs)
+				material.EnableKeyword("USE_CUSTOM_UV");
+			else
+				material.DisableKeyword("USE_CUSTOM_UV");
+
+			return true;
+		}
 	}
 }
