@@ -1,6 +1,10 @@
 #ifndef NOISES_HLSL
 # define NOISES_HLSL
 
+// Reference noises based on https://github.com/BrianSharpe/GPU-Noise-Lib/blob/master/gpu_noise_lib.glsl
+
+// Perlin:
+
 float4 Interpolation_C2_InterpAndDeriv(float2 x) { return x.xyxy * x.xyxy * (x.xyxy * (x.xyxy * (x.xyxy * float2(6.0f, 0.0f).xxyy + float2(-15.0f, 30.0f).xxyy) + float2(10.0f, -60.0f).xxyy) + float2(0.0f, 30.0f).xxyy); }
 float3 Interpolation_C2(float3 x) { return x * x * x * (x * (x * 6.0f - 15.0f) + 10.0f); }
 float3 Interpolation_C2_Deriv(float3 x) { return x * x * (x * (x * 30.0f - 60.0f) + 30.0f); }
@@ -49,7 +53,7 @@ void NoiseHash3D(float3 gridcell,
     highz_hash_2 = frac(P * highz_mod.zzzz);
 }
 
-float perlinNoise2D(float2 coordinate)
+float3 perlinNoise2D(float2 coordinate)
 {
     // establish our grid cell and unit position
     float2 i = floor(coordinate);
@@ -182,7 +186,161 @@ RETURN_TYPE Generate##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, i
     return total / totalAmplitude; \
 }
 
+#define CURL_NOISE_2D_TEMPLATE(NAME, FUNC) \
+float2 Generate##NAME##CurlNoise(float2 coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
+{ \
+    float2 total = float2(0.0f, 0.0f); \
+\
+    float amplitude = 1.0f; \
+    float totalAmplitude = 0.0f; \
+\
+    for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
+    { \
+        float2 derivatives = FUNC(coordinate * frequency).yz; \
+        total += derivatives * amplitude; \
+\
+        totalAmplitude += amplitude; \
+        amplitude *= persistence; \
+        frequency *= lacunarity; \
+    } \
+\
+    return float2(total.y, -total.x) / totalAmplitude; \
+}
+
+#define CURL_NOISE_3D_TEMPLATE(NAME, FUNC) \
+float3 Generate##NAME##CurlNoise(float3 coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
+{ \
+    float2 total[3] = { float2(0.0f, 0.0f), float2(0.0f, 0.0f), float2(0.0f, 0.0f) }; \
+\
+    float amplitude = 1.0f; \
+    float totalAmplitude = 0.0f; \
+\
+    float2 points[3] = \
+    { \
+        coordinate.zy, \
+        coordinate.xz + 100.0f, \
+        coordinate.yx + 200.0f \
+    }; \
+\
+    for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
+    { \
+        for (int i = 0; i < 3; i++) \
+        { \
+            float2 derivatives = FUNC(points[i] * frequency).yz; \
+            total[i] += derivatives * amplitude; \
+        } \
+\
+        totalAmplitude += amplitude; \
+        amplitude *= persistence; \
+        frequency *= lacunarity; \
+    } \
+\
+    return float3( \
+        (total[2].x - total[1].y), \
+        (total[0].x - total[2].y), \
+        (total[1].x - total[0].y)) / totalAmplitude; \
+}
+
 NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D);
 NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D);
+
+float3 GetNoiseUVs(v2f_customrendertexture i, float3 customUvs)
+{
+#ifdef USE_CUSTOM_UV
+				return customUvs;
+#else
+	#ifdef CRT_CUBE
+				return i.direction;
+	#else
+				return i.localTexcoord.xyz;
+	#endif
+#endif
+}
+
+CURL_NOISE_2D_TEMPLATE(Perlin2D, perlinNoise2D);
+CURL_NOISE_3D_TEMPLATE(Perlin3D, perlinNoise2D);
+
+// Cellular:
+
+// Convert a 0.0->1.0 sample to a -1.0->1.0 sample weighted towards the extremes
+float4 CellularWeightSamples(float4 samples)
+{
+    samples = samples * 2.0f - 1.0f;
+    //return (1.0 - samples * samples) * sign(samples);	// square
+    return (samples * samples * samples) - sign(samples);	// cubic (even more variance)
+}
+
+float3 GenerateCellularNoise2D(float2 coordinate)
+{
+    // establish our grid cell and unit position
+    float2 i = floor(coordinate);
+    float2 f = coordinate - i;
+
+    // calculate the hash
+    float4 hash_x, hash_y;
+    NoiseHash2D(i, hash_x, hash_y);
+
+    // generate the 4 random points
+    // restrict the random point offset to eliminate artifacts
+    // we'll improve the variance of the noise by pushing the points to the extremes of the jitter window
+    float kJitterWindow = 0.25f;	// guarantees no artifacts. 0.25 is the intersection on x of graphs f(x)=( (0.5+(0.5-x))^2 + (0.5-x)^2 ) and f(x)=( (0.5+x)^2 + x^2 )
+    hash_x = CellularWeightSamples(hash_x) * kJitterWindow + float4(0.0f, 1.0f, 0.0f, 1.0f);
+    hash_y = CellularWeightSamples(hash_y) * kJitterWindow + float4(0.0f, 0.0f, 1.0f, 1.0f);
+
+    // return the closest squared distance (+ derivs)
+    // thanks to Jonathan Dupuy for the initial implementation
+    float4 dx = f.xxxx - hash_x;
+    float4 dy = f.yyyy - hash_y;
+    float4 d = dx * dx + dy * dy;
+    float3 t1 = d.x < d.y ? float3(d.x, dx.x, dy.x) : float3(d.y, dx.y, dy.y);
+    float3 t2 = d.z < d.w ? float3(d.z, dx.z, dy.z) : float3(d.w, dx.w, dy.w);
+    return (t1.x < t2.x ? t1 : t2) * float3(1.0f, 2.0f, 2.0f) * (1.0f / 1.125f); // scale return value from 0.0->1.125 to 0.0->1.0 (0.75^2 * 2.0  == 1.125)
+}
+
+float4 GenerateCellularNoise3D(float3 coordinate)
+{
+    // establish our grid cell and unit position
+    float3 i = floor(coordinate);
+    float3 f = coordinate - i;
+
+    // calculate the hash
+    float4 hash_x0, hash_y0, hash_z0, hash_x1, hash_y1, hash_z1;
+    NoiseHash3D(i, hash_x0, hash_y0, hash_z0, hash_x1, hash_y1, hash_z1);
+
+    // generate the 8 random points
+    // restrict the random point offset to eliminate artifacts
+    // we'll improve the variance of the noise by pushing the points to the extremes of the jitter window
+    float kJitterWindow = 0.166666666f;	// guarantees no artifacts. It is the intersection on x of graphs f(x)=( (0.5 + (0.5-x))^2 + 2*((0.5-x)^2) ) and f(x)=( 2 * (( 0.5 + x )^2) + x * x )
+    hash_x0 = CellularWeightSamples(hash_x0) * kJitterWindow + float4(0.0f, 1.0f, 0.0f, 1.0f);
+    hash_y0 = CellularWeightSamples(hash_y0) * kJitterWindow + float4(0.0f, 0.0f, 1.0f, 1.0f);
+    hash_x1 = CellularWeightSamples(hash_x1) * kJitterWindow + float4(0.0f, 1.0f, 0.0f, 1.0f);
+    hash_y1 = CellularWeightSamples(hash_y1) * kJitterWindow + float4(0.0f, 0.0f, 1.0f, 1.0f);
+    hash_z0 = CellularWeightSamples(hash_z0) * kJitterWindow + float4(0.0f, 0.0f, 0.0f, 0.0f);
+    hash_z1 = CellularWeightSamples(hash_z1) * kJitterWindow + float4(1.0f, 1.0f, 1.0f, 1.0f);
+
+    // return the closest squared distance (+ derivs)
+    // thanks to Jonathan Dupuy for the initial implementation
+    float4 dx1 = f.xxxx - hash_x0;
+    float4 dy1 = f.yyyy - hash_y0;
+    float4 dz1 = f.zzzz - hash_z0;
+    float4 dx2 = f.xxxx - hash_x1;
+    float4 dy2 = f.yyyy - hash_y1;
+    float4 dz2 = f.zzzz - hash_z1;
+    float4 d1 = dx1 * dx1 + dy1 * dy1 + dz1 * dz1;
+    float4 d2 = dx2 * dx2 + dy2 * dy2 + dz2 * dz2;
+    float4 r1 = d1.x < d1.y ? float4(d1.x, dx1.x, dy1.x, dz1.x) : float4(d1.y, dx1.y, dy1.y, dz1.y);
+    float4 r2 = d1.z < d1.w ? float4(d1.z, dx1.z, dy1.z, dz1.z) : float4(d1.w, dx1.w, dy1.w, dz1.w);
+    float4 r3 = d2.x < d2.y ? float4(d2.x, dx2.x, dy2.x, dz2.x) : float4(d2.y, dx2.y, dy2.y, dz2.y);
+    float4 r4 = d2.z < d2.w ? float4(d2.z, dx2.z, dy2.z, dz2.z) : float4(d2.w, dx2.w, dy2.w, dz2.w);
+    float4 t1 = r1.x < r2.x ? r1 : r2;
+    float4 t2 = r3.x < r4.x ? r3 : r4;
+    return (t1.x < t2.x ? t1 : t2) * float4(1.0f, 2.0f, 2.0f, 2.0f) * (9.0f / 12.0f);	// scale return value from 0.0->1.333333 to 0.0->1.0 (2/3)^2 * 3  == (12/9) == 1.333333;
+}
+
+NOISE_TEMPLATE(Cellular2D, float2, float3, GenerateCellularNoise2D);
+NOISE_TEMPLATE(Cellular3D, float3, float4, GenerateCellularNoise3D);
+
+CURL_NOISE_2D_TEMPLATE(Cellular2D, GenerateCellularNoise2D);
+CURL_NOISE_3D_TEMPLATE(Cellular3D, GenerateCellularNoise2D);
 
 #endif

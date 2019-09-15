@@ -1,4 +1,4 @@
-﻿Shader "Hidden/Mixture/PerlinNoise"
+﻿Shader "Hidden/Mixture/CellularNoise"
 {	
 	Properties
 	{
@@ -6,11 +6,11 @@
 		[InlineTexture(HideInNodeInspector)] _UV_3D("UVs", 3D) = "white" {}
 		[InlineTexture(HideInNodeInspector)] _UV_Cube("UVs", Cube) = "white" {}
 
-		[MixtureVector2]_OutputRange("Output Range", Vector) = (-1, 1, 0, 0)
+		[MixtureVector2]_OutputRange("Output Range", Vector) = (0, 1, 0, 0)
 		_Lacunarity("Lacunarity", Float) = 2
 		_Frequency("Frequency", Float) = 5
-		_Persistance("Persistance", Float) = 0.5
-		[IntRange]_Octaves("Octaves", Range(1, 12)) = 5
+		_Persistance("Persistance", Float) = 0.3
+		[IntRange]_Octaves("Octaves", Range(1, 12)) = 3
 	}
 	SubShader
 	{
@@ -44,12 +44,12 @@
 				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction));
 
 #ifdef CRT_2D
-				float4 noise = float4(GeneratePerlin2DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rrr, 1);
+				float4 noise = float4(GenerateCellular2DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rrr, 1);
 #else
-				float4 noise = float4(GeneratePerlin3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rrr, 1);
+				float4 noise = float4(GenerateCellular3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rrr, 1);
 #endif
 
-				return Remap(noise, -1, 1, _OutputRange.x, _OutputRange.y);
+				return Remap(noise, 0, 1, _OutputRange.x, _OutputRange.y);
 			}
 			ENDCG
 		}
