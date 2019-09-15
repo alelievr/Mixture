@@ -130,4 +130,9 @@ float3 Rotate(float3 axis, float3 vec, float deg)
 	return mul(rotationMatrix(axis, deg * (PI / 180.0)), float4(vec, 0));
 }
 
+float4 Remap(float4 i, float4 inputMin, float4 inputMax, float4 outputMin, float4 outputMax)
+{
+	return outputMin + (i - inputMin) * (outputMax - outputMin) / (inputMax - inputMin);
+}
+
 #endif

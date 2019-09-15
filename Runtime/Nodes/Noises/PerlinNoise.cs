@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Custom/PerlinNoise")]
+	[System.Serializable, NodeMenuItem("Custom/Perlin Noise")]
 	public class PerlinNoise : FixedShaderNode
 	{
-		public override string name => "PerlinNoise";
+		public override string name => "Perlin Noise";
 
 		public override string shaderName => "Hidden/Mixture/PerlinNoise";
 
