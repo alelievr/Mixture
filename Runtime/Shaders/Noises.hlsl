@@ -3,6 +3,99 @@
 
 // Reference noises based on https://github.com/BrianSharpe/GPU-Noise-Lib/blob/master/gpu_noise_lib.glsl
 
+#define NOISE_TEMPLATE(NAME, COORDINATE_TYPE, RETURN_TYPE, FUNC) \
+RETURN_TYPE Generate##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
+{ \
+    RETURN_TYPE total = 0.0f; \
+\
+    float amplitude = 1.0f; \
+    float totalAmplitude = 0.0f; \
+\
+    for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
+    { \
+        total += FUNC(coordinate * frequency) * amplitude; \
+        totalAmplitude += amplitude; \
+        amplitude *= persistence; \
+        frequency *= lacunarity; \
+    } \
+ \
+    return total / totalAmplitude; \
+}
+
+#define RIDGED_NOISE_TEMPLATE(NAME, COORDINATE_TYPE, RETURN_TYPE, FUNC) \
+RETURN_TYPE GenerateRidged##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
+{ \
+    RETURN_TYPE total = 0.0f; \
+\
+    float amplitude = 1.0f; \
+    float totalAmplitude = 0.0f; \
+\
+    for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
+    { \
+        total += abs(FUNC(coordinate * frequency) * amplitude); \
+        totalAmplitude += amplitude; \
+        amplitude *= persistence; \
+        frequency *= lacunarity; \
+    } \
+ \
+    return total / totalAmplitude; \
+}
+
+#define CURL_NOISE_2D_TEMPLATE(NAME, FUNC) \
+float2 Generate##NAME##CurlNoise(float2 coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
+{ \
+    float2 total = float2(0.0f, 0.0f); \
+\
+    float amplitude = 1.0f; \
+    float totalAmplitude = 0.0f; \
+\
+    for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
+    { \
+        float2 derivatives = FUNC(coordinate * frequency).yz; \
+        total += derivatives * amplitude; \
+\
+        totalAmplitude += amplitude; \
+        amplitude *= persistence; \
+        frequency *= lacunarity; \
+    } \
+\
+    return float2(total.y, -total.x) / totalAmplitude; \
+}
+
+#define CURL_NOISE_3D_TEMPLATE(NAME, FUNC) \
+float3 Generate##NAME##CurlNoise(float3 coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
+{ \
+    float2 total[3] = { float2(0.0f, 0.0f), float2(0.0f, 0.0f), float2(0.0f, 0.0f) }; \
+\
+    float amplitude = 1.0f; \
+    float totalAmplitude = 0.0f; \
+\
+    float2 points[3] = \
+    { \
+        coordinate.zy, \
+        coordinate.xz + 100.0f, \
+        coordinate.yx + 200.0f \
+    }; \
+\
+    for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
+    { \
+        for (int i = 0; i < 3; i++) \
+        { \
+            float2 derivatives = FUNC(points[i] * frequency).yz; \
+            total[i] += derivatives * amplitude; \
+        } \
+\
+        totalAmplitude += amplitude; \
+        amplitude *= persistence; \
+        frequency *= lacunarity; \
+    } \
+\
+    return float3( \
+        (total[2].x - total[1].y), \
+        (total[0].x - total[2].y), \
+        (total[1].x - total[0].y)) / totalAmplitude; \
+}
+
 // Perlin:
 
 float4 Interpolation_C2_InterpAndDeriv(float2 x) { return x.xyxy * x.xyxy * (x.xyxy * (x.xyxy * (x.xyxy * float2(6.0f, 0.0f).xxyy + float2(-15.0f, 30.0f).xxyy) + float2(10.0f, -60.0f).xxyy) + float2(0.0f, 30.0f).xxyy); }
@@ -167,82 +260,10 @@ float4 perlinNoise3D(float3 coordinate)
     return result * 1.1547005383792515290182975610039f;		// scale to -1.0 -> 1.0 range    *= 1.0/sqrt(0.75)
 }
 
-#define NOISE_TEMPLATE(NAME, COORDINATE_TYPE, RETURN_TYPE, FUNC) \
-RETURN_TYPE Generate##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
-{ \
-    RETURN_TYPE total = 0.0f; \
-\
-    float amplitude = 1.0f; \
-    float totalAmplitude = 0.0f; \
-\
-    for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
-    { \
-        total += FUNC(coordinate * frequency) * amplitude; \
-        totalAmplitude += amplitude; \
-        amplitude *= persistence; \
-        frequency *= lacunarity; \
-    } \
- \
-    return total / totalAmplitude; \
-}
-
-#define CURL_NOISE_2D_TEMPLATE(NAME, FUNC) \
-float2 Generate##NAME##CurlNoise(float2 coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
-{ \
-    float2 total = float2(0.0f, 0.0f); \
-\
-    float amplitude = 1.0f; \
-    float totalAmplitude = 0.0f; \
-\
-    for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
-    { \
-        float2 derivatives = FUNC(coordinate * frequency).yz; \
-        total += derivatives * amplitude; \
-\
-        totalAmplitude += amplitude; \
-        amplitude *= persistence; \
-        frequency *= lacunarity; \
-    } \
-\
-    return float2(total.y, -total.x) / totalAmplitude; \
-}
-
-#define CURL_NOISE_3D_TEMPLATE(NAME, FUNC) \
-float3 Generate##NAME##CurlNoise(float3 coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
-{ \
-    float2 total[3] = { float2(0.0f, 0.0f), float2(0.0f, 0.0f), float2(0.0f, 0.0f) }; \
-\
-    float amplitude = 1.0f; \
-    float totalAmplitude = 0.0f; \
-\
-    float2 points[3] = \
-    { \
-        coordinate.zy, \
-        coordinate.xz + 100.0f, \
-        coordinate.yx + 200.0f \
-    }; \
-\
-    for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
-    { \
-        for (int i = 0; i < 3; i++) \
-        { \
-            float2 derivatives = FUNC(points[i] * frequency).yz; \
-            total[i] += derivatives * amplitude; \
-        } \
-\
-        totalAmplitude += amplitude; \
-        amplitude *= persistence; \
-        frequency *= lacunarity; \
-    } \
-\
-    return float3( \
-        (total[2].x - total[1].y), \
-        (total[0].x - total[2].y), \
-        (total[1].x - total[0].y)) / totalAmplitude; \
-}
-
 NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D);
 NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D);
+RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D);
+RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D);
 
 float3 GetNoiseUVs(v2f_customrendertexture i, float3 customUvs)
 {
@@ -337,8 +358,16 @@ float4 GenerateCellularNoise3D(float3 coordinate)
     return (t1.x < t2.x ? t1 : t2) * float4(1.0f, 2.0f, 2.0f, 2.0f) * (9.0f / 12.0f);	// scale return value from 0.0->1.333333 to 0.0->1.0 (2/3)^2 * 3  == (12/9) == 1.333333;
 }
 
+float3 GenerateRidgedCellularNoise2D(float2 coordinate)
+{
+    float3 r = GenerateCellularNoise2D(coordinate);
+    return r * 2 - 1.0;
+}
+
 NOISE_TEMPLATE(Cellular2D, float2, float3, GenerateCellularNoise2D);
 NOISE_TEMPLATE(Cellular3D, float3, float4, GenerateCellularNoise3D);
+RIDGED_NOISE_TEMPLATE(Cellular2D, float2, float3, GenerateRidgedCellularNoise2D);
+RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float4, GenerateCellularNoise3D);
 
 CURL_NOISE_2D_TEMPLATE(Cellular2D, GenerateCellularNoise2D);
 CURL_NOISE_3D_TEMPLATE(Cellular3D, GenerateCellularNoise2D);
