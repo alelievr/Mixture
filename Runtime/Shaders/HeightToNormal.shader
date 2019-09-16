@@ -4,7 +4,8 @@
 	{
 		[InlineTexture]_Source_2D("Input", 2D) = "white" {}
 		[MixtureChannel]_Channel("Height Channel", Float) = 3
-		[Range]_Scale("Scale", Range(0.01,2.0)) = 1.0
+		[Range]_Scale("Scale", Range(0.001,1.0)) = 1.0
+		[Enum(UnsignedNormalized,0,Signed,1)]_OutputRange("Output Range", Float) = 1.0
 	}
 	SubShader
 	{
@@ -24,6 +25,7 @@
 			TEXTURE_SAMPLER_X(_Source);
 			float _Channel;
 			float _Scale;
+			float _OutputRange;
 
 			float sampleHeight(float2 uv)
 			{
@@ -48,8 +50,11 @@
 				float3 dx = float3(_Scale, 0.0, source.x);
 				float3 dy = float3(0.0, _Scale, source.y);
 
+				float3 output = normalize(cross(dx, dy));
+				if (_OutputRange == 0.0)
+					output = output * 0.5 + 0.5;
 
-				return float4(normalize(cross(dx, dy))*0.5+0.5, 1);
+				return float4(output, 1);
 			}
 			ENDCG
 		}
