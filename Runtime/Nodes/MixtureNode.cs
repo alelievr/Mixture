@@ -240,7 +240,23 @@ namespace Mixture
 						break;
 					case MaterialProperty.PropType.Float:
 					case MaterialProperty.PropType.Range:
-						prop.floatValue = (float)edge.passThroughBuffer;
+						switch (edge.passThroughBuffer)
+						{
+							case float f:
+								prop.floatValue = f;
+								break;
+							case Vector2 v:
+								prop.floatValue = v.x;
+								break;
+							case Vector3 v:
+								prop.floatValue = v.x;
+								break;
+							case Vector4 v:
+								prop.floatValue = v.x;
+								break;
+							default:
+								throw new Exception($"Can't assign {edge.passThroughBuffer.GetType()} to material float property");
+						}
 						break;
 					case MaterialProperty.PropType.Vector:
 						prop.vectorValue = (Vector4)edge.passThroughBuffer;

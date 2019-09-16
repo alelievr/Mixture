@@ -11,6 +11,7 @@
 		_Frequency("Frequency", Float) = 5
 		_Persistance("Persistance", Float) = 0.5
 		[IntRange]_Octaves("Octaves", Range(1, 12)) = 5
+		_Seed("Seed", Int) = 42
 	}
 	SubShader
 	{
@@ -38,10 +39,11 @@
 			float _Lacunarity;
 			float _Frequency;
 			float _Persistance;
+			int _Seed;
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction));
+				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), _Seed);
 
 #ifdef CRT_2D
 				float4 noise = float4(GenerateRidgedPerlin2DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rrr, 1);

@@ -142,6 +142,31 @@ COORDINATE_TYPE Generate##NAME##_FBM6_2(COORDINATE_TYPE p) \
     ); \
 }
 
+// Utils:
+
+float3 RandomOffset3(int seed)
+{
+    float3 v = float3(-6.747, 8.488, 3.584) * seed;
+
+    v %= 5000;
+
+    return v;
+}
+
+float3 GetNoiseUVs(v2f_customrendertexture i, float3 customUvs, int seed)
+{
+    float3 offset = RandomOffset3(seed);
+
+#ifdef USE_CUSTOM_UV
+    return customUvs + offset;
+#else
+	#ifdef CRT_CUBE
+    return i.direction + offset;
+	#else
+    return i.localTexcoord.xyz + offset;
+	#endif
+#endif
+}
 
 // Perlin:
 
@@ -311,19 +336,6 @@ NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D);
 NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D);
 RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D);
 RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D);
-
-float3 GetNoiseUVs(v2f_customrendertexture i, float3 customUvs)
-{
-#ifdef USE_CUSTOM_UV
-				return customUvs;
-#else
-	#ifdef CRT_CUBE
-				return i.direction;
-	#else
-				return i.localTexcoord.xyz;
-	#endif
-#endif
-}
 
 CURL_NOISE_2D_TEMPLATE(Perlin2D, perlinNoise2D);
 CURL_NOISE_3D_TEMPLATE(Perlin3D, perlinNoise2D);
