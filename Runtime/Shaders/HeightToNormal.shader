@@ -42,9 +42,9 @@
 
 			float4 mixture(v2f_customrendertexture i) : SV_Target
 			{
-				float2 dduv = 1.0f / float2(_CustomRenderTextureInfo.xy);
+				float2 dduv = 1.0 / float2(_CustomRenderTextureInfo.xy);
 				float2 source = gradient(i.localTexcoord.xy, dduv); 
-
+				_Scale = 1.0 / _Scale;
 				float3 dx = float3(_Scale, 0.0, source.x);
 				float3 dy = float3(0.0, _Scale, source.y);
 
