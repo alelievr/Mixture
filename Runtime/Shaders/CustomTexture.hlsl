@@ -6,6 +6,8 @@
 
 #define UNITY_PI 3.14159265358979323846
 
+#undef SAMPLE_DEPTH_TEXTURE
+#undef SAMPLE_DEPTH_TEXTURE_LOD
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 
 // Keep in sync with CustomRenderTexture.h

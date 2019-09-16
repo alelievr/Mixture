@@ -17,7 +17,7 @@ namespace Mixture
 		public CustomRenderTexture	output = null;
 
 		public Shader			shader;
-		public override string	name => shader?.name?.Split('/')?.Last() ?? "Shader";
+		public override string	name => (shader != null) ? shader.name.Split('/')?.Last() : "Shader";
 		public Material			material;
 
         protected virtual IEnumerable<string> filteredOutProperties => Enumerable.Empty<string>();
