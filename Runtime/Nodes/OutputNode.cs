@@ -1,13 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
-using System.Linq;
-using System.IO;
 using System;
 using UnityEngine.Rendering;
-
-using UnityEngine.Experimental.Rendering;
 
 namespace Mixture
 {
@@ -46,7 +41,7 @@ namespace Mixture
 
 		// Compression settings
 		// TODO: there are too many formats, reduce them with a new enum
-		public TextureFormat				compressionFormat = TextureFormat.RGBA32;
+		public MixtureCompressionFormat		compressionFormat = MixtureCompressionFormat.DXT5Crunched;
 		public TextureCompressionQuality	compressionQuality = TextureCompressionQuality.Best;
 		public bool							enableCompression = false;
 		
