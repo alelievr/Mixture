@@ -31,7 +31,7 @@ namespace Mixture
                 gradientNode.UpdateTexture();
 			});
 
-			propertyEditorUI.Add(gradientField);
+			controlsContainer.Add(gradientField);
 		}
 	}
 }

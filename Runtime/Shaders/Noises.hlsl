@@ -41,60 +41,98 @@ RETURN_TYPE GenerateRidged##NAME##Noise(COORDINATE_TYPE coordinate, float freque
     return total / totalAmplitude; \
 }
 
-#define CURL_NOISE_2D_TEMPLATE(NAME, FUNC) \
-float2 Generate##NAME##CurlNoise(float2 coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
+#define TILED_NOISE_TEMPLATE(NAME, COORDINATE_TYPE, RETURN_TYPE, FUNC) \
+RETURN_TYPE Generate##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
 { \
-    float2 total = float2(0.0f, 0.0f); \
+    RETURN_TYPE total = 0.0f; \
 \
     float amplitude = 1.0f; \
     float totalAmplitude = 0.0f; \
 \
     for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
     { \
-        float2 derivatives = FUNC(coordinate * frequency).yz; \
-        total += derivatives * amplitude; \
-\
+        total += FUNC(coordinate * frequency, float3(1, 1, 1)) * amplitude; \
         totalAmplitude += amplitude; \
         amplitude *= persistence; \
         frequency *= lacunarity; \
     } \
-\
-    return float2(total.y, -total.x) / totalAmplitude; \
+ \
+    return total / totalAmplitude; \
 }
 
-#define CURL_NOISE_3D_TEMPLATE(NAME, FUNC) \
-float3 Generate##NAME##CurlNoise(float3 coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
+#define TILED_RIDGED_NOISE_TEMPLATE(NAME, COORDINATE_TYPE, RETURN_TYPE, FUNC) \
+RETURN_TYPE GenerateRidged##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
 { \
-    float2 total[3] = { float2(0.0f, 0.0f), float2(0.0f, 0.0f), float2(0.0f, 0.0f) }; \
+    RETURN_TYPE total = 0.0f; \
 \
     float amplitude = 1.0f; \
     float totalAmplitude = 0.0f; \
 \
-    float2 points[3] = \
-    { \
-        coordinate.zy, \
-        coordinate.xz + 100.0f, \
-        coordinate.yx + 200.0f \
-    }; \
-\
     for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
     { \
-        for (int i = 0; i < 3; i++) \
-        { \
-            float2 derivatives = FUNC(points[i] * frequency).yz; \
-            total[i] += derivatives * amplitude; \
-        } \
-\
+        total += abs(FUNC(coordinate * frequency, frequency) * amplitude); \
         totalAmplitude += amplitude; \
         amplitude *= persistence; \
         frequency *= lacunarity; \
     } \
-\
-    return float3( \
-        (total[2].x - total[1].y), \
-        (total[0].x - total[2].y), \
-        (total[1].x - total[0].y)) / totalAmplitude; \
+ \
+    return total / totalAmplitude; \
 }
+
+// #define CURL_NOISE_2D_TEMPLATE(NAME, FUNC) \
+// float2 Generate##NAME##CurlNoise(float2 coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
+// { \
+//     float2 total = float2(0.0f, 0.0f); \
+// \
+//     float amplitude = 1.0f; \
+//     float totalAmplitude = 0.0f; \
+// \
+//     for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
+//     { \
+//         float2 derivatives = FUNC(coordinate * frequency).yz; \
+//         total += derivatives * amplitude; \
+// \
+//         totalAmplitude += amplitude; \
+//         amplitude *= persistence; \
+//         frequency *= lacunarity; \
+//     } \
+// \
+//     return float2(total.y, -total.x) / totalAmplitude; \
+// }
+
+// #define CURL_NOISE_3D_TEMPLATE(NAME, FUNC) \
+// float3 Generate##NAME##CurlNoise(float3 coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
+// { \
+//     float2 total[3] = { float2(0.0f, 0.0f), float2(0.0f, 0.0f), float2(0.0f, 0.0f) }; \
+// \
+//     float amplitude = 1.0f; \
+//     float totalAmplitude = 0.0f; \
+// \
+//     float2 points[3] = \
+//     { \
+//         coordinate.zy, \
+//         coordinate.xz + 100.0f, \
+//         coordinate.yx + 200.0f \
+//     }; \
+// \
+//     for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
+//     { \
+//         for (int i = 0; i < 3; i++) \
+//         { \
+//             float2 derivatives = FUNC(points[i] * frequency).yz; \
+//             total[i] += derivatives * amplitude; \
+//         } \
+// \
+//         totalAmplitude += amplitude; \
+//         amplitude *= persistence; \
+//         frequency *= lacunarity; \
+//     } \
+// \
+//     return float3( \
+//         (total[2].x - total[1].y), \
+//         (total[0].x - total[2].y), \
+//         (total[1].x - total[0].y)) / totalAmplitude; \
+// }
 
 // TODO: make the rotation a parameter
 const float2x2 rMatrix = float2x2( 0.80,  0.60, -0.60,  0.80 );
@@ -166,6 +204,16 @@ float3 GetNoiseUVs(v2f_customrendertexture i, float3 customUvs, int seed)
     return i.localTexcoord.xyz + offset;
 	#endif
 #endif
+}
+
+// White noise:
+
+float WhiteNoise(float3 uvs)
+{
+    float3 smallValue = sin(uvs);
+    float random = dot(smallValue, float3(12.9898, 78.233, 37.719));
+    random = frac(sin(random) * 143758.5453);
+    return random;
 }
 
 // Perlin:
@@ -332,13 +380,143 @@ float4 perlinNoise3D(float3 coordinate)
     return result * 1.1547005383792515290182975610039f;		// scale to -1.0 -> 1.0 range    *= 1.0/sqrt(0.75)
 }
 
+float2 modulo(float2 divident, float2 divisor)
+{
+    float2 positiveDivident = divident % divisor + divisor;
+    return positiveDivident % divisor;
+}
+
+
+float easeIn(float interpolator){
+    return interpolator * interpolator;
+}
+
+float easeOut(float interpolator){
+    return 1 - easeIn(1 - interpolator);
+}
+
+float easeInOut(float interpolator){
+    float easeInValue = easeIn(interpolator);
+    float easeOutValue = easeOut(interpolator);
+    return lerp(easeInValue, easeOutValue, interpolator);
+}
+
+// float tiledPerlinNoise2D(float2 coordinate, float2 period)
+// {
+//     float2 cellsMimimum = floor(coordinate);
+//     float2 cellsMaximum = ceil(coordinate);
+
+//     cellsMimimum = modulo(cellsMimimum, period);
+//     cellsMaximum = modulo(cellsMaximum, period);
+
+//     //generate random directions
+//     float2 lowerLeftDirection = WhiteNoise(float2(cellsMimimum.x, cellsMimimum.y).xyx) * 2 - 1;
+//     float2 lowerRightDirection = WhiteNoise(float2(cellsMaximum.x, cellsMimimum.y).xyx) * 2 - 1;
+//     float2 upperLeftDirection = WhiteNoise(float2(cellsMimimum.x, cellsMaximum.y).xyx) * 2 - 1;
+//     float2 upperRightDirection = WhiteNoise(float2(cellsMaximum.x, cellsMaximum.y).xyx) * 2 - 1;
+
+//     float2 fraction = frac(coordinate);
+
+//     //get values of cells based on fraction and cell directions
+//     float lowerLeftFunctionValue = dot(lowerLeftDirection, fraction - float2(0, 0));
+//     float lowerRightFunctionValue = dot(lowerRightDirection, fraction - float2(1, 0));
+//     float upperLeftFunctionValue = dot(upperLeftDirection, fraction - float2(0, 1));
+//     float upperRightFunctionValue = dot(upperRightDirection, fraction - float2(1, 1));
+
+//     float interpolatorX = easeInOut(fraction.x);
+//     float interpolatorY = easeInOut(fraction.y);
+
+//     //interpolate between values
+//     float lowerCells = lerp(lowerLeftFunctionValue, lowerRightFunctionValue, interpolatorX);
+//     float upperCells = lerp(upperLeftFunctionValue, upperRightFunctionValue, interpolatorX);
+
+//     float noise = lerp(lowerCells, upperCells, interpolatorY);
+//     return noise;
+// }
+
+float4 taylorInvSqrt(float4 r)
+{
+    return 1.79284291400159 - 0.85373472095314 * r;
+}
+
+float4 mod289(float4 x)
+{
+    return x - floor(x * (1.0 / 289.0)) * 289.0;
+}
+
+float4 permute(float4 x)
+{
+    return mod289(((x * 34) + 1) * x);
+}
+
+float2 fade(float2 t)
+{
+    return (t * t * t) * (t * (t * 6 - 15) + 10);
+}
+
+float tiledPerlinNoise2D(float2 coordinate, float2 period)
+{
+    float4 Pi = floor(float4(coordinate.x, coordinate.y, coordinate.x, coordinate.y)) + float4(0.0, 0.0, 1.0, 1.0);
+    float4 Pf = frac(float4(coordinate.x, coordinate.y, coordinate.x, coordinate.y)) - float4(0.0, 0.0, 1.0, 1.0);
+    Pi = fmod(Pi, float4(period.x, period.y, period.x, period.y)); // To create noise with explicit period
+    Pi = fmod(Pi, 289); // To avoid truncation effects in permutation
+    float4 ix = float4(Pi.x, Pi.z, Pi.x, Pi.z);
+    float4 iy = float4(Pi.y, Pi.y, Pi.w, Pi.w);
+    float4 fx = float4(Pf.x, Pf.z, Pf.x, Pf.z);
+    float4 fy = float4(Pf.y, Pf.y, Pf.w, Pf.w);
+
+    float4 i = permute(permute(ix) + iy);
+
+    float4 gx = 2 * frac(i / float(41)) - float(1);
+    float4 gy = abs(gx) - float(0.5);
+    float4 tx = floor(gx + float(0.5));
+    gx = gx - tx;
+
+    float2 g00 = float2(gx.x, gy.x);
+    float2 g10 = float2(gx.y, gy.y);
+    float2 g01 = float2(gx.z, gy.z);
+    float2 g11 = float2(gx.w, gy.w);
+
+    float4 norm = taylorInvSqrt(float4(dot(g00, g00), dot(g01, g01), dot(g10, g10), dot(g11, g11)));
+    g00 *= norm.x;
+    g01 *= norm.y;
+    g10 *= norm.z;
+    g11 *= norm.w;
+
+    float n00 = dot(g00, float2(fx.x, fy.x));
+    float n10 = dot(g10, float2(fx.y, fy.y));
+    float n01 = dot(g01, float2(fx.z, fy.z));
+    float n11 = dot(g11, float2(fx.w, fy.w));
+
+    float2 fade_xy = fade(float2(Pf.x, Pf.y));
+    float2 n_x = lerp(float2(n00, n01), float2(n10, n11), fade_xy.x);
+    float n_xy = lerp(n_x.x, n_x.y, fade_xy.y);
+    return float(2.3) * n_xy;
+}
+
+float tiledPerlinNoise3D(float3 coordinate, float3 period)
+{
+    return 0;
+}
+
+#ifdef _TILINGMODE_TILED
+
+TILED_NOISE_TEMPLATE(Perlin2D, float2, float, tiledPerlinNoise2D);
+TILED_NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D);
+TILED_RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float, tiledPerlinNoise2D);
+TILED_RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D);
+
+#else
+
 NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D);
 NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D);
 RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D);
 RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D);
 
-CURL_NOISE_2D_TEMPLATE(Perlin2D, perlinNoise2D);
-CURL_NOISE_3D_TEMPLATE(Perlin3D, perlinNoise2D);
+#endif
+
+// CURL_NOISE_2D_TEMPLATE(Perlin2D, perlinNoise2D);
+// CURL_NOISE_3D_TEMPLATE(Perlin3D, perlinNoise2D);
 
 // Cellular:
 
@@ -434,8 +612,8 @@ NOISE_TEMPLATE(Cellular3D, float3, float4, GenerateCellularNoise3D);
 RIDGED_NOISE_TEMPLATE(Cellular2D, float2, float3, GenerateRidgedCellularNoise2D);
 RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float4, GenerateRidgedCellularNoise3D);
 
-CURL_NOISE_2D_TEMPLATE(Cellular2D, GenerateCellularNoise2D);
-CURL_NOISE_3D_TEMPLATE(Cellular3D, GenerateCellularNoise2D);
+// CURL_NOISE_2D_TEMPLATE(Cellular2D, GenerateCellularNoise2D);
+// CURL_NOISE_3D_TEMPLATE(Cellular3D, GenerateCellularNoise2D);
 
 // FBMs:
 
@@ -456,5 +634,9 @@ float GeneratePerlin2D_FBM(float2 coordinate)
 
     return f;
 }
+
+// Tilable noises:
+
+
 
 #endif

@@ -13,7 +13,6 @@ namespace Mixture
 	[NodeCustomEditor(typeof(MixtureNode))]
 	public class MixtureNodeView : BaseNodeView
 	{
-		protected VisualElement propertyEditorUI;
         protected VisualElement previewContainer;
 
         protected new MixtureGraphView  owner => base.owner as MixtureGraphView;
@@ -51,21 +50,17 @@ namespace Mixture
 			nodeTarget.onSettingsChanged += UpdatePorts;
 			nodeTarget.onSettingsChanged += () => owner.processor.Run();
 			nodeTarget.onProcessed += UpdateTexturePreview;
-			
-			propertyEditorUI = new VisualElement();
-			controlsContainer.Add(propertyEditorUI);
 
 			// Fix the size of the node
 			style.width = nodeTarget.nodeWidth;
 
-			propertyEditorUI.AddToClassList("PropertyEditorUI");
 			controlsContainer.AddToClassList("ControlsContainer");
 
 			if (header != string.Empty)
 			{
 				var title = new Label(header);
 				title.AddToClassList("PropertyEditorTitle");
-				propertyEditorUI.Add(title);
+				controlsContainer.Add(title);
 			}
 
 			if (nodeTarget.showDefaultInspector)
@@ -74,8 +69,6 @@ namespace Mixture
 			}
 
 			UpdateTexturePreview();
-
-            propertyEditorUI.style.display = DisplayStyle.Flex;
         }
 
 		~MixtureNodeView()
@@ -167,7 +160,7 @@ namespace Mixture
 					continue;
 
 				float h = editor.GetPropertyHeight(property, property.displayName);
-				Rect r = EditorGUILayout.GetControlRect(true, h, EditorStyles.layerMaskField);
+				Rect r = EditorGUILayout.GetControlRect(true, h);
 
 				if (property.name.Contains("Vector2"))
 					property.vectorValue = (Vector4)EditorGUI.Vector2Field(r, property.displayName, (Vector2)property.vectorValue);

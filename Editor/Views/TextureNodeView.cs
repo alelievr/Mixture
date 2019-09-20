@@ -32,7 +32,7 @@ namespace Mixture
 				textureNode.texture = (Texture2D)e.newValue;
 			});
 
-			propertyEditorUI.Add(textureField);
+			controlsContainer.Add(textureField);
 		}
 
 	}

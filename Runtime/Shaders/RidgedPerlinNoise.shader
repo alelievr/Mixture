@@ -46,12 +46,12 @@
 				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), _Seed);
 
 #ifdef CRT_2D
-				float4 noise = float4(GenerateRidgedPerlin2DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rrr, 1);
+				float3 noise = GenerateRidgedPerlin2DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rrr;
 #else
-				float4 noise = float4(GenerateRidgedPerlin3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rrr, 1);
+				float3 noise = GenerateRidgedPerlin3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rrr;
 #endif
 
-				return Remap(noise, 0, 1, _OutputRange.x, _OutputRange.y);
+				return float4(Remap(noise, 0, 1, _OutputRange.x, _OutputRange.y), 1);
 			}
 			ENDCG
 		}

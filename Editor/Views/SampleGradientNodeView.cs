@@ -30,7 +30,7 @@ namespace Mixture
 				sampleGradientNode.gradient = (Gradient)e.newValue;
 			});
 
-			propertyEditorUI.Add(gradientField);
+			controlsContainer.Add(gradientField);
 		}
 	}
 }

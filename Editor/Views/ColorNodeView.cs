@@ -30,8 +30,7 @@ namespace Mixture
 
 			});
 
-			propertyEditorUI.Add(colorField);
+			controlsContainer.Add(colorField);
 		}
-
 	}
 }

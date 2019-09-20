@@ -41,7 +41,7 @@ namespace Mixture
 				var materialIMGUI = new IMGUIContainer(MaterialGUI);
 				materialIMGUI.AddToClassList("MaterialInspector");
 
-				propertyEditorUI.Add(materialIMGUI);
+				controlsContainer.Add(materialIMGUI);
 				materialEditor = Editor.CreateEditor(fixedShaderNode.material) as MaterialEditor;
 			}
 		}
