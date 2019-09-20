@@ -51,7 +51,6 @@ namespace Mixture
 
 			// For now compression is not supported (it does not works)
 			AddCompressionSettings();
-
 		}
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
