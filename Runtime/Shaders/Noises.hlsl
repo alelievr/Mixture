@@ -51,7 +51,7 @@ RETURN_TYPE Generate##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, i
 \
     for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
     { \
-        total += FUNC(coordinate * frequency, float3(1, 1, 1)) * amplitude; \
+        total += FUNC(coordinate * frequency, frequency) * amplitude; \
         totalAmplitude += amplitude; \
         amplitude *= persistence; \
         frequency *= lacunarity; \
@@ -470,7 +470,7 @@ float tiledPerlinNoise2D(float2 coordinate, float2 period)
     float4 gx = 2 * frac(i / float(41)) - float(1);
     float4 gy = abs(gx) - float(0.5);
     float4 tx = floor(gx + float(0.5));
-    gx = gx - tx;
+    // gx = gx - tx;
 
     float2 g00 = float2(gx.x, gy.x);
     float2 g10 = float2(gx.y, gy.y);
@@ -568,7 +568,7 @@ float4 GenerateCellularNoise3D(float3 coordinate)
     // generate the 8 random points
     // restrict the random point offset to eliminate artifacts
     // we'll improve the variance of the noise by pushing the points to the extremes of the jitter window
-    float kJitterWindow = 0.166666666f;	// guarantees no artifacts. It is the intersection on x of graphs f(x)=( (0.5 + (0.5-x))^2 + 2*((0.5-x)^2) ) and f(x)=( 2 * (( 0.5 + x )^2) + x * x )
+    float kJitterWindow = 0.236666666f;	// empirical value to have good balance between artifacts and repetition
     hash_x0 = CellularWeightSamples(hash_x0) * kJitterWindow + float4(0.0f, 1.0f, 0.0f, 1.0f);
     hash_y0 = CellularWeightSamples(hash_y0) * kJitterWindow + float4(0.0f, 0.0f, 1.0f, 1.0f);
     hash_x1 = CellularWeightSamples(hash_x1) * kJitterWindow + float4(0.0f, 1.0f, 0.0f, 1.0f);
