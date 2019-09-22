@@ -14,6 +14,7 @@
 		{
 			CGPROGRAM
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Noises.hlsl"
 			#include "UnityCustomRenderTexture.cginc"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment mixture
@@ -23,14 +24,6 @@
             #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 
 			float _Mode;
-
-			float WhiteNoise(float3 uvs)
-			{
-				float3 smallValue = sin(uvs);
-				float random = dot(smallValue, float3(12.9898, 78.233, 37.719));
-				random = frac(sin(random) * 143758.5453);
-				return random;
-			}
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{

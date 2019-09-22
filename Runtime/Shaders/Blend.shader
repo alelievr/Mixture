@@ -18,8 +18,8 @@ Shader "Hidden/Mixture/Blend"
 		[InlineTexture]_Mask_Cube("Mask", Cube) = "white" {}
 
 		// Common parameters
-		[Enum(Blend,0,Additive,1,Multiplicative,2)]_BlendMode("Blend Mode", Float) = 0
-		[Enum(Alpha,0,PerChannel,1)]_MaskMode("Mask Mode", Float) = 0
+		[Enum(Blend, 0, Additive, 1, Multiplicative, 2)]_BlendMode("Blend Mode", Float) = 0
+		[Enum(PerChannel, 0, R, 1, G, 2, B, 3, A, 4)]_MaskMode("Mask Mode", Float) = 4
 	}
 	SubShader
 	{
@@ -52,8 +52,11 @@ Shader "Hidden/Mixture/Blend"
 				
 				switch((uint)_MaskMode)
 				{
-					case 0 : mask = SAMPLE_X(_Mask, i.localTexcoord.xyz, i.direction).aaaa; break;
-					case 1 : mask = SAMPLE_X(_Mask, i.localTexcoord.xyz, i.direction).rgba; break;
+					case 0 : mask = SAMPLE_X(_Mask, i.localTexcoord.xyz, i.direction).rgba; break;
+					case 1 : mask = SAMPLE_X(_Mask, i.localTexcoord.xyz, i.direction).rrrr; break;
+					case 2 : mask = SAMPLE_X(_Mask, i.localTexcoord.xyz, i.direction).gggg; break;
+					case 3 : mask = SAMPLE_X(_Mask, i.localTexcoord.xyz, i.direction).bbbb; break;
+					case 4 : mask = SAMPLE_X(_Mask, i.localTexcoord.xyz, i.direction).aaaa; break;
 				}
 
 				switch ((uint)_BlendMode)

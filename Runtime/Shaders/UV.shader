@@ -25,7 +25,7 @@
 
 			float4 mixture (v2f_customrendertexture IN) : SV_Target
 			{
-				return float4(IN.globalTexcoord.xyz, 1) * _Scale + _Bias;
+				return float4(IN.globalTexcoord.xyz * _Scale + _Bias, 1) ;
 			}
 			ENDCG
 		}

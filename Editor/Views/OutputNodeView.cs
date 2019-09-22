@@ -50,8 +50,7 @@ namespace Mixture
             UpdatePreviewImage();
 
 			// For now compression is not supported (it does not works)
-			// AddCompressionSettings();
-
+			AddCompressionSettings();
 		}
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -80,7 +79,7 @@ namespace Mixture
 		void AddCompressionSettings()
 		{
 			var formatField = new EnumField("Format", outputNode.compressionFormat);
-			formatField.RegisterValueChangedCallback((e) => outputNode.compressionFormat = (TextureFormat)e.newValue);
+			formatField.RegisterValueChangedCallback((e) => outputNode.compressionFormat = (MixtureCompressionFormat)e.newValue);
 			var qualityField = new EnumField("Quality", outputNode.compressionQuality);
 			qualityField.RegisterValueChangedCallback((e) => outputNode.compressionQuality = (TextureCompressionQuality)e.newValue);
 
@@ -129,6 +128,8 @@ namespace Mixture
 
 		protected void WriteRequestResult(AsyncGPUReadbackRequest request, Texture output)
 		{
+			var outputFormat = outputNode.rtSettings.GetGraphicsFormat(graph);
+
 			if (request.hasError)
 			{
 				Debug.LogError("Can't readback the texture from GPU");
@@ -140,8 +141,7 @@ namespace Mixture
 				NativeArray< Color32 >    	colors32;
 				NativeArray< Color >    	colors;
 
-				var outputFormat = (OutputFormat)output.graphicsFormat;
-				switch (outputFormat)
+				switch ((OutputFormat)outputFormat)
 				{
 					case OutputFormat.RGBA_Float:
 					case OutputFormat.RGB_Float:
@@ -164,10 +164,30 @@ namespace Mixture
 			switch (output)
 			{
 				case Texture2D t:
-					FetchSlice(0, t.SetPixels32, t.SetPixels);
-					t.Apply();
-					if (outputNode.enableCompression)
-						t = CompressTexture(t);
+					if (outputFormat != t.graphicsFormat || outputNode.enableCompression)
+					{
+						// If the output texture is compressed, then we can't readback the data inside it directly
+						var tempTexture = new Texture2D(t.width, t.height, outputNode.rtSettings.GetGraphicsFormat(graph), TextureCreationFlags.None);
+						FetchSlice(0, tempTexture.SetPixels32, tempTexture.SetPixels);
+						tempTexture.Apply();
+
+						// Copy the readback texture into the compressed one (replace it)
+						EditorUtility.CopySerialized(tempTexture, t);
+						UnityEngine.Object.DestroyImmediate(tempTexture);
+
+						if (outputNode.enableCompression)
+							CompressTexture(t);
+
+						// Trick to re-generate the preview and update the texture when the asset was changed
+						AssetDatabase.ImportAsset(graph.mainAssetPath);
+						AssetDatabase.SaveAssets();
+						AssetDatabase.ImportAsset(graph.mainAssetPath);
+					}
+					else
+					{
+						FetchSlice(0, t.SetPixels32, t.SetPixels);
+						t.Apply();
+					}
 					break;
 				case Texture2DArray t:
 					for (int i = 0; i < outputNode.tempRenderTexture.volumeDepth; i++)
@@ -201,13 +221,9 @@ namespace Mixture
 			EditorGUIUtility.PingObject(output);
 		}
 
-		Texture2D CompressTexture(Texture2D t)
+		void CompressTexture(Texture2D t)
 		{
-			Texture2D compressedTexture = new Texture2D(t.width, t.height, t.graphicsFormat, TextureCreationFlags.None);
-			compressedTexture.SetPixels(t.GetPixels());
-			compressedTexture.Apply();
-			EditorUtility.CompressTexture(compressedTexture, outputNode.compressionFormat, (UnityEditor.TextureCompressionQuality)outputNode.compressionQuality);
-			return compressedTexture;
+			EditorUtility.CompressTexture(t, (TextureFormat)outputNode.compressionFormat, (UnityEditor.TextureCompressionQuality)outputNode.compressionQuality);
 		}
 	}
 }

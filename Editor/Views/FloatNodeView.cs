@@ -31,7 +31,7 @@ namespace Mixture
 
 			});
 
-			propertyEditorUI.Add(textureField);
+			controlsContainer.Add(textureField);
 		}
 
 	}

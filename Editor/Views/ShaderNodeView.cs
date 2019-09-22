@@ -47,13 +47,13 @@ namespace Mixture
 			
 			InitializeDebug();
 
-			propertyEditorUI.Add(shaderField);
+			controlsContainer.Add(shaderField);
 
 			shaderCreationUI = new VisualElement();
-			propertyEditorUI.Add(shaderCreationUI);
+			controlsContainer.Add(shaderCreationUI);
 			UpdateShaderCreationUI();
 
-			propertyEditorUI.Add(new IMGUIContainer(MaterialGUI));
+			controlsContainer.Add(new IMGUIContainer(MaterialGUI));
 			materialEditor = Editor.CreateEditor(shaderNode.material) as MaterialEditor;
 		}
 

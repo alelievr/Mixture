@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Custom/Perlin Noise")]
+	[System.Serializable, NodeMenuItem("Noises/Perlin Noise")]
 	public class PerlinNoise : FixedNoiseNode
 	{
 		public override string name => "Perlin Noise";

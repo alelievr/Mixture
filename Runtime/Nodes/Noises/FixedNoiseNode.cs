@@ -12,7 +12,7 @@ namespace Mixture
 		public override bool displayMaterialInspector => true;
 
 		// Enumerate the list of material properties that you don't want to be turned into a connectable port.
-		protected override IEnumerable<string> filteredOutProperties => new string[]{};
+		protected override IEnumerable<string> filteredOutProperties => new string[]{ "_Seed", "_OutputRange" };
 
 		protected override bool ProcessNode()
 		{
@@ -30,6 +30,12 @@ namespace Mixture
 				material.EnableKeyword("USE_CUSTOM_UV");
 			else
 				material.DisableKeyword("USE_CUSTOM_UV");
+
+			if (material.IsKeywordEnabled("_TILINGMODE_TILED"))
+			{
+				material.SetFloat("_Lacunarity", Mathf.Round(material.GetFloat("_Lacunarity")));
+				material.SetFloat("_Frequency", Mathf.Round(material.GetFloat("_Frequency")));
+			}
 
 			return true;
 		}

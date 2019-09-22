@@ -124,10 +124,10 @@ namespace Mixture
 #if UNITY_EDITOR
 			if (updateMainAsset)
 			{
-				if (oldTextureObject != null)
+				if (oldTextureObject != null) // release memory and remove asset
 				{
-					DestroyImmediate(oldTextureObject);
 					AssetDatabase.RemoveObjectFromAsset(oldTextureObject);
+					DestroyImmediate(oldTextureObject, true);
 				}
 				AssetDatabase.AddObjectToAsset(outputTexture, this);
 				AssetDatabase.SetMainObject(outputTexture, mainAssetPath);

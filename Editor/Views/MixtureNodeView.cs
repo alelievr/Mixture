@@ -13,7 +13,6 @@ namespace Mixture
 	[NodeCustomEditor(typeof(MixtureNode))]
 	public class MixtureNodeView : BaseNodeView
 	{
-		protected VisualElement propertyEditorUI;
         protected VisualElement previewContainer;
 
         protected new MixtureGraphView  owner => base.owner as MixtureGraphView;
@@ -51,21 +50,17 @@ namespace Mixture
 			nodeTarget.onSettingsChanged += UpdatePorts;
 			nodeTarget.onSettingsChanged += () => owner.processor.Run();
 			nodeTarget.onProcessed += UpdateTexturePreview;
-			
-			propertyEditorUI = new VisualElement();
-			controlsContainer.Add(propertyEditorUI);
 
 			// Fix the size of the node
 			style.width = nodeTarget.nodeWidth;
 
-			propertyEditorUI.AddToClassList("PropertyEditorUI");
 			controlsContainer.AddToClassList("ControlsContainer");
 
 			if (header != string.Empty)
 			{
 				var title = new Label(header);
 				title.AddToClassList("PropertyEditorTitle");
-				propertyEditorUI.Add(title);
+				controlsContainer.Add(title);
 			}
 
 			if (nodeTarget.showDefaultInspector)
@@ -74,8 +69,6 @@ namespace Mixture
 			}
 
 			UpdateTexturePreview();
-
-            propertyEditorUI.style.display = DisplayStyle.Flex;
         }
 
 		~MixtureNodeView()
@@ -167,7 +160,7 @@ namespace Mixture
 					continue;
 
 				float h = editor.GetPropertyHeight(property, property.displayName);
-				Rect r = EditorGUILayout.GetControlRect(true, h, EditorStyles.layerMaskField);
+				Rect r = EditorGUILayout.GetControlRect(true, h);
 
 				if (property.name.Contains("Vector2"))
 					property.vectorValue = (Vector4)EditorGUI.Vector2Field(r, property.displayName, (Vector2)property.vectorValue);
@@ -232,11 +225,13 @@ namespace Mixture
 				{
 					texturePreview.style.display = DisplayStyle.Flex;
 					togglePreviewButton.RemoveFromClassList("Collapsed");
+                    nodeTarget.previewVisible = true;
 				}
 				else
 				{
 					texturePreview.style.display = DisplayStyle.None;
 					togglePreviewButton.AddToClassList("Collapsed");
+                    nodeTarget.previewVisible = false;
 				}
 			}
         }
@@ -249,19 +244,6 @@ namespace Mixture
 			return GUILayoutUtility.GetRect(1, width, 1, height);
 		}
 
-        enum PreviewChannels
-        {
-            R       = 1,
-            G       = 2,
-            B       = 4,
-            A       = 8,
-            RG      = R|G,
-            RB      = R|B,
-            GB      = G|B,
-            RGB     = R|G|B,
-            RGBA    = R|G|B|A,
-        }
-
         static Vector4 GetChannelsMask(PreviewChannels channels)
         {
             return new Vector4(
@@ -272,15 +254,6 @@ namespace Mixture
                 );
         }
 
-        [SerializeField]
-        PreviewChannels m_PreviewMode = PreviewChannels.RGBA;
-        [SerializeField]
-        float m_PreviewMip = 0.0f;
-        [SerializeField]
-        bool m_PreviewSRGB = true;
-        [SerializeField]
-        bool m_PreviewVisible = true;
-
 		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)
 		{
 		        var previewElement = new IMGUIContainer(() => {
@@ -289,14 +262,14 @@ namespace Mixture
                     {
                         EditorGUI.BeginChangeCheck();
 
-                        bool r = GUILayout.Toggle( (m_PreviewMode & PreviewChannels.R) != 0,"R", EditorStyles.toolbarButton);
-                        bool g = GUILayout.Toggle( (m_PreviewMode & PreviewChannels.G) != 0,"G", EditorStyles.toolbarButton);
-                        bool b = GUILayout.Toggle( (m_PreviewMode & PreviewChannels.B) != 0,"B", EditorStyles.toolbarButton);
-                        bool a = GUILayout.Toggle( (m_PreviewMode & PreviewChannels.A) != 0,"A", EditorStyles.toolbarButton);
+                        bool r = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.R) != 0,"R", EditorStyles.toolbarButton);
+                        bool g = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.G) != 0,"G", EditorStyles.toolbarButton);
+                        bool b = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.B) != 0,"B", EditorStyles.toolbarButton);
+                        bool a = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.A) != 0,"A", EditorStyles.toolbarButton);
 
                         if (EditorGUI.EndChangeCheck())
                         {
-                            m_PreviewMode =
+                            nodeTarget.previewMode =
                             (r ? PreviewChannels.R : 0) |
                             (g ? PreviewChannels.G : 0) |
                             (b ? PreviewChannels.B : 0) |
@@ -305,16 +278,16 @@ namespace Mixture
 
                         GUILayout.Space(8);
 
-                        m_PreviewMip = GUILayout.HorizontalSlider(m_PreviewMip, 0.0f, 5.0f, GUILayout.Width(64));
-                        GUILayout.Label("Mip #"+m_PreviewMip.ToString("0"), EditorStyles.toolbarButton);
+                        nodeTarget.previewMip = GUILayout.HorizontalSlider(nodeTarget.previewMip, 0.0f, 5.0f, GUILayout.Width(64));
+                        GUILayout.Label("Mip #"+ nodeTarget.previewMip.ToString("0"), EditorStyles.toolbarButton);
 
                         GUILayout.FlexibleSpace();
                     }
 
                     MixtureUtils.texture2DPreviewMaterial.SetTexture("_MainTex", texture);
                     MixtureUtils.texture2DPreviewMaterial.SetVector("_Size", new Vector4(texture.width,texture.height,1,1));
-                    MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", GetChannelsMask(m_PreviewMode));
-                    MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", m_PreviewMip);
+                    MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
+                    MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
                     EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), texture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
                  
                 });
