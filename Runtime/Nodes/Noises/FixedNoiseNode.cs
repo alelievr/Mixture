@@ -31,6 +31,12 @@ namespace Mixture
 			else
 				material.DisableKeyword("USE_CUSTOM_UV");
 
+			if (material.IsKeywordEnabled("_TILINGMODE_TILED"))
+			{
+				material.SetFloat("_Lacunarity", Mathf.Round(material.GetFloat("_Lacunarity")));
+				material.SetFloat("_Frequency", Mathf.Round(material.GetFloat("_Frequency")));
+			}
+
 			return true;
 		}
 	}

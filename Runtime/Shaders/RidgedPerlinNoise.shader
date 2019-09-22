@@ -6,6 +6,7 @@
 		[InlineTexture(HideInNodeInspector)] _UV_3D("UVs", 3D) = "white" {}
 		[InlineTexture(HideInNodeInspector)] _UV_Cube("UVs", Cube) = "white" {}
 
+        [KeywordEnum(None, Tiled)] _TilingMode("Tiling Mode", Float) = 0
 		[MixtureVector2]_OutputRange("Output Range", Vector) = (0, 1, 0, 0)
 		_Lacunarity("Lacunarity", Float) = 2
 		_Frequency("Frequency", Float) = 5
@@ -31,6 +32,7 @@
 			// The list of defines that will be active when processing the node with a certain dimension
             #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
 			#pragma multi_compile _ USE_CUSTOM_UV
+			#pragma multi_compile _TILINGMODE_NONE _TILINGMODE_TILED
 
 			// This macro will declare a version for each dimention (2D, 3D and Cube)
 			TEXTURE_SAMPLER_X(_UV);
