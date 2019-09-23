@@ -16,8 +16,79 @@ namespace Mixture
     [NodeCustomEditor(typeof(ExternalOutputNode))]
     public class ExternalOutputNodeView : OutputNodeView
     {
+        Button saveButton;
+        Button updateButton;
 
-        protected override void SaveMasterTexture()
+        protected override void BuildOutputNodeSettings()
+        {
+            var externalOutputNode = nodeTarget as ExternalOutputNode;
+            var nodeSettings = new IMGUIContainer(() =>
+            {
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUILayout.ObjectField("Asset", externalOutputNode.asset, typeof(Texture2D), false);
+                EditorGUI.EndDisabledGroup();
+                EditorGUI.BeginChangeCheck();
+                var outputType = EditorGUILayout.EnumPopup("Output Type", externalOutputNode.outputType);
+                if(EditorGUI.EndChangeCheck())
+                {
+                    externalOutputNode.outputType = (ExternalOutputNode.OutputType)outputType;
+                    MarkDirtyRepaint();
+                }
+                GUILayout.Space(8);
+            }
+            );
+            nodeSettings.AddToClassList("MaterialInspector");
+
+            controlsContainer.Add(nodeSettings);
+
+            // Add Buttons
+            saveButton = new Button(SaveExternal)
+            {
+                text = "Save As..."
+            };
+            updateButton = new Button(UpdateExternal)
+            {
+                text = "Update"
+            };
+
+            var horizontal = new VisualElement();
+            horizontal.style.flexDirection = FlexDirection.Row;
+            horizontal.Add(saveButton);
+            horizontal.Add(updateButton);
+            controlsContainer.Add(horizontal);
+
+            UpdateSettings();
+        }
+
+        void UpdateSettings()
+        {
+            if(graph.isRealtime)
+            {
+                saveButton.style.display = DisplayStyle.None;
+                updateButton.style.display = DisplayStyle.None;
+            }
+            else
+            {
+                var externalOutputNode = nodeTarget as ExternalOutputNode;
+                // Manage First save or Update
+                saveButton.style.display = DisplayStyle.Flex;
+                updateButton.style.display = DisplayStyle.Flex;
+                updateButton.SetEnabled(externalOutputNode.asset != null);
+            }
+        }
+
+        void SaveExternal()
+        {
+            WriteExternal(true);
+        }
+
+        void UpdateExternal()
+        {
+            WriteExternal(false);
+        }
+
+
+        void WriteExternal(bool saveAs = false)
         {
             ExternalOutputNode external = outputNode as ExternalOutputNode;
             Texture outputTexture = null;
@@ -44,7 +115,7 @@ namespace Mixture
 
             // Check Output Type
             string assetPath;
-            if (external.asset != null)
+            if (external.asset != null && !saveAs)
                 assetPath = AssetDatabase.GetAssetPath(external.asset);
             else
             {
@@ -87,6 +158,7 @@ namespace Mixture
                     contents = ImageConversion.EncodeToEXR(outputTexture as Texture2D);
                 else
                 {
+
                     var colors = (outputTexture as Texture2D).GetPixels();
                     for(int i = 0; i < colors.Length; i++)
                     {
@@ -102,12 +174,28 @@ namespace Mixture
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
 
+                TextureImporter importer = (TextureImporter)AssetImporter.GetAtPath(assetPath);
+                switch(external.outputType)
+                {
+                    case ExternalOutputNode.OutputType.Color:
+                        importer.textureType = TextureImporterType.Default;
+                        importer.sRGBTexture = true;
+                        break;
+                    case ExternalOutputNode.OutputType.Linear:
+                        importer.textureType = TextureImporterType.Default;
+                        importer.sRGBTexture = false;
+                        break;
+                    case ExternalOutputNode.OutputType.Normal:
+                        importer.textureType = TextureImporterType.NormalMap;
+                        break;
+                }
+                importer.SaveAndReimport();
                 var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
                 external.asset = texture;
             }
             else if (dimension == OutputDimension.CubeMap)
             {
-                throw new System.NotImplementedException(); // Todo : find a solution
+                throw new System.NotImplementedException(); // Todo : write as 2D Cubemap : Perform LatLon Conversion + Reimport
                 //System.IO.File.WriteAllBytes(assetPath, ImageConversion.EncodeToPNG(outputTexture as Cubemap).);
             }
             AssetDatabase.SaveAssets();

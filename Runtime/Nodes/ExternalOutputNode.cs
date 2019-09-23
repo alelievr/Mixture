@@ -14,11 +14,20 @@ namespace Mixture
     [Serializable, NodeMenuItem("External Output")]
     public class ExternalOutputNode : OutputNode
     {
+        public enum OutputType
+        {
+            Color,
+            Normal,
+            Linear,
+        }
+
         public override string name => "External Output";
 
         public Texture asset;
+        public OutputType outputType = OutputType.Color;
 
         public override bool hasSettings => true;
+
         protected override MixtureRTSettings defaultRTSettings => new MixtureRTSettings
         {
             heightMode = OutputSizeMode.Fixed,

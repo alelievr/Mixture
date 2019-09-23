@@ -236,7 +236,6 @@ namespace Mixture
 			}
         }
 
-
 		Rect GetPreviewRect(Texture texture)
 		{
 			float width = Mathf.Min(nodeTarget.nodeWidth, texture.width);
@@ -257,6 +256,8 @@ namespace Mixture
 		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)
 		{
 		        var previewElement = new IMGUIContainer(() => {
+
+                    GUILayout.Space(6);
                     // square image:
                     using(new GUILayout.HorizontalScope(EditorStyles.toolbar, GUILayout.Height(12)))
                     {
@@ -288,8 +289,19 @@ namespace Mixture
                     MixtureUtils.texture2DPreviewMaterial.SetVector("_Size", new Vector4(texture.width,texture.height,1,1));
                     MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
                     MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
-                    EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), texture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
-                 
+                    Rect previewRect = GetPreviewRect(texture);
+                    EditorGUI.DrawPreviewTexture(previewRect, texture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+                    previewRect.xMin += 1;
+                    previewRect.yMin += previewRect.height - 25;
+                    GUI.color = Color.black;
+                    GUI.Label(previewRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
+                    previewRect.xMin-= 1;
+                    previewRect.yMin-= 1;
+                    GUI.color = Color.white;
+                    EditorGUI.DrawRect(previewRect, new Color(0, 0, 0, 0.5f));
+                    
+                    GUI.Label(previewRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
+
                 });
 			previewContainer.Add(previewElement);
 		}

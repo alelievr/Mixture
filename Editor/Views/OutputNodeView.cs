@@ -32,6 +32,21 @@ namespace Mixture
             outputNode = nodeTarget as OutputNode;
             graph = owner.graph as MixtureGraph;
 
+            BuildOutputNodeSettings();
+
+            base.Enable();
+
+			outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
+			graph.onOutputTextureUpdated += UpdatePreviewImage;
+
+			InitializeDebug();
+            UpdatePreviewImage();
+		}
+
+        protected virtual void BuildOutputNodeSettings()
+        {
+            AddCompressionSettings();
+
             if (!graph.isRealtime)
             {
                 controlsContainer.Add(new Button(SaveMasterTexture)
@@ -40,20 +55,9 @@ namespace Mixture
                 });
             }
 
-            base.Enable();
+        }
 
-
-			outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
-			graph.onOutputTextureUpdated += UpdatePreviewImage;
-
-			InitializeDebug();
-            UpdatePreviewImage();
-
-			// For now compression is not supported (it does not works)
-			AddCompressionSettings();
-		}
-
-		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			base.BuildContextualMenu(evt);
 			
@@ -106,7 +110,7 @@ namespace Mixture
 			CreateTexturePreview(ref previewContainer, graph.isRealtime ? graph.outputTexture : outputNode.tempRenderTexture, outputNode.currentSlice);
 		}
 
-        protected virtual void SaveMasterTexture()
+        protected void SaveMasterTexture()
         {
             ReadBackTexture();
         }
