@@ -25,7 +25,11 @@
 
 			float4 mixture (v2f_customrendertexture IN) : SV_Target
 			{
+#ifdef CRT_CUBE
+				return float4(IN.direction, 1) ;
+#else
 				return float4(IN.globalTexcoord.xyz * _Scale + _Bias, 1) ;
+#endif
 			}
 			ENDCG
 		}
