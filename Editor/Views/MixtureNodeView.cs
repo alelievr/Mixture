@@ -292,6 +292,7 @@ namespace Mixture
                     Rect previewRect = GetPreviewRect(texture);
                     EditorGUI.DrawPreviewTexture(previewRect, texture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
 
+                    // On Hover : Transparent Bar for Preview with information
                     if(previewRect.Contains(Event.current.mousePosition))
                     {
                         previewRect.yMin += previewRect.height - 32;
@@ -301,12 +302,15 @@ namespace Mixture
                         previewRect.yMin += 8;
                         previewRect.xMin += 8;
 
-                        previewRect.xMin += 2;
-                        previewRect.yMin += 2;
+                        int shadowDist = 2;
+                        // Shadow
+                        previewRect.xMin += shadowDist;
+                        previewRect.yMin += shadowDist;
                         GUI.color = Color.black;
                         GUI.Label(previewRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
-                        previewRect.xMin -= 2;
-                        previewRect.yMin -= 2;
+                        // Text
+                        previewRect.xMin -= shadowDist;
+                        previewRect.yMin -= shadowDist;
                         GUI.color = Color.white;
                         GUI.Label(previewRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
                     }
