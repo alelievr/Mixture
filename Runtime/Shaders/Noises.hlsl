@@ -452,12 +452,15 @@ float4 permute(float4 x)
 float2 fade(float2 t) { return (t * t * t) * (t * (t * 6 - 15) + 10); }
 float3 fade(float3 t) { return (t * t * t) * (t * (t * 6 - 15) + 10); }
 
+float3 mod(float3 x, float3 y) { return x - y * floor(x / y); }
+float4 mod(float4 x, float4 y) { return x - y * floor(x / y); }
+
 float tiledPerlinNoise2D(float2 coordinate, float2 period)
 {
     float4 Pi = floor(float4(coordinate.x, coordinate.y, coordinate.x, coordinate.y)) + float4(0.0, 0.0, 1.0, 1.0);
     float4 Pf = frac(float4(coordinate.x, coordinate.y, coordinate.x, coordinate.y)) - float4(0.0, 0.0, 1.0, 1.0);
-    Pi = fmod(Pi, float4(period.x, period.y, period.x, period.y)); // To create noise with explicit period
-    Pi = fmod(Pi, 289); // To avoid truncation effects in permutation
+    Pi = mod(Pi, float4(period.x, period.y, period.x, period.y)); // To create noise with explicit period
+    Pi = mod(Pi, 289); // To avoid truncation effects in permutation
     float4 ix = float4(Pi.x, Pi.z, Pi.x, Pi.z);
     float4 iy = float4(Pi.y, Pi.y, Pi.w, Pi.w);
     float4 fx = float4(Pf.x, Pf.z, Pf.x, Pf.z);
@@ -466,8 +469,8 @@ float tiledPerlinNoise2D(float2 coordinate, float2 period)
     float4 i = permute(permute(ix) + iy);
 
     float4 gx = 2 * frac(i / float(41)) - float(1);
-    float4 gy = abs(gx) - float(0.5);
-    float4 tx = floor(gx + float(0.5));
+    float4 gy = abs(gx) - 0.5;
+    float4 tx = floor(gx + 0.5);
     gx = gx - tx;
 
     float2 g00 = float2(gx.x, gy.x);
@@ -494,10 +497,10 @@ float tiledPerlinNoise2D(float2 coordinate, float2 period)
 
 float tiledPerlinNoise3D(float3 coordinate, float3 period)
 {
-    float3 Pi0 = fmod(floor(coordinate), period); // Integer part, modulo period
-    float3 Pi1 = fmod(Pi0 + 1, period); // Integer part + 1, fmod period
-    Pi0 = fmod(Pi0, 289);
-    Pi1 = fmod(Pi1, 289);
+    float3 Pi0 = mod(floor(coordinate), period); // Integer part, modulo period
+    float3 Pi1 = mod(Pi0 + 1, period); // Integer part + 1, mod period
+    Pi0 = mod(Pi0, 289);
+    Pi1 = mod(Pi1, 289);
     float3 Pf0 = frac(coordinate); // Fractional part for interpolation
     float3 Pf1 = Pf0 - 1; // Fractional part - 1.0
     float4 ix = float4(Pi0.x, Pi1.x, Pi0.x, Pi1.x);
@@ -557,7 +560,7 @@ float tiledPerlinNoise3D(float3 coordinate, float3 period)
     float3 fade_xyz = fade(Pf0);
     float4 n_z = lerp(float4(n000, n100, n010, n110), float4(n001, n101, n011, n111), fade_xyz.z);
     float2 n_yz = lerp(float2(n_z.x, n_z.y), float2(n_z.z, n_z.w), fade_xyz.y);
-    float2 n_xyz = lerp(n_yz.x, n_yz.y, fade_xyz.x);
+    float n_xyz = lerp(n_yz.x, n_yz.y, fade_xyz.x);
     return 2.2 * n_xyz;
 }
 
