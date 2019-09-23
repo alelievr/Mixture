@@ -291,16 +291,25 @@ namespace Mixture
                     MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
                     Rect previewRect = GetPreviewRect(texture);
                     EditorGUI.DrawPreviewTexture(previewRect, texture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
-                    previewRect.xMin += 1;
-                    previewRect.yMin += previewRect.height - 25;
-                    GUI.color = Color.black;
-                    GUI.Label(previewRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
-                    previewRect.xMin-= 1;
-                    previewRect.yMin-= 1;
-                    GUI.color = Color.white;
-                    EditorGUI.DrawRect(previewRect, new Color(0, 0, 0, 0.5f));
-                    
-                    GUI.Label(previewRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
+
+                    if(previewRect.Contains(Event.current.mousePosition))
+                    {
+                        previewRect.yMin += previewRect.height - 32;
+                        previewRect.yMax -= 4;
+                        EditorGUI.DrawRect(previewRect, new Color(0, 0, 0, 0.65f));
+
+                        previewRect.yMin += 8;
+                        previewRect.xMin += 8;
+
+                        previewRect.xMin += 2;
+                        previewRect.yMin += 2;
+                        GUI.color = Color.black;
+                        GUI.Label(previewRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
+                        previewRect.xMin -= 2;
+                        previewRect.yMin -= 2;
+                        GUI.color = Color.white;
+                        GUI.Label(previewRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
+                    }
 
                 });
 			previewContainer.Add(previewElement);

@@ -24,9 +24,16 @@ namespace Mixture
             var externalOutputNode = nodeTarget as ExternalOutputNode;
             var nodeSettings = new IMGUIContainer(() =>
             {
-                EditorGUI.BeginDisabledGroup(true);
-                EditorGUILayout.ObjectField("Asset", externalOutputNode.asset, typeof(Texture2D), false);
-                EditorGUI.EndDisabledGroup();
+                if(externalOutputNode.asset == null)
+                {
+                    EditorGUILayout.HelpBox("This output has not been saved yet, please click Save As to save the output texture.", MessageType.Info);
+                }
+                else
+                {
+                    EditorGUI.BeginDisabledGroup(true);
+                    EditorGUILayout.ObjectField("Asset", externalOutputNode.asset, typeof(Texture2D), false);
+                    EditorGUI.EndDisabledGroup();
+                }
                 EditorGUI.BeginChangeCheck();
                 var outputType = EditorGUILayout.EnumPopup("Output Type", externalOutputNode.outputType);
                 if(EditorGUI.EndChangeCheck())
@@ -57,10 +64,10 @@ namespace Mixture
             horizontal.Add(updateButton);
             controlsContainer.Add(horizontal);
 
-            UpdateSettings();
+            UpdateButtons();
         }
 
-        void UpdateSettings()
+        void UpdateButtons()
         {
             if(graph.isRealtime)
             {
@@ -200,7 +207,7 @@ namespace Mixture
             }
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-
+            UpdateButtons();
         }
     }
 }
