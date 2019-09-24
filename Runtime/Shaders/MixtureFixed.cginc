@@ -112,6 +112,7 @@ float3 RGBtoHSV(float3 RGB)
 	return HSV;
 }
 
+// Source: http://www.neilmendoza.com/glsl-rotation-about-an-arbitrary-axis/
 float4x4 rotationMatrix(float3 axis, float angle)
 {
 	axis = normalize(axis);

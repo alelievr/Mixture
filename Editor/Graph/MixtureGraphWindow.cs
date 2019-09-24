@@ -8,13 +8,24 @@ namespace Mixture
 {
 	public class MixtureGraphWindow : BaseGraphWindow
 	{
-		// Currently the only way to open a graph is to use an asset
-		// [MenuItem("Window/Mixture")]
-		public static BaseGraphWindow Open()
+		public static BaseGraphWindow Open(MixtureGraph graph)
 		{
-			var graphWindow = GetWindow< MixtureGraphWindow >();
+			// Focus the window if the graph is already opened
+			var mixtureWindows = EditorWindow.FindObjectsOfType<MixtureGraphWindow>();
+			foreach (var mixtureWindow in mixtureWindows)
+			{
+				if (mixtureWindow.graph == graph)
+				{
+					mixtureWindow.Focus();
+					return mixtureWindow;
+				}
+			}
+
+			var graphWindow = EditorWindow.CreateWindow< MixtureGraphWindow >();
 
 			graphWindow.Show();
+
+			graphWindow.InitializeGraph(graph);
 
 			return graphWindow;
 		}

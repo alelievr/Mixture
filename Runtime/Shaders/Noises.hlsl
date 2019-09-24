@@ -401,39 +401,6 @@ float easeInOut(float interpolator){
     return lerp(easeInValue, easeOutValue, interpolator);
 }
 
-// float tiledPerlinNoise2D(float2 coordinate, float2 period)
-// {
-//     float2 cellsMimimum = floor(coordinate);
-//     float2 cellsMaximum = ceil(coordinate);
-
-//     cellsMimimum = modulo(cellsMimimum, period);
-//     cellsMaximum = modulo(cellsMaximum, period);
-
-//     //generate random directions
-//     float2 lowerLeftDirection = WhiteNoise(float2(cellsMimimum.x, cellsMimimum.y).xyx) * 2 - 1;
-//     float2 lowerRightDirection = WhiteNoise(float2(cellsMaximum.x, cellsMimimum.y).xyx) * 2 - 1;
-//     float2 upperLeftDirection = WhiteNoise(float2(cellsMimimum.x, cellsMaximum.y).xyx) * 2 - 1;
-//     float2 upperRightDirection = WhiteNoise(float2(cellsMaximum.x, cellsMaximum.y).xyx) * 2 - 1;
-
-//     float2 fraction = frac(coordinate);
-
-//     //get values of cells based on fraction and cell directions
-//     float lowerLeftFunctionValue = dot(lowerLeftDirection, fraction - float2(0, 0));
-//     float lowerRightFunctionValue = dot(lowerRightDirection, fraction - float2(1, 0));
-//     float upperLeftFunctionValue = dot(upperLeftDirection, fraction - float2(0, 1));
-//     float upperRightFunctionValue = dot(upperRightDirection, fraction - float2(1, 1));
-
-//     float interpolatorX = easeInOut(fraction.x);
-//     float interpolatorY = easeInOut(fraction.y);
-
-//     //interpolate between values
-//     float lowerCells = lerp(lowerLeftFunctionValue, lowerRightFunctionValue, interpolatorX);
-//     float upperCells = lerp(upperLeftFunctionValue, upperRightFunctionValue, interpolatorX);
-
-//     float noise = lerp(lowerCells, upperCells, interpolatorY);
-//     return noise;
-// }
-
 float4 taylorInvSqrt(float4 r)
 {
     return 1.79284291400159 - 0.85373472095314 * r;
