@@ -17,7 +17,7 @@ Shader "Hidden/Mixture/FinalCopy"
 
 			#include "MixtureFixed.cginc"
 			
-            #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
+            #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 
 			#pragma fragment mixture
             #pragma vertex CustomRenderTextureVertexShader

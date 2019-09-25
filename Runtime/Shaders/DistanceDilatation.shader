@@ -22,7 +22,7 @@
 	#pragma require randomwrite
 
 	// Distance by dilatation does not work with cubemaps
-	#pragma multi_compile CRT_2D CRT_3D
+	#pragma shader_feature CRT_2D CRT_3D
 
 	// This macro will declare a version for each dimention (2D, 3D and Cube)
 	TEXTURE_X(_Source);

@@ -21,7 +21,7 @@ Shader "Hidden/Mixture/TextureMatte"
 			#pragma fragment mixture
 			#pragma target 3.0
 
-			#pragma multi_compile CRT_2D CRT_3D CRT_CUBE
+			#pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 
 			TEXTURE_SAMPLER_X(_Texture);
 

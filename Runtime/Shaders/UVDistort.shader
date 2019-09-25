@@ -2,14 +2,14 @@
 {	
 	Properties
 	{
-		[InlineTexture] _Texture_2D("Distort Map", 2D) = "white" {}
-		[InlineTexture]_UV_2D("UV", 2D) = "white" {}
+		[InlineTexture] _Texture_2D("Distort Map", 2D) = "black" {}
+		[InlineTexture]_UV_2D("UV", 2D) = "black" {}
 
-		[InlineTexture]_Texture_3D("Distort Map", 3D) = "white" {}
-		[InlineTexture]_UV_3D("UV", 3D) = "white" {}
+		[InlineTexture]_Texture_3D("Distort Map", 3D) = "black" {}
+		[InlineTexture]_UV_3D("UV", 3D) = "black" {}
 
-		[InlineTexture]_Texture_Cube("Distort Map", Cube) = "white" {}
-		[InlineTexture]_UV_Cube("Direction", Cube) = "white" {}
+		[InlineTexture]_Texture_Cube("Distort Map", Cube) = "black" {}
+		[InlineTexture]_UV_Cube("Direction", Cube) = "black" {}
 
 		[MixtureVector3]_Scale("Distort Scale", Vector) = (1.0,1.0,1.0,0.0)
 		[MixtureVector3]_Bias("Distort Bias", Vector) = (0.0,0.0,0.0,0.0)
@@ -27,7 +27,8 @@
 			#pragma fragment mixture
 			#pragma target 3.0
 
-			#pragma multi_compile CRT_2D CRT_3D CRT_CUBE
+			#pragma shader_feature CRT_2D CRT_3D CRT_CUBE
+			#pragma shader_feature _ USE_CUSTOM_UV
 
 			TEXTURE_SAMPLER_X(_Texture);
 			TEXTURE_SAMPLER_X(_UV);
@@ -36,9 +37,16 @@
 
 			float4 mixture (v2f_customrendertexture IN) : SV_Target
 			{
-				float3 uv = SAMPLE_X(_UV, float3(IN.localTexcoord.xy, 0), IN.direction).rgb;
-				uv += (SAMPLE_X(_Texture, float3(IN.localTexcoord.xy, 0), IN.direction).rgb + _Bias.xyz) * _Scale.xyz;
-				return float4(uv,1);
+#ifdef USE_CUSTOM_UV
+				float3 uv = SAMPLE_X(_UV, IN.localTexcoord.xyz, IN.direction).rgb;
+#else
+				float3 uv = GetDefaultUVs(IN);
+#endif
+
+				// Scale and Bias does not works on cubemap
+				uv += ScaleBias(SAMPLE_X(_Texture, IN.localTexcoord.xyz, IN.direction).rgb, _Scale.xyz, _Bias.xyz);
+
+				return float4(uv.xy, 1, 1);
 
 			}
 			ENDCG

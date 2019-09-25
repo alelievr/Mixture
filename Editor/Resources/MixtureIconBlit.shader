@@ -19,7 +19,7 @@ Shader "Hidden/MixtureIconBlit"
             #pragma vertex vert
             #pragma fragment frag
 
-            #pragma multi_compile CRT_2D CRT_2D_ARRAY CRT_3D CRT_CUBE
+            #pragma shader_feature CRT_2D CRT_2D_ARRAY CRT_3D CRT_CUBE
 
             #include "UnityCG.cginc"
             #include "MixtureUtils.cginc"

@@ -59,7 +59,7 @@
 			};
 
 			// The list of defines that will be active when processing the node with a certain dimension
-            #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
+            #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 
 			// This macro will declare a version for each dimention (2D, 3D and Cube)
 			TEXTURE_X(_Source);

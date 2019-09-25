@@ -34,7 +34,7 @@ Shader "Hidden/Mixture/Blend"
 			#pragma fragment mixture
 			#pragma target 3.0
 
-            #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
+            #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 
 			// This macro will declare a version for each dimention (2D, 3D and Cube)
 			TEXTURE_SAMPLER_X(_Source);

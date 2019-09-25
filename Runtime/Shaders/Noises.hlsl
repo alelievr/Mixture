@@ -1,85 +1,99 @@
 #ifndef NOISES_HLSL
 # define NOISES_HLSL
 
+#define EUCLIDEAN_DISTANCE  0
+#define MANHATTAN_DISTANCE  1
+#define MINKOWSKI_DISTANCE_0_4  2
+
+#ifdef CUSTOM_DISTANCE
+# define DISTANCE_ALGORITHM CUSTOM_DISTANCE
+#else
+# define DISTANCE_ALGORITHM EUCLIDEAN_DISTANCE
+#endif
+
+#ifdef CUSTOM_DISTANCE_MULTIPLIER
+# define DISTANCE_MULTIPLIER CUSTOM_DISTANCE_MULTIPLIER
+#else
+# define DISTANCE_MULTIPLIER 1.0
+#endif
+
+float MinkowskiDistance(float3 p, float d)
+{
+    float3 v = abs(p);
+    return pow(pow(v.x, d) + pow(v.y, d) + pow(v.z, d), 1.0 / d);
+}
+
+float Distance(float3 p)
+{
+    float d;
+
+    switch (DISTANCE_ALGORITHM)
+    {
+        case MANHATTAN_DISTANCE:
+            d = abs(p.x) + abs(p.y) + abs(p.z); break;
+        case MINKOWSKI_DISTANCE_0_4:
+            d = MinkowskiDistance(p, 0.4); break;
+        case EUCLIDEAN_DISTANCE:
+        default:
+            d = length(p); break;
+    }
+
+    return d * DISTANCE_MULTIPLIER;
+}
+
+float Distance(float2 p) { return Distance(float3(p, 0)); }
+
 // Reference noises based on https://github.com/BrianSharpe/GPU-Noise-Lib/blob/master/gpu_noise_lib.glsl
 
-#define NOISE_TEMPLATE(NAME, COORDINATE_TYPE, RETURN_TYPE, FUNC) \
+#define NOISE_TEMPLATE(NAME, COORDINATE_TYPE, RETURN_TYPE, FUNC_CALL) \
 RETURN_TYPE Generate##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
 { \
     RETURN_TYPE total = 0.0f; \
+    if (DISTANCE_ALGORITHM != EUCLIDEAN_DISTANCE) \
+        total = 1e20; \
 \
     float amplitude = 1.0f; \
     float totalAmplitude = 0.0f; \
 \
     for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
     { \
-        total += FUNC(coordinate * frequency) * amplitude; \
+        if (DISTANCE_ALGORITHM != EUCLIDEAN_DISTANCE) \
+            total = min(total, FUNC_CALL * amplitude); \
+        else \
+            total += FUNC_CALL * amplitude; \
         totalAmplitude += amplitude; \
         amplitude *= persistence; \
         frequency *= lacunarity; \
     } \
  \
-    return total / totalAmplitude; \
+    return total / ((DISTANCE_ALGORITHM != EUCLIDEAN_DISTANCE) ? 1 : totalAmplitude); \
 }
 
-#define RIDGED_NOISE_TEMPLATE(NAME, COORDINATE_TYPE, RETURN_TYPE, FUNC) \
+#define RIDGED_NOISE_TEMPLATE(NAME, COORDINATE_TYPE, RETURN_TYPE, FUNC_CALL) \
 RETURN_TYPE GenerateRidged##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
 { \
     RETURN_TYPE total = 0.0f; \
+    if (DISTANCE_ALGORITHM != EUCLIDEAN_DISTANCE) \
+        total = 1e20; \
 \
     float amplitude = 1.0f; \
     float totalAmplitude = 0.0f; \
 \
     for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
     { \
-        total += abs(FUNC(coordinate * frequency) * amplitude); \
+        if (DISTANCE_ALGORITHM != EUCLIDEAN_DISTANCE) \
+            total = abs(min(total, FUNC_CALL * amplitude)); \
+        else \
+            total += abs(FUNC_CALL * amplitude); \
         totalAmplitude += amplitude; \
         amplitude *= persistence; \
         frequency *= lacunarity; \
     } \
  \
-    return total / totalAmplitude; \
+    return total / ((DISTANCE_ALGORITHM != EUCLIDEAN_DISTANCE) ? 1 : totalAmplitude); \
 }
 
-#define TILED_NOISE_TEMPLATE(NAME, COORDINATE_TYPE, RETURN_TYPE, FUNC) \
-RETURN_TYPE Generate##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
-{ \
-    RETURN_TYPE total = 0.0f; \
-\
-    float amplitude = 1.0f; \
-    float totalAmplitude = 0.0f; \
-\
-    for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
-    { \
-        total += FUNC(coordinate * frequency, frequency) * amplitude; \
-        totalAmplitude += amplitude; \
-        amplitude *= persistence; \
-        frequency *= lacunarity; \
-    } \
- \
-    return total / totalAmplitude; \
-}
-
-#define TILED_RIDGED_NOISE_TEMPLATE(NAME, COORDINATE_TYPE, RETURN_TYPE, FUNC) \
-RETURN_TYPE GenerateRidged##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
-{ \
-    RETURN_TYPE total = 0.0f; \
-\
-    float amplitude = 1.0f; \
-    float totalAmplitude = 0.0f; \
-\
-    for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
-    { \
-        total += abs(FUNC(coordinate * frequency, frequency) * amplitude); \
-        totalAmplitude += amplitude; \
-        amplitude *= persistence; \
-        frequency *= lacunarity; \
-    } \
- \
-    return total / totalAmplitude; \
-}
-
-// #define CURL_NOISE_2D_TEMPLATE(NAME, FUNC) \
+// #define CURL_NOISE_2D_TEMPLATE(NAME, FUNC_CALL) \
 // float2 Generate##NAME##CurlNoise(float2 coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
 // { \
 //     float2 total = float2(0.0f, 0.0f); \
@@ -89,7 +103,7 @@ RETURN_TYPE GenerateRidged##NAME##Noise(COORDINATE_TYPE coordinate, float freque
 // \
 //     for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
 //     { \
-//         float2 derivatives = FUNC(coordinate * frequency).yz; \
+//         float2 derivatives = FUNC_CALL(coordinate * frequency).yz; \
 //         total += derivatives * amplitude; \
 // \
 //         totalAmplitude += amplitude; \
@@ -100,7 +114,7 @@ RETURN_TYPE GenerateRidged##NAME##Noise(COORDINATE_TYPE coordinate, float freque
 //     return float2(total.y, -total.x) / totalAmplitude; \
 // }
 
-// #define CURL_NOISE_3D_TEMPLATE(NAME, FUNC) \
+// #define CURL_NOISE_3D_TEMPLATE(NAME, FUNC_CALL) \
 // float3 Generate##NAME##CurlNoise(float3 coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
 // { \
 //     float2 total[3] = { float2(0.0f, 0.0f), float2(0.0f, 0.0f), float2(0.0f, 0.0f) }; \
@@ -119,7 +133,7 @@ RETURN_TYPE GenerateRidged##NAME##Noise(COORDINATE_TYPE coordinate, float freque
 //     { \
 //         for (int i = 0; i < 3; i++) \
 //         { \
-//             float2 derivatives = FUNC(points[i] * frequency).yz; \
+//             float2 derivatives = FUNC_CALL(points[i] * frequency).yz; \
 //             total[i] += derivatives * amplitude; \
 //         } \
 // \
@@ -198,11 +212,7 @@ float3 GetNoiseUVs(v2f_customrendertexture i, float3 customUvs, int seed)
 #ifdef USE_CUSTOM_UV
     return customUvs + offset;
 #else
-	#ifdef CRT_CUBE
-    return i.direction + offset;
-	#else
-    return i.localTexcoord.xyz + offset;
-	#endif
+    return GetDefaultUVs(i) + offset;
 #endif
 }
 
@@ -386,6 +396,11 @@ float2 modulo(float2 divident, float2 divisor)
     return positiveDivident % divisor;
 }
 
+float3 modulo(float3 divident, float3 divisor)
+{
+    float3 positiveDivident = divident % divisor + divisor;
+    return positiveDivident % divisor;
+}
 
 float easeIn(float interpolator){
     return interpolator * interpolator;
@@ -533,17 +548,17 @@ float tiledPerlinNoise3D(float3 coordinate, float3 period)
 
 #ifdef _TILINGMODE_TILED
 
-TILED_NOISE_TEMPLATE(Perlin2D, float2, float, tiledPerlinNoise2D);
-TILED_NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D);
-TILED_RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float, tiledPerlinNoise2D);
-TILED_RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D);
+NOISE_TEMPLATE(Perlin2D, float2, float, tiledPerlinNoise2D(coordinate * frequency, frequency));
+NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D(coordinate * frequency, frequency));
+RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float, tiledPerlinNoise2D(coordinate * frequency, frequency));
+RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D(coordinate * frequency, frequency));
 
 #else
 
-NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D);
-NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D);
-RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D);
-RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D);
+NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D(coordinate * frequency));
+NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D(coordinate * frequency));
+RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D(coordinate * frequency));
+RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D(coordinate * frequency));
 
 #endif
 
@@ -560,89 +575,189 @@ float4 CellularWeightSamples(float4 samples)
     return (samples * samples * samples) - sign(samples);	// cubic (even more variance)
 }
 
-float3 GenerateCellularNoise2D(float2 coordinate)
+// Credits: https://www.ronja-tutorials.com/2018/10/06/tiling-noise.html
+float rand3dTo1d(float3 value, float3 dotDir = float3(12.9898, 78.233, 37.719))
 {
-    // establish our grid cell and unit position
-    float2 i = floor(coordinate);
-    float2 f = coordinate - i;
-
-    // calculate the hash
-    float4 hash_x, hash_y;
-    NoiseHash2D(i, hash_x, hash_y);
-
-    // generate the 4 random points
-    // restrict the random point offset to eliminate artifacts
-    // we'll improve the variance of the noise by pushing the points to the extremes of the jitter window
-    float kJitterWindow = 0.25f;	// guarantees no artifacts. 0.25 is the intersection on x of graphs f(x)=( (0.5+(0.5-x))^2 + (0.5-x)^2 ) and f(x)=( (0.5+x)^2 + x^2 )
-    hash_x = CellularWeightSamples(hash_x) * kJitterWindow + float4(0.0f, 1.0f, 0.0f, 1.0f);
-    hash_y = CellularWeightSamples(hash_y) * kJitterWindow + float4(0.0f, 0.0f, 1.0f, 1.0f);
-
-    // return the closest squared distance (+ derivs)
-    // thanks to Jonathan Dupuy for the initial implementation
-    float4 dx = f.xxxx - hash_x;
-    float4 dy = f.yyyy - hash_y;
-    float4 d = dx * dx + dy * dy;
-    float3 t1 = d.x < d.y ? float3(d.x, dx.x, dy.x) : float3(d.y, dx.y, dy.y);
-    float3 t2 = d.z < d.w ? float3(d.z, dx.z, dy.z) : float3(d.w, dx.w, dy.w);
-    return (t1.x < t2.x ? t1 : t2) * float3(1.0f, 2.0f, 2.0f) * (1.0f / 1.125f); // scale return value from 0.0->1.125 to 0.0->1.0 (0.75^2 * 2.0  == 1.125)
+	//make value smaller to avoid artefacts
+	float3 smallValue = sin(value);
+	//get scalar value from 3d vector
+	float random = dot(smallValue, dotDir);
+	//make value more random by making it bigger and then taking the factional part
+	random = frac(sin(random) * 143758.5453);
+	return random;
 }
 
-float4 GenerateCellularNoise3D(float3 coordinate)
+float3 rand3dTo3d(float3 value)
 {
-    // establish our grid cell and unit position
-    float3 i = floor(coordinate);
-    float3 f = coordinate - i;
-
-    // calculate the hash
-    float4 hash_x0, hash_y0, hash_z0, hash_x1, hash_y1, hash_z1;
-    NoiseHash3D(i, hash_x0, hash_y0, hash_z0, hash_x1, hash_y1, hash_z1);
-
-    // generate the 8 random points
-    // restrict the random point offset to eliminate artifacts
-    // we'll improve the variance of the noise by pushing the points to the extremes of the jitter window
-    float kJitterWindow = 0.236666666f;	// empirical value to have good balance between artifacts and repetition
-    hash_x0 = CellularWeightSamples(hash_x0) * kJitterWindow + float4(0.0f, 1.0f, 0.0f, 1.0f);
-    hash_y0 = CellularWeightSamples(hash_y0) * kJitterWindow + float4(0.0f, 0.0f, 1.0f, 1.0f);
-    hash_x1 = CellularWeightSamples(hash_x1) * kJitterWindow + float4(0.0f, 1.0f, 0.0f, 1.0f);
-    hash_y1 = CellularWeightSamples(hash_y1) * kJitterWindow + float4(0.0f, 0.0f, 1.0f, 1.0f);
-    hash_z0 = CellularWeightSamples(hash_z0) * kJitterWindow + float4(0.0f, 0.0f, 0.0f, 0.0f);
-    hash_z1 = CellularWeightSamples(hash_z1) * kJitterWindow + float4(1.0f, 1.0f, 1.0f, 1.0f);
-
-    // return the closest squared distance (+ derivs)
-    // thanks to Jonathan Dupuy for the initial implementation
-    float4 dx1 = f.xxxx - hash_x0;
-    float4 dy1 = f.yyyy - hash_y0;
-    float4 dz1 = f.zzzz - hash_z0;
-    float4 dx2 = f.xxxx - hash_x1;
-    float4 dy2 = f.yyyy - hash_y1;
-    float4 dz2 = f.zzzz - hash_z1;
-    float4 d1 = dx1 * dx1 + dy1 * dy1 + dz1 * dz1;
-    float4 d2 = dx2 * dx2 + dy2 * dy2 + dz2 * dz2;
-    float4 r1 = d1.x < d1.y ? float4(d1.x, dx1.x, dy1.x, dz1.x) : float4(d1.y, dx1.y, dy1.y, dz1.y);
-    float4 r2 = d1.z < d1.w ? float4(d1.z, dx1.z, dy1.z, dz1.z) : float4(d1.w, dx1.w, dy1.w, dz1.w);
-    float4 r3 = d2.x < d2.y ? float4(d2.x, dx2.x, dy2.x, dz2.x) : float4(d2.y, dx2.y, dy2.y, dz2.y);
-    float4 r4 = d2.z < d2.w ? float4(d2.z, dx2.z, dy2.z, dz2.z) : float4(d2.w, dx2.w, dy2.w, dz2.w);
-    float4 t1 = r1.x < r2.x ? r1 : r2;
-    float4 t2 = r3.x < r4.x ? r3 : r4;
-    return (t1.x < t2.x ? t1 : t2) * float4(1.0f, 2.0f, 2.0f, 2.0f) * (9.0f / 12.0f);	// scale return value from 0.0->1.333333 to 0.0->1.0 (2/3)^2 * 3  == (12/9) == 1.333333;
+	return float3(
+		rand3dTo1d(value, float3(12.989, 78.233, 37.719)),
+		rand3dTo1d(value, float3(39.346, 11.135, 83.155)),
+		rand3dTo1d(value, float3(73.156, 52.235, 09.151))
+	);
 }
 
-float3 GenerateRidgedCellularNoise2D(float2 coordinate)
+float rand2dTo1d(float2 value, float2 dotDir = float2(12.9898, 78.233))
 {
-    float3 r = GenerateCellularNoise2D(coordinate);
-    return r * 2 - 1.0;
+	float2 smallValue = sin(value);
+	float random = dot(smallValue, dotDir);
+	random = frac(sin(random) * 143758.5453);
+	return random;
 }
 
-float4 GenerateRidgedCellularNoise3D(float3 coordinate)
+float2 rand2dTo2d(float2 value)
 {
-    float4 r = GenerateCellularNoise3D(coordinate);
-    return r * 2 - 1.0;
+	return float2(
+		rand2dTo1d(value, float2(12.989, 78.233)),
+		rand2dTo1d(value, float2(39.346, 11.135))
+	);
 }
 
-NOISE_TEMPLATE(Cellular2D, float2, float3, GenerateCellularNoise2D);
-NOISE_TEMPLATE(Cellular3D, float3, float4, GenerateCellularNoise3D);
-RIDGED_NOISE_TEMPLATE(Cellular2D, float2, float3, GenerateRidgedCellularNoise2D);
-RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float4, GenerateRidgedCellularNoise3D);
+float3 tiledCellularNoise2D(float2 coordinate, float2 period)
+{
+    float2 baseCell = floor(coordinate);
+
+    //first pass to find the closest cell
+    float minDistToCell = 10;
+    float2 toClosestCell;
+    float2 closestCell;
+    [unroll]
+    for(int x1=-1; x1<=1; x1++)
+    {
+        [unroll]
+        for(int y1=-1; y1<=1; y1++)
+        {
+            float2 cell = baseCell + float2(x1, y1);
+            float2 tiledCell = modulo(cell, period);
+            float2 cellPosition = cell + rand2dTo2d(tiledCell);
+            float2 toCell = cellPosition - coordinate;
+            float distToCell = Distance(toCell);
+
+            if(distToCell < minDistToCell)
+            {
+                minDistToCell = distToCell;
+                closestCell = cell;
+                toClosestCell = toCell;
+            }
+        }
+    }
+
+    //second pass to find the distance to the closest edge
+    float minEdgeDistance = 10;
+    [unroll]
+    for(int x2=-1; x2<=1; x2++)
+    {
+        [unroll]
+        for(int y2=-1; y2<=1; y2++)
+        {
+            float2 cell = baseCell + float2(x2, y2);
+            float2 tiledCell = modulo(cell, period);
+            float2 cellPosition = cell + rand2dTo2d(tiledCell);
+            float2 toCell = cellPosition - coordinate;
+
+            float2 diffToClosestCell = abs(closestCell - cell);
+            bool isClosestCell = diffToClosestCell.x + diffToClosestCell.y < 0.1;
+            if(!isClosestCell)
+            {
+                float2 toCenter = (toClosestCell + toCell) * 0.5;
+                float2 cellDifference = normalize(toCell - toClosestCell);
+                float edgeDistance = dot(toCenter, cellDifference);
+                minEdgeDistance = min(minEdgeDistance, edgeDistance);
+            }
+        }
+    }
+
+    float random = rand2dTo1d(closestCell);
+    return float3(pow(minDistToCell, 2.2), random, minEdgeDistance); // Gamma convertion
+}
+
+float3 tiledCellularNoise3D(float3 coordinate, float3 period)
+{
+    float3 baseCell = floor(coordinate);
+
+    //first pass to find the closest cell
+    float minDistToCell = 10;
+    float3 toClosestCell;
+    float3 closestCell;
+    [unroll]
+    for(int x1=-1; x1<=1; x1++)
+    {
+        [unroll]
+        for(int y1=-1; y1<=1; y1++)
+        {
+            [unroll]
+            for(int z1=-1; z1<=1; z1++)
+            {
+                float3 cell = baseCell + float3(x1, y1, z1);
+                float3 tiledCell = modulo(cell, period);
+                float3 cellPosition = cell + rand3dTo3d(tiledCell);
+                float3 toCell = cellPosition - coordinate;
+                float distToCell = Distance(toCell);
+                if(distToCell < minDistToCell)
+                {
+                    minDistToCell = distToCell;
+                    closestCell = cell;
+                    toClosestCell = toCell;
+                }
+            }
+        }
+    }
+
+    //second pass to find the distance to the closest edge
+    float minEdgeDistance = 10;
+    [unroll]
+    for(int x2=-1; x2<=1; x2++)
+    {
+        [unroll]
+        for(int y2=-1; y2<=1; y2++)
+        {
+            [unroll]
+            for(int z2=-1; z2<=1; z2++)
+            {
+                float3 cell = baseCell + float3(x2, y2, z2);
+                float3 tiledCell = modulo(cell, period);
+                float3 cellPosition = cell + rand3dTo3d(tiledCell);
+                float3 toCell = cellPosition - coordinate;
+
+                float3 diffToClosestCell = abs(closestCell - cell);
+                bool isClosestCell = diffToClosestCell.x + diffToClosestCell.y + diffToClosestCell.z < 0.1;
+                if(!isClosestCell)
+                {
+                    float3 toCenter = (toClosestCell + toCell) * 0.5;
+                    float3 cellDifference = normalize(toCell - toClosestCell);
+                    float edgeDistance = dot(toCenter, cellDifference);
+                    minEdgeDistance = min(minEdgeDistance, edgeDistance);
+                }
+            }
+        }
+    }
+
+    float random = rand3dTo1d(closestCell);
+    return float3(pow(minDistToCell, 2.2), random, minEdgeDistance);
+}
+
+float3 GenerateCellularNoise2D(float2 coordinate) { return tiledCellularNoise2D(coordinate, float2(100000, 100000)); }
+float3 GenerateCellularNoise3D(float3 coordinate) { return tiledCellularNoise3D(coordinate, float3(100000, 100000, 100000)); }
+float3 GenerateRidgedCellularNoise2D(float2 coordinate) { return tiledCellularNoise2D(coordinate, float2(100000, 100000)) * 2 - 1; }
+float3 GenerateRidgedCellularNoise3D(float3 coordinate) { return tiledCellularNoise3D(coordinate, float3(100000, 100000, 100000)) * 2 - 1; }
+
+float3 ridgedTiledCellularNoise2D(float2 coordinate, float2 period) { return tiledCellularNoise2D(coordinate, period) * 2 - 1; }
+float3 ridgedTiledCellularNoise3D(float3 coordinate, float3 period) { return tiledCellularNoise3D(coordinate, period) * 2 - 1; }
+
+#ifdef _TILINGMODE_TILED
+
+NOISE_TEMPLATE(Cellular2D, float2, float3, tiledCellularNoise2D(coordinate * frequency, frequency));
+NOISE_TEMPLATE(Cellular3D, float3, float3, tiledCellularNoise3D(coordinate * frequency, frequency));
+RIDGED_NOISE_TEMPLATE(Cellular2D, float2, float3, ridgedTiledCellularNoise2D(coordinate * frequency, frequency));
+RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float3, ridgedTiledCellularNoise3D(coordinate * frequency, frequency));
+
+#else
+
+NOISE_TEMPLATE(Cellular2D, float2, float3, GenerateCellularNoise2D(coordinate * frequency));
+NOISE_TEMPLATE(Cellular3D, float3, float3, GenerateCellularNoise3D(coordinate * frequency));
+RIDGED_NOISE_TEMPLATE(Cellular2D, float2, float3, GenerateRidgedCellularNoise2D(coordinate * frequency));
+RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float3, GenerateRidgedCellularNoise3D(coordinate * frequency));
+
+#endif
 
 // CURL_NOISE_2D_TEMPLATE(Cellular2D, GenerateCellularNoise2D);
 // CURL_NOISE_3D_TEMPLATE(Cellular3D, GenerateCellularNoise2D);
