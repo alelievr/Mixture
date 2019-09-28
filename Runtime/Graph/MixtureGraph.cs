@@ -195,6 +195,7 @@ namespace Mixture
 					return;
 			}
 		}
+#if UNITY_EDITOR
         public void SaveExternalTexture(ExternalOutputNode external, bool saveAs = false)
         {
             try
@@ -320,6 +321,7 @@ namespace Mixture
                 EditorUtility.ClearProgressBar();
             }
         }
+#endif
 
         public void SaveMainTexture()
         {
@@ -438,7 +440,9 @@ namespace Mixture
 
         void CompressTexture(Texture2D t)
         {
+#if UNITY_EDITOR
             EditorUtility.CompressTexture(t, (TextureFormat)outputNode.compressionFormat, (UnityEditor.TextureCompressionQuality)outputNode.compressionQuality);
+#endif
         }
 
     }

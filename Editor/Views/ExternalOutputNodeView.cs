@@ -48,23 +48,33 @@ namespace Mixture
 
             controlsContainer.Add(nodeSettings);
 
-            // Add Buttons
-            saveButton = new Button(SaveExternal)
+            if(graph.isRealtime)
             {
-                text = "Save As..."
-            };
-            updateButton = new Button(UpdateExternal)
+                controlsContainer.Add(new IMGUIContainer(() =>
+                {
+                    EditorGUILayout.HelpBox("Using this node in a realtime Mixture Graph is not supported", MessageType.Warning);
+                }));
+            }
+            else
             {
-                text = "Update"
-            };
+                // Add Buttons
+                saveButton = new Button(SaveExternal)
+                {
+                    text = "Save As..."
+                };
+                updateButton = new Button(UpdateExternal)
+                {
+                    text = "Update"
+                };
 
-            var horizontal = new VisualElement();
-            horizontal.style.flexDirection = FlexDirection.Row;
-            horizontal.Add(saveButton);
-            horizontal.Add(updateButton);
-            controlsContainer.Add(horizontal);
+                var horizontal = new VisualElement();
+                horizontal.style.flexDirection = FlexDirection.Row;
+                horizontal.Add(saveButton);
+                horizontal.Add(updateButton);
+                controlsContainer.Add(horizontal);
+                UpdateButtons();
+            }
 
-            UpdateButtons();
         }
 
         void UpdateButtons()

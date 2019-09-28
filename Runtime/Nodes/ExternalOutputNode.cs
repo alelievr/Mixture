@@ -64,6 +64,19 @@ namespace Mixture
             }
 
             onSettingsChanged += () => { ProcessNode(); };
+
+        }
+
+        protected override bool ProcessNode()
+        {
+            if(!graph.isRealtime)
+                return base.ProcessNode();
+            else
+            {
+                if (uniqueMessages.Add("RealtimeNotSupported"))
+                    AddMessage("Using this node in a real-time mixture graph is not supported.", NodeMessageType.Warning);
+                return false;
+            }
         }
 
     }
