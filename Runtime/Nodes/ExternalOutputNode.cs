@@ -63,15 +63,7 @@ namespace Mixture
                 UpdateTempRenderTexture(ref tempRenderTexture);
             }
 
-            onSettingsChanged += () =>
-            {
-                ProcessNode();
-            };
-        }
-
-        protected override bool ProcessNode()
-        {
-            return base.ProcessNode();
+            onSettingsChanged += () => { ProcessNode(); };
         }
 
     }

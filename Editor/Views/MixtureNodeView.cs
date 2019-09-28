@@ -256,7 +256,8 @@ namespace Mixture
 		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)
 		{
 		        var previewElement = new IMGUIContainer(() => {
-
+                    if (texture == null)
+                        return;
                     GUILayout.Space(6);
                     // square image:
                     using(new GUILayout.HorizontalScope(EditorStyles.toolbar, GUILayout.Height(12)))

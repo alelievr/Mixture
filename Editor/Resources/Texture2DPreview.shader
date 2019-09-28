@@ -56,8 +56,8 @@
 
             float4 frag (v2f i) : SV_Target
             {
-				float2 uvs = ceil(fmod(i.uv * _Size.xy / 64.0, 1.0)-0.5);
-				float3 checkerboard = lerp(0.3,0.4,uvs.x != uvs.y ? 1 : 0);
+				float2 checkerboardUVs = ceil(fmod(i.uv * _Size.xy / 64.0, 1.0)-0.5);
+				float3 checkerboard = lerp(0.3,0.4, checkerboardUVs.x != checkerboardUVs.y ? 1 : 0);
 				float4 color = tex2Dlod(_MainTex, float4(i.uv, 0.0, floor(_PreviewMip))) * _Channels;
 				
 				if (_Channels.a == 0.0) 
