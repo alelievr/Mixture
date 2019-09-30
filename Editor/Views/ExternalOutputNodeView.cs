@@ -35,10 +35,28 @@ namespace Mixture
                     EditorGUI.EndDisabledGroup();
                 }
                 EditorGUI.BeginChangeCheck();
-                var outputType = EditorGUILayout.EnumPopup("Output Type", externalOutputNode.outputType);
+                var outputDimension = EditorGUILayout.EnumPopup("Output Dimension", externalOutputNode.externalOutputDimension);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    externalOutputNode.externalOutputDimension = (ExternalOutputNode.ExternalOutputDimension)outputDimension;
+                    switch(outputDimension)
+                    {
+                        case ExternalOutputNode.ExternalOutputDimension.Texture2D:
+                            externalOutputNode.rtSettings.dimension = OutputDimension.Texture2D;
+                            break;
+                        case ExternalOutputNode.ExternalOutputDimension.Texture3D:
+                            externalOutputNode.rtSettings.dimension = OutputDimension.Texture3D;
+                            break;
+                    }
+                    externalOutputNode.OnSettingsChanged();
+                    MarkDirtyRepaint();
+                }
+
+                EditorGUI.BeginChangeCheck();
+                var outputType = EditorGUILayout.EnumPopup("Output Type", externalOutputNode.external2DOoutputType);
                 if(EditorGUI.EndChangeCheck())
                 {
-                    externalOutputNode.outputType = (ExternalOutputNode.OutputType)outputType;
+                    externalOutputNode.external2DOoutputType = (ExternalOutputNode.External2DOutputType)outputType;
                     MarkDirtyRepaint();
                 }
                 GUILayout.Space(8);

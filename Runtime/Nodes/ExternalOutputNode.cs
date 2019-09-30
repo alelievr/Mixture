@@ -14,7 +14,12 @@ namespace Mixture
     [Serializable, NodeMenuItem("External Output")]
     public class ExternalOutputNode : OutputNode
     {
-        public enum OutputType
+        public enum ExternalOutputDimension
+        {
+            Texture2D,
+            Texture3D
+        }
+        public enum External2DOutputType
         {
             Color,
             Normal,
@@ -24,7 +29,9 @@ namespace Mixture
         public override string name => "External Output";
 
         public Texture asset;
-        public OutputType outputType = OutputType.Color;
+
+        public ExternalOutputDimension externalOutputDimension = ExternalOutputDimension.Texture2D;
+        public External2DOutputType external2DOoutputType = External2DOutputType.Color;
 
         public override bool hasSettings => true;
 
@@ -70,7 +77,17 @@ namespace Mixture
         protected override bool ProcessNode()
         {
             if(!graph.isRealtime)
-                return base.ProcessNode();
+            {
+                if(rtSettings.dimension != OutputDimension.CubeMap)
+                    return base.ProcessNode();
+                else
+                {
+                    if (uniqueMessages.Add("CubemapNotSupported"))
+                        AddMessage("Using texture cubes with this node is not supported.", NodeMessageType.Warning);
+                    return false;
+                }
+
+            }
             else
             {
                 if (uniqueMessages.Add("RealtimeNotSupported"))

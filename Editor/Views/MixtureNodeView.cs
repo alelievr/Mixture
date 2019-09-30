@@ -30,9 +30,9 @@ namespace Mixture
 		{
 			var view = new MixtureRTSettingsView(nodeTarget, owner);
             view.AddToClassList("RTSettingsView");
-			view.RegisterChangedCallback(nodeTarget.OnSettingsChanged);
+            view.RegisterChangedCallback(nodeTarget.OnSettingsChanged);
 
-			return view;
+            return view;
 		}
 
 		const string stylesheetName = "MixtureCommon";
@@ -82,16 +82,48 @@ namespace Mixture
 			RefreshPorts();
 		}
 
+        void ResetTexturePreview()
+        {
+            previewContainer = null;
+            UpdateTexturePreview();
+        }
+
 		void UpdateTexturePreview()
 		{
-			if (hasPreview && previewContainer == null)
+			if (hasPreview)
 			{
-                CreateTexturePreview(ref previewContainer, nodeTarget.previewTexture); // TODO : Add Slice Preview
-                controlsContainer.Add(previewContainer);
-			}
+                if(previewContainer == null)
+                {
+                    CreateTexturePreview(ref previewContainer, nodeTarget.previewTexture); // TODO : Add Slice Preview
+                    controlsContainer.Add(previewContainer);
+                }
+                else if(CheckDimensionChanged())
+                {
+                    CreateTexturePreview(ref previewContainer, nodeTarget.previewTexture); // TODO : Add Slice Preview
+                }
+            }
+            
 		}
 
-		bool CheckPropertyChanged(Material material, MaterialProperty[] properties)
+        bool CheckDimensionChanged()
+        {
+            if(nodeTarget.previewTexture is CustomRenderTexture)
+            {
+                return (nodeTarget.previewTexture as CustomRenderTexture).dimension.ToString() != previewContainer.name;
+            }
+            else if (nodeTarget.previewTexture is Texture2D && previewContainer.name == "Texture2D")
+                return true;
+            else if (nodeTarget.previewTexture is Texture2DArray && previewContainer.name == "Texture2DArray")
+                return true;
+            else if (nodeTarget.previewTexture is Texture3D && previewContainer.name == "Texture3D")
+                return true;
+            else if (nodeTarget.previewTexture is Cubemap && previewContainer.name == "Cubemap")
+                return true;
+            else
+                return false;
+        }
+
+        bool CheckPropertyChanged(Material material, MaterialProperty[] properties)
 		{
 			bool propertyChanged = false;
 			MaterialProperty[]  oldProperties;
@@ -207,6 +239,7 @@ namespace Mixture
 					Debug.LogError(texture + " is not a supported type for preview");
 					return;
 			}
+            previewContainer.name = texture.dimension.ToString();
 
 			Button togglePreviewButton = null;
 			togglePreviewButton = new Button(() => {

@@ -288,17 +288,17 @@ namespace Mixture
                     AssetDatabase.Refresh();
 
                     TextureImporter importer = (TextureImporter)AssetImporter.GetAtPath(assetPath);
-                    switch (external.outputType)
+                    switch (external.external2DOoutputType)
                     {
-                        case ExternalOutputNode.OutputType.Color:
+                        case ExternalOutputNode.External2DOutputType.Color:
                             importer.textureType = TextureImporterType.Default;
                             importer.sRGBTexture = true;
                             break;
-                        case ExternalOutputNode.OutputType.Linear:
+                        case ExternalOutputNode.External2DOutputType.Linear:
                             importer.textureType = TextureImporterType.Default;
                             importer.sRGBTexture = false;
                             break;
-                        case ExternalOutputNode.OutputType.Normal:
+                        case ExternalOutputNode.External2DOutputType.Normal:
                             importer.textureType = TextureImporterType.NormalMap;
                             break;
                     }
