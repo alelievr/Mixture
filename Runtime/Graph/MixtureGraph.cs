@@ -301,6 +301,10 @@ namespace Mixture
                         case ExternalOutputNode.External2DOutputType.Normal:
                             importer.textureType = TextureImporterType.NormalMap;
                             break;
+                        case ExternalOutputNode.External2DOutputType.LatLonCubemap:
+                            importer.textureShape = TextureImporterShape.TextureCube;
+                            importer.generateCubemap = TextureImporterGenerateCubemap.Cylindrical;
+                            break;
                     }
                     importer.SaveAndReimport();
                     var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);

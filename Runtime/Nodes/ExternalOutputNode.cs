@@ -24,6 +24,7 @@ namespace Mixture
             Color,
             Normal,
             Linear,
+            LatLonCubemap
         }
 
         public override string name => "External Output";
