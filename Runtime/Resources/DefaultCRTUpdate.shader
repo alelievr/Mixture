@@ -15,7 +15,7 @@
             #pragma vertex vert
             #pragma fragment frag
             // make fog work
-            #pragma multi_compile_fog
+            #pragma shader_feature_fog
 
             #include "UnityCG.cginc"
 

@@ -92,7 +92,7 @@ namespace Mixture
             mixture.UpdateOutputTexture(true);
 			AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(mixture), ImportAssetOptions.ForceUpdate | ImportAssetOptions.ImportRecursive | ImportAssetOptions.DontDownloadFromCacheServer);
             AssetDatabase.Refresh();
-            MixtureGraphWindow.Open().InitializeGraph(mixture);
+            MixtureGraphWindow.Open(mixture);
 		}
     }
 }

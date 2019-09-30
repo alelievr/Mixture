@@ -22,7 +22,6 @@
 		Pass
 		{
 			CGPROGRAM
-			float _Frequency;
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Noises.hlsl"
 			#include "UnityCustomRenderTexture.cginc"
@@ -31,12 +30,13 @@
 			#pragma target 3.0
 
 			// The list of defines that will be active when processing the node with a certain dimension
-            #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
-			#pragma multi_compile _ USE_CUSTOM_UV
-			#pragma multi_compile _TILINGMODE_NONE _TILINGMODE_TILED
+            #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
+			#pragma shader_feature _ USE_CUSTOM_UV
+			#pragma shader_feature _TILINGMODE_NONE _TILINGMODE_TILED
 
 			// This macro will declare a version for each dimention (2D, 3D and Cube)
 			TEXTURE_SAMPLER_X(_UV);
+			float _Frequency;
 			float _Octaves;
 			float2 _OutputRange;
 			float _Lacunarity;
@@ -53,7 +53,7 @@
 				float3 noise = GeneratePerlin3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rrr;
 #endif
 
-				return float4(Remap(noise, -1, 1, _OutputRange.x, _OutputRange.y), 1);
+				return float4(RemapClamp(noise, -1, 1, _OutputRange.x, _OutputRange.y), 1);
 			}
 			ENDCG
 		}

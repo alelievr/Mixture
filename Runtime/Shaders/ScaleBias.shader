@@ -23,7 +23,7 @@
 			#pragma fragment mixture
 			#pragma target 3.0
 
-            #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
+            #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 
 			TEXTURE_SAMPLER_X(_Texture);
 			float _Mode;
@@ -36,10 +36,10 @@
 				uint mode = (uint)_Mode;
 				switch (mode)
 				{
-					case 0: col = (col * _Scale) + _Bias; break;
-					case 1: col = (col + _Bias) + _Scale; break;
-					case 2: col = col * _Scale; break;
-					case 3: col = col + _Bias; break;
+					case 0: col = ScaleBias(col, _Scale, _Bias); break;
+					case 1: col = ScaleBias(col, _Bias, _Scale); break;
+					case 2: col = ScaleBias(col, _Scale, 0); break;
+					case 3: col = ScaleBias(col 1, _Bias); break;
 				}
 				return col;
 			}

@@ -89,7 +89,7 @@ namespace Mixture
 				if (graph == null)
 					return false;
 
-				MixtureGraphWindow.Open().InitializeGraph(graph);
+				MixtureGraphWindow.Open(graph);
 				return true;
 			}
 			return false;

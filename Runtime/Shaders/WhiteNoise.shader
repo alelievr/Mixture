@@ -21,7 +21,7 @@
 			#pragma target 3.0
 
 			// The list of defines that will be active when processing the node with a certain dimension
-            #pragma multi_compile CRT_2D CRT_3D CRT_CUBE
+            #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 
 			float _Mode;
 

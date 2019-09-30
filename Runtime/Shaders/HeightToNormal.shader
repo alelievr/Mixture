@@ -20,7 +20,7 @@
 			#pragma fragment mixture
 			#pragma target 3.0
 
-            #pragma multi_compile CRT_2D
+            #pragma shader_feature CRT_2D
 
 			TEXTURE_SAMPLER_X(_Source);
 			float _Channel;
