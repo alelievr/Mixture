@@ -77,6 +77,8 @@ namespace Mixture
 
         protected override bool ProcessNode()
         {
+            uniqueMessages.Clear();
+
             if(!graph.isRealtime)
             {
                 if(rtSettings.dimension != OutputDimension.CubeMap)

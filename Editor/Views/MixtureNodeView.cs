@@ -82,12 +82,6 @@ namespace Mixture
 			RefreshPorts();
 		}
 
-        void ResetTexturePreview()
-        {
-            previewContainer = null;
-            UpdateTexturePreview();
-        }
-
 		void UpdateTexturePreview()
 		{
 			if (hasPreview)
