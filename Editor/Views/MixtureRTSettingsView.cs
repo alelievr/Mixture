@@ -256,7 +256,9 @@ namespace Mixture
             SetVisible(outputHeightPercentage, rtSettings.CanEdit(EditFlags.Height) && node.rtSettings.heightMode == OutputSizeMode.PercentageOfOutput);
 			SetVisible(outputDepth, rtSettings.CanEdit(EditFlags.Depth) && node.rtSettings.depthMode == OutputSizeMode.Fixed);
             SetVisible(outputDepthPercentage, rtSettings.CanEdit(EditFlags.Depth) && node.rtSettings.depthMode == OutputSizeMode.PercentageOfOutput);
-		}
+            SetVisible(outputDimension, rtSettings.CanEdit(EditFlags.Dimension));
+            SetVisible(outputFormat, rtSettings.CanEdit(EditFlags.TargetFormat));
+        }
 
         public void RegisterChangedCallback(Action callback) => onChanged = callback;
     }

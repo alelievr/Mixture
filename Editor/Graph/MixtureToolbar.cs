@@ -18,6 +18,7 @@ namespace Mixture
 		{
 			public const string realtimePreviewToggleText = "RealTime Preview";
 			public const string processButtonText = "Process";
+            public const string saveAllText = "Save All";
 		}
 
 		protected override void AddButtons()
@@ -30,7 +31,38 @@ namespace Mixture
 			// For now we don't display the show parameters
 			// AddToggle("Show Parameters", exposedParamsVisible, (v) => graphView.ToggleView<ExposedParameterView>());
 			AddButton("Show In Project", () => EditorGUIUtility.PingObject(graphView.graph));
+            AddButton(Styles.saveAllText, SaveAll , left: false);
 		}
+
+        void SaveAll()
+        {
+            try
+            {
+                EditorUtility.DisplayProgressBar("Mixture", "Saving All...", 0.0f);
+                List<ExternalOutputNode> externalOutputs = new List<ExternalOutputNode>();
+
+                foreach(var node in graph.nodes)
+                {
+                    if(node is ExternalOutputNode && (node as ExternalOutputNode).asset != null)
+                    {
+                        externalOutputs.Add(node as ExternalOutputNode);
+                    }
+                }
+
+                int i = 0;
+                foreach(var node in externalOutputs)
+                {
+                    EditorUtility.DisplayProgressBar("Mixture", $"Saving {node.asset.name}...", (float)i/externalOutputs.Count);
+                    (node as ExternalOutputNode).OnProcess();
+                    graph.SaveExternalTexture((node as ExternalOutputNode), false);
+                    i++;
+                }
+            }
+            finally
+            {
+                EditorUtility.ClearProgressBar();
+            }
+        }
 
 		void ToggleRealtime(bool state)
 		{

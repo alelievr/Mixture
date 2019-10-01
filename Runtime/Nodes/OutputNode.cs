@@ -47,7 +47,7 @@ namespace Mixture
 		
 		// TODO: move this to NodeGraphProcessor
 		[NonSerialized]
-		HashSet< string > uniqueMessages = new HashSet< string >();
+		protected HashSet< string > uniqueMessages = new HashSet< string >();
 
 		protected override MixtureRTSettings defaultRTSettings
         {

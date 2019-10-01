@@ -42,6 +42,12 @@ namespace Mixture
 			}
 
 			graph.outputNode.tempRenderTexture.Update();
+
+            var external = graph.nodes.FindAll(node => node.GetType() == typeof(ExternalOutputNode));
+            foreach(var node in external)
+            {
+                (node as ExternalOutputNode).tempRenderTexture.Update();
+            }
 		}
 	}
 }

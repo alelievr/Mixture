@@ -57,6 +57,8 @@ namespace Mixture
                 filterMode = FilterMode.Bilinear,
 			};
 		}
+
+        public bool isHDR => targetFormat != OutputFormat.RGBA_LDR && targetFormat != OutputFormat.RGB_LDR; 
 		
 		public bool CanEdit(EditFlags flag) => (this.editFlags & flag) != 0;
 

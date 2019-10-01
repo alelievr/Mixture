@@ -34,8 +34,18 @@ namespace Mixture
 		public virtual bool					showDefaultInspector => false;
 
 		public event Action					onSettingsChanged;
-		
-		public override void OnNodeCreated()
+
+        // UI Serialization
+        [SerializeField]
+        public PreviewChannels previewMode = PreviewChannels.RGBA;
+        [SerializeField]
+        public float previewMip = 0.0f;
+        [SerializeField]
+        public bool previewVisible = true;
+
+
+
+        public override void OnNodeCreated()
 		{
 			base.OnNodeCreated();
 			rtSettings = defaultRTSettings;
@@ -68,6 +78,7 @@ namespace Mixture
                     doubleBuffered = rtSettings.doubleBuffered,
                     wrapMode = rtSettings.wrapMode,
                     filterMode = rtSettings.filterMode,
+                    useMipMap = true,
 				};
 				target.Create();
 
@@ -96,6 +107,7 @@ namespace Mixture
 				target.doubleBuffered = rtSettings.doubleBuffered;
                 target.wrapMode = rtSettings.wrapMode;
                 target.filterMode = rtSettings.filterMode;
+                target.useMipMap = true;
 				target.Create();
 			}
 
@@ -323,4 +335,17 @@ namespace Mixture
 		RGBA_Float = GraphicsFormat.R32G32B32A32_SFloat,
 		RGB_Float = GraphicsFormat.R32G32B32_SFloat,
 	}
+
+    public enum PreviewChannels
+    {
+        R = 1,
+        G = 2,
+        B = 4,
+        A = 8,
+        RG = R | G,
+        RB = R | B,
+        GB = G | B,
+        RGB = R | G | B,
+        RGBA = R | G | B | A,
+    }
 }

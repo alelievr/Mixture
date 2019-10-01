@@ -55,7 +55,21 @@ namespace Mixture
 			}
 		}
 
-		static Material _texture3DPreviewMaterial;
+        static Material _texture2DPreviewMaterial;
+        public static Material texture2DPreviewMaterial
+        {
+            get
+            {
+                if (_texture2DPreviewMaterial == null)
+                {
+                    _texture2DPreviewMaterial = new Material(Shader.Find("Hidden/MixtureTexture2DPreview"));
+                }
+
+                return _texture2DPreviewMaterial;
+            }
+        }
+
+        static Material _texture3DPreviewMaterial;
 		public static Material texture3DPreviewMaterial
 		{
 			get
