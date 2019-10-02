@@ -45,7 +45,7 @@ namespace Mixture
             }
         }
 
-        public void GenerateNodeFunction(FunctionRegistry registry, GraphContext graphContext, GenerationMode generationMode)
+        public void GenerateNodeFunction(FunctionRegistry registry, GenerationMode generationMode)
         {
             // For preview only we declare CRT defines
             if (generationMode == GenerationMode.Preview)
@@ -94,7 +94,7 @@ namespace Mixture
             }
         }
 
-        public void GenerateNodeFunction(FunctionRegistry registry, GraphContext graphContext, GenerationMode generationMode)
+        public void GenerateNodeFunction(FunctionRegistry registry, GenerationMode generationMode)
         {
             // For preview only we declare CRT defines
             if (generationMode == GenerationMode.Preview)
@@ -145,7 +145,7 @@ namespace Mixture
             }
         }
 
-        public void GenerateNodeFunction(FunctionRegistry registry, GraphContext graphContext, GenerationMode generationMode)
+        public void GenerateNodeFunction(FunctionRegistry registry, GenerationMode generationMode)
         {
             // For preview only we declare CRT defines
             if (generationMode == GenerationMode.Preview)

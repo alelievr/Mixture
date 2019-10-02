@@ -374,6 +374,10 @@ namespace Mixture
                         colors32 = request.GetData<Color32>(slice);
                         SetPixelsColor32(colors32.ToArray());
                         break;
+                    case OutputFormat.R8_Unsigned:
+                        var r8Colors = request.GetData<byte>(slice);
+                        SetPixelsColor32(r8Colors.Select(r => new Color32(r, 0, 0, 0)).ToArray());
+                        break;
                     case OutputFormat.RGBA_Half: // For now we don't support half readback
                     case OutputFormat.RGB_Half:
                     default:

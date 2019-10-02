@@ -42,7 +42,7 @@ namespace Mixture
 		// Compression settings
 		// TODO: there are too many formats, reduce them with a new enum
 		public MixtureCompressionFormat		compressionFormat = MixtureCompressionFormat.DXT5Crunched;
-		public TextureCompressionQuality	compressionQuality = TextureCompressionQuality.Best;
+		public MixtureCompressionQuality	compressionQuality = MixtureCompressionQuality.Best;
 		public bool							enableCompression = false;
 		
 		// TODO: move this to NodeGraphProcessor

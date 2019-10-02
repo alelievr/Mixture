@@ -7,6 +7,7 @@ using UnityEditor.Graphing;
 using UnityEditor;
 using UnityEditor.ShaderGraph;
 using UnityEngine.Rendering;
+using UnityEditor.ShaderGraph.Internal;
 
 namespace Mixture
 {
@@ -65,24 +66,29 @@ namespace Mixture
             // -------------------------------------
             // Generate Output structure for Surface Description function
 
-            GraphUtil.GenerateSurfaceDescriptionStruct(surfaceDescriptionStruct, pixelSlots);
+            SubShaderGenerator.GenerateSurfaceDescriptionStruct(surfaceDescriptionStruct, pixelSlots);
 
             // -------------------------------------
             // Generate Surface Description function
 
-            GraphUtil.GenerateSurfaceDescriptionFunction(
+            List<int>[] perm = new List<int>[0];
+
+            SubShaderGenerator.GenerateSurfaceDescriptionFunction(
                 pixelNodes,
+                perm,
                 masterNode,
                 masterNode.owner as GraphData,
                 surfaceDescriptionFunction,
                 functionRegistry,
                 shaderProperties,
-                pixelRequirements,
-                GenerationMode.ForReals, // we'll handle preview later
-                "PopulateSurfaceData",
-                "SurfaceDescription",
-                null,
-                pixelSlots);
+                new KeywordCollector(),
+                GenerationMode.ForReals);
+                // pixelRequirements,
+                // GenerationMode.ForReals, // we'll handle preview later
+                // "PopulateSurfaceData",
+                // "SurfaceDescription",
+                // null,
+                // pixelSlots);
 
             // -------------------------------------
             // Property uniforms

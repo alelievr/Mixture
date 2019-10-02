@@ -334,6 +334,7 @@ namespace Mixture
 		RGB_Half = GraphicsFormat.R16G16B16_SFloat,
 		RGBA_Float = GraphicsFormat.R32G32B32A32_SFloat,
 		RGB_Float = GraphicsFormat.R32G32B32_SFloat,
+		R8_Unsigned = GraphicsFormat.R8_UNorm,
 	}
 
     public enum PreviewChannels
@@ -348,4 +349,12 @@ namespace Mixture
         RGB = R | G | B,
         RGBA = R | G | B | A,
     }
+
+	// Note: to keep in sync with UnityEditor.TextureCompressionQuality
+	public enum MixtureCompressionQuality
+	{
+    	Fast     = 0,
+    	Normal   = 50,
+    	Best     = 100,
+	}
 }

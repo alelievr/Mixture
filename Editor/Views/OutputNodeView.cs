@@ -3,13 +3,6 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using GraphProcessor;
-using System.Collections.Generic;
-using UnityEngine.Rendering;
-using Unity.Collections;
-using System;
-using System.Linq;
-using TextureCompressionQuality = UnityEngine.TextureCompressionQuality;
-using UnityEngine.Experimental.Rendering;
 
 namespace Mixture
 {
@@ -85,7 +78,7 @@ namespace Mixture
 			var formatField = new EnumField("Format", outputNode.compressionFormat);
 			formatField.RegisterValueChangedCallback((e) => outputNode.compressionFormat = (MixtureCompressionFormat)e.newValue);
 			var qualityField = new EnumField("Quality", outputNode.compressionQuality);
-			qualityField.RegisterValueChangedCallback((e) => outputNode.compressionQuality = (TextureCompressionQuality)e.newValue);
+			qualityField.RegisterValueChangedCallback((e) => outputNode.compressionQuality = (MixtureCompressionQuality)e.newValue);
 
 			if (!outputNode.enableCompression)
 			{

@@ -3,13 +3,6 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using GraphProcessor;
-using System.Collections.Generic;
-using UnityEngine.Rendering;
-using Unity.Collections;
-using System;
-using System.Linq;
-using TextureCompressionQuality = UnityEngine.TextureCompressionQuality;
-using UnityEngine.Experimental.Rendering;
 
 namespace Mixture
 {
