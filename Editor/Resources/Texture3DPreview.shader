@@ -4,6 +4,8 @@
     {
         _Texture3D ("Texture", 3D) = "" {}
         _Depth ("Depth", Float) = 0
+		_Channels ("_Channels", Vector) = (1.0,1.0,1.0,1.0)
+		_PreviewMip("_PreviewMip", Float) = 0.0
     }
     SubShader
     {
@@ -41,6 +43,9 @@
             float4 _Texture3D_ST;
             float4 _Texture3D_TexelSize;
             float _Depth;
+			float4 _Channels;
+			float _PreviewMip;
+			float _SRGB;
 
             v2f vert (appdata v)
             {
@@ -52,10 +57,25 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // sample the texture
                 // For debug we can use a point sampler: TODO make it an option in the UI
                 // return _Texture3D.Sample(sampler_Point_Clamp_Texture3D, float3(i.uv, _Depth));
-                return _Texture3D.Sample(sampler_Linear_Clamp_Texture3D, float3(i.uv, _Depth));
+
+                // TODO: factorize this !
+				float2 checkerboardUVs = ceil(fmod(i.uv * _Texture3D_ST.xy / 64.0, 1.0)-0.5);
+				float3 checkerboard = lerp(0.3,0.4, checkerboardUVs.x != checkerboardUVs.y ? 1 : 0);
+                float4 color = _Texture3D.Sample(sampler_Linear_Clamp_Texture3D, float3(i.uv, _Depth)) * _Channels;
+
+                if (_Channels.a == 0.0) 
+					color.a = 1.0;
+
+				else if (_Channels.r == 0.0 && _Channels.g == 0.0 && _Channels.b == 0.0 && _Channels.a == 1.0)
+				{
+					color.rgb = color.a;
+					color.a = 1.0;
+				}
+				color.xyz = pow(color.xyz, 1.0 / 2.2);
+
+				return float4(lerp(checkerboard, color.xyz, color.a),1);
             }
             ENDCG
         }

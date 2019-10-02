@@ -370,9 +370,11 @@ namespace Mixture
 				// DrawPreviewCommonSettings();
 
 				// square image:
-				// MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", texture);
-				// MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", ((float)currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
-				// EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+				MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", texture);
+				MixtureUtils.texture3DPreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
+				MixtureUtils.texture3DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
+				MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", ((float)currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
+				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
 				Rect previewRect = GetPreviewRect(texture);
 				EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0, ColorWriteMask.Red);
 				EditorGUILayout.LabelField("UHFEIW");
@@ -395,7 +397,8 @@ namespace Mixture
 				DrawPreviewCommonSettings();
 
 				MixtureUtils.textureCubePreviewMaterial.SetTexture("_Cubemap", texture);
-				MixtureUtils.textureCubePreviewMaterial.SetFloat("_Slice", currentSlice);
+				MixtureUtils.textureCubePreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
+				MixtureUtils.textureCubePreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
 				// square image:
 				Rect previewRect = GetPreviewRect(texture);
 				EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial, ScaleMode.ScaleToFit, 0, 0);

@@ -3,7 +3,8 @@
     Properties
     {
         _Cubemap ("Texture", Cube) = "" {}
-        _Slice ("Slice", Float) = 0
+		_Channels ("_Channels", Vector) = (1.0,1.0,1.0,1.0)
+		_PreviewMip("_PreviewMip", Float) = 0.0
     }
     SubShader
     {
@@ -38,7 +39,9 @@
 
             UNITY_DECLARE_TEXCUBE(_Cubemap);
             float4 _Cubemap_ST;
-            float _Slice;
+			float4 _Channels;
+			float _PreviewMip;
+			float _SRGB;
 
             v2f vert (appdata v)
             {
@@ -51,7 +54,23 @@
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                return UNITY_SAMPLE_TEXCUBE(_Cubemap, LatlongToDirectionCoordinate(i.uv));
+
+                // TODO: factorize this !
+                float2 checkerboardUVs = ceil(fmod(i.uv * _Cubemap_ST.xy / 64.0, 1.0)-0.5);
+				float3 checkerboard = lerp(0.3,0.4, checkerboardUVs.x != checkerboardUVs.y ? 1 : 0);
+                float4 color = UNITY_SAMPLE_TEXCUBE(_Cubemap, LatlongToDirectionCoordinate(i.uv)) * _Channels;
+
+                if (_Channels.a == 0.0) 
+					color.a = 1.0;
+
+				else if (_Channels.r == 0.0 && _Channels.g == 0.0 && _Channels.b == 0.0 && _Channels.a == 1.0)
+				{
+					color.rgb = color.a;
+					color.a = 1.0;
+				}
+				color.xyz = pow(color.xyz, 1.0 / 2.2);
+
+				return float4(lerp(checkerboard, color.xyz, color.a),1);
             }
             ENDCG
         }
