@@ -220,9 +220,6 @@ namespace Mixture
 				case TextureDimension.Tex2D:
 					CreateTexture2DPreview(texturePreview, texture);
 					break;
-				case TextureDimension.Tex2DArray:
-					CreateTexture2DArrayPreview(texturePreview, texture, currentSlice);
-					break;
 				case TextureDimension.Tex3D:
 					CreateTexture3DPreview(texturePreview, texture, currentSlice);
 					break;
@@ -280,95 +277,84 @@ namespace Mixture
                 );
         }
 
+		void DrawPreviewCommonSettings()
+		{
+			GUILayout.Space(6);
+
+			using(new GUILayout.HorizontalScope(EditorStyles.toolbar, GUILayout.Height(12)))
+			{
+				EditorGUI.BeginChangeCheck();
+
+				bool r = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.R) != 0,"R", EditorStyles.toolbarButton);
+				bool g = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.G) != 0,"G", EditorStyles.toolbarButton);
+				bool b = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.B) != 0,"B", EditorStyles.toolbarButton);
+				bool a = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.A) != 0,"A", EditorStyles.toolbarButton);
+
+				if (EditorGUI.EndChangeCheck())
+				{
+					nodeTarget.previewMode =
+					(r ? PreviewChannels.R : 0) |
+					(g ? PreviewChannels.G : 0) |
+					(b ? PreviewChannels.B : 0) |
+					(a ? PreviewChannels.A : 0);
+				}
+
+				GUILayout.Space(8);
+
+				nodeTarget.previewMip = GUILayout.HorizontalSlider(nodeTarget.previewMip, 0.0f, 5.0f, GUILayout.Width(64));
+				GUILayout.Label("Mip #"+ nodeTarget.previewMip.ToString("0"), EditorStyles.toolbarButton);
+
+				GUILayout.FlexibleSpace();
+			}
+		}
+
+		void DrawTextureInfoHover(Rect previewRect, Texture texture)
+		{
+			// On Hover : Transparent Bar for Preview with information
+			if(previewRect.Contains(Event.current.mousePosition))
+			{
+				previewRect.yMin += previewRect.height - 32;
+				previewRect.yMax -= 4;
+				EditorGUI.DrawRect(previewRect, new Color(0, 0, 0, 0.65f));
+
+				previewRect.yMin += 8;
+				previewRect.xMin += 8;
+
+				int shadowDist = 2;
+				// Shadow
+				previewRect.xMin += shadowDist;
+				previewRect.yMin += shadowDist;
+				GUI.color = Color.black;
+				GUI.Label(previewRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
+				// Text
+				previewRect.xMin -= shadowDist;
+				previewRect.yMin -= shadowDist;
+				GUI.color = Color.white;
+				GUI.Label(previewRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
+			}
+		}
+
 		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)
 		{
-		        var previewElement = new IMGUIContainer(() => {
-                    if (texture == null)
-                        return;
-                    GUILayout.Space(6);
-                    // square image:
-                    using(new GUILayout.HorizontalScope(EditorStyles.toolbar, GUILayout.Height(12)))
-                    {
-                        EditorGUI.BeginChangeCheck();
+			var previewElement = new IMGUIContainer(() => {
+				if (texture == null)
+					return;
 
-                        bool r = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.R) != 0,"R", EditorStyles.toolbarButton);
-                        bool g = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.G) != 0,"G", EditorStyles.toolbarButton);
-                        bool b = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.B) != 0,"B", EditorStyles.toolbarButton);
-                        bool a = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.A) != 0,"A", EditorStyles.toolbarButton);
+				DrawPreviewCommonSettings();
 
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            nodeTarget.previewMode =
-                            (r ? PreviewChannels.R : 0) |
-                            (g ? PreviewChannels.G : 0) |
-                            (b ? PreviewChannels.B : 0) |
-                            (a ? PreviewChannels.A : 0);
-                        }
+				MixtureUtils.texture2DPreviewMaterial.SetTexture("_MainTex", texture);
+				MixtureUtils.texture2DPreviewMaterial.SetVector("_Size", new Vector4(texture.width,texture.height,1,1));
+				MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
+				MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
+				// square image:
+				Rect previewRect = GetPreviewRect(texture);
+				EditorGUI.DrawPreviewTexture(previewRect, texture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
 
-                        GUILayout.Space(8);
-
-                        nodeTarget.previewMip = GUILayout.HorizontalSlider(nodeTarget.previewMip, 0.0f, 5.0f, GUILayout.Width(64));
-                        GUILayout.Label("Mip #"+ nodeTarget.previewMip.ToString("0"), EditorStyles.toolbarButton);
-
-                        GUILayout.FlexibleSpace();
-                    }
-
-                    MixtureUtils.texture2DPreviewMaterial.SetTexture("_MainTex", texture);
-                    MixtureUtils.texture2DPreviewMaterial.SetVector("_Size", new Vector4(texture.width,texture.height,1,1));
-                    MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
-                    MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
-                    Rect previewRect = GetPreviewRect(texture);
-                    EditorGUI.DrawPreviewTexture(previewRect, texture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
-
-                    // On Hover : Transparent Bar for Preview with information
-                    if(previewRect.Contains(Event.current.mousePosition))
-                    {
-                        previewRect.yMin += previewRect.height - 32;
-                        previewRect.yMax -= 4;
-                        EditorGUI.DrawRect(previewRect, new Color(0, 0, 0, 0.65f));
-
-                        previewRect.yMin += 8;
-                        previewRect.xMin += 8;
-
-                        int shadowDist = 2;
-                        // Shadow
-                        previewRect.xMin += shadowDist;
-                        previewRect.yMin += shadowDist;
-                        GUI.color = Color.black;
-                        GUI.Label(previewRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
-                        // Text
-                        previewRect.xMin -= shadowDist;
-                        previewRect.yMin -= shadowDist;
-                        GUI.color = Color.white;
-                        GUI.Label(previewRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
-                    }
-
-                });
+				DrawTextureInfoHover(previewRect, texture);
+			});
 			previewContainer.Add(previewElement);
 		}
 
-		void CreateTexture2DArrayPreview(VisualElement previewContainer, Texture texture, int currentSlice)
-		{
-			var previewSliceIndex = new SliderInt(0, TextureUtils.GetSliceCount(texture) - 1)
-			{
-				label = "Slice",
-				value = currentSlice,
-			};
-			var previewImageSlice = new IMGUIContainer(() => {
-				if (texture == null)
-					return;
-				// square image:
-				MixtureUtils.textureArrayPreviewMaterial.SetTexture("_TextureArray", texture);
-				MixtureUtils.textureArrayPreviewMaterial.SetFloat("_Slice", currentSlice);
-				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
-            });
-			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
-				currentSlice = a.newValue;
-			});
-			previewContainer.Add(previewSliceIndex);
-			previewContainer.Add(previewImageSlice);
-		}
-		
 		void CreateTexture3DPreview(VisualElement previewContainer, Texture texture, int currentSlice)
 		{
 			// TODO: 3D Texture preview material with ray-marching
@@ -380,15 +366,23 @@ namespace Mixture
 			var previewImageSlice = new IMGUIContainer(() => {
 				if (texture == null)
 					return;
+
+				// DrawPreviewCommonSettings();
+
 				// square image:
-				MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", texture);
-				MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", ((float)currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
-				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+				// MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", texture);
+				// MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", ((float)currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
+				// EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+				Rect previewRect = GetPreviewRect(texture);
+				EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0, ColorWriteMask.Red);
+				EditorGUILayout.LabelField("UHFEIW");
+
+				// DrawTextureInfoHover(previewRect, texture);
             });
 			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
 				currentSlice = a.newValue;
 			});
-			previewContainer.Add(previewSliceIndex);
+			// previewContainer.Add(previewSliceIndex);
 			previewContainer.Add(previewImageSlice);
 		}
 
@@ -397,10 +391,16 @@ namespace Mixture
 			var previewImageSlice = new IMGUIContainer(() => {
 				if (texture == null)
 					return;
-				// square image:
+
+				DrawPreviewCommonSettings();
+
 				MixtureUtils.textureCubePreviewMaterial.SetTexture("_Cubemap", texture);
 				MixtureUtils.textureCubePreviewMaterial.SetFloat("_Slice", currentSlice);
-				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+				// square image:
+				Rect previewRect = GetPreviewRect(texture);
+				EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+
+				DrawTextureInfoHover(previewRect, texture);
             });
 			previewContainer.Add(previewImageSlice);
 		}
