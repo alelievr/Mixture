@@ -44,7 +44,14 @@ namespace Mixture
                             updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
                             updateZoneSize = new Vector3(1f, 1f, 1f),
                         },
-						// CRT Workaround: we need to add an additional pass because there is a bug in the swap
+                        new CustomRenderTextureUpdateZone{
+                            needSwap = true,
+                            passIndex = 3,
+                            rotation = 0f,
+                            updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
+                            updateZoneSize = new Vector3(1f, 1f, 1f),
+                        },
+                        // CRT Workaround: we need to add an additional pass because there is a bug in the swap
 						// of the double buffered CRTs: the last pudate zone will not be passed to the next CRT in the chain.
 						// So we add a dummy pass to force a copy
 						new CustomRenderTextureUpdateZone{
@@ -75,6 +82,13 @@ namespace Mixture
                         new CustomRenderTextureUpdateZone{
                             needSwap = true,
                             passIndex = 2,
+                            rotation = 0f,
+                            updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
+                            updateZoneSize = new Vector3(1f, 1f, 1f),
+                        },
+                        new CustomRenderTextureUpdateZone{
+                            needSwap = true,
+                            passIndex = 3,
                             rotation = 0f,
                             updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
                             updateZoneSize = new Vector3(1f, 1f, 1f),

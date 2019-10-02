@@ -5,7 +5,9 @@ Shader "Hidden/Mixture/TileWrap"
 		[InlineTexture]_Texture_2D("Texture", 2D) = "white" {}
 		[InlineTexture]_Texture_3D("Texture", 3D) = "white" {}
 		[InlineTexture]_Texture_Cube("Texture", Cube) = "white" {}
-		[MixtureVector3]_Wrap("UV Wrap", Vector) = (0.2,0.2,0.2,0.0)
+		[Range]_WrapU("U Wrap", Range(0.0,0.5)) = 0.2
+		[Range]_WrapV("V Wrap", Range(0.0,0.5)) = 0.2
+		[Range]_WrapW("W Wrap", Range(0.0,0.5)) = 0.2
 	}
 
 	CGINCLUDE
@@ -19,42 +21,50 @@ Shader "Hidden/Mixture/TileWrap"
 
 	TEXTURE_SAMPLER_X(_Texture);
 
-	float4 _Wrap;
+	float _WrapU;
+	float _WrapV;
+	float _WrapW;
 
 	float4 UTiling(v2f_customrendertexture i)
 	{
-		float mask = smoothstep(1.0 - _Wrap.x, 1.0, i.localTexcoord.x);
+		float mask = smoothstep(1.0 - _WrapU, 1.0, i.localTexcoord.x);
 
-		i.localTexcoord.xyz *= (1.0 - _Wrap.xyz * float3(1, 0, 0));
-		i.localTexcoord.xyz += _Wrap.xyz * float3(1, 0, 0);
+		i.localTexcoord.xyz *= (1.0 - float3(_WrapU, 0, 0));
+		i.localTexcoord.xyz += float3(_WrapU, 0, 0);
 
 		float4 col = SAMPLE_X(_Texture, i.localTexcoord.xyz, i.direction);
-		col = lerp(col, SAMPLE_X(_Texture, i.localTexcoord.xyz - float3(1.0 - _Wrap.x, 0, 0), i.direction), mask);
+		col = lerp(col, SAMPLE_X(_Texture, i.localTexcoord.xyz - float3(1.0 - _WrapU, 0, 0), i.direction), mask);
 		return col;
 	}
 
 	float4 VTiling(v2f_customrendertexture i)
 	{
-		float mask = smoothstep(1.0 - _Wrap.y, 1.0, i.localTexcoord.y);
+		float mask = smoothstep(1.0 - _WrapV, 1.0, i.localTexcoord.y);
 
-		i.localTexcoord.xyz *= (1.0 - _Wrap.xyz * float3(0, 1, 0));
-		i.localTexcoord.xyz += _Wrap.xyz * float3(0, 1, 0);
+		i.localTexcoord.xyz *= (1.0 - float3(0, _WrapV, 0));
+		i.localTexcoord.xyz += float3(0, _WrapV, 0);
 
 		float4 col = SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz, i.direction);
-		col = lerp(col, SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz - float3(0, 1.0 - _Wrap.y, 0), i.direction), mask);
+		col = lerp(col, SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz - float3(0, 1.0 - _WrapV, 0), i.direction), mask);
 		return col;
 	}
 
 	float4 WTiling(v2f_customrendertexture i)
 	{
-		float mask = smoothstep(1.0 - _Wrap.z, 1.0, i.localTexcoord.z);
+		float mask = smoothstep(1.0 - _WrapW, 1.0, i.localTexcoord.z);
 
-		i.localTexcoord.xyz *= (1.0 - _Wrap.xyz * float3(0, 0, 1));
-		i.localTexcoord.xyz += _Wrap.xyz * float3(0, 0, 1);
+		i.localTexcoord.xyz *= (1.0 - float3(0, 0, _WrapW));
+		i.localTexcoord.xyz += float3(0, 0, _WrapW);
 
 		float4 col = SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz, i.direction);
-		col = lerp(col, SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz - float3(0, 0, 1.0 - _Wrap.z), i.direction), mask);
+		col = lerp(col, SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz - float3(0, 0, 1.0 - _WrapW), i.direction), mask);
 		return col;
+	}
+
+	float4 RestoreOffset(v2f_customrendertexture i)
+	{
+		i.localTexcoord.xyz = frac(i.localTexcoord.xyz -float3(_WrapU/2, _WrapV/2, _WrapW/2));
+		return SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz, i.direction);
 	}
 
 
@@ -97,6 +107,18 @@ Shader "Hidden/Mixture/TileWrap"
 			float4 mixture(v2f_customrendertexture i) : SV_Target
 			{
 				return WTiling(i);
+			}
+			ENDCG
+		}
+
+		Pass
+		{
+			Name "RestoreOffset"
+
+			CGPROGRAM
+			float4 mixture(v2f_customrendertexture i) : SV_Target
+			{
+				return RestoreOffset(i);
 			}
 			ENDCG
 		}
