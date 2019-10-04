@@ -307,8 +307,12 @@ namespace Mixture
                             break;
                     }
                     importer.SaveAndReimport();
-                    var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
-                    external.asset = texture;
+
+                    if(external.external2DOoutputType == ExternalOutputNode.External2DOutputType.LatLonCubemap)
+                        external.asset = AssetDatabase.LoadAssetAtPath<Cubemap>(assetPath);
+                    else
+                        external.asset = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
+
                 }
                 else if (dimension == OutputDimension.CubeMap)
                 {
