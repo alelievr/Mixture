@@ -39,6 +39,9 @@ namespace Mixture
             try
             {
                 EditorUtility.DisplayProgressBar("Mixture", "Saving All...", 0.0f);
+
+                graph.SaveMainTexture();
+
                 List<ExternalOutputNode> externalOutputs = new List<ExternalOutputNode>();
 
                 foreach(var node in graph.nodes)
