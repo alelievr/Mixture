@@ -161,10 +161,10 @@ namespace Mixture
             TextureDimension.Tex2D, TextureDimension.Tex3D, TextureDimension.Cube,
         };
 
-		public static List<TextureDimension> GetAllowedDimenions(string propertyName)
+		public static List<TextureDimension> GetAllowedDimentions(string propertyName)
         {
             // if there is no modifier in the name, then it supports all the dimensions
-            if (!shaderPropertiesDimension.Values.Any(dim => propertyName.Contains(dim)))
+            if (!shaderPropertiesDimension.Values.Any(dim => propertyName.EndsWith(dim)))
                 return allDimensions;
 
             List<TextureDimension>  dimensions = new List<TextureDimension>();

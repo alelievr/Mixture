@@ -25,7 +25,7 @@ namespace Mixture
 
 		protected virtual bool hasPreview => false;
 		protected override bool hasSettings => nodeTarget.hasSettings;
-
+		
 		protected override VisualElement CreateSettingsView()
 		{
 			var view = new MixtureRTSettingsView(nodeTarget, owner);
@@ -277,7 +277,7 @@ namespace Mixture
                 );
         }
 
-		void DrawPreviewCommonSettings()
+		void DrawPreviewCommonSettings(Texture texture)
 		{
 			GUILayout.Space(6);
 
@@ -299,10 +299,13 @@ namespace Mixture
 					(a ? PreviewChannels.A : 0);
 				}
 
-				GUILayout.Space(8);
+				if (texture.mipmapCount > 1)
+				{
+					GUILayout.Space(8);
 
-				nodeTarget.previewMip = GUILayout.HorizontalSlider(nodeTarget.previewMip, 0.0f, 5.0f, GUILayout.Width(64));
-				GUILayout.Label("Mip #"+ nodeTarget.previewMip.ToString("0"), EditorStyles.toolbarButton);
+					nodeTarget.previewMip = GUILayout.HorizontalSlider(nodeTarget.previewMip, 0.0f, 5.0f, GUILayout.Width(64));
+					GUILayout.Label("Mip #"+ nodeTarget.previewMip.ToString("0"), EditorStyles.toolbarButton);
+				}
 
 				GUILayout.FlexibleSpace();
 			}
@@ -313,11 +316,10 @@ namespace Mixture
 			// On Hover : Transparent Bar for Preview with information
 			if(previewRect.Contains(Event.current.mousePosition))
 			{
-				previewRect.yMin += previewRect.height - 32;
-				previewRect.yMax -= 4;
+				previewRect.yMin += previewRect.height - 24;
 				EditorGUI.DrawRect(previewRect, new Color(0, 0, 0, 0.65f));
 
-				previewRect.yMin += 8;
+				previewRect.yMin += 2;
 				previewRect.xMin += 8;
 
 				int shadowDist = 2;
@@ -340,13 +342,12 @@ namespace Mixture
 				if (texture == null)
 					return;
 
-				DrawPreviewCommonSettings();
+				DrawPreviewCommonSettings(texture);
 
 				MixtureUtils.texture2DPreviewMaterial.SetTexture("_MainTex", texture);
 				MixtureUtils.texture2DPreviewMaterial.SetVector("_Size", new Vector4(texture.width,texture.height,1,1));
 				MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
 				MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
-				// square image:
 				Rect previewRect = GetPreviewRect(texture);
 				EditorGUI.DrawPreviewTexture(previewRect, texture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
 
@@ -367,24 +368,21 @@ namespace Mixture
 				if (texture == null)
 					return;
 
-				// DrawPreviewCommonSettings();
+				DrawPreviewCommonSettings(texture);
 
-				// square image:
 				MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", texture);
 				MixtureUtils.texture3DPreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
 				MixtureUtils.texture3DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
 				MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", ((float)currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
-				EditorGUI.DrawPreviewTexture(GetPreviewRect(texture), Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
 				Rect previewRect = GetPreviewRect(texture);
 				EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0, ColorWriteMask.Red);
-				EditorGUILayout.LabelField("UHFEIW");
 
-				// DrawTextureInfoHover(previewRect, texture);
+				DrawTextureInfoHover(previewRect, texture);
             });
 			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
 				currentSlice = a.newValue;
 			});
-			// previewContainer.Add(previewSliceIndex);
+			previewContainer.Add(previewSliceIndex);
 			previewContainer.Add(previewImageSlice);
 		}
 
@@ -394,12 +392,11 @@ namespace Mixture
 				if (texture == null)
 					return;
 
-				DrawPreviewCommonSettings();
+				DrawPreviewCommonSettings(texture);
 
 				MixtureUtils.textureCubePreviewMaterial.SetTexture("_Cubemap", texture);
 				MixtureUtils.textureCubePreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
 				MixtureUtils.textureCubePreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
-				// square image:
 				Rect previewRect = GetPreviewRect(texture);
 				EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
 

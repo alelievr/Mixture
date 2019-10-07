@@ -31,7 +31,6 @@ namespace Mixture
 
 		public override void Enable()
 		{
-
 			base.Enable();
 
 			InitializeDebug();
@@ -44,7 +43,11 @@ namespace Mixture
 				controlsContainer.Add(materialIMGUI);
 				materialEditor = Editor.CreateEditor(fixedShaderNode.material) as MaterialEditor;
 			}
+
+			onPortDisconnected += ResetMaterialPropertyToDefault;
 		}
+
+		~FixedShaderNodeView() => onPortDisconnected -= ResetMaterialPropertyToDefault;
 
 		void InitializeDebug()
 		{
@@ -67,6 +70,15 @@ namespace Mixture
 			if (MaterialPropertiesGUI(fixedShaderNode.material))
 			{
 				ForceUpdatePorts();
+			}
+		}
+
+		void ResetMaterialPropertyToDefault(PortView pv)
+		{
+			foreach (var p in fixedShaderNode.ListMaterialProperties(null))
+			{
+				if (pv.portData.identifier == p.identifier)
+					fixedShaderNode.ResetMaterialPropertyToDefault(fixedShaderNode.material, p.identifier);
 			}
 		}
 

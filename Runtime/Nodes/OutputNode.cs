@@ -131,6 +131,12 @@ namespace Mixture
 			}
 
 			MixtureUtils.SetupDimensionKeyword(finalCopyMaterial, input.dimension);
+
+			// Manually reset all texture inputs
+			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_2D");
+			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_3D");
+			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_Cube");
+
 			if (input.dimension == TextureDimension.Tex2D)
 				finalCopyMaterial.SetTexture("_Source_2D", input);
 			else if (input.dimension == TextureDimension.Tex3D)

@@ -43,8 +43,6 @@ namespace Mixture
         [SerializeField]
         public bool previewVisible = true;
 
-
-
         public override void OnNodeCreated()
 		{
 			base.OnNodeCreated();
@@ -78,7 +76,8 @@ namespace Mixture
                     doubleBuffered = rtSettings.doubleBuffered,
                     wrapMode = rtSettings.wrapMode,
                     filterMode = rtSettings.filterMode,
-                    useMipMap = true,
+                    useMipMap = false,
+					autoGenerateMips = false,
 				};
 				target.Create();
 
@@ -231,7 +230,7 @@ namespace Mixture
 
 		bool PropertySupportsDimension(MaterialProperty prop, TextureDimension dim)
 		{
-			return MixtureUtils.GetAllowedDimenions(prop.name).Contains(dim);
+			return MixtureUtils.GetAllowedDimentions(prop.name).Contains(dim);
 		}
 
 		protected void AssignMaterialPropertiesFromEdges(List< SerializableEdge > edges, Material material)
@@ -293,6 +292,36 @@ namespace Mixture
 
 		public void OnSettingsChanged() => onSettingsChanged?.Invoke();
 #endif
+
+		Dictionary<Material, Material>		defaultMaterials = new Dictionary<Material, Material>();
+
+		public Material	GetDefaultMaterial(Material mat)
+		{
+			Material defaultMat;
+
+			if (defaultMaterials.TryGetValue(mat, out defaultMat))
+				return defaultMat;
+			
+			return defaultMaterials[mat] = new Material(mat.shader);
+		}
+
+		public void ResetMaterialPropertyToDefault(Material mat, string propName)
+		{
+			int idx = mat.shader.FindPropertyIndex(propName);
+			switch (mat.shader.GetPropertyType(idx))
+			{
+				case ShaderPropertyType.Float:
+				case ShaderPropertyType.Range:
+					mat.SetFloat(propName, GetDefaultMaterial(mat).GetFloat(propName));
+					break;
+				case ShaderPropertyType.Vector:
+					mat.SetVector(propName, GetDefaultMaterial(mat).GetVector(propName));
+					break;
+				case ShaderPropertyType.Texture:
+					mat.SetTexture(propName, GetDefaultMaterial(mat).GetTexture(propName));
+					break;
+			}
+		}
 	}
 
 	public enum EditFlags

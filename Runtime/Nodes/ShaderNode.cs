@@ -38,7 +38,7 @@ namespace Mixture
 
 		// Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code
 		[CustomPortBehavior(nameof(materialInputs))]
-		protected IEnumerable< PortData > ListMaterialProperties(List< SerializableEdge > edges)
+		public IEnumerable< PortData > ListMaterialProperties(List< SerializableEdge > edges)
 		{
 			foreach (var p in GetMaterialPortDatas(material))
 			{

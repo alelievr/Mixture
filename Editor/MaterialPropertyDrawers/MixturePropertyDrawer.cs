@@ -54,7 +54,7 @@ namespace Mixture
             var graph = GetGraph(editor);
             var node = nodeView.nodeTarget as MixtureNode;
 
-            allowedDimensions = MixtureUtils.GetAllowedDimenions(prop.name);
+            allowedDimensions = MixtureUtils.GetAllowedDimentions(prop.name);
 
             if (IsVisible(editor))
                 DrawerGUI(position, prop, label, editor, graph, nodeView);

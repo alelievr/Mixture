@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.Rendering;
 using UnityEditor.UIElements;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using GraphProcessor;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace Mixture
 {
@@ -55,6 +55,13 @@ namespace Mixture
 
 			controlsContainer.Add(new IMGUIContainer(MaterialGUI));
 			materialEditor = Editor.CreateEditor(shaderNode.material) as MaterialEditor;
+			
+			onPortDisconnected += ResetMaterialPropertyToDefault;
+		}
+
+		~ShaderNodeView()
+		{
+			onPortDisconnected -= ResetMaterialPropertyToDefault;
 		}
 
 		void InitializeDebug()
@@ -106,6 +113,15 @@ namespace Mixture
 			void OpenCurrentShader()
 			{
 				AssetDatabase.OpenAsset(shaderNode.shader);
+			}
+		}
+		
+		void ResetMaterialPropertyToDefault(PortView pv)
+		{
+			foreach (var p in shaderNode.ListMaterialProperties(null))
+			{
+				if (pv.portData.identifier == p.identifier)
+					shaderNode.ResetMaterialPropertyToDefault(shaderNode.material, p.identifier);
 			}
 		}
 
