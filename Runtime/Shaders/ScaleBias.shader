@@ -39,7 +39,7 @@
 					case 0: col = ScaleBias(col, _Scale, _Bias); break;
 					case 1: col = ScaleBias(col, _Bias, _Scale); break;
 					case 2: col = ScaleBias(col, _Scale, 0); break;
-					case 3: col = ScaleBias(col 1, _Bias); break;
+					case 3: col = ScaleBias(col, 1, _Bias); break;
 				}
 				return col;
 			}

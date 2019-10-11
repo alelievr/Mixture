@@ -58,7 +58,7 @@ namespace Mixture
 			};
 		}
 
-        public bool isHDR => targetFormat != OutputFormat.RGBA_LDR && targetFormat != OutputFormat.RGB_LDR; 
+        public bool isHDR => targetFormat != OutputFormat.RGBA_LDR && targetFormat != OutputFormat.RGBA_sRGB && targetFormat != OutputFormat.R8_Unsigned;
 		
 		public bool CanEdit(EditFlags flag) => (this.editFlags & flag) != 0;
 

@@ -71,7 +71,7 @@ namespace Mixture
             // -------------------------------------
             // Generate Surface Description function
 
-            List<int>[] perm = new List<int>[0];
+            List<int>[] perm = new List<int>[pixelNodes.Count];
 
             SubShaderGenerator.GenerateSurfaceDescriptionFunction(
                 pixelNodes,

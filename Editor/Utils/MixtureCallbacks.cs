@@ -117,18 +117,27 @@ namespace Mixture
 				AssetDatabase.Refresh();
 
 				ProjectWindowUtil.ShowCreatedAsset(mixture);
+				Selection.activeObject = mixture;
 			}
 		}
 
 		class StaticMixtureGraphAction : MixtureGraphAction
 		{
+			public static readonly string template = $"{MixtureEditorUtils.mixtureEditorResourcesPath}Templates/StaticMixtureGraphTemplate.asset";
+
 			// By default isRealtime is false so we don't need to initialize it like in the realtime mixture create function
 			public override MixtureGraph CreateMixtureGraphAsset()
-				=> ScriptableObject.CreateInstance< MixtureGraph >();
+			{
+				var g = AssetDatabase.LoadAllAssetsAtPath(template).FirstOrDefault(a => a is MixtureGraph);
+
+				return ScriptableObject.Instantiate(g) as MixtureGraph;
+			}
 		}
 
 		class RealtimeMixtureGraphAction : MixtureGraphAction
 		{
+			public static readonly string template = $"{MixtureEditorUtils.mixtureEditorResourcesPath}Templates/RealtimeMixtureGraphTemplate.asset";
+
 			static MixtureGraph	_realtimeGraph;
 			static MixtureGraph realtimeGraph
 			{

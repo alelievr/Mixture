@@ -333,6 +333,9 @@ namespace Mixture
 
         public void SaveMainTexture()
         {
+            if (isRealtime)
+                return;
+
             ReadBackTexture(this.outputNode);
         }
 
@@ -349,6 +352,13 @@ namespace Mixture
             request.Update();
 
             request.WaitForCompletion();
+        }
+        
+        struct Color16
+        {
+            ushort  r;
+            ushort  g;
+            ushort  b;
         }
 
         protected void WriteRequestResult(OutputNode node, AsyncGPUReadbackRequest request, Texture output)
@@ -369,12 +379,11 @@ namespace Mixture
                 switch ((OutputFormat)outputFormat)
                 {
                     case OutputFormat.RGBA_Float:
-                    case OutputFormat.RGB_Float:
                         colors = request.GetData<Color>(slice);
                         SetPixelsColor(colors.ToArray());
                         break;
                     case OutputFormat.RGBA_LDR:
-                    case OutputFormat.RGB_LDR:
+                    case OutputFormat.RGBA_sRGB:
                         colors32 = request.GetData<Color32>(slice);
                         SetPixelsColor32(colors32.ToArray());
                         break;
@@ -382,8 +391,10 @@ namespace Mixture
                         var r8Colors = request.GetData<byte>(slice);
                         SetPixelsColor32(r8Colors.Select(r => new Color32(r, 0, 0, 0)).ToArray());
                         break;
+                    case OutputFormat.R16: // For now we don't support half readback
                     case OutputFormat.RGBA_Half: // For now we don't support half readback
-                    case OutputFormat.RGB_Half:
+                        // var r8Colors = request.GetData<short>(slice);
+                        // SetPixelsColor32(r8Colors.Select(r => new Color32(r, 0, 0, 0)).ToArray());
                     default:
                         Debug.LogError("Can't readback an image with format: " + outputFormat);
                         break;

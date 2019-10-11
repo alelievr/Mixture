@@ -358,12 +358,11 @@ namespace Mixture
 	{
 		Default = GraphicsFormat.None,
 		RGBA_LDR = GraphicsFormat.R8G8B8A8_UNorm,
-		RGB_LDR = GraphicsFormat.R8G8B8_UNorm,
+		RGBA_sRGB = GraphicsFormat.R8G8B8A8_SRGB,
 		RGBA_Half = GraphicsFormat.R16G16B16A16_SFloat,
-		RGB_Half = GraphicsFormat.R16G16B16_SFloat,
 		RGBA_Float = GraphicsFormat.R32G32B32A32_SFloat,
-		RGB_Float = GraphicsFormat.R32G32B32_SFloat,
 		R8_Unsigned = GraphicsFormat.R8_UNorm,
+		R16 = GraphicsFormat.R16_SFloat,
 	}
 
     public enum PreviewChannels

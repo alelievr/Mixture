@@ -150,7 +150,12 @@ namespace Mixture
             // For preview only we declare CRT defines
             if (generationMode == GenerationMode.Preview)
             {
-                // TODO: texture defines
+                registry.builder.AppendLine("TEXTURE2D(_SelfTexture2D);");
+                registry.builder.AppendLine("SAMPLER(sampler_SelfTexture2D);");
+                registry.builder.AppendLine("TEXTURE2D(_SelfTextureCube);");
+                registry.builder.AppendLine("SAMPLER(sampler_SelfTextureCube);");
+                registry.builder.AppendLine("TEXTURE2D(_SelfTexture3D);");
+                registry.builder.AppendLine("SAMPLER(sampler_SelfTexture3D);");
             }
         }
     }

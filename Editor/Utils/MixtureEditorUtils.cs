@@ -6,6 +6,7 @@ namespace Mixture
 {
     public static class MixtureEditorUtils
     {
+        public static readonly string   mixtureEditorResourcesPath = "Packages/com.alelievr.mixture/Editor/Resources/";
         public static readonly string   shaderGraphTexture2DTemplate = "Templates/ShaderGraphTexture2DTemplate";
         public static readonly string   shaderGraphTexture3DTemplate = "Templates/ShaderGraphTexture3DTemplate";
         public static readonly string   shaderGraphTextureCubeTemplate = "Templates/ShaderGraphTextureCubeTemplate";

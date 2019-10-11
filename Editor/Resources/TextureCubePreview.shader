@@ -16,7 +16,7 @@
             Blend SrcAlpha OneMinusSrcAlpha
 			Cull Off
 			ZWrite Off
-			ZTest LEqual
+			// ZTest LEqual
 
             CGPROGRAM
             #pragma vertex vert
@@ -39,6 +39,7 @@
 
             UNITY_DECLARE_TEXCUBE(_Cubemap);
             float4 _Cubemap_ST;
+            float4 _Cubemap_TexelSize;
 			float4 _Channels;
 			float _PreviewMip;
 			float _SRGB;
@@ -56,9 +57,9 @@
                 // sample the texture
 
                 // TODO: factorize this !
-                float2 checkerboardUVs = ceil(fmod(i.uv * _Cubemap_ST.xy / 64.0, 1.0)-0.5);
+                float2 checkerboardUVs = ceil(fmod(i.uv * _Cubemap_TexelSize.zw / 64.0, 1.0)-0.5);
 				float3 checkerboard = lerp(0.3,0.4, checkerboardUVs.x != checkerboardUVs.y ? 1 : 0);
-                float4 color = UNITY_SAMPLE_TEXCUBE(_Cubemap, LatlongToDirectionCoordinate(i.uv)) * _Channels;
+                float4 color = UNITY_SAMPLE_TEXCUBE(_Cubemap, normalize(LatlongToDirectionCoordinate(i.uv))) * _Channels;
 
                 if (_Channels.a == 0.0) 
 					color.a = 1.0;
