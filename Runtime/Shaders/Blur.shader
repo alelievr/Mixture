@@ -21,7 +21,8 @@
 	#pragma vertex CustomRenderTextureVertexShader
 	#pragma fragment mixture
 
-	static float gaussianWeights[32] = {0.03740084,
+	#define SAMPLE_COUNT 32
+	static float gaussianWeights[SAMPLE_COUNT] = {0.03740084,
 		0.03723684,
 		0.03674915,
 		0.03595048,
@@ -72,10 +73,10 @@
 
 		color *= gaussianWeights[0];
 
-		for (int j = 1; j < 32; j++)
+		for (int j = 1; j < SAMPLE_COUNT; j++)
 		{
-			float3 uvOffset = direction * j * _Radius / _CustomRenderTextureWidth;
-			float cubemapDirectionOffset = j * _Radius / (4.0 * _CustomRenderTextureWidth); // humm ?
+			float3 uvOffset = direction * j * (_Radius / _CustomRenderTextureWidth) / SAMPLE_COUNT;
+			float cubemapDirectionOffset = j * (_Radius / (1.0 * _CustomRenderTextureWidth)) / SAMPLE_COUNT * 360; // humm ?
 			float3 positiveDirectionOffset = Rotate(direction, i.direction, cubemapDirectionOffset);
 			float3 negativeDirectionOffset = Rotate(direction, i.direction, -cubemapDirectionOffset);
 

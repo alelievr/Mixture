@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using GraphProcessor;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -33,12 +34,12 @@ namespace Mixture
 			graph.onOutputTextureUpdated += UpdatePreviewImage;
 
 			InitializeDebug();
-            UpdatePreviewImage();
 		}
 
         protected virtual void BuildOutputNodeSettings()
         {
-            AddCompressionSettings();
+			if (graph.outputTexture.dimension == TextureDimension.Tex2D)
+				AddCompressionSettings();
 
             if (!graph.isRealtime)
             {
@@ -98,10 +99,7 @@ namespace Mixture
 			controlsContainer.Add(qualityField);
 		}
 
-		void UpdatePreviewImage()
-		{
-			CreateTexturePreview(ref previewContainer, graph.isRealtime ? graph.outputTexture : outputNode.tempRenderTexture, outputNode.currentSlice);
-		}
+		void UpdatePreviewImage() => CreateTexturePreview(previewContainer, graph.isRealtime ? graph.outputTexture : outputNode.tempRenderTexture, outputNode.currentSlice);
 
         protected void SaveMasterTexture()
         {

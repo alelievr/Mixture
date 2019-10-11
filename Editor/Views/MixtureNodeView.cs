@@ -68,6 +68,8 @@ namespace Mixture
 				DrawDefaultInspector();
 			}
 
+			previewContainer = new VisualElement();
+			controlsContainer.Add(previewContainer);
 			UpdateTexturePreview();
         }
 
@@ -86,17 +88,9 @@ namespace Mixture
 		{
 			if (hasPreview)
 			{
-                if(previewContainer == null)
-                {
-                    CreateTexturePreview(ref previewContainer, nodeTarget.previewTexture); // TODO : Add Slice Preview
-                    controlsContainer.Add(previewContainer);
-                }
-                else if(CheckDimensionChanged())
-                {
-                    CreateTexturePreview(ref previewContainer, nodeTarget.previewTexture); // TODO : Add Slice Preview
-                }
+                if (previewContainer.childCount == 0 || CheckDimensionChanged())
+                    CreateTexturePreview(previewContainer, nodeTarget.previewTexture); // TODO : Add Slice Preview
             }
-            
 		}
 
         bool CheckDimensionChanged()
@@ -199,18 +193,12 @@ namespace Mixture
 			return propertiesChanged;
 		}
 
-		protected void CreateTexturePreview(ref VisualElement previewContainer, Texture texture, int currentSlice = 0)
+		protected void CreateTexturePreview(VisualElement previewContainer, Texture texture, int currentSlice = 0)
 		{
-			if (texture == null)
-			{
-				previewContainer = null;
-				return;
-			}
+			previewContainer.Clear();
 
-			if (previewContainer == null)
-                previewContainer = new VisualElement();
-			else
-            	previewContainer.Clear();
+			if (texture == null)
+				return;
 
 			VisualElement texturePreview = new VisualElement();
 			previewContainer.Add(texturePreview);
@@ -262,8 +250,9 @@ namespace Mixture
 
 		Rect GetPreviewRect(Texture texture)
 		{
-			float width = Mathf.Min(nodeTarget.nodeWidth, texture.width);
-			float height = Mathf.Min(nodeTarget.nodeWidth, texture.height);
+			float width = nodeTarget.nodeWidth; // force preview in width
+			float scaleFactor = width / texture.width;
+			float height = Mathf.Min(nodeTarget.nodeWidth, texture.height * scaleFactor);
 			return GUILayoutUtility.GetRect(1, width, 1, height);
 		}
 
