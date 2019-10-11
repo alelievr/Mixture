@@ -14,16 +14,16 @@
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
-			Cull Off
+			Cull Back
 			ZWrite Off
-			// ZTest LEqual
+            ZTest Off
+			ZTest LEqual
 
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
-            #include "UnityCG.cginc"
-            #include "MixtureUtils.cginc"
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
 
             struct appdata
             {
@@ -59,7 +59,7 @@
                 // TODO: factorize this !
                 float2 checkerboardUVs = ceil(fmod(i.uv * _Cubemap_TexelSize.zw / 64.0, 1.0)-0.5);
 				float3 checkerboard = lerp(0.3,0.4, checkerboardUVs.x != checkerboardUVs.y ? 1 : 0);
-                float4 color = UNITY_SAMPLE_TEXCUBE(_Cubemap, normalize(LatlongToDirectionCoordinate(i.uv))) * _Channels;
+                float4 color = SAMPLE_TEXTURECUBE_LOD(_Cubemap, s_linear_clamp_sampler, normalize(LatlongToDirectionCoordinate(i.uv)), 0) * _Channels;
 
                 if (_Channels.a == 0.0) 
 					color.a = 1.0;
