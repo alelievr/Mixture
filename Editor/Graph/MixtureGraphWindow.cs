@@ -11,7 +11,7 @@ namespace Mixture
 		public static BaseGraphWindow Open(MixtureGraph graph)
 		{
 			// Focus the window if the graph is already opened
-			var mixtureWindows = EditorWindow.FindObjectsOfType<MixtureGraphWindow>();
+			var mixtureWindows = Resources.FindObjectsOfTypeAll<MixtureGraphWindow>();
 			foreach (var mixtureWindow in mixtureWindows)
 			{
 				if (mixtureWindow.graph == graph)
