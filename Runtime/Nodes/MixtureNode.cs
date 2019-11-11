@@ -28,6 +28,7 @@ namespace Mixture
 			OutputDimension.Texture3D,
 			OutputDimension.CubeMap,
 		};
+		public virtual PreviewChannels		defaultPreviewChannels => PreviewChannels.RGBA;
 		[SerializeField]
 		public bool							isPreviewCollapsed = false;
 
@@ -37,7 +38,7 @@ namespace Mixture
 
         // UI Serialization
         [SerializeField]
-        public PreviewChannels previewMode = PreviewChannels.RGBA;
+        public PreviewChannels previewMode;
         [SerializeField]
         public float previewMip = 0.0f;
         [SerializeField]
@@ -47,6 +48,7 @@ namespace Mixture
 		{
 			base.OnNodeCreated();
 			rtSettings = defaultRTSettings;
+			previewMode = defaultPreviewChannels;
 		}
 
 		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target)
@@ -321,6 +323,7 @@ namespace Mixture
 		R16 = GraphicsFormat.R16_SFloat,
 	}
 
+	[Flags]
     public enum PreviewChannels
     {
         R = 1,

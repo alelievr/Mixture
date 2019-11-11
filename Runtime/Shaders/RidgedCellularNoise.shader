@@ -57,20 +57,20 @@
 				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), _Seed);
 
 #ifdef CRT_2D
-				float3 noise = GenerateRidgedCellular2DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rgb;
+				float4 noise = GenerateRidgedCellular2DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rgbr;
 #else
-				float3 noise = GenerateRidgedCellular3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rgb;
+				float4 noise = GenerateRidgedCellular3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rgbr;
 #endif
 
 				switch (_CellsMode)
 				{
 					default:
-					case 0: noise = noise.xxx; break;
-					case 1: noise = noise.yyy; break;
-					case 2: noise = noise.zzz; break;
+					case 0: noise = noise.xxxx; break;
+					case 1: noise = noise.yyyy; break;
+					case 2: noise = noise.zzzz; break;
 				}
 
-				return float4(RemapClamp(noise, 0, 1, _OutputRange.x, _OutputRange.y), 1);
+				return RemapClamp(noise, 0, 1, _OutputRange.x, _OutputRange.y);
 			}
 			ENDCG
 		}
