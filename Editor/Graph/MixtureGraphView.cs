@@ -12,7 +12,7 @@ namespace Mixture
 	public class MixtureGraphView : BaseGraphView
 	{
 		// For now we will let the processor in the graph view
-		public MixtureProcessor	processor { get; private set; }
+		public MixtureGraphProcessor	processor { get; private set; }
 		public new MixtureGraph	graph => base.graph as MixtureGraph;
 
 		public MixtureGraphView(EditorWindow window) : base(window)
@@ -63,11 +63,28 @@ namespace Mixture
 			return compatiblePorts;
 		}
 
+		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			base.BuildContextualMenu(evt);
+
+			// Disable the Delete option if there is an output node view selected
+			if (selection.Any(s => s is OutputNodeView))
+			{
+				int deleteIndex = evt.menu.MenuItems().FindIndex(m => (m as DropdownMenuAction)?.name == "Delete");
+
+				if (deleteIndex != -1)
+				{
+					evt.menu.RemoveItemAt(deleteIndex);
+					evt.menu.InsertAction(deleteIndex, "Delete", a => {}, DropdownMenuAction.Status.Disabled);
+				}
+			}
+		}
+
 		void Initialize()
 		{
 			RegisterCallback< KeyDownEvent >(KeyCallback);
 
-			processor = new MixtureProcessor(graph);
+			processor = new MixtureGraphProcessor(graph);
 			computeOrderUpdated += processor.UpdateComputeOrder;
 			graph.onOutputTextureUpdated += () => processor.Run();
 			graph.onGraphChanges += _ => this.schedule.Execute(() => ProcessGraph()).ExecuteLater(10);

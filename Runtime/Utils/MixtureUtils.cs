@@ -40,7 +40,6 @@ namespace Mixture
 			}
 		}
 
-
 		static Material	_textureArrayPreviewMaterial;
 		public static Material	textureArrayPreviewMaterial
 		{
