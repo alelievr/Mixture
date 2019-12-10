@@ -23,11 +23,11 @@ Shader "Hidden/Mixture/FinalCopy"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma target 3.0
 
-			TEXTURE_SAMPLER_X(_Source);
+			TEXTURE_X(_Source);
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				return SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
+				return LOAD_X(_Source, i.localTexcoord.xyz, i.direction);
 			}
 			ENDCG
 		}
