@@ -33,6 +33,9 @@ namespace Mixture
 			outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
 			graph.onOutputTextureUpdated += UpdatePreviewImage;
 
+			// Clear the input when disconnecting it:
+			onPortDisconnected += _ => outputNode.input = null;
+
 			InitializeDebug();
 		}
 
@@ -99,7 +102,7 @@ namespace Mixture
 			controlsContainer.Add(qualityField);
 		}
 
-		void UpdatePreviewImage() => CreateTexturePreview(previewContainer, graph.isRealtime ? graph.outputTexture : outputNode.tempRenderTexture, outputNode.currentSlice);
+		void UpdatePreviewImage() => CreateTexturePreview(previewContainer, outputNode, outputNode.currentSlice);
 
         protected void SaveMasterTexture()
         {

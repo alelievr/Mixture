@@ -25,9 +25,9 @@ namespace Mixture
 		public event Action			onTempRenderTextureUpdated;
 
 		public override string		name => "Output";
-		public override Texture 	previewTexture => tempRenderTexture;
+		public override Texture 	previewTexture => graph.isRealtime ? graph.outputTexture : tempRenderTexture;
 		public override float		nodeWidth => 320;
-		
+
 		Material					_finalCopyMaterial;
 		Material					finalCopyMaterial
 		{
@@ -110,9 +110,6 @@ namespace Mixture
 			{
 				if (uniqueMessages.Add("OutputNotConnected"))
 					AddMessage("Output node input is not connected", NodeMessageType.Warning);
-				input = TextureUtils.GetBlackTexture(rtSettings);
-				// TODO: set a black texture of texture dimension as default value
-				return false;
 			}
 			else
 			{
@@ -123,26 +120,29 @@ namespace Mixture
 			// Update the renderTexture size and format:
 			if (UpdateTempRenderTexture(ref tempRenderTexture))
 				onTempRenderTextureUpdated?.Invoke();
-
-			if (input.dimension != graph.outputTexture.dimension)
-			{
-				Debug.LogError("Error: Expected texture type input for the OutputNode is " + graph.outputTexture.dimension + " but " + input?.dimension + " was provided");
-				return false;
-			}
-
-			MixtureUtils.SetupDimensionKeyword(finalCopyMaterial, input.dimension);
-
+				
 			// Manually reset all texture inputs
 			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_2D");
 			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_3D");
 			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_Cube");
 
-			if (input.dimension == TextureDimension.Tex2D)
-				finalCopyMaterial.SetTexture("_Source_2D", input);
-			else if (input.dimension == TextureDimension.Tex3D)
-				finalCopyMaterial.SetTexture("_Source_3D", input);
-			else
-				finalCopyMaterial.SetTexture("_Source_Cube", input);
+			if (input != null)
+			{
+				if ( input.dimension != graph.outputTexture.dimension)
+				{
+					Debug.LogError("Error: Expected texture type input for the OutputNode is " + graph.outputTexture.dimension + " but " + input?.dimension + " was provided");
+					return false;
+				}
+
+				MixtureUtils.SetupDimensionKeyword(finalCopyMaterial, input.dimension);
+
+				if (input.dimension == TextureDimension.Tex2D)
+					finalCopyMaterial.SetTexture("_Source_2D", input);
+				else if (input.dimension == TextureDimension.Tex3D)
+					finalCopyMaterial.SetTexture("_Source_3D", input);
+				else
+					finalCopyMaterial.SetTexture("_Source_Cube", input);
+			}
 
 			tempRenderTexture.material = finalCopyMaterial;
 

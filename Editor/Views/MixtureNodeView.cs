@@ -89,7 +89,7 @@ namespace Mixture
 			if (hasPreview)
 			{
                 if (previewContainer.childCount == 0 || CheckDimensionChanged())
-                    CreateTexturePreview(previewContainer, nodeTarget.previewTexture); // TODO : Add Slice Preview
+                    CreateTexturePreview(previewContainer, nodeTarget); // TODO : Add Slice Preview
             }
 		}
 
@@ -193,32 +193,32 @@ namespace Mixture
 			return propertiesChanged;
 		}
 
-		protected void CreateTexturePreview(VisualElement previewContainer, Texture texture, int currentSlice = 0)
+		protected void CreateTexturePreview(VisualElement previewContainer, MixtureNode node, int currentSlice = 0)
 		{
 			previewContainer.Clear();
 
-			if (texture == null)
+			if (node.previewTexture == null)
 				return;
 
 			VisualElement texturePreview = new VisualElement();
 			previewContainer.Add(texturePreview);
 
-            switch (texture.dimension)
+            switch (node.previewTexture.dimension)
 			{
 				case TextureDimension.Tex2D:
-					CreateTexture2DPreview(texturePreview, texture);
+					CreateTexture2DPreview(texturePreview, node);
 					break;
 				case TextureDimension.Tex3D:
-					CreateTexture3DPreview(texturePreview, texture, currentSlice);
+					CreateTexture3DPreview(texturePreview, node, currentSlice);
 					break;
 				case TextureDimension.Cube:
-					CreateTextureCubePreview(texturePreview, texture, currentSlice);
+					CreateTextureCubePreview(texturePreview, node, currentSlice);
 					break;
 				default:
-					Debug.LogError(texture + " is not a supported type for preview");
+					Debug.LogError(node.previewTexture + " is not a supported type for preview");
 					return;
 			}
-            previewContainer.name = texture.dimension.ToString();
+            previewContainer.name = node.previewTexture.dimension.ToString();
 
 			Button togglePreviewButton = null;
 			togglePreviewButton = new Button(() => {
@@ -286,6 +286,7 @@ namespace Mixture
 					(g ? PreviewChannels.G : 0) |
 					(b ? PreviewChannels.B : 0) |
 					(a ? PreviewChannels.A : 0);
+					owner.RegisterCompleteObjectUndo("Updated Preview Masks");
 				}
 
 				if (texture.mipmapCount > 1)
@@ -325,48 +326,52 @@ namespace Mixture
 			}
 		}
 
-		void CreateTexture2DPreview(VisualElement previewContainer, Texture texture)
+		void CreateTexture2DPreview(VisualElement previewContainer, MixtureNode node)
 		{
 			var previewElement = new IMGUIContainer(() => {
-				if (texture == null)
+				if (node.previewTexture == null)
 					return;
 
-				DrawPreviewCommonSettings(texture);
+				DrawPreviewCommonSettings(node.previewTexture);
 
-				MixtureUtils.texture2DPreviewMaterial.SetTexture("_MainTex", texture);
-				MixtureUtils.texture2DPreviewMaterial.SetVector("_Size", new Vector4(texture.width,texture.height,1,1));
+				MixtureUtils.texture2DPreviewMaterial.SetTexture("_MainTex", node.previewTexture);
+				MixtureUtils.texture2DPreviewMaterial.SetVector("_Size", new Vector4(node.previewTexture.width,node.previewTexture.height,1,1));
 				MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
 				MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
-				Rect previewRect = GetPreviewRect(texture);
-				EditorGUI.DrawPreviewTexture(previewRect, texture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+				Rect previewRect = GetPreviewRect(node.previewTexture);
 
-				DrawTextureInfoHover(previewRect, texture);
+				if (Event.current.type == EventType.Repaint)
+					EditorGUI.DrawPreviewTexture(previewRect, node.previewTexture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+
+				DrawTextureInfoHover(previewRect, node.previewTexture);
 			});
 			previewContainer.Add(previewElement);
 		}
 
-		void CreateTexture3DPreview(VisualElement previewContainer, Texture texture, int currentSlice)
+		void CreateTexture3DPreview(VisualElement previewContainer, MixtureNode node, int currentSlice)
 		{
-			// TODO: 3D Texture preview material with ray-marching
-			var previewSliceIndex = new SliderInt(0, TextureUtils.GetSliceCount(texture) - 1)
+			// TODO: Use the default 3D texture preview from the inspector (PreviewManager ?)
+			var previewSliceIndex = new SliderInt(0, TextureUtils.GetSliceCount(node.previewTexture) - 1)
 			{
 				label = "Slice",
 				value = currentSlice,
 			};
 			var previewImageSlice = new IMGUIContainer(() => {
-				if (texture == null)
+				if (node.previewTexture == null)
 					return;
 
-				DrawPreviewCommonSettings(texture);
+				DrawPreviewCommonSettings(node.previewTexture);
 
-				MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", texture);
+				MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", node.previewTexture);
 				MixtureUtils.texture3DPreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
 				MixtureUtils.texture3DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
 				MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", ((float)currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
-				Rect previewRect = GetPreviewRect(texture);
-				EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0, ColorWriteMask.Red);
+				Rect previewRect = GetPreviewRect(node.previewTexture);
 
-				DrawTextureInfoHover(previewRect, texture);
+				if (Event.current.type == EventType.Repaint)
+					EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0, ColorWriteMask.Red);
+
+				DrawTextureInfoHover(previewRect, node.previewTexture);
             });
 			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
 				currentSlice = a.newValue;
@@ -375,21 +380,23 @@ namespace Mixture
 			previewContainer.Add(previewImageSlice);
 		}
 
-		void CreateTextureCubePreview(VisualElement previewContainer, Texture texture, int currentSlice)
+		void CreateTextureCubePreview(VisualElement previewContainer, MixtureNode node, int currentSlice)
 		{
 			var previewImageSlice = new IMGUIContainer(() => {
-				if (texture == null)
+				if (node.previewTexture == null)
 					return;
 
-				DrawPreviewCommonSettings(texture);
+				DrawPreviewCommonSettings(node.previewTexture);
 
-				MixtureUtils.textureCubePreviewMaterial.SetTexture("_Cubemap", texture);
+				MixtureUtils.textureCubePreviewMaterial.SetTexture("_Cubemap", node.previewTexture);
 				MixtureUtils.textureCubePreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
 				MixtureUtils.textureCubePreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
-				Rect previewRect = GetPreviewRect(texture);
-				EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+				Rect previewRect = GetPreviewRect(node.previewTexture);
 
-				DrawTextureInfoHover(previewRect, texture);
+				if (Event.current.type == EventType.Repaint)
+					EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+
+				DrawTextureInfoHover(previewRect, node.previewTexture);
             });
 			previewContainer.Add(previewImageSlice);
 		}
