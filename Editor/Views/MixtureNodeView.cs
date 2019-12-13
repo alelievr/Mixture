@@ -281,12 +281,12 @@ namespace Mixture
 
 				if (EditorGUI.EndChangeCheck())
 				{
+					owner.RegisterCompleteObjectUndo("Updated Preview Masks");
 					nodeTarget.previewMode =
 					(r ? PreviewChannels.R : 0) |
 					(g ? PreviewChannels.G : 0) |
 					(b ? PreviewChannels.B : 0) |
 					(a ? PreviewChannels.A : 0);
-					owner.RegisterCompleteObjectUndo("Updated Preview Masks");
 				}
 
 				if (texture.mipmapCount > 1)

@@ -13,8 +13,8 @@ namespace Mixture
 		VisualElement	shaderCreationUI;
 		VisualElement	materialEditorUI;
 		MaterialEditor	materialEditor;
-		protected OutputNode		outputNode;
-		protected MixtureGraph    graph;
+		protected OutputNode	outputNode;
+		protected MixtureGraph	graph;
 
 		// Debug fields
 		ObjectField		debugCustomRenderTextureField;
@@ -80,9 +80,15 @@ namespace Mixture
 		void AddCompressionSettings()
 		{
 			var formatField = new EnumField("Format", outputNode.compressionFormat);
-			formatField.RegisterValueChangedCallback((e) => outputNode.compressionFormat = (MixtureCompressionFormat)e.newValue);
+			formatField.RegisterValueChangedCallback((e) => {
+				owner.RegisterCompleteObjectUndo("Changed Compression Format");
+				outputNode.compressionFormat = (MixtureCompressionFormat)e.newValue;
+			});
 			var qualityField = new EnumField("Quality", outputNode.compressionQuality);
-			qualityField.RegisterValueChangedCallback((e) => outputNode.compressionQuality = (MixtureCompressionQuality)e.newValue);
+			qualityField.RegisterValueChangedCallback((e) => {
+				owner.RegisterCompleteObjectUndo("Changed Compression Quality");
+				outputNode.compressionQuality = (MixtureCompressionQuality)e.newValue;
+			});
 
 			if (!outputNode.enableCompression)
 			{
@@ -92,6 +98,7 @@ namespace Mixture
 			
 			var enabledField = new Toggle("Compression") { value = outputNode.enableCompression };
 			enabledField.RegisterValueChangedCallback((e) => {
+				owner.RegisterCompleteObjectUndo("Toggled Compression");
 				qualityField.ToggleInClassList("Hidden");
 				formatField.ToggleInClassList("Hidden");
 				outputNode.enableCompression = e.newValue;
