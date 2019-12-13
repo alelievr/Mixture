@@ -335,6 +335,10 @@ namespace Mixture
         {
             if (isRealtime)
                 return;
+            
+            if (outputNode.rtSettings.width != outputTexture.width
+                || outputNode.rtSettings.height != outputTexture.height)
+                UpdateOutputTexture(false);
 
             ReadBackTexture(this.outputNode);
         }

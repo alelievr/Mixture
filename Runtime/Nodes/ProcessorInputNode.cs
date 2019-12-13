@@ -24,7 +24,7 @@ namespace Mixture
 		// Serialized properties for the view:
 		public int					currentSlice;
 
-		public event Action			onTempRenderTextureUpdated;
+		// public event Action			onTempRenderTextureUpdated;
 
 		public override string		name => "Input";
 		public override Texture 	previewTexture => tempRenderTexture;
