@@ -9,6 +9,8 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Operators/Vector Ping Pong")]
 	public class VectorPingPongNode : MixtureNode
 	{
+		public override bool hasSettings => false;
+
 		[Input("T")]
 		public Vector4	t;
 		

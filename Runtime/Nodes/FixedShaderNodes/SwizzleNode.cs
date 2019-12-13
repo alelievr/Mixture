@@ -9,6 +9,8 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Channels/Swizzle")]
 	public class SwizzleNode : FixedShaderNode
 	{
+		public override bool hasSettings => false;
+
 		public override string name => "Swizzle";
 
 		public override string shaderName => "Hidden/Mixture/Swizzle";

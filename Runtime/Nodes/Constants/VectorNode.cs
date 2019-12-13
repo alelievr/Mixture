@@ -9,6 +9,8 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Constants/Vector")]
 	public class VectorNode : MixtureNode
 	{
+		public override bool hasSettings => false;
+
 		[Output(name = "Vector"), SerializeField]
 		public Vector4 vector = Vector4.one;
 

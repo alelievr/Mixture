@@ -10,6 +10,7 @@ namespace Mixture
 	public class VectorAddNode : MixtureNode
 	{
 		// TODO: multi Vectoradd port
+		public override bool hasSettings => false;
 
 		[Input("A")]
 		public Vector4	a;

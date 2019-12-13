@@ -9,6 +9,8 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Operators/Vector Pow")]
 	public class VectorPowNode : MixtureNode
 	{
+		public override bool hasSettings => false;
+
 		[Input("A")]
 		public Vector4	a;
 		

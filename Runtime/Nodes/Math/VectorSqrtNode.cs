@@ -6,6 +6,8 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Operators/Vector Sqrt")]
 	public class VectorSqrtNode : MixtureNode
 	{
+		public override bool hasSettings => false;
+
 		[Input("A")]
 		public Vector4	a;
 		

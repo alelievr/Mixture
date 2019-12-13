@@ -9,6 +9,8 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Utils/Random Color")]
 	public class RandomColorNode : MixtureNode
 	{
+		public override bool hasSettings => false;
+
 		[Output("Color")]
 		public Color	r;
 

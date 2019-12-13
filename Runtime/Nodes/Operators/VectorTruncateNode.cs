@@ -11,6 +11,7 @@ namespace Mixture
 	public class VectorTruncateNode : MixtureNode
 	{
 		// TODO: multi VectorTruncate port
+		public override bool hasSettings => false;
 
 		[Input("A")]
 		public Vector4	a;

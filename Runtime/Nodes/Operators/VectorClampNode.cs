@@ -10,6 +10,7 @@ namespace Mixture
 	public class VectorClampNode : MixtureNode
 	{
 		// TODO: multi VectorClamp port
+		public override bool hasSettings => false;
 
 		[Input("A")]
 		public Vector4	a;

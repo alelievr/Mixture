@@ -10,6 +10,7 @@ namespace Mixture
 	public class VectorFracNode : MixtureNode
 	{
 		// TODO: multi VectorFrac port
+		public override bool hasSettings => false;
 
 		[Input("A")]
 		public Vector4	a;

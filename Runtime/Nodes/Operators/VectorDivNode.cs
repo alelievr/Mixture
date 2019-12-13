@@ -10,6 +10,7 @@ namespace Mixture
 	public class VectorDivNode : MixtureNode
 	{
 		// TODO: multi VectorDiv port
+		public override bool hasSettings => false;
 
 		[Input("A")]
 		public Vector4	a;
