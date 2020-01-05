@@ -141,7 +141,6 @@ namespace Mixture
 		void UpdateOutputRealtimeTexture()
 		{
 			var s = outputNode.rtSettings;
-			bool useMipMap = outputNode.mipmapCount > 1;
 
 			if (!(outputTexture is CustomRenderTexture))
 			{
@@ -151,7 +150,7 @@ namespace Mixture
 			var crt = outputTexture as CustomRenderTexture;
 			bool needsUpdate = crt.width != s.width
 				|| crt.height != s.height
-				|| crt.useMipMap != useMipMap
+				|| crt.useMipMap != outputNode.hasMips
 				|| crt.volumeDepth != s.sliceCount
 				|| crt.graphicsFormat != (GraphicsFormat)s.targetFormat
 				|| crt.updateMode != CustomRenderTextureUpdateMode.Realtime;
@@ -163,7 +162,7 @@ namespace Mixture
 				crt.width = s.width;
 				crt.height = s.height;
 				crt.graphicsFormat = (GraphicsFormat)s.targetFormat;
-				crt.useMipMap = useMipMap;
+				crt.useMipMap = outputNode.hasMips;
 				crt.autoGenerateMips = false;
 				crt.updateMode = CustomRenderTextureUpdateMode.Realtime;
 				crt.volumeDepth = s.sliceCount;
@@ -174,20 +173,21 @@ namespace Mixture
 		void UpdateOutputStaticTexture()
 		{
 			var s = outputNode.rtSettings;
+            var creationFlags = outputNode.hasMips ? TextureCreationFlags.MipChain : TextureCreationFlags.None;
 
 			// TODO: compression options (TextureCreationFlags.Crunch)
 			switch (outputNode.rtSettings.dimension)
 			{
 				case OutputDimension.Texture2D:
-					outputTexture = new Texture2D(s.width, s.height, (GraphicsFormat)s.targetFormat, outputNode.mipmapCount, TextureCreationFlags.None); // By default we compress the texture
+					outputTexture = new Texture2D(s.width, s.height, (GraphicsFormat)s.targetFormat, creationFlags); // By default we compress the texture
 					onOutputTextureUpdated?.Invoke();
 					break;
 				case OutputDimension.Texture3D:
-					outputTexture = new Texture3D(s.width, s.height, s.sliceCount, (GraphicsFormat)s.targetFormat, TextureCreationFlags.None, outputNode.mipmapCount);
+					outputTexture = new Texture3D(s.width, s.height, s.sliceCount, (GraphicsFormat)s.targetFormat, creationFlags);
 					onOutputTextureUpdated?.Invoke();
 					break;
 				case OutputDimension.CubeMap:
-					outputTexture = new Cubemap(s.width, (GraphicsFormat)s.targetFormat, TextureCreationFlags.None, outputNode.mipmapCount);
+					outputTexture = new Cubemap(s.width, (GraphicsFormat)s.targetFormat, creationFlags);
 					onOutputTextureUpdated?.Invoke();
 					break;
 				default:

@@ -51,7 +51,7 @@ namespace Mixture
 			previewMode = defaultPreviewChannels;
 		}
 
-		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target)
+		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false)
 		{
 			if (graph.outputTexture == null)
 				return false;
@@ -81,8 +81,8 @@ namespace Mixture
                     doubleBuffered = rtSettings.doubleBuffered,
                     wrapMode = rtSettings.wrapMode,
                     filterMode = rtSettings.filterMode,
-                    useMipMap = false,
-					autoGenerateMips = false,
+                    useMipMap = hasMips,
+					autoGenerateMips = autoGenerateMips,
 				};
 				target.Create();
 
@@ -100,7 +100,9 @@ namespace Mixture
 				|| target.filterMode != graph.outputTexture.filterMode
 				|| target.doubleBuffered != rtSettings.doubleBuffered
                 || target.wrapMode != rtSettings.wrapMode
-                || target.filterMode != rtSettings.filterMode)
+                || target.filterMode != rtSettings.filterMode
+				|| target.useMipMap != hasMips
+				|| target.autoGenerateMips != autoGenerateMips)
 			{
 				target.Release();
 				target.width = Math.Max(1, outputWidth);
@@ -111,7 +113,8 @@ namespace Mixture
 				target.doubleBuffered = rtSettings.doubleBuffered;
                 target.wrapMode = rtSettings.wrapMode;
                 target.filterMode = rtSettings.filterMode;
-                target.useMipMap = true;
+                target.useMipMap = hasMips;
+				target.autoGenerateMips = autoGenerateMips;
 				target.Create();
 			}
 

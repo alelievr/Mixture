@@ -27,6 +27,7 @@ Shader "Hidden/Mixture/FinalCopy"
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
+				// TODO: sampler in nearest for cubemaps
 				return LOAD_X(_Source, i.localTexcoord.xyz, i.direction);
 			}
 			ENDCG

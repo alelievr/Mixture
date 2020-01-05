@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Add")]
-	public class VectorAddNode : MixtureNode
+	public class VectorAddNode : MixtureNode, ICPUNode
 	{
 		// TODO: multi Vectoradd port
 		public override bool hasSettings => false;

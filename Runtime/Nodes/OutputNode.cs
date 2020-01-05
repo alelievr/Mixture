@@ -12,12 +12,19 @@ namespace Mixture
 		[Input(name = "In")]
 		public Texture			input;
 
-		public int				mipmapCount = 1;
+		public bool				hasMips = false;
+
+		public Shader			customMipMapShader;
 
 		// We use a temporary renderTexture to display the result of the graph
 		// in the preview so we don't have to readback the memory each time we change something
 		[NonSerialized, HideInInspector]
 		public CustomRenderTexture	tempRenderTexture;
+
+		// A second temporary render texture with mip maps is needed to generate the custom mip maps.
+		// It's needed because we can't read/write to the same render target even between different mips
+		[NonSerialized, HideInInspector]
+		public CustomRenderTexture	mipmapRenderTexture;
 
 		// Serialized properties for the view:
 		public int					currentSlice;
@@ -38,6 +45,24 @@ namespace Mixture
 				return _finalCopyMaterial;
 			}
 		}
+
+		Material					_customMipMapMaterial;
+		Material					customMipMapMaterial
+		{
+			get
+			{
+				if (_customMipMapMaterial == null || _customMipMapMaterial.shader != customMipMapShader)
+				{
+					if (_customMipMapMaterial != null)
+						Material.DestroyImmediate(_customMipMapMaterial, false);
+					_customMipMapMaterial = new Material(customMipMapShader);
+				}
+
+				return _customMipMapMaterial;
+			}
+		}
+
+		MaterialPropertyBlock				mipMapPropertyBlock;
 
 		// Compression settings
 		// TODO: there are too many formats, reduce them with a new enum
@@ -77,9 +102,9 @@ namespace Mixture
 			}
 			else
 			{
-				UpdateTempRenderTexture(ref tempRenderTexture);
+				UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null);
 				graph.onOutputTextureUpdated += () => {
-					UpdateTempRenderTexture(ref tempRenderTexture);
+					UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null);
 				};
 			}
 
@@ -118,9 +143,9 @@ namespace Mixture
 			}
 
 			// Update the renderTexture size and format:
-			if (UpdateTempRenderTexture(ref tempRenderTexture))
+			if (UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null))
 				onTempRenderTextureUpdated?.Invoke();
-				
+
 			// Manually reset all texture inputs
 			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_2D");
 			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_3D");
@@ -146,7 +171,50 @@ namespace Mixture
 
 			tempRenderTexture.material = finalCopyMaterial;
 
+			// The CustomRenderTexture update will be triggered at the begining of the next frame so we wait one frame to generate the mipmaps
+			// We need to do this because we can't generate custom mipMaps with CustomRenderTextures
+			if (customMipMapShader != null && hasMips)
+			{
+				UpdateTempRenderTexture(ref mipmapRenderTexture, true, false);
+				GenerateCustomMipMaps();
+			}
+			else
+			{
+				// TODO: a less hardcore thing
+				Camera.main.RemoveAllCommandBuffers();
+			}
+
 			return true;
+		}
+
+		void GenerateCustomMipMaps()
+		{
+#if UNITY_EDITOR
+			CommandBuffer cmd = new CommandBuffer();
+
+			cmd.name = "Generate Custom MipMaps";
+
+			if (mipMapPropertyBlock == null)
+				mipMapPropertyBlock = new MaterialPropertyBlock();
+
+			// TODO: support 3D textures and Cubemaps
+			for (int i = 0; i < tempRenderTexture.mipmapCount - 1; i++)
+			{
+				mipmapRenderTexture.name = "Tmp mipmap";
+				cmd.SetRenderTarget(mipmapRenderTexture, i + 1, CubemapFace.Unknown, 0);
+
+				mipMapPropertyBlock.SetTexture("_InputTexture_2D", tempRenderTexture);
+				mipMapPropertyBlock.SetFloat("_CurrentMipLevel", i);
+
+				cmd.DrawProcedural(Matrix4x4.identity, customMipMapMaterial, 0, MeshTopology.Triangles, 3, 1, mipMapPropertyBlock);
+
+				cmd.CopyTexture(mipmapRenderTexture, 0, i + 1, tempRenderTexture, 0, i + 1);
+			}
+
+			// TODO: SRP version using RenderPipelineManager
+			Camera.main.RemoveAllCommandBuffers();
+			Camera.main.AddCommandBuffer(CameraEvent.BeforeDepthTexture, cmd);
+#endif
 		}
 
 		[CustomPortBehavior(nameof(input))]

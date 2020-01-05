@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
     [System.Serializable, NodeMenuItem("Utils/Make Vector")]
-    public class MakeVectorNode : MixtureNode
+    public class MakeVectorNode : MixtureNode, ICPUNode
     {
         [Input("X")]
         public float X;

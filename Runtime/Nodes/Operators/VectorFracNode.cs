@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Frac")]
-	public class VectorFracNode : MixtureNode
+	public class VectorFracNode : MixtureNode, ICPUNode
 	{
 		// TODO: multi VectorFrac port
 		public override bool hasSettings => false;

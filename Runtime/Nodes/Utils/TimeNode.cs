@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Utils/Time")]
-	public class TimeNode : MixtureNode
+	public class TimeNode : MixtureNode, ICPUNode
 	{
 		[Output(name = "Time")]
 		public float				time;

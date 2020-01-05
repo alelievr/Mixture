@@ -293,8 +293,8 @@ namespace Mixture
 				{
 					GUILayout.Space(8);
 
-					nodeTarget.previewMip = GUILayout.HorizontalSlider(nodeTarget.previewMip, 0.0f, 5.0f, GUILayout.Width(64));
-					GUILayout.Label("Mip #"+ nodeTarget.previewMip.ToString("0"), EditorStyles.toolbarButton);
+					nodeTarget.previewMip = GUILayout.HorizontalSlider(nodeTarget.previewMip, 0.0f, texture.mipmapCount, GUILayout.Width(64));
+					GUILayout.Label($"Mip #{Mathf.Floor(nodeTarget.previewMip)}", EditorStyles.toolbarButton);
 				}
 
 				GUILayout.FlexibleSpace();

@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Utils/Random Color")]
-	public class RandomColorNode : MixtureNode
+	public class RandomColorNode : MixtureNode, ICPUNode
 	{
 		public override bool hasSettings => false;
 

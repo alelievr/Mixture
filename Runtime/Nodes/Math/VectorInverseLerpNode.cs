@@ -4,7 +4,7 @@ using GraphProcessor;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector InverseLerp")]
-	public class VectorInverseLerpNode : MixtureNode
+	public class VectorInverseLerpNode : MixtureNode, ICPUNode
 	{
 		public override bool hasSettings => false;
 		

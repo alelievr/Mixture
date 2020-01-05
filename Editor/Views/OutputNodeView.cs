@@ -50,9 +50,34 @@ namespace Mixture
                 {
                     text = "Save"
                 });
-            }
 
+				AddCustomMipMapSettings();
+            }
         }
+
+		void AddCustomMipMapSettings()
+		{
+			var customMipMapBlock = Resources.Load<VisualTreeAsset>("UI Blocks/CustomMipMap").CloneTree();
+
+			var shaderField = customMipMapBlock.Q("ShaderField") as ObjectField;
+			shaderField.objectType = typeof(Shader);
+			shaderField.value = outputNode.customMipMapShader;
+			shaderField.RegisterValueChangedCallback(e => outputNode.customMipMapShader = e.newValue as Shader);
+
+			var button = customMipMapBlock.Q("NewMipMapShader") as Button;
+			button.clicked += MixtureAssetCallbacks.CreateCustomMipMapShaderGraph;
+			// TODO: assign the created shader when finished
+
+			var mipMapToggle = new Toggle("Has Mip Maps") { value = outputNode.hasMips};
+			customMipMapBlock.style.display = outputNode.hasMips ? DisplayStyle.Flex : DisplayStyle.None;
+			mipMapToggle.RegisterValueChangedCallback(e => {
+				outputNode.hasMips = e.newValue;
+				customMipMapBlock.style.display = outputNode.hasMips ? DisplayStyle.Flex : DisplayStyle.None;
+			});
+
+			controlsContainer.Add(mipMapToggle);
+			controlsContainer.Add(customMipMapBlock);
+		}
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{

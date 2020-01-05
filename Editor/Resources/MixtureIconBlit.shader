@@ -21,8 +21,7 @@ Shader "Hidden/MixtureIconBlit"
 
             #pragma shader_feature CRT_2D CRT_2D_ARRAY CRT_3D CRT_CUBE
 
-            #include "UnityCG.cginc"
-            #include "MixtureUtils.cginc"
+            #include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.cginc"
 
             struct appdata
             {

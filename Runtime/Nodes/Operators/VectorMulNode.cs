@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Mul")]
-	public class VectorMulNode : MixtureNode
+	public class VectorMulNode : MixtureNode, ICPUNode
 	{
 		// TODO: Vectormulti VectorMul port
 		public override bool hasSettings => false;

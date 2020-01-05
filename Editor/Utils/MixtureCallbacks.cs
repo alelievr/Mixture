@@ -22,6 +22,8 @@ namespace Mixture
 		public static readonly string	mixtureShaderNodeDefaultName = "MixtureShaderNode.cs";
 		public static readonly string	mixtureShaderName = "MixtureShader.shader";
 
+		public static readonly string	customMipMapShader = "MixtureShader.shader";
+
 		[MenuItem("Assets/Create/Mixture/Static Mixture Graph", false, 100)]
 		public static void CreateStaticMixtureGraph()
 		{
@@ -54,6 +56,14 @@ namespace Mixture
 			var graphItem = ScriptableObject.CreateInstance< CustomtextureShaderGraphAction >();
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
                 $"New Custom Texture Graph.{ShaderGraphImporter.Extension}", Resources.Load<Texture2D>("sg_graph_icon@64"), null);
+		}
+
+		[MenuItem("Assets/Create/Mixture/Custom Mip Map", false, 203)]
+		public static void CreateCustomMipMapShaderGraph()
+		{
+			var graphItem = ScriptableObject.CreateInstance< MipMapShaderGraphAction >();
+            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
+                $"New Custom Mip Map.{ShaderGraphImporter.Extension}", Resources.Load<Texture2D>("sg_graph_icon@64"), null);
 		}
 #endif
 		
@@ -204,6 +214,18 @@ namespace Mixture
 		class CustomtextureShaderGraphAction : EndNameEditAction
 		{
 			public static readonly string template = "Templates/CustomTextureGraphTemplate";
+
+			public override void Action(int instanceId, string pathName, string resourceFile)
+			{
+				var s = Resources.Load(template, typeof(Shader));
+				AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(s), pathName);
+				ProjectWindowUtil.ShowCreatedAsset(AssetDatabase.LoadAssetAtPath<Shader>(pathName));
+			}
+		}
+
+		class MipMapShaderGraphAction : EndNameEditAction
+		{
+			public static readonly string template = "Templates/CustomMipMapTemplate";
 
 			public override void Action(int instanceId, string pathName, string resourceFile)
 			{

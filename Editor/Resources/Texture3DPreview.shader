@@ -64,7 +64,7 @@
                 // TODO: factorize this !
 				float2 checkerboardUVs = ceil(fmod(i.uv * _Texture3D_TexelSize.xy / 64.0, 1.0)-0.5);
 				float3 checkerboard = lerp(0.3,0.4, checkerboardUVs.x != checkerboardUVs.y ? 1 : 0);
-                float4 color = _Texture3D.SampleLevel(sampler_Linear_Clamp_Texture3D, float3(i.uv, _Depth), 0) * _Channels;
+                float4 color = _Texture3D.SampleLevel(sampler_Linear_Clamp_Texture3D, float3(i.uv, _Depth), _PreviewMip) * _Channels;
 
                 if (_Channels.a == 0.0) 
 					color.a = 1.0;

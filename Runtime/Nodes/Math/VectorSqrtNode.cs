@@ -4,7 +4,7 @@ using GraphProcessor;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Sqrt")]
-	public class VectorSqrtNode : MixtureNode
+	public class VectorSqrtNode : MixtureNode, ICPUNode
 	{
 		public override bool hasSettings => false;
 
