@@ -203,8 +203,14 @@ namespace Mixture
 				mipmapRenderTexture.name = "Tmp mipmap";
 				cmd.SetRenderTarget(mipmapRenderTexture, i + 1, CubemapFace.Unknown, 0);
 
+				Vector4 textureSize = new Vector4(tempRenderTexture.width, tempRenderTexture.height, tempRenderTexture.volumeDepth, 0);
+				textureSize /= 1 << i;
+				Vector4 textureSizeRcp = new Vector4(1.0f / textureSize.x, 1.0f / textureSize.y, 1.0f / textureSize.z, 0);
+
 				mipMapPropertyBlock.SetTexture("_InputTexture_2D", tempRenderTexture);
 				mipMapPropertyBlock.SetFloat("_CurrentMipLevel", i);
+				mipMapPropertyBlock.SetVector("_InputTextureSize", textureSize);
+				mipMapPropertyBlock.SetVector("_InputTextureSizeRcp", textureSizeRcp);
 
 				cmd.DrawProcedural(Matrix4x4.identity, customMipMapMaterial, 0, MeshTopology.Triangles, 3, 1, mipMapPropertyBlock);
 
