@@ -23,7 +23,19 @@ namespace Mixture
 		// Whether or not the mixture is realtime
 		public bool				isRealtime;
 
-		public OutputNode		outputNode;
+        [System.NonSerialized]
+		OutputNode		        _outputNode;
+		public OutputNode		outputNode
+        {
+            get
+            {
+                if (_outputNode == null)
+                    _outputNode = nodes.FirstOrDefault(n => n is OutputNode) as OutputNode;
+
+                return _outputNode;
+            }
+            internal set => _outputNode = value;
+        }
 
 		[SerializeField]
 		List< Object >			objectReferences = new List< Object >();
@@ -66,8 +78,6 @@ namespace Mixture
 		void Enabled()
 		{
 			// We should have only one OutputNode per graph
-			outputNode = nodes.FirstOrDefault(n => n is OutputNode) as OutputNode;
-
 			if (outputNode == null)
 				outputNode = AddNode(BaseNode.CreateFromType< OutputNode >(Vector2.zero)) as OutputNode;
 

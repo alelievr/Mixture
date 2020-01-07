@@ -71,6 +71,7 @@ namespace Mixture
 			shaderField.value = outputNode.customMipMapShader;
 			button.style.display = outputNode.customMipMapShader != null ? DisplayStyle.None : DisplayStyle.Flex;
 			shaderField.RegisterValueChangedCallback(e => {
+				owner.RegisterCompleteObjectUndo("Changed Custom Mip Map Shader");
 				outputNode.customMipMapShader = e.newValue as Shader;
 				button.style.display = e.newValue != null ? DisplayStyle.None : DisplayStyle.Flex;;
 			});

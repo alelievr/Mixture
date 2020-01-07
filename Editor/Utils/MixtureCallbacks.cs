@@ -40,14 +40,6 @@ namespace Mixture
                 $"New Realtime Mixture Graph.{Extension}", MixtureUtils.realtimeIcon, null);
 		}
 
-		[MenuItem("Assets/Create/Mixture/Processor", false, 102)]
-		public static void CreateMixtureProcessor()
-		{
-			var graphItem = ScriptableObject.CreateInstance< MixtureProcessorGraphAction >();
-            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
-                $"New Mixture Processor.{Extension}", MixtureUtils.icon, null);
-		}
-
 #if MIXTURE_SHADERGRAPH
 		[MenuItem("Assets/Create/Mixture/Fixed Shader Graph", false, 202)]
 		[MenuItem("Assets/Create/Shader/Custom Texture Graph", false, 200)]
@@ -149,21 +141,6 @@ namespace Mixture
 				var g = AssetDatabase.LoadAllAssetsAtPath(template).FirstOrDefault(a => a is MixtureGraph);
 
 				return ScriptableObject.Instantiate(g) as MixtureGraph;
-			}
-		}
-
-		class MixtureProcessorGraphAction : MixtureGraphAction
-		{
-			// public static readonly string template = $"{MixtureEditorUtils.mixtureEditorResourcesPath}Templates/StaticMixtureGraphTemplate.asset";
-
-			// By default isRealtime is false so we don't need to initialize it like in the realtime mixture create function
-			public override MixtureGraph CreateMixtureGraphAsset()
-			{
-				// var g = AssetDatabase.LoadAllAssetsAtPath(template).FirstOrDefault(a => a is MixtureGraph);
-
-				// return ScriptableObject.Instantiate(g) as MixtureGraph;
-
-				return ScriptableObject.CreateInstance<MixtureProcessor>();
 			}
 		}
 

@@ -18,6 +18,7 @@ namespace Mixture
 		public MixtureGraphView(EditorWindow window) : base(window)
 		{
 			initialized += Initialize;
+			Undo.undoRedoPerformed += ReloadGraph;
 		}
 
 		public override List< Port > GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -94,6 +95,11 @@ namespace Mixture
 		}
 
 		public void ProcessGraph() => processor?.Run();
+
+		void ReloadGraph()
+		{
+			graph.outputNode = null;
+		}
 
 		void CreateNodeOfType(Type type, Vector2 position)
 		{

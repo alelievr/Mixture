@@ -35,13 +35,14 @@ namespace Mixture
 				// and inside the dependency tree of a CRT. So we need to manually update all CRTs.
 				if (node is ShaderNode s)
 				{
-					// the CRT output will be null if there are procesing errors
+					// the CRT output will be null if there are processing errors
 					if (s.output != null)
 						s.output.Update();
 				}
 			}
 
-			graph.outputNode.tempRenderTexture.Update();
+			if (graph.outputNode.tempRenderTexture != null)
+				graph.outputNode.tempRenderTexture.Update();
 
             var external = graph.nodes.FindAll(node => node.GetType() == typeof(ExternalOutputNode));
             foreach(var node in external)
