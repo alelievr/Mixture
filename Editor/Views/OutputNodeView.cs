@@ -21,6 +21,9 @@ namespace Mixture
 
 		protected override bool hasPreview => true;
 
+		// We don't support custom mipmaps for cube texture currently
+		bool supportsCustomMipMap => outputNode.hasMips && (TextureDimension)outputNode.rtSettings.dimension != TextureDimension.Cube;
+
 		public override void Enable()
 		{
             outputNode = nodeTarget as OutputNode;
@@ -59,20 +62,24 @@ namespace Mixture
 		{
 			var customMipMapBlock = Resources.Load<VisualTreeAsset>("UI Blocks/CustomMipMap").CloneTree();
 
-			var shaderField = customMipMapBlock.Q("ShaderField") as ObjectField;
-			shaderField.objectType = typeof(Shader);
-			shaderField.value = outputNode.customMipMapShader;
-			shaderField.RegisterValueChangedCallback(e => outputNode.customMipMapShader = e.newValue as Shader);
-
 			var button = customMipMapBlock.Q("NewMipMapShader") as Button;
 			button.clicked += MixtureAssetCallbacks.CreateCustomMipMapShaderGraph;
 			// TODO: assign the created shader when finished
 
+			var shaderField = customMipMapBlock.Q("ShaderField") as ObjectField;
+			shaderField.objectType = typeof(Shader);
+			shaderField.value = outputNode.customMipMapShader;
+			button.style.display = outputNode.customMipMapShader != null ? DisplayStyle.None : DisplayStyle.Flex;
+			shaderField.RegisterValueChangedCallback(e => {
+				outputNode.customMipMapShader = e.newValue as Shader;
+				button.style.display = e.newValue != null ? DisplayStyle.None : DisplayStyle.Flex;;
+			});
+
 			var mipMapToggle = new Toggle("Has Mip Maps") { value = outputNode.hasMips};
-			customMipMapBlock.style.display = outputNode.hasMips ? DisplayStyle.Flex : DisplayStyle.None;
+			customMipMapBlock.style.display = supportsCustomMipMap ? DisplayStyle.Flex : DisplayStyle.None;
 			mipMapToggle.RegisterValueChangedCallback(e => {
 				outputNode.hasMips = e.newValue;
-				customMipMapBlock.style.display = outputNode.hasMips ? DisplayStyle.Flex : DisplayStyle.None;
+				customMipMapBlock.style.display = supportsCustomMipMap ? DisplayStyle.Flex : DisplayStyle.None;
 			});
 
 			controlsContainer.Add(mipMapToggle);

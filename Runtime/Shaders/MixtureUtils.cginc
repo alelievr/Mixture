@@ -60,7 +60,8 @@ sampler s_point_repeat_sampler;
 	#define SAMPLE_X(tex, uv, dir)	texCUBElod(MERGE_NAME(tex,_Cube), float4(dir, 0))
 	#define SAMPLE_LOD_X(tex, uv, dir, lod)	texCUBElod(MERGE_NAME(tex,_Cube), float4(dir, lod))
 	#define SAMPLE_X_LINEAR_CLAMP(tex, uv, dir)	SAMPLE_TEXTURECUBE_LOD(MERGE_NAME(tex,_Cube), s_linear_clamp_sampler, dir, 0)
-	#define LOAD_X(tex, uv, dir) SAMPLE_X(tex, uv, dir) // there is no load on cubemaps
+	#define SAMPLE_X_NEAREST_CLAMP(tex, uv, dir) SAMPLE_TEXTURECUBE_LOD(MERGE_NAME(tex,_Cube), s_point_clamp_sampler, dir, 0)
+	#define LOAD_X(tex, uv, dir) SAMPLE_X_NEAREST_CLAMP(tex, uv, dir) // there is no load on cubemaps
 
 	#define TEXTURE_SAMPLER_X(tex)	TEXTURE_SAMPLERCUBE(MERGE_NAME(tex,_Cube))
 	#define TEXTURE_X(name) TEXTURECUBE(MERGE_NAME(name,_Cube))

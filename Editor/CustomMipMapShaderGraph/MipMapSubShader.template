@@ -17,6 +17,7 @@ SubShader
 		// Global variables required for mip chain generation
 		TEXTURE_SAMPLER_X(_InputTexture);
 		float _CurrentMipLevel;
+		float _MaxMipLevel;
 		float _CurrentSlice; // for 3D textures
 
 		float4 _InputTextureSize;
@@ -42,9 +43,6 @@ SubShader
 			SurfaceDescriptionInputs o;
 
 			o.uv0 = float4(IN.texcoord, _CurrentSlice, 0);
-
-			// half pixel offset:
-			o.uv0 += _InputTextureSizeRcp * 0.5;
 
 			// other space of view direction are not supported
 			o.TimeParameters = float3(_Time.y, _SinTime.x, _CosTime.y);

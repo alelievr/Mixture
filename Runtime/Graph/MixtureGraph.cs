@@ -343,19 +343,42 @@ namespace Mixture
             ReadBackTexture(this.outputNode);
         }
 
+        // TODO: the rest of the stuff
+        public struct ReadbackData
+        {
+            public OutputNode   node;
+            public Texture      targetTexture;
+            public int          mipLevel;
+        }
+
         // Write the rendertexture value to the graph main texture asset, or to an external Texture
         protected void ReadBackTexture(OutputNode node, Texture externalTexture = null)
         {
             // Retrieve the texture from the GPU:
             var src = node.tempRenderTexture;
-            int depth = src.dimension == TextureDimension.Cube ? 6 : src.volumeDepth;
-            var request = AsyncGPUReadback.Request(src, 0, 0, src.width, 0, src.height, 0, depth, (r) => {
-                WriteRequestResult(node, r, (externalTexture == null ? outputTexture : externalTexture));
-            });
 
-            request.Update();
+            var readbackRequests = new List<AsyncGPUReadbackRequest>();
+            for (int mipLevel = 0; mipLevel < node.tempRenderTexture.mipmapCount; mipLevel++)
+            {
+                Debug.Log(src.width + ", " + (1 << mipLevel));
+                int width = src.width / (1 << mipLevel);
+                int height = src.height / (1 << mipLevel);
+                int depth = src.dimension == TextureDimension.Cube ? 6 : Mathf.Max(src.volumeDepth / (1 << mipLevel), 1);
+                var data = new ReadbackData{
+                    node = node,
+                    targetTexture = externalTexture == null ? outputTexture : externalTexture,
+                    mipLevel = mipLevel
+                };
+                var request = AsyncGPUReadback.Request(src, mipLevel, 0, width, 0, height, 0, depth, (r) => {
+                    WriteRequestResult(r, data);
+                });
 
-            request.WaitForCompletion();
+                request.Update();
+                readbackRequests.Add(request);
+            }
+
+            foreach (var r in readbackRequests)
+                r.WaitForCompletion();
         }
         
         struct Color16
@@ -365,9 +388,9 @@ namespace Mixture
             ushort  b;
         }
 
-        protected void WriteRequestResult(OutputNode node, AsyncGPUReadbackRequest request, Texture output)
+        protected void WriteRequestResult(AsyncGPUReadbackRequest request, ReadbackData data)
         {
-            var outputFormat = node.rtSettings.GetGraphicsFormat(this);
+            var outputFormat = data.node.rtSettings.GetGraphicsFormat(this);
 
             if (request.hasError)
             {
@@ -375,7 +398,7 @@ namespace Mixture
                 return;
             }
 
-            void FetchSlice(int slice, Action<Color32[]> SetPixelsColor32, Action<Color[]> SetPixelsColor)
+            void FetchSlice(int slice, Action<Color32[], int> SetPixelsColor32, Action<Color[], int> SetPixelsColor)
             {
                 NativeArray<Color32> colors32;
                 NativeArray<Color> colors;
@@ -384,16 +407,17 @@ namespace Mixture
                 {
                     case OutputFormat.RGBA_Float:
                         colors = request.GetData<Color>(slice);
-                        SetPixelsColor(colors.ToArray());
+                        Debug.Log("mipLevel: " + data.mipLevel);
+                        SetPixelsColor(colors.ToArray(), data.mipLevel);
                         break;
                     case OutputFormat.RGBA_LDR:
                     case OutputFormat.RGBA_sRGB:
                         colors32 = request.GetData<Color32>(slice);
-                        SetPixelsColor32(colors32.ToArray());
+                        SetPixelsColor32(colors32.ToArray(), data.mipLevel);
                         break;
                     case OutputFormat.R8_Unsigned:
                         var r8Colors = request.GetData<byte>(slice);
-                        SetPixelsColor32(r8Colors.Select(r => new Color32(r, 0, 0, 0)).ToArray());
+                        SetPixelsColor32(r8Colors.Select(r => new Color32(r, 0, 0, 0)).ToArray(), data.mipLevel);
                         break;
                     case OutputFormat.R16: // For now we don't support half readback
                     case OutputFormat.RGBA_Half: // For now we don't support half readback
@@ -405,13 +429,15 @@ namespace Mixture
                 }
             }
 
-            switch (output)
+            switch (data.targetTexture)
             {
                 case Texture2D t:
-                    if (outputFormat != t.graphicsFormat || node.enableCompression)
+                    if (outputFormat != t.graphicsFormat || data.node.enableCompression)
                     {
+                        var textureFlags = outputNode.hasMips ? TextureCreationFlags.MipChain : TextureCreationFlags.MipChain;
                         // If the output texture is compressed, then we can't readback the data inside it directly
-                        var tempTexture = new Texture2D(t.width, t.height, node.rtSettings.GetGraphicsFormat(this), TextureCreationFlags.None);
+                        var tempTexture = new Texture2D(t.width, t.height, data.node.rtSettings.GetGraphicsFormat(this), textureFlags);
+                        Debug.Log("Temp texture mip count: " + tempTexture.mipmapCount);
                         FetchSlice(0, tempTexture.SetPixels32, tempTexture.SetPixels);
                         tempTexture.Apply();
 
@@ -419,7 +445,7 @@ namespace Mixture
                         EditorUtility.CopySerialized(tempTexture, t);
                         UnityEngine.Object.DestroyImmediate(tempTexture);
 
-                        if (node.enableCompression && node == outputNode)
+                        if (data.node.enableCompression && data.node == outputNode)
                             CompressTexture(t);
 
                         // Trick to re-generate the preview and update the texture when the asset was changed
@@ -434,35 +460,35 @@ namespace Mixture
                     }
                     break;
                 case Texture2DArray t:
-                    for (int i = 0; i < node.tempRenderTexture.volumeDepth; i++)
-                        FetchSlice(i, colors => t.SetPixels32(colors, i), colors => t.SetPixels(colors, i));
+                    for (int i = 0; i < data.node.tempRenderTexture.volumeDepth; i++)
+                        FetchSlice(i, (colors, mip) => t.SetPixels32(colors, i, mip), (colors, mip) => t.SetPixels(colors, i, mip));
                     t.Apply();
                     break;
                 case Texture3D t:
                     List<Color32> colors32List = new List<Color32>();
                     List<Color> colorsList = new List<Color>();
-                    for (int i = 0; i < node.tempRenderTexture.volumeDepth; i++)
-                        FetchSlice(i, c => colors32List.AddRange(c), c => colorsList.AddRange(c));
+                    for (int i = 0; i < data.node.tempRenderTexture.volumeDepth; i++)
+                        FetchSlice(i, (c, mip) => colors32List.AddRange(c), (c, mip) => colorsList.AddRange(c));
 
                     if (colors32List.Count != 0)
-                        t.SetPixels32(colors32List.ToArray());
+                        t.SetPixels32(colors32List.ToArray(), data.mipLevel);
                     else
-                        t.SetPixels(colorsList.ToArray());
+                        t.SetPixels(colorsList.ToArray(), data.mipLevel);
 
                     t.Apply();
                     break;
                 case Cubemap t:
                     for (int i = 0; i < 6; i++)
-                        FetchSlice(i, c => t.SetPixels(c.Cast<Color>().ToArray(), (CubemapFace)i, 0), c => t.SetPixels(c, (CubemapFace)i, 0));
+                        FetchSlice(i, (c, mip) => t.SetPixels(c.Cast<Color>().ToArray(), (CubemapFace)i, mip), (c, mip) => t.SetPixels(c, (CubemapFace)i, mip));
 
                     t.Apply();
                     break;
                 default:
-                    Debug.LogError(output + " is not a supported type for saving");
+                    Debug.LogError(data.targetTexture + " is not a supported type for saving");
                     return;
             }
 
-            EditorGUIUtility.PingObject(output);
+            EditorGUIUtility.PingObject(data.targetTexture);
         }
 
         void CompressTexture(Texture2D t)
