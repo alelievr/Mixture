@@ -347,7 +347,8 @@ namespace Mixture
                 return;
             
             if (outputNode.rtSettings.width != outputTexture.width
-                || outputNode.rtSettings.height != outputTexture.height)
+                || outputNode.rtSettings.height != outputTexture.height
+                || outputNode.hasMips != outputTexture.mipmapCount > 1)
                 UpdateOutputTexture(false);
 
             ReadBackTexture(this.outputNode);
@@ -370,7 +371,6 @@ namespace Mixture
             var readbackRequests = new List<AsyncGPUReadbackRequest>();
             for (int mipLevel = 0; mipLevel < node.tempRenderTexture.mipmapCount; mipLevel++)
             {
-                Debug.Log(src.width + ", " + (1 << mipLevel));
                 int width = src.width / (1 << mipLevel);
                 int height = src.height / (1 << mipLevel);
                 int depth = src.dimension == TextureDimension.Cube ? 6 : Mathf.Max(src.volumeDepth / (1 << mipLevel), 1);
@@ -417,7 +417,6 @@ namespace Mixture
                 {
                     case OutputFormat.RGBA_Float:
                         colors = request.GetData<Color>(slice);
-                        Debug.Log("mipLevel: " + data.mipLevel);
                         SetPixelsColor(colors.ToArray(), data.mipLevel);
                         break;
                     case OutputFormat.RGBA_LDR:
