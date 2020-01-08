@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using GraphProcessor;
 using UnityEngine.Rendering;
+using UnityEditor.Experimental.GraphView;
 
 namespace Mixture
 {
@@ -26,6 +27,7 @@ namespace Mixture
 
 		public override void Enable()
 		{
+			capabilities &= ~Capabilities.Deletable;
             outputNode = nodeTarget as OutputNode;
             graph = owner.graph as MixtureGraph;
 
