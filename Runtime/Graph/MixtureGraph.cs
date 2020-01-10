@@ -142,6 +142,7 @@ namespace Mixture
 				}
 				AssetDatabase.AddObjectToAsset(outputTexture, this);
 				AssetDatabase.SetMainObject(outputTexture, mainAssetPath);
+                Debug.Log("Set main asset: " + outputTexture.mipmapCount);
 				AssetDatabase.SaveAssets();
 				AssetDatabase.Refresh();
 			}
@@ -349,12 +350,11 @@ namespace Mixture
             if (outputNode.rtSettings.width != outputTexture.width
                 || outputNode.rtSettings.height != outputTexture.height
                 || outputNode.hasMips != outputTexture.mipmapCount > 1)
-                UpdateOutputTexture(false);
+                UpdateOutputTexture(outputNode.hasMips != outputTexture.mipmapCount > 1);
 
             ReadBackTexture(this.outputNode);
         }
 
-        // TODO: the rest of the stuff
         public struct ReadbackData
         {
             public OutputNode   node;

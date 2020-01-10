@@ -111,6 +111,9 @@ namespace Mixture
 			onSettingsChanged += () => {
 				graph.UpdateOutputTexture();
 			};
+
+			// SRP mip generation:
+			RenderPipelineManager.beginFrameRendering += BeginFrameRendering;
 		}
 
 		protected override bool ProcessNode()
@@ -180,19 +183,20 @@ namespace Mixture
 			}
 			else
 			{
-				// TODO: a less hardcore thing
-				Camera.main.RemoveAllCommandBuffers();
+				Camera.main.RemoveCommandBuffer(CameraEvent.BeforeDepthTexture, mipchainCmd);
 			}
 
 			return true;
 		}
 
+		CommandBuffer mipchainCmd = new CommandBuffer();
+
 		void GenerateCustomMipMaps()
 		{
 #if UNITY_EDITOR
-			CommandBuffer cmd = new CommandBuffer();
+			mipchainCmd.Clear();
 
-			cmd.name = "Generate Custom MipMaps";
+			mipchainCmd.name = "Generate Custom MipMaps";
 
 			if (mipMapPropertyBlock == null)
 				mipMapPropertyBlock = new MaterialPropertyBlock();
@@ -202,7 +206,7 @@ namespace Mixture
 			{
 				int mipLevel = i + 1;
 				mipmapRenderTexture.name = "Tmp mipmap";
-				cmd.SetRenderTarget(mipmapRenderTexture, mipLevel, CubemapFace.Unknown, 0);
+				mipchainCmd.SetRenderTarget(mipmapRenderTexture, mipLevel, CubemapFace.Unknown, 0);
 
 				Vector4 textureSize = new Vector4(tempRenderTexture.width, tempRenderTexture.height, tempRenderTexture.volumeDepth, 0);
 				textureSize /= 1 << (mipLevel);
@@ -215,14 +219,25 @@ namespace Mixture
 				mipMapPropertyBlock.SetVector("_InputTextureSize", textureSize);
 				mipMapPropertyBlock.SetVector("_InputTextureSizeRcp", textureSizeRcp);
 
-				cmd.DrawProcedural(Matrix4x4.identity, customMipMapMaterial, 0, MeshTopology.Triangles, 3, 1, mipMapPropertyBlock);
+				mipchainCmd.DrawProcedural(Matrix4x4.identity, customMipMapMaterial, 0, MeshTopology.Triangles, 3, 1, mipMapPropertyBlock);
 
-				cmd.CopyTexture(mipmapRenderTexture, 0, mipLevel, tempRenderTexture, 0, mipLevel);
+				mipchainCmd.CopyTexture(mipmapRenderTexture, 0, mipLevel, tempRenderTexture, 0, mipLevel);
 			}
 
-			// TODO: SRP version using RenderPipelineManager
-			Camera.main.RemoveAllCommandBuffers();
-			Camera.main.AddCommandBuffer(CameraEvent.BeforeDepthTexture, cmd);
+			// Dirty hack to enqueue the command buffer but it's okay because it's the builtin renderer.
+			if (GraphicsSettings.renderPipelineAsset == null)
+			{
+				Camera.main.RemoveCommandBuffer(CameraEvent.BeforeDepthTexture, mipchainCmd);
+				Camera.main.AddCommandBuffer(CameraEvent.BeforeDepthTexture, mipchainCmd);
+			}
+#endif
+		}
+
+		void BeginFrameRendering(ScriptableRenderContext renderContext, Camera[] cameras)
+		{
+#if UNITY_EDITOR
+			renderContext.ExecuteCommandBuffer(mipchainCmd);
+			renderContext.Submit();
 #endif
 		}
 
