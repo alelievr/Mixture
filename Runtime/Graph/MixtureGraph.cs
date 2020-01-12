@@ -37,6 +37,8 @@ namespace Mixture
             internal set => _outputNode = value;
         }
 
+        public OutputStackNode  outputStackNode;
+
 		[SerializeField]
 		List< Object >			objectReferences = new List< Object >();
 
@@ -80,6 +82,11 @@ namespace Mixture
 			// We should have only one OutputNode per graph
 			if (outputNode == null)
 				outputNode = AddNode(BaseNode.CreateFromType< OutputNode >(Vector2.zero)) as OutputNode;
+
+            if (outputStackNode == null)
+            {
+                // omg 
+            }
 
 #if UNITY_EDITOR
 			if (isRealtime)
