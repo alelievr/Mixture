@@ -44,6 +44,18 @@ namespace Mixture
 			InitializeDebug();
 		}
 
+		protected override VisualElement CreateSettingsView()
+		{
+			var sv = base.CreateSettingsView();
+
+			settingsView.RegisterChangedCallback(() => {
+				// Reflect the changes on the graph output texture but not on the asset to avoid stalls.
+				graph.UpdateOutputTexture(false);
+			});
+
+			return sv;
+		}
+
         protected virtual void BuildOutputNodeSettings()
         {
 			if (graph.outputTexture.dimension == TextureDimension.Tex2D)
@@ -51,12 +63,12 @@ namespace Mixture
 
             if (!graph.isRealtime)
             {
+				AddCustomMipMapSettings();
+
                 controlsContainer.Add(new Button(SaveMasterTexture)
                 {
                     text = "Save"
                 });
-
-				AddCustomMipMapSettings();
             }
         }
 
@@ -83,6 +95,7 @@ namespace Mixture
 			mipMapToggle.RegisterValueChangedCallback(e => {
 				outputNode.hasMips = e.newValue;
 				customMipMapBlock.style.display = supportsCustomMipMap ? DisplayStyle.Flex : DisplayStyle.None;
+				graph.UpdateOutputTexture(false);
 			});
 
 			controlsContainer.Add(mipMapToggle);
@@ -111,18 +124,20 @@ namespace Mixture
 			
 			debugContainer.Add(debugCustomRenderTextureField);
 		}
-		
+
 		void AddCompressionSettings()
 		{
 			var formatField = new EnumField("Format", outputNode.compressionFormat);
 			formatField.RegisterValueChangedCallback((e) => {
 				owner.RegisterCompleteObjectUndo("Changed Compression Format");
 				outputNode.compressionFormat = (MixtureCompressionFormat)e.newValue;
+				graph.UpdateOutputTexture(false);
 			});
 			var qualityField = new EnumField("Quality", outputNode.compressionQuality);
 			qualityField.RegisterValueChangedCallback((e) => {
 				owner.RegisterCompleteObjectUndo("Changed Compression Quality");
 				outputNode.compressionQuality = (MixtureCompressionQuality)e.newValue;
+				graph.UpdateOutputTexture(false);
 			});
 
 			if (!outputNode.enableCompression)
@@ -137,6 +152,7 @@ namespace Mixture
 				qualityField.ToggleInClassList("Hidden");
 				formatField.ToggleInClassList("Hidden");
 				outputNode.enableCompression = e.newValue;
+				graph.UpdateOutputTexture(false);
 			});
 
 			controlsContainer.Add(enabledField);

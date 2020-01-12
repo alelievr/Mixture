@@ -33,7 +33,7 @@ namespace Mixture
         public void GenerateNodeCode(ShaderStringBuilder sb, GenerationMode generationMode)
         {
             // TODO: support of cubemaps
-            string sample = generationMode == GenerationMode.Preview ? "0" : $"SAMPLE_LOD_X(_InputTexture, {GetSlotValue(InputSlotUVId, generationMode)}, {GetSlotValue(InputSlotUVId, generationMode)}, _CurrentMipLevel)";
+            string sample = generationMode == GenerationMode.Preview ? "0" : $"SAMPLE_LOD_X_LINEAR_CLAMP(_InputTexture, {GetSlotValue(InputSlotUVId, generationMode)}, {GetSlotValue(InputSlotUVId, generationMode)}, _CurrentMipLevel)";
             sb.AppendLine($@"$precision4 {GetVariableNameForSlot(OutputSlotColorId)} = {sample};");
         }
     }

@@ -25,14 +25,16 @@ namespace Mixture
 
 		protected virtual bool hasPreview => false;
 		protected override bool hasSettings => nodeTarget.hasSettings;
+
+		protected MixtureRTSettingsView settingsView;
 		
 		protected override VisualElement CreateSettingsView()
 		{
-			var view = new MixtureRTSettingsView(nodeTarget, owner);
-            view.AddToClassList("RTSettingsView");
-            view.RegisterChangedCallback(nodeTarget.OnSettingsChanged);
+			settingsView = new MixtureRTSettingsView(nodeTarget, owner);
+            settingsView.AddToClassList("RTSettingsView");
+            settingsView.RegisterChangedCallback(nodeTarget.OnSettingsChanged);
 
-            return view;
+            return settingsView;
 		}
 
 		const string stylesheetName = "MixtureCommon";
@@ -293,8 +295,8 @@ namespace Mixture
 				{
 					GUILayout.Space(8);
 
-					nodeTarget.previewMip = GUILayout.HorizontalSlider(nodeTarget.previewMip, 0.0f, texture.mipmapCount, GUILayout.Width(64));
-					GUILayout.Label($"Mip #{Mathf.Floor(nodeTarget.previewMip)}", EditorStyles.toolbarButton);
+					nodeTarget.previewMip = GUILayout.HorizontalSlider(nodeTarget.previewMip, 0.0f, texture.mipmapCount - 1, GUILayout.Width(64));
+					GUILayout.Label($"Mip #{Mathf.RoundToInt(nodeTarget.previewMip)}", EditorStyles.toolbarButton);
 				}
 
 				GUILayout.FlexibleSpace();

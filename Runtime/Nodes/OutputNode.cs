@@ -66,7 +66,7 @@ namespace Mixture
 
 		// Compression settings
 		// TODO: there are too many formats, reduce them with a new enum
-		public MixtureCompressionFormat		compressionFormat = MixtureCompressionFormat.DXT5Crunched;
+		public MixtureCompressionFormat		compressionFormat = MixtureCompressionFormat.DXT5;
 		public MixtureCompressionQuality	compressionQuality = MixtureCompressionQuality.Best;
 		public bool							enableCompression = false;
 		
@@ -183,7 +183,7 @@ namespace Mixture
 			}
 			else
 			{
-				Camera.main.RemoveCommandBuffer(CameraEvent.BeforeDepthTexture, mipchainCmd);
+				Camera.main.RemoveCommandBuffers(CameraEvent.BeforeDepthTexture);
 			}
 
 			return true;
@@ -201,27 +201,33 @@ namespace Mixture
 			if (mipMapPropertyBlock == null)
 				mipMapPropertyBlock = new MaterialPropertyBlock();
 
+			int slice = 0;
 			// TODO: support 3D textures and Cubemaps
-			for (int i = 0; i < tempRenderTexture.mipmapCount - 1; i++)
+			// for (int slice = 0; slice < tempRenderTexture.volumeDepth; slice++)
 			{
-				int mipLevel = i + 1;
-				mipmapRenderTexture.name = "Tmp mipmap";
-				mipchainCmd.SetRenderTarget(mipmapRenderTexture, mipLevel, CubemapFace.Unknown, 0);
+				for (int i = 0; i < tempRenderTexture.mipmapCount - 1; i++)
+				{
+					int mipLevel = i + 1;
+					mipmapRenderTexture.name = "Tmp mipmap";
+					mipchainCmd.SetRenderTarget(mipmapRenderTexture, mipLevel, CubemapFace.Unknown, 0);
 
-				Vector4 textureSize = new Vector4(tempRenderTexture.width, tempRenderTexture.height, tempRenderTexture.volumeDepth, 0);
-				textureSize /= 1 << (mipLevel);
-				Vector4 textureSizeRcp = new Vector4(1.0f / textureSize.x, 1.0f / textureSize.y, 1.0f / textureSize.z, 0);
+					Vector4 textureSize = new Vector4(tempRenderTexture.width, tempRenderTexture.height, tempRenderTexture.volumeDepth, 0);
+					textureSize /= 1 << (mipLevel);
+					Vector4 textureSizeRcp = new Vector4(1.0f / textureSize.x, 1.0f / textureSize.y, 1.0f / textureSize.z, 0);
 
-				mipMapPropertyBlock.SetTexture("_InputTexture_2D", tempRenderTexture);
-				mipMapPropertyBlock.SetTexture("_InputTexture_3D", tempRenderTexture);
-				mipMapPropertyBlock.SetFloat("_CurrentMipLevel", mipLevel - 1);
-				mipMapPropertyBlock.SetFloat("_MaxMipLevel", tempRenderTexture.mipmapCount);
-				mipMapPropertyBlock.SetVector("_InputTextureSize", textureSize);
-				mipMapPropertyBlock.SetVector("_InputTextureSizeRcp", textureSizeRcp);
+					mipMapPropertyBlock.SetTexture("_InputTexture_2D", tempRenderTexture);
+					mipMapPropertyBlock.SetTexture("_InputTexture_3D", tempRenderTexture);
+					mipMapPropertyBlock.SetFloat("_CurrentMipLevel", mipLevel - 1);
+					mipMapPropertyBlock.SetFloat("_MaxMipLevel", tempRenderTexture.mipmapCount);
+					mipMapPropertyBlock.SetVector("_InputTextureSize", textureSize);
+					mipMapPropertyBlock.SetVector("_InputTextureSizeRcp", textureSizeRcp);
+					mipMapPropertyBlock.SetFloat("_CurrentSlice", slice / (float)tempRenderTexture.width);
 
-				mipchainCmd.DrawProcedural(Matrix4x4.identity, customMipMapMaterial, 0, MeshTopology.Triangles, 3, 1, mipMapPropertyBlock);
+					MixtureUtils.SetupDimensionKeyword(customMipMapMaterial, tempRenderTexture.dimension);
+					mipchainCmd.DrawProcedural(Matrix4x4.identity, customMipMapMaterial, 0, MeshTopology.Triangles, 3, 1, mipMapPropertyBlock);
 
-				mipchainCmd.CopyTexture(mipmapRenderTexture, 0, mipLevel, tempRenderTexture, 0, mipLevel);
+					mipchainCmd.CopyTexture(mipmapRenderTexture, slice, mipLevel, tempRenderTexture, slice, mipLevel);
+				}
 			}
 
 			// Dirty hack to enqueue the command buffer but it's okay because it's the builtin renderer.

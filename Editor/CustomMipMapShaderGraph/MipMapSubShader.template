@@ -15,10 +15,12 @@ SubShader
 		#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.cginc"
 
 		// Global variables required for mip chain generation
-		TEXTURE_SAMPLER_X(_InputTexture);
+		TEXTURE_X(_InputTexture);
 		float _CurrentMipLevel;
 		float _MaxMipLevel;
 		float _CurrentSlice; // for 3D textures
+
+		#pragma enable_d3d11_debug_symbols
 
 		float4 _InputTextureSize;
 		float4 _InputTextureSizeRcp;

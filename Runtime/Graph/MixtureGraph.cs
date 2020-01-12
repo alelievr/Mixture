@@ -135,19 +135,30 @@ namespace Mixture
 #if UNITY_EDITOR
 			if (updateMainAsset)
 			{
-				if (oldTextureObject != null) // release memory and remove asset
-				{
-					AssetDatabase.RemoveObjectFromAsset(oldTextureObject);
-					DestroyImmediate(oldTextureObject, true);
-				}
-				AssetDatabase.AddObjectToAsset(outputTexture, this);
-				AssetDatabase.SetMainObject(outputTexture, mainAssetPath);
-                Debug.Log("Set main asset: " + outputTexture.mipmapCount);
-				AssetDatabase.SaveAssets();
-				AssetDatabase.Refresh();
+                UpdateMainAsset(oldTextureObject);
 			}
 #endif
 		}
+
+        void UpdateMainAsset(Texture oldTextureObject)
+        {
+            if (oldTextureObject == outputTexture)
+                return;
+
+            if (oldTextureObject != null) // release memory and remove asset
+            {
+                AssetDatabase.RemoveObjectFromAsset(oldTextureObject);
+                DestroyImmediate(oldTextureObject, true);
+            }
+
+            AssetDatabase.AddObjectToAsset(outputTexture, this);
+            AssetDatabase.SetMainObject(outputTexture, mainAssetPath);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            if (Selection.activeObject == oldTextureObject)
+                Selection.activeObject = outputTexture;
+        }
 
 		void UpdateOutputRealtimeTexture()
 		{
@@ -347,10 +358,10 @@ namespace Mixture
             if (isRealtime)
                 return;
             
-            if (outputNode.rtSettings.width != outputTexture.width
-                || outputNode.rtSettings.height != outputTexture.height
-                || outputNode.hasMips != outputTexture.mipmapCount > 1)
-                UpdateOutputTexture(outputNode.hasMips != outputTexture.mipmapCount > 1);
+            // We only need to update the main asset texture because the outputTexture should
+            // always be correctly setup when we arrive here.
+            var currentTexture = AssetDatabase.LoadAssetAtPath<Texture>(mainAssetPath);
+            UpdateMainAsset(currentTexture);
 
             ReadBackTexture(this.outputNode);
         }
@@ -365,8 +376,19 @@ namespace Mixture
         // Write the rendertexture value to the graph main texture asset, or to an external Texture
         protected void ReadBackTexture(OutputNode node, Texture externalTexture = null)
         {
-            // Retrieve the texture from the GPU:
+            var outputFormat = node.rtSettings.GetGraphicsFormat(this);
             var src = node.tempRenderTexture;
+            var target = externalTexture == null ? outputTexture : externalTexture;
+
+            // When we use Texture2D, we can compress them. In that case we use a temporary target for readback before compressing / converting it.
+            bool useTempTarget = node.enableCompression || outputFormat != target.graphicsFormat;
+            useTempTarget &= node.rtSettings.GetTextureDimension(this) == TextureDimension.Tex2D;
+
+            if (useTempTarget)
+            {
+                var textureFlags = node.hasMips ? TextureCreationFlags.MipChain : TextureCreationFlags.MipChain;
+                target = new Texture2D(target.width, target.height, outputFormat, textureFlags);
+            }
 
             var readbackRequests = new List<AsyncGPUReadbackRequest>();
             for (int mipLevel = 0; mipLevel < node.tempRenderTexture.mipmapCount; mipLevel++)
@@ -376,7 +398,7 @@ namespace Mixture
                 int depth = src.dimension == TextureDimension.Cube ? 6 : Mathf.Max(src.volumeDepth / (1 << mipLevel), 1);
                 var data = new ReadbackData{
                     node = node,
-                    targetTexture = externalTexture == null ? outputTexture : externalTexture,
+                    targetTexture = target,
                     mipLevel = mipLevel
                 };
                 var request = AsyncGPUReadback.Request(src, mipLevel, 0, width, 0, height, 0, depth, (r) => {
@@ -389,6 +411,9 @@ namespace Mixture
 
             foreach (var r in readbackRequests)
                 r.WaitForCompletion();
+
+            if (useTempTarget)
+                CompressTexture(target, externalTexture == null ? outputTexture : externalTexture);
         }
         
         struct Color16
@@ -441,42 +466,15 @@ namespace Mixture
             switch (data.targetTexture)
             {
                 case Texture2D t:
-                    if (outputFormat != t.graphicsFormat || data.node.enableCompression)
-                    {
-                        var textureFlags = outputNode.hasMips ? TextureCreationFlags.MipChain : TextureCreationFlags.MipChain;
-                        // If the output texture is compressed, then we can't readback the data inside it directly
-                        var tempTexture = new Texture2D(t.width, t.height, data.node.rtSettings.GetGraphicsFormat(this), textureFlags);
-                        Debug.Log("Temp texture mip count: " + tempTexture.mipmapCount);
-                        FetchSlice(0, tempTexture.SetPixels32, tempTexture.SetPixels);
-                        tempTexture.Apply();
-
-                        // Copy the readback texture into the compressed one (replace it)
-                        EditorUtility.CopySerialized(tempTexture, t);
-                        UnityEngine.Object.DestroyImmediate(tempTexture);
-
-                        if (data.node.enableCompression && data.node == outputNode)
-                            CompressTexture(t);
-
-                        // Trick to re-generate the preview and update the texture when the asset was changed
-                        AssetDatabase.ImportAsset(this.mainAssetPath);
-                        AssetDatabase.SaveAssets();
-                        AssetDatabase.ImportAsset(this.mainAssetPath);
-                    }
-                    else
-                    {
-                        FetchSlice(0, t.SetPixels32, t.SetPixels);
-                        t.Apply();
-                    }
-                    break;
-                case Texture2DArray t:
-                    for (int i = 0; i < data.node.tempRenderTexture.volumeDepth; i++)
-                        FetchSlice(i, (colors, mip) => t.SetPixels32(colors, i, mip), (colors, mip) => t.SetPixels(colors, i, mip));
-                    t.Apply();
+                    FetchSlice(0, t.SetPixels32, t.SetPixels);
+                    t.Apply(false);
                     break;
                 case Texture3D t:
                     List<Color32> colors32List = new List<Color32>();
                     List<Color> colorsList = new List<Color>();
-                    for (int i = 0; i < data.node.tempRenderTexture.volumeDepth; i++)
+                    
+                    int sliceCount = Mathf.Max(data.node.tempRenderTexture.volumeDepth / (1 << data.mipLevel), 1);
+                    for (int i = 0; i < sliceCount; i++)
                         FetchSlice(i, (c, mip) => colors32List.AddRange(c), (c, mip) => colorsList.AddRange(c));
 
                     if (colors32List.Count != 0)
@@ -484,13 +482,13 @@ namespace Mixture
                     else
                         t.SetPixels(colorsList.ToArray(), data.mipLevel);
 
-                    t.Apply();
+                    t.Apply(false);
                     break;
                 case Cubemap t:
                     for (int i = 0; i < 6; i++)
                         FetchSlice(i, (c, mip) => t.SetPixels(c.Cast<Color>().ToArray(), (CubemapFace)i, mip), (c, mip) => t.SetPixels(c, (CubemapFace)i, mip));
 
-                    t.Apply();
+                    t.Apply(false);
                     break;
                 default:
                     Debug.LogError(data.targetTexture + " is not a supported type for saving");
@@ -500,12 +498,25 @@ namespace Mixture
             EditorGUIUtility.PingObject(data.targetTexture);
         }
 
-        void CompressTexture(Texture2D t)
+        /// <summary>
+        /// This only works for Texture2D
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="destination"></param>
+        void CompressTexture(Texture source, Texture destination)
         {
-#if UNITY_EDITOR
-            EditorUtility.CompressTexture(t, (TextureFormat)outputNode.compressionFormat, (UnityEditor.TextureCompressionQuality)outputNode.compressionQuality);
-#endif
-        }
+            // Copy the readback texture into the compressed one (replace it)
+            EditorUtility.CopySerialized(source, destination);
+            UnityEngine.Object.DestroyImmediate(source);
 
+#if UNITY_EDITOR
+            EditorUtility.CompressTexture(destination as Texture2D, (TextureFormat)outputNode.compressionFormat, (UnityEditor.TextureCompressionQuality)outputNode.compressionQuality);
+#endif
+
+            // Trick to re-generate the preview and update the texture when the asset was changed
+            AssetDatabase.ImportAsset(this.mainAssetPath);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.ImportAsset(this.mainAssetPath);
+        }
     }
 }
