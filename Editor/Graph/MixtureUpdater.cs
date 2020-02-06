@@ -8,7 +8,7 @@ namespace Mixture
     // TODO: move this elsewhere
     static class MixtureUpdater
     {
-        static List< MixtureGraphView > views = new List< MixtureGraphView >();
+        public static List< MixtureGraphView > views = new List< MixtureGraphView >();
         static MixtureUpdater()
         {
             EditorApplication.update += Update;

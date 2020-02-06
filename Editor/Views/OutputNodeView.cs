@@ -22,8 +22,8 @@ namespace Mixture
 
 		protected override bool hasPreview => true;
 
-		// We don't support custom mipmaps for cube texture currently
-		bool supportsCustomMipMap => outputNode.hasMips && (TextureDimension)outputNode.rtSettings.dimension != TextureDimension.Cube;
+		// For now we only support custom mip maps for texture 2D
+		bool supportsCustomMipMap => outputNode.hasMips && (TextureDimension)outputNode.rtSettings.dimension == TextureDimension.Tex2D;
 
 		public override void Enable()
 		{
@@ -40,6 +40,9 @@ namespace Mixture
 
 			// Clear the input when disconnecting it:
 			onPortDisconnected += _ => outputNode.input = null;
+
+			// Disable move because the output is now in a stack
+			capabilities &= ~Capabilities.Movable;
 
 			InitializeDebug();
 		}

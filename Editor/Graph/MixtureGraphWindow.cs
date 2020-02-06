@@ -8,6 +8,8 @@ namespace Mixture
 {
 	public class MixtureGraphWindow : BaseGraphWindow
 	{
+		internal MixtureGraphView view;
+
 		public static BaseGraphWindow Open(MixtureGraph graph)
 		{
 			// Focus the window if the graph is already opened
@@ -16,6 +18,7 @@ namespace Mixture
 			{
 				if (mixtureWindow.graph == graph)
 				{
+					mixtureWindow.Show();
 					mixtureWindow.Focus();
 					return mixtureWindow;
 				}
@@ -24,6 +27,7 @@ namespace Mixture
 			var graphWindow = EditorWindow.CreateWindow< MixtureGraphWindow >();
 
 			graphWindow.Show();
+			graphWindow.Focus();
 
 			graphWindow.InitializeGraph(graph);
 
@@ -42,16 +46,16 @@ namespace Mixture
             bool realtime = mixture.isRealtime;
 			titleContent = new GUIContent($"Mixture {(realtime ? "(RT) " : "")}- {mixture.name}", MixtureUtils.windowIcon);
 
-			var graphView = new MixtureGraphView(this);
+			view = new MixtureGraphView(this);
 
-			rootView.Add(graphView);
+			rootView.Add(view);
 
-			graphView.Add(new MixtureToolbar(graphView));
+			view.Add(new MixtureToolbar(view));
 		}
 
 		void OnDestroy()
 		{
-			MixtureUpdater.RemoveGraphToProcess(graphView as MixtureGraphView);
+			MixtureUpdater.RemoveGraphToProcess(view as MixtureGraphView);
 		}
 	}
 }

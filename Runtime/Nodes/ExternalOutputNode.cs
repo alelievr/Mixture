@@ -5,13 +5,10 @@ using GraphProcessor;
 using System.Linq;
 using System.IO;
 using System;
-using UnityEngine.Rendering;
-
-using UnityEngine.Experimental.Rendering;
 
 namespace Mixture
 {
-    [Serializable, NodeMenuItem("External Output")]
+    [Serializable]
     public class ExternalOutputNode : OutputNode
     {
         public enum ExternalOutputDimension
@@ -44,7 +41,7 @@ namespace Mixture
             height = 512,
             width = 512,
             sliceCount = 1,
-            dimension = OutputDimension.Texture2D,
+            dimension = OutputDimension.Default,
             targetFormat = OutputFormat.RGBA_LDR,
             editFlags = EditFlags.Height | EditFlags.Width| EditFlags.TargetFormat,
             wrapMode = TextureWrapMode.Repeat,

@@ -83,10 +83,13 @@ namespace Mixture
 			if (outputNode == null)
 				outputNode = AddNode(BaseNode.CreateFromType< OutputNode >(Vector2.zero)) as OutputNode;
 
-            if (outputStackNode == null)
+            if (outputStackNode == null || stackNodes.Count != 1)
             {
-                // omg 
+                outputStackNode = new OutputStackNode(Vector2.zero);
+                AddStackNode(outputStackNode);
             }
+
+            outputStackNode.nodeGUIDs.Add(outputNode.GUID);
 
 #if UNITY_EDITOR
 			if (isRealtime)

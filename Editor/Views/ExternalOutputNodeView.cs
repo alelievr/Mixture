@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using GraphProcessor;
+using UnityEditor.Experimental.GraphView;
 
 namespace Mixture
 {
@@ -11,6 +12,16 @@ namespace Mixture
     {
         Button saveButton;
         Button updateButton;
+        
+        public override void Enable()
+        {
+            base.Enable();
+
+            // We can delete externa output but not the original output
+			capabilities |= Capabilities.Deletable;
+
+            controlsContainer.Add(new Button(DeleteExternalOutput) { text = "Delete"});
+        }
 
         protected override void BuildOutputNodeSettings()
         {
@@ -85,7 +96,6 @@ namespace Mixture
                 controlsContainer.Add(horizontal);
                 UpdateButtons();
             }
-
         }
 
         void UpdateButtons()
@@ -117,6 +127,11 @@ namespace Mixture
             UpdateButtons();
         }
 
-
+        void DeleteExternalOutput()
+        {
+            owner.graph.RemoveNode(nodeTarget);
+            owner.RemoveNodeView(this);
+            owner.graph.outputStackNode.nodeGUIDs.Remove(nodeTarget.GUID);
+        }
     }
 }

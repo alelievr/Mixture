@@ -31,9 +31,9 @@ namespace Mixture
 
 		public event Action			onTempRenderTextureUpdated;
 
-		public override string		name => "Output";
+		public override string		name => "Asset";
 		public override Texture 	previewTexture => graph.isRealtime ? graph.outputTexture : tempRenderTexture;
-		public override float		nodeWidth => 320;
+		public override float		nodeWidth => 350;
 
 		Material					_finalCopyMaterial;
 		Material					finalCopyMaterial
@@ -250,9 +250,11 @@ namespace Mixture
 		[CustomPortBehavior(nameof(input))]
 		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{
+			TextureDimension dim = (GetType() == typeof(ExternalOutputNode)) ? rtSettings.GetTextureDimension(graph) : (TextureDimension)rtSettings.dimension;
+
 			yield return new PortData{
 				displayName = "input",
-				displayType = TextureUtils.GetTypeFromDimension((TextureDimension)rtSettings.dimension),
+				displayType = TextureUtils.GetTypeFromDimension(dim),
 				identifier = "input",
 			};
 		}
