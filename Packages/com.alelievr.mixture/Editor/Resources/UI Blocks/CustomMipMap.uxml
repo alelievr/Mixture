@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="margin-left: 20px; margin-right: 4px;">
+        <Style src="CustomMipMap.uss" />
+        <ui:Label text="Custom Mip Maps Shader" />
+        <ui:VisualElement style="flex-direction: row; height: 20px;">
+            <uie:ObjectField allow-scene-objects="false" name="ShaderField" style="flex-shrink: 0; flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
+            <ui:Button text="Create New" name="NewMipMapShader" style="flex-grow: 1; margin-top: 0; margin-bottom: 0;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

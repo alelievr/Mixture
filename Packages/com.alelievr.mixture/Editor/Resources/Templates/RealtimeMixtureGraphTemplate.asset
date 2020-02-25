@@ -1,0 +1,170 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &-6286007035632309462
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/RidgedPerlinNoise
+  m_Shader: {fileID: 4800000, guid: 49eed0c8b6dca3949a7864570e424043, type: 3}
+  m_ShaderKeywords: CRT_2D _TILINGMODE_TILED
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _UV_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Frequency: 6
+    - _Lacunarity: 3
+    - _Octaves: 2
+    - _Persistance: 0.008539177
+    - _Seed: 42
+    - _TilingMode: 1
+    m_Colors:
+    - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b113f958e0564f309164e29c24b042d, type: 3}
+  m_Name: RealtimeMixtureGraphTemplate
+  m_EditorClassIdentifier: 
+  serializedNodes:
+  - type: Mixture.OutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"691aa737-9a89-40dd-b56d-201a248e396d","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":-44.0,"y":-44.5,"width":320.0,"height":463.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":512,"height":512,"sliceCount":1,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"targetFormat":52,"editFlags":213,"doubleBuffered":false,"wrapMode":0,"filterMode":0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"input":{"instanceID":0},"hasMips":false,"customMipMapShader":{"instanceID":0},"currentSlice":0,"compressionFormat":29,"compressionQuality":100,"enableCompression":false}'
+  - type: Mixture.RidgedPerlinNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"45b55e43-50ed-49df-b940-105b197c4bb0","computeOrder":3,"canProcess":true,"position":{"serializedVersion":"2","x":-312.0,"y":-44.0,"width":250.0,"height":585.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"targetFormat":0,"editFlags":255,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"49eed0c8b6dca3949a7864570e424043","type":3},"material":{"fileID":-6286007035632309462,"guid":"1b9fc58bafab440499c3b16c53fa78a1","type":2}}'
+  - type: Mixture.TimeNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"3fd32b5b-8edd-4948-a1ef-e34f4d5d42dc","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":-707.0,"y":4.0,"width":120.0,"height":178.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"targetFormat":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"time":10.788575172424317,"sinTime":-0.9786520600318909,"cosTime":-0.2055240124464035,"deltaTime":0.01136690005660057,"frameCount":1074.0}'
+  - type: Mixture.VectorRemapNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"0f096cfa-9d5f-4086-9aaa-b326aaf6027b","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":-570.0,"y":28.0,"width":250.0,"height":166.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"targetFormat":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"a":{"x":-0.9786520600318909,"y":-0.9786520600318909,"z":-0.9786520600318909,"w":-0.9786520600318909},"o":{"x":0.008539176546037197,"y":0.008539176546037197,"z":0.008539176546037197,"w":0.008539176546037197},"inputMin":-1.0,"inputMax":1.0,"outputMin":0.0,"outputMax":0.800000011920929}'
+  edges:
+  - GUID: 78140712-c082-4588-aada-5d33df4bb28b
+    owner: {fileID: 11400000}
+    inputNodeGUID: 691aa737-9a89-40dd-b56d-201a248e396d
+    outputNodeGUID: 45b55e43-50ed-49df-b940-105b197c4bb0
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: input
+    outputPortIdentifier: output
+  - GUID: a036f0bd-ea59-43a6-849e-214a768ed5a4
+    owner: {fileID: 11400000}
+    inputNodeGUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
+    outputNodeGUID: 3fd32b5b-8edd-4948-a1ef-e34f4d5d42dc
+    inputFieldName: a
+    outputFieldName: sinTime
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: f92b2c9c-e88a-4b3e-921a-52b19e7cbb3b
+    owner: {fileID: 11400000}
+    inputNodeGUID: 45b55e43-50ed-49df-b940-105b197c4bb0
+    outputNodeGUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
+    inputFieldName: materialInputs
+    outputFieldName: o
+    inputPortIdentifier: _Persistance
+    outputPortIdentifier: 
+  groups: []
+  stackNodes:
+  - position: {x: -34.026474, y: -77.8223}
+    title: Output
+    acceptDrop: 0
+    acceptNewNode: 1
+    nodeGUIDs:
+    - 691aa737-9a89-40dd-b56d-201a248e396d
+  pinnedElements: []
+  exposedParameters: []
+  position: {x: 568, y: 221, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}
+  realtimePreview: 1
+  isRealtime: 1
+  outputStackNode:
+    position: {x: 0, y: 0}
+    title: 
+    acceptDrop: 1
+    acceptNewNode: 1
+    nodeGUIDs:
+    - 691aa737-9a89-40dd-b56d-201a248e396d
+    - 691aa737-9a89-40dd-b56d-201a248e396d
+    - 691aa737-9a89-40dd-b56d-201a248e396d
+    - 691aa737-9a89-40dd-b56d-201a248e396d
+    - 691aa737-9a89-40dd-b56d-201a248e396d
+    - 691aa737-9a89-40dd-b56d-201a248e396d
+  objectReferences:
+  - {fileID: -6286007035632309462}
+  _outputTexture: {fileID: 6585799614466207341}
+--- !u!86 &6585799614466207341
+CustomRenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RealtimeMixtureGraphTemplate
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  serializedVersion: 3
+  m_Width: 512
+  m_Height: 512
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthFormat: 0
+  m_ColorFormat: 52
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 0
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_Material: {fileID: 0}
+  m_InitSource: 0
+  m_InitMaterial: {fileID: 0}
+  m_InitColor: {r: 1, g: 1, b: 1, a: 1}
+  m_InitTexture: {fileID: 0}
+  m_UpdateMode: 1
+  m_InitializationMode: 2
+  m_UpdateZoneSpace: 0
+  m_CurrentUpdateZoneSpace: 0
+  m_UpdateZones: []
+  m_UpdatePeriod: 0
+  m_ShaderPass: 0
+  m_CubemapFaceMask: 4294967295
+  m_DoubleBuffered: 0
+  m_WrapUpdateZones: 0

@@ -1,0 +1,77 @@
+.ControlsContainer
+{
+	border-top-width: 1px;
+	border-color: #181818;
+	padding-top: 4px;
+}
+
+.PropertyContainer
+{
+	padding: 6px;
+}
+
+.PreviewToggleButton
+{
+	font-size: 12px;
+	height:16px;
+	background-image: resource("Collapse-Up");
+	-unity-background-scale-mode: scale-to-fit;
+}
+
+.Collapsed
+{
+	background-image: resource("Collapse-Down");
+}
+
+.PreviewToggleButton:hover
+{
+	background-color:#444;
+}
+
+.PreviewToggleButton:active
+{
+	background-color:#555;
+}
+
+.RTSettingsView
+{
+	border-top-width:1px;
+	border-color:#181818;
+	background-color:#222;
+	padding: 6px;
+	padding-left: 10px;
+}
+
+.PropertyEditorTitle
+{
+    -unity-font-style: bold;
+    font-size: 16px;
+}
+
+.PropertyEditorHeader
+{
+    -unity-font-style: bold;
+    font-size: 12px;
+    margin-top: 10px;
+    margin-bottom: 4px;
+}
+
+.MaterialInspector
+{
+	margin-left: 10px;
+}
+
+.Hidden
+{
+	display : none;
+}
+
+.Visible
+{
+	display : flex;
+}
+
+.ControlsContainer > * > Label
+{
+	min-width: 80px;
+}

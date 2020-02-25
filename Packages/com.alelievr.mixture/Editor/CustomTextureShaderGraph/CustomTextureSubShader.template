@@ -1,0 +1,62 @@
+SubShader
+{
+	Pass
+	{
+		Lighting Off
+		Blend One Zero
+
+		CGPROGRAM
+		#include "Packages/com.alelievr.mixture/Runtime/Shaders/CustomTexture.hlsl"
+		#include "Packages/com.alelievr.mixture/Runtime/CustomTextureShaderGraph/CustomTextureGraph.hlsl"
+		#pragma vertex CustomRenderTextureVertexShader
+		#pragma fragment frag
+		#pragma target 3.0
+
+		struct SurfaceDescriptionInputs
+		{
+			// update input values
+			float4	uv0;
+			float4	uv1;
+			uint	primitiveID;
+			float3	direction;
+
+			// ShaderGraph accessors:
+			float3 WorldSpaceViewDirection;
+			float3 TimeParameters;
+		};
+
+		SurfaceDescriptionInputs ConvertV2FToSurfaceInputs( v2f_customrendertexture IN )
+		{
+			SurfaceDescriptionInputs o;
+			
+			o.uv0 = float4(IN.localTexcoord, 0);
+			o.uv1 = float4(IN.globalTexcoord, 0);
+			o.primitiveID = IN.primitiveID;
+			o.direction = IN.direction;
+
+			// other space of view direction are not supported
+			o.WorldSpaceViewDirection = o.direction;
+			o.TimeParameters = float3(_Time.y, _SinTime.x, _CosTime.y);
+
+			return o;
+		}
+
+		///----------------------------------------------------------
+		/// Begin Generated Graph Code
+		///----------------------------------------------------------
+    	${Graph}
+		///----------------------------------------------------------
+		/// End Generated Graph Code
+		///----------------------------------------------------------
+
+		float4 frag(v2f_customrendertexture IN) : COLOR
+		{
+			SurfaceDescriptionInputs surfaceInput = ConvertV2FToSurfaceInputs(IN);
+
+			SurfaceDescription surf = PopulateSurfaceData(surfaceInput);
+
+			return surf.Color;
+		}
+		ENDCG
+	}
+}

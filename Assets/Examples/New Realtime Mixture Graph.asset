@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &-3492998449486723861
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/UV
+  m_Shader: {fileID: 4800000, guid: 0e57459cc2eca8e4eb3e062b8ed60321, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats: []
+    m_Colors:
+    - _Bias: {r: 0, g: 0, b: 0, a: 0}
+    - _Scale: {r: 1, g: 1, b: 1, a: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b113f958e0564f309164e29c24b042d, type: 3}
+  m_Name: New Realtime Mixture Graph
+  m_EditorClassIdentifier: 
+  serializedNodes:
+  - type: Mixture.OutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"0cf28790-6efa-4f09-8414-c93b359e4a86","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":-18.26085090637207,"y":26.95651626586914,"width":320.0,"height":463.0000305175781},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":512,"height":512,"sliceCount":1,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"targetFormat":52,"editFlags":213,"doubleBuffered":false,"wrapMode":0,"filterMode":0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"input":{"instanceID":0},"mipmapCount":1,"currentSlice":0,"compressionFormat":4,"compressionQuality":100,"enableCompression":false}'
+  - type: Mixture.UVNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"e5e698b7-2dfc-4c3f-a92e-1d1a8adb33c5","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":-299.18487548828127,"y":28.081512451171876,"width":250.0,"height":136.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":0,"height":0,"sliceCount":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"targetFormat":0,"editFlags":255,"doubleBuffered":false,"wrapMode":0,"filterMode":0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"0e57459cc2eca8e4eb3e062b8ed60321","type":3},"material":{"fileID":-3492998449486723861,"guid":"e1deeb4e7b0244b7989943faca236094","type":2}}'
+  edges:
+  - GUID: 9c67464b-e31f-4334-bf9c-9a43dcea36e3
+    owner: {fileID: 11400000}
+    inputNodeGUID: 0cf28790-6efa-4f09-8414-c93b359e4a86
+    outputNodeGUID: e5e698b7-2dfc-4c3f-a92e-1d1a8adb33c5
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: input
+    outputPortIdentifier: output
+  groups: []
+  stackNodes: []
+  pinnedElements: []
+  exposedParameters: []
+  position: {x: 733, y: 127, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}
+  realtimePreview: 1
+  isRealtime: 1
+  outputNode:
+    GUID: 0cf28790-6efa-4f09-8414-c93b359e4a86
+    computeOrder: 2
+    canProcess: 1
+    position:
+      serializedVersion: 2
+      x: -18.26085
+      y: 26.956516
+      width: 320
+      height: 463.00003
+    expanded: 0
+    debug: 0
+    nodeLock: 0
+    rtSettings:
+      widthPercent: 0
+      heightPercent: 0
+      depthPercent: 0
+      width: 512
+      height: 512
+      sliceCount: 1
+      widthMode: 1
+      heightMode: 1
+      depthMode: 1
+      dimension: 2
+      targetFormat: 52
+      editFlags: 213
+      doubleBuffered: 0
+      wrapMode: 0
+      filterMode: 0
+    isPreviewCollapsed: 0
+    previewMode: 15
+    previewMip: 0
+    previewVisible: 1
+    input: {fileID: 0}
+    mipmapCount: 1
+    currentSlice: 0
+    compressionFormat: 4
+    compressionQuality: 100
+    enableCompression: 0
+  objectReferences:
+  - {fileID: -3492998449486723861}
+  _outputTexture: {fileID: 5040919605366863165}
+--- !u!86 &5040919605366863165
+CustomRenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: New Realtime Mixture Graph
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  serializedVersion: 3
+  m_Width: 512
+  m_Height: 512
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthFormat: 0
+  m_ColorFormat: 52
+  m_MipMap: 1
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 0
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_Material: {fileID: 0}
+  m_InitSource: 0
+  m_InitMaterial: {fileID: 0}
+  m_InitColor: {r: 1, g: 1, b: 1, a: 1}
+  m_InitTexture: {fileID: 0}
+  m_UpdateMode: 0
+  m_InitializationMode: 2
+  m_UpdateZoneSpace: 0
+  m_CurrentUpdateZoneSpace: 0
+  m_UpdateZones: []
+  m_UpdatePeriod: 0
+  m_ShaderPass: 0
+  m_CubemapFaceMask: 4294967295
+  m_DoubleBuffered: 0
+  m_WrapUpdateZones: 0
