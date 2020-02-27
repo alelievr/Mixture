@@ -12,9 +12,9 @@ Shader "CustomTexture/#NAME#"
 		Pass
 		{
 			CGPROGRAM
-			#pragma fragment mixture
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			#pragma fragment MixtureFragment
 
-			#include "UnityCustomRenderTexture.cginc"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma target 3.0
 

@@ -15,9 +15,8 @@
 	CGINCLUDE
 
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
-	#include "UnityCustomRenderTexture.cginc"
 	#pragma vertex CustomRenderTextureVertexShader
-	#pragma fragment mixture
+	#pragma fragment MixtureFragment
 	#pragma target 4.5
 	#pragma require randomwrite
 

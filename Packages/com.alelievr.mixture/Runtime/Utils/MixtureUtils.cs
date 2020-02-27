@@ -177,5 +177,19 @@ namespace Mixture
             return dimensions;
         }
 
+        public static void DestroyGameObject(Object obj)
+        {
+            if (obj != null)
+            {
+#if UNITY_EDITOR
+                if (Application.isPlaying)
+                    Object.Destroy(obj);
+                else
+                    Object.DestroyImmediate(obj);
+#else
+                Object.Destroy(obj);
+#endif
+            }
+        }
     }
 }

@@ -19,7 +19,7 @@ Shader "Hidden/Mixture/FinalCopy"
 			
             #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 
-			#pragma fragment mixture
+			#pragma fragment MixtureFragment
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma target 3.0
 

@@ -41,9 +41,6 @@ namespace Mixture
 			// Clear the input when disconnecting it:
 			onPortDisconnected += _ => outputNode.input = null;
 
-			// Disable move because the output is now in a stack
-			capabilities &= ~Capabilities.Movable;
-
 			InitializeDebug();
 		}
 

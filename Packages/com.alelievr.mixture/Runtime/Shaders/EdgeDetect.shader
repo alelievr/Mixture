@@ -20,7 +20,7 @@
 	// The list of defines that will be active when processing the node with a certain dimension
 	#pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 	#pragma vertex CustomRenderTextureVertexShader
-	#pragma fragment mixture
+	#pragma fragment MixtureFragment
 
 	static float3x3 horizontalSobelMatrix = float3x3(
 		 3,  10,  3,

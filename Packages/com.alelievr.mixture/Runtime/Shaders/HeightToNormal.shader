@@ -17,7 +17,7 @@
 			CGPROGRAM
 			#include "MixtureFixed.cginc"
             #pragma vertex CustomRenderTextureVertexShader
-			#pragma fragment mixture
+			#pragma fragment MixtureFragment
 			#pragma target 3.0
 
             #pragma shader_feature CRT_2D

@@ -21,7 +21,7 @@
 			CGPROGRAM
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
             #pragma vertex CustomRenderTextureVertexShader
-			#pragma fragment mixture
+			#pragma fragment MixtureFragment
 			#pragma target 3.0
 
 			static float gaussianWeights[32] = {0.03740084,

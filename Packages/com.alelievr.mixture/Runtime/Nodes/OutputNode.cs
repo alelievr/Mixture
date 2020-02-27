@@ -31,7 +31,7 @@ namespace Mixture
 
 		public event Action			onTempRenderTextureUpdated;
 
-		public override string		name => "Asset";
+		public override string		name => "Output Texture Asset";
 		public override Texture 	previewTexture => graph.isRealtime ? graph.outputTexture : tempRenderTexture;
 		public override float		nodeWidth => 350;
 

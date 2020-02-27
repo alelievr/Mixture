@@ -19,6 +19,8 @@ namespace Mixture
 		{
 			initialized += Initialize;
 			Undo.undoRedoPerformed += ReloadGraph;
+
+			SetupZoom(0.05f, 8f);
 		}
 
 		public override List< Port > GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)

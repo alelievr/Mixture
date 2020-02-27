@@ -13,16 +13,6 @@ namespace Mixture
         Button saveButton;
         Button updateButton;
         
-        public override void Enable()
-        {
-            base.Enable();
-
-            // We can delete externa output but not the original output
-			capabilities |= Capabilities.Deletable;
-
-            controlsContainer.Add(new Button(DeleteExternalOutput) { text = "Delete"});
-        }
-
         protected override void BuildOutputNodeSettings()
         {
             var externalOutputNode = nodeTarget as ExternalOutputNode;
@@ -125,13 +115,6 @@ namespace Mixture
         {
             graph.SaveExternalTexture(nodeTarget as ExternalOutputNode, false);
             UpdateButtons();
-        }
-
-        void DeleteExternalOutput()
-        {
-            owner.graph.RemoveNode(nodeTarget);
-            owner.RemoveNodeView(this);
-            owner.graph.outputStackNode.nodeGUIDs.Remove(nodeTarget.GUID);
         }
     }
 }

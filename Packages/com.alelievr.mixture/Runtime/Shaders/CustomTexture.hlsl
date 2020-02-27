@@ -234,4 +234,16 @@ v2f_init_customrendertexture InitCustomRenderTextureVertexShader (appdata_init_c
     return o;
 }
 
+// Declare the prototype 
+float4 mixture(v2f_customrendertexture i);
+
+float4 MixtureFragment (v2f_customrendertexture i) : SV_Target
+{
+    // Fix the cubemap direction:
+#ifdef CRT_CUBE
+    i.direction = normalize(i.direction);
+#endif
+    return mixture(i);
+}
+
 #endif // UNITY_CUSTOM_TEXTURE_INCLUDED

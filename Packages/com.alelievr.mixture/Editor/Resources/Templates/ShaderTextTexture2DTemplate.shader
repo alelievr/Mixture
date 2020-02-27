@@ -12,11 +12,11 @@
 		Pass
 		{
 			CGPROGRAM
-			#pragma fragment mixture
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			#pragma fragment MixtureFragment
 
             #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 
-			#include "UnityCustomRenderTexture.cginc"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma target 3.0
 

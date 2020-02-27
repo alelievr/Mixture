@@ -112,5 +112,14 @@ namespace Mixture
 			else
 				return dimension == OutputDimension.Default ? (TextureDimension)graph.outputNode.rtSettings.dimension : (TextureDimension)dimension;
 		}
+
+		public bool NeedsUpdate(MixtureGraph graph, Texture t)
+		{
+			return GetGraphicsFormat(graph) != t.graphicsFormat
+				|| GetWidth(graph) != t.width
+				|| GetHeight(graph) != t.height
+				|| filterMode != t.filterMode
+				|| wrapMode != t.wrapMode;
+		}
 	}
 }

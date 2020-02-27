@@ -14,7 +14,7 @@
 			CGPROGRAM
 			#include "MixtureFixed.cginc"
 			#pragma vertex CustomRenderTextureVertexShader
-			#pragma fragment mixture
+			#pragma fragment MixtureFragment
 			#pragma target 3.0
 
 			UNITY_DECLARE_TEXCUBE(_Input);

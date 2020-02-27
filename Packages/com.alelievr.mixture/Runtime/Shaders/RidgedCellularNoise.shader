@@ -32,9 +32,8 @@
 			#define CUSTOM_DISTANCE _DistanceMode
 			#define CUSTOM_DISTANCE_MULTIPLIER _CellSize
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Noises.hlsl"
-			#include "UnityCustomRenderTexture.cginc"
             #pragma vertex CustomRenderTextureVertexShader
-			#pragma fragment mixture
+			#pragma fragment MixtureFragment
 			#pragma target 3.0
 
 			// The list of defines that will be active when processing the node with a certain dimension

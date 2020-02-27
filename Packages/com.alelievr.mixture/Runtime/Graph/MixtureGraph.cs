@@ -37,8 +37,6 @@ namespace Mixture
             internal set => _outputNode = value;
         }
 
-        public OutputStackNode  outputStackNode;
-
 		[SerializeField]
 		List< Object >			objectReferences = new List< Object >();
 
@@ -83,15 +81,6 @@ namespace Mixture
 			if (outputNode == null)
 				outputNode = AddNode(BaseNode.CreateFromType< OutputNode >(Vector2.zero)) as OutputNode;
 
-            if (outputStackNode == null || stackNodes.Count != 1)
-            {
-                outputStackNode = new OutputStackNode(Vector2.zero);
-                AddStackNode(outputStackNode);
-            }
-
-            if (!outputStackNode.nodeGUIDs.Contains(outputNode.GUID))
-                outputStackNode.nodeGUIDs.Add(outputNode.GUID);
-
 #if UNITY_EDITOR
 			if (isRealtime)
 				RealtimeMixtureReferences.realtimeMixtureCRTs.Add(outputTexture as CustomRenderTexture);
@@ -116,6 +105,9 @@ namespace Mixture
 
 		public void					RemoveObjectFromGraph(Object obj)
 		{
+            if (obj == null)
+                return;
+
 			objectReferences.Remove(obj);
 
 #if UNITY_EDITOR
