@@ -8,7 +8,7 @@ using System;
 
 namespace Mixture
 {
-    [Serializable]
+    [Serializable, NodeMenuItem("External Output")]
     public class ExternalOutputNode : OutputNode
     {
         public enum ExternalOutputDimension

@@ -12,6 +12,14 @@ namespace Mixture
     {
         Button saveButton;
         Button updateButton;
+
+		public override void Enable()
+        {
+            base.Enable();
+
+            // We can delete external outputs
+            capabilities |= Capabilities.Deletable;
+        }
         
         protected override void BuildOutputNodeSettings()
         {

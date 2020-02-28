@@ -71,7 +71,7 @@ namespace Mixture
 			base.BuildContextualMenu(evt);
 
 			// Disable the Delete option if there is an output node view selected
-			if (selection.Any(s => s is OutputNodeView))
+			if (selection.Any(s => s is OutputNodeView && !(s is ExternalOutputNodeView)))
 			{
 				int deleteIndex = evt.menu.MenuItems().FindIndex(m => (m as DropdownMenuAction)?.name == "Delete");
 
