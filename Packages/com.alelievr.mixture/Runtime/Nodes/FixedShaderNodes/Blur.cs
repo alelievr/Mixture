@@ -97,7 +97,7 @@ namespace Mixture
 
 			// Setup the successive passes needed or the blur
 			output.SetUpdateZones(updateZones);
-			
+
 			return true;
 		}
 
