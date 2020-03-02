@@ -268,6 +268,9 @@ namespace Mixture
 
 		public void ResetMaterialPropertyToDefault(Material mat, string propName)
 		{
+			if (mat == null)
+				return;
+
 			int idx = mat.shader.FindPropertyIndex(propName);
 			switch (mat.shader.GetPropertyType(idx))
 			{

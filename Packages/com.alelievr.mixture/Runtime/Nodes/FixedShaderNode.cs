@@ -23,11 +23,25 @@ namespace Mixture
 		protected override void Enable()
 		{
 			if (shader == null)
-			{
-				shader = Shader.Find(shaderName);
-			}
+				FindShader();
 
 			base.Enable();
         }
+
+		void FindShader() => shader = Shader.Find(shaderName);
+
+		protected override bool ProcessNode()
+		{
+			if (!base.ProcessNode())
+				return false;
+
+			if (shader == null)
+				FindShader();
+			
+			if (shader == null)
+				return false;
+			
+			return true;
+		}
 	}
 }

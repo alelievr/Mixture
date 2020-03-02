@@ -25,21 +25,32 @@ namespace Mixture
 		};
 
 		CustomRenderTexture tmpUVMap;
+		Material			tmpUVMaterial;
 
 		~Distance()
 		{
 			tmpUVMap?.Release();
+			CoreUtils.Destroy(tmpUVMaterial);
 		}
 
 		protected override bool ProcessNode()
 		{
+			// Force the double buffering for multi-pass flooding
+			rtSettings.doubleBuffered = true;
+
 			if (!base.ProcessNode())
 				return false;
 
 			UpdateTempRenderTexture(ref tmpUVMap);
 
-			tmpUVMap.material = material;
+			if (tmpUVMaterial == null)
+			{
+				tmpUVMaterial = new Material(material);
+			}
+
+			tmpUVMap.material = tmpUVMaterial;
 			tmpUVMap.shaderPass = 0;
+			tmpUVMap.doubleBuffered = false;
 
 			// Setup passes for jump flooding
 			int stepCount = Mathf.CeilToInt(Mathf.Log(output.width, 2));
@@ -48,7 +59,7 @@ namespace Mixture
 			for (int i = 0; i < stepCount; i++)
 			{
 				updateZones[stepCount] = new CustomRenderTextureUpdateZone{
-					needSwap = false,
+					needSwap = true,
 					passIndex = stepCount - i + 1,
 					rotation = 0f,
 					updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
@@ -66,7 +77,6 @@ namespace Mixture
 				updateZoneSize = new Vector3(0f, 0f, 0f),
 			};
 
-			rtSettings.doubleBuffered = true;
 
 			tmpUVMap.Update();
 

@@ -26,7 +26,6 @@
 
 		// This macro will declare a version for each dimention (2D, 3D and Cube)
 		TEXTURE_X(_Source);
-		TEXTURE_X(_UVMap);
 		float _Threshold;
 		float _Radius;
 
@@ -37,11 +36,17 @@
 			Name "Fill UV map"
 			CGPROGRAM
 			#pragma fragment FillUVMap
-			
+
 			float4 FillUVMap(v2f_customrendertexture crt) : SV_Target
 			{
 				FIX_CUBEMAP_DIRECTION(crt);
 
+				float4 input = LOAD_X(_Source, crt.localTexcoord.xyz, crt.direction);
+
+				if (all(input.rgb > _Threshold))
+					return float4(crt.localTexcoord.xyz, 0);
+				else
+					return float4(-1, -1, -1, -1); // mark UV as invalid in this case
 			}
 
 			ENDCG
@@ -51,9 +56,141 @@
 		{
 			CGPROGRAM
 			#define STEP_LENGTH 0
+			TEXTURE_X(_UVMap);
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG
 		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define STEP_LENGTH 1
+			TEXTURE_X(_UVMap);
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define STEP_LENGTH 2
+			TEXTURE_X(_UVMap);
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define STEP_LENGTH 3
+			TEXTURE_X(_UVMap);
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define STEP_LENGTH 4
+			TEXTURE_X(_UVMap);
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define STEP_LENGTH 5
+			TEXTURE_X(_UVMap);
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define STEP_LENGTH 6
+			TEXTURE_X(_UVMap);
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define STEP_LENGTH 7
+			TEXTURE_X(_UVMap);
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define STEP_LENGTH 8
+			TEXTURE_X(_UVMap);
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define STEP_LENGTH 9
+			TEXTURE_X(_UVMap);
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define STEP_LENGTH 10
+			TEXTURE_X(_UVMap);
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define STEP_LENGTH 11
+			TEXTURE_X(_UVMap);
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define STEP_LENGTH 12
+			TEXTURE_X(_UVMap);
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define STEP_LENGTH 13
+			TEXTURE_X(_UVMap);
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
 	}
 }
