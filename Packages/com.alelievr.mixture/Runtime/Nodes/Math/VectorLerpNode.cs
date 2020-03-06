@@ -4,7 +4,7 @@ using GraphProcessor;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Lerp")]
-	public class VectorLerpNode : MixtureNode, ICPUNode
+	public class VectorLerpNode : MixtureNode, INeedsCPU
 	{
 		public override bool hasSettings => false;
 

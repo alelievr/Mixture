@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Utils/Debug Log")]
-	public class DebugLogNode : MixtureNode, ICPUNode
+	public class DebugLogNode : MixtureNode, INeedsCPU
 	{
 		[Input("obj")]
 		public object	input;

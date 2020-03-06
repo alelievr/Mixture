@@ -119,15 +119,5 @@ namespace Mixture
 					break ;
 			}
 		}
-
-		public override IEnumerable< KeyValuePair< string, Type > > FilterCreateNodeMenuEntries()
-		{
-			foreach (var nodeEntry in base.FilterCreateNodeMenuEntries())
-			{
-				if (graph.isRealtime && typeof(ICPUNode).IsAssignableFrom(nodeEntry.Value))
-					continue;
-				yield return nodeEntry;
-			}
-		}
 	}
 }

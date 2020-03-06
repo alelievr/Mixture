@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
     [System.Serializable, NodeMenuItem("Utils/Break Vector")]
-    public class BreakVectorNode : MixtureNode, ICPUNode
+    public class BreakVectorNode : MixtureNode, INeedsCPU
     {
         [Input("Vector")]
         public Vector4 vector;

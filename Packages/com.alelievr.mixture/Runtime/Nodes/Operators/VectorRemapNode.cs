@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Remap")]
-	public class VectorRemapNode : MixtureNode, ICPUNode
+	public class VectorRemapNode : MixtureNode, INeedsCPU
 	{
 		// TODO: multi VectorRemap port
 		public override bool hasSettings => false;

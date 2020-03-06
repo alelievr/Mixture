@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Utils/Sample Gradient")]
-	public class SampleGradientNode : MixtureNode, ICPUNode
+	public class SampleGradientNode : MixtureNode, INeedsCPU
 	{
         [Input("x"),Range(0.0f,1.0f)]
         public float x=0.0f;

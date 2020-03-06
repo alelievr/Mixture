@@ -9,7 +9,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	// [System.Serializable, NodeMenuItem("Utils/Get Pixel")]
-	public class GetPixel : MixtureNode, ICPUNode
+	public class GetPixel : MixtureNode, INeedsCPU
 	{
 		[Input("Texture")]
 		public Texture	texture;

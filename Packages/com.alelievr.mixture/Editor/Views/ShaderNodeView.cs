@@ -38,7 +38,6 @@ namespace Mixture
 			if (shaderNode.material != null && !owner.graph.IsObjectInGraph(shaderNode.material))
 			{
 				owner.graph.AddObjectToGraph(shaderNode.material);
-				Debug.Log("HFUIHF");
 			}
 
 			shaderField = new ObjectField

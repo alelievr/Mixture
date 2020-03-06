@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Utils/Vector Swizzle")]
-	public class VectorSwizzle : MixtureNode, ICPUNode
+	public class VectorSwizzle : MixtureNode, INeedsCPU
 	{
 		[Input("Input")]
 		public Vector4	input;

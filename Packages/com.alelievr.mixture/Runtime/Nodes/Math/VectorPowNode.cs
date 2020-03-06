@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Pow")]
-	public class VectorPowNode : MixtureNode, ICPUNode
+	public class VectorPowNode : MixtureNode, INeedsCPU
 	{
 		public override bool hasSettings => false;
 

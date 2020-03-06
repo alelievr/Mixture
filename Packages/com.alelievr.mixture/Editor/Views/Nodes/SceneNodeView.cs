@@ -32,7 +32,7 @@ namespace Mixture
             PrefabStage.prefabStageClosing += PrefabClosed;
 
             var stage = PrefabStageUtility.GetCurrentPrefabStage();
-            if (stage != null && stage.prefabAssetPath == AssetDatabase.GetAssetPath(sceneNode.prefab))
+            if (stage != null && stage.assetPath == AssetDatabase.GetAssetPath(sceneNode.prefab))
                 PrefabOpened(stage);
 		}
 

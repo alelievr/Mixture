@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Div")]
-	public class VectorDivNode : MixtureNode, ICPUNode
+	public class VectorDivNode : MixtureNode, INeedsCPU
 	{
 		// TODO: multi VectorDiv port
 		public override bool hasSettings => false;

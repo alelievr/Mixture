@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Ping Pong")]
-	public class VectorPingPongNode : MixtureNode, ICPUNode
+	public class VectorPingPongNode : MixtureNode, INeedsCPU
 	{
 		public override bool hasSettings => false;
 

@@ -4,7 +4,7 @@ using GraphProcessor;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Lerp Angle")]
-	public class VectorLerpAngleNode : MixtureNode, ICPUNode
+	public class VectorLerpAngleNode : MixtureNode, INeedsCPU
 	{
 		public override bool hasSettings => false;
 		

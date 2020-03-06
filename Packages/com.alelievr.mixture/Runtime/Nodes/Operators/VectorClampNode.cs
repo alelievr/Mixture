@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Clamp")]
-	public class VectorClampNode : MixtureNode, ICPUNode
+	public class VectorClampNode : MixtureNode, INeedsCPU
 	{
 		// TODO: multi VectorClamp port
 		public override bool hasSettings => false;

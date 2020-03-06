@@ -8,7 +8,7 @@ using System;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Truncate")]
-	public class VectorTruncateNode : MixtureNode, ICPUNode
+	public class VectorTruncateNode : MixtureNode, INeedsCPU
 	{
 		// TODO: multi VectorTruncate port
 		public override bool hasSettings => false;
