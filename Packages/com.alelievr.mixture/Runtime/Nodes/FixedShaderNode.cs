@@ -15,7 +15,7 @@ namespace Mixture
 			get
 			{
                 var settings = base.defaultRTSettings;
-                settings.editFlags = EditFlags.All;
+                settings.editFlags = EditFlags.All ^ EditFlags.POTSize;
                 return settings;
 			}
 		}

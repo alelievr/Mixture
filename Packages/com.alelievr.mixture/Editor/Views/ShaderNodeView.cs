@@ -21,16 +21,6 @@ namespace Mixture
 
 		protected override string header => "Shader Properties";
 
-		protected override bool hasPreview => false;
-
-		// public override void OnCreated()
-		// {
-		// 	if (shaderNode.material != null)
-		// 	{
-		// 		owner.graph.AddObjectToGraph(shaderNode.material);
-		// 	}
-		// }
-
 		public override void Enable()
 		{
 			base.Enable();
@@ -38,7 +28,6 @@ namespace Mixture
 			if (shaderNode.material != null && !owner.graph.IsObjectInGraph(shaderNode.material))
 			{
 				owner.graph.AddObjectToGraph(shaderNode.material);
-				Debug.Log("HFUIHF");
 			}
 
 			shaderField = new ObjectField

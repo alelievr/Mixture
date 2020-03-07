@@ -26,6 +26,7 @@ namespace Mixture
 		public int height;
 		[Min(1)]
 		public int sliceCount;
+		public POTSize potSize;
 		public OutputSizeMode widthMode;
 		public OutputSizeMode heightMode;
 		public OutputSizeMode depthMode;
@@ -80,7 +81,7 @@ namespace Mixture
 				default:
 				case OutputSizeMode.Default : return graph.outputNode.rtSettings.height;
 				case OutputSizeMode.Fixed : return height;
-				case OutputSizeMode.PercentageOfOutput : return (int)(graph.outputNode.rtSettings.height * height);
+				case OutputSizeMode.PercentageOfOutput : return (int)(graph.outputNode.rtSettings.height * heightPercent);
 			}
 		}
 

@@ -23,7 +23,7 @@ namespace Mixture
 
 		protected virtual string header => string.Empty;
 
-		protected virtual bool hasPreview => false;
+		protected virtual bool hasPreview => true;
 		protected override bool hasSettings => nodeTarget.hasSettings;
 
 		protected MixtureRTSettingsView settingsView;
@@ -305,26 +305,21 @@ namespace Mixture
 
 		void DrawTextureInfoHover(Rect previewRect, Texture texture)
 		{
+			Rect infoRect = previewRect;
+			infoRect.yMin += previewRect.height - 24;
+			infoRect.height = 20;
+			previewRect.yMax -= 4;
+
 			// On Hover : Transparent Bar for Preview with information
-			if(previewRect.Contains(Event.current.mousePosition))
+			if (previewRect.Contains(Event.current.mousePosition) && !infoRect.Contains(Event.current.mousePosition))
 			{
-				previewRect.yMin += previewRect.height - 24;
-				EditorGUI.DrawRect(previewRect, new Color(0, 0, 0, 0.65f));
+				EditorGUI.DrawRect(infoRect, new Color(0, 0, 0, 0.65f));
 
-				previewRect.yMin += 2;
-				previewRect.xMin += 8;
+				infoRect.xMin += 8;
 
-				int shadowDist = 2;
 				// Shadow
-				previewRect.xMin += shadowDist;
-				previewRect.yMin += shadowDist;
-				GUI.color = Color.black;
-				GUI.Label(previewRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
-				// Text
-				previewRect.xMin -= shadowDist;
-				previewRect.yMin -= shadowDist;
 				GUI.color = Color.white;
-				GUI.Label(previewRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
+				GUI.Label(infoRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
 			}
 		}
 
@@ -347,6 +342,11 @@ namespace Mixture
 
 				DrawTextureInfoHover(previewRect, node.previewTexture);
 			});
+
+			// Force the ImGUI preview to refresh
+			EditorApplication.update -= previewElement.MarkDirtyRepaint;
+			EditorApplication.update += previewElement.MarkDirtyRepaint;
+
 			previewContainer.Add(previewElement);
 		}
 

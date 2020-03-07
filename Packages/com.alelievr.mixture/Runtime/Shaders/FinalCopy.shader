@@ -27,7 +27,7 @@ Shader "Hidden/Mixture/FinalCopy"
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				return LOAD_X(_Source, i.localTexcoord.xyz, i.direction);
+				return SAMPLE_X_NEAREST_CLAMP(_Source, i.localTexcoord.xyz, i.direction);
 			}
 			ENDCG
 		}

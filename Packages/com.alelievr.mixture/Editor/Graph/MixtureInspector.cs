@@ -27,7 +27,7 @@ namespace Mixture
 				DrawMixtureSmallIcon(rect, isRealtime);
 				return ;
 			}
-			
+
 			string assetPath = AssetDatabase.GUIDToAssetPath(assetGUID);
 
 			// Mixture assets are saved as .asset files
