@@ -16,6 +16,7 @@ namespace Mixture
 		VisualElement	    shaderCreationUI;
 		MaterialEditor	    materialEditor;
 		FixedShaderNode		fixedShaderNode => nodeTarget as FixedShaderNode;
+		int					materialCRC;
 
 		ObjectField			debugCustomRenderTextureField;
 
@@ -61,11 +62,15 @@ namespace Mixture
 
 		void MaterialGUI()
 		{
+			if (materialCRC != fixedShaderNode.material.ComputeCRC())
+			{
+				NotifyNodeChanged();
+				materialCRC = fixedShaderNode.material.ComputeCRC();
+			}
+
 			// Update the GUI when shader is modified
 			if (MaterialPropertiesGUI(fixedShaderNode.material))
-			{
 				ForceUpdatePorts();
-			}
 		}
 
 		void ResetMaterialPropertyToDefault(PortView pv)

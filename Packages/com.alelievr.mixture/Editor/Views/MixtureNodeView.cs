@@ -373,11 +373,17 @@ namespace Mixture
 				if (Event.current.type == EventType.Repaint)
 					EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0, ColorWriteMask.Red);
 
+				
 				DrawTextureInfoHover(previewRect, node.previewTexture);
             });
 			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
 				currentSlice = a.newValue;
 			});
+
+			// Force the ImGUI preview to refresh
+			EditorApplication.update -= previewImageSlice.MarkDirtyRepaint;
+			EditorApplication.update += previewImageSlice.MarkDirtyRepaint;
+
 			previewContainer.Add(previewSliceIndex);
 			previewContainer.Add(previewImageSlice);
 		}
@@ -400,6 +406,11 @@ namespace Mixture
 
 				DrawTextureInfoHover(previewRect, node.previewTexture);
             });
+
+			// Force the ImGUI preview to refresh
+			EditorApplication.update -= previewImageSlice.MarkDirtyRepaint;
+			EditorApplication.update += previewImageSlice.MarkDirtyRepaint;
+
 			previewContainer.Add(previewImageSlice);
 		}
 	}

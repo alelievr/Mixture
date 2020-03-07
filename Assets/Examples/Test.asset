@@ -35,14 +35,14 @@ Material:
     - _CellSize: 1
     - _CellsMode: 0
     - _DistanceMode: 0
-    - _Frequency: 1
+    - _Frequency: 3
     - _Lacunarity: 2
     - _Octaves: 3
-    - _Persistance: 3.08
+    - _Persistance: 1
     - _Seed: 42
     - _TilingMode: 1
     m_Colors:
-    - _OutputRange: {r: -0.09, g: 1, b: 0, a: 0}
+    - _OutputRange: {r: -0.29, g: 1, b: 0, a: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -58,13 +58,13 @@ MonoBehaviour:
   serializedNodes:
   - type: Mixture.OutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"5d8ff63b-158a-4c22-a651-55a6e5c995ff","computeOrder":3,"canProcess":true,"position":{"serializedVersion":"2","x":-259.6263427734375,"y":-158.42373657226563,"width":320.0,"height":519.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":64,"height":64,"sliceCount":64,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":3,"targetFormat":5,"editFlags":213,"doubleBuffered":false,"wrapMode":0,"filterMode":0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"input":{"instanceID":0},"hasMips":false,"customMipMapShader":{"instanceID":0},"currentSlice":0,"compressionFormat":29,"compressionQuality":100,"enableCompression":false}'
+    jsonDatas: '{"GUID":"5d8ff63b-158a-4c22-a651-55a6e5c995ff","computeOrder":3,"canProcess":true,"position":{"serializedVersion":"2","x":-259.6263427734375,"y":-158.42373657226563,"width":320.0,"height":519.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":64,"height":64,"sliceCount":64,"potSize":0,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":3,"targetFormat":5,"editFlags":981,"doubleBuffered":false,"wrapMode":0,"filterMode":0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"input":{"instanceID":0},"hasMips":false,"customMipMapShader":{"instanceID":0},"currentSlice":0,"compressionFormat":29,"compressionQuality":100,"enableCompression":false}'
   - type: Mixture.CellularNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"f95af321-2d61-4395-b7bb-58dc1024f319","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":-798.0,"y":-158.5,"width":250.0,"height":695.0},"expanded":true,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"targetFormat":0,"editFlags":255,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"da55f2393d0f8384db177010fad4c19c","type":3},"material":{"fileID":-5242503846874114377,"guid":"24771c5694877784fbd11956df01566c","type":2}}'
+    jsonDatas: '{"GUID":"f95af321-2d61-4395-b7bb-58dc1024f319","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":-791.04345703125,"y":-158.86956787109376,"width":250.00001525878907,"height":663.0000610351563},"expanded":true,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"targetFormat":0,"editFlags":255,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"da55f2393d0f8384db177010fad4c19c","type":3},"material":{"fileID":-5242503846874114377,"guid":"24771c5694877784fbd11956df01566c","type":2}}'
   - type: Mixture.ShaderNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"718a6884-3875-451a-b663-10f9fc71ad75","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":-523.521728515625,"y":-157.91305541992188,"width":250.00001525878907,"height":145.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"targetFormat":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"output":{"instanceID":0},"shader":{"fileID":-6465566751694194690,"guid":"4a5365ddbab8895428b3ed4124b9f27c","type":3},"material":{"fileID":5093414533619041902,"guid":"24771c5694877784fbd11956df01566c","type":2}}'
+    jsonDatas: '{"GUID":"718a6884-3875-451a-b663-10f9fc71ad75","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":-523.521728515625,"y":-157.91305541992188,"width":250.00001525878907,"height":145.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"targetFormat":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"output":{"instanceID":0},"shader":{"fileID":-6465566751694194690,"guid":"4a5365ddbab8895428b3ed4124b9f27c","type":3},"material":{"fileID":5093414533619041902,"guid":"24771c5694877784fbd11956df01566c","type":2}}'
   edges:
   - GUID: 94442b3f-07f6-469e-a650-36aa0eb3f281
     owner: {fileID: 11400000}
@@ -74,7 +74,7 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: input
     outputPortIdentifier: output
-  - GUID: d7b324db-306f-4033-8655-04488168253b
+  - GUID: 5e44a98e-e452-4152-8421-feb4f7053140
     owner: {fileID: 11400000}
     inputNodeGUID: 718a6884-3875-451a-b663-10f9fc71ad75
     outputNodeGUID: f95af321-2d61-4395-b7bb-58dc1024f319
@@ -86,9 +86,9 @@ MonoBehaviour:
   stackNodes: []
   pinnedElements: []
   exposedParameters: []
-  position: {x: 1198, y: 525, z: 0}
+  position: {x: 924, y: 212, z: 0}
   scale: {x: 1.15, y: 1.15, z: 1}
-  realtimePreview: 1
+  realtimePreview: 0
   isRealtime: 0
   objectReferences:
   - {fileID: 0}

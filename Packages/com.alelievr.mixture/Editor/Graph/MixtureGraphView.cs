@@ -115,7 +115,10 @@ namespace Mixture
 			processor = new MixtureGraphProcessor(graph);
 			computeOrderUpdated += processor.UpdateComputeOrder;
 			graph.onOutputTextureUpdated += () => processor.Run();
-			graph.onGraphChanges += _ => this.schedule.Execute(() => ProcessGraph()).ExecuteLater(10);
+			graph.onGraphChanges += _ => {
+				this.schedule.Execute(() => ProcessGraph()).ExecuteLater(10);
+				MarkDirtyRepaint();
+			};
 
 			// Run the processor when we open the graph
 			ProcessGraph();

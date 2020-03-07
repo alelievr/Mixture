@@ -19,6 +19,8 @@ namespace Mixture
 		ObjectField		debugCustomRenderTextureField;
 		ObjectField		shaderField;
 
+		int				materialCRC;
+
 		protected override string header => "Shader Properties";
 
 		public override void Enable()
@@ -26,9 +28,7 @@ namespace Mixture
 			base.Enable();
 
 			if (shaderNode.material != null && !owner.graph.IsObjectInGraph(shaderNode.material))
-			{
 				owner.graph.AddObjectToGraph(shaderNode.material);
-			}
 
 			shaderField = new ObjectField
 			{
@@ -134,6 +134,12 @@ namespace Mixture
 
 		void MaterialGUI()
 		{
+			if (shaderNode.material.ComputeCRC() != materialCRC)
+			{
+				NotifyNodeChanged();
+				materialCRC = shaderNode.material.ComputeCRC();
+			}
+
 			// Update the GUI when shader is modified
 			if (MaterialPropertiesGUI(shaderNode.material))
 			{
