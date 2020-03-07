@@ -96,6 +96,8 @@ namespace Mixture
 		{
 			objectReferences.Add(obj);
 
+            Debug.Log(objectReferences.Count);
+
 #if UNITY_EDITOR
 			AssetDatabase.AddObjectToAsset(obj, mainAssetPath);
 #endif
@@ -114,6 +116,8 @@ namespace Mixture
 			AssetDatabase.RemoveObjectFromAsset(obj);
 #endif
 		}
+
+        public void                 ClearObjectReferences() => objectReferences.Clear();
 
 		/// <summary>
 		/// Warning: this function will create a new output texture from scratch, It means that you will loose all data in the former outputTexture
