@@ -96,8 +96,6 @@ namespace Mixture
 		{
 			objectReferences.Add(obj);
 
-            Debug.Log(objectReferences.Count);
-
 #if UNITY_EDITOR
 			AssetDatabase.AddObjectToAsset(obj, mainAssetPath);
 #endif

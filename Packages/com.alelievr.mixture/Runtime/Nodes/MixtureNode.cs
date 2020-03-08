@@ -231,7 +231,7 @@ namespace Mixture
 						}
 						break;
 					case MaterialProperty.PropType.Vector:
-						prop.vectorValue = (Vector4)edge.passThroughBuffer;
+						prop.vectorValue = MixtureConversions.ConvertObjectToVector4(edge.passThroughBuffer);
 						break;
 				}
 			}

@@ -20,18 +20,21 @@ namespace Mixture
 				owner.RegisterCompleteObjectUndo("Updated Hue " + e.newValue);
                 node.minHue = e.newValue.x;
                 node.maxHue = e.newValue.y;
+				NotifyNodeChanged();
             });
             
             s.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Saturation " + e.newValue);
                 node.minSat = e.newValue.x;
                 node.maxSat = e.newValue.y;
+				NotifyNodeChanged();
             });
             
             v.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Value " + e.newValue);
                 node.minValue = e.newValue.x;
                 node.maxValue = e.newValue.y;
+				NotifyNodeChanged();
             });
 
 			controlsContainer.Add(h);

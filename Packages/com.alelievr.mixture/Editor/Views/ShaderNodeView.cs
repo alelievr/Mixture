@@ -50,7 +50,7 @@ namespace Mixture
 
 			controlsContainer.Add(new IMGUIContainer(MaterialGUI));
 			materialEditor = Editor.CreateEditor(shaderNode.material) as MaterialEditor;
-			
+
 			onPortDisconnected += ResetMaterialPropertyToDefault;
 		}
 

@@ -373,7 +373,6 @@ namespace Mixture
 				if (Event.current.type == EventType.Repaint)
 					EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0, ColorWriteMask.Red);
 
-				
 				DrawTextureInfoHover(previewRect, node.previewTexture);
             });
 			previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {

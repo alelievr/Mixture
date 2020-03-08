@@ -27,6 +27,7 @@ namespace Mixture
 			};
 			textureField.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Vector " + e.newValue);
+				NotifyNodeChanged();
 				floatNode.Float = e.newValue;
 
 			});

@@ -147,11 +147,13 @@ namespace Mixture
                 {
                     node.rtSettings.width = (int)size;
                     node.rtSettings.height = (int)size;
+                    node.rtSettings.sliceCount = (int)size;
                 }
                 else
                 {
                     node.rtSettings.width = outputWidth.value;
                     node.rtSettings.height = outputHeight.value;
+                    node.rtSettings.sliceCount = outputDepth.value;
                 }
 
                 onChanged?.Invoke();
@@ -315,7 +317,7 @@ namespace Mixture
             SetVisible(outputWidthPercentage, rtSettings.CanEdit(EditFlags.Width) && rtSettings.widthMode == OutputSizeMode.PercentageOfOutput);
 			SetVisible(outputHeight, rtSettings.CanEdit(EditFlags.Height) && rtSettings.heightMode == OutputSizeMode.Fixed && (rtSettings.potSize == POTSize.Custom || !rtSettings.CanEdit(EditFlags.POTSize)));
             SetVisible(outputHeightPercentage, rtSettings.CanEdit(EditFlags.Height) && rtSettings.heightMode == OutputSizeMode.PercentageOfOutput);
-			SetVisible(outputDepth, rtSettings.CanEdit(EditFlags.Depth) && rtSettings.depthMode == OutputSizeMode.Fixed);
+			SetVisible(outputDepth, rtSettings.CanEdit(EditFlags.Depth) && rtSettings.depthMode == OutputSizeMode.Fixed && (rtSettings.potSize == POTSize.Custom || !rtSettings.CanEdit(EditFlags.POTSize)));
             SetVisible(outputDepthPercentage, rtSettings.CanEdit(EditFlags.Depth) && rtSettings.depthMode == OutputSizeMode.PercentageOfOutput);
             SetVisible(outputDimension, rtSettings.CanEdit(EditFlags.Dimension));
             SetVisible(outputFormat, rtSettings.CanEdit(EditFlags.TargetFormat));
