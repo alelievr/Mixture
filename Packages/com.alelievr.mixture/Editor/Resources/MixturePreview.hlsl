@@ -49,5 +49,5 @@ float4 MakePreviewColor(v2f i, float2 texelSize, float4 imageColor)
     // Then checkerboard
     imageColor.xyz = lerp(checkerboard, imageColor.xyz, imageColor.a);
 
-    return float4(imageColor.xyz * tex2D(_GUIClipTexture, i.clipUV).a, 1);
+    return imageColor * tex2D(_GUIClipTexture, i.clipUV).a;
 }
