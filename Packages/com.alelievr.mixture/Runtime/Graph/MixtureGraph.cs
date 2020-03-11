@@ -154,11 +154,9 @@ namespace Mixture
 
             if (oldTextureObject != null) // release memory and remove asset
             {
-                Debug.Log("Update main asset: " + oldTextureObject);
                 AssetDatabase.RemoveObjectFromAsset(oldTextureObject);
                 DestroyImmediate(oldTextureObject, true);
             }
-            Debug.Log("Set main asset: " + outputTexture);
 
             AssetDatabase.AddObjectToAsset(outputTexture, this);
             AssetDatabase.SetMainObject(outputTexture, mainAssetPath);
