@@ -53,9 +53,11 @@ namespace Mixture
 
 		protected override void Enable()
 		{
+			
 			if (customTexture == null)
 			{
 				customTexture = new CustomRenderTexture(512, 512, GraphicsFormat.R8G8B8A8_UNorm);
+				customTexture.name = "Custom Texture Node";
 				initializationMaterial = new Material(Shader.Find(defaultCRTInitShader));
 				updateMaterial = new Material(Shader.Find(defaultCRTUpdateShader));
 				customTexture.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;

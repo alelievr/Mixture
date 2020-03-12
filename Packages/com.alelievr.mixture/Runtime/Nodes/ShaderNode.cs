@@ -2,6 +2,7 @@
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -35,6 +36,8 @@ namespace Mixture
 				// material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 			}
 		}
+
+        protected override void Disable() => CoreUtils.Destroy(output);
 
 		// Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code
 		[CustomPortBehavior(nameof(materialInputs))]

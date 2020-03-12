@@ -116,6 +116,12 @@ namespace Mixture
 			RenderPipelineManager.beginFrameRendering += BeginFrameRendering;
 		}
 
+        protected override void Disable()
+		{
+			CoreUtils.Destroy(tempRenderTexture);
+			CoreUtils.Destroy(mipmapRenderTexture);
+		}
+
 		protected override bool ProcessNode()
 		{
 			if (graph.outputTexture == null)

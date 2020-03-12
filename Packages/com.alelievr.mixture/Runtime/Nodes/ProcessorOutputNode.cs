@@ -92,6 +92,8 @@ namespace Mixture
 			};
 		}
 
+        protected override void Disable() => CoreUtils.Destroy(tempRenderTexture);
+
 		protected override bool ProcessNode()
 		{
 			if (graph.outputTexture == null)

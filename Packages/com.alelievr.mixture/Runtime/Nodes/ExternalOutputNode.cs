@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using GraphProcessor;
-using System.Linq;
-using System.IO;
 using System;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -69,8 +66,9 @@ namespace Mixture
             }
 
             onSettingsChanged += () => { ProcessNode(); };
-
         }
+
+        protected override void Disable() => CoreUtils.Destroy(tempRenderTexture);
 
         protected override bool ProcessNode()
         {

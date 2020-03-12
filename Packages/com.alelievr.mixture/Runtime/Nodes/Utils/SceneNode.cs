@@ -96,6 +96,8 @@ namespace Mixture
             UpdateRenderTextures();
         }
 
+        protected override void Disable() => CoreUtils.Destroy(tmpRenderTexture);
+
         protected override bool ProcessNode()
         {
             UpdateRenderTextures();

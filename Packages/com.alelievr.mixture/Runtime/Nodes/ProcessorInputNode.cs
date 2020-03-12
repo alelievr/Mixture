@@ -73,6 +73,8 @@ namespace Mixture
 			};
 		}
 
+        protected override void Disable() => CoreUtils.Destroy(tempRenderTexture);
+
 		[CustomPortBehavior(nameof(output))]
 		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{

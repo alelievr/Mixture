@@ -8,6 +8,8 @@ namespace Mixture
 {
 	public class MixtureDebugWindow : EditorWindow
 	{
+        Vector2 scrollPosition;
+
         [MenuItem("Window/Analysis/Mixture Debugger")]
         public static void Open()
         {
@@ -23,32 +25,50 @@ namespace Mixture
 
         public void OnGUI()
         {
-            EditorGUILayout.LabelField("Running mixture instances: (Static)", EditorStyles.boldLabel);
-
-            // TODO: keep track of all opened mixture window to show a Focus button
-            var mixtureWindows = Resources.FindObjectsOfTypeAll<MixtureGraphWindow>();
-
-            foreach (var view in MixtureUpdater.views)
+            using (var scroll = new EditorGUILayout.ScrollViewScope(scrollPosition))
             {
-                if (view.graph.isRealtime)
-                    return;
+                EditorGUILayout.LabelField("Running mixture instances: (Static)", EditorStyles.boldLabel);
 
-                var window = mixtureWindows.FirstOrDefault(w => w.view == view);
+                // TODO: keep track of all opened mixture window to show a Focus button
+                var mixtureWindows = Resources.FindObjectsOfTypeAll<MixtureGraphWindow>();
 
-                using (new EditorGUILayout.HorizontalScope())
+                foreach (var view in MixtureUpdater.views)
                 {
-                    EditorGUILayout.LabelField(view.graph.name);
-                    if (window == null)
-                        EditorGUILayout.LabelField("Can't find the window for this static mixture !");
-                    else
+                    if (view.graph.isRealtime)
+                        return;
+
+                    var window = mixtureWindows.FirstOrDefault(w => w.view == view);
+
+                    using (new EditorGUILayout.HorizontalScope())
                     {
-                        if (GUILayout.Button("Focus"))
+                        EditorGUILayout.LabelField(view.graph.name);
+                        if (window == null)
+                            EditorGUILayout.LabelField("Can't find the window for this static mixture !");
+                        else
                         {
-                            window.Show();
-                            window.Focus();
+                            if (GUILayout.Button("Focus"))
+                            {
+                                window.Show();
+                                window.Focus();
+                            }
                         }
                     }
                 }
+
+                EditorGUILayout.LabelField($"Currently Loaded Custom Render Textures");
+                foreach (var crt in CustomTextureManager.customRenderTextures.ToList())
+                {
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        EditorGUILayout.LabelField($"name: {crt.name}");
+                        EditorGUILayout.LabelField($"HashCode: {crt.GetHashCode()}");
+                        if (GUILayout.Button("Unload"))
+                        {
+                            Resources.UnloadAsset(crt);
+                        }
+                    }
+                }
+                scrollPosition = scroll.scrollPosition;
             }
         }
     }
