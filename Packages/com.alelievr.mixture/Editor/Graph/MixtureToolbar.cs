@@ -34,6 +34,8 @@ namespace Mixture
 				Selection.activeObject = graph;
 				EditorGUIUtility.PingObject(graph.outputTexture);
 			});
+			bool pinnedViewsVisible = graphView.GetPinnedElementStatus< PinnedViewBoard >() != Status.Hidden;
+			AddToggle("Pinned Views", pinnedViewsVisible, (v) => graphView.ToggleView< PinnedViewBoard >());
 			if (!graph.isRealtime)
 				AddButton(Styles.saveAllText, SaveAll , left: false);
 		}

@@ -70,6 +70,14 @@ namespace Mixture
 				DrawDefaultInspector();
 			}
 
+			RegisterCallback< MouseDownEvent >(e => {
+				if (owner.GetPinnedElementStatus< PinnedViewBoard >() == DropdownMenuAction.Status.Normal)
+				{
+					if (e.clickCount == 2)
+						PinView();
+				}
+			});
+
 			previewContainer = new VisualElement();
 			controlsContainer.Add(previewContainer);
 			UpdateTexturePreview();
@@ -193,6 +201,41 @@ namespace Mixture
 			}
 
 			return propertiesChanged;
+		}
+
+		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			evt.menu.AppendAction("Pin View", (a) => {
+				if (a.status == DropdownMenuAction.Status.Checked)
+					UnpinView();
+				else
+					PinView();
+			}, PinStatus);
+
+			base.BuildContextualMenu(evt);
+		}
+
+		internal void PinView()
+		{
+			if (!PinnedViewBoard.instance.HasView(controlsContainer))
+				PinnedViewBoard.instance.Add(this, controlsContainer, nodeTarget.name);
+		}
+
+		internal void UnpinView()
+		{
+			PinnedViewBoard.instance.Remove(controlsContainer);
+			mainContainer.Add(controlsContainer);
+		}
+
+		DropdownMenuAction.Status PinStatus(DropdownMenuAction action)
+		{
+			if (owner.GetPinnedElementStatus< PinnedViewBoard >() != DropdownMenuAction.Status.Normal)
+				return DropdownMenuAction.Status.Disabled;
+			
+			if (PinnedViewBoard.instance.HasView(controlsContainer))
+				return DropdownMenuAction.Status.Checked;
+			else
+				return DropdownMenuAction.Status.Normal;
 		}
 
 		protected void CreateTexturePreview(VisualElement previewContainer, MixtureNode node, int currentSlice = 0)
