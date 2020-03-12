@@ -40,6 +40,10 @@ public class RelayNode : BaseNode
 
 	void EdgeDisconnected(SerializableEdge edge)
 	{
+		// If there is still an edge connected to the node then, we do nothing
+		if (inputPorts.Any(n => n.GetEdges().Count != 0) || outputPorts.Any(n => n.GetEdges().Count != 0))
+			return;
+
 		if (edge.inputPort.portData.identifier == "0")
 			relayType = edge.outputPort.portData.displayType;
 		else
