@@ -25,10 +25,11 @@ public static class CustomTextureManager
         CustomRenderTextureManager.onTextureUnloaded -= OnCRTUnloaded;
         CustomRenderTextureManager.onTextureUnloaded += OnCRTUnloaded;
 
-        // RenderPipelineManager.beginFrameRendering -= DisableBuiltinCustomRenderTexture;
-        // RenderPipelineManager.beginFrameRendering += DisableBuiltinCustomRenderTexture;
         RenderPipelineManager.beginFrameRendering -= UpdateCRTs;
         RenderPipelineManager.beginFrameRendering += UpdateCRTs;
+
+        GraphicsSettings.useBuiltinCustomRenderTexture = false;
+        UpdateSRPCustomRenderTextureStatus();
     }
 
     // static void DisableBuiltinCustomRenderTexture(ScriptableRenderContext context, Camera[] cameras)
@@ -41,13 +42,9 @@ public static class CustomTextureManager
     //     // Right now this lets the builtin CRT execute one frame before ours take the ownership of the system
     // }
 
-
     static void UpdateCRTs(ScriptableRenderContext context, Camera[] cameras)
     {
-        if (builtinCustomRenderTextureEnabled != SupportedRenderingFeatures.active.builtinCustomRenderTexture)
-            UpdateSRPCustomRenderTextureStatus();
-        
-        if (SupportedRenderingFeatures.active.builtinCustomRenderTexture)
+        if (GraphicsSettings.useBuiltinCustomRenderTexture)
             return;
         
         UpdateDependencies();
@@ -60,7 +57,7 @@ public static class CustomTextureManager
 
     static void UpdateSRPCustomRenderTextureStatus()
     {
-        if (SupportedRenderingFeatures.active.builtinCustomRenderTexture)
+        if (GraphicsSettings.useBuiltinCustomRenderTexture)
         {
             // SRP custom textures have been disabled so we clear our list
             customRenderTextures.Clear();
@@ -73,7 +70,7 @@ public static class CustomTextureManager
                 InitializeCustomRenderTexture(crt);
         }
 
-        builtinCustomRenderTextureEnabled = SupportedRenderingFeatures.active.builtinCustomRenderTexture;
+        builtinCustomRenderTextureEnabled = GraphicsSettings.useBuiltinCustomRenderTexture;
     }
 
     static void OnCRTLoaded(CustomRenderTexture crt)
@@ -129,9 +126,10 @@ public static class CustomTextureManager
     // Returns internal parameters for rendering
     static Vector4 GetTextureParameters(CustomRenderTexture crt, int sliceIndex)
     {
+        int depth = crt.dimension == TextureDimension.Cube ? 6 : crt.volumeDepth;
         return new Vector4(
             (crt.updateZoneSpace == CustomRenderTextureUpdateZoneSpace.Pixel) ? 1.0f : 0.0f,
-            (float)sliceIndex / crt.volumeDepth,
+            (float)sliceIndex / depth,
             crt.dimension == TextureDimension.Tex3D ? 1.0f : 0.0f,
             0.0f
             );
@@ -143,9 +141,6 @@ public static class CustomTextureManager
         {
             using (new ProfilingScope(cmd, new ProfilingSampler($"Update {crt.name}")))
             {
-                cmd.SetRenderTarget(crt);
-                cmd.SetViewport(new Rect(0, 0, crt.width, crt.height));
-
                 // Prepare "self" texture for reading in the shader for double buffered custom textures
                 RenderTexture textureSelf2D = null;
                 RenderTexture textureSelf3D = null;
@@ -160,9 +155,20 @@ public static class CustomTextureManager
                         textureSelf3D = crt;
                 }
 
-                // TODO: cubemap and tex3D
-                for (int slice = 0; slice < crt.volumeDepth; slice++)
+                if (crt.doubleBuffered)
                 {
+                    // Update the internal double buffered render texture (resize / alloc / ect.)
+                    crt.CheckDoubleBufferConsistentcy();
+                }
+
+                int sliceCount = (crt.dimension == TextureDimension.Cube) ? 6 : crt.volumeDepth;
+                for (int slice = 0; slice < sliceCount; slice++)
+                {
+                    RenderTexture renderTexture = crt.doubleBuffered ? crt.GetDoubleBufferRenderTexture() : crt;
+                    cmd.SetRenderTarget(renderTexture, 0, (crt.dimension == TextureDimension.Cube) ? (CubemapFace)slice : 0,  (crt.dimension == TextureDimension.Tex3D) ? slice : 0);
+                    cmd.SetViewport(new Rect(0, 0, crt.width, crt.height));
+                    // cmd.ClearRenderTarget(true, true, Color.red, 0); // debug
+                    // TODO: use a material property block instead
                     crt.material.SetVector(kCustomRenderTextureInfo, GetTextureInfos(crt, slice));
                     crt.material.SetVector(kCustomRenderTextureParameters, GetTextureParameters(crt, slice));
                     crt.material.SetTexture(kSelf2D, textureSelf2D);
@@ -171,7 +177,7 @@ public static class CustomTextureManager
 
                     List<CustomRenderTextureUpdateZone> updateZones = new List<CustomRenderTextureUpdateZone>();
                     crt.GetUpdateZones(updateZones);
-                    
+
                     if (updateZones.Count == 0)
                         updateZones.Add(new CustomRenderTextureUpdateZone{ needSwap = false, updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f), updateZoneSize = Vector3.one, rotation = 0, passIndex = 0});
 
@@ -185,8 +191,14 @@ public static class CustomTextureManager
                     {
                         if (zone.needSwap && !firstUpdate)
                         {
-                            // For now, it's just a copy, once we actually do the swap of pointer, be careful to reset the Active Render Texture
-                            crt.Swap();
+                            var doubleBuffer = crt.GetDoubleBufferRenderTexture();
+                            Debug.Log("Need swap with: " + doubleBuffer);
+                            if (doubleBuffer != null)
+                            {
+                                // For now, it's just a copy, once we actually do the swap of pointer, be careful to reset the Active Render Texture
+                                cmd.Blit(doubleBuffer, crt);
+                                cmd.SetRenderTarget(doubleBuffer, 0, (crt.dimension == TextureDimension.Cube) ? (CubemapFace)slice : 0, slice);
+                            }
                         }
 
                         int passIndex = zone.passIndex == -1 ? 0: zone.passIndex;
@@ -201,6 +213,8 @@ public static class CustomTextureManager
                     }
                 }
             }
+            
+            crt.IncrementUpdateCount();
         }
     }
 }
