@@ -25,8 +25,14 @@ public static class CustomTextureManager
         CustomRenderTextureManager.onTextureUnloaded -= OnCRTUnloaded;
         CustomRenderTextureManager.onTextureUnloaded += OnCRTUnloaded;
 
-        RenderPipelineManager.beginFrameRendering -= UpdateCRTs;
-        RenderPipelineManager.beginFrameRendering += UpdateCRTs;
+#if UNITY_EDITOR
+        // In the editor we might not always have a camera to update our custom render textures
+        UnityEditor.EditorApplication.update -= UpdateCRTsEditor;
+        UnityEditor.EditorApplication.update += UpdateCRTsEditor;
+#else
+        RenderPipelineManager.beginFrameRendering -= UpdateCRTsRuntime;
+        RenderPipelineManager.beginFrameRendering += UpdateCRTsRuntime;
+#endif
 
         GraphicsSettings.useBuiltinCustomRenderTexture = false;
         UpdateSRPCustomRenderTextureStatus();
@@ -42,17 +48,32 @@ public static class CustomTextureManager
     //     // Right now this lets the builtin CRT execute one frame before ours take the ownership of the system
     // }
 
-    static void UpdateCRTs(ScriptableRenderContext context, Camera[] cameras)
+    static void UpdateCRTsEditor()
     {
         if (GraphicsSettings.useBuiltinCustomRenderTexture)
             return;
         
         UpdateDependencies();
 
+        Graphics.ExecuteCommandBuffer(MakeCRTCommandBuffer());
+    }
+
+    static void UpdateCRTsRuntime(ScriptableRenderContext context, Camera[] cameras)
+    {
+        if (GraphicsSettings.useBuiltinCustomRenderTexture)
+            return;
+        
+        UpdateDependencies();
+
+        context.ExecuteCommandBuffer(MakeCRTCommandBuffer());
+    }
+
+    static CommandBuffer MakeCRTCommandBuffer()
+    {
         var cmd = new CommandBuffer{ name = "SRP Custom Render Texture" };
         foreach (var crt in sortedCustomRenderTextures)
             UpdateCustomRenderTexture(cmd, crt);
-        context.ExecuteCommandBuffer(cmd);
+        return cmd;
     }
 
     static void UpdateSRPCustomRenderTextureStatus()
@@ -161,6 +182,8 @@ public static class CustomTextureManager
                     crt.CheckDoubleBufferConsistentcy();
                 }
 
+                MaterialPropertyBlock block = new MaterialPropertyBlock();
+
                 int sliceCount = (crt.dimension == TextureDimension.Cube) ? 6 : crt.volumeDepth;
                 for (int slice = 0; slice < sliceCount; slice++)
                 {
@@ -168,12 +191,14 @@ public static class CustomTextureManager
                     cmd.SetRenderTarget(renderTexture, 0, (crt.dimension == TextureDimension.Cube) ? (CubemapFace)slice : 0,  (crt.dimension == TextureDimension.Tex3D) ? slice : 0);
                     cmd.SetViewport(new Rect(0, 0, crt.width, crt.height));
                     // cmd.ClearRenderTarget(true, true, Color.red, 0); // debug
-                    // TODO: use a material property block instead
-                    crt.material.SetVector(kCustomRenderTextureInfo, GetTextureInfos(crt, slice));
-                    crt.material.SetVector(kCustomRenderTextureParameters, GetTextureParameters(crt, slice));
-                    crt.material.SetTexture(kSelf2D, textureSelf2D);
-                    crt.material.SetTexture(kSelf3D, textureSelf3D);
-                    crt.material.SetTexture(kSelfCube, textureSelfCube);
+                    block.SetVector(kCustomRenderTextureInfo, GetTextureInfos(crt, slice));
+                    block.SetVector(kCustomRenderTextureParameters, GetTextureParameters(crt, slice));
+                    if (textureSelf2D != null)
+                        block.SetTexture(kSelf2D, textureSelf2D);
+                    if (textureSelf3D != null)
+                        block.SetTexture(kSelf3D, textureSelf3D);
+                    if (textureSelfCube != null)
+                        block.SetTexture(kSelfCube, textureSelfCube);
 
                     List<CustomRenderTextureUpdateZone> updateZones = new List<CustomRenderTextureUpdateZone>();
                     crt.GetUpdateZones(updateZones);
@@ -203,11 +228,11 @@ public static class CustomTextureManager
 
                         int passIndex = zone.passIndex == -1 ? 0: zone.passIndex;
 
-                        crt.material.SetVectorArray(kUpdateDataCenters, zoneCenters);
-                        crt.material.SetVectorArray(kUpdateDataSizesAndRotation, zoneSizesAndRotation);
-                        crt.material.SetFloatArray(kUpdateDataPrimitiveIDs, zonePrimitiveIDs);
+                        block.SetVectorArray(kUpdateDataCenters, zoneCenters);
+                        block.SetVectorArray(kUpdateDataSizesAndRotation, zoneSizesAndRotation);
+                        block.SetFloatArray(kUpdateDataPrimitiveIDs, zonePrimitiveIDs);
 
-                        cmd.DrawProcedural(Matrix4x4.identity, crt.material, passIndex, MeshTopology.Triangles, 6 * updateZones.Count, 1);
+                        cmd.DrawProcedural(Matrix4x4.identity, crt.material, passIndex, MeshTopology.Triangles, 6 * updateZones.Count, 1, block);
 
                         firstUpdate = false;
                     }
