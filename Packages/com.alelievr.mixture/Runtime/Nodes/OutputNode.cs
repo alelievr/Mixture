@@ -84,7 +84,8 @@ namespace Mixture
                 width = 512,
                 height = 512,
                 sliceCount = 1,
-                editFlags = EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat
+				potSize = POTSize._1024,
+                editFlags = EditFlags.POTSize | EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat
             };
         }
 
@@ -95,6 +96,7 @@ namespace Mixture
 				rtSettings.targetFormat = OutputFormat.RGBA_Float;
 			if (rtSettings.dimension == OutputDimension.Default)
 				rtSettings.dimension = OutputDimension.Texture2D;
+			rtSettings.editFlags |= EditFlags.POTSize;
 
 			if (graph.isRealtime)
 			{
@@ -107,10 +109,6 @@ namespace Mixture
 					UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null);
 				};
 			}
-
-			onSettingsChanged += () => {
-				graph.UpdateOutputTexture();
-			};
 
 			// SRP mip generation:
 			RenderPipelineManager.beginFrameRendering += BeginFrameRendering;

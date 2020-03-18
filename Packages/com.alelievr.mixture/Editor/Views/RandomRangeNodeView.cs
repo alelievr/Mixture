@@ -27,6 +27,7 @@ namespace Mixture
             {
                 owner.RegisterCompleteObjectUndo("Updated Min " + e.newValue);
                 node.min = e.newValue;
+				NotifyNodeChanged();
             });
 
             var max = new FloatField("Max")
@@ -37,6 +38,7 @@ namespace Mixture
             {
                 owner.RegisterCompleteObjectUndo("Updated Max " + e.newValue);
                 node.max = e.newValue;
+				NotifyNodeChanged();
             });
 
 

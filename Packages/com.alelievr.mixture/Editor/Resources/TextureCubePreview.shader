@@ -23,55 +23,33 @@
             #pragma vertex vert
             #pragma fragment frag
 
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			#include "Packages/com.alelievr.mixture/Editor/Resources/MixturePreview.hlsl"
 
-            struct appdata
+            // Local copy/paste because we're in an CGProgram -_________-
+            float3 LatlongToDirectionCoordinate(float2 coord)
             {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
+                float theta = coord.y * 3.14159265;
+                float phi = (coord.x * 2.f * 3.14159265 - 3.14159265*0.5f);
 
-            struct v2f
-            {
-                float2 uv : TEXCOORD0;
-                float4 vertex : SV_POSITION;
-            };
+                float cosTheta = cos(theta);
+                float sinTheta = sqrt(1.0 - min(1.0, cosTheta*cosTheta));
+                float cosPhi = cos(phi);
+                float sinPhi = sin(phi);
+
+                float3 direction = float3(sinTheta*cosPhi, cosTheta, sinTheta*sinPhi);
+                direction.xy *= -1.0;
+                return direction;
+            }
 
             UNITY_DECLARE_TEXCUBE(_Cubemap);
+            SamplerState sampler_Linear_Clamp_Cubemap;
             float4 _Cubemap_ST;
             float4 _Cubemap_TexelSize;
-			float4 _Channels;
-			float _PreviewMip;
-			float _SRGB;
-
-            v2f vert (appdata v)
-            {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _Cubemap);
-                return o;
-            }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // sample the texture
-
-                // TODO: factorize this !
-                float2 checkerboardUVs = ceil(fmod(i.uv * _Cubemap_TexelSize.zw / 64.0, 1.0)-0.5);
-				float3 checkerboard = lerp(0.3,0.4, checkerboardUVs.x != checkerboardUVs.y ? 1 : 0);
-                float4 color = SAMPLE_TEXTURECUBE_LOD(_Cubemap, s_linear_clamp_sampler, normalize(LatlongToDirectionCoordinate(i.uv)), 0) * _Channels;
-
-                if (_Channels.a == 0.0) 
-					color.a = 1.0;
-
-				else if (_Channels.r == 0.0 && _Channels.g == 0.0 && _Channels.b == 0.0 && _Channels.a == 1.0)
-				{
-					color.rgb = color.a;
-					color.a = 1.0;
-				}
-				color.xyz = pow(color.xyz, 1.0 / 2.2);
-
-				return float4(lerp(checkerboard, color.xyz, color.a),1);
+                float4 color = _Cubemap.SampleLevel(sampler_Linear_Clamp_Cubemap, normalize(LatlongToDirectionCoordinate(i.uv)), 0) * _Channels;
+                return MakePreviewColor(i, _Cubemap_TexelSize.zw, color);
             }
             ENDCG
         }

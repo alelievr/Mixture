@@ -20,6 +20,7 @@ namespace Mixture
 		EnumField outputFormat;
         EnumField wrapMode;
         EnumField filterMode;
+        EnumField potSize;
 
         IntegerField outputWidth;
 		FloatField outputWidthPercentage;
@@ -130,6 +131,36 @@ namespace Mixture
                     this.Add(outputDepthMode);
                 }
             }
+
+            potSize = new EnumField(node.rtSettings.potSize)
+            {
+                value = node.rtSettings.potSize,
+                label = "Resolution",
+            };
+            potSize.RegisterValueChangedCallback(e =>
+            {
+                owner.RegisterCompleteObjectUndo("Updated Size " + e.newValue);
+                var size = (POTSize)e.newValue;
+                node.rtSettings.potSize = size;
+
+                if (size != POTSize.Custom)
+                {
+                    node.rtSettings.width = (int)size;
+                    node.rtSettings.height = (int)size;
+                    node.rtSettings.sliceCount = (int)size;
+                }
+                else
+                {
+                    node.rtSettings.width = outputWidth.value;
+                    node.rtSettings.height = outputHeight.value;
+                    node.rtSettings.sliceCount = outputDepth.value;
+                }
+
+                onChanged?.Invoke();
+                UpdateFieldVisibility(node);
+            });
+
+            this.Add(potSize);
 
             outputWidth = new IntegerField()
             {
@@ -277,17 +308,17 @@ namespace Mixture
 
 		void UpdateFieldVisibility(MixtureNode node)
 		{
-            var editFlags = node.rtSettings.editFlags;
             var rtSettings = node.rtSettings;
             SetVisible(outputWidthMode, rtSettings.CanEdit(EditFlags.WidthMode));
+            SetVisible(potSize, rtSettings.CanEdit(EditFlags.POTSize));
             SetVisible(outputHeightMode, rtSettings.CanEdit(EditFlags.HeightMode));
             SetVisible(outputDepthMode, rtSettings.CanEdit(EditFlags.DepthMode));
-            SetVisible(outputWidth, rtSettings.CanEdit(EditFlags.Width) && node.rtSettings.widthMode == OutputSizeMode.Fixed);
-            SetVisible(outputWidthPercentage, rtSettings.CanEdit(EditFlags.Width) && node.rtSettings.widthMode == OutputSizeMode.PercentageOfOutput);
-			SetVisible(outputHeight, rtSettings.CanEdit(EditFlags.Height) && node.rtSettings.heightMode == OutputSizeMode.Fixed);
-            SetVisible(outputHeightPercentage, rtSettings.CanEdit(EditFlags.Height) && node.rtSettings.heightMode == OutputSizeMode.PercentageOfOutput);
-			SetVisible(outputDepth, rtSettings.CanEdit(EditFlags.Depth) && node.rtSettings.depthMode == OutputSizeMode.Fixed);
-            SetVisible(outputDepthPercentage, rtSettings.CanEdit(EditFlags.Depth) && node.rtSettings.depthMode == OutputSizeMode.PercentageOfOutput);
+            SetVisible(outputWidth, rtSettings.CanEdit(EditFlags.Width) && rtSettings.widthMode == OutputSizeMode.Fixed && (rtSettings.potSize == POTSize.Custom || !rtSettings.CanEdit(EditFlags.POTSize)));
+            SetVisible(outputWidthPercentage, rtSettings.CanEdit(EditFlags.Width) && rtSettings.widthMode == OutputSizeMode.PercentageOfOutput);
+			SetVisible(outputHeight, rtSettings.CanEdit(EditFlags.Height) && rtSettings.heightMode == OutputSizeMode.Fixed && (rtSettings.potSize == POTSize.Custom || !rtSettings.CanEdit(EditFlags.POTSize)));
+            SetVisible(outputHeightPercentage, rtSettings.CanEdit(EditFlags.Height) && rtSettings.heightMode == OutputSizeMode.PercentageOfOutput);
+			SetVisible(outputDepth, rtSettings.CanEdit(EditFlags.Depth) && rtSettings.depthMode == OutputSizeMode.Fixed && (rtSettings.potSize == POTSize.Custom || !rtSettings.CanEdit(EditFlags.POTSize)));
+            SetVisible(outputDepthPercentage, rtSettings.CanEdit(EditFlags.Depth) && rtSettings.depthMode == OutputSizeMode.PercentageOfOutput);
             SetVisible(outputDimension, rtSettings.CanEdit(EditFlags.Dimension));
             SetVisible(outputFormat, rtSettings.CanEdit(EditFlags.TargetFormat));
         }

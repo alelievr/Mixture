@@ -81,6 +81,31 @@ namespace Mixture
 					evt.menu.InsertAction(deleteIndex, "Delete", a => {}, DropdownMenuAction.Status.Disabled);
 				}
 			}
+
+			// Debug option:
+			evt.menu.AppendAction("Help/Show All SubAssets", a => ShowAllSubAssets(), DropdownMenuAction.Status.Normal);
+			evt.menu.AppendAction("Help/Hide All SubAssets", a => HideAllSubAssets(), DropdownMenuAction.Status.Normal);
+		}
+
+		void ShowAllSubAssets()
+		{
+			AssetDatabase.SaveAssets();
+			foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(graph.mainAssetPath))
+				asset.hideFlags = HideFlags.None;
+			AssetDatabase.SaveAssets();
+			AssetDatabase.Refresh();
+		}
+
+		void HideAllSubAssets()
+		{
+			AssetDatabase.SaveAssets();
+			foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(graph.mainAssetPath))
+			{
+				if (asset != graph.outputTexture)
+					asset.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+			}
+			AssetDatabase.SaveAssets();
+			AssetDatabase.Refresh();
 		}
 
 		void Initialize()
@@ -90,7 +115,10 @@ namespace Mixture
 			processor = new MixtureGraphProcessor(graph);
 			computeOrderUpdated += processor.UpdateComputeOrder;
 			graph.onOutputTextureUpdated += () => processor.Run();
-			graph.onGraphChanges += _ => this.schedule.Execute(() => ProcessGraph()).ExecuteLater(10);
+			graph.onGraphChanges += _ => {
+				this.schedule.Execute(() => ProcessGraph()).ExecuteLater(10);
+				MarkDirtyRepaint();
+			};
 
 			// Run the processor when we open the graph
 			ProcessGraph();
