@@ -400,7 +400,7 @@ namespace Mixture
             {
                 int width = src.width / (1 << mipLevel);
                 int height = src.height / (1 << mipLevel);
-                int depth = src.dimension == TextureDimension.Cube ? 6 : Mathf.Max(src.volumeDepth / (1 << mipLevel), 1);
+                int depth = src.dimension == TextureDimension.Cube ? 6 : (src.dimension == TextureDimension.Tex2D ? 1 : Mathf.Max(src.volumeDepth / (1 << mipLevel), 1));
                 var data = new ReadbackData{
                     node = node,
                     targetTexture = target,
