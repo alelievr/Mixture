@@ -243,20 +243,10 @@ namespace Mixture
 		{
 			base.OnEnable();
 			volume = target as Texture3D;
-		}
-
-		public override void DrawPreview(Rect previewArea)
-		{
-			OnPreviewGUI(previewArea, GUIStyle.none);
+			LoadInspectorFor(typeof(Texture3D));
 		}
 
 		public override bool HasPreviewGUI() => true;
-
-		public override void OnPreviewSettings()
-		{
-			EditorGUIUtility.labelWidth = 30;
-			slice = EditorGUILayout.IntSlider("Slice", slice, 0, volume.depth - 1);
-		}
 
         public override void OnPreviewGUI(Rect r, GUIStyle background)
 		{
