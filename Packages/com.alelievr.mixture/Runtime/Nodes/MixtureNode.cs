@@ -231,7 +231,7 @@ namespace Mixture
 						}
 						break;
 					case MaterialProperty.PropType.Vector:
-						prop.vectorValue = (Vector4)edge.passThroughBuffer;
+						prop.vectorValue = MixtureConversions.ConvertObjectToVector4(edge.passThroughBuffer);
 						break;
 				}
 			}
@@ -285,18 +285,34 @@ namespace Mixture
 		}
 	}
 
+	[Flags]
 	public enum EditFlags
 	{
-		None = 0,
-		Width = 1,
-		WidthMode = 2,
-		Height = 4,
-		HeightMode = 8,
-		Depth = 16,
-		DepthMode = 32,
-		Dimension = 64,
-		TargetFormat = 128,
-		All = 255,
+		None			= 0,
+		Width			= 1 << 0,
+		WidthMode		= 1 << 1,
+		Height			= 1 << 2,
+		HeightMode		= 1 << 3,
+		Depth			= 1 << 4,
+		DepthMode		= 1 << 5,
+		Dimension		= 1 << 6,
+		TargetFormat	= 1 << 7,
+		POTSize			= 1 << 8,
+		All				= ~0,
+	}
+
+	public enum POTSize
+	{
+		_32			= 32,
+		_64			= 64,
+		_128		= 128,
+		_256		= 256,
+		_512		= 512,
+		_1024		= 1024,
+		_2048		= 2048,
+		_4096		= 4096,
+		_8192		= 8192,
+		Custom		= -1,
 	}
 
 	public enum OutputSizeMode

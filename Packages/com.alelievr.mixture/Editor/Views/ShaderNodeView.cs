@@ -19,26 +19,16 @@ namespace Mixture
 		ObjectField		debugCustomRenderTextureField;
 		ObjectField		shaderField;
 
+		int				materialCRC;
+
 		protected override string header => "Shader Properties";
-
-		protected override bool hasPreview => false;
-
-		// public override void OnCreated()
-		// {
-		// 	if (shaderNode.material != null)
-		// 	{
-		// 		owner.graph.AddObjectToGraph(shaderNode.material);
-		// 	}
-		// }
 
 		public override void Enable()
 		{
 			base.Enable();
 
 			if (shaderNode.material != null && !owner.graph.IsObjectInGraph(shaderNode.material))
-			{
 				owner.graph.AddObjectToGraph(shaderNode.material);
-			}
 
 			shaderField = new ObjectField
 			{
@@ -60,7 +50,7 @@ namespace Mixture
 
 			controlsContainer.Add(new IMGUIContainer(MaterialGUI));
 			materialEditor = Editor.CreateEditor(shaderNode.material) as MaterialEditor;
-			
+
 			onPortDisconnected += ResetMaterialPropertyToDefault;
 		}
 
@@ -144,6 +134,12 @@ namespace Mixture
 
 		void MaterialGUI()
 		{
+			if (shaderNode.material.ComputeCRC() != materialCRC)
+			{
+				NotifyNodeChanged();
+				materialCRC = shaderNode.material.ComputeCRC();
+			}
+
 			// Update the GUI when shader is modified
 			if (MaterialPropertiesGUI(shaderNode.material))
 			{

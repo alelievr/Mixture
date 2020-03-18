@@ -16,22 +16,18 @@ namespace Mixture
 		VisualElement	    shaderCreationUI;
 		MaterialEditor	    materialEditor;
 		FixedShaderNode		fixedShaderNode => nodeTarget as FixedShaderNode;
+		int					materialCRC;
 
 		ObjectField			debugCustomRenderTextureField;
 
         protected override bool hasPreview { get { return fixedShaderNode.hasPreview; } }
 
-        public override void OnCreated()
-		{
-			if (fixedShaderNode.material != null)
-			{
-				owner.graph.AddObjectToGraph(fixedShaderNode.material);
-			}
-		}
-
 		public override void Enable()
 		{
 			base.Enable();
+			
+			if (fixedShaderNode.material != null && !owner.graph.IsObjectInGraph(fixedShaderNode.material))
+				owner.graph.AddObjectToGraph(fixedShaderNode.material);
 
 			InitializeDebug();
 
@@ -66,11 +62,15 @@ namespace Mixture
 
 		void MaterialGUI()
 		{
+			if (materialCRC != fixedShaderNode.material.ComputeCRC())
+			{
+				NotifyNodeChanged();
+				materialCRC = fixedShaderNode.material.ComputeCRC();
+			}
+
 			// Update the GUI when shader is modified
 			if (MaterialPropertiesGUI(fixedShaderNode.material))
-			{
 				ForceUpdatePorts();
-			}
 		}
 
 		void ResetMaterialPropertyToDefault(PortView pv)

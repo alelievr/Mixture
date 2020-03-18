@@ -16,4 +16,17 @@ public class MixtureConversions : ITypeAdapter
     public static Vector4 ConvertColorToVector4(Color from) => new Vector4(from.r, from.g, from.b, from.a);
     public static Color ConvertVector3ToColor(Vector3 from) => new Color(from.x, from.y, from.z, 1.0f);
     public static Vector3 ConvertColorToVector3(Color from) => new Vector3(from.r, from.g, from.b);
+
+    // Utils function for the custom material property assignation (AssignMaterialPropertiesFromEdges)
+    public static Vector4 ConvertObjectToVector4(object o)
+    {
+        switch (o)
+        {
+            case float f: return ConvertFloatToVector4(f);
+            case Color c: return ConvertColorToVector4(c);
+            default: return default(Vector4);
+        }
+    }
+
+    public static object ConvertVector4ToObject(Vector4 v) => v;
 }

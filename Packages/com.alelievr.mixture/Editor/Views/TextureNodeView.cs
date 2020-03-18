@@ -30,6 +30,7 @@ namespace Mixture
 			textureField.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Texture " + e.newValue);
 				textureNode.texture = (Texture2D)e.newValue;
+				NotifyNodeChanged();
 			});
 
 			controlsContainer.Add(textureField);

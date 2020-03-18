@@ -33,7 +33,7 @@ namespace Mixture
 			if (material == null)
 			{
 				material = new Material(shader ?? defaultShader);
-				// material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+				material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 			}
 		}
 

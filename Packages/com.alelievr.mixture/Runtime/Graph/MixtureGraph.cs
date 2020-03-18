@@ -115,6 +115,8 @@ namespace Mixture
 #endif
 		}
 
+        public void                 ClearObjectReferences() => objectReferences.Clear();
+
 		/// <summary>
 		/// Warning: this function will create a new output texture from scratch, It means that you will loose all data in the former outputTexture
 		/// </summary>
