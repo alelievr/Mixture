@@ -150,6 +150,7 @@ namespace Mixture
 					{
 						var m = s.material;
 						s.material = new Material(s.material);
+						s.material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 					}
 				}
 
