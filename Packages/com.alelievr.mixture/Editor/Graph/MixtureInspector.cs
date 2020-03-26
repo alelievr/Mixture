@@ -189,13 +189,7 @@ namespace Mixture
 					Undo.RegisterCompleteObjectUndo(graph, "Changed Parameter " + param.name + " to " + newValue);
                     param.serializedValue.value = newValue;
                 }, param.name);
-				Debug.Log(field);
                 prop.Add(field);
-				if (field is ObjectField o)
-				{
-					Debug.Log(o.objectType)
-					
-;				}
                 parameters.Add(prop);
             }
 		}
@@ -205,6 +199,8 @@ namespace Mixture
 			var textureSettings = new VisualElement();
 
 			var t = target as Texture;
+
+			textureSettings.Add(new Label("Texture Settings:"));
 
 			var wrapMode = new EnumField("Wrap Mode", t.wrapMode);
 			wrapMode.RegisterValueChangedCallback(e => {
