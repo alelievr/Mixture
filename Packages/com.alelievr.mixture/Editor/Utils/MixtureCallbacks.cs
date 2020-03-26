@@ -138,17 +138,23 @@ namespace Mixture
 			// By default isRealtime is false so we don't need to initialize it like in the realtime mixture create function
 			public override MixtureGraph CreateMixtureGraphAsset()
 			{
-				// return ScriptableObject.CreateInstance<MixtureGraph>();
 				var g = AssetDatabase.LoadAllAssetsAtPath(template).FirstOrDefault(a => a is MixtureGraph) as MixtureGraph;
+				g = ScriptableObject.Instantiate(g) as MixtureGraph;
+
+				g.ClearObjectReferences();
 
 				foreach (var node in g.nodes)
 				{
 					// Duplicate all the materials from the template
 					if (node is ShaderNode s && s.material != null)
+					{
+						var m = s.material;
 						s.material = new Material(s.material);
+						s.material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+					}
 				}
 
-				return ScriptableObject.Instantiate(g) as MixtureGraph;
+				return g;
 			}
 		}
 

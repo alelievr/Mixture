@@ -26,8 +26,8 @@ namespace Mixture
 			};
 			colorField.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Color " + e.newValue);
+				NotifyNodeChanged();
 				colorNode.color = e.newValue;
-
 			});
 
 			controlsContainer.Add(colorField);

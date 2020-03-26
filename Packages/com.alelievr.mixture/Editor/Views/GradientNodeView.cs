@@ -28,6 +28,7 @@ namespace Mixture
 			gradientField.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Gradient");
 				gradientNode.gradient = (Gradient)e.newValue;
+				NotifyNodeChanged();
                 gradientNode.UpdateTexture();
 			});
 

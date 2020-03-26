@@ -2,9 +2,11 @@
 using UnityEngine.Rendering;
 using UnityEditor;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using Object = UnityEngine.Object;
+using UnityEngine.UIElements;
+using GraphProcessor;
+using UnityEditor.UIElements;
 
 namespace Mixture
 {
@@ -27,7 +29,7 @@ namespace Mixture
 				DrawMixtureSmallIcon(rect, isRealtime);
 				return ;
 			}
-			
+
 			string assetPath = AssetDatabase.GUIDToAssetPath(assetGUID);
 
 			// Mixture assets are saved as .asset files
@@ -62,9 +64,23 @@ namespace Mixture
 
 	class MixtureEditor : Editor
 	{
-		protected Editor defaultTextureEditor;
+		protected Editor		defaultTextureEditor;
+		protected MixtureGraph	graph;
+		protected VisualElement	root;
+		protected VisualElement	parameters;
 
-		public virtual void OnEnable() {}
+		protected virtual void OnEnable()
+		{
+			// Load the mixture graph:
+			var assets = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(target));
+
+			foreach (var asset in assets)
+				if (asset is MixtureGraph mixture)
+					graph = mixture;
+			
+			graph.onExposedParameterListChanged += UpdateExposedParameters;
+            graph.onExposedParameterModified += UpdateExposedParameters;
+		}
 
 		static Dictionary< Type, string > defaultTextureInspectors = new Dictionary< Type, string >()
 		{
@@ -91,8 +107,10 @@ namespace Mixture
 			}
 		}
 
-		public virtual void OnDisable()
+		protected virtual void OnDisable()
 		{
+            graph.onExposedParameterListChanged -= UpdateExposedParameters;
+            graph.onExposedParameterModified -= UpdateExposedParameters;
 			if (defaultTextureEditor != null)
 				DestroyImmediate(defaultTextureEditor);
 		}
@@ -139,13 +157,77 @@ namespace Mixture
 			}
 		}
 
-		public override void OnInspectorGUI()
+		public override VisualElement CreateInspectorGUI()
 		{
-			Texture t = target as Texture;
+			root = new VisualElement();
+			parameters = new VisualElement();
 
-			t.wrapMode = (TextureWrapMode)EditorGUILayout.EnumPopup("Wrap Mode", t.wrapMode);
-			t.filterMode = (FilterMode)EditorGUILayout.EnumPopup("Filter Mode", t.filterMode);
-			t.anisoLevel = EditorGUILayout.IntSlider("Aniso Level", t.anisoLevel, 1, 9);
+			UpdateExposedParameters(null);
+			root.Add(parameters);
+			root.Add(CreateTextureSettingsView());
+
+			return root;
+		}
+
+		void UpdateExposedParameters(string guid) => UpdateExposedParameters();
+		void UpdateExposedParameters()
+		{
+			parameters.Clear();
+
+            if (graph.exposedParameters.Count != 0)
+                parameters.Add(new Label("Exposed Parameters:"));
+
+            foreach (var param in graph.exposedParameters)
+            {
+                if (param.settings.isHidden)
+                    continue;
+
+                VisualElement prop = new VisualElement();
+                prop.style.display = DisplayStyle.Flex;
+                Type paramType = Type.GetType(param.type);
+                var field = FieldFactory.CreateField(paramType, param.serializedValue.value, (newValue) => {
+					Undo.RegisterCompleteObjectUndo(graph, "Changed Parameter " + param.name + " to " + newValue);
+                    param.serializedValue.value = newValue;
+                }, param.name);
+				Debug.Log(field);
+                prop.Add(field);
+				if (field is ObjectField o)
+				{
+					Debug.Log(o.objectType)
+					
+;				}
+                parameters.Add(prop);
+            }
+		}
+
+		VisualElement CreateTextureSettingsView()
+		{
+			var textureSettings = new VisualElement();
+
+			var t = target as Texture;
+
+			var wrapMode = new EnumField("Wrap Mode", t.wrapMode);
+			wrapMode.RegisterValueChangedCallback(e => {
+				Undo.RegisterCompleteObjectUndo(t, "Changed wrap mode");
+				t.wrapMode = (TextureWrapMode)e.newValue;
+			});
+			textureSettings.Add(wrapMode);
+
+			var filterMode = new EnumField("Filter Mode", t.filterMode);
+			filterMode.RegisterValueChangedCallback(e => {
+				Undo.RegisterCompleteObjectUndo(t, "Changed filter mode");
+				t.filterMode = (FilterMode)e.newValue;
+			});
+			textureSettings.Add(filterMode);
+
+			var aniso = new SliderInt("Aniso Level", 1, 9);
+			aniso.RegisterValueChangedCallback(e => {
+				Undo.RegisterCompleteObjectUndo(t, "Changed aniso level");
+				t.anisoLevel = e.newValue;
+			});
+			textureSettings.Add(aniso);
+
+			return textureSettings;
 		}
 		
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
@@ -181,7 +263,11 @@ namespace Mixture
 	[CustomEditor(typeof(Texture2D), false)]
 	class MixtureInspectorTexture2D : MixtureEditor
 	{
-		public override void OnEnable() => LoadInspectorFor(typeof(Texture2D));
+		protected override void OnEnable()
+		{
+			base.OnEnable();
+			LoadInspectorFor(typeof(Texture2D));
+		}
 	}
 
 	[CustomEditor(typeof(Texture2DArray), false)]
@@ -190,7 +276,7 @@ namespace Mixture
 		Texture2DArray	array;
 		int				slice;
 
-		public override void OnEnable()
+		protected override void OnEnable()
 		{
 			base.OnEnable();
 			array = target as Texture2DArray;
@@ -239,7 +325,7 @@ namespace Mixture
 		Texture3D	volume;
 		int			slice;
 
-		public override void OnEnable()
+		protected override void OnEnable()
 		{
 			base.OnEnable();
 			volume = target as Texture3D;
@@ -289,7 +375,7 @@ namespace Mixture
 		Cubemap		cubemap;
 		int			slice;
 
-		public override void OnEnable()
+		protected override void OnEnable()
 		{
 			base.OnEnable();
 			cubemap = target as Cubemap;
@@ -303,7 +389,7 @@ namespace Mixture
 		CustomRenderTexture	crt;
 		bool				isMixture;
 
-		public override void OnEnable()
+		protected override void OnEnable()
 		{
 			base.OnEnable();
 			base.LoadInspectorFor(typeof(CustomRenderTexture));
@@ -320,6 +406,7 @@ namespace Mixture
 			return base.RenderStaticPreview(assetPath, subAssets, width, height);
 		}
 
+		// TODO
 		public override void OnInspectorGUI()
 		{
 			if (isMixture)
