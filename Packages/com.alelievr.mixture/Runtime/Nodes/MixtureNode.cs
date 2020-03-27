@@ -92,12 +92,12 @@ namespace Mixture
 			// TODO: check if format is supported by current system
 
 			// Warning: here we use directly the settings from the 
-			if (target.width != outputWidth
-				|| target.height != outputHeight
+			if (target.width != Math.Max(1, outputWidth)
+				|| target.height != Math.Max(1, outputHeight)
 				|| target.graphicsFormat != targetFormat
 				|| target.dimension != dimension
 				|| target.volumeDepth != outputDepth
-				|| target.filterMode != graph.outputTexture.filterMode
+				|| target.filterMode != rtSettings.filterMode
 				|| target.doubleBuffered != rtSettings.doubleBuffered
                 || target.wrapMode != rtSettings.wrapMode
                 || target.filterMode != rtSettings.filterMode
@@ -108,7 +108,7 @@ namespace Mixture
 				target.width = Math.Max(1, outputWidth);
 				target.height = Math.Max(1, outputHeight);
 				target.graphicsFormat = (GraphicsFormat)targetFormat;
-				target.dimension = (TextureDimension)dimension;
+				target.dimension = dimension;
 				target.volumeDepth = outputDepth;
 				target.doubleBuffered = rtSettings.doubleBuffered;
                 target.wrapMode = rtSettings.wrapMode;

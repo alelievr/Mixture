@@ -116,7 +116,8 @@ namespace Mixture
 
         protected override void Disable()
 		{
-			CoreUtils.Destroy(tempRenderTexture);
+			if (!graph.isRealtime)
+				CoreUtils.Destroy(tempRenderTexture);
 			CoreUtils.Destroy(mipmapRenderTexture);
 		}
 

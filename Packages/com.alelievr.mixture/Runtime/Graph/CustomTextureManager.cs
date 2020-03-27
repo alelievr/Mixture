@@ -19,7 +19,6 @@ public static class CustomTextureManager
     [RuntimeInitializeOnLoadMethod]
     static void SetupManager()
     {
-
         CustomRenderTextureManager.onTextureLoaded -= OnCRTLoaded;
         CustomRenderTextureManager.onTextureLoaded += OnCRTLoaded;
         CustomRenderTextureManager.onTextureUnloaded -= OnCRTUnloaded;
@@ -37,16 +36,6 @@ public static class CustomTextureManager
         GraphicsSettings.useBuiltinCustomRenderTexture = false;
         UpdateSRPCustomRenderTextureStatus();
     }
-
-    // static void DisableBuiltinCustomRenderTexture(ScriptableRenderContext context, Camera[] cameras)
-    // {
-    //     // We put this temporarily here so the render pipeline doesn't overwrite the value
-    //     // We should move this to any SRP when needed
-    //     // Disable custom render textures in C++:
-    //     SupportedRenderingFeatures.active.builtinCustomRenderTexture = false;
-
-    //     // Right now this lets the builtin CRT execute one frame before ours take the ownership of the system
-    // }
 
     static void UpdateCRTsEditor()
     {
@@ -217,7 +206,6 @@ public static class CustomTextureManager
                         if (zone.needSwap && !firstUpdate)
                         {
                             var doubleBuffer = crt.GetDoubleBufferRenderTexture();
-                            Debug.Log("Need swap with: " + doubleBuffer);
                             if (doubleBuffer != null)
                             {
                                 // For now, it's just a copy, once we actually do the swap of pointer, be careful to reset the Active Render Texture
