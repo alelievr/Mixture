@@ -78,8 +78,11 @@ namespace Mixture
 				if (asset is MixtureGraph mixture)
 					graph = mixture;
 			
-			graph.onExposedParameterListChanged += UpdateExposedParameters;
-            graph.onExposedParameterModified += UpdateExposedParameters;
+			if (graph != null)
+			{
+				graph.onExposedParameterListChanged += UpdateExposedParameters;
+				graph.onExposedParameterModified += UpdateExposedParameters;
+			}
 		}
 
 		static Dictionary< Type, string > defaultTextureInspectors = new Dictionary< Type, string >()
@@ -109,8 +112,12 @@ namespace Mixture
 
 		protected virtual void OnDisable()
 		{
-            graph.onExposedParameterListChanged -= UpdateExposedParameters;
-            graph.onExposedParameterModified -= UpdateExposedParameters;
+			if (graph != null)
+			{
+				graph.onExposedParameterListChanged -= UpdateExposedParameters;
+				graph.onExposedParameterModified -= UpdateExposedParameters;
+			}
+
 			if (defaultTextureEditor != null)
 				DestroyImmediate(defaultTextureEditor);
 		}

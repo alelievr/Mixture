@@ -9,8 +9,6 @@ namespace Mixture
     {
 		new const string title = "Parameters";
 
-
-
 		protected override IEnumerable< Type > GetExposedParameterTypes()
         {
 			// We only accept these types:

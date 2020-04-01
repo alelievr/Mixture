@@ -26,7 +26,9 @@
 
 		// This macro will declare a version for each dimention (2D, 3D and Cube)
 		TEXTURE_X(_Source);
+		TEXTURE_X(_UVMap);
 		float _Threshold;
+		float _SourceMipCount;
 		float _Radius;
 
 		ENDCG
@@ -55,8 +57,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#define STEP_LENGTH 0
-			TEXTURE_X(_UVMap);
+			#define JUMP_INDEX 0
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG
@@ -65,8 +66,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#define STEP_LENGTH 1
-			TEXTURE_X(_UVMap);
+			#define JUMP_INDEX 1
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG
@@ -75,8 +75,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#define STEP_LENGTH 2
-			TEXTURE_X(_UVMap);
+			#define JUMP_INDEX 2
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG
@@ -85,8 +84,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#define STEP_LENGTH 3
-			TEXTURE_X(_UVMap);
+			#define JUMP_INDEX 3
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG
@@ -95,8 +93,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#define STEP_LENGTH 4
-			TEXTURE_X(_UVMap);
+			#define JUMP_INDEX 4
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG
@@ -105,8 +102,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#define STEP_LENGTH 5
-			TEXTURE_X(_UVMap);
+			#define JUMP_INDEX 5
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG
@@ -115,8 +111,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#define STEP_LENGTH 6
-			TEXTURE_X(_UVMap);
+			#define JUMP_INDEX 6
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG
@@ -125,8 +120,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#define STEP_LENGTH 7
-			TEXTURE_X(_UVMap);
+			#define JUMP_INDEX 7
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG
@@ -135,8 +129,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#define STEP_LENGTH 8
-			TEXTURE_X(_UVMap);
+			#define JUMP_INDEX 8
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG
@@ -145,8 +138,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#define STEP_LENGTH 9
-			TEXTURE_X(_UVMap);
+			#define JUMP_INDEX 9
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG
@@ -155,8 +147,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#define STEP_LENGTH 10
-			TEXTURE_X(_UVMap);
+			#define JUMP_INDEX 10
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG
@@ -165,8 +156,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#define STEP_LENGTH 11
-			TEXTURE_X(_UVMap);
+			#define JUMP_INDEX 11
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG
@@ -175,8 +165,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#define STEP_LENGTH 12
-			TEXTURE_X(_UVMap);
+			#define JUMP_INDEX 12
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG
@@ -185,8 +174,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#define STEP_LENGTH 13
-			TEXTURE_X(_UVMap);
+			#define JUMP_INDEX 13
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
 			ENDCG

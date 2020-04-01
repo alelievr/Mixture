@@ -54,34 +54,42 @@ namespace Mixture
 
 			// Setup passes for jump flooding
 			int stepCount = Mathf.CeilToInt(Mathf.Log(output.width, 2));
-			CustomRenderTextureUpdateZone[] updateZones = new CustomRenderTextureUpdateZone[stepCount + 1];
+			CustomRenderTextureUpdateZone[] updateZones = new CustomRenderTextureUpdateZone[stepCount + 2];
+
+			updateZones[0] = new CustomRenderTextureUpdateZone{
+				needSwap = false,
+				passIndex = 0,
+				rotation = 0f,
+				updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
+				updateZoneSize = new Vector3(1f, 1f, 1f),
+			};
 
 			for (int i = 0; i < stepCount; i++)
 			{
-				updateZones[stepCount] = new CustomRenderTextureUpdateZone{
+				updateZones[stepCount + 1] = new CustomRenderTextureUpdateZone{
 					needSwap = true,
-					passIndex = stepCount - i + 1,
+					passIndex = stepCount - i,
 					rotation = 0f,
 					updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
 					updateZoneSize = new Vector3(1f, 1f, 1f),
 				};
+				Debug.Log("Pass: " + (stepCount - i) + " | " + material.passCount);
 			};
 			// CRT Workaround: we need to add an additional pass because there is a bug in the swap
 			// of the double buffered CRTs: the last pudate zone will not be passed to the next CRT in the chain.
 			// So we add a dummy pass to force a copy
-			updateZones[stepCount] = new CustomRenderTextureUpdateZone{
+			updateZones[stepCount + 1] = new CustomRenderTextureUpdateZone{
 				needSwap = true,
-				passIndex = 1,
+				passIndex = 0,
 				rotation = 0f,
 				updateZoneCenter = new Vector3(0.0f, 0.0f, 0.0f),
 				updateZoneSize = new Vector3(0f, 0f, 0f),
 			};
 
-
-			tmpUVMap.Update();
+			// tmpUVMap.Update();
 
 			// TODO: handle texture3D
-			material.SetTexture("_UVMap", tmpUVMap);
+			// material.SetTexture("_UVMap", tmpUVMap);
 
 			// Setup the successive passes needed or the blur
 			output.SetUpdateZones(updateZones);
