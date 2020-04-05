@@ -21,30 +21,25 @@ float4 mixture (v2f_customrendertexture crt) : SV_Target
     // The SAMPLE_X macro handles sampling for 2D, 3D and cube textures
 
     // TODO: non-pot handling
-    float3 offset = (1 << (uint(_SourceMipCount) - JUMP_INDEX)) / _CustomRenderTextureWidth;
+    float3 offset = (1 << (JUMP_INDEX)) / _CustomRenderTextureWidth;
 
-    float4 input = LOAD_X(_Source, crt.localTexcoord.xyz, crt.direction);
-    float4 color = input;
+    float4 nearest = SAMPLE_SELF_SAMPLER(s_point_repeat_sampler, crt.localTexcoord.xyz, 0);
 
-    if (all(input.rgb > _Threshold))
-        return color;
-
-    float3 nearest = SAMPLE_SELF_SAMPLER(s_point_repeat_sampler, crt.localTexcoord.xyz, 0).xyz;
+    if (nearest.w < 0.5)
+        nearest = float4(-10, -10, -10, 0);
 
     for (int i = 0; i < 9; i++)
     {
-        float3 o = float3(offset2D[i], 0) * offset;
-        float3 n1 = SAMPLE_SELF_SAMPLER(s_point_repeat_sampler, o, 0).xyz;
+        float3 o = crt.localTexcoord.xyz + float3(offset2D[i], 0) * offset;
+        float4 n1 = SAMPLE_SELF_SAMPLER(s_point_repeat_sampler, o, 0);
 
         // Discard invalid samples
-        if (any(n1) < 0)
+        if (n1.w < 0.5)
             continue;
-        
+
         if (length(crt.localTexcoord.xyz - n1) < length(crt.localTexcoord.xyz - nearest))
-        {
             nearest = n1;
-        }
     }
 
-    return float4(nearest, 0);
+    return nearest;
 }
