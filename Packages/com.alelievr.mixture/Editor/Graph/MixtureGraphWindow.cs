@@ -53,7 +53,7 @@ namespace Mixture
 			view.Add(new MixtureToolbar(view));
 		}
 
-		void OnDestroy()
+		protected override void OnDestroy()
 		{
 			MixtureUpdater.RemoveGraphToProcess(view as MixtureGraphView);
 		}

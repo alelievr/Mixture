@@ -23,6 +23,8 @@ namespace Mixture
 		// Whether or not the mixture is realtime
 		public bool				isRealtime;
 
+        public bool             isParameterViewOpen;
+
         [System.NonSerialized]
 		OutputNode		        _outputNode;
 		public OutputNode		outputNode

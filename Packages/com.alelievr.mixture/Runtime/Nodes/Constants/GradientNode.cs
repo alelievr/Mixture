@@ -25,6 +25,18 @@ namespace Mixture
             UpdateTexture();
         }
 
+        protected override bool ProcessNode()
+        {
+            if (!base.ProcessNode())
+                return false;
+
+            // Sometimes the texture is destroyed by the C++ without any notification so we check for this
+            if (texture == null)
+                UpdateTexture();
+            
+            return true;
+        }
+
         Color[] pixels = new Color[SIZE];
 
         public void UpdateTexture()
