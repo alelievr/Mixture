@@ -273,7 +273,6 @@ namespace Mixture
 		}
 	}
 
-	[CustomEditor(typeof(Cubemap), false)]
 	class MixtureInspectorTextureCube : MixtureEditor
 	{
 		Cubemap		cubemap;
@@ -281,6 +280,7 @@ namespace Mixture
 
 		public override void OnEnable()
 		{
+			Debug.Log("CUSTOM INSEPCTOR CUBEMAP !");
 			base.OnEnable();
 			cubemap = target as Cubemap;
 			LoadInspectorFor(typeof(Cubemap));

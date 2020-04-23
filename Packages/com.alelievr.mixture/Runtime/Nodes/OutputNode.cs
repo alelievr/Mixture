@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable]
-	public class OutputNode : MixtureNode
+	public class OutputNode : MixtureNode, IUseCustomRenderTextureProcessing
 	{
 		[Input(name = "In")]
 		public Texture			input;
@@ -65,7 +65,6 @@ namespace Mixture
 		MaterialPropertyBlock				mipMapPropertyBlock;
 
 		// Compression settings
-		// TODO: there are too many formats, reduce them with a new enum
 		public MixtureCompressionFormat		compressionFormat = MixtureCompressionFormat.DXT5;
 		public MixtureCompressionQuality	compressionQuality = MixtureCompressionQuality.Best;
 		public bool							enableCompression = false;
@@ -268,5 +267,7 @@ namespace Mixture
 				identifier = "input",
 			};
 		}
-	}
+
+        public CustomRenderTexture GetCustomRenderTexture() => tempRenderTexture;
+    }
 }

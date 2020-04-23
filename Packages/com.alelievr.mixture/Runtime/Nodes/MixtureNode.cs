@@ -75,6 +75,7 @@ namespace Mixture
                 target = new CustomRenderTexture(outputWidth, outputHeight, targetFormat)
                 {
                     volumeDepth = Math.Max(1, outputDepth),
+					depth = 0,
                     dimension = dimension,
                     name = $"Mixture Temp {name}",
                     updateMode = CustomRenderTextureUpdateMode.OnDemand,
@@ -282,6 +283,33 @@ namespace Mixture
 					mat.SetTexture(propName, GetDefaultMaterial(mat).GetTexture(propName));
 					break;
 			}
+		}
+		
+		static IEnumerable<BaseNode> GetNonCRTInputNodes(BaseNode child)
+		{
+			foreach (var node in child.GetInputNodes())
+				if (!(node is IUseCustomRenderTextureProcessing))
+					yield return node;
+		}
+
+		public List<BaseNode> GetMixtureDependencies()
+		{
+			List<BaseNode> dependencies = new List<BaseNode>();
+			Stack<BaseNode> inputNodes = new Stack<BaseNode>(GetNonCRTInputNodes(this));
+
+			dependencies.Add(this);
+
+			while (inputNodes.Count > 0)
+			{
+				var child = inputNodes.Pop();
+
+				foreach (var parent in GetNonCRTInputNodes(child))
+					inputNodes.Push(parent);
+				
+				dependencies.Add(child);
+			}
+
+			return dependencies.OrderBy(d => d.computeOrder).ToList();
 		}
 	}
 

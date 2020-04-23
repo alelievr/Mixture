@@ -163,8 +163,13 @@ namespace Mixture
 		public static List<TextureDimension> GetAllowedDimentions(string propertyName)
         {
             // if there is no modifier in the name, then it supports all the dimensions
-            if (!shaderPropertiesDimension.Values.Any(dim => propertyName.EndsWith(dim)))
-                return allDimensions;
+			bool dimensionSpecific = false;
+			foreach (var dim in shaderPropertiesDimension.Values)
+				if (propertyName.EndsWith(dim))
+					dimensionSpecific = true;
+
+			if (!dimensionSpecific)
+				return allDimensions;
 
             List<TextureDimension>  dimensions = new List<TextureDimension>();
 

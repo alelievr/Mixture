@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Shader")]
-	public class ShaderNode : MixtureNode
+	public class ShaderNode : MixtureNode, IUseCustomRenderTextureProcessing
 	{
 		public static readonly string	DefaultShaderName = "ShaderNodeDefault";
 
@@ -96,5 +96,7 @@ namespace Mixture
 
 			return true;
 		}
-	}
+
+        public CustomRenderTexture GetCustomRenderTexture() => output;
+    }
 }

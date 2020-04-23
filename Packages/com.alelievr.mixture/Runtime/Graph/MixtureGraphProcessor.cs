@@ -101,42 +101,48 @@ namespace Mixture
 		List< BaseNode >		processList;
 		new MixtureGraph		graph => base.graph as MixtureGraph;
 
-		public MixtureGraphProcessor(BaseGraph graph) : base(graph) {}
+		Dictionary<CustomRenderTexture, List<BaseNode>> mixtureDependencies = new Dictionary<CustomRenderTexture, List<BaseNode>>();
+
+		public MixtureGraphProcessor(BaseGraph graph) : base(graph)
+		{
+			CustomTextureManager.onBeforeCustomTextureUpdated -= BeforeCustomRenderTextureUpdate;
+			CustomTextureManager.onBeforeCustomTextureUpdated += BeforeCustomRenderTextureUpdate;
+
+			foreach (var node in graph.nodes)
+				node.OnProcess();
+		}
 
 		public override void UpdateComputeOrder() {}
 
+		void BeforeCustomRenderTextureUpdate(CustomRenderTexture crt)
+		{
+			if (mixtureDependencies.TryGetValue(crt, out var dependencies))
+			{
+				// Update the dependencies of the CRT
+				foreach (var nonCRTDeps in dependencies)
+					nonCRTDeps.OnProcess();
+			}
+		}
+
 		public override void Run()
 		{
-			processList = graph.nodes.OrderBy(n => n.computeOrder).ToList();
+			mixtureDependencies.Clear();
 
-			int count = processList.Count;
-
-			// The process of the mixture graph will update all CRTs,
-			// assign their materials and set local material values
-			for (int i = 0; i < count; i++)
+			foreach (BaseNode node in graph.nodes)
 			{
-				var node = processList[i];
-
-				processList[i].OnProcess();
-
-				// Temporary hack: Custom Textures are not updated when the Shader / the Material is updated
-				// and inside the dependency tree of a CRT. So we need to manually update all CRTs.
-				if (node is ShaderNode s)
+				if (node is IUseCustomRenderTextureProcessing iUseCRT)
 				{
-					// the CRT output will be null if there are processing errors
-					if (s.output != null)
-						s.output.Update();
+					var mixtureNode = node as MixtureNode;
+					var crt = iUseCRT.GetCustomRenderTexture();
+					if (crt != null)
+					{
+						mixtureDependencies.Add(crt, mixtureNode.GetMixtureDependencies());
+						crt.Update();
+					}
+					else
+						mixtureNode.OnProcess();
 				}
 			}
-
-			if (graph.outputNode.tempRenderTexture != null)
-				graph.outputNode.tempRenderTexture.Update();
-
-            var external = graph.nodes.FindAll(node => node.GetType() == typeof(ExternalOutputNode));
-            foreach(var node in external)
-            {
-                (node as ExternalOutputNode).tempRenderTexture.Update();
-            }
 		}
 	}
 }
