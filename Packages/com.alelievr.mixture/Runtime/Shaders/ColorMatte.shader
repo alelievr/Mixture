@@ -2,7 +2,7 @@
 {	
 	Properties
 	{
-		_Color("Color", Color) = (1.0,0.3,0.1,1.0)
+		[HDR]_Color("Color", Color) = (1.0,0.3,0.1,1.0)
 	}
 	SubShader
 	{

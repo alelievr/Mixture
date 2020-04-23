@@ -19,6 +19,7 @@ namespace Mixture
 			public const string realtimePreviewToggleText = "RealTime Preview";
 			public const string processButtonText = "Process";
             public const string saveAllText = "Save All";
+			public const string parameterViewsText = "Parameters";
 		}
 
 		protected override void AddButtons()
@@ -34,6 +35,9 @@ namespace Mixture
 				Selection.activeObject = graph;
 				EditorGUIUtility.PingObject(graph.outputTexture);
 			});
+			AddToggle(Styles.parameterViewsText, graph.isParameterViewOpen, ToggleParameterView, left: true);
+
+			// Pinned views
 			bool pinnedViewsVisible = graphView.GetPinnedElementStatus< PinnedViewBoard >() != Status.Hidden;
 			AddToggle("Pinned Views", pinnedViewsVisible, (v) => graphView.ToggleView< PinnedViewBoard >());
 			if (!graph.isRealtime)
@@ -86,6 +90,12 @@ namespace Mixture
 				MixtureUpdater.RemoveGraphToProcess(graphView);
 			}
 			graph.realtimePreview = state;
+		}
+
+		void ToggleParameterView(bool state)
+		{
+			graphView.ToggleView<MixtureParameterView>();
+			graph.isParameterViewOpen = state;
 		}
 
 		void AddProcessButton()

@@ -19,6 +19,7 @@ namespace Mixture
 		int					materialCRC;
 
 		ObjectField			debugCustomRenderTextureField;
+		ObjectField			debugShaderField;
 
         protected override bool hasPreview { get { return fixedShaderNode.hasPreview; } }
 
@@ -56,8 +57,15 @@ namespace Mixture
 				value = fixedShaderNode.output,
 				objectType = typeof(CustomRenderTexture)
 			};
+
+			debugShaderField = new ObjectField("Shader")
+			{
+				value = fixedShaderNode.shader,
+				objectType = typeof(Shader)
+			};
 			
 			debugContainer.Add(debugCustomRenderTextureField);
+			debugContainer.Add(debugShaderField);
 		}
 
 		void MaterialGUI()

@@ -146,10 +146,11 @@ namespace Mixture
 				foreach (var node in g.nodes)
 				{
 					// Duplicate all the materials from the template
-					if (node is ShaderNode s)
+					if (node is ShaderNode s && s.material != null)
 					{
 						var m = s.material;
 						s.material = new Material(s.material);
+						s.material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 					}
 				}
 

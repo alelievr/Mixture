@@ -9,71 +9,228 @@
 
 		// Other parameters
 		[Range]_Threshold("Threshold", Range(0, 1)) = 0.5
-		[Range]_Radius("Radius", Range(0, 32)) = 4
+		[Range]_Radius("Radius", Range(0, 1)) = 0.2
 	}
 	SubShader
 	{
 		Tags { "RenderType"="Opaque" }
 		LOD 100
+	
+		CGINCLUDE
+		#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+	#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+		#pragma target 3.0
+		#pragma vertex CustomRenderTextureVertexShader
+		#pragma enable_d3d11_debug_symbols
+
+		// The list of defines that will be active when processing the node with a certain dimension
+		#pragma shader_feature CRT_2D CRT_3D CRT_CUBE
+
+		// This macro will declare a version for each dimention (2D, 3D and Cube)
+		TEXTURE_X(_Source);
+		TEXTURE_X(_UVMap);
+		float _Threshold;
+		float _SourceMipCount;
+		float _Radius;
+
+		bool PassThreshold(float3 color)
+		{
+			return Luminance(color) > _Threshold;
+		}
+
+		ENDCG
+
+		Pass
+		{
+			Name "Fill UV map"
+			CGPROGRAM
+			#pragma fragment FillUVMap
+
+			float4 FillUVMap(v2f_customrendertexture crt) : SV_Target
+			{
+				FIX_CUBEMAP_DIRECTION(crt);
+
+				float4 input = LOAD_X(_Source, crt.localTexcoord.xyz, crt.direction);
+
+				if (PassThreshold(input.rgb))
+					return float4(crt.localTexcoord.xyz, 1);
+				else
+					return float4(0, 0, 0, 0); // mark UV as invalid with w = 0
+			}
+
+			ENDCG
+		}
+
+		Pass
+		{
+			Name "Final UV to color"
+			CGPROGRAM
+			#pragma fragment Final
+
+			float4 Final(v2f_customrendertexture crt) : SV_Target
+			{
+				FIX_CUBEMAP_DIRECTION(crt);
+
+				float4 input = LOAD_X(_Source, crt.localTexcoord.xyz, crt.direction);
+				float3 defaultUV = GetDefaultUVs(crt);
+				float3 uv = defaultUV;
+				float fadeFactor = 1;
+
+				if (!PassThreshold(input.rgb))
+				{
+					float4 uvValue = SAMPLE_SELF_SAMPLER(s_point_repeat_sampler, crt.localTexcoord.xyz, crt.direction);
+
+					// Only assign UV when they are valid
+					if (uvValue.w > 0.5)
+						uv = uvValue.xyz;
+				}
+
+				float dist = length(frac(uv - crt.localTexcoord.xyz + 0.5) - 0.5);
+
+				if (all(uv == defaultUV))
+					dist = 0;
+
+				if (dist >= _Radius)
+					uv = defaultUV;
+				else
+					fadeFactor = 1 - (dist / max(_Radius, 0.000001));
+
+				float4 finalColor = SAMPLE_X_SAMPLER(_Source, s_point_repeat_sampler, uv, uv);
+
+				// merge input alpha and dilated alpha to avoid artifacts:
+				finalColor.a *= max(fadeFactor, input.a);
+
+				return finalColor;
+			}
+
+			ENDCG
+		}
 
 		Pass
 		{
 			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
-            #pragma vertex CustomRenderTextureVertexShader
+			#define JUMP_INDEX 0
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
 			#pragma fragment MixtureFragment
-			#pragma target 3.0
-
-			// The list of defines that will be active when processing the node with a certain dimension
-            #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
-
-			// This macro will declare a version for each dimention (2D, 3D and Cube)
-			TEXTURE_X(_Source);
-			float _Threshold;
-			float _Radius;
-
-			float4 mixture (v2f_customrendertexture crt) : SV_Target
-			{
-				// The SAMPLE_X macro handles sampling for 2D, 3D and cube textures
-				float4 input = LOAD_X(_Source, crt.localTexcoord.xyz, crt.direction);
-				float4 color = input;
-
-				if (all(input.rgb > _Threshold))
-					return color;
-
-				float minLength = 1e20;
-				int k = 0;
-				for (int i = -_Radius; i <= _Radius; i++)
-				{
-					for (int j = -_Radius; j <= _Radius; j++)
-#if defined(CRT_3D)
-						for (k = -_Radius; k <= _Radius; k++)
-#endif
-						{
-							if (i == 0 && j == 0 && k == 0)
-								continue;
-								
-							float l = length(float3(i, j, k) / _Radius);
-							if (l > 1.0)
-								continue;
-
-							float3 uvOffset = float3(i, j, k) / float3(_CustomRenderTextureWidth, _CustomRenderTextureHeight, _CustomRenderTextureDepth);
-							float4 neighbour = LOAD_X(_Source, crt.localTexcoord.xyz + uvOffset, crt.direction);
-
-							if (all(neighbour.rgb > _Threshold))
-							{
-								minLength = min(minLength, l);
-								color = neighbour;
-							}
-						}
-				}
-
-				if (minLength <= 1.0)
-					color = lerp(input, color, 1.0 - minLength);
-
-				return color;
-			}
 			ENDCG
 		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define JUMP_INDEX 1
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define JUMP_INDEX 2
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define JUMP_INDEX 3
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define JUMP_INDEX 4
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define JUMP_INDEX 5
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define JUMP_INDEX 6
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define JUMP_INDEX 7
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define JUMP_INDEX 8
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define JUMP_INDEX 9
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define JUMP_INDEX 10
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define JUMP_INDEX 11
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define JUMP_INDEX 12
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			#define JUMP_INDEX 13
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Distance.hlsl"
+			#pragma fragment MixtureFragment
+			ENDCG
+		}
+
 	}
 }
