@@ -63,10 +63,14 @@ namespace Mixture
 		{
 			get
 			{
+#if UNITY_EDITOR
 				if (!String.IsNullOrEmpty(_mainAssetPath) && AssetDatabase.IsMainAssetAtPathLoaded(_mainAssetPath))
 					return _mainAssetPath;
 				else
 					return _mainAssetPath = AssetDatabase.GetAssetPath(this);
+#else
+                return null;
+#endif
 			}
 		}
 
@@ -149,6 +153,7 @@ namespace Mixture
 #endif
 		}
 
+#if UNITY_EDITOR
         void UpdateMainAsset(Texture oldTextureObject)
         {
             if (oldTextureObject == outputTexture)
@@ -168,6 +173,7 @@ namespace Mixture
             if (Selection.activeObject == oldTextureObject)
                 Selection.activeObject = outputTexture;
         }
+#endif
 
 		void UpdateOutputRealtimeTexture()
 		{
@@ -226,6 +232,7 @@ namespace Mixture
 					return;
 			}
 		}
+
 #if UNITY_EDITOR
         public void SaveExternalTexture(ExternalOutputNode external, bool saveAs = false)
         {
@@ -362,6 +369,18 @@ namespace Mixture
         }
 #endif
 
+        public void ReadbackMainTexture(Texture target)
+        {
+            if (isRealtime)
+            {
+                Debug.LogError("Can't save runtime texture to a specified path.");
+                return;
+            }
+
+            ReadBackTexture(outputNode, target);
+        }
+
+#if UNITY_EDITOR
         public void SaveMainTexture()
         {
             if (isRealtime)
@@ -373,7 +392,10 @@ namespace Mixture
             UpdateMainAsset(currentTexture);
 
             ReadBackTexture(this.outputNode);
+
+            EditorGUIUtility.PingObject(outputTexture);
         }
+#endif
 
         public struct ReadbackData
         {
@@ -390,8 +412,13 @@ namespace Mixture
             var target = externalTexture == null ? outputTexture : externalTexture;
 
             // When we use Texture2D, we can compress them. In that case we use a temporary target for readback before compressing / converting it.
+#if UNITY_EDITOR
             bool useTempTarget = node.enableCompression || outputFormat != target.graphicsFormat;
             useTempTarget &= node.rtSettings.GetTextureDimension(this) == TextureDimension.Tex2D;
+#else
+            // We can't compress the texture in real-time
+            bool useTempTarget = false;
+#endif
 
             if (useTempTarget)
             {
@@ -504,7 +531,6 @@ namespace Mixture
                     return;
             }
 
-            EditorGUIUtility.PingObject(data.targetTexture);
         }
 
         /// <summary>
@@ -514,18 +540,18 @@ namespace Mixture
         /// <param name="destination"></param>
         void CompressTexture(Texture source, Texture destination)
         {
+#if UNITY_EDITOR
             // Copy the readback texture into the compressed one (replace it)
             EditorUtility.CopySerialized(source, destination);
             UnityEngine.Object.DestroyImmediate(source);
 
-#if UNITY_EDITOR
             EditorUtility.CompressTexture(destination as Texture2D, (TextureFormat)outputNode.compressionFormat, (UnityEditor.TextureCompressionQuality)outputNode.compressionQuality);
-#endif
 
             // Trick to re-generate the preview and update the texture when the asset was changed
             AssetDatabase.ImportAsset(this.mainAssetPath);
             AssetDatabase.SaveAssets();
             AssetDatabase.ImportAsset(this.mainAssetPath);
+#endif
         }
     }
 }

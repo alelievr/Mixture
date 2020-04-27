@@ -147,20 +147,21 @@ namespace Mixture
 		protected void AddObjectToGraph(Object obj) => graph.AddObjectToGraph(obj);
 		protected void RemoveObjectFromGraph(Object obj) => graph.RemoveObjectFromGraph(obj);
 
-#if UNITY_EDITOR
-		protected Type GetPropertyType(MaterialProperty prop)
+		protected Type GetPropertyType(Shader shader, int shaderPropertyIndex)
 		{
-			switch (prop.type)
+			var type = shader.GetPropertyType(shaderPropertyIndex);
+
+			switch (type)
 			{
-				case MaterialProperty.PropType.Color:
+				case ShaderPropertyType.Color:
 					return typeof(Color);
-				case MaterialProperty.PropType.Float:
-				case MaterialProperty.PropType.Range:
+				case ShaderPropertyType.Float:
+				case ShaderPropertyType.Range:
 					return typeof(float);
-				case MaterialProperty.PropType.Texture:
-					return TextureUtils.GetTypeFromDimension(prop.textureDimension);
+				case ShaderPropertyType.Texture:
+					return TextureUtils.GetTypeFromDimension(shader.GetPropertyTextureDimension(shaderPropertyIndex));
 				default:
-				case MaterialProperty.PropType.Vector:
+				case ShaderPropertyType.Vector:
 					return typeof(Vector4);
 			}
 		}
@@ -171,28 +172,43 @@ namespace Mixture
 				yield break;
 
 			var currentDimension = rtSettings.GetTextureDimension(graph);
-				
-			foreach (var prop in MaterialEditor.GetMaterialProperties(new []{material}))
+
+			var s = material.shader;
+			for (int i = 0; i < material.shader.GetPropertyCount(); i++)
 			{
-				if (prop.flags == MaterialProperty.PropFlags.HideInInspector
-					|| prop.flags == MaterialProperty.PropFlags.NonModifiableTextureData
-					|| prop.flags == MaterialProperty.PropFlags.PerRendererData)
+				var flags = s.GetPropertyFlags(i);
+				var name = s.GetPropertyName(i);
+				var displayName = s.GetPropertyDescription(i);
+				var type = s.GetPropertyType(i);
+
+				if (flags == ShaderPropertyFlags.HideInInspector
+					|| flags == ShaderPropertyFlags.NonModifiableTextureData
+					|| flags == ShaderPropertyFlags.PerRendererData)
 					continue;
 				
-				if (!PropertySupportsDimension(prop, currentDimension))
+				if (!PropertySupportsDimension(s.GetPropertyName(i), currentDimension))
 					continue;
 
 				yield return new PortData{
-					identifier = prop.name,
-					displayName = prop.displayName,
-					displayType = GetPropertyType(prop),
+					identifier = name,
+					displayName = displayName,
+					displayType = GetPropertyType(s, i),
 				};
 			}
 		}
 
-		bool PropertySupportsDimension(MaterialProperty prop, TextureDimension dim)
+		bool PropertySupportsDimension(string name, TextureDimension dim)
 		{
-			return MixtureUtils.GetAllowedDimentions(prop.name).Contains(dim);
+			return MixtureUtils.GetAllowedDimentions(name).Contains(dim);
+		}
+
+		int GetPropertyIndex(Material mat, string propertyName)
+		{
+			var s = mat.shader;
+			for (int i = 0; i < s.GetPropertyCount(); i++)
+				if (s.GetPropertyName(i) == propertyName)
+					return i;
+			return -1;
 		}
 
 		protected void AssignMaterialPropertiesFromEdges(List< SerializableEdge > edges, Material material)
@@ -200,44 +216,45 @@ namespace Mixture
 			// Update material settings when processing the graph:
 			foreach (var edge in edges)
 			{
-				var prop = MaterialEditor.GetMaterialProperty(new []{material}, edge.inputPort.portData.identifier);
-
-				switch (prop.type)
+				string propName = edge.inputPort.portData.identifier;
+				int propertyIndex = GetPropertyIndex(material, propName);
+				switch (material.shader.GetPropertyType(propertyIndex))
 				{
-					case MaterialProperty.PropType.Color:
-						prop.colorValue = (Color)edge.passThroughBuffer;
+					case ShaderPropertyType.Color:
+						material.SetColor(propName, (Color)edge.passThroughBuffer);
 						break;
-					case MaterialProperty.PropType.Texture:
+					case ShaderPropertyType.Texture:
 						// TODO: texture scale and offset
-						prop.textureValue = (Texture)edge.passThroughBuffer;
+						material.SetTexture(propName, (Texture)edge.passThroughBuffer);
 						break;
-					case MaterialProperty.PropType.Float:
-					case MaterialProperty.PropType.Range:
+					case ShaderPropertyType.Float:
+					case ShaderPropertyType.Range:
 						switch (edge.passThroughBuffer)
 						{
 							case float f:
-								prop.floatValue = f;
+								material.SetFloat(propName, f);
 								break;
 							case Vector2 v:
-								prop.floatValue = v.x;
+								material.SetFloat(propName, v.x);
 								break;
 							case Vector3 v:
-								prop.floatValue = v.x;
+								material.SetFloat(propName, v.x);
 								break;
 							case Vector4 v:
-								prop.floatValue = v.x;
+								material.SetFloat(propName, v.x);
 								break;
 							default:
 								throw new Exception($"Can't assign {edge.passThroughBuffer.GetType()} to material float property");
 						}
 						break;
-					case MaterialProperty.PropType.Vector:
-						prop.vectorValue = MixtureConversions.ConvertObjectToVector4(edge.passThroughBuffer);
+					case ShaderPropertyType.Vector:
+						material.SetVector(propName, MixtureConversions.ConvertObjectToVector4(edge.passThroughBuffer));
 						break;
 				}
 			}
 		}
 
+#if UNITY_EDITOR
 		protected bool IsShaderCompiled(Shader s)
 		{
 			return !ShaderUtil.GetShaderMessages(s).Any(m => m.severity == ShaderCompilerMessageSeverity.Error);
@@ -251,9 +268,9 @@ namespace Mixture
 				Debug.LogError($"{file}:{m.line} {m.message} {m.messageDetails}");
 			}
 		}
+#endif
 
 		public void OnSettingsChanged() => onSettingsChanged?.Invoke();
-#endif
 
 		Dictionary<Material, Material>		defaultMaterials = new Dictionary<Material, Material>();
 

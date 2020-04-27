@@ -3,6 +3,7 @@ using GraphProcessor;
 using UnityEngine.Experimental.Rendering;
 using System.IO;
 using UnityEngine.Rendering;
+using System.Diagnostics;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Experimental.SceneManagement;
@@ -51,6 +52,7 @@ namespace Mixture
 #endif
         }
 
+#if UNITY_EDITOR
         GameObject CreateDefaultPrefab()
         {
             // TODO: make a default prefab object in the settings
@@ -73,7 +75,6 @@ namespace Mixture
 
         GameObject SavePrefab(GameObject sceneObject)
         {
-            Debug.Log(graph.mainAssetPath);
             string dirPath = Path.GetDirectoryName(graph.mainAssetPath) + "/" + graph.name;
             if (!Directory.Exists(dirPath))
                 Directory.CreateDirectory(dirPath);
@@ -82,9 +83,11 @@ namespace Mixture
 
             return PrefabUtility.SaveAsPrefabAssetAndConnect(sceneObject, prefabPath, InteractionMode.UserAction);
         }
+#endif
 
         protected override void Enable()
         {
+#if UNITY_EDITOR
             if (createNewPrefab)
             {
                 // Create and save the new prefab
@@ -93,6 +96,7 @@ namespace Mixture
                 MixtureUtils.DestroyGameObject(defaultPrefab);
                 ProjectWindowUtil.ShowCreatedAsset(prefab);
             }
+#endif
             UpdateRenderTextures();
         }
 

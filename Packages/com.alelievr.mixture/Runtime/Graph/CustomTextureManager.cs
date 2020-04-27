@@ -74,6 +74,12 @@ public static class CustomTextureManager
         return cmd;
     }
 
+    public static void ForceUpdateNow()
+    {
+        UpdateDependencies();
+        Graphics.ExecuteCommandBuffer(MakeCRTCommandBuffer());
+    }
+
     static void UpdateSRPCustomRenderTextureStatus()
     {
         if (!GraphicsSettings.disableBuiltinCustomRenderTextureUpdate)
@@ -121,7 +127,7 @@ public static class CustomTextureManager
         foreach (var crt in customRenderTextures)
             UpdateComputeOrder(crt, 0);
 
-        sortedCustomRenderTextures = customRenderTextures.ToList();
+        sortedCustomRenderTextures = customRenderTextures.Where(c => computeOrder.ContainsKey(c) && computeOrder[c] != -1).ToList();
         sortedCustomRenderTextures.Sort((c1, c2) => {
             if (!computeOrder.TryGetValue(c1, out int i1))
                 i1 = -1;

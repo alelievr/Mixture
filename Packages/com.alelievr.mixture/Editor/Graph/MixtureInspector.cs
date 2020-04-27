@@ -166,9 +166,12 @@ namespace Mixture
 
 		public override VisualElement CreateInspectorGUI()
 		{
+			if (graph == null)
+				return base.CreateInspectorGUI();
+
 			root = new VisualElement();
 			parameters = new VisualElement();
-
+			
 			UpdateExposedParameters(null);
 			root.Add(parameters);
 			root.Add(CreateTextureSettingsView());

@@ -119,8 +119,8 @@ namespace Mixture
 			if (mixtureDependencies.TryGetValue(crt, out var dependencies))
 			{
 				// Update the dependencies of the CRT
-				foreach (var nonCRTDeps in dependencies)
-					nonCRTDeps.OnProcess();
+				foreach (var nonCRTDep in dependencies)
+					nonCRTDep.OnProcess();
 			}
 		}
 
@@ -128,8 +128,14 @@ namespace Mixture
 		{
 			mixtureDependencies.Clear();
 
-			foreach (BaseNode node in graph.nodes)
+			processList = graph.nodes.OrderBy(n => n.computeOrder).ToList();
+
+			// For now we process every node multiple time,
+			// future improvement: only refresh nodes when  asked by the CRT
+			foreach (BaseNode node in processList)
 			{
+				node.OnProcess();
+
 				if (node is IUseCustomRenderTextureProcessing iUseCRT)
 				{
 					var mixtureNode = node as MixtureNode;
@@ -139,10 +145,10 @@ namespace Mixture
 						mixtureDependencies.Add(crt, mixtureNode.GetMixtureDependencies());
 						crt.Update();
 					}
-					else
-						mixtureNode.OnProcess();
 				}
 			}
+
+			CustomTextureManager.ForceUpdateNow();
 		}
 	}
 }
