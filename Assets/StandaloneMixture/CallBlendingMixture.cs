@@ -10,6 +10,8 @@ using System.Linq;
 
 public static class CallBlendingMixture
 {
+    static Stack<IEnumerator> callbacks = new Stack<IEnumerator>();
+
     public static void Process()
     {
         var args = Environment.GetCommandLineArgs();
@@ -27,9 +29,37 @@ public static class CallBlendingMixture
         Texture2D target = new Texture2D(1, 1);
         ImageConversion.LoadImage(source, File.ReadAllBytes(sourcePath));
         ImageConversion.LoadImage(target, File.ReadAllBytes(targetPath));
+
+        // TODO
+        // BlendMixture(source, target, out var _);
     }
 
-    public static void BlendMixture(Texture2D source, Texture2D target, out RenderTexture debugRT)
+    public static IEnumerator ExecuteAndExportMixture(MixtureGraph graph, string outputPath)
+    {
+        // Wait that the CRT is loaded
+        yield return new WaitForEndOfFrame();
+
+        // Alloc destination texture
+        var settings = graph.outputNode.rtSettings;
+        Texture2D destination = new Texture2D(
+            settings.GetWidth(graph),
+            settings.GetHeight(graph),
+            settings.GetGraphicsFormat(graph),
+            TextureCreationFlags.None
+        );
+
+        // Process the graph andreadback the result
+        MixtureGraphProcessor processor = new MixtureGraphProcessor(graph);
+        processor.Run();
+        var shadernodes = graph.nodes.Where(n => n is IUseCustomRenderTextureProcessing).Select(n => n as IUseCustomRenderTextureProcessing).ToList();
+        graph.ReadbackMainTexture(destination);
+
+        // Output the image to a file
+        var bytes = ImageConversion.EncodeToPNG(destination);
+        File.WriteAllBytes(outputPath, bytes);
+    }
+
+    public static MixtureGraph SetupBlendingMixture(Texture2D source, Texture2D target, out RenderTexture debugRT)
     {
         // Setup blend graph:
         var standaloneMixtures = Resources.Load<StandaloneMixtures>("EmbeddedMixtures");
@@ -39,24 +69,13 @@ public static class CallBlendingMixture
         // Disable compression because ImageConversion.EncodeTo doesn't support it
         blendGraph.outputNode.enableCompression = false;
 
-        // Alloc destination texture
-        var settings = blendGraph.outputNode.rtSettings;
-        Texture2D destination = new Texture2D(
-            settings.GetWidth(blendGraph),
-            settings.GetHeight(blendGraph),
-            settings.GetGraphicsFormat(blendGraph),
-            TextureCreationFlags.None
-        );
-
-        // Process the graph andreadback the result
-        MixtureGraphProcessor processor = new MixtureGraphProcessor(blendGraph);
-        processor.Run();
-        var shadernodes = blendGraph.nodes.Where(n => n is IUseCustomRenderTextureProcessing).Select(n => n as IUseCustomRenderTextureProcessing).ToList();
+        // Debug
         debugRT = blendGraph.outputNode.tempRenderTexture;
-        blendGraph.ReadbackMainTexture(destination);
 
-        // Output the image to a file
-        var bytes = ImageConversion.EncodeToPNG(destination);
-        File.WriteAllBytes("C:\\Users\\Antoine Lelievre\\test.png", bytes);
+        // Initialize completely the graph
+        // TODO: move this to the graph initialization (we'll embedde the processor in the graph)
+        new MixtureGraphProcessor(blendGraph).Run();
+
+        return blendGraph;
     }
 }

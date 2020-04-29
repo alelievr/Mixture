@@ -329,7 +329,7 @@ namespace Mixture
 	class MixtureInspectorTexture3D : MixtureEditor
 	{
 		Texture3D	volume;
-		int			slice;
+		int			slice = 0;
 
 		protected override void OnEnable()
 		{

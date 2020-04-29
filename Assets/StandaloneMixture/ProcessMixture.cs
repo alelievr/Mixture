@@ -14,7 +14,9 @@ public class ProcessMixture : MonoBehaviour
 
     void Start()
     {
-        CallBlendingMixture.BlendMixture(source, target, out debugRT);
+        var blendGraph = CallBlendingMixture.SetupBlendingMixture(source, target, out debugRT);        
         image.texture = debugRT;
+
+        StartCoroutine(CallBlendingMixture.ExecuteAndExportMixture(blendGraph, "C:\\Users\\Antoine Lelievre\\test.png"));
     }
 }

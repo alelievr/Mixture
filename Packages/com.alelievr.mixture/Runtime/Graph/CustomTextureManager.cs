@@ -112,10 +112,13 @@ public static class CustomTextureManager
     static void OnCRTLoaded(CustomRenderTexture crt)
     {
         if (!customRenderTextures.Contains(crt))
+        {
             customRenderTextures.Add(crt);
+            InitializeCustomRenderTexture(crt);
+        }
     }
 
-    static void InitializeCustomRenderTexture(CustomRenderTexture crt) {}
+    static void InitializeCustomRenderTexture(CustomRenderTexture crt) {Debug.Log("Load: " + crt); }
 
     static void OnCRTUnloaded(CustomRenderTexture crt) => customRenderTextures.Remove(crt);
 
@@ -123,7 +126,7 @@ public static class CustomTextureManager
     {
         computeOrder.Clear();
         sortedCustomRenderTextures.Clear();
-        
+
         foreach (var crt in customRenderTextures)
             UpdateComputeOrder(crt, 0);
 
