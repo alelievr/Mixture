@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -21,7 +22,7 @@ namespace Mixture
 		public override string name => "Frac";
 		public override float nodeWidth => MixtureUtils.operatorNodeWidth;
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			o = new Vector4(a.x % 1.0f, a.y % 1.0f, a.z % 1.0f, a.w % 1.0f);
 			return true;

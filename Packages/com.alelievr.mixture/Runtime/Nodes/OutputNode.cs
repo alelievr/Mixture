@@ -120,7 +120,7 @@ namespace Mixture
 			CoreUtils.Destroy(mipmapRenderTexture);
 		}
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			if (graph.outputTexture == null)
 			{

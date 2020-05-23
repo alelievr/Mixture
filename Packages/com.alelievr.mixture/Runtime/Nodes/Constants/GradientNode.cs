@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -25,9 +26,9 @@ namespace Mixture
             UpdateTexture();
         }
 
-        protected override bool ProcessNode()
+        protected override bool ProcessNode(CommandBuffer cmd)
         {
-            if (!base.ProcessNode())
+            if (!base.ProcessNode(cmd))
                 return false;
 
             // Sometimes the texture is destroyed by the C++ without any notification so we check for this

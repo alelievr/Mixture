@@ -4,6 +4,7 @@ using UnityEngine;
 using GraphProcessor;
 using System.Linq;
 using System;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -22,7 +23,7 @@ namespace Mixture
 		public override string name => "Truncate";
 		public override float nodeWidth => MixtureUtils.operatorNodeWidth;
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			o = new Vector4((float)Math.Truncate((double)a.x), (float)Math.Truncate((double)a.y), (float)Math.Truncate((double)a.z), (float)Math.Truncate((double)a.w));
 			return true;

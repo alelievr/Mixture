@@ -94,7 +94,7 @@ namespace Mixture
 
         protected override void Disable() => CoreUtils.Destroy(tempRenderTexture);
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			if (graph.outputTexture == null)
 			{

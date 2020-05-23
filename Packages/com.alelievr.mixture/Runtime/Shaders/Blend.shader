@@ -29,7 +29,7 @@ Shader "Hidden/Mixture/Blend"
 		Pass
 		{
 			CGPROGRAM
-			#include "MixtureFixed.cginc"
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0

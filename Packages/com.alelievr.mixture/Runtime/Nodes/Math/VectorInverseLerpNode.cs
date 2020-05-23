@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using GraphProcessor;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -20,7 +21,7 @@ namespace Mixture
 		public override string name => "InverseLerp";
 		public override float nodeWidth => MixtureUtils.operatorNodeWidth;
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			o = new Vector4(
 				Mathf.InverseLerp(min.x, max.x, a.x),

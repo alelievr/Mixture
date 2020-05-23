@@ -23,12 +23,12 @@ namespace Mixture
 			OutputDimension.Texture2D,
 		};
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			// Force the double buffering for multi-pass flooding
 			rtSettings.doubleBuffered = true;
 
-			if (!base.ProcessNode())
+			if (!base.ProcessNode(cmd))
 				return false;
 
 			// Setup passes for jump flooding

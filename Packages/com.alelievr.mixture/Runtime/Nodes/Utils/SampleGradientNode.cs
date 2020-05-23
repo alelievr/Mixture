@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -19,7 +20,7 @@ namespace Mixture
 
         public override string name => "Sample Gradient";
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
             color = gradient.Evaluate(x);
 			return true;

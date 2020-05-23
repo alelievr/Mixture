@@ -65,19 +65,20 @@ namespace Mixture
                 UpdateTempRenderTexture(ref tempRenderTexture);
             }
 
-            onSettingsChanged += () => { ProcessNode(); };
+            // TODO: add this for every mixture node
+            onSettingsChanged += () => { graph.NotifyNodeChanged(this); };
         }
 
         protected override void Disable() => CoreUtils.Destroy(tempRenderTexture);
 
-        protected override bool ProcessNode()
+        protected override bool ProcessNode(CommandBuffer cmd)
         {
             uniqueMessages.Clear();
 
             if(!graph.isRealtime)
             {
                 if(rtSettings.dimension != OutputDimension.CubeMap)
-                    return base.ProcessNode();
+                    return base.ProcessNode(cmd);
                 else
                 {
                     if (uniqueMessages.Add("CubemapNotSupported"))

@@ -84,6 +84,7 @@ namespace Mixture
                     filterMode = rtSettings.filterMode,
                     useMipMap = hasMips,
 					autoGenerateMips = autoGenerateMips,
+					enableRandomWrite = true,
 				};
 				target.Create();
 
@@ -122,7 +123,20 @@ namespace Mixture
 			return false;
 		}
 
-		protected sealed override void Process()
+		public void OnProcess(CommandBuffer cmd)
+		{
+			inputPorts.PullDatas();
+
+			ExceptionToLog.Call(() => Process(cmd));
+
+			InvokeOnProcessed();
+
+			outputPorts.PushDatas();
+		}
+
+		protected sealed override void Process() => throw new Exception("Do not use");
+
+		void Process(CommandBuffer cmd)
 		{
 			var outputDimension = rtSettings.GetTextureDimension(graph);
 
@@ -139,10 +153,10 @@ namespace Mixture
 				RemoveMessage($"Dimension {TextureDimension.Cube} is not supported by this node");
 			}
 
-			ProcessNode();
+			ProcessNode(cmd);
 		}
 
-		protected virtual bool ProcessNode() => true;
+		protected virtual bool ProcessNode(CommandBuffer cmd) => true;
 
 		protected void AddObjectToGraph(Object obj) => graph.AddObjectToGraph(obj);
 		protected void RemoveObjectFromGraph(Object obj) => graph.RemoveObjectFromGraph(obj);

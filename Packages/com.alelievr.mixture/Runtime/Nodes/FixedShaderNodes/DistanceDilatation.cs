@@ -41,9 +41,9 @@ namespace Mixture
 			base.Disable();
 		}
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			if (!base.ProcessNode())
+			if (!base.ProcessNode(cmd))
 				return false;
 			
 			// TODO: force the CRT format to GraphicsFormat.R16G16B16_SFloat, we need this precision for the dilatation buffer

@@ -181,7 +181,7 @@ namespace Mixture
 
 			if (!(outputTexture is CustomRenderTexture))
 			{
-				outputTexture = new CustomRenderTexture(s.width, s.height, (GraphicsFormat)s.targetFormat) { name = "Realtime Final Copy" };
+				outputTexture = new CustomRenderTexture(s.width, s.height, (GraphicsFormat)s.targetFormat) { name = "Realtime Final Copy", enableRandomWrite = true };
 			}
 
 			var crt = outputTexture as CustomRenderTexture;

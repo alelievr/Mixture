@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -16,9 +17,9 @@ namespace Mixture
 		// Enumerate the list of material properties that you don't want to be turned into a connectable port.
 		protected override IEnumerable<string> filteredOutProperties => new string[]{ "_Seed", "_OutputRange", "_TilingMode", "_CellSize", "_Octaves"};
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			if (!base.ProcessNode())
+			if (!base.ProcessNode(cmd))
 				return false;
 
 			// Check if the UVs are connected or not:

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -55,7 +56,7 @@ namespace Mixture
 			}
 		}
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			output.x = Swizzle(compX, input);
 			output.y = Swizzle(compY, input);

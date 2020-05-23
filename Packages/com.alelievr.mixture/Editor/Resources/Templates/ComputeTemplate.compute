@@ -1,0 +1,27 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+// By default all RW* structs (RWTexture, RWBuffer, etc) will appear as outputs in the node
+// If you don't want this behaviour, you can prefix your variable with '__',
+// it will prevent the property to show up in the code input/outputs.
+// Note that every property declared after a function won't be visible in the node UI.
+
+Texture2D<float4> _Input;
+
+RWTexture2D<float4> _Output;
+
+// This will be used for the preview Texture
+RWTexture2D<float4> _Preview;
+
+float __Hidden;
+
+[numthreads(8,8,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    float4 input = _Input[id.xy];
+
+    // Insert your code here
+
+    _Output[id.xy] = input;
+    _Preview[id.xy] = input;
+}

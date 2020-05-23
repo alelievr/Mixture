@@ -128,6 +128,8 @@ namespace Mixture
 			shaderNode.material.shader = newShader;
 			UpdateShaderCreationUI();
 
+			title = newShader.name;
+
 			// We fore the update of node ports
 			ForceUpdatePorts();
 		}

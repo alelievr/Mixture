@@ -13,6 +13,7 @@ namespace Mixture
         public static readonly string   shaderTextTexture2DTemplate = "Templates/ShaderTextTexture2DTemplate";
         public static readonly string   shaderTextTexture3DTemplate = "Templates/ShaderTextTexture3DTemplate";
         public static readonly string   shaderTextTextureCubeTemplate = "Templates/ShaderTextTextureCubeTemplate";
+        public static readonly string   computeShaderTemplate = "Templates/ComputeTemplate";
 
         static string GetCurrentProjectWindowPath()
         {
@@ -31,15 +32,11 @@ namespace Mixture
             return path;
 		}
 
-        static string       GetShaderTemplatePath(string name)
-        {
-            var shader = Resources.Load< Shader >(name);
-            return AssetDatabase.GetAssetPath(shader);
-        }
+        static string       GetAssetTemplatePath< T >(string name) where T : Object
+            => AssetDatabase.GetAssetPath(Resources.Load< T >(name));
 
-        static Shader       CopyShaderWithNameFromTemplate(string name, string template)
+        static T            CopyAssetWithNameFromTemplate<T>(string name, string templatePath) where T : Object
         {
-            var templatePath = GetShaderTemplatePath(template);
             var newPath = GetCurrentProjectWindowPath() + "/" + name;
             newPath = AssetDatabase.GenerateUniqueAssetPath(newPath);
 
@@ -47,9 +44,9 @@ namespace Mixture
 
             AssetDatabase.Refresh();
 
-            var shader = AssetDatabase.LoadAssetAtPath< Shader >(newPath);
-            EditorGUIUtility.PingObject(shader);
-            return shader;
+            var asset = AssetDatabase.LoadAssetAtPath< T >(newPath);
+            EditorGUIUtility.PingObject(asset);
+            return asset;
         }
 
 		public static Shader    CreateNewShaderGraph(string name, OutputDimension dimension)
@@ -58,11 +55,11 @@ namespace Mixture
 			switch (dimension)
 			{
 				case OutputDimension.Texture2D:
-                    return CopyShaderWithNameFromTemplate(name, shaderGraphTexture2DTemplate);
+                    return CopyAssetWithNameFromTemplate<Shader>(name, GetAssetTemplatePath<Shader>(shaderGraphTexture2DTemplate));
 				case OutputDimension.Texture3D:
-                    return CopyShaderWithNameFromTemplate(name, shaderGraphTexture3DTemplate);
+                    return CopyAssetWithNameFromTemplate<Shader>(name, GetAssetTemplatePath<Shader>(shaderGraphTexture3DTemplate));
 				case OutputDimension.CubeMap:
-                    return CopyShaderWithNameFromTemplate(name, shaderGraphTextureCubeTemplate);
+                    return CopyAssetWithNameFromTemplate<Shader>(name, GetAssetTemplatePath<Shader>(shaderGraphTextureCubeTemplate));
                 default:
                     Debug.LogError("Can't find template to create new shader for dimension: " + dimension);
                     return null;
@@ -75,16 +72,32 @@ namespace Mixture
 			switch (dimension)
 			{
 				case OutputDimension.Texture2D:
-                    return CopyShaderWithNameFromTemplate(name, shaderTextTexture2DTemplate);
+                    return CopyAssetWithNameFromTemplate<Shader>(name, GetAssetTemplatePath<Shader>(shaderTextTexture2DTemplate));
 				case OutputDimension.Texture3D:
-                    return CopyShaderWithNameFromTemplate(name, shaderTextTexture3DTemplate);
+                    return CopyAssetWithNameFromTemplate<Shader>(name, GetAssetTemplatePath<Shader>(shaderTextTexture3DTemplate));
 				case OutputDimension.CubeMap:
-                    return CopyShaderWithNameFromTemplate(name, shaderTextTextureCubeTemplate);
+                    return CopyAssetWithNameFromTemplate<Shader>(name, GetAssetTemplatePath<Shader>(shaderTextTextureCubeTemplate));
                 default:
                     Debug.LogError("Can't find template to create new shader for dimension: " + dimension);
                     return null;
 			}
 		}
+
+        public static ComputeShader CreateEmbeddedComputeShader(string mainObjectPath, string name)
+        {
+            name += ".compute";
+            var path = GetAssetTemplatePath<ComputeShader>(computeShaderTemplate);
+            var cs = AssetDatabase.LoadAssetAtPath<ComputeShader>(path);
+
+            AssetDatabase.AddObjectToAsset(cs, mainObjectPath);
+            return cs;
+        }
+
+        public static ComputeShader CreateComputeShader(string name)
+        {
+            name += ".compute";
+            return CopyAssetWithNameFromTemplate<ComputeShader>(name, GetAssetTemplatePath<ComputeShader>(computeShaderTemplate));
+        }
 
 		public static void ToggleMode(MixtureGraph mixture)
 		{

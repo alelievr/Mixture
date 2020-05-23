@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine.Experimental.Rendering;
 using UnityEditor;
 using System;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -58,6 +59,7 @@ namespace Mixture
 			{
 				customTexture = new CustomRenderTexture(512, 512, GraphicsFormat.R8G8B8A8_UNorm);
 				customTexture.name = "Custom Texture Node";
+				customTexture.enableRandomWrite = true;
 				initializationMaterial = new Material(Shader.Find(defaultCRTInitShader));
 				updateMaterial = new Material(Shader.Find(defaultCRTUpdateShader));
 				customTexture.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
@@ -69,7 +71,7 @@ namespace Mixture
 			}
 		}
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			output = customTexture;
 

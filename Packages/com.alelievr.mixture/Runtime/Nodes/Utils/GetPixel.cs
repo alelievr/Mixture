@@ -27,7 +27,7 @@ namespace Mixture
 			OutputDimension.Texture2D,
 		};
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			if (texture == null)
 				return false;

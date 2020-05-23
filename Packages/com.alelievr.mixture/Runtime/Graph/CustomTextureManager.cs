@@ -20,18 +20,18 @@ public static class CustomTextureManager
 
     static Dictionary<CustomRenderTexture, int> computeOrder = new Dictionary<CustomRenderTexture, int>();
 
-    public static event Action<CustomRenderTexture> onBeforeCustomTextureUpdated;
+    public static event Action<CommandBuffer, CustomRenderTexture> onBeforeCustomTextureUpdated;
 
     [RuntimeInitializeOnLoadMethod]
     static void SetupManager()
     {
-        CustomRenderTextureManager.onTextureLoaded -= OnCRTLoaded;
-        CustomRenderTextureManager.onTextureLoaded += OnCRTLoaded;
-        CustomRenderTextureManager.onTextureUnloaded -= OnCRTUnloaded;
-        CustomRenderTextureManager.onTextureUnloaded += OnCRTUnloaded;
+        CustomRenderTextureManager.textureLoaded -= OnCRTLoaded;
+        CustomRenderTextureManager.textureLoaded += OnCRTLoaded;
+        CustomRenderTextureManager.textureUnloaded -= OnCRTUnloaded;
+        CustomRenderTextureManager.textureUnloaded += OnCRTUnloaded;
 
-        CustomRenderTextureManager.onUpdateTriggered += OnUpdateCalled;
-        CustomRenderTextureManager.onInitializeTriggered += OnInitializeCalled;
+        CustomRenderTextureManager.updateTriggered += OnUpdateCalled;
+        CustomRenderTextureManager.initializeTriggered += OnInitializeCalled;
 
 #if UNITY_EDITOR
         // In the editor we might not always have a camera to update our custom render textures
@@ -231,7 +231,7 @@ public static class CustomTextureManager
 
         if (crt.material != null && (crt.updateMode == CustomRenderTextureUpdateMode.Realtime || updateCount > 0 || (firstPass && crt.updateMode == CustomRenderTextureUpdateMode.OnLoad)))
         {
-            onBeforeCustomTextureUpdated?.Invoke(crt);
+            onBeforeCustomTextureUpdated?.Invoke(cmd, crt);
 
             using (new ProfilingScope(cmd, new ProfilingSampler($"Update {crt.name}")))
             {

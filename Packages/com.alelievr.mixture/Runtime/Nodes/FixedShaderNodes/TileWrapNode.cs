@@ -16,9 +16,9 @@ namespace Mixture
 
 		public override bool displayMaterialInspector => true;
 
-        protected override bool ProcessNode()
+        protected override bool ProcessNode(CommandBuffer cmd)
         {
-            if (!base.ProcessNode())
+            if (!base.ProcessNode(cmd))
                 return false;
 
             CustomRenderTextureUpdateZone[] updateZones;

@@ -86,13 +86,11 @@
 // 	}
 // }
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Unity.Jobs;
-using Unity.Collections;
 using GraphProcessor;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -108,19 +106,25 @@ namespace Mixture
 			CustomTextureManager.onBeforeCustomTextureUpdated -= BeforeCustomRenderTextureUpdate;
 			CustomTextureManager.onBeforeCustomTextureUpdated += BeforeCustomRenderTextureUpdate;
 
-			foreach (var node in graph.nodes)
-				node.OnProcess();
+			// TODO: remove
+			// foreach (var node in graph.nodes)
+			// 	node.OnProcess();
 		}
 
 		public override void UpdateComputeOrder() {}
 
-		void BeforeCustomRenderTextureUpdate(CustomRenderTexture crt)
+		void BeforeCustomRenderTextureUpdate(CommandBuffer cmd, CustomRenderTexture crt)
 		{
 			if (mixtureDependencies.TryGetValue(crt, out var dependencies))
 			{
 				// Update the dependencies of the CRT
 				foreach (var nonCRTDep in dependencies)
-					nonCRTDep.OnProcess();
+				{
+					if (nonCRTDep is MixtureNode m)
+						m.OnProcess(cmd);
+					else
+						nonCRTDep.OnProcess();
+				}
 			}
 		}
 
@@ -130,11 +134,18 @@ namespace Mixture
 
 			processList = graph.nodes.OrderBy(n => n.computeOrder).ToList();
 
+			// TODO: remove me !
+			CommandBuffer cmd = new CommandBuffer();
+
 			// For now we process every node multiple time,
 			// future improvement: only refresh nodes when  asked by the CRT
 			foreach (BaseNode node in processList)
 			{
-				node.OnProcess();
+				// TODO: remove this, it's currently needed because allocations are handled in the Execute method, which shouldn't be the case
+					if (node is MixtureNode m)
+						m.OnProcess(cmd);
+					else
+						node.OnProcess();
 
 				if (node is IUseCustomRenderTextureProcessing iUseCRT)
 				{

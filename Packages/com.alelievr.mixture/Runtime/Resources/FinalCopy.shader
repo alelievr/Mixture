@@ -15,7 +15,7 @@ Shader "Hidden/Mixture/FinalCopy"
 		{
 			CGPROGRAM
 
-			#include "MixtureFixed.cginc"
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
 			
             #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 

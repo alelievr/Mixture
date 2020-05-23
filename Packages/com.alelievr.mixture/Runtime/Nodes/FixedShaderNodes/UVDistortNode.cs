@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -31,9 +32,9 @@ namespace Mixture
             editFlags = EditFlags.WidthMode | EditFlags.HeightMode | EditFlags.Width | EditFlags.Height,
         };
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
         {
-            if (!base.ProcessNode())
+            if (!base.ProcessNode(cmd))
                 return false;
             
 			var uvPort = inputPorts.Find(p => p.portData.identifier.Contains("_UV_"));

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -30,9 +31,9 @@ namespace Mixture
 
 		void FindShader() => shader = Shader.Find(shaderName);
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			if (!base.ProcessNode())
+			if (!base.ProcessNode(cmd))
 				return false;
 
 			if (shader == null)

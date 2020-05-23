@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -17,9 +18,9 @@ namespace Mixture
 
 		protected override IEnumerable<string> filteredOutProperties => new string[]{"_BlendMode", "_MaskMode"};
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			bool r = base.ProcessNode();
+			bool r = base.ProcessNode(cmd);
 
 			return r;
 		}

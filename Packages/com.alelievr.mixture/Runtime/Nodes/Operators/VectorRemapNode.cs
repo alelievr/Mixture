@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -27,7 +28,7 @@ namespace Mixture
 
 		public override bool showDefaultInspector => true;
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			Vector4 iMin = MixtureConversions.ConvertFloatToVector4(inputMin);
 			Vector4 oMin = MixtureConversions.ConvertFloatToVector4(outputMin);
