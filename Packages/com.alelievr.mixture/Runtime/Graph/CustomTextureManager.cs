@@ -291,11 +291,11 @@ public static class CustomTextureManager
                 updateCount = Mathf.Max(updateCount, 1);
                 for (int i = 0; i < updateCount; i++)
                 {
-                    int sliceCount = (crt.dimension == TextureDimension.Cube) ? 6 : crt.volumeDepth;
+                    int sliceCount = GetSliceCount(crt);
                     for (int slice = 0; slice < sliceCount; slice++)
                     {
                         RenderTexture renderTexture = crt.doubleBuffered ? crt.GetDoubleBufferRenderTexture() : crt;
-                        cmd.SetRenderTarget(renderTexture, 0, (crt.dimension == TextureDimension.Cube) ? (CubemapFace)slice : 0,  (crt.dimension == TextureDimension.Tex3D) ? slice : 0);
+                        cmd.SetRenderTarget(renderTexture, 0, (crt.dimension == TextureDimension.Cube) ? (CubemapFace)slice : 0, (crt.dimension == TextureDimension.Tex3D) ? slice : 0);
                         cmd.SetViewport(new Rect(0, 0, crt.width, crt.height));
                         block.SetVector(kCustomRenderTextureInfo, GetTextureInfos(crt, slice));
                         block.SetVector(kCustomRenderTextureParameters, GetTextureParameters(crt, slice));
@@ -347,6 +347,20 @@ public static class CustomTextureManager
             }
             
             crt.IncrementUpdateCount();
+        }
+    }
+
+    static int GetSliceCount(CustomRenderTexture crt)
+    {
+        switch (crt.dimension)
+        {
+            case TextureDimension.Cube:
+                return 6;
+            case TextureDimension.Tex3D:
+                return crt.volumeDepth;
+            default:
+            case TextureDimension.Tex2D:
+                return 1;
         }
     }
 }
