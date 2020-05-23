@@ -65,6 +65,8 @@ namespace Mixture
                 UpdateTempRenderTexture(ref tempRenderTexture);
             }
 
+            tempRenderTexture.material = finalCopyMaterial;
+
             // TODO: add this for every mixture node
             onSettingsChanged += () => { graph.NotifyNodeChanged(this); };
         }

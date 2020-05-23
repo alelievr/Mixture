@@ -36,7 +36,7 @@ namespace Mixture
 		public override float		nodeWidth => 350;
 
 		Material					_finalCopyMaterial;
-		Material					finalCopyMaterial
+		protected Material			finalCopyMaterial
 		{
 			get
 			{
@@ -108,6 +108,7 @@ namespace Mixture
 					UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null);
 				};
 			}
+			tempRenderTexture.material = finalCopyMaterial;
 
 			// SRP mip generation:
 			RenderPipelineManager.beginFrameRendering += BeginFrameRendering;

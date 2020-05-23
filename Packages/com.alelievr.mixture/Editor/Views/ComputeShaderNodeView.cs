@@ -18,7 +18,7 @@ namespace Mixture
 		VisualElement		shaderCreationUI;
 		ComputeShaderNode	computeShaderNode => nodeTarget as ComputeShaderNode;
 
-		ObjectField			debugCustomRenderTextureField;
+		ObjectField			debugCustomRenderTextureField = null;
 		ObjectField			shaderField;
 
 		int					materialCRC;
@@ -140,8 +140,6 @@ namespace Mixture
 				if (match.Groups[4].Value.StartsWith("__"))
 					continue;
 
-				Debug.Log("Output: " + match.Groups[4].Value);
-
 				computeShaderNode.computeOutputs.Add(new ComputeShaderNode.ComputeParameter{
 					name = match.Groups[4].Value,
 					specificType = match.Groups[3].Value,
@@ -158,8 +156,6 @@ namespace Mixture
 				if (match.Groups[4].Value.StartsWith("__"))
 					continue;
 				
-				Debug.Log("Input: " + match.Groups[4].Value);
-
 				computeShaderNode.computeInputs.Add(new ComputeShaderNode.ComputeParameter{
 					name = match.Groups[4].Value,
 					specificType = match.Groups[3].Value,

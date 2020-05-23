@@ -80,6 +80,15 @@ public static class CustomTextureManager
         Graphics.ExecuteCommandBuffer(MakeCRTCommandBuffer());
     }
 
+    /// <summary>
+    /// Add a CRT that is not yet tracked by the manager because of the frame of delay.
+    /// </summary>
+    /// <param name="crt"></param>
+    public static void RegisterNewCustomRenderTexture(CustomRenderTexture crt)
+    {
+        OnCRTLoaded(crt);
+    }
+
     static void UpdateSRPCustomRenderTextureStatus()
     {
         if (!GraphicsSettings.disableBuiltinCustomRenderTextureUpdate)
@@ -118,7 +127,10 @@ public static class CustomTextureManager
         }
     }
 
-    static void InitializeCustomRenderTexture(CustomRenderTexture crt) {Debug.Log("Load: " + crt); }
+    static void InitializeCustomRenderTexture(CustomRenderTexture crt)
+    {
+        // Debug.Log("Load: " + crt);
+    }
 
     static void OnCRTUnloaded(CustomRenderTexture crt) => customRenderTextures.Remove(crt);
 
@@ -154,9 +166,9 @@ public static class CustomTextureManager
         if (computeOrder.TryGetValue(crt, out crtComputeOrder))
             return crtComputeOrder;
 
-        if (crt.material == null)
+
+        if (!IsValid(crt))
             return -1;
-        // TODO: check if CRT is valid (shader compiled without errors, material not null, compatible shader, etc...)
 
         foreach(var texID in crt.material.GetTexturePropertyNameIDs())
         {
@@ -180,6 +192,24 @@ public static class CustomTextureManager
         computeOrder[crt] = crtComputeOrder;
 
         return crtComputeOrder;
+    }
+
+    static bool IsValid(CustomRenderTexture crt)
+    {
+        if (crt.material == null || crt.material.shader == null)
+            return false;
+        
+        if (crt.material.passCount == 0)
+            return false;
+
+#if UNITY_EDITOR
+        // If the shader have errors
+        var compilationMessages = UnityEditor.ShaderUtil.GetShaderMessages(crt.material.shader);
+        if (compilationMessages.Any(m => m.severity == UnityEditor.Rendering.ShaderCompilerMessageSeverity.Error))
+            return false;
+#endif
+
+        return true;
     }
 
     static int kUpdateDataCenters              = Shader.PropertyToID("CustomRenderTextureCenters");

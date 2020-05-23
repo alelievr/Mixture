@@ -35,6 +35,9 @@ namespace Mixture
 				material = new Material(shader ?? defaultShader);
 				material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 			}
+
+			UpdateTempRenderTexture(ref output);
+			output.material = material;
 		}
 
         protected override void Disable() => CoreUtils.Destroy(output);

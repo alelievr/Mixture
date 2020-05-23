@@ -97,6 +97,10 @@ float3 CustomRenderTextureComputeCubeDirection(float2 globalTexcoord)
     {
         direction = normalize(float3(-xy.x, -xy.y, -1.0));
     }
+    else
+    {
+        direction = float3(0, 0, 0);
+    }
 
     return direction;
 }
