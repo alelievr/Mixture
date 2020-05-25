@@ -19,33 +19,37 @@ namespace Mixture
 		}
 
 		[Input(name = "In")]
-		public List< ComputeParameter >	computeInputs;
-
+		public List< ComputeParameter >	computeInputs = new List<ComputeParameter>();
 		[Output(name = "Out")]
-		public List< ComputeParameter >	computeOutputs;
-
+		public List< ComputeParameter >	computeOutputs = new List<ComputeParameter>();
 
 		public ComputeShader			computeShader;
 
-		public override string			name => computeShader != null ? computeShader.name : "Compute Shader";
 
         protected virtual IEnumerable<string> filteredOutProperties => Enumerable.Empty<string>();
 
 		// We arbitrary take the first compute output that is a texture.
 		// TODO: settings in the node for the name of the preview texture
-		// public override Texture previewTexture => computeOutputs.FirstOrDefault(o => o is Texture) as Texture;
+		public override Texture previewTexture => nodePreview;
 
+		// We don't use the 'Custom' part but we need a CRT for utility functions
+		protected CustomRenderTexture nodePreview;
+
+		internal string previewComputeProperty = "_Preview";
 		[SerializeField]
 		internal int			kernelIndex;
-
 		[SerializeField]
 		internal int			previewKernelIndex = -1;
-
 		[SerializeField]
-		internal List< string >	kernelNames;
+		internal List< string >	kernelNames = new List<string>();
+
+		public override string			name => computeShader != null ? computeShader.name : "Compute Shader";
+
+		protected virtual string previewTexturePropertyName => previewComputeProperty;
 
 		protected override void Enable()
 		{
+			UpdateTempRenderTexture(ref nodePreview);
 		}
 
 		// Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code
@@ -116,6 +120,8 @@ namespace Mixture
 			if (computeShader == null)
 				return false;
 
+			UpdateTempRenderTexture(ref nodePreview);
+
 #if UNITY_EDITOR // IsShaderCompiled is editor only
 			if (!IsComputeShaderCompiled(computeShader))
 			{
@@ -151,6 +157,7 @@ namespace Mixture
 			if (width % threadSizes.x != 0 || height % threadSizes.y != 0 || depth % threadSizes.z != 0)
 				Debug.LogError("DispatchComputePixels size must be a multiple of the kernel group thread size defined in the compute shader");
 
+			Debug.Log("Dispatch: " + width);
 			cmd.DispatchCompute(compute, kernelIndex, width / threadSizes.x, height / threadSizes.y, depth / threadSizes.z);
 		}
 

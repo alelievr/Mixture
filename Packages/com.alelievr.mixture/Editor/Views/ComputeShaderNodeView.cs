@@ -59,7 +59,7 @@ namespace Mixture
 			// {
 			// 	value = computeShaderNode.output
 			// };
-			
+
 			debugContainer.Add(debugCustomRenderTextureField);
 		}
 
@@ -84,7 +84,7 @@ namespace Mixture
 
 			void CreateNewComputeShader()
 			{
-				SetComputeShader(MixtureEditorUtils.CreateComputeShader(title));
+				SetComputeShader(MixtureEditorUtils.CreateComputeShader(owner.graph, title));
 			}
 
 			void OpenCurrentComputeShader()
@@ -98,12 +98,13 @@ namespace Mixture
 			owner.RegisterCompleteObjectUndo("Updated Shader of Compute Shader Node");
 			computeShaderNode.computeShader = newShader;
 			shaderField.value = newShader;
-			UpdateShaderCreationUI();
 
-			title = newShader?.name ?? "Null Compute";
+			title = newShader?.name ?? "New Compute";
 
 			if (newShader != null)
 				UpdateComputeShaderData(newShader);
+
+			UpdateShaderCreationUI();
 
 			// We fore the update of node ports
 			ForceUpdatePorts();
@@ -141,7 +142,7 @@ namespace Mixture
 					continue;
 
 				computeShaderNode.computeOutputs.Add(new ComputeShaderNode.ComputeParameter{
-					name = match.Groups[4].Value,
+					name = ObjectNames.NicifyVariableName(match.Groups[4].Value),
 					specificType = match.Groups[3].Value,
 					type = ComputeShaderTypeToCSharp(match.Groups[2].Value),
 				});
@@ -157,7 +158,7 @@ namespace Mixture
 					continue;
 				
 				computeShaderNode.computeInputs.Add(new ComputeShaderNode.ComputeParameter{
-					name = match.Groups[4].Value,
+					name = ObjectNames.NicifyVariableName(match.Groups[4].Value),
 					specificType = match.Groups[3].Value,
 					type = ComputeShaderTypeToCSharp(match.Groups[2].Value),
 				});

@@ -9,16 +9,19 @@ using UnityEditor;
 using UnityEditor.Experimental.SceneManagement;
 #endif
 
+using Debug = UnityEngine.Debug;
+
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Utils/Scene Capture")]
 	public class SceneNode : MixtureNode
 	{
+        [System.Serializable]
         public enum OutputMode
         {
             Color,
-            // Depth, // TODO
-            // Normal,
+            Depth,
+            Normal,
         }
 
 		[Output(name = "Output")]
@@ -39,6 +42,9 @@ namespace Mixture
         internal bool           prefabOpened = false;
         [System.NonSerialized]
         bool                    createNewPrefab = false;
+        [System.NonSerialized]
+        internal Camera         prefabCamera;
+        internal MixtureBufferOutput bufferOutput;
 
         // We don't use the 'Custom' part of the render texture but function are taking this type in parameter
         CustomRenderTexture     tmpRenderTexture;
@@ -53,24 +59,9 @@ namespace Mixture
         }
 
 #if UNITY_EDITOR
-        GameObject CreateDefaultPrefab()
+        GameObject LoadDefaultPrefab()
         {
-            // TODO: make a default prefab object in the settings
-            var prefab = new GameObject("Scene Capture Node Prefab");
-            // TODO: enable this when it works
-            // prefab.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
-
-            // Add a camera for rendering things:
-            var cam = new GameObject("Camera", typeof(Camera));
-            cam.transform.SetParent(prefab.transform, false);
-            cam.transform.position = new Vector3(0, 0, -2);
-
-            // And a cube
-            var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            cube.transform.SetParent(prefab.transform);
-            cube.transform.position = Vector3.zero;
-
-            return prefab;
+            return Resources.Load<GameObject>("Scene Capture Node Prefab");
         }
 
         GameObject SavePrefab(GameObject sceneObject)
@@ -91,7 +82,7 @@ namespace Mixture
             if (createNewPrefab)
             {
                 // Create and save the new prefab
-                var defaultPrefab = CreateDefaultPrefab();
+                var defaultPrefab = GameObject.Instantiate(LoadDefaultPrefab());
                 prefab = SavePrefab(defaultPrefab);
                 MixtureUtils.DestroyGameObject(defaultPrefab);
                 ProjectWindowUtil.ShowCreatedAsset(prefab);
@@ -100,7 +91,13 @@ namespace Mixture
             UpdateRenderTextures();
         }
 
-        protected override void Disable() => CoreUtils.Destroy(tmpRenderTexture);
+        protected override void Disable()
+        {
+            if (prefabCamera != null)
+                prefabCamera.targetTexture = null;
+
+            CoreUtils.Destroy(tmpRenderTexture);
+        }
 
         protected override bool ProcessNode(CommandBuffer cmd)
         {
@@ -114,7 +111,11 @@ namespace Mixture
         internal void Render(Camera cam)
         {
             cam.targetTexture = tmpRenderTexture;
-            cam.SetReplacementShader(Shader.Find("HDRP/Unlit"), "Opaque");
+
+            if (bufferOutput != null)
+                bufferOutput.SetOutputMode(mode);
+
+            cam.rect = new Rect(0, 0, 1, 1);
             cam.Render();
         }
 
@@ -137,7 +138,7 @@ namespace Mixture
             {
                 if (graph.IsObjectInGraph(output))
                     graph.RemoveObjectFromGraph(output);
-                output = new Texture2D(rtSettings.width, rtSettings.height, rtSettings.GetGraphicsFormat(graph), TextureCreationFlags.None);
+                output = new Texture2D(rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), rtSettings.GetGraphicsFormat(graph), TextureCreationFlags.None);
             }
         }
 	}

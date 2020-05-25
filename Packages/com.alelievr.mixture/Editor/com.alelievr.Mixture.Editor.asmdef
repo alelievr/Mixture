@@ -1,10 +1,12 @@
 {
     "name": "Unity.ShaderGraph.GraphicsTests",
+    "rootNamespace": "",
     "references": [
         "Unity.ShaderGraph.Editor",
         "Mixture.Runtime",
         "com.alelievr.NodeGraphProcessor.Runtime",
-        "com.alelievr.NodeGraphProcessor.Editor"
+        "com.alelievr.NodeGraphProcessor.Editor",
+        "Unity.RenderPipelines.HighDefinition.Runtime"
     ],
     "includePlatforms": [
         "Editor"
@@ -20,6 +22,16 @@
             "name": "com.unity.shadergraph",
             "expression": "0.0.0",
             "define": "MIXTURE_SHADERGRAPH"
+        },
+        {
+            "name": "com.unity.render-pipelines.high-definition",
+            "expression": "0.0.0",
+            "define": "MIXTURE_HDRP"
+        },
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "0.0.0",
+            "define": "MIXTURE_URP"
         }
     ],
     "noEngineReferences": false

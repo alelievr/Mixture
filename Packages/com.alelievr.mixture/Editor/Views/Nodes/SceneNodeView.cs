@@ -10,7 +10,6 @@ namespace Mixture
 	public class SceneNodeView : MixtureNodeView
 	{
 		SceneNode		sceneNode => nodeTarget as SceneNode;
-        Camera          prefabCamera;
 
 		protected override bool hasPreview => true;
 
@@ -19,7 +18,9 @@ namespace Mixture
 			base.Enable();
 
             controlsContainer.Add(new Button(OpenPrefab) { text = "Open Scene"});
-            controlsContainer.Add(new Button(SaveView) { text = "Save View Image"});
+
+            // TODO: dynamically add/remove this button if the scene is opened
+            controlsContainer.Add(new Button(SaveView) { text = "Save Current View"});
 
             EditorApplication.update -= RenderPrefabScene;
             EditorApplication.update += RenderPrefabScene;
@@ -45,25 +46,36 @@ namespace Mixture
         void RenderPrefabScene()
         {
             var stage = PrefabStageUtility.GetCurrentPrefabStage();
-            if (prefabCamera != null && stage != null)
+            if (sceneNode.prefabCamera != null && stage != null)
             {
-                prefabCamera.scene = stage.scene;
-                sceneNode.Render(prefabCamera);
+                sceneNode.prefabCamera.scene = stage.scene;
+                sceneNode.Render(sceneNode.prefabCamera);
             }
         }
 
         void PrefabOpened(PrefabStage stage)
         {
+            if (stage.assetPath != AssetDatabase.GetAssetPath(sceneNode.prefab))
+                return;
+
+            // Prefabs can only have one root GO (i guess?)
+            var root = stage.scene.GetRootGameObjects()[0];
+            
             sceneNode.prefabOpened = true;
-            prefabCamera = sceneNode.prefab.GetComponentInChildren<Camera>();
-            if (prefabCamera == null)
+            sceneNode.prefabCamera = root.GetComponentInChildren<Camera>();
+            sceneNode.bufferOutput = root.GetComponentInChildren<MixtureBufferOutput>();
+            if (sceneNode.prefabCamera == null)
                 Debug.LogError("No camera found in prefab, Please add one and re-open the prefab");
         }
 
         void PrefabClosed(PrefabStage stage)
         {
+            if (stage.assetPath != AssetDatabase.GetAssetPath(sceneNode.prefab))
+                return;
+
             sceneNode.prefabOpened = false;
-            prefabCamera = null;
+            sceneNode.prefabCamera = null;
+            sceneNode.bufferOutput = null;
         }
 
         void OpenPrefab()

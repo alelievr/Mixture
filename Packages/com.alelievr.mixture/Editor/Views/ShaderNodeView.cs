@@ -98,10 +98,10 @@ namespace Mixture
 
 #if MIXTURE_SHADERGRAPH
 				GUIContent shaderGraphContent = EditorGUIUtility.TrTextContentWithIcon("Graph", Resources.Load<Texture2D>("sg_graph_icon@64"));
-				menu.AddItem(shaderGraphContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderGraph(title, dim)));
+				menu.AddItem(shaderGraphContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderGraph(owner.graph, title, dim)));
 #endif
 				GUIContent shaderTextContent = EditorGUIUtility.TrTextContentWithIcon("Text", "Shader Icon");
-				menu.AddItem(shaderTextContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderText(title, dim)));
+				menu.AddItem(shaderTextContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderText(owner.graph, title, dim)));
 				menu.ShowAsContext();
 			}
 
@@ -128,7 +128,7 @@ namespace Mixture
 			shaderNode.material.shader = newShader;
 			UpdateShaderCreationUI();
 
-			title = newShader.name;
+			title = newShader?.name ?? "New Shader";
 
 			// We fore the update of node ports
 			ForceUpdatePorts();
@@ -145,7 +145,7 @@ namespace Mixture
 			// Update the GUI when shader is modified
 			if (MaterialPropertiesGUI(shaderNode.material))
 			{
-				UpdateShaderCreationUI();
+				schedule.Execute(() => UpdateShaderCreationUI());
 				// We fore the update of node ports
 				ForceUpdatePorts();
 			}
