@@ -8,8 +8,18 @@ namespace Mixture
 	{
 		public abstract string  shaderName { get; }
 		public abstract bool    displayMaterialInspector { get; }
-        public virtual bool hasPreview => true;
 		public override Texture previewTexture => output;
+
+		internal override float processingTimeInMillis
+		{
+			get
+			{
+				var sampler = CustomTextureManager.GetCustomTextureProfilingSampler(output);
+				if (sampler != null)
+					return sampler.GetRecorder().gpuElapsedNanoseconds / 1000000.0f;
+				return 0;
+			}
+		}
 
 		protected override MixtureRTSettings defaultRTSettings
 		{

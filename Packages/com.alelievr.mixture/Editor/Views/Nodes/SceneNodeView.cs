@@ -11,8 +11,6 @@ namespace Mixture
 	{
 		SceneNode		sceneNode => nodeTarget as SceneNode;
 
-		protected override bool hasPreview => true;
-
 		public override void Enable()
 		{
 			base.Enable();

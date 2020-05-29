@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine.Rendering;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.UIElements;
@@ -22,12 +23,14 @@ namespace Mixture
 		Dictionary< Material, MaterialEditor >      materialEditors = new Dictionary<Material, MaterialEditor>();
 
 		protected virtual string header => string.Empty;
-
-		protected virtual bool hasPreview => true;
 		protected override bool hasSettings => nodeTarget.hasSettings;
 
 		protected MixtureRTSettingsView settingsView;
+	
+		Label processTimeLabel;
 		
+		const string stylesheetName = "MixtureCommon";
+
 		protected override VisualElement CreateSettingsView()
 		{
 			settingsView = new MixtureRTSettingsView(nodeTarget, owner);
@@ -36,8 +39,6 @@ namespace Mixture
 
             return settingsView;
 		}
-
-		const string stylesheetName = "MixtureCommon";
 
         public override void Enable()
 		{
@@ -81,6 +82,7 @@ namespace Mixture
 			previewContainer = new VisualElement();
 			controlsContainer.Add(previewContainer);
 			UpdateTexturePreview();
+			InitProcessingTimeLabel();
         }
 
 		~MixtureNodeView()
@@ -96,7 +98,7 @@ namespace Mixture
 
 		void UpdateTexturePreview()
 		{
-			if (hasPreview)
+			if (nodeTarget.hasPreview)
 			{
                 if (previewContainer.childCount == 0 || CheckDimensionChanged())
                     CreateTexturePreview(previewContainer, nodeTarget); // TODO : Add Slice Preview
@@ -428,6 +430,28 @@ namespace Mixture
 					Debug.LogError(node.previewTexture + " is not a supported type for preview");
 					break;
 			}
+		}
+
+		void InitProcessingTimeLabel()
+		{
+			processTimeLabel = new Label();
+			processTimeLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
+
+			controlsContainer.parent.parent.Add(processTimeLabel);
+
+			schedule.Execute(() => {
+				// Update processing time every 200 millis
+
+				float time = nodeTarget.processingTimeInMillis;
+				if (time > 0.1f)
+				{
+					processTimeLabel.text = time.ToString("F2") + " ms";
+					// Color range based on the time:
+					float weight = time / 30; // We consider 30 ms as slow
+					processTimeLabel.style.color = new Color(2.0f * weight, 2.0f * (1 - weight), 0);
+				}
+
+			}).Every(200);
 		}
 	}
 }

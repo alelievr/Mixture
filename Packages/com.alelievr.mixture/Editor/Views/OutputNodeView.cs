@@ -20,8 +20,6 @@ namespace Mixture
 		// Debug fields
 		ObjectField		debugCustomRenderTextureField;
 
-		protected override bool hasPreview => true;
-
 		// For now we only support custom mip maps for texture 2D
 		bool supportsCustomMipMap => outputNode.hasMips && (TextureDimension)outputNode.rtSettings.dimension == TextureDimension.Tex2D;
 

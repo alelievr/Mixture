@@ -4,6 +4,7 @@ using GraphProcessor;
 using System.Linq;
 using UnityEngine.Rendering;
 using System;
+using System.IO;
 
 namespace Mixture
 {
@@ -13,7 +14,8 @@ namespace Mixture
 		[Serializable]
 		public struct ComputeParameter
 		{
-			public string	name;
+			public string	displayName;
+			public string	propertyName;
 			public string	specificType; // In case the property is templated
 			public Type		type;
 		}
@@ -23,8 +25,8 @@ namespace Mixture
 		[Output(name = "Out")]
 		public List< ComputeParameter >	computeOutputs = new List<ComputeParameter>();
 
+		[HideInInspector]
 		public ComputeShader			computeShader;
-
 
         protected virtual IEnumerable<string> filteredOutProperties => Enumerable.Empty<string>();
 
@@ -45,44 +47,80 @@ namespace Mixture
 
 		public override string			name => computeShader != null ? computeShader.name : "Compute Shader";
 
-		protected virtual string previewTexturePropertyName => previewComputeProperty;
+		public virtual string previewTexturePropertyName => previewComputeProperty;
+		protected virtual string computeShaderResourcePath => null;
+		protected virtual bool autoDetectInputs => true;
+		protected virtual bool autoDetectOutputs => true;
+
+		protected virtual string previewKernel => null;
 
 		protected override void Enable()
 		{
+// We avoid to re-find the compute shader in build (if it was found with AssetDatabase, it will break the reference)
+#if UNITY_EDITOR
+			if (!String.IsNullOrEmpty(computeShaderResourcePath))
+				computeShader = LoadComputeShader(computeShaderResourcePath);
+#endif
+
 			UpdateTempRenderTexture(ref nodePreview);
+		}
+
+		protected ComputeShader LoadComputeShader(string name)
+		{
+			var compute = Resources.Load<ComputeShader>(name);
+
+#if UNITY_EDITOR
+			var path = Path.GetDirectoryName(graph.mainAssetPath);
+
+			if (compute == null)
+				compute = UnityEditor.AssetDatabase.LoadAssetAtPath<ComputeShader>(path + "/" + name);
+			if (compute == null)
+				compute = UnityEditor.AssetDatabase.LoadAssetAtPath<ComputeShader>(path + "/" + graph.name + "/" + name);
+#endif
+
+			if (compute == null)
+				Debug.LogError($"Couldn't find compute shader {name}, please place it in a Resources folder or in the mixture folder");
+
+			return compute;
 		}
 
 		// Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code
 		[CustomPortBehavior(nameof(computeInputs))]
 		public IEnumerable< PortData > ListComputeInputProperties(List< SerializableEdge > edges)
 		{
+			if (!autoDetectInputs)
+				yield break;
+
 			if (computeInputs != null)
 			{
 				foreach (var p in computeInputs)
 				{
 					yield return new PortData
 					{
-						displayName = p.name,
+						displayName = p.displayName,
 						displayType = p.type,
-						identifier = p.name + p.type,
+						identifier = p.propertyName,
 						acceptMultipleEdges = false,
 					};
 				}
 			}
 		}
 
-		[CustomPortBehavior(nameof(computeInputs))]
+		[CustomPortBehavior(nameof(computeOutputs))]
 		public IEnumerable< PortData > ListComputeOutputProperties(List< SerializableEdge > edges)
 		{
+			if (!autoDetectOutputs)
+				yield break;
+
 			if (computeOutputs != null)
 			{
 				foreach (var p in computeOutputs)
 				{
 					yield return new PortData
 					{
-						displayName = p.name,
+						displayName = p.displayName,
 						displayType = p.type,
-						identifier = p.name + p.type,
+						identifier = p.propertyName,
 						acceptMultipleEdges = true,
 					};
 				}
@@ -92,27 +130,21 @@ namespace Mixture
 		[CustomPortInput(nameof(computeInputs), typeof(object))]
 		void GetMaterialInputs(List< SerializableEdge > edges)
 		{
-			foreach (var kernelIndex in GetKernelIndices())
+			foreach (var edge in edges)
 			{
+				switch (edge.passThroughBuffer)
+				{
+					case float f: computeShader.SetFloat(edge.inputPortIdentifier, f); break;
+					case bool b: computeShader.SetBool(edge.inputPortIdentifier, b); break;
+					case Vector2 v: computeShader.SetVector(edge.inputPortIdentifier, v); break;
+					case Vector3 v: computeShader.SetVector(edge.inputPortIdentifier, v); break;
+					case Vector4 v: computeShader.SetVector(edge.inputPortIdentifier, v); break;
+					case Matrix4x4 m: computeShader.SetMatrix(edge.inputPortIdentifier, m); break;
+					case Texture t: computeShader.SetTexture(kernelIndex, edge.inputPortIdentifier, t); break;
+					case ComputeBuffer b: computeShader.SetBuffer(kernelIndex, edge.inputPortIdentifier, b); break;
+					default: throw new Exception($"Can't assign {edge.passThroughBuffer} to a compute shader!");
+				}
 			}
-			// AssignMaterialPropertiesFromEdges(edges, material);
-			// TODO: assign compute inputs
-		}
-
-		protected virtual IEnumerable<int> GetKernelIndices()
-		{
-			yield return kernelIndex;
-		}
-
-		[CustomPortBehavior(nameof(computeOutputs))]
-		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
-		{
-			yield return new PortData{
-				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
-				identifier = "output",
-				acceptMultipleEdges = true,
-			};
 		}
 
 		protected override bool ProcessNode(CommandBuffer cmd)
@@ -120,7 +152,22 @@ namespace Mixture
 			if (computeShader == null)
 				return false;
 
+			if (!ComputeIsValid())
+				return false;
+
 			UpdateTempRenderTexture(ref nodePreview);
+
+			DispatchCompute(cmd, kernelIndex, rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), rtSettings.GetDepth(graph));
+
+			DispatchComputePreview(cmd);
+
+			return true;
+		}
+
+		protected bool ComputeIsValid()
+		{
+			if (computeShader == null)
+				return false;
 
 #if UNITY_EDITOR // IsShaderCompiled is editor only
 			if (!IsComputeShaderCompiled(computeShader))
@@ -131,34 +178,43 @@ namespace Mixture
 			}
 #endif
 
-			foreach (var kernelIndex in GetKernelIndices())
-			{
-				DispatchComputePixels(cmd, computeShader, kernelIndex, rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), rtSettings.GetDepth(graph));
-			}
-
-			if (previewTexture != null && previewKernelIndex != -1)
-				DispatchComputePixels(cmd, computeShader, previewKernelIndex, previewTexture.width, previewTexture.height, 1);
-
 			return true;
 		}
 
 		Dictionary<int, (int x, int y, int z)> kernelGroupSizes = new Dictionary<int, (int a, int, int)>();
 
-		protected void DispatchComputePixels(CommandBuffer cmd, ComputeShader compute, int kernelIndex, int width, int height, int depth)
+		protected void DispatchCompute(CommandBuffer cmd, int kernelIndex, int width, int height = 1, int depth = 1)
+			=> DispatchCompute(cmd, computeShader, kernelIndex, width, height, depth);
+
+		protected void DispatchCompute(CommandBuffer cmd, ComputeShader compute, int kernelIndex, int width, int height = 1, int depth = 1)
 		{
 			if (!kernelGroupSizes.ContainsKey(kernelIndex))
 			{
-				compute.GetKernelThreadGroupSizes(kernelIndex, out uint x, out uint y, out uint z);
+				computeShader.GetKernelThreadGroupSizes(kernelIndex, out uint x, out uint y, out uint z);
 				kernelGroupSizes[kernelIndex] = ((int)x, (int)y, (int)z);
 			}
 
 			var threadSizes = kernelGroupSizes[kernelIndex];
 
 			if (width % threadSizes.x != 0 || height % threadSizes.y != 0 || depth % threadSizes.z != 0)
-				Debug.LogError("DispatchComputePixels size must be a multiple of the kernel group thread size defined in the compute shader");
+				Debug.LogError("DispatchCompute size must be a multiple of the kernel group thread size defined in the computeShader shader");
 
-			Debug.Log("Dispatch: " + width);
-			cmd.DispatchCompute(compute, kernelIndex, width / threadSizes.x, height / threadSizes.y, depth / threadSizes.z);
+			cmd.DispatchCompute(computeShader, kernelIndex,
+				Mathf.Max(1, width / threadSizes.x),
+				Mathf.Max(1, height / threadSizes.y),
+				Mathf.Max(1, depth / threadSizes.z)
+			);
+		}
+
+		protected void DispatchComputePreview(CommandBuffer cmd)
+		{
+			// TODO
+			if (previewTexture != null && previewKernelIndex != -1)
+				DispatchCompute(cmd, previewKernelIndex, previewTexture.width, previewTexture.height, 1);
+			var k = computeShader.FindKernel(previewKernel);
+			// TODO: handle custom preview name
+			computeShader.SetTexture(k, previewTexturePropertyName, nodePreview);
+			DispatchCompute(cmd, k, nodePreview.width, nodePreview.height);
 		}
 
 #if UNITY_EDITOR

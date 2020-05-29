@@ -10,6 +10,7 @@ using UnityEngine.Experimental.Rendering;
 using UnityEditor;
 using UnityEditor.Rendering;
 #endif
+using UnityEngine.Profiling;
 
 namespace Mixture
 {
@@ -23,6 +24,7 @@ namespace Mixture
 		public virtual float   				nodeWidth => MixtureUtils.defaultNodeWidth;
 		public virtual Texture				previewTexture => null;
 		public virtual bool					hasSettings => true;
+		public virtual bool					hasPreview => true;
 		public virtual List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
 			OutputDimension.Texture2D,
 			OutputDimension.Texture3D,
@@ -43,6 +45,36 @@ namespace Mixture
         public float previewMip = 0.0f;
         [SerializeField]
         public bool previewVisible = true;
+
+		CustomSampler		_sampler;
+		CustomSampler		sampler
+		{
+			get
+			{
+				if (_sampler == null)
+				{
+					_sampler = CustomSampler.Create(name, true);
+					recorder = sampler.GetRecorder();
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+					recorder.enabled = true;
+#endif
+				}
+
+				return _sampler;
+			}
+		}
+		protected Recorder	recorder { get; private set; }
+
+		internal virtual float processingTimeInMillis
+		{
+			get
+			{
+				// By default we display the GPU processing time
+				if (recorder != null)
+					return recorder.gpuElapsedNanoseconds / 1000000.0f;
+				return 0;
+			}
+		}
 
         public override void OnNodeCreated()
 		{
@@ -102,7 +134,6 @@ namespace Mixture
 				|| target.filterMode != rtSettings.filterMode
 				|| target.doubleBuffered != rtSettings.doubleBuffered
                 || target.wrapMode != rtSettings.wrapMode
-                || target.filterMode != rtSettings.filterMode
 				|| target.useMipMap != hasMips
 				|| target.autoGenerateMips != autoGenerateMips)
 			{
@@ -153,7 +184,9 @@ namespace Mixture
 				RemoveMessage($"Dimension {TextureDimension.Cube} is not supported by this node");
 			}
 
+			cmd.BeginSample(sampler);
 			ProcessNode(cmd);
+			cmd.EndSample(sampler);
 		}
 
 		protected virtual bool ProcessNode(CommandBuffer cmd) => true;
@@ -328,7 +361,7 @@ namespace Mixture
 
 		public List<BaseNode> GetMixtureDependencies()
 		{
-			List<BaseNode> dependencies = new List<BaseNode>();
+			HashSet<BaseNode> dependencies = new HashSet<BaseNode>();
 			Stack<BaseNode> inputNodes = new Stack<BaseNode>(GetNonCRTInputNodes(this));
 
 			dependencies.Add(this);

@@ -15,7 +15,6 @@ namespace Mixture
 	{
 		TextureNode		textureNode;
 
-        protected override bool hasPreview => true;
         public override void Enable()
 		{
 			base.Enable();

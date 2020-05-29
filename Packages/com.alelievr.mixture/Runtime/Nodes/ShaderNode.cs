@@ -24,6 +24,17 @@ namespace Mixture
         protected virtual IEnumerable<string> filteredOutProperties => Enumerable.Empty<string>();
 		public override Texture previewTexture => output;
 
+		internal override float processingTimeInMillis
+		{
+			get
+			{
+				var sampler = CustomTextureManager.GetCustomTextureProfilingSampler(output);
+				if (sampler != null)
+					return sampler.GetRecorder().gpuElapsedNanoseconds / 1000000.0f;
+				return 0;
+			}
+		}
+
 		Shader					defaultShader;
 
 		protected override void Enable()

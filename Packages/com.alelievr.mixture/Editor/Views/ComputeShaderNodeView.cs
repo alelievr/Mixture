@@ -22,31 +22,46 @@ namespace Mixture
 		ObjectField			shaderField;
 
 		int					materialCRC;
+		DateTime			lastModified;
+		[NonSerialized]
+		string				computePath = null;
+
+		bool				isDerived;
 
 		public override void Enable()
 		{
 			base.Enable();
 
-			shaderField = new ObjectField
-			{
-				value = computeShaderNode.computeShader,
-				objectType = typeof(ComputeShader),
-			};
-
-			shaderField.RegisterValueChangedCallback((v) => {
-				SetComputeShader((ComputeShader)v.newValue);
-			});
-			
 			InitializeDebug();
 
-			controlsContainer.Add(shaderField);
+			var detector = schedule.Execute(DetectComputeShaderChanges);
+			detector.Every(200);
 
-			shaderCreationUI = new VisualElement();
-			controlsContainer.Add(shaderCreationUI);
-			UpdateShaderCreationUI();
+			isDerived = nodeTarget.GetType() != typeof(ComputeShaderNode);
 
-			if (computeShaderNode.computeShader != null)
-				UpdateComputeShaderData(computeShaderNode.computeShader);
+			// If the user created a custom version of compute, he doesn't need the selector + UI
+			if (!isDerived)
+            {
+                shaderField = new ObjectField
+                {
+                    value = computeShaderNode.computeShader,
+                    objectType = typeof(ComputeShader),
+                };
+
+                shaderField.RegisterValueChangedCallback((v) =>
+                {
+                    SetComputeShader((ComputeShader)v.newValue);
+                });
+
+                controlsContainer.Add(shaderField);
+
+				shaderCreationUI = new VisualElement();
+				controlsContainer.Add(shaderCreationUI);
+				UpdateShaderCreationUI();
+
+				if (computeShaderNode.computeShader != null)
+					UpdateComputeShaderData(computeShaderNode.computeShader);
+			}
 		}
 
 		void InitializeDebug()
@@ -93,11 +108,36 @@ namespace Mixture
 			}
 		}
 
+		void DetectComputeShaderChanges()
+		{
+			if (computeShaderNode.computeShader == null)
+				return;
+
+			if (computePath == null)
+				computePath = AssetDatabase.GetAssetPath(computeShaderNode.computeShader);
+			
+			var modificationDate = File.GetLastWriteTime(computePath);
+
+			if (lastModified != modificationDate)
+			{
+				Application.runInBackground = true;
+				schedule.Execute(() => {
+					// Reimport the compute shader:
+					AssetDatabase.ImportAsset(computePath);
+					NotifyNodeChanged();
+				}).ExecuteLater(100);
+				lastModified = modificationDate;
+
+				UpdateComputeShaderData(computeShaderNode.computeShader);
+			}
+		}
+
 		void SetComputeShader(ComputeShader newShader)
 		{
 			owner.RegisterCompleteObjectUndo("Updated Shader of Compute Shader Node");
 			computeShaderNode.computeShader = newShader;
 			shaderField.value = newShader;
+			computePath = AssetDatabase.GetAssetPath(newShader);
 
 			title = newShader?.name ?? "New Compute";
 
@@ -140,9 +180,13 @@ namespace Mixture
 			{
 				if (match.Groups[4].Value.StartsWith("__"))
 					continue;
+				
+				if (match.Groups[4].Value == computeShaderNode.previewTexturePropertyName)
+					continue;
 
 				computeShaderNode.computeOutputs.Add(new ComputeShaderNode.ComputeParameter{
-					name = ObjectNames.NicifyVariableName(match.Groups[4].Value),
+					displayName = ObjectNames.NicifyVariableName(match.Groups[4].Value),
+					propertyName = match.Groups[4].Value,
 					specificType = match.Groups[3].Value,
 					type = ComputeShaderTypeToCSharp(match.Groups[2].Value),
 				});
@@ -156,9 +200,10 @@ namespace Mixture
 			{
 				if (match.Groups[4].Value.StartsWith("__"))
 					continue;
-				
+
 				computeShaderNode.computeInputs.Add(new ComputeShaderNode.ComputeParameter{
-					name = ObjectNames.NicifyVariableName(match.Groups[4].Value),
+					displayName = ObjectNames.NicifyVariableName(match.Groups[4].Value),
+					propertyName = match.Groups[4].Value,
 					specificType = match.Groups[3].Value,
 					type = ComputeShaderTypeToCSharp(match.Groups[2].Value),
 				});
@@ -169,6 +214,15 @@ namespace Mixture
 		{
 			switch (computeShaderType)
 			{
+				case "bool": return typeof(bool);
+				case "int": return typeof(int);
+				case "float": return typeof(float);
+				case "int2":
+				case "float2": return typeof(Vector2);
+				case "int3":
+				case "float3": return typeof(Vector3);
+				case "int4":
+				case "float4": return typeof(Vector4);
 				case "Texture2D": return typeof(Texture2D);
 				case "Texture2DArray": return typeof(Texture2DArray);
 				case "Texture3D": return typeof(Texture3D);

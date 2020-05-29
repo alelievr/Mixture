@@ -37,6 +37,17 @@ namespace Mixture
         public TextureWrapMode wrapMode;
         public FilterMode filterMode;
 
+		public OutputSizeMode sizeMode
+		{
+			get => widthMode;
+			set
+			{
+				widthMode = value;
+				heightMode = value;
+				depthMode = value;
+			}
+		}
+
 		public static MixtureRTSettings defaultValue
 		{
 			get => new MixtureRTSettings()

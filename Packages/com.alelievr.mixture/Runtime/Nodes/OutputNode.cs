@@ -201,6 +201,9 @@ namespace Mixture
 		void GenerateCustomMipMaps()
 		{
 #if UNITY_EDITOR
+			if (mipmapRenderTexture == null || tempRenderTexture == null)
+				return;
+
 			mipchainCmd.Clear();
 
 			mipchainCmd.name = "Generate Custom MipMaps";

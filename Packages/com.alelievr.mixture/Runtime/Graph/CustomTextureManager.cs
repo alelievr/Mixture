@@ -1,9 +1,14 @@
-﻿using System.Collections;
+﻿#if DEVELOPMENT_BUILD || UNITY_EDITOR
+    #define CUSTOM_TEXTURE_PROFILING
+#endif
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using System.Linq;
 using System;
+using UnityEngine.Profiling;
 
 #if UNITY_EDITOR
 [UnityEditor.InitializeOnLoad]
@@ -19,6 +24,7 @@ public static class CustomTextureManager
     static Dictionary<CustomRenderTexture, int> needsUpdate = new Dictionary<CustomRenderTexture, int>();
 
     static Dictionary<CustomRenderTexture, int> computeOrder = new Dictionary<CustomRenderTexture, int>();
+    static Dictionary<CustomRenderTexture, CustomSampler> customRenderTextureSamplers = new Dictionary<CustomRenderTexture, CustomSampler>();
 
     public static event Action<CommandBuffer, CustomRenderTexture> onBeforeCustomTextureUpdated;
 
@@ -263,6 +269,16 @@ public static class CustomTextureManager
         {
             onBeforeCustomTextureUpdated?.Invoke(cmd, crt);
 
+#if CUSTOM_TEXTURE_PROFILING
+            customRenderTextureSamplers.TryGetValue(crt, out var sampler);
+            if (sampler == null)
+            {
+                sampler = customRenderTextureSamplers[crt] = CustomSampler.Create($"{crt.name} - {crt.GetInstanceID()}", true);
+                sampler.GetRecorder().enabled = true;
+            }
+            cmd.BeginSample(sampler);
+#endif
+
             using (new ProfilingScope(cmd, new ProfilingSampler($"Update {crt.name}")))
             {
                 // Prepare "self" texture for reading in the shader for double buffered custom textures
@@ -345,9 +361,18 @@ public static class CustomTextureManager
 
                 needsUpdate.Remove(crt);
             }
-            
+
+#if CUSTOM_TEXTURE_PROFILING
+            cmd.EndSample(sampler);
+#endif
             crt.IncrementUpdateCount();
         }
+    }
+
+    public static CustomSampler GetCustomTextureProfilingSampler(CustomRenderTexture crt)
+    {
+        customRenderTextureSamplers.TryGetValue(crt, out var sampler);
+        return sampler;
     }
 
     static int GetSliceCount(CustomRenderTexture crt)

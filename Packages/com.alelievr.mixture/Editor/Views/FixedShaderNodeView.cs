@@ -21,12 +21,10 @@ namespace Mixture
 		ObjectField			debugCustomRenderTextureField;
 		ObjectField			debugShaderField;
 
-        protected override bool hasPreview { get { return fixedShaderNode.hasPreview; } }
-
 		public override void Enable()
 		{
 			base.Enable();
-			
+
 			if (fixedShaderNode.material != null && !owner.graph.IsObjectInGraph(fixedShaderNode.material))
 				owner.graph.AddObjectToGraph(fixedShaderNode.material);
 
