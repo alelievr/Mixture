@@ -98,6 +98,10 @@ namespace Mixture
 
 		public int GetDepth(MixtureGraph graph)
 		{
+			var d = dimension == OutputDimension.Default ? graph.outputNode.rtSettings.dimension : dimension;
+			if (d == OutputDimension.Texture2D || d == OutputDimension.CubeMap)
+				return 1;
+			
 			switch(depthMode)
 			{
 				default:
