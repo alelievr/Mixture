@@ -3,6 +3,7 @@ using UnityEngine;
 using GraphProcessor;
 using System.Linq;
 using UnityEngine.Rendering;
+using UnityEngine.Experimental.Rendering;
 using System;
 using System.IO;
 
@@ -17,16 +18,55 @@ namespace Mixture
 			public string	displayName;
 			public string	propertyName;
 			public string	specificType; // In case the property is templated
-			public Type		type;
+			public SerializableType	sType;
 		}
 
-		[Input(name = "In")]
+		[Serializable]
+		public enum TextureAllocMode
+		{
+			SameAsOutput	= 0,
+			_32				= 32,
+			_64				= 64,
+			_128			= 128,
+			_256			= 256,
+			_512			= 512,
+			_1024			= 1024,
+			_2048			= 2048,
+			_4096			= 4096,
+			_8192			= 8192,
+			// Custom			= -1,
+		}
+
+		[Serializable]
+		public class ResourceDescriptor
+		{
+			public string			propertyName;
+			public bool				autoAlloc;
+			public int				bufferStride = 4;
+			public int				bufferSize = 1;
+
+			public TextureAllocMode textureAllocMode = TextureAllocMode.SameAsOutput;
+			public int				textureCustomWidth = 512;
+			public int				textureCustomHeight = 512;
+			public int				textureCustomDepth = 1;
+			public SerializableType	sType;
+
+			[NonSerialized]
+			public RenderTexture	allocatedTexture;
+			[NonSerialized]
+			public ComputeBuffer	allocatedBuffer;
+		}
+
+		[Input(name = "In"), SerializeField]
 		public List< ComputeParameter >	computeInputs = new List<ComputeParameter>();
-		[Output(name = "Out")]
+		[Output(name = "Out"), SerializeField]
 		public List< ComputeParameter >	computeOutputs = new List<ComputeParameter>();
 
 		[HideInInspector]
 		public ComputeShader			computeShader;
+
+		[SerializeField]
+		internal List<ResourceDescriptor> managedResources = new List<ResourceDescriptor>();
 
         protected virtual IEnumerable<string> filteredOutProperties => Enumerable.Empty<string>();
 
@@ -50,6 +90,7 @@ namespace Mixture
 		public virtual string previewTexturePropertyName => previewComputeProperty;
 		protected virtual string computeShaderResourcePath => null;
 		protected virtual bool autoDetectInputs => true;
+		/// <summary>This function also controls the output memory allocation</summary>
 		protected virtual bool autoDetectOutputs => true;
 
 		protected virtual string previewKernel => null;
@@ -63,6 +104,114 @@ namespace Mixture
 #endif
 
 			UpdateTempRenderTexture(ref nodePreview);
+
+			foreach (var res in managedResources)
+				AllocateResource(res);
+		}
+
+		void AllocateResource(ResourceDescriptor desc)
+		{
+			if (!autoDetectOutputs)
+				return;
+
+			var t = desc.sType.type;
+			if (t == typeof(ComputeBuffer))
+			{
+				desc.allocatedBuffer = AllocComputeBuffer(desc.bufferSize, desc.bufferStride);
+			}
+			else if (typeof(Texture).IsAssignableFrom(t))
+			{
+				int expectedWidth = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? rtSettings.GetWidth(graph) : (int)desc.textureAllocMode;
+				int expectedHeight = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? rtSettings.GetHeight(graph) : (int)desc.textureAllocMode;
+				int expectedDepth = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? rtSettings.GetDepth(graph) : (int)desc.textureAllocMode;
+
+				RenderTextureDescriptor descriptor = new RenderTextureDescriptor
+				{
+					// TODO: custom size
+					width = expectedWidth,
+					height = expectedHeight,
+					volumeDepth = expectedDepth,
+					autoGenerateMips = false,
+					useMipMap = false,
+					graphicsFormat = GraphicsFormat.R16G16B16A16_SFloat,
+					enableRandomWrite = true,
+					depthBufferBits = 0,
+					dimension = TextureUtils.GetDimensionFromType(t),
+					msaaSamples = 1,
+				};
+				desc.allocatedTexture = new RenderTexture(descriptor)
+				{
+					name = "AutoAllocated - " + name,
+				};
+				desc.allocatedTexture.Create();
+			}
+		}
+
+		void FreeResource(ResourceDescriptor desc)
+		{
+			if (!desc.autoAlloc)
+				return;
+
+			if (desc.allocatedTexture != null)
+				CoreUtils.Destroy(desc.allocatedTexture);
+			else if (desc.allocatedBuffer != null)
+				desc.allocatedBuffer.Release();
+			desc.allocatedTexture = null;
+			desc.allocatedBuffer = null;
+		}
+
+		public void AddManagedResource(ResourceDescriptor desc)
+		{
+			AllocateResource(desc);
+			managedResources.Add(desc);
+		}
+
+		public void RemoveManagedResource(ResourceDescriptor desc)
+		{
+			FreeResource(desc);
+			managedResources.Remove(desc);
+		}
+
+		public void UpdateManagedResource(ResourceDescriptor desc)
+		{
+			if (desc.autoAlloc && desc.allocatedTexture == null && desc.allocatedBuffer == null)
+				AllocateResource(desc);
+			if (!desc.autoAlloc && (desc.allocatedTexture != null || desc.allocatedBuffer != null))
+				FreeResource(desc);
+			
+			// TODO: check allocated size vs settings and do patch stuff
+			if (desc.allocatedTexture != null)
+			{
+				var t = desc.allocatedTexture;
+				int expectedWidth = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? rtSettings.GetWidth(graph) : (int)desc.textureAllocMode;
+				int expectedHeight = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? rtSettings.GetHeight(graph) : (int)desc.textureAllocMode;
+				int expectedDepth = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? rtSettings.GetDepth(graph) : (int)desc.textureAllocMode;
+				if (t.width != expectedWidth || t.height != expectedHeight || t.volumeDepth != expectedDepth)
+				{
+					t.Release();
+					t.width = expectedWidth;
+					t.height = expectedHeight;
+					t.volumeDepth = expectedDepth;
+					t.Create();
+				}
+			}
+			if (desc.allocatedBuffer != null)
+			{
+				var b = desc.allocatedBuffer;
+
+				if (b.stride != desc.bufferStride || b.count != desc.bufferSize)
+				{
+					b.Release();
+					desc.allocatedBuffer = AllocComputeBuffer(desc.bufferSize, desc.bufferStride);
+				}
+			}
+		}
+
+		ComputeBuffer AllocComputeBuffer(int count, int stride)
+		{
+			count = Mathf.Max(1, count);
+			stride = Mathf.Max(4, stride);
+			return new ComputeBuffer(count, stride) { name = "AutoAlloc - " + name };
 		}
 
 		protected ComputeShader LoadComputeShader(string name)
@@ -98,7 +247,7 @@ namespace Mixture
 					yield return new PortData
 					{
 						displayName = p.displayName,
-						displayType = p.type,
+						displayType = p.sType.type,
 						identifier = p.propertyName,
 						acceptMultipleEdges = false,
 					};
@@ -116,16 +265,21 @@ namespace Mixture
 			{
 				foreach (var p in computeOutputs)
 				{
+					if (p.sType == null)
+						continue;
+
 					yield return new PortData
 					{
 						displayName = p.displayName,
-						displayType = p.type,
+						displayType = p.sType.type,
 						identifier = p.propertyName,
 						acceptMultipleEdges = true,
 					};
 				}
 			}
 		}
+
+		List<(string propertyName, object value)> assignedInputs = new List<(string, object)>();
 
 		[CustomPortInput(nameof(computeInputs), typeof(object))]
 		void GetMaterialInputs(List< SerializableEdge > edges)
@@ -144,6 +298,24 @@ namespace Mixture
 					case ComputeBuffer b: computeShader.SetBuffer(kernelIndex, edge.inputPortIdentifier, b); break;
 					default: throw new Exception($"Can't assign {edge.passThroughBuffer} to a compute shader!");
 				}
+				assignedInputs.Add((edge.inputPortIdentifier, edge.passThroughBuffer));
+			}
+		}
+
+		[CustomPortOutput(nameof(computeOutputs), typeof(object))]
+		void ComputeShaderOutputs(List< SerializableEdge > edges)
+		{
+			foreach (var edge in edges)
+			{
+				// Output managed resources:
+				foreach (var res in managedResources)
+					if (res.propertyName == edge.outputPortIdentifier)
+						edge.passThroughBuffer = (object)res.allocatedTexture ?? res.allocatedBuffer;
+
+				// Output inputs in case they are RW:
+				foreach (var input in assignedInputs)
+					if (input.propertyName == edge.outputPortIdentifier)
+						edge.passThroughBuffer = input.value;
 			}
 		}
 
@@ -199,7 +371,24 @@ namespace Mixture
 			if (width % threadSizes.x != 0 || height % threadSizes.y != 0 || depth % threadSizes.z != 0)
 				Debug.LogError("DispatchCompute size must be a multiple of the kernel group thread size defined in the computeShader shader");
 
+			if (previewKernelIndex == -1)
+				computeShader.SetTexture(kernelIndex, previewTexturePropertyName, nodePreview);
+			
+			// Bind managed resources:
+			foreach (var res in managedResources)
+			{
+				if (!res.autoAlloc)
+					continue;
+
+				if (res.allocatedTexture != null)
+					computeShader.SetTexture(kernelIndex, res.propertyName, res.allocatedTexture);
+
+				if (res.allocatedBuffer != null)
+					computeShader.SetBuffer(kernelIndex, res.propertyName, res.allocatedBuffer);
+			}
+
 			cmd.DispatchCompute(computeShader, kernelIndex,
+
 				Mathf.Max(1, width / threadSizes.x),
 				Mathf.Max(1, height / threadSizes.y),
 				Mathf.Max(1, depth / threadSizes.z)
@@ -208,13 +397,25 @@ namespace Mixture
 
 		protected void DispatchComputePreview(CommandBuffer cmd)
 		{
-			// TODO
-			if (previewTexture != null && previewKernelIndex != -1)
-				DispatchCompute(cmd, previewKernelIndex, previewTexture.width, previewTexture.height, 1);
-			var k = computeShader.FindKernel(previewKernel);
-			// TODO: handle custom preview name
-			computeShader.SetTexture(k, previewTexturePropertyName, nodePreview);
-			DispatchCompute(cmd, k, nodePreview.width, nodePreview.height);
+			if (hasPreview && previewTexture != null)
+			{
+				int index = previewKernelIndex != -1 ? kernelIndex : previewKernelIndex;
+				if (index > 0)
+				{
+					computeShader.SetTexture(index, previewTexturePropertyName, nodePreview);
+					DispatchCompute(cmd, index, previewTexture.width, previewTexture.height, 1);
+				}
+			}
+		}
+
+		protected override void Disable()
+		{
+			base.Disable();
+
+			foreach (var res in managedResources)
+			{
+				FreeResource(res);
+			}
 		}
 
 #if UNITY_EDITOR

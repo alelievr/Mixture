@@ -13,6 +13,11 @@ namespace Mixture
 {
 	public class MixtureRTSettingsView : VisualElement
 	{
+        public const string headerStyleClass = "PropertyEditorHeader";
+        Label sizeHeader;
+        Label smpHeader;
+        Label formatHeader;
+
         EnumField outputWidthMode;
 		EnumField outputHeightMode;
 		EnumField outputDepthMode;
@@ -59,8 +64,8 @@ namespace Mixture
             this.Add(title);
 
             // Wrap and Filter Modes
-            var smpHeader = new Label("Sampler States");
-            smpHeader.AddToClassList("PropertyEditorHeader");
+            smpHeader = new Label("Sampler States");
+            smpHeader.AddToClassList(headerStyleClass);
             this.Add(smpHeader);
 
             wrapMode = new EnumField(node.rtSettings.wrapMode)
@@ -89,8 +94,8 @@ namespace Mixture
             this.Add(filterMode);
 
             // Size Modes
-            var sizeHeader = new Label("Size Properties");
-            sizeHeader.AddToClassList("PropertyEditorHeader");
+            sizeHeader = new Label("Size Properties");
+            sizeHeader.AddToClassList(headerStyleClass);
             this.Add(sizeHeader);
 
             outputWidthMode = new EnumField(node.rtSettings.widthMode) {
@@ -253,8 +258,8 @@ namespace Mixture
             }
 
             // Dimension and Pixel Format
-            var formatHeader = new Label("Format");
-            formatHeader.AddToClassList("PropertyEditorHeader");
+            formatHeader = new Label("Format");
+            formatHeader.AddToClassList(headerStyleClass);
             this.Add(formatHeader);
 
             outputDimension = new EnumField(node.rtSettings.dimension) {
@@ -309,6 +314,9 @@ namespace Mixture
 		void UpdateFieldVisibility(MixtureNode node)
 		{
             var rtSettings = node.rtSettings;
+
+            SetVisible(sizeHeader, rtSettings.CanEdit(EditFlags.Size));
+            SetVisible(formatHeader, rtSettings.CanEdit(EditFlags.Format));
             SetVisible(outputWidthMode, rtSettings.CanEdit(EditFlags.WidthMode));
             SetVisible(potSize, rtSettings.CanEdit(EditFlags.POTSize));
             SetVisible(outputHeightMode, rtSettings.CanEdit(EditFlags.HeightMode));

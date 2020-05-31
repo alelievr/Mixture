@@ -27,6 +27,7 @@ namespace Mixture
 		string				computePath = null;
 
 		bool				isDerived;
+		VisualElement		allocList;
 
 		public override void Enable()
 		{
@@ -59,8 +60,123 @@ namespace Mixture
 				controlsContainer.Add(shaderCreationUI);
 				UpdateShaderCreationUI();
 
+				owner.graph.onOutputTextureUpdated += () => {
+					foreach (var res in computeShaderNode.managedResources)
+						if (res.allocatedTexture != null && res.textureAllocMode == ComputeShaderNode.TextureAllocMode.SameAsOutput)
+							computeShaderNode.UpdateManagedResource(res);
+				};
+
 				if (computeShaderNode.computeShader != null)
 					UpdateComputeShaderData(computeShaderNode.computeShader);
+			}
+		}
+
+		protected override VisualElement CreateSettingsView()
+		{
+			var settings = base.CreateSettingsView();
+
+			var allocResourceHeader = new Label("Auto Alloc Resources");
+			allocResourceHeader.AddToClassList(MixtureRTSettingsView.headerStyleClass);
+			settings.Add(allocResourceHeader);
+
+			allocList = new VisualElement();
+			settings.Add(allocList);
+
+			UpdateAllocUI();
+
+			return settings;
+		}
+
+		void UpdateAllocUI()
+		{
+			if (allocList == null)
+				return;
+
+			allocList.Clear();
+
+			// Sync allocated resources struct in the node:
+			foreach (var output in computeShaderNode.computeOutputs)
+			{
+				if (!computeShaderNode.managedResources.Any(r => r.propertyName == output.propertyName))
+				{
+					computeShaderNode.AddManagedResource(new ComputeShaderNode.ResourceDescriptor{
+						propertyName = output.propertyName,
+						autoAlloc = false,
+						sType = output.sType,
+					});
+				}
+			}
+			foreach (var resource in computeShaderNode.managedResources)
+			{
+				if (!computeShaderNode.computeOutputs.Any(o => o.propertyName == resource.propertyName))
+				{
+					computeShaderNode.RemoveManagedResource(resource);
+				}
+			}
+
+			foreach (var res in computeShaderNode.managedResources)
+			{
+				var customAlloc = new Toggle{ label = res.propertyName, value = res.autoAlloc };
+				allocList.Add(customAlloc);
+
+				customAlloc.RegisterValueChangedCallback((e) => {
+					res.autoAlloc = e.newValue;
+					UpdateComputeShaderData(computeShaderNode.computeShader);
+					UpdateAllocUI();
+					ForceUpdatePorts();
+					NotifyNodeChanged();
+				});
+
+				// Select all RWTexture and display a simple alloc UI for this 
+				if (typeof(Texture).IsAssignableFrom(res.sType.type))
+				{
+					// Texture alloc settings:
+					if (res.autoAlloc)
+					{
+						var textureAllocSettings = new VisualElement();
+						textureAllocSettings.style.paddingLeft = 15;
+
+						var allocMode = new EnumField("Resolution", res.textureAllocMode) { value = res.textureAllocMode };
+						textureAllocSettings.Add(allocMode);
+
+						allocMode.RegisterValueChangedCallback(e => {
+							owner.RegisterCompleteObjectUndo("Update Alloc Mode");
+							res.textureAllocMode = (ComputeShaderNode.TextureAllocMode)e.newValue;
+							computeShaderNode.UpdateManagedResource(res);
+							NotifyNodeChanged();
+						});
+
+						allocList.Add(textureAllocSettings);
+					}
+				}
+				else if (res.sType.type == typeof(ComputeBuffer))
+				{
+					if (res.autoAlloc)
+					{
+						var bufferAllocSettings = new VisualElement();
+						bufferAllocSettings.style.paddingLeft = 15;
+
+						var size = new IntegerField("Buffer Element Count") { value = res.bufferSize };
+						var stride = new IntegerField("Element Stride") { value = res.bufferStride };
+						bufferAllocSettings.Add(size);
+						bufferAllocSettings.Add(stride);
+
+						size.RegisterValueChangedCallback(e => {
+							owner.RegisterCompleteObjectUndo("Update Buffer Element Count");
+							res.bufferSize = e.newValue;
+							computeShaderNode.UpdateManagedResource(res);
+							NotifyNodeChanged();
+						});
+						stride.RegisterValueChangedCallback(e => {
+							owner.RegisterCompleteObjectUndo("Update Element Stride");
+							res.bufferSize = e.newValue;
+							computeShaderNode.UpdateManagedResource(res);
+							NotifyNodeChanged();
+						});
+
+						allocList.Add(bufferAllocSettings);
+					}
+				}
 			}
 		}
 
@@ -120,15 +236,16 @@ namespace Mixture
 
 			if (lastModified != modificationDate)
 			{
-				Application.runInBackground = true;
 				schedule.Execute(() => {
 					// Reimport the compute shader:
 					AssetDatabase.ImportAsset(computePath);
+
+					UpdateComputeShaderData(computeShaderNode.computeShader);
+					RefreshPorts();
+
 					NotifyNodeChanged();
 				}).ExecuteLater(100);
 				lastModified = modificationDate;
-
-				UpdateComputeShaderData(computeShaderNode.computeShader);
 			}
 		}
 
@@ -188,30 +305,42 @@ namespace Mixture
 					displayName = ObjectNames.NicifyVariableName(match.Groups[4].Value),
 					propertyName = match.Groups[4].Value,
 					specificType = match.Groups[3].Value,
-					type = ComputeShaderTypeToCSharp(match.Groups[2].Value),
+					sType = new SerializableType(ComputeShaderTypeToCSharp(match.Groups[2].Value)),
 				});
 			}
-			// Remove output properties
-			fileContent = readWriteObjects.Replace(fileContent, "");
 
 			// We can then select input properties
 			computeShaderNode.computeInputs.Clear();
 			foreach (Match match in readOnlyObjects.Matches(fileContent))
 			{
-				if (match.Groups[4].Value.StartsWith("__"))
+				var propertyName = match.Groups[4].Value;
+
+				if (propertyName.StartsWith("__"))
+					continue;
+
+				if (propertyName == computeShaderNode.previewTexturePropertyName)
+					continue;
+
+				// If the resource is allocated by this node, we don't display it as input
+				if (computeShaderNode.managedResources.Any(r => r.propertyName == propertyName && r.autoAlloc))
 					continue;
 
 				computeShaderNode.computeInputs.Add(new ComputeShaderNode.ComputeParameter{
 					displayName = ObjectNames.NicifyVariableName(match.Groups[4].Value),
 					propertyName = match.Groups[4].Value,
 					specificType = match.Groups[3].Value,
-					type = ComputeShaderTypeToCSharp(match.Groups[2].Value),
+					sType = new SerializableType(ComputeShaderTypeToCSharp(match.Groups[2].Value)),
 				});
 			}
+
+			UpdateAllocUI();
 		}
 		
 		Type ComputeShaderTypeToCSharp(string computeShaderType)
 		{
+			if (computeShaderType.StartsWith("RW"))
+				computeShaderType = computeShaderType.Remove(0, 2);
+
 			switch (computeShaderType)
 			{
 				case "bool": return typeof(bool);

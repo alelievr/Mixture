@@ -393,6 +393,11 @@ namespace Mixture
 		Dimension		= 1 << 6,
 		TargetFormat	= 1 << 7,
 		POTSize			= 1 << 8,
+
+		// Headers
+		Size			= Width | WidthMode | Height | HeightMode | Depth | DepthMode,
+		Format			= POTSize | Dimension | TargetFormat,
+		
 		All				= ~0,
 	}
 

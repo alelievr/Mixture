@@ -103,5 +103,21 @@ namespace Mixture
                     return typeof(Texture);
             }
         }
+
+        public static TextureDimension GetDimensionFromType(Type textureType)
+        {
+            if (textureType == typeof(Texture2D))
+                return TextureDimension.Tex2D;
+            else if (textureType == typeof(Texture2DArray))
+                return TextureDimension.Tex2DArray;
+            else if (textureType == typeof(Texture3D))
+                return TextureDimension.Tex3D;
+            else if (textureType == typeof(Cubemap))
+                return TextureDimension.Cube;
+            else if (textureType == typeof(CubemapArray))
+                return TextureDimension.CubeArray;
+            else
+                return TextureDimension.Unknown;
+        }
     }
 }
