@@ -27,18 +27,14 @@ namespace Mixture
 			{
 				// Update the dependencies of the CRT
 				foreach (var nonCRTDep in dependencies)
-				{
-					if (nonCRTDep is MixtureNode m)
-						m.OnProcess(cmd);
-					else
-						nonCRTDep.OnProcess();
-				}
+					ProcessNode(cmd, nonCRTDep);
 			}
 		}
 
 		public override void Run()
 		{
 			mixtureDependencies.Clear();
+			HashSet<BaseNode> nodesToBeProcessed = new HashSet<BaseNode>();
 
 			processList = graph.nodes.OrderBy(n => n.computeOrder).ToList();
 
@@ -54,13 +50,30 @@ namespace Mixture
 					if (crt != null)
 					{
 						CustomTextureManager.RegisterNewCustomRenderTexture(crt);
-						mixtureDependencies.Add(crt, mixtureNode.GetMixtureDependencies());
+						var deps = mixtureNode.GetMixtureDependencies();
+						foreach (var dep in deps)
+							nodesToBeProcessed.Add(dep);
+						mixtureDependencies.Add(crt, deps);
 						crt.Update();
 					}
 				}
 			}
 
 			CustomTextureManager.ForceUpdateNow();
+
+			// update all nodes that are not depending on a CRT
+			CommandBuffer cmd = new CommandBuffer{ name = "Temp no-crt" };
+			foreach (var node in processList.Except(nodesToBeProcessed))
+				ProcessNode(cmd, node);
+			Graphics.ExecuteCommandBuffer(cmd);
+		}
+
+		void ProcessNode(CommandBuffer cmd, BaseNode node)
+		{
+			if (node is MixtureNode m)
+				m.OnProcess(cmd);
+			else
+				node.OnProcess();
 		}
 	}
 }

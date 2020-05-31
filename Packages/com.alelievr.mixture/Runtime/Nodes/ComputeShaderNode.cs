@@ -399,7 +399,7 @@ namespace Mixture
 		{
 			if (hasPreview && previewTexture != null)
 			{
-				int index = previewKernelIndex != -1 ? kernelIndex : previewKernelIndex;
+				int index = previewKernelIndex != -1 ? previewKernelIndex : kernelIndex;
 				if (index > 0)
 				{
 					computeShader.SetTexture(index, previewTexturePropertyName, nodePreview);
