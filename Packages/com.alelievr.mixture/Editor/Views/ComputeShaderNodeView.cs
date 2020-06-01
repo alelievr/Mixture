@@ -256,6 +256,11 @@ namespace Mixture
 			shaderField.value = newShader;
 			computePath = AssetDatabase.GetAssetPath(newShader);
 
+			string resourcePath = null;
+			if (computePath.Contains("Resources/"))
+				resourcePath = Path.ChangeExtension(computePath.Substring(computePath.LastIndexOf("Resources/") + 10), null);
+			computeShaderNode.resourcePath = resourcePath;
+
 			title = newShader?.name ?? "New Compute";
 
 			if (newShader != null)
@@ -334,6 +339,8 @@ namespace Mixture
 			}
 
 			UpdateAllocUI();
+
+			computeShaderNode.UpdateComputeShader();
 		}
 		
 		Type ComputeShaderTypeToCSharp(string computeShaderType)

@@ -84,11 +84,13 @@ namespace Mixture
 		internal int			previewKernelIndex = -1;
 		[SerializeField]
 		internal List< string >	kernelNames = new List<string>();
+		[SerializeField]
+		internal string			resourcePath;
 
 		public override string			name => computeShader != null ? computeShader.name : "Compute Shader";
 
 		public virtual string previewTexturePropertyName => previewComputeProperty;
-		protected virtual string computeShaderResourcePath => null;
+		protected virtual string computeShaderResourcePath => resourcePath;
 		protected virtual bool autoDetectInputs => true;
 		/// <summary>This function also controls the output memory allocation</summary>
 		protected virtual bool autoDetectOutputs => true;
@@ -97,16 +99,24 @@ namespace Mixture
 
 		protected override void Enable()
 		{
-// We avoid to re-find the compute shader in build (if it was found with AssetDatabase, it will break the reference)
-#if UNITY_EDITOR
-			if (!String.IsNullOrEmpty(computeShaderResourcePath))
+			if (!String.IsNullOrEmpty(computeShaderResourcePath) && computeShader == null)
 				computeShader = LoadComputeShader(computeShaderResourcePath);
-#endif
 
 			UpdateTempRenderTexture(ref nodePreview);
 
 			foreach (var res in managedResources)
 				AllocateResource(res);
+
+			UpdateComputeShader();
+		}
+
+		internal void UpdateComputeShader()
+		{
+			if (computeShader == null)
+				return;
+
+			if (!String.IsNullOrEmpty(previewKernel))
+				previewKernelIndex = computeShader.FindKernel(previewKernel);
 		}
 
 		void AllocateResource(ResourceDescriptor desc)
@@ -282,7 +292,7 @@ namespace Mixture
 		List<(string propertyName, object value)> assignedInputs = new List<(string, object)>();
 
 		[CustomPortInput(nameof(computeInputs), typeof(object))]
-		void GetMaterialInputs(List< SerializableEdge > edges)
+		void AssignComputeInputs(List< SerializableEdge > edges)
 		{
 			foreach (var edge in edges)
 			{
@@ -402,7 +412,7 @@ namespace Mixture
 				int index = previewKernelIndex != -1 ? previewKernelIndex : kernelIndex;
 				if (index > 0)
 				{
-					computeShader.SetTexture(index, previewTexturePropertyName, nodePreview);
+					computeShader.SetTexture(index, previewTexturePropertyName, previewTexture);
 					DispatchCompute(cmd, index, previewTexture.width, previewTexture.height, 1);
 				}
 			}
