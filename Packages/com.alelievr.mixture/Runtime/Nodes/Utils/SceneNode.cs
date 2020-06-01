@@ -20,8 +20,9 @@ namespace Mixture
         public enum OutputMode
         {
             Color,
-            Depth,
-            Normal,
+            LinearEyeDepth,
+            Linear01Depth,
+            WorldNormal,
         }
 
 		[Output(name = "Output")]
@@ -126,6 +127,8 @@ namespace Mixture
             output.ReadPixels(new Rect(0, 0, output.width, output.height), 0, 0);
             RenderTexture.active = null; 
             output.Apply();
+        
+            graph.NotifyNodeChanged(this);
 
             if (!graph.IsObjectInGraph(output))
                 graph.AddObjectToGraph(output);

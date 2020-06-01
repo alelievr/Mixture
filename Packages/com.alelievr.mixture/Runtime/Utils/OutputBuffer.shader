@@ -41,6 +41,9 @@
         PositionInputs posInput = GetPositionInput(varyings.positionCS.xy, _ScreenSize.zw, depth, UNITY_MATRIX_I_VP, UNITY_MATRIX_V);
         float3 viewDirection = GetWorldSpaceNormalizeViewDir(posInput.positionWS);
         float4 color = float4(CustomPassLoadCameraColor(varyings.positionCS.xy, 0), 1);
+        float linearEyeDepth = LinearEyeDepth(posInput.positionWS, GetWorldToViewMatrix());
+        float f = 1 / _ZBufferParams.w;
+        float n = rcp((_ZBufferParams.x + 1) * _ZBufferParams.w);
 
         NormalData normalData;
         DecodeFromNormalBuffer(posInput.positionSS.xy, normalData);
@@ -50,15 +53,13 @@
         {
             case 0: // Color
                 return color;
-            case 1: // Depth
-                float linearEyeDepth = LinearEyeDepth(posInput.positionWS, GetWorldToViewMatrix());
-
+            case 1: // Eye Depth
+                return linearEyeDepth - n;
+            case 2: // 01 Depth
                 // Convert eye depth into linear (supports orthographic)
-                float f = 1 / _ZBufferParams.w;
-                float n = rcp((_ZBufferParams.x + 1) * _ZBufferParams.w);
                 float linear01Depth = (linearEyeDepth - n) / (f - n);
-                return float4(linear01Depth.xxx, 1);
-            case 2: // Normal
+                return float4(1 - linear01Depth.xxx, 1);
+            case 3: // Normal
                 return float4(normalData.normalWS, 1) * (depth != 0);
             default: return color;
         }

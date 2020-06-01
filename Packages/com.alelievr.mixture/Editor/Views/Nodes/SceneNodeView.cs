@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using GraphProcessor;
 using UnityEditor.Experimental.SceneManagement;
+using UnityEditor.SceneManagement;
 
 namespace Mixture
 {
@@ -11,11 +12,17 @@ namespace Mixture
 	{
 		SceneNode		sceneNode => nodeTarget as SceneNode;
 
+        Button openPrefabButton;
+
+        GameObject  openedPrefabRoot;
+        string      openedPrefabPath;
+
 		public override void Enable()
 		{
 			base.Enable();
 
-            controlsContainer.Add(new Button(OpenPrefab) { text = "Open Scene"});
+            openPrefabButton = new Button(OpenPrefab) { text = "Open Scene"};
+            controlsContainer.Add(openPrefabButton);
 
             // TODO: dynamically add/remove this button if the scene is opened
             controlsContainer.Add(new Button(SaveView) { text = "Save Current View"});
@@ -59,11 +66,15 @@ namespace Mixture
             // Prefabs can only have one root GO (i guess?)
             var root = stage.scene.GetRootGameObjects()[0];
             
+            openPrefabButton.text = "Close Prefab";
             sceneNode.prefabOpened = true;
             sceneNode.prefabCamera = root.GetComponentInChildren<Camera>();
             sceneNode.bufferOutput = root.GetComponentInChildren<MixtureBufferOutput>();
             if (sceneNode.prefabCamera == null)
                 Debug.LogError("No camera found in prefab, Please add one and re-open the prefab");
+
+            openedPrefabRoot = stage.prefabContentsRoot;
+            openedPrefabPath = stage.assetPath;
         }
 
         void PrefabClosed(PrefabStage stage)
@@ -71,6 +82,7 @@ namespace Mixture
             if (stage.assetPath != AssetDatabase.GetAssetPath(sceneNode.prefab))
                 return;
 
+            openPrefabButton.text = "Open Prefab";
             sceneNode.prefabOpened = false;
             sceneNode.prefabCamera = null;
             sceneNode.bufferOutput = null;
@@ -78,8 +90,16 @@ namespace Mixture
 
         void OpenPrefab()
         {
-            var path = AssetDatabase.GetAssetPath(sceneNode.prefab);
-            AssetDatabase.OpenAsset(sceneNode.prefab);
+            if (!sceneNode.prefabOpened)
+            {
+                var path = AssetDatabase.GetAssetPath(sceneNode.prefab);
+                AssetDatabase.OpenAsset(sceneNode.prefab);
+            }
+            else
+            {
+                PrefabUtility.SaveAsPrefabAsset(openedPrefabRoot, openedPrefabPath);
+                StageUtility.GoBackToPreviousStage();
+            }
         }
 
         void SaveView() => sceneNode.SaveCurrentViewToImage();

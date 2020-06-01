@@ -1,4 +1,4 @@
-﻿Shader "CustomTexture/ShaderTextTexture2DTemplate"
+﻿Shader "Hidden/Mixture/ShaderTextTexture2DTemplate"
 {	
 	Properties
 	{
