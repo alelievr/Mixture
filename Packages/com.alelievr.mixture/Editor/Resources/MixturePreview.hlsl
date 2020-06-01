@@ -1,4 +1,5 @@
 #include "UnityCG.cginc"
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/PhysicalCamera.hlsl"
 
 struct appdata
 {
@@ -16,6 +17,7 @@ struct v2f
 float4 _Channels;
 float _PreviewMip;
 float _SRGB;
+float _EV100;
 uniform float4x4 unity_GUIClipTextureMatrix;
 sampler2D _GUIClipTexture;
 
@@ -31,7 +33,6 @@ v2f vert (appdata v)
 
 float4 MakePreviewColor(v2f i, float2 texelSize, float4 imageColor)
 {
-    // TODO: factorize this !
     float2 checkerboardUVs = ceil(fmod(i.uv * texelSize / 64.0, 1.0)-0.5);
     float3 checkerboard = lerp(0.3,0.4, checkerboardUVs.x != checkerboardUVs.y ? 1 : 0);
 
@@ -48,6 +49,8 @@ float4 MakePreviewColor(v2f i, float2 texelSize, float4 imageColor)
     imageColor.xyz = pow(imageColor.xyz, 1.0 / 2.2);
     // Then checkerboard
     imageColor.xyz = lerp(checkerboard, imageColor.xyz, imageColor.a);
+
+    imageColor.xyz *= ConvertEV100ToExposure(_EV100);
 
     return imageColor * tex2D(_GUIClipTexture, i.clipUV).a;
 }

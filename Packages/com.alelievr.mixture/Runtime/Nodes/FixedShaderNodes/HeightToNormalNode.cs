@@ -13,7 +13,7 @@ namespace Mixture
 
         public override string shaderName => "Hidden/Mixture/HeightToNormal";
 
-        protected override IEnumerable<string> filteredOutProperties => new string[] { "_OutputRange", "_Channel" };
+        protected override IEnumerable<string> filteredOutProperties => new string[] { "_OutputRange", "_Channel", "_OutputSpace" };
 
         public override bool displayMaterialInspector => true;
 
