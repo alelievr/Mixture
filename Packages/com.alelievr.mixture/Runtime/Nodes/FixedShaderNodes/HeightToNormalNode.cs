@@ -27,7 +27,5 @@ namespace Mixture
         }
 
         public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() { OutputDimension.Texture2D };
-       
-
     }
 }

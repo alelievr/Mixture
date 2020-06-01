@@ -117,6 +117,7 @@ namespace Mixture
                     useMipMap = hasMips,
 					autoGenerateMips = autoGenerateMips,
 					enableRandomWrite = true,
+					hideFlags = HideFlags.HideAndDontSave,
 				};
 				target.Create();
 
@@ -249,22 +250,13 @@ namespace Mixture
 			return MixtureUtils.GetAllowedDimentions(name).Contains(dim);
 		}
 
-		int GetPropertyIndex(Material mat, string propertyName)
-		{
-			var s = mat.shader;
-			for (int i = 0; i < s.GetPropertyCount(); i++)
-				if (s.GetPropertyName(i) == propertyName)
-					return i;
-			return -1;
-		}
-
 		protected void AssignMaterialPropertiesFromEdges(List< SerializableEdge > edges, Material material)
 		{
 			// Update material settings when processing the graph:
 			foreach (var edge in edges)
 			{
 				string propName = edge.inputPort.portData.identifier;
-				int propertyIndex = GetPropertyIndex(material, propName);
+				int propertyIndex = material.shader.FindPropertyIndex(propName);
 				switch (material.shader.GetPropertyType(propertyIndex))
 				{
 					case ShaderPropertyType.Color:
