@@ -31,10 +31,10 @@ namespace Mixture
 			OutputDimension.CubeMap,
 		};
 		public virtual PreviewChannels		defaultPreviewChannels => PreviewChannels.RGBA;
+		public virtual bool					showDefaultInspector => false;
+		public virtual bool					showPreviewExposure => false;
 		[SerializeField]
 		public bool							isPreviewCollapsed = false;
-
-		public virtual bool					showDefaultInspector => false;
 
 		public event Action					onSettingsChanged;
 
@@ -45,6 +45,8 @@ namespace Mixture
         public float previewMip = 0.0f;
         [SerializeField]
         public bool previewVisible = true;
+		[SerializeField]
+		public float previewEV100 = 0.0f;
 
 		CustomSampler		_sampler;
 		CustomSampler		sampler
@@ -185,9 +187,15 @@ namespace Mixture
 				RemoveMessage($"Dimension {TextureDimension.Cube} is not supported by this node");
 			}
 
-			cmd.BeginSample(sampler);
-			ProcessNode(cmd);
-			cmd.EndSample(sampler);
+			// Avoid adding markers if it's CRT processing (CRT  already have one)
+			if (this is IUseCustomRenderTextureProcessing)
+				ProcessNode(cmd);
+			else
+			{
+				cmd.BeginSample(sampler);
+				ProcessNode(cmd);
+				cmd.EndSample(sampler);
+			}
 		}
 
 		protected virtual bool ProcessNode(CommandBuffer cmd) => true;

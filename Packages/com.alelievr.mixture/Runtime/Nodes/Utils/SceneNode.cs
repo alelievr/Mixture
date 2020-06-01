@@ -36,6 +36,7 @@ namespace Mixture
 		public override Texture	previewTexture => prefabOpened ? (Texture)tmpRenderTexture : output;
 
         public override bool    showDefaultInspector => true;
+        public override bool    showPreviewExposure => mode == OutputMode.LinearEyeDepth;
 
         public GameObject       prefab;
 
