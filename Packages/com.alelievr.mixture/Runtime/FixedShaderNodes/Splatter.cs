@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Textures/Splatter")]
+	[System.Serializable, NodeMenuItem("Textures/Splatter"), NodeMenuItem("Textures/Scatter")]
 	public class Splatter : FixedShaderNode
 	{
 		public override string name => "Splatter";
@@ -16,15 +16,13 @@ namespace Mixture
 
 		public override bool displayMaterialInspector => true;
 
-		protected override bool ProcessNode()
-		{
-			if (!base.ProcessNode())
-				return false;
-            
-            // TODO: splat a texture x times in the texture
-            // Make a custom buffer with texture rects, rotations and randomization and then bind it to the material
-			
-			return true;
-		}
+        protected override IEnumerable<string> filteredOutProperties => new List<string>(){
+			"_SourceCrop", "_Sequence", "_Size", "_Operator"
+		};
+
+		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
+			// TODO: support of Texture3D
+			OutputDimension.Texture2D,
+		};
 	}
 }

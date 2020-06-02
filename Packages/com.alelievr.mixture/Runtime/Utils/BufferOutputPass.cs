@@ -12,24 +12,23 @@ namespace Mixture
         Material                outputBufferMaterial;
         MaterialPropertyBlock   properties;
         SceneNode.OutputMode    mode;
-        int i;
+        Camera                  targetCamera;
 
-        internal void SetOutputMode(SceneNode.OutputMode mode)
+        internal void SetOutputSettings(SceneNode.OutputMode mode, Camera targetCamera)
         {
             this.mode = mode;
-            i = (int)mode;
+            this.targetCamera = targetCamera;
         }
 
         protected override void Setup(ScriptableRenderContext renderContext, CommandBuffer cmd)
         {
             outputBufferMaterial = CoreUtils.CreateEngineMaterial(Shader.Find("Hidden/Mixture/OutputBuffer"));
             properties = new MaterialPropertyBlock();
-            i = 42;
         }
 
         protected override void Execute(ScriptableRenderContext renderContext, CommandBuffer cmd, HDCamera hdCamera, CullingResults cullingResult)
         {
-            if (hdCamera.camera.cameraType == CameraType.SceneView)
+            if (hdCamera.camera != targetCamera)
                 return;
 
             // For color we don't need to do anything

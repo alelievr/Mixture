@@ -96,6 +96,20 @@ namespace Mixture
 			}
 		}
 
+		static Material _dummyCustomRenderTextureMaterial;
+		public static Material dummyCustomRenderTextureMaterial
+		{
+			get
+			{
+				if (_dummyCustomRenderTextureMaterial == null)
+				{
+					_dummyCustomRenderTextureMaterial = new Material(Shader.Find("Hidden/MixtureTextureCubePreview"));
+				}
+
+				return _dummyCustomRenderTextureMaterial;
+			}
+		}
+
         static Texture2D _windowIcon;
         public static Texture2D windowIcon
         {

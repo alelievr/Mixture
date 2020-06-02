@@ -26,7 +26,7 @@ namespace Mixture
             UpdateSceneComponents();
         }
 
-        public virtual void SetOutputMode(SceneNode.OutputMode mode)
+        public virtual void SetOutputSettings(SceneNode.OutputMode mode, Camera targetCamera)
         {
             UpdateSceneComponents();
 
@@ -37,7 +37,7 @@ namespace Mixture
 #if MIXTURE_HDRP
                 if (pipeline.GetType() == typeof(HDRenderPipeline))
                 {
-                    bufferPass.SetOutputMode(mode);
+                    bufferPass.SetOutputSettings(mode, targetCamera);
                 }
 #endif
             }

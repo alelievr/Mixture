@@ -20,6 +20,7 @@ namespace Mixture
 
 		ObjectField			debugCustomRenderTextureField;
 		ObjectField			debugShaderField;
+		ObjectField			debugMaterialField;
 
 		public override void Enable()
 		{
@@ -61,7 +62,9 @@ namespace Mixture
 				value = fixedShaderNode.shader,
 				objectType = typeof(Shader)
 			};
-			
+
+			fixedShaderNode.material.hideFlags = HideFlags.HideAndDontSave | HideFlags.HideInInspector | HideFlags.HideInHierarchy;
+
 			debugContainer.Add(debugCustomRenderTextureField);
 			debugContainer.Add(debugShaderField);
 		}

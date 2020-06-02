@@ -106,7 +106,7 @@ namespace Mixture
 
 		public override void OnRemoved()
         {
-            owner.graph.RemoveObjectFromGraph(sceneNode.output);
+            owner.graph.RemoveObjectFromGraph(sceneNode.savedTexture);
         }    
 	}
 }
