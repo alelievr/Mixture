@@ -38,6 +38,8 @@ namespace Mixture
 
 		public event Action					onSettingsChanged;
 
+		protected Dictionary<string, Material> temporaryMaterials = new Dictionary<string, Material>();
+
         // UI Serialization
         [SerializeField]
         public PreviewChannels previewMode;
@@ -377,6 +379,28 @@ namespace Mixture
 			}
 
 			return dependencies.OrderBy(d => d.computeOrder).ToList();
+		}
+
+		public Material GetTempMaterial(string shaderName)
+		{
+			temporaryMaterials.TryGetValue(shaderName, out var material);
+
+			if (material == null)
+			{
+				var shader = Shader.Find(shaderName);
+				if (shader == null)
+					throw new Exception("Can't find shader " + shaderName);
+				material = temporaryMaterials[shaderName] = new Material(shader) { hideFlags = HideFlags.HideAndDontSave };
+			}
+
+			return material;
+		}
+
+		protected override void Disable()
+		{
+			foreach (var matKp in temporaryMaterials)
+				CoreUtils.Destroy(matKp.Value);
+			base.Disable();
 		}
 	}
 

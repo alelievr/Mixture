@@ -346,13 +346,13 @@ public static class CustomTextureManager
                                 }
                             }
 
-                            int passIndex = zone.passIndex == -1 ? 0: zone.passIndex;
+                            int passIndex = zone.passIndex == -1 ? 0 : zone.passIndex;
 
                             block.SetVectorArray(kUpdateDataCenters, zoneCenters);
                             block.SetVectorArray(kUpdateDataSizesAndRotation, zoneSizesAndRotation);
                             block.SetFloatArray(kUpdateDataPrimitiveIDs, zonePrimitiveIDs);
                         
-                            cmd.DrawProcedural(Matrix4x4.identity, crt.material, passIndex, MeshTopology.Triangles, 6 * updateZones.Count, 1, block);
+                            cmd.DrawProcedural(Matrix4x4.identity, crt.material, passIndex, MeshTopology.Triangles, 6 * updateZones.Count, 0, block);
 
                             firstUpdate = false;
                         }

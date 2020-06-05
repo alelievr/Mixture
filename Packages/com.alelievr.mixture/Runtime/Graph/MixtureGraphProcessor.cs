@@ -10,6 +10,7 @@ namespace Mixture
 	{
 		List< BaseNode >		processList;
 		new MixtureGraph		graph => base.graph as MixtureGraph;
+		HashSet< BaseNode >		executedNodes = new HashSet<BaseNode>();
 
 		Dictionary<CustomRenderTexture, List<BaseNode>> mixtureDependencies = new Dictionary<CustomRenderTexture, List<BaseNode>>();
 
@@ -27,7 +28,14 @@ namespace Mixture
 			{
 				// Update the dependencies of the CRT
 				foreach (var nonCRTDep in dependencies)
+				{
+					// Make sure we don't execute multiple times the same node if there are multiple dependencies that needs it:
+					if (executedNodes.Contains(nonCRTDep))
+						continue;
+
+					executedNodes.Add(nonCRTDep);
 					ProcessNode(cmd, nonCRTDep);
+				}
 			}
 		}
 
@@ -59,6 +67,7 @@ namespace Mixture
 				}
 			}
 
+			executedNodes.Clear();
 			CustomTextureManager.ForceUpdateNow();
 
 			// update all nodes that are not depending on a CRT

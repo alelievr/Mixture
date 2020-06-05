@@ -47,6 +47,8 @@ namespace Mixture
 				material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 			}
 
+			UpdateShader();
+
 			UpdateTempRenderTexture(ref output);
 			output.material = material;
 		}
@@ -82,8 +84,17 @@ namespace Mixture
 			};
 		}
 
+		void UpdateShader()
+		{
+#if UNITY_EDITOR
+			if (shader != null && material.shader != shader)
+				material.shader = shader;
+#endif
+		}
+
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
+			UpdateShader();
 			UpdateTempRenderTexture(ref output);
 
 			if (material == null || material.shader == null)
