@@ -422,6 +422,7 @@ namespace Mixture
 		{
 			base.Disable();
 
+        	CoreUtils.Destroy(nodePreview);
 			foreach (var res in managedResources)
 			{
 				FreeResource(res);

@@ -35,6 +35,10 @@ namespace Mixture
 
 			InitializeDebug();
 
+			if (computePath == null)
+				computePath = AssetDatabase.GetAssetPath(computeShaderNode.computeShader);
+			if (computePath != null)
+				lastModified = File.GetLastWriteTime(computePath);
 			var detector = schedule.Execute(DetectComputeShaderChanges);
 			detector.Every(200);
 
@@ -245,8 +249,8 @@ namespace Mixture
 
 					NotifyNodeChanged();
 				}).ExecuteLater(100);
-				lastModified = modificationDate;
 			}
+			lastModified = modificationDate;
 		}
 
 		void SetComputeShader(ComputeShader newShader)

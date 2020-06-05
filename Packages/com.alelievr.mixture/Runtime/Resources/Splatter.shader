@@ -12,9 +12,14 @@ Shader "Hidden/Mixture/Splatter"
 		[Enum(Grid, 0, Random, 1, R2, 2, Halton, 3, FibonacciSpiral, 4)] _Sequence("Sequence", Float) = 0
 
 		// Sequence parameters Sequance
-		_SplatDensity("Splat Density", Float) = 4
+		[RangeDrawer]_SplatDensity("Splat Density", Range(1, 8)) = 4
 
 		[Enum(Blend, 0, Add, 1, Sub, 2, Max, 3, Min, 4)]_Operator("Operator", Float) = 0
+
+		[Enum(Fixed, 0, Range, 1, TowardsCenter, 2)] _RotationMode("Rotation Mode", Float) = 0
+
+		// Settings controled by the UI code:
+		[HideInInspector] _JitterDistance("Jitter Distance", Float) = 0
 	}
 
 	CGINCLUDE
@@ -48,13 +53,22 @@ Shader "Hidden/Mixture/Splatter"
 
 			float4 SampleSplat(float3 uv)
 			{
-				// Source crop:
-				if (any(uv.xy > 1 - _SourceCrop.zw) || any(uv.xy < _SourceCrop.xy))
-					return 0;
+				// Remap UVs between source crop:
+				uv.xy = Remap(uv, 0, 1, _SourceCrop.xy, 1 - _SourceCrop.zw);
+				// if (any(uv.xy < _SourceCrop.xy) || any(uv.xy > 1 - _SourceCrop.zw))
+					// return float4(0, 0, 0, 1);
 
 				// TODO: handle rotation
-
 				return SAMPLE_X(_Source, uv, float3(0, 0, 0));
+				// Source crop:
+				// float2 s = step(_SourceCrop.xy, uv) - step(_SourceCrop.zw, uv);
+				// if (s.x * s.y == 0)
+					// return 0;
+
+				// if (uv.x > 1 - _SourceCrop.z || uv.y > 1 - _SourceCrop.w || uv.x < _SourceCrop.x || uv.y < _SourceCrop.y)
+					// return 0;
+
+
 			}
 
 			void AccumulateColor(inout float4 color, float4 newcolor)

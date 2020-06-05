@@ -8,8 +8,18 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Textures/Splatter"), NodeMenuItem("Textures/Scatter")]
-	public class Splatter : FixedShaderNode
+	public class SplatterNode : FixedShaderNode
 	{
+		public enum Sequence
+		{
+			Grid, Tile, T2, Halton, FibonacciSpiral,
+		}
+
+		public enum Operator
+		{
+			Blend, Add, Sub, Max, Min,
+		}
+
 		public override string name => "Splatter";
 
 		public override string shaderName => "Hidden/Mixture/Splatter";
