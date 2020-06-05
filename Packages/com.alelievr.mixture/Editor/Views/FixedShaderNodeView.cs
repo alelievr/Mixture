@@ -14,7 +14,6 @@ namespace Mixture
 	public class FixedShaderNodeView : MixtureNodeView
 	{
 		VisualElement	    shaderCreationUI;
-		MaterialEditor	    materialEditor;
 		FixedShaderNode		fixedShaderNode => nodeTarget as FixedShaderNode;
 		int					materialCRC;
 
@@ -37,7 +36,6 @@ namespace Mixture
 				materialIMGUI.AddToClassList("MaterialInspector");
 
 				controlsContainer.Add(materialIMGUI);
-				materialEditor = Editor.CreateEditor(fixedShaderNode.material) as MaterialEditor;
 			}
 
 			onPortDisconnected += ResetMaterialPropertyToDefault;

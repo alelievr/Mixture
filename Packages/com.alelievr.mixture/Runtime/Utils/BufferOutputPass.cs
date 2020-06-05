@@ -36,7 +36,7 @@ namespace Mixture
             {
                 properties.SetFloat("_OutputMode", (int)mode);
                 GetCameraBuffers(out var color, out var depth);
-                CoreUtils.SetRenderTarget(cmd, color, ClearFlag.Color);
+                CoreUtils.SetRenderTarget(cmd, color, ClearFlag.Color, Color.clear);
                 CoreUtils.DrawFullScreen(cmd, outputBufferMaterial, properties, shaderPassId: 0);
             }
         }
