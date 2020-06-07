@@ -1,0 +1,130 @@
+﻿#pragma kernel GenerateSplatPoints
+
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/Splatter.hlsl"
+
+RWStructuredBuffer<SplatPoint> _SplatPoints;
+int _Sequence;
+int _RotationMode;
+int _ScaleMode;
+
+// Stack
+float3 _StackPosition;
+
+// Grid
+float2 _GridSize;
+float2 _GridOffset;
+
+// R2
+
+// Rotation
+float3 _FixedAngles;
+float3 _MinAngles;
+float3 _MaxAngles;
+
+// Scale
+float3 _FixedScale;
+float3 _MinScale;
+float3 _MaxScale;
+
+// Other
+float _Time;
+float3 _PositionJitter;
+
+void Stack(uint id)
+{
+    _SplatPoints[id].position = _StackPosition;
+}
+
+void Grid(uint id)
+{
+    float3 p;
+    p = float3(id % _GridSize.x, uint(id / _GridSize.y), 0);
+    p.xy -= _GridOffset * p.xy;
+
+    _SplatPoints[id].position = p;
+}
+
+void R2(uint id)
+{
+
+}
+
+void Halton(uint id)
+{
+
+}
+
+void FibonacciSpiral(uint id)
+{
+
+}
+
+float3 JitterPosition(uint id)
+{
+    // TODO
+    return 0;
+}
+
+void RandomBetweenRotation(uint id)
+{
+    // TODO
+}
+
+void TowardsCenterRotation(uint id)
+{
+    
+}
+
+void RandomBetweenScale(uint id)
+{
+
+}
+
+[numthreads(64,1,1)]
+void GenerateSplatPoints(uint id : SV_DispatchThreadID)
+{
+    switch (_Sequence)
+    {
+        case 0: // Stack
+            Stack(id);
+            break;
+        case 1: // Grid
+            Grid(id);
+            break;
+        case 2: // R2
+            R2(id);
+            break;
+        case 3: // Halton
+            Halton(id);
+            break;
+        case 4: // FibonacciSpiral
+            FibonacciSpiral(id);
+            break;
+    }
+
+    // Add jitter to initial position:
+    _SplatPoints[id].position += JitterPosition(id);
+
+    switch (_RotationMode)
+    {
+        case 0: // Fix
+            _SplatPoints[id].rotation = _FixedAngles;
+            break;
+        case 1: // Random
+            RandomBetweenRotation(id);
+            break;
+        case 2: // Towards Center
+            TowardsCenterRotation(id);
+            break;
+    }
+
+    switch (_ScaleMode)
+    {
+        case 0: // Fix
+            _SplatPoints[id].scale = _FixedScale;
+            break;
+        case 1: // Random
+            RandomBetweenScale(id);
+            break;
+    }
+}

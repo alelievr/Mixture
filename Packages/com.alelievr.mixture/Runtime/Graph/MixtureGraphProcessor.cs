@@ -20,7 +20,10 @@ namespace Mixture
 			CustomTextureManager.onBeforeCustomTextureUpdated += BeforeCustomRenderTextureUpdate;
 		}
 
-		public override void UpdateComputeOrder() {}
+		public override void UpdateComputeOrder()
+		{
+			
+		}
 
 		void BeforeCustomRenderTextureUpdate(CommandBuffer cmd, CustomRenderTexture crt)
 		{
@@ -44,7 +47,7 @@ namespace Mixture
 			mixtureDependencies.Clear();
 			HashSet<BaseNode> nodesToBeProcessed = new HashSet<BaseNode>();
 
-			processList = graph.nodes.OrderBy(n => n.computeOrder).ToList();
+			processList = graph.nodes.Where(n => n.computeOrder != -1).OrderBy(n => n.computeOrder).ToList();
 
 			// For now we process every node multiple time,
 			// future improvement: only refresh nodes when  asked by the CRT

@@ -5,6 +5,8 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using GraphProcessor;
 using System.Collections.Generic;
+using System.IO;
+using System;
 
 namespace Mixture
 {
@@ -20,6 +22,8 @@ namespace Mixture
 		ObjectField		shaderField;
 
 		int				materialCRC;
+		DateTime		lastModified;
+		string			shaderPath;
 
 		protected override string header => "Shader Properties";
 
@@ -39,6 +43,13 @@ namespace Mixture
 			shaderField.RegisterValueChangedCallback((v) => {
 				SetShader((Shader)v.newValue);
 			});
+
+			if (shaderNode.shader != null)
+				shaderPath = AssetDatabase.GetAssetPath(shaderNode.shader);
+			if (!String.IsNullOrEmpty(shaderPath))
+				lastModified = File.GetLastWriteTime(shaderPath);
+			var lastWriteDetector = schedule.Execute(DetectShaderChanges);
+			lastWriteDetector.Every(200);
 			
 			InitializeDebug();
 
@@ -57,6 +68,30 @@ namespace Mixture
 		~ShaderNodeView()
 		{
 			onPortDisconnected -= ResetMaterialPropertyToDefault;
+		}
+
+		void DetectShaderChanges()
+		{
+			if (shaderNode.shader == null)
+				return;
+
+			if (shaderPath == null)
+				shaderPath = AssetDatabase.GetAssetPath(shaderNode.shader);
+			
+			var modificationDate = File.GetLastWriteTime(shaderPath);
+
+			if (lastModified != modificationDate)
+			{
+				schedule.Execute(() => {
+					// Reimport the compute shader:
+					AssetDatabase.ImportAsset(shaderPath);
+
+					NotifyNodeChanged();
+
+					shaderNode.IsShaderValid();
+				}).ExecuteLater(100);
+			}
+			lastModified = modificationDate;
 		}
 
 		void InitializeDebug()
@@ -132,6 +167,8 @@ namespace Mixture
 
 			// We fore the update of node ports
 			ForceUpdatePorts();
+
+			shaderNode.IsShaderValid();
 		}
 
 		void MaterialGUI()

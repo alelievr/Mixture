@@ -3,6 +3,7 @@ using UnityEngine;
 using GraphProcessor;
 using System.Linq;
 using UnityEngine.Rendering;
+using System;
 
 namespace Mixture
 {
@@ -47,8 +48,9 @@ namespace Mixture
 				material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 			}
 
-			UpdateShader();
+			beforeProcessSetup += BeforeProcessSetup;
 
+			UpdateShader();
 			UpdateTempRenderTexture(ref output);
 			output.material = material;
 		}
@@ -92,32 +94,43 @@ namespace Mixture
 #endif
 		}
 
-		protected override bool ProcessNode(CommandBuffer cmd)
+		void BeforeProcessSetup()
 		{
 			UpdateShader();
 			UpdateTempRenderTexture(ref output);
+		}
+
+		public override bool canProcess => IsShaderValid();
+
+		internal bool IsShaderValid()
+		{
+			ClearMessages();
 
 			if (material == null || material.shader == null)
 			{
-				Debug.LogError($"Can't process {name}, missing material/shader.");
+				AddMessage("missing material/shader", NodeMessageType.Error);
 				return false;
 			}
-
-			var outputDimension = rtSettings.GetTextureDimension(graph);
-			MixtureUtils.SetupDimensionKeyword(material, outputDimension);
-
 #if UNITY_EDITOR // IsShaderCompiled is editor only
 			if (!IsShaderCompiled(material.shader))
 			{
 				output.material = null;
-				Debug.LogError($"Can't process {name}, shader has errors.");
-				LogShaderErrors(material.shader);
+				foreach (var m in UnityEditor.ShaderUtil.GetShaderMessages(material.shader).Where(m => m.severity == UnityEditor.Rendering.ShaderCompilerMessageSeverity.Error))
+				{
+					string file = String.IsNullOrEmpty(m.file) ? material.shader.name : m.file;
+					AddMessage($"{file}:{m.line} {m.message}", NodeMessageType.Error);
+				}
+				return false;
 			}
-			else
 #endif
-			{
-				output.material = material;
-			}
+			return true;
+		}
+
+		protected override bool ProcessNode(CommandBuffer cmd)
+		{
+			var outputDimension = rtSettings.GetTextureDimension(graph);
+			MixtureUtils.SetupDimensionKeyword(material, outputDimension);
+			output.material = material;
 
 			return true;
 		}

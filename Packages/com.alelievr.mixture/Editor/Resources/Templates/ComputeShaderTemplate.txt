@@ -1,5 +1,6 @@
-﻿// Each #kernel tells which function to compile; you can have many kernels
+// Each #kernel tells which function to compile; you can have many kernels
 #pragma kernel CSMain
+#pragma kernel Preview
 
 // By default all RW* structs (RWTexture, RWBuffer, etc) will appear as outputs in the node
 // If you don't want this behaviour, you can prefix your variable with '__',
@@ -9,9 +10,6 @@
 Texture2D<float4> _Input;
 
 RWTexture2D<float4> _Output;
-
-// This will be used for the preview Texture
-RWTexture2D<float4> _Preview;
 
 float __Hidden;
 
@@ -23,5 +21,15 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     // Insert your code here
 
     _Output[id.xy] = input;
-    _Preview[id.xy] = input;
+}
+
+// This will be used for the preview Texture in the node
+RWTexture2D<float4> _Preview;
+float4 _PreviewResolution; // xy is the pixel resolution and zw is 1 / xy
+
+[numthreads(8, 8, 1)]
+void Preview(uint3 id : SV_DispatchThreadID)
+{
+    // You can insert custom preview code here
+    _Preview[id.xy] = _Output[id.xy];
 }

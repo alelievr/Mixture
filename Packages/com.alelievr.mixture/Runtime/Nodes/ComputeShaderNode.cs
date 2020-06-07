@@ -9,219 +9,38 @@ using System.IO;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Compute Shader")]
-	public class ComputeShaderNode : MixtureNode
+	[System.Serializable]
+	public abstract class ComputeShaderNode : MixtureNode
 	{
-		[Serializable]
-		public struct ComputeParameter
-		{
-			public string	displayName;
-			public string	propertyName;
-			public string	specificType; // In case the property is templated
-			public SerializableType	sType;
-		}
-
-		[Serializable]
-		public enum TextureAllocMode
-		{
-			SameAsOutput	= 0,
-			_32				= 32,
-			_64				= 64,
-			_128			= 128,
-			_256			= 256,
-			_512			= 512,
-			_1024			= 1024,
-			_2048			= 2048,
-			_4096			= 4096,
-			_8192			= 8192,
-			// Custom			= -1,
-		}
-
-		[Serializable]
-		public class ResourceDescriptor
-		{
-			public string			propertyName;
-			public bool				autoAlloc;
-			public int				bufferStride = 4;
-			public int				bufferSize = 1;
-
-			public TextureAllocMode textureAllocMode = TextureAllocMode.SameAsOutput;
-			public int				textureCustomWidth = 512;
-			public int				textureCustomHeight = 512;
-			public int				textureCustomDepth = 1;
-			public SerializableType	sType;
-
-			[NonSerialized]
-			public RenderTexture	allocatedTexture;
-			[NonSerialized]
-			public ComputeBuffer	allocatedBuffer;
-		}
-
-		[Input(name = "In"), SerializeField]
-		public List< ComputeParameter >	computeInputs = new List<ComputeParameter>();
-		[Output(name = "Out"), SerializeField]
-		public List< ComputeParameter >	computeOutputs = new List<ComputeParameter>();
-
 		[HideInInspector]
 		public ComputeShader			computeShader;
 
-		[SerializeField]
-		internal List<ResourceDescriptor> managedResources = new List<ResourceDescriptor>();
-
-        protected virtual IEnumerable<string> filteredOutProperties => Enumerable.Empty<string>();
+		static readonly int previewResolutionId = Shader.PropertyToID("_PreviewResolution");
 
 		// We arbitrary take the first compute output that is a texture.
 		// TODO: settings in the node for the name of the preview texture
-		public override Texture previewTexture => nodePreview;
+		public override Texture previewTexture => tempRenderTexture;
 
 		// We don't use the 'Custom' part but we need a CRT for utility functions
-		protected CustomRenderTexture nodePreview;
+		protected CustomRenderTexture tempRenderTexture;
 
 		internal string previewComputeProperty = "_Preview";
-		[SerializeField]
-		internal int			kernelIndex;
-		[SerializeField]
-		internal int			previewKernelIndex = -1;
-		[SerializeField]
-		internal List< string >	kernelNames = new List<string>();
-		[SerializeField]
-		internal string			resourcePath;
 
 		public override string			name => computeShader != null ? computeShader.name : "Compute Shader";
 
 		public virtual string previewTexturePropertyName => previewComputeProperty;
-		protected virtual string computeShaderResourcePath => resourcePath;
-		protected virtual bool autoDetectInputs => true;
-		/// <summary>This function also controls the output memory allocation</summary>
-		protected virtual bool autoDetectOutputs => true;
+		protected abstract string computeShaderResourcePath { get; }
 
-		protected virtual string previewKernel => null;
+		public virtual bool showOpenButton => false;
 
 		protected override void Enable()
 		{
 			if (!String.IsNullOrEmpty(computeShaderResourcePath) && computeShader == null)
 				computeShader = LoadComputeShader(computeShaderResourcePath);
 
-			UpdateTempRenderTexture(ref nodePreview);
+			UpdateTempRenderTexture(ref tempRenderTexture);
 
-			foreach (var res in managedResources)
-				AllocateResource(res);
-
-			UpdateComputeShader();
-		}
-
-		internal void UpdateComputeShader()
-		{
-			if (computeShader == null)
-				return;
-
-			if (!String.IsNullOrEmpty(previewKernel))
-				previewKernelIndex = computeShader.FindKernel(previewKernel);
-		}
-
-		void AllocateResource(ResourceDescriptor desc)
-		{
-			if (!autoDetectOutputs)
-				return;
-
-			var t = desc.sType.type;
-			if (t == typeof(ComputeBuffer))
-			{
-				desc.allocatedBuffer = AllocComputeBuffer(desc.bufferSize, desc.bufferStride);
-			}
-			else if (typeof(Texture).IsAssignableFrom(t))
-			{
-				int expectedWidth = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? rtSettings.GetWidth(graph) : (int)desc.textureAllocMode;
-				int expectedHeight = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? rtSettings.GetHeight(graph) : (int)desc.textureAllocMode;
-				int expectedDepth = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? rtSettings.GetDepth(graph) : (int)desc.textureAllocMode;
-
-				RenderTextureDescriptor descriptor = new RenderTextureDescriptor
-				{
-					// TODO: custom size
-					width = expectedWidth,
-					height = expectedHeight,
-					volumeDepth = expectedDepth,
-					autoGenerateMips = false,
-					useMipMap = false,
-					graphicsFormat = GraphicsFormat.R16G16B16A16_SFloat,
-					enableRandomWrite = true,
-					depthBufferBits = 0,
-					dimension = TextureUtils.GetDimensionFromType(t),
-					msaaSamples = 1,
-				};
-				desc.allocatedTexture = new RenderTexture(descriptor)
-				{
-					name = "AutoAllocated - " + name,
-				};
-				desc.allocatedTexture.Create();
-			}
-		}
-
-		void FreeResource(ResourceDescriptor desc)
-		{
-			if (!desc.autoAlloc)
-				return;
-
-			if (desc.allocatedTexture != null)
-				CoreUtils.Destroy(desc.allocatedTexture);
-			else if (desc.allocatedBuffer != null)
-				desc.allocatedBuffer.Release();
-			desc.allocatedTexture = null;
-			desc.allocatedBuffer = null;
-		}
-
-		public void AddManagedResource(ResourceDescriptor desc)
-		{
-			AllocateResource(desc);
-			managedResources.Add(desc);
-		}
-
-		public void RemoveManagedResource(ResourceDescriptor desc)
-		{
-			FreeResource(desc);
-			managedResources.Remove(desc);
-		}
-
-		public void UpdateManagedResource(ResourceDescriptor desc)
-		{
-			if (desc.autoAlloc && desc.allocatedTexture == null && desc.allocatedBuffer == null)
-				AllocateResource(desc);
-			if (!desc.autoAlloc && (desc.allocatedTexture != null || desc.allocatedBuffer != null))
-				FreeResource(desc);
-			
-			// TODO: check allocated size vs settings and do patch stuff
-			if (desc.allocatedTexture != null)
-			{
-				var t = desc.allocatedTexture;
-				int expectedWidth = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? rtSettings.GetWidth(graph) : (int)desc.textureAllocMode;
-				int expectedHeight = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? rtSettings.GetHeight(graph) : (int)desc.textureAllocMode;
-				int expectedDepth = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? rtSettings.GetDepth(graph) : (int)desc.textureAllocMode;
-				if (t.width != expectedWidth || t.height != expectedHeight || t.volumeDepth != expectedDepth)
-				{
-					t.Release();
-					t.width = expectedWidth;
-					t.height = expectedHeight;
-					t.volumeDepth = expectedDepth;
-					t.Create();
-				}
-			}
-			if (desc.allocatedBuffer != null)
-			{
-				var b = desc.allocatedBuffer;
-
-				if (b.stride != desc.bufferStride || b.count != desc.bufferSize)
-				{
-					b.Release();
-					desc.allocatedBuffer = AllocComputeBuffer(desc.bufferSize, desc.bufferStride);
-				}
-			}
-		}
-
-		ComputeBuffer AllocComputeBuffer(int count, int stride)
-		{
-			count = Mathf.Max(1, count);
-			stride = Mathf.Max(4, stride);
-			return new ComputeBuffer(count, stride) { name = "AutoAlloc - " + name };
+			beforeProcessSetup += BeforeProcessSetup;
 		}
 
 		protected ComputeShader LoadComputeShader(string name)
@@ -243,119 +62,32 @@ namespace Mixture
 			return compute;
 		}
 
-		// Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code
-		[CustomPortBehavior(nameof(computeInputs))]
-		public IEnumerable< PortData > ListComputeInputProperties(List< SerializableEdge > edges)
-		{
-			if (!autoDetectInputs)
-				yield break;
+		public override bool canProcess => ComputeIsValid();
 
-			if (computeInputs != null)
-			{
-				foreach (var p in computeInputs)
-				{
-					yield return new PortData
-					{
-						displayName = p.displayName,
-						displayType = p.sType.type,
-						identifier = p.propertyName,
-						acceptMultipleEdges = false,
-					};
-				}
-			}
+		void BeforeProcessSetup()
+		{
+			// Update the temp RT so users that overrides processNode don't have to do it
+			UpdateTempRenderTexture(ref tempRenderTexture);
 		}
 
-		[CustomPortBehavior(nameof(computeOutputs))]
-		public IEnumerable< PortData > ListComputeOutputProperties(List< SerializableEdge > edges)
+		public bool ComputeIsValid()
 		{
-			if (!autoDetectOutputs)
-				yield break;
+			ClearMessages();
 
-			if (computeOutputs != null)
-			{
-				foreach (var p in computeOutputs)
-				{
-					if (p.sType == null)
-						continue;
-
-					yield return new PortData
-					{
-						displayName = p.displayName,
-						displayType = p.sType.type,
-						identifier = p.propertyName,
-						acceptMultipleEdges = true,
-					};
-				}
-			}
-		}
-
-		List<(string propertyName, object value)> assignedInputs = new List<(string, object)>();
-
-		[CustomPortInput(nameof(computeInputs), typeof(object))]
-		void AssignComputeInputs(List< SerializableEdge > edges)
-		{
-			foreach (var edge in edges)
-			{
-				switch (edge.passThroughBuffer)
-				{
-					case float f: computeShader.SetFloat(edge.inputPortIdentifier, f); break;
-					case bool b: computeShader.SetBool(edge.inputPortIdentifier, b); break;
-					case Vector2 v: computeShader.SetVector(edge.inputPortIdentifier, v); break;
-					case Vector3 v: computeShader.SetVector(edge.inputPortIdentifier, v); break;
-					case Vector4 v: computeShader.SetVector(edge.inputPortIdentifier, v); break;
-					case Matrix4x4 m: computeShader.SetMatrix(edge.inputPortIdentifier, m); break;
-					case Texture t: computeShader.SetTexture(kernelIndex, edge.inputPortIdentifier, t); break;
-					case ComputeBuffer b: computeShader.SetBuffer(kernelIndex, edge.inputPortIdentifier, b); break;
-					default: throw new Exception($"Can't assign {edge.passThroughBuffer} to a compute shader!");
-				}
-				assignedInputs.Add((edge.inputPortIdentifier, edge.passThroughBuffer));
-			}
-		}
-
-		[CustomPortOutput(nameof(computeOutputs), typeof(object))]
-		void ComputeShaderOutputs(List< SerializableEdge > edges)
-		{
-			foreach (var edge in edges)
-			{
-				// Output managed resources:
-				foreach (var res in managedResources)
-					if (res.propertyName == edge.outputPortIdentifier)
-						edge.passThroughBuffer = (object)res.allocatedTexture ?? res.allocatedBuffer;
-
-				// Output inputs in case they are RW:
-				foreach (var input in assignedInputs)
-					if (input.propertyName == edge.outputPortIdentifier)
-						edge.passThroughBuffer = input.value;
-			}
-		}
-
-		protected override bool ProcessNode(CommandBuffer cmd)
-		{
 			if (computeShader == null)
+			{
+				AddMessage($"Compute Shader Can't be found", NodeMessageType.Error);
 				return false;
-
-			if (!ComputeIsValid())
-				return false;
-
-			UpdateTempRenderTexture(ref nodePreview);
-
-			DispatchCompute(cmd, kernelIndex, rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), rtSettings.GetDepth(graph));
-
-			DispatchComputePreview(cmd);
-
-			return true;
-		}
-
-		protected bool ComputeIsValid()
-		{
-			if (computeShader == null)
-				return false;
-
+			}
+			
 #if UNITY_EDITOR // IsShaderCompiled is editor only
 			if (!IsComputeShaderCompiled(computeShader))
 			{
-				Debug.LogError($"Can't process {name}, shader has errors.");
-				LogComputeShaderErrors(computeShader);
+				foreach (var m in UnityEditor.ShaderUtil.GetComputeShaderMessages(computeShader).Where(m => m.severity == UnityEditor.Rendering.ShaderCompilerMessageSeverity.Error))
+				{
+					string file = String.IsNullOrEmpty(m.file) ? computeShader.name : m.file;
+					AddMessage($"{file}:{m.line} {m.message} {m.messageDetails}", NodeMessageType.Error);
+				}
 				return false;
 			}
 #endif
@@ -363,70 +95,56 @@ namespace Mixture
 			return true;
 		}
 
-		Dictionary<int, (int x, int y, int z)> kernelGroupSizes = new Dictionary<int, (int a, int, int)>();
-
 		protected void DispatchCompute(CommandBuffer cmd, int kernelIndex, int width, int height = 1, int depth = 1)
 			=> DispatchCompute(cmd, computeShader, kernelIndex, width, height, depth);
 
 		protected void DispatchCompute(CommandBuffer cmd, ComputeShader compute, int kernelIndex, int width, int height = 1, int depth = 1)
 		{
-			if (!kernelGroupSizes.ContainsKey(kernelIndex))
-			{
-				computeShader.GetKernelThreadGroupSizes(kernelIndex, out uint x, out uint y, out uint z);
-				kernelGroupSizes[kernelIndex] = ((int)x, (int)y, (int)z);
-			}
+			computeShader.GetKernelThreadGroupSizes(kernelIndex, out uint x, out uint y, out uint z);
 
-			var threadSizes = kernelGroupSizes[kernelIndex];
-
-			if (width % threadSizes.x != 0 || height % threadSizes.y != 0 || depth % threadSizes.z != 0)
+			if (width % x != 0 || height % y != 0 || depth % z != 0)
 				Debug.LogError("DispatchCompute size must be a multiple of the kernel group thread size defined in the computeShader shader");
 
-			if (previewKernelIndex == -1)
-				computeShader.SetTexture(kernelIndex, previewTexturePropertyName, nodePreview);
-			
-			// Bind managed resources:
-			foreach (var res in managedResources)
-			{
-				if (!res.autoAlloc)
-					continue;
-
-				if (res.allocatedTexture != null)
-					computeShader.SetTexture(kernelIndex, res.propertyName, res.allocatedTexture);
-
-				if (res.allocatedBuffer != null)
-					computeShader.SetBuffer(kernelIndex, res.propertyName, res.allocatedBuffer);
-			}
+			// Bind the preview texture as well in case users write to it
+			cmd.SetComputeTextureParam(compute, kernelIndex, previewTexturePropertyName, previewTexture);
+			cmd.SetComputeVectorParam(compute, previewResolutionId, new Vector4(previewTexture.width, previewTexture.height, 1.0f / previewTexture.width, 1.0f / previewTexture.height));
 
 			cmd.DispatchCompute(computeShader, kernelIndex,
 
-				Mathf.Max(1, width / threadSizes.x),
-				Mathf.Max(1, height / threadSizes.y),
-				Mathf.Max(1, depth / threadSizes.z)
+				Mathf.Max(1, width / (int)x),
+				Mathf.Max(1, height / (int)y),
+				Mathf.Max(1, depth / (int)z)
 			);
 		}
 
-		protected void DispatchComputePreview(CommandBuffer cmd)
+		protected void DispatchComputePreview(CommandBuffer cmd, int previewKernel)
+			=> DispatchComputePreview(cmd, computeShader, previewKernel);
+
+		protected void DispatchComputePreview(CommandBuffer cmd, ComputeShader compute, int previewKernel)
 		{
 			if (hasPreview && previewTexture != null)
 			{
-				int index = previewKernelIndex != -1 ? previewKernelIndex : kernelIndex;
-				if (index > 0)
+				if (previewKernel != -1)
 				{
-					computeShader.SetTexture(index, previewTexturePropertyName, previewTexture);
-					DispatchCompute(cmd, index, previewTexture.width, previewTexture.height, 1);
+					cmd.SetComputeTextureParam(compute, previewKernel, previewTexturePropertyName, previewTexture);
+					cmd.SetComputeVectorParam(compute, previewResolutionId, new Vector4(previewTexture.width, previewTexture.height, 1.0f / previewTexture.width, 1.0f / previewTexture.height));
+					DispatchCompute(cmd, compute, previewKernel, previewTexture.width, previewTexture.height, 1);
+				}
+				else
+				{
+					Debug.LogError($"Invalid previewKernel in {compute}");
 				}
 			}
 		}
+
+		protected void ClearBuffer(CommandBuffer cmd, ComputeBuffer buffer, int sizeInByte = -1, int offset = 0)
+			=> MixtureUtils.ClearBuffer(cmd, buffer, sizeInByte, offset);
 
 		protected override void Disable()
 		{
 			base.Disable();
 
-        	CoreUtils.Destroy(nodePreview);
-			foreach (var res in managedResources)
-			{
-				FreeResource(res);
-			}
+        	CoreUtils.Destroy(tempRenderTexture);
 		}
 
 #if UNITY_EDITOR
@@ -440,11 +158,6 @@ namespace Mixture
 
 		void LogComputeShaderErrors(ComputeShader computeShader)
 		{
-			foreach (var m in UnityEditor.ShaderUtil.GetComputeShaderMessages(computeShader).Where(m => m.severity == UnityEditor.Rendering.ShaderCompilerMessageSeverity.Error))
-			{
-				string file = String.IsNullOrEmpty(m.file) ? computeShader.name : m.file;
-				Debug.LogError($"{file}:{m.line} {m.message} {m.messageDetails}");
-			}
 		}
 #endif
     }

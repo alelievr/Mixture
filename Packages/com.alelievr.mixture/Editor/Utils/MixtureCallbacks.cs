@@ -17,10 +17,14 @@ namespace Mixture
 		public static readonly string	Extension = "asset";
 		public static readonly string	customTextureShaderTemplate = "Templates/CustomTextureShaderTemplate";
 
-		public static readonly string	mixtureShaderNodeCSharpTemplate = "Templates/FixedShaderNodeTemplate";
-		public static readonly string	mixtureShaderNodeCGTemplate = "Templates/FixedShaderTemplate";
-		public static readonly string	mixtureShaderNodeDefaultName = "MixtureShaderNode.cs";
-		public static readonly string	mixtureShaderName = "MixtureShader.shader";
+		public static readonly string	shaderNodeCSharpTemplate = "Templates/FixedShaderNodeTemplate";
+		public static readonly string	shaderNodeCGTemplate = "Templates/FixedShaderTemplate";
+		public static readonly string	shaderNodeDefaultName = "MixtureShaderNode.cs";
+		public static readonly string	shaderName = "MixtureShader.shader";
+		public static readonly string	csharpComputeShaderNodeTemplate = "Templates/CsharpComputeShaderNodeTemplate";
+		public static readonly string	computeShaderTemplate = "Templates/ComputeShaderTemplate";
+		public static readonly string	computeShaderDefaultName = "MixtureCompute.compute";
+		public static readonly string	computeShaderNodeDefaultName = "MixtureCompute.cs";
 
 		public static readonly string	customMipMapShader = "MixtureShader.shader";
 
@@ -50,7 +54,7 @@ namespace Mixture
                 $"New Custom Texture Graph.{ShaderGraphImporter.Extension}", Resources.Load<Texture2D>("sg_graph_icon@64"), null);
 		}
 
-		[MenuItem("Assets/Create/Mixture/Custom Mip Map", false, 203)]
+		[MenuItem("Assets/Create/Mixture/Custom Mip Map", false, 403)]
 		public static void CreateCustomMipMapShaderGraph()
 		{
 			var graphItem = ScriptableObject.CreateInstance< MipMapShaderGraphAction >();
@@ -62,15 +66,15 @@ namespace Mixture
 		[MenuItem("Assets/Create/Mixture/C# Fixed Shader Node", false, 200)]
 		public static void CreateCSharpFixedShaderNode()
 		{
-			var template = Resources.Load< TextAsset >(mixtureShaderNodeCSharpTemplate);
-			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), mixtureShaderNodeDefaultName);
+			var template = Resources.Load< TextAsset >(shaderNodeCSharpTemplate);
+			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), shaderNodeDefaultName);
 		}
 
 		[MenuItem("Assets/Create/Mixture/Fixed Shader", false, 201)]
 		public static void CreateCGFixedShaderNode()
 		{
-			var template = Resources.Load< TextAsset >(mixtureShaderNodeCGTemplate);
-			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), mixtureShaderName);
+			var template = Resources.Load< TextAsset >(shaderNodeCGTemplate);
+			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), shaderName);
 		}
 
 		[MenuItem("Assets/Create/Shader/Custom Texture", false, 100)]
@@ -85,6 +89,20 @@ namespace Mixture
 			);
 		}
 		
+		[MenuItem("Assets/Create/Mixture/C# Compute Shader Node", false, 300)]
+		public static void CreateCSharpComuteShaderNode()
+		{
+			var template = Resources.Load< TextAsset >(csharpComputeShaderNodeTemplate);
+			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), computeShaderNodeDefaultName);
+		}
+
+		[MenuItem("Assets/Create/Mixture/Compute Shader", false, 301)]
+		public static void CreateComuteShaderFile()
+		{
+			var template = Resources.Load< TextAsset >(computeShaderTemplate);
+			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), computeShaderDefaultName);
+		}
+
 		[OnOpenAsset(0)]
 		public static bool OnBaseGraphOpened(int instanceID, int line)
 		{

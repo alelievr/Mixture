@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.UIElements;
 
 namespace Mixture
 {
 	[System.Serializable, NodeCustomEditor(typeof(SplatterNode))]
-	public class SplatterNodeView : FixedShaderNodeView
+	public class SplatterNodeView : ComputeShaderNodeView
 	{
+		SplatterNode node;
+
 		public override void Enable()
 		{
 			base.Enable();
 
-			BuildScatterUI();
-		}
-
-		void BuildScatterUI()
-		{
-			// FieldFactory.CreateField(typeof())
-			// controlsContainer.Add();
+			node = nodeTarget as SplatterNode;
 		}
 	}
 }

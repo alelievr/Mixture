@@ -66,11 +66,6 @@ namespace Mixture
 				controlsContainer.Add(title);
 			}
 
-			if (nodeTarget.showDefaultInspector)
-			{
-				DrawDefaultInspector();
-			}
-
 			RegisterCallback< MouseDownEvent >(e => {
 				if (owner.GetPinnedElementStatus< PinnedViewBoard >() == DropdownMenuAction.Status.Normal)
 				{
@@ -80,9 +75,15 @@ namespace Mixture
 			});
 
 			previewContainer = new VisualElement();
-			controlsContainer.Add(previewContainer);
+			previewContainer.AddToClassList("Preview");
+			mainContainer.Insert(2, previewContainer);
 			UpdateTexturePreview();
 			InitProcessingTimeLabel();
+
+			if (nodeTarget.showDefaultInspector)
+			{
+				DrawDefaultInspector();
+			}
         }
 
 		~MixtureNodeView()

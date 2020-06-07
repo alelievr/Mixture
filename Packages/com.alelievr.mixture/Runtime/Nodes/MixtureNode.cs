@@ -37,6 +37,9 @@ namespace Mixture
 		public bool							isPreviewCollapsed = false;
 
 		public event Action					onSettingsChanged;
+		public event Action					beforeProcessSetup;
+
+		public override bool				showControlsOnHover => true;
 
 		protected Dictionary<string, Material> temporaryMaterials = new Dictionary<string, Material>();
 
@@ -188,6 +191,8 @@ namespace Mixture
 				RemoveMessage($"Dimension {TextureDimension.Tex3D} is not supported by this node");
 				RemoveMessage($"Dimension {TextureDimension.Cube} is not supported by this node");
 			}
+
+			beforeProcessSetup?.Invoke();
 
 			// Avoid adding markers if it's CRT processing (CRT  already have one)
 			if (this is IUseCustomRenderTextureProcessing)

@@ -139,6 +139,11 @@ namespace Mixture
 			get => _realtimeIcon32 == null ? _realtimeIcon32 = Resources.Load< Texture2D >("MixtureRealtimeIcon_32") : _realtimeIcon32;
 		}
 
+		static ComputeShader			_clearCompute;
+		public static ComputeShader		clearCompute
+		{
+			get => _clearCompute == null ? _clearCompute = Resources.Load< ComputeShader >("Mixture/Clear") : _clearCompute;
+		}
 
 		public static void SetupDimensionKeyword(Material material, TextureDimension dimension)
 		{
@@ -210,5 +215,25 @@ namespace Mixture
 #endif
             }
         }
+
+		static readonly int clearLimitId = Shader.PropertyToID("_ClearLimit");
+		static readonly int offsetId = Shader.PropertyToID("_Offset");
+		static readonly int rawId = Shader.PropertyToID("_Raw");
+
+		/// <summary>
+		/// Beware, this function is generic and slow :(
+		/// </summary>
+		public static void ClearBuffer(CommandBuffer cmd, ComputeBuffer buffer, int size = -1, int offset = 0)
+		{
+			if (size == -1)
+				size = buffer.count	* buffer.stride / 4;
+
+			cmd.SetComputeIntParam(clearCompute, offsetId, offset);
+			cmd.SetComputeIntParam(clearCompute, clearLimitId, size);
+			cmd.SetComputeBufferParam(clearCompute, 0, rawId, buffer);
+			int x = Mathf.Clamp(size / 128, 1, 128);
+			int y = Mathf.Max(size / 4096, 1);
+			cmd.DispatchCompute(clearCompute, 0, x, y, 1);
+		}
     }
 }

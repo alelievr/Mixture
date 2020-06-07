@@ -10,17 +10,6 @@ namespace Mixture
 		public abstract bool    displayMaterialInspector { get; }
 		public override Texture previewTexture => output;
 
-		internal override float processingTimeInMillis
-		{
-			get
-			{
-				var sampler = CustomTextureManager.GetCustomTextureProfilingSampler(output);
-				if (sampler != null)
-					return sampler.GetRecorder().gpuElapsedNanoseconds / 1000000.0f;
-				return 0;
-			}
-		}
-
 		protected override MixtureRTSettings defaultRTSettings
 		{
 			get
@@ -39,20 +28,25 @@ namespace Mixture
 			base.Enable();
         }
 
-		void FindShader() => shader = Shader.Find(shaderName);
-
-		protected override bool ProcessNode(CommandBuffer cmd)
+		void FindShader()
 		{
-			if (!base.ProcessNode(cmd))
-				return false;
+			shader = Shader.Find(shaderName);
+			if (material != null && material.shader != shader)
+				material.shader = shader;
+		}
 
-			if (shader == null)
-				FindShader();
+		public override bool canProcess
+		{
+			get
+			{
+				if (shader == null)
+				{
+					FindShader();
+					material.shader = shader;
+				}
 			
-			if (shader == null)
-				return false;
-			
-			return true;
+				return base.canProcess;
+			}
 		}
 	}
 }
