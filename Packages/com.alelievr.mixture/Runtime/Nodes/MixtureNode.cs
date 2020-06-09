@@ -38,8 +38,9 @@ namespace Mixture
 
 		public event Action					onSettingsChanged;
 		public event Action					beforeProcessSetup;
+		public event Action					afterProcessCleanup;
 
-		public override bool				showControlsOnHover => true;
+		public override bool				showControlsOnHover => canShowOnHover && false; // Disable this feature for now
 
 		protected Dictionary<string, Material> temporaryMaterials = new Dictionary<string, Material>();
 
@@ -52,6 +53,8 @@ namespace Mixture
         public bool previewVisible = true;
 		[SerializeField]
 		public float previewEV100 = 0.0f;
+
+		internal bool canShowOnHover = true;
 
 		CustomSampler		_sampler;
 		CustomSampler		sampler
@@ -203,6 +206,7 @@ namespace Mixture
 				ProcessNode(cmd);
 				cmd.EndSample(sampler);
 			}
+			afterProcessCleanup?.Invoke();
 		}
 
 		protected virtual bool ProcessNode(CommandBuffer cmd) => true;

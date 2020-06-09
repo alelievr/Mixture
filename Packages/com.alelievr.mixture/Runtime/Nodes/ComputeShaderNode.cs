@@ -40,7 +40,8 @@ namespace Mixture
 
 			UpdateTempRenderTexture(ref tempRenderTexture);
 
-			beforeProcessSetup += BeforeProcessSetup;
+			beforeProcessSetup += UpdateTempRT;
+			afterProcessCleanup += UpdateTempRT;
 		}
 
 		protected ComputeShader LoadComputeShader(string name)
@@ -64,7 +65,7 @@ namespace Mixture
 
 		public override bool canProcess => ComputeIsValid();
 
-		void BeforeProcessSetup()
+		void UpdateTempRT()
 		{
 			// Update the temp RT so users that overrides processNode don't have to do it
 			UpdateTempRenderTexture(ref tempRenderTexture);
@@ -76,8 +77,12 @@ namespace Mixture
 
 			if (computeShader == null)
 			{
-				AddMessage($"Compute Shader Can't be found", NodeMessageType.Error);
-				return false;
+				LoadComputeShader(computeShaderResourcePath);
+				if (computeShader == null)
+				{
+					AddMessage($"Compute Shader Can't be found", NodeMessageType.Error);
+					return false;
+				}
 			}
 			
 #if UNITY_EDITOR // IsShaderCompiled is editor only

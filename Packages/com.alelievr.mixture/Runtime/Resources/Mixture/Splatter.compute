@@ -28,6 +28,7 @@ float3 _MaxScale;
 
 // Other
 float _Time;
+float _ElementCount;
 float3 _PositionJitter;
 
 void Stack(uint id)
@@ -38,10 +39,13 @@ void Stack(uint id)
 void Grid(uint id)
 {
     float3 p;
-    p = float3(id % _GridSize.x, uint(id / _GridSize.y), 0);
+    p = float3(id % floor(_GridSize.x), (id / floor(_GridSize.y)), 0);
+    p /= float3(_GridSize.xy / 2, 1);
+    p.xy += float3(rcp(_GridSize.xy), 0) - 1;
     p.xy -= _GridOffset * p.xy;
 
     _SplatPoints[id].position = p;
+    _SplatPoints[id].scale = float3(rcp(_GridSize.x), rcp(_GridSize.y), 1);
 }
 
 void R2(uint id)
@@ -121,7 +125,7 @@ void GenerateSplatPoints(uint id : SV_DispatchThreadID)
     switch (_ScaleMode)
     {
         case 0: // Fix
-            _SplatPoints[id].scale = _FixedScale;
+            _SplatPoints[id].scale *= _FixedScale;
             break;
         case 1: // Random
             RandomBetweenScale(id);

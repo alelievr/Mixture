@@ -53,6 +53,11 @@ namespace Mixture
 			UpdateShader();
 			UpdateTempRenderTexture(ref output);
 			output.material = material;
+
+			// Update temp RT after process in case RTSettings have been modified in Process()
+			afterProcessCleanup += () => {
+				UpdateTempRenderTexture(ref output);
+			};
 		}
 
         protected override void Disable() => CoreUtils.Destroy(output);

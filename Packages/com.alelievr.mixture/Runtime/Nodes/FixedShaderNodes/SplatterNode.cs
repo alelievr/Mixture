@@ -105,6 +105,7 @@ namespace Mixture
 		static readonly int _MaxScale = Shader.PropertyToID("_MaxScale");
 		static readonly int _PositionJitter = Shader.PropertyToID("_PositionJitter");
 		static readonly int _Time = Shader.PropertyToID("_Time");
+		static readonly int _ElementCount = Shader.PropertyToID("_ElementCount");
 
 		[CustomPortBehavior(nameof(inputTextures))]
 		IEnumerable<PortData> CustomInputTexturePortData(List<SerializableEdge> edges)
@@ -147,7 +148,7 @@ namespace Mixture
 			DispatchCompute(cmd, generatePointKernel, maxSplatCount + ((int)x - maxSplatCount % (int)x));
 
 			indirectArguments[0] = 6;
-			indirectArguments[1] = maxSplatCount;
+			indirectArguments[1] = Mathf.Max(0, maxSplatCount);
 			indirectArguments[2] = 0;
 			indirectArguments[3] = 0;
 			indirectArguments[4] = 0;
@@ -170,6 +171,7 @@ namespace Mixture
 		{
 			cmd.SetComputeBufferParam(computeShader, generatePointKernel, _SplatPoints, splatPointsBuffer);
 			cmd.SetComputeFloatParam(computeShader, _Time, Time.time);
+			cmd.SetComputeFloatParam(computeShader, _ElementCount, maxSplatCount);
 			cmd.SetComputeIntParam(computeShader, _Sequence, (int)sequence);
 			cmd.SetComputeIntParam(computeShader, _RotationMode, (int)rotationMode);
 			cmd.SetComputeIntParam(computeShader, _ScaleMode, (int)scaleMode);

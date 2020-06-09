@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using GraphProcessor;
+using System.IO;
 
 namespace Mixture
 {
@@ -44,7 +45,8 @@ namespace Mixture
 		{
             var mixture = (graph as MixtureGraph);
             bool realtime = mixture.isRealtime;
-			titleContent = new GUIContent($"Mixture {(realtime ? "(RT) " : "")}- {mixture.name}", MixtureUtils.windowIcon);
+			var fileName = Path.GetFileNameWithoutExtension(mixture.mainAssetPath);
+			titleContent = new GUIContent($"Mixture {(realtime ? "(RT) " : "")}- {fileName}", MixtureUtils.windowIcon);
 
 			view = new MixtureGraphView(this);
 

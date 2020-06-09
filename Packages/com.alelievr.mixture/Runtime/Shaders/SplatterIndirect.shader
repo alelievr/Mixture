@@ -27,6 +27,8 @@ Shader "Hidden/Mixture/Splatter"
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.cginc"
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/Splatter.hlsl"
 
+	#pragma enable_d3d11_debug_symbols
+
 	TEXTURE_SAMPLER_X(_Source);
 	float4 _SourceCrop;
     StructuredBuffer<SplatPoint> _SplatPoints;

@@ -76,14 +76,13 @@ namespace Mixture
 
 			previewContainer = new VisualElement();
 			previewContainer.AddToClassList("Preview");
-			mainContainer.Insert(2, previewContainer);
+			controlsContainer.Add(previewContainer);
 			UpdateTexturePreview();
+
 			InitProcessingTimeLabel();
 
 			if (nodeTarget.showDefaultInspector)
-			{
 				DrawDefaultInspector();
-			}
         }
 
 		~MixtureNodeView()
@@ -222,12 +221,14 @@ namespace Mixture
 		{
 			if (!PinnedViewBoard.instance.HasView(controlsContainer))
 				PinnedViewBoard.instance.Add(this, controlsContainer, nodeTarget.name);
+			nodeTarget.canShowOnHover = false;
 		}
 
 		internal void UnpinView()
 		{
 			PinnedViewBoard.instance.Remove(controlsContainer);
 			mainContainer.Add(controlsContainer);
+			nodeTarget.canShowOnHover = true;
 		}
 
 		DropdownMenuAction.Status PinStatus(DropdownMenuAction action)
