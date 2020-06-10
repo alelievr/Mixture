@@ -7,8 +7,6 @@ Shader "Hidden/Mixture/Splatter"
 		[InlineTexture]_Source_3D("Source", 3D) = "white" {}
 		[InlineTexture]_Source_Cube("Source", Cube) = "white" {}
 
-		_SourceCrop("Source Crop", Vector) = (0, 0, 0, 0)
-
 		[Enum(Grid, 0, Random, 1, R2, 2, Halton, 3, FibonacciSpiral, 4)] _Sequence("Sequence", Float) = 0
 
 		// Sequence parameters Sequance
@@ -23,14 +21,31 @@ Shader "Hidden/Mixture/Splatter"
 	}
 
 	CGINCLUDE
+
+	#pragma enable_d3d11_debug_symbols
+	#pragma shader_feature CRT_2D CRT_3D
+	#pragma target 4.5
 	
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.cginc"
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/Splatter.hlsl"
 
-	#pragma enable_d3d11_debug_symbols
-
-	TEXTURE_SAMPLER_X(_Source);
-	float4 _SourceCrop;
+	TEXTURE_X(_Source0);
+	TEXTURE_X(_Source1);
+	TEXTURE_X(_Source2);
+	TEXTURE_X(_Source3);
+	TEXTURE_X(_Source4);
+	TEXTURE_X(_Source5);
+	TEXTURE_X(_Source6);
+	TEXTURE_X(_Source7);
+	TEXTURE_X(_Source8);
+	TEXTURE_X(_Source9);
+	TEXTURE_X(_Source10);
+	TEXTURE_X(_Source11);
+	TEXTURE_X(_Source12);
+	TEXTURE_X(_Source13);
+	TEXTURE_X(_Source14);
+	TEXTURE_X(_Source15);
+	uint _TextureCount;
     StructuredBuffer<SplatPoint> _SplatPoints;
 
 	// We only need vertex pos and uv for splat
@@ -46,6 +61,7 @@ Shader "Hidden/Mixture/Splatter"
 	{
 		float2 uv : TEXCOORD0;
 		float4 vertex : SV_POSITION;
+		uint instanceID : SV_InstanceID;
 	};
 
 	#define QUATERNION_IDENTITY float4(0, 0, 0, 1)
@@ -84,12 +100,43 @@ Shader "Hidden/Mixture/Splatter"
 		rotated = rotate_vertex_position(rotated, float3(0, 0, 1), p.rotation.z);
 
 		o.vertex = float4(rotated + p.position, 1);
+		o.instanceID = i.instanceID;
 
 		return o;
     }
 
+	#define SAMPLE_RANDOM(id, uv) SAMPLE_X_LINEAR_CLAMP(_Source##id, uv, uv)
+
+	float4 SampleRandomTexture(uint id, float3 uv)
+	{
+		// TODO: random function
+		uint r = id;
+
+		switch (r % _TextureCount)
+		{
+			case 0: return SAMPLE_RANDOM(0, uv);
+			case 1: return SAMPLE_RANDOM(1, uv);
+			case 2: return SAMPLE_RANDOM(2, uv);
+			case 3: return SAMPLE_RANDOM(3, uv);
+			case 4: return SAMPLE_RANDOM(4, uv);
+			case 5: return SAMPLE_RANDOM(5, uv);
+			case 6: return SAMPLE_RANDOM(6, uv);
+			case 7: return SAMPLE_RANDOM(7, uv);
+			case 8: return SAMPLE_RANDOM(8, uv);
+			case 9: return SAMPLE_RANDOM(9, uv);
+			case 10: return SAMPLE_RANDOM(10, uv);
+			case 11: return SAMPLE_RANDOM(11, uv);
+			case 12: return SAMPLE_RANDOM(12, uv);
+			case 13: return SAMPLE_RANDOM(13, uv);
+			case 14: return SAMPLE_RANDOM(14, uv);
+			case 15: return SAMPLE_RANDOM(15, uv);
+		}
+		return 0;
+	}
+
 	float4 Fragment(FramegentInput i) : SV_Target
 	{
+		return SampleRandomTexture(i.instanceID, float3(i.uv, 0));
 		return float4(i.uv, 0, 1);
 	}
 
@@ -107,11 +154,10 @@ Shader "Hidden/Mixture/Splatter"
 			Cull Off
 			ZTest Always
 			ZClip Off
+			Blend One One
 
 			CGPROGRAM
-				#pragma target 3.0
 				// The list of defines that will be active when processing the node with a certain dimension
-				#pragma shader_feature CRT_2D
 				#pragma vertex IndirectVertex
 				#pragma fragment Fragment
 			ENDCG

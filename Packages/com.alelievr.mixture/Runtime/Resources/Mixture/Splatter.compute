@@ -6,13 +6,15 @@ RWStructuredBuffer<SplatPoint> _SplatPoints;
 int _Sequence;
 int _RotationMode;
 int _ScaleMode;
+float2 _Extent;
 
 // Stack
 float3 _StackPosition;
 
 // Grid
 float2 _GridSize;
-float2 _GridOffset;
+float2 _GridCram;
+float2 _GridShift;
 
 // R2
 
@@ -39,10 +41,14 @@ void Stack(uint id)
 void Grid(uint id)
 {
     float3 p;
-    p = float3(id % floor(_GridSize.x), (id / floor(_GridSize.y)), 0);
-    p /= float3(_GridSize.xy / 2, 1);
+    float x = id % floor(_GridSize.x);
+    float y = id / floor(_GridSize.y);
+    float r = floor(_GridSize.x) / floor(_GridSize.y);
+    p = float3(x, y - x / floor(_GridSize.y), 0);
+    p /= float3(_GridSize.x / 2, _GridSize.y / 2 * r, 1);
     p.xy += float3(rcp(_GridSize.xy), 0) - 1;
-    p.xy -= _GridOffset * p.xy;
+    p.xy -= _GridCram * p.xy;
+    p.xy += p.yx * _GridShift.xy;
 
     _SplatPoints[id].position = p;
     _SplatPoints[id].scale = float3(rcp(_GridSize.x), rcp(_GridSize.y), 1);
@@ -108,6 +114,8 @@ void GenerateSplatPoints(uint id : SV_DispatchThreadID)
 
     // Add jitter to initial position:
     _SplatPoints[id].position += JitterPosition(id);
+    _SplatPoints[id].position *= float3(_Extent, 1); // and extent
+    _SplatPoints[id].scale *= float3(_Extent, 1); // and extent
 
     switch (_RotationMode)
     {

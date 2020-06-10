@@ -184,8 +184,10 @@ namespace Mixture
             // if there is no modifier in the name, then it supports all the dimensions
 			bool dimensionSpecific = false;
 			foreach (var dim in shaderPropertiesDimension.Values)
-				if (propertyName.EndsWith(dim))
+			{
+				if (string.Compare(propertyName, propertyName.Length - dim.Length, dim, 0, dim.Length) == 0)
 					dimensionSpecific = true;
+			}
 
 			if (!dimensionSpecific)
 				return allDimensions;

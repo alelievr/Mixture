@@ -64,7 +64,7 @@ sampler s_point_repeat_sampler;
 	#define SAMPLE_SELF(uv, dir) SAMPLE_TEXTURE3D_LOD(_SelfTexture3D, sampler_SelfTexture3D, uv, 0)
 	#define SAMPLE_SELF_LINEAR_CLAMP(uv, dir) SAMPLE_TEXTURE3D_LOD(_SelfTexture3D, s_linear_clamp_sampler, uv, 0)
 	#define SAMPLE_SELF_SAMPLER(s, uv, dir) SAMPLE_TEXTURE3D_LOD(_SelfTexture3D, s, uv, 0)
-#else
+#elif CRT_CUBE
 	#define SAMPLE_X(tex, uv, dir) texCUBElod(MERGE_NAME(tex,_Cube), float4(dir, 0))
 	#define SAMPLE_LOD_X(tex, uv, dir, lod)	texCUBElod(MERGE_NAME(tex,_Cube), float4(dir, lod))
 	#define SAMPLE_X_SAMPLER(tex, samp, uv, dir) SAMPLE_TEXTURECUBE_LOD(MERGE_NAME(tex,_Cube), samp, dir, 0)

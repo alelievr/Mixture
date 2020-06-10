@@ -61,7 +61,7 @@ namespace Mixture
 				objectType = typeof(Shader)
 			};
 
-			fixedShaderNode.material.hideFlags = HideFlags.HideAndDontSave | HideFlags.HideInInspector | HideFlags.HideInHierarchy;
+			fixedShaderNode.material.hideFlags = HideFlags.HideInInspector | HideFlags.HideInHierarchy;
 
 			debugContainer.Add(debugCustomRenderTextureField);
 			debugContainer.Add(debugShaderField);

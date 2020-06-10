@@ -31,12 +31,14 @@ namespace Mixture
 		}
 
 		[Input]
-		public List<Texture2D> inputTextures = new List<Texture2D>();
+		public List<Texture> inputTextures = new List<Texture>();
 
 		[Output]
 		public Texture output;
 
 		public int maxSplatCount = 256;
+
+		public Vector2 extent = Vector2.one;
 
 		public Sequence sequence;
 
@@ -48,7 +50,9 @@ namespace Mixture
 		[VisibleIf(nameof(sequence), Sequence.Grid)]
 		public Vector2 gridSize = new Vector2(8, 8);
 		[VisibleIf(nameof(sequence), Sequence.Grid)]
-		public Vector2 gridOffset = Vector2.zero;
+		public Vector2 gridCram = Vector2.zero;
+		[VisibleIf(nameof(sequence), Sequence.Grid)]
+		public Vector2 gridShift = Vector2.zero;
 
 		// Other
 		public Vector3 positionJitter = Vector3.zero;
@@ -96,7 +100,8 @@ namespace Mixture
 		static readonly int _SplatPoints = Shader.PropertyToID("_SplatPoints");
 		static readonly int _StackPosition = Shader.PropertyToID("_StackPosition");
 		static readonly int _GridSize = Shader.PropertyToID("_GridSize");
-		static readonly int _GridOffset = Shader.PropertyToID("_GridOffset");
+		static readonly int _GridCram = Shader.PropertyToID("_GridCram");
+		static readonly int _GridShift = Shader.PropertyToID("_GridShift");
 		static readonly int _FixedAngles = Shader.PropertyToID("_FixedAngles");
 		static readonly int _MinAngles = Shader.PropertyToID("_MinAngles");
 		static readonly int _MaxAngles = Shader.PropertyToID("_MaxAngles");
@@ -106,6 +111,8 @@ namespace Mixture
 		static readonly int _PositionJitter = Shader.PropertyToID("_PositionJitter");
 		static readonly int _Time = Shader.PropertyToID("_Time");
 		static readonly int _ElementCount = Shader.PropertyToID("_ElementCount");
+		static readonly int _Extent = Shader.PropertyToID("_Extent");
+		static readonly int _TextureCount = Shader.PropertyToID("_TextureCount");
 
 		[CustomPortBehavior(nameof(inputTextures))]
 		IEnumerable<PortData> CustomInputTexturePortData(List<SerializableEdge> edges)
@@ -124,7 +131,7 @@ namespace Mixture
 		{
 			// Create the list of input textures to splat
 			inputTextures.Clear();
-			inputTextures.AddRange(inputEdges.Select(e => e.passThroughBuffer as Texture2D).ToList());
+			inputTextures.AddRange(inputEdges.Select(e => e.passThroughBuffer as Texture).ToList());
 
 			if (inputTextures.Count > 16)
 				Debug.LogError("Max number of splat input texture reached for splatter node, please remove one.");
@@ -143,6 +150,9 @@ namespace Mixture
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
+			if (!base.ProcessNode(cmd))
+				return false;
+
 			SetComputeArgs(cmd);
 			computeShader.GetKernelThreadGroupSizes(generatePointKernel, out uint x, out _, out _);
 			DispatchCompute(cmd, generatePointKernel, maxSplatCount + ((int)x - maxSplatCount % (int)x));
@@ -156,6 +166,11 @@ namespace Mixture
 			argumentBuffer.SetData(indirectArguments);
 
 			var drawIndirectMat = GetTempMaterial("Hidden/Mixture/Splatter");
+
+			// Set input textures:
+			drawIndirectMat.SetInt(_TextureCount, inputTextures.Count);
+			for (int i = 0; i < inputTextures.Count; i++)
+				drawIndirectMat.SetTexture("_Source" + i + "_2D", inputTextures[i]);
 
 			drawIndirectMat.SetBuffer(_SplatPoints, splatPointsBuffer);
 			cmd.SetRenderTarget(tempRenderTexture);
@@ -177,7 +192,8 @@ namespace Mixture
 			cmd.SetComputeIntParam(computeShader, _ScaleMode, (int)scaleMode);
 			cmd.SetComputeVectorParam(computeShader, _StackPosition, stackPosition);
 			cmd.SetComputeVectorParam(computeShader, _GridSize, gridSize);
-			cmd.SetComputeVectorParam(computeShader, _GridOffset, gridOffset);
+			cmd.SetComputeVectorParam(computeShader, _GridCram, gridCram);
+			cmd.SetComputeVectorParam(computeShader, _GridShift, gridShift);
 			cmd.SetComputeVectorParam(computeShader, _FixedAngles, fixedAngles);
 			cmd.SetComputeVectorParam(computeShader, _MinAngles, minAngles);
 			cmd.SetComputeVectorParam(computeShader, _MaxAngles, maxAngles);
@@ -185,6 +201,7 @@ namespace Mixture
 			cmd.SetComputeVectorParam(computeShader, _MinScale, minScale);
 			cmd.SetComputeVectorParam(computeShader, _MaxScale, maxScale);
 			cmd.SetComputeVectorParam(computeShader, _PositionJitter, positionJitter);
+			cmd.SetComputeVectorParam(computeShader, _Extent, extent);
 		}
 
 		protected override void Disable()

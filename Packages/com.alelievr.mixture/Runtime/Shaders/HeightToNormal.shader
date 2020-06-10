@@ -17,13 +17,12 @@
 		Pass
 		{
 			CGPROGRAM
+            #define CRT_2D
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
 			#pragma enable_d3d11_debug_symbols
-
-            #pragma shader_feature CRT_2D
 
 			TEXTURE_X(_Source);
 			float4 _Source_2D_TexelSize;
