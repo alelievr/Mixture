@@ -34,23 +34,23 @@ namespace Net3dBool
         /** face status if it is inside a solid */
         public static int INSIDE = 2;
         /** face status if it is outside a solid */
-        public static  int OUTSIDE = 3;
+        public static int OUTSIDE = 3;
         /** face status if it is coincident with a solid face */
-        public static  int SAME = 4;
+        public static int SAME = 4;
         /** face status if it is coincident with a solid face with opposite orientation*/
-        public static  int OPPOSITE = 5;
+        public static int OPPOSITE = 5;
 
         /** point status if it is up relative to an edge - see linePositionIn_ methods */
-        private static  int UP = 6;
+        private static int UP = 6;
         /** point status if it is down relative to an edge - see linePositionIn_ methods */
-        private static  int DOWN = 7;
+        private static int DOWN = 7;
         /** point status if it is on an edge - see linePositionIn_ methods */
-        private static  int ON = 8;
+        private static int ON = 8;
         /** point status if it isn't up, down or on relative to an edge - see linePositionIn_ methods */
-        private static  int NONE = 9;
+        private static int NONE = 9;
 
         /** tolerance value to test equalities */
-        private static  double TOL = 1e-10f;
+        private static double TOL = 1e-10f;
 
         //---------------------------------CONSTRUCTORS---------------------------------//
 
@@ -115,7 +115,7 @@ namespace Net3dBool
             bool cond2 = v1.equals(face.v2) && v2.equals(face.v3) && v3.equals(face.v1);
             bool cond3 = v1.equals(face.v3) && v2.equals(face.v1) && v3.equals(face.v2);
 
-            return cond1 || cond2 || cond3;                 
+            return cond1 || cond2 || cond3;
         }
 
         //-------------------------------------GETS-------------------------------------//
@@ -125,12 +125,12 @@ namespace Net3dBool
      * 
      * @return face bound 
      */
-     Bound m_bound;
-     void UpdateBound()
-     {
-        m_bound = new Bound(v1.getPosition(), v2.getPosition(), v3.getPosition());
-        UpdateNormal();
-     }
+        Bound m_bound;
+        void UpdateBound()
+        {
+            m_bound = new Bound(v1.getPosition(), v2.getPosition(), v3.getPosition());
+            UpdateNormal();
+        }
         public Bound getBound() => m_bound;
 
         /**
@@ -138,9 +138,9 @@ namespace Net3dBool
      * 
      * @return face normal
      */
-     Vector3d m_Normal;
-     void UpdateNormal()
-     {
+        Vector3d m_Normal;
+        void UpdateNormal()
+        {
             Point3d p1 = v1.getPosition();
             Point3d p2 = v2.getPosition();
             Point3d p3 = v3.getPosition();
@@ -152,7 +152,7 @@ namespace Net3dBool
             m_Normal = new Vector3d(0, 0, 0);
             m_Normal.cross(xy, xz);
             m_Normal.normalize();
-     }
+        }
         public Vector3d getNormal() => m_Normal;
 
         /**
@@ -213,7 +213,7 @@ namespace Net3dBool
             if (status1 == Vertex.INSIDE || status1 == Vertex.OUTSIDE)
             {
                 this.status = status1;
-                return true; 
+                return true;
             }
             else if (status2 == Vertex.INSIDE || status2 == Vertex.OUTSIDE)
             {
@@ -246,10 +246,10 @@ namespace Net3dBool
             Line ray = new Line(getNormal(), p0);
 
             bool success;
-            double dotProduct, distance; 
+            double dotProduct, distance;
             Point3d intersectionPoint;
             Face closestFace = null;
-            double closestDistance; 
+            double closestDistance;
 
             do
             {
@@ -260,7 +260,7 @@ namespace Net3dBool
                 {
                     Face face = obj.getFace(i);
                     dotProduct = face.getNormal().dot(ray.getDirection());
-                    var a  = ray.computePlaneIntersection(face.getNormal(), face.v1.getPosition());
+                    var a = ray.computePlaneIntersection(face.getNormal(), face.v1.getPosition());
 
                     //if ray intersects the plane...  
                     if (a != null)
@@ -290,8 +290,8 @@ namespace Net3dBool
                             }
                         }
 
-                                    //if ray intersects plane... 
-                                    else if (Math.Abs(dotProduct) > TOL && distance > TOL)
+                        //if ray intersects plane... 
+                        else if (Math.Abs(dotProduct) > TOL && distance > TOL)
                         {
                             if (distance < closestDistance)
                             {
@@ -306,7 +306,7 @@ namespace Net3dBool
                         }
                     }
                 }
-            } while(success == false);
+            } while (success == false);
 
             //none face found: outside face
             if (closestFace == null)
@@ -331,14 +331,14 @@ namespace Net3dBool
                     }
                 }
 
-                    //dot product > 0 (same direction): inside face
-                    else if (dotProduct > TOL)
+                //dot product > 0 (same direction): inside face
+                else if (dotProduct > TOL)
                 {
                     status = INSIDE;
                 }
 
-                    //dot product < 0 (opposite direction): outside face
-                    else if (dotProduct < -TOL)
+                //dot product < 0 (opposite direction): outside face
+                else if (dotProduct < -TOL)
                 {
                     status = OUTSIDE;
                 }
@@ -352,12 +352,12 @@ namespace Net3dBool
      * 
      * @param point to be tested
      * @param true if the face contains the point, false otherwise 
-     */ 
+     */
         private bool hasPoint(Point3d point)
         {
             int result1, result2, result3;
             bool hasUp, hasDown, hasOn;
-            Vector3d normal = getNormal(); 
+            Vector3d normal = getNormal();
 
             //if x is constant...   
             if (Math.Abs(normal.x) > TOL)
@@ -418,7 +418,7 @@ namespace Net3dBool
                 z = a * point.y + b;
                 if (z > point.z + TOL)
                 {
-                    return UP;          
+                    return UP;
                 }
                 else if (z < point.z - TOL)
                 {
@@ -454,7 +454,7 @@ namespace Net3dBool
                 z = a * point.x + b;
                 if (z > point.z + TOL)
                 {
-                    return UP;          
+                    return UP;
                 }
                 else if (z < point.z - TOL)
                 {
@@ -490,7 +490,7 @@ namespace Net3dBool
                 y = a * point.x + b;
                 if (y > point.y + TOL)
                 {
-                    return UP;          
+                    return UP;
                 }
                 else if (y < point.y - TOL)
                 {
