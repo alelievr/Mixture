@@ -69,6 +69,9 @@ namespace Mixture
 
 		void MaterialGUI()
 		{
+			if (fixedShaderNode.material == null)
+				return;
+
 			if (materialCRC != -1 && materialCRC != fixedShaderNode.material.ComputeCRC())
 				NotifyNodeChanged();
 			materialCRC = fixedShaderNode.material.ComputeCRC();
