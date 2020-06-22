@@ -1,0 +1,693 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c51635cdc33bfb44dbe8649744dd4667, type: 3}
+  m_Name: PrimWindow
+  m_EditorClassIdentifier: 
+  parent: {fileID: 0}
+  childs: []
+  nodes:
+  - {fileID: 11411402}
+  - {fileID: 11481612}
+  - {fileID: 11482788}
+  - {fileID: 11445342}
+  - {fileID: 11419250}
+  - {fileID: 11412510}
+  - {fileID: 11447270}
+  - {fileID: 11441822}
+--- !u!114 &11401328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c968747eb49683741bce56fc67168f85, type: 3}
+  m_Name: In Obj
+  m_EditorClassIdentifier: 
+  body: {fileID: 11441822}
+  inputRect:
+    serializedVersion: 2
+    x: 294
+    y: -4
+    width: 94
+    height: 16
+  connection: {fileID: 0}
+  type: GameObject
+--- !u!114 &11401442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c968747eb49683741bce56fc67168f85, type: 3}
+  m_Name: Input 2
+  m_EditorClassIdentifier: 
+  body: {fileID: 11419250}
+  inputRect:
+    serializedVersion: 2
+    x: 1
+    y: -202
+    width: 139
+    height: 16
+  connection: {fileID: 11427992}
+  type: GameObject
+--- !u!114 &11403708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e42d3024e418544aab12297e2d0571, type: 3}
+  m_Name: Output 1
+  m_EditorClassIdentifier: 
+  body: {fileID: 11447270}
+  outputRect:
+    serializedVersion: 2
+    x: 382
+    y: -151
+    width: 57
+    height: 16
+  connections: []
+  type: GameObject
+--- !u!114 &11406302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e42d3024e418544aab12297e2d0571, type: 3}
+  m_Name: Out Obj
+  m_EditorClassIdentifier: 
+  body: {fileID: 11441822}
+  outputRect:
+    serializedVersion: 2
+    x: 392
+    y: -4
+    width: 102
+    height: 16
+  connections: []
+  type: GameObject
+--- !u!114 &11411402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5607eb140c7948542915caf7f969debe, type: 3}
+  m_Name: Primitive Node
+  m_EditorClassIdentifier: 
+  rect:
+    serializedVersion: 2
+    x: -543
+    y: -252
+    width: 200
+    height: 100
+  Inputs:
+  - {fileID: 11441784}
+  Outputs:
+  - {fileID: 11485352}
+  calculated: 1
+  transitions: []
+  type: 1
+  detail: 1
+  dimension: {x: 1, y: 1, z: 1}
+  location: {x: 0, y: 0, z: 0}
+  value: {fileID: 0}
+  parent: {fileID: 0}
+--- !u!114 &11412510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5607eb140c7948542915caf7f969debe, type: 3}
+  m_Name: Primitive Node
+  m_EditorClassIdentifier: 
+  rect:
+    serializedVersion: 2
+    x: -259
+    y: -14
+    width: 200
+    height: 100
+  Inputs:
+  - {fileID: 11464860}
+  Outputs:
+  - {fileID: 11425390}
+  calculated: 1
+  transitions: []
+  type: 1
+  detail: 1
+  dimension: {x: 1, y: 1, z: 1}
+  location: {x: 0, y: 0, z: 0}
+  value: {fileID: 0}
+  parent: {fileID: 0}
+--- !u!114 &11419250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a063703fcc077b9408f28e4cbdd1bb2e, type: 3}
+  m_Name: Operator Node
+  m_EditorClassIdentifier: 
+  rect:
+    serializedVersion: 2
+    x: 1
+    y: -243
+    width: 200
+    height: 100
+  Inputs:
+  - {fileID: 11487230}
+  - {fileID: 11401442}
+  Outputs:
+  - {fileID: 11430258}
+  calculated: 1
+  transitions: []
+  type: 0
+  Input1Val: {fileID: 0}
+  Input2Val: {fileID: 0}
+--- !u!114 &11424798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e42d3024e418544aab12297e2d0571, type: 3}
+  m_Name: GameObject
+  m_EditorClassIdentifier: 
+  body: {fileID: 11481612}
+  outputRect:
+    serializedVersion: 2
+    x: -539
+    y: -66
+    width: 196
+    height: 16
+  connections:
+  - {fileID: 11457640}
+  type: GameObject
+--- !u!114 &11425390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e42d3024e418544aab12297e2d0571, type: 3}
+  m_Name: GameObject
+  m_EditorClassIdentifier: 
+  body: {fileID: 11412510}
+  outputRect:
+    serializedVersion: 2
+    x: -255
+    y: 67
+    width: 196
+    height: 16
+  connections:
+  - {fileID: 11485262}
+  type: GameObject
+--- !u!114 &11427992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e42d3024e418544aab12297e2d0571, type: 3}
+  m_Name: GameObject
+  m_EditorClassIdentifier: 
+  body: {fileID: 11445342}
+  outputRect:
+    serializedVersion: 2
+    x: -253
+    y: -38
+    width: 196
+    height: 16
+  connections:
+  - {fileID: 11401442}
+  type: GameObject
+--- !u!114 &11429346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c968747eb49683741bce56fc67168f85, type: 3}
+  m_Name: Parent
+  m_EditorClassIdentifier: 
+  body: {fileID: 11481612}
+  inputRect:
+    serializedVersion: 2
+    x: -543
+    y: -124
+    width: 196
+    height: 16
+  connection: {fileID: 0}
+  type: GameObject
+--- !u!114 &11430258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e42d3024e418544aab12297e2d0571, type: 3}
+  m_Name: Output 1
+  m_EditorClassIdentifier: 
+  body: {fileID: 11419250}
+  outputRect:
+    serializedVersion: 2
+    x: 144
+    y: -220
+    width: 57
+    height: 16
+  connections:
+  - {fileID: 11473858}
+  type: GameObject
+--- !u!114 &11441784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c968747eb49683741bce56fc67168f85, type: 3}
+  m_Name: Parent
+  m_EditorClassIdentifier: 
+  body: {fileID: 11411402}
+  inputRect:
+    serializedVersion: 2
+    x: -543
+    y: -229
+    width: 196
+    height: 16
+  connection: {fileID: 0}
+  type: GameObject
+--- !u!114 &11441822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 836c8061bdc198346b64f7dddd38cc07, type: 3}
+  m_Name: Warp Node
+  m_EditorClassIdentifier: 
+  rect:
+    serializedVersion: 2
+    x: 294
+    y: -27
+    width: 200
+    height: 100
+  Inputs:
+  - {fileID: 11401328}
+  Outputs:
+  - {fileID: 11406302}
+  calculated: 0
+  transitions: []
+  type: 0
+  strength: {x: 0, y: 0, z: 0}
+--- !u!114 &11445342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5607eb140c7948542915caf7f969debe, type: 3}
+  m_Name: Primitive Node
+  m_EditorClassIdentifier: 
+  rect:
+    serializedVersion: 2
+    x: -257
+    y: -119
+    width: 200
+    height: 100
+  Inputs:
+  - {fileID: 11477594}
+  Outputs:
+  - {fileID: 11427992}
+  calculated: 1
+  transitions: []
+  type: 1
+  detail: 1
+  dimension: {x: 1, y: 1, z: 1}
+  location: {x: 0, y: 0, z: 0}
+  value: {fileID: 0}
+  parent: {fileID: 0}
+--- !u!114 &11447270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a063703fcc077b9408f28e4cbdd1bb2e, type: 3}
+  m_Name: Operator Node
+  m_EditorClassIdentifier: 
+  rect:
+    serializedVersion: 2
+    x: 239
+    y: -174
+    width: 200
+    height: 100
+  Inputs:
+  - {fileID: 11473858}
+  - {fileID: 11485262}
+  Outputs:
+  - {fileID: 11403708}
+  calculated: 1
+  transitions: []
+  type: 2
+  Input1Val: {fileID: 0}
+  Input2Val: {fileID: 0}
+--- !u!114 &11453028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e42d3024e418544aab12297e2d0571, type: 3}
+  m_Name: Output 1
+  m_EditorClassIdentifier: 
+  body: {fileID: 11482788}
+  outputRect:
+    serializedVersion: 2
+    x: -112
+    y: -215
+    width: 57
+    height: 16
+  connections:
+  - {fileID: 11487230}
+  type: GameObject
+--- !u!114 &11457640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c968747eb49683741bce56fc67168f85, type: 3}
+  m_Name: Input 2
+  m_EditorClassIdentifier: 
+  body: {fileID: 11482788}
+  inputRect:
+    serializedVersion: 2
+    x: -255
+    y: -197
+    width: 139
+    height: 16
+  connection: {fileID: 11424798}
+  type: GameObject
+--- !u!114 &11464860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c968747eb49683741bce56fc67168f85, type: 3}
+  m_Name: Parent
+  m_EditorClassIdentifier: 
+  body: {fileID: 11412510}
+  inputRect:
+    serializedVersion: 2
+    x: -259
+    y: 9
+    width: 196
+    height: 16
+  connection: {fileID: 0}
+  type: GameObject
+--- !u!114 &11473858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c968747eb49683741bce56fc67168f85, type: 3}
+  m_Name: Input 1
+  m_EditorClassIdentifier: 
+  body: {fileID: 11447270}
+  inputRect:
+    serializedVersion: 2
+    x: 239
+    y: -151
+    width: 139
+    height: 16
+  connection: {fileID: 11430258}
+  type: GameObject
+--- !u!114 &11477594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c968747eb49683741bce56fc67168f85, type: 3}
+  m_Name: Parent
+  m_EditorClassIdentifier: 
+  body: {fileID: 11445342}
+  inputRect:
+    serializedVersion: 2
+    x: -257
+    y: -96
+    width: 196
+    height: 16
+  connection: {fileID: 0}
+  type: GameObject
+--- !u!114 &11481612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5607eb140c7948542915caf7f969debe, type: 3}
+  m_Name: Primitive Node
+  m_EditorClassIdentifier: 
+  rect:
+    serializedVersion: 2
+    x: -543
+    y: -147
+    width: 200
+    height: 100
+  Inputs:
+  - {fileID: 11429346}
+  Outputs:
+  - {fileID: 11424798}
+  calculated: 1
+  transitions: []
+  type: 1
+  detail: 1
+  dimension: {x: 1, y: 1, z: 1}
+  location: {x: 0, y: 0, z: 0}
+  value: {fileID: 0}
+  parent: {fileID: 0}
+--- !u!114 &11482788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a063703fcc077b9408f28e4cbdd1bb2e, type: 3}
+  m_Name: Operator Node
+  m_EditorClassIdentifier: 
+  rect:
+    serializedVersion: 2
+    x: -255
+    y: -238
+    width: 200
+    height: 100
+  Inputs:
+  - {fileID: 11485408}
+  - {fileID: 11457640}
+  Outputs:
+  - {fileID: 11453028}
+  calculated: 1
+  transitions: []
+  type: 2
+  Input1Val: {fileID: 0}
+  Input2Val: {fileID: 0}
+--- !u!114 &11485262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c968747eb49683741bce56fc67168f85, type: 3}
+  m_Name: Input 2
+  m_EditorClassIdentifier: 
+  body: {fileID: 11447270}
+  inputRect:
+    serializedVersion: 2
+    x: 239
+    y: -133
+    width: 139
+    height: 16
+  connection: {fileID: 11425390}
+  type: GameObject
+--- !u!114 &11485352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e42d3024e418544aab12297e2d0571, type: 3}
+  m_Name: GameObject
+  m_EditorClassIdentifier: 
+  body: {fileID: 11411402}
+  outputRect:
+    serializedVersion: 2
+    x: -539
+    y: -171
+    width: 196
+    height: 16
+  connections:
+  - {fileID: 11485408}
+  type: GameObject
+--- !u!114 &11485408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c968747eb49683741bce56fc67168f85, type: 3}
+  m_Name: Input 1
+  m_EditorClassIdentifier: 
+  body: {fileID: 11482788}
+  inputRect:
+    serializedVersion: 2
+    x: -255
+    y: -215
+    width: 139
+    height: 16
+  connection: {fileID: 11485352}
+  type: GameObject
+--- !u!114 &11487230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c968747eb49683741bce56fc67168f85, type: 3}
+  m_Name: Input 1
+  m_EditorClassIdentifier: 
+  body: {fileID: 11419250}
+  inputRect:
+    serializedVersion: 2
+    x: 1
+    y: -220
+    width: 139
+    height: 16
+  connection: {fileID: 11453028}
+  type: GameObject
+--- !u!114 &11490370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0d76b79be2c4f347ad1de2386b5f21f, type: 3}
+  m_Name: MainEditorState
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 11400000}
+  parent: {fileID: 0}
+  childs: []
+  drawing: 1
+  activeNode: {fileID: 11447270}
+  focusedNode: {fileID: 0}
+  dragNode: 0
+  makeTransition: {fileID: 0}
+  connectOutput: {fileID: 0}
+  connectMousePos: {x: 1036, y: 163}
+  navigate: 0
+  panWindow: 0
+  panOffset: {x: 0, y: 0}
+  zoomPanAdjust: {x: 586, y: 305}
+  zoom: 1
+  canvasRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1172
+    height: 610
