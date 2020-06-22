@@ -103,7 +103,7 @@ namespace Mixture
 			{
 				if (_dummyCustomRenderTextureMaterial == null)
 				{
-					_dummyCustomRenderTextureMaterial = new Material(Shader.Find("Hidden/MixtureTextureCubePreview"));
+					_dummyCustomRenderTextureMaterial = new Material(Shader.Find("Hidden/CustomRenderTextureMissingMaterial"));
 				}
 
 				return _dummyCustomRenderTextureMaterial;
@@ -185,7 +185,8 @@ namespace Mixture
 			bool dimensionSpecific = false;
 			foreach (var dim in shaderPropertiesDimension.Values)
 			{
-				if (string.Compare(propertyName, propertyName.Length - dim.Length, dim, 0, dim.Length) == 0)
+				// if (string.Compare(propertyName, propertyName.Length - dim.Length, dim, 0, dim.Length) == 0)
+				if (propertyName.EndsWith(dim))
 					dimensionSpecific = true;
 			}
 

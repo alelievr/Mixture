@@ -196,6 +196,8 @@ COORDINATE_TYPE Generate##NAME##_FBM6_2(COORDINATE_TYPE p) \
 
 // Utils:
 
+#ifdef UNITY_CUSTOM_TEXTURE_INCLUDED
+
 float3 RandomOffset3(int seed)
 {
     float3 v = float3(-6.747, 8.488, 3.584) * seed;
@@ -215,6 +217,7 @@ float3 GetNoiseUVs(v2f_customrendertexture i, float3 customUvs, int seed)
     return GetDefaultUVs(i) + offset;
 #endif
 }
+#endif
 
 // White noise:
 
@@ -767,7 +770,7 @@ RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float3, GenerateRidgedCellularNoise3D(
 float fbmPerlinNoise2D(float2 c) { return perlinNoise2D(c).x; }
 
 FBM4_TEMPLATE(Perlin2D, float2, fbmPerlinNoise2D);
-FBM6_TEMPLATE(Perlin2D, float2, perlinNoise2D);
+FBM6_TEMPLATE(Perlin2D, float2, fbmPerlinNoise2D);
 
 float GeneratePerlin2D_FBM(float2 coordinate)
 {

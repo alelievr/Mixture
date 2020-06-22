@@ -1,6 +1,7 @@
 ﻿#pragma kernel GenerateSplatPoints
 
 #include "Packages/com.alelievr.mixture/Runtime/Shaders/Splatter.hlsl"
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/Noises.hlsl"
 
 RWStructuredBuffer<SplatPoint> _SplatPoints;
 int _Sequence;
@@ -46,7 +47,7 @@ void Grid(uint id)
     float r = floor(_GridSize.x) / floor(_GridSize.y);
     p = float3(x, y - x / floor(_GridSize.y), 0);
     p /= float3(_GridSize.x / 2, _GridSize.y / 2 * r, 1);
-    p.xy += float3(rcp(_GridSize.xy), 0) - 1;
+    p.xy += rcp(_GridSize.xy) - 1;
     p.xy -= _GridCram * p.xy;
     p.xy += p.yx * _GridShift.xy;
 
@@ -66,18 +67,26 @@ void Halton(uint id)
 
 void FibonacciSpiral(uint id)
 {
+}
 
+float3 WhiteNoise3(uint id)
+{
+    return float3(
+        WhiteNoise(id * 53),
+        WhiteNoise(id * 96 + 420),
+        WhiteNoise(id * 265 + 820)
+    );
 }
 
 float3 JitterPosition(uint id)
 {
-    // TODO
-    return 0;
+    float3 r = WhiteNoise3(id) * 2 - 1;
+    return r * _PositionJitter * _SplatPoints[id].scale * 0.1;
 }
 
 void RandomBetweenRotation(uint id)
 {
-    // TODO
+    _SplatPoints[id].rotation = lerp(_MinAngles, _MaxAngles, WhiteNoise3(id));
 }
 
 void TowardsCenterRotation(uint id)
@@ -87,12 +96,16 @@ void TowardsCenterRotation(uint id)
 
 void RandomBetweenScale(uint id)
 {
-
+    _SplatPoints[id].scale *= lerp(_MinScale, _MaxScale, WhiteNoise3(id));
 }
 
 [numthreads(64,1,1)]
 void GenerateSplatPoints(uint id : SV_DispatchThreadID)
 {
+    // Reset accumulated values:
+    if (_Sequence != -1)
+        _SplatPoints[id].scale = 1;
+
     switch (_Sequence)
     {
         case 0: // Stack

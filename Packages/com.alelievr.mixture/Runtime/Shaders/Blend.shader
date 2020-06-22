@@ -18,7 +18,7 @@ Shader "Hidden/Mixture/Blend"
 		[InlineTexture]_Mask_Cube("Mask", Cube) = "white" {}
 
 		// Common parameters
-		[Enum(Blend, 0, Additive, 1, Multiplicative, 2)]_BlendMode("Blend Mode", Float) = 0
+		[Enum(Blend, 0, Additive, 1, Multiplicative, 2, Substractive, 3, Min, 4, Max, 5)]_BlendMode("Blend Mode", Float) = 0
 		[Enum(PerChannel, 0, R, 1, G, 2, B, 3, A, 4)]_MaskMode("Mask Mode", Float) = 4
 	}
 	SubShader
@@ -62,9 +62,12 @@ Shader "Hidden/Mixture/Blend"
 				switch ((uint)_BlendMode)
 				{
 					default:
-					case 0: return lerp(source, target, mask);
-					case 1: return lerp(source, source + target, mask);
-					case 2: return lerp(source, source * target, mask);
+					case 0: return lerp(source, target, mask); // Blend
+					case 1: return lerp(source, source + target, mask); // Add
+					case 2: return lerp(source, source * target, mask); // Mul
+					case 3: return lerp(source, source - target, mask); // Sub
+					case 4: return lerp(source, min(source, target), mask); // Min
+					case 5: return lerp(source, max(source, target), mask); // Max
 				}
 
 				// Should not happen but hey...

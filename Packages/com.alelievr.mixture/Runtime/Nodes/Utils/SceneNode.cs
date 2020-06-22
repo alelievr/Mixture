@@ -116,7 +116,7 @@ namespace Mixture
 
             UpdateRenderTextures();
 
-            if (prefabOpened)
+            if (prefabOpened && tmpRenderTexture.updateCount > 1)
                 outputTexture = tmpRenderTexture;
             else
                 outputTexture = savedTexture;
@@ -158,8 +158,6 @@ namespace Mixture
                     graph.RemoveObjectFromGraph(savedTexture);
                 savedTexture = new Texture2D(rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), rtSettings.GetGraphicsFormat(graph), TextureCreationFlags.None) { name = "SceneNode Rendering"};
             }
-
-            tmpRenderTexture.material = MixtureUtils.dummyCustomRenderTextureMaterial;
         }
 	}
 }

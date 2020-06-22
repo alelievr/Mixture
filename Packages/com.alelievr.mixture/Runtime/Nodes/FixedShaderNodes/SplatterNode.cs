@@ -27,7 +27,7 @@ namespace Mixture
 
 		public enum Operator
 		{
-			Blend, Add, Sub, Max, Min,
+			Blend, PreMultiplied, Additive, SoftAdditive, Substractive, Multiplicative, Max, Min,
 		}
 
 		[Input]
@@ -113,6 +113,9 @@ namespace Mixture
 		static readonly int _ElementCount = Shader.PropertyToID("_ElementCount");
 		static readonly int _Extent = Shader.PropertyToID("_Extent");
 		static readonly int _TextureCount = Shader.PropertyToID("_TextureCount");
+		static readonly int _SrcBlend = Shader.PropertyToID("_SrcBlend");
+		static readonly int _DstBlend = Shader.PropertyToID("_DstBlend");
+		static readonly int _BlendOp = Shader.PropertyToID("_BlendOp");
 
 		[CustomPortBehavior(nameof(inputTextures))]
 		IEnumerable<PortData> CustomInputTexturePortData(List<SerializableEdge> edges)
@@ -126,12 +129,18 @@ namespace Mixture
 			};
 		}
 
-		[CustomPortInput(nameof(inputTextures), typeof(float))]
+		[CustomPortInput(nameof(inputTextures), typeof(Texture))]
 		void PullInputs(List< SerializableEdge > inputEdges)
 		{
+			// TODO: removing one edge from the list of cusotm port input set the lsit to null ! 
+			// FIXIT: do not reset the value if there is still something connected in the port
+			if (inputTextures == null)
+				inputTextures = new List<Texture>();
+
 			// Create the list of input textures to splat
 			inputTextures.Clear();
-			inputTextures.AddRange(inputEdges.Select(e => e.passThroughBuffer as Texture).ToList());
+			var textureList = inputEdges.Select(e => e.passThroughBuffer as Texture).ToList();
+			inputTextures.AddRange(textureList);
 
 			if (inputTextures.Count > 16)
 				Debug.LogError("Max number of splat input texture reached for splatter node, please remove one.");
@@ -140,7 +149,7 @@ namespace Mixture
 		protected override void Enable()
 		{
 			base.Enable();
-			
+
 			argumentBuffer = new ComputeBuffer(1, sizeof(int) * 5, ComputeBufferType.IndirectArguments);
 			// We have a max of 16k splats, should be enough :)
 			splatPointsBuffer = new ComputeBuffer(16384, sizeof(float) * 9);
@@ -156,7 +165,7 @@ namespace Mixture
 			SetComputeArgs(cmd);
 			computeShader.GetKernelThreadGroupSizes(generatePointKernel, out uint x, out _, out _);
 			DispatchCompute(cmd, generatePointKernel, maxSplatCount + ((int)x - maxSplatCount % (int)x));
-
+		
 			indirectArguments[0] = 6;
 			indirectArguments[1] = Mathf.Max(0, maxSplatCount);
 			indirectArguments[2] = 0;
@@ -171,6 +180,8 @@ namespace Mixture
 			drawIndirectMat.SetInt(_TextureCount, inputTextures.Count);
 			for (int i = 0; i < inputTextures.Count; i++)
 				drawIndirectMat.SetTexture("_Source" + i + "_2D", inputTextures[i]);
+
+			SetBlendSettings(drawIndirectMat);
 
 			drawIndirectMat.SetBuffer(_SplatPoints, splatPointsBuffer);
 			cmd.SetRenderTarget(tempRenderTexture);
@@ -202,6 +213,54 @@ namespace Mixture
 			cmd.SetComputeVectorParam(computeShader, _MaxScale, maxScale);
 			cmd.SetComputeVectorParam(computeShader, _PositionJitter, positionJitter);
 			cmd.SetComputeVectorParam(computeShader, _Extent, extent);
+		}
+
+		void SetBlendSettings(Material mat)
+		{
+			switch (blendOperator)
+			{
+				default:
+				case Operator.Blend:
+					mat.SetFloat(_SrcBlend, (int)BlendMode.SrcAlpha);
+					mat.SetFloat(_DstBlend, (int)BlendMode.OneMinusSrcAlpha);
+					mat.SetFloat(_BlendOp, (int)BlendOp.Add);
+					break;
+				case Operator.PreMultiplied:
+					mat.SetFloat(_SrcBlend, (int)BlendMode.One);
+					mat.SetFloat(_DstBlend, (int)BlendMode.OneMinusSrcAlpha);
+					mat.SetFloat(_BlendOp, (int)BlendOp.Add);
+					break;
+				case Operator.Additive:
+					mat.SetFloat(_SrcBlend, (int)BlendMode.One);
+					mat.SetFloat(_DstBlend, (int)BlendMode.One);
+					mat.SetFloat(_BlendOp, (int)BlendOp.Add);
+					break;
+				case Operator.SoftAdditive:
+					mat.SetFloat(_SrcBlend, (int)BlendMode.OneMinusDstColor);
+					mat.SetFloat(_DstBlend, (int)BlendMode.One);
+					mat.SetFloat(_BlendOp, (int)BlendOp.Add);
+					break;
+				case Operator.Substractive:
+					mat.SetFloat(_SrcBlend, (int)BlendMode.One);
+					mat.SetFloat(_DstBlend, (int)BlendMode.One);
+					mat.SetFloat(_BlendOp, (int)BlendOp.Subtract);
+					break;
+				case Operator.Multiplicative:
+					mat.SetFloat(_SrcBlend, (int)BlendMode.DstColor);
+					mat.SetFloat(_DstBlend, (int)BlendMode.Zero);
+					mat.SetFloat(_BlendOp, (int)BlendOp.Add);
+					break;
+				case Operator.Max:
+					mat.SetFloat(_SrcBlend, (int)BlendMode.One);
+					mat.SetFloat(_DstBlend, (int)BlendMode.One);
+					mat.SetFloat(_BlendOp, (int)BlendOp.Max);
+					break;
+				case Operator.Min:
+					mat.SetFloat(_SrcBlend, (int)BlendMode.One);
+					mat.SetFloat(_DstBlend, (int)BlendMode.One);
+					mat.SetFloat(_BlendOp, (int)BlendOp.Min);
+					break;
+			}
 		}
 
 		protected override void Disable()

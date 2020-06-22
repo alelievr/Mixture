@@ -19,6 +19,7 @@ namespace Mixture
 		{
 			initialized += Initialize;
 			Undo.undoRedoPerformed += ReloadGraph;
+			nodeDuplicated += OnNodeDuplicated;
 
 			SetupZoom(0.05f, 32f);
 		}
@@ -106,6 +107,18 @@ namespace Mixture
 			}
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();
+		}
+
+		void OnNodeDuplicated(BaseNode sourceNode, BaseNode newNode)
+		{
+			if (newNode is ShaderNode s)
+			{
+				var oldShaderNode = sourceNode as ShaderNode;
+				var duplicatedMaterial = new Material(oldShaderNode.material);
+
+				s.material = duplicatedMaterial;
+				graph.AddObjectToGraph(duplicatedMaterial);
+			}
 		}
 
 		void Initialize()

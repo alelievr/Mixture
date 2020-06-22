@@ -130,6 +130,7 @@ namespace Mixture
 					hideFlags = HideFlags.HideAndDontSave,
 				};
 				target.Create();
+				target.material = MixtureUtils.dummyCustomRenderTextureMaterial;
 
 				return true;
 			}
@@ -160,6 +161,8 @@ namespace Mixture
                 target.useMipMap = hasMips;
 				target.autoGenerateMips = autoGenerateMips;
 				target.Create();
+				if (target.material == null)
+					target.material = MixtureUtils.dummyCustomRenderTextureMaterial;
 			}
 
 			return false;

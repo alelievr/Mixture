@@ -41,7 +41,7 @@ namespace Mixture
 			get
 			{
 				if (_finalCopyMaterial == null)
-					_finalCopyMaterial = new Material(Shader.Find("Hidden/Mixture/FinalCopy"));
+					_finalCopyMaterial = CoreUtils.CreateEngineMaterial(Shader.Find("Hidden/Mixture/FinalCopy"));
 				return _finalCopyMaterial;
 			}
 		}

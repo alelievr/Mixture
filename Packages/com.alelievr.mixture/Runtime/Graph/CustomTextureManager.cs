@@ -172,7 +172,6 @@ public static class CustomTextureManager
         if (computeOrder.TryGetValue(crt, out crtComputeOrder))
             return crtComputeOrder;
 
-
         if (!IsValid(crt))
             return -1;
 
@@ -351,7 +350,7 @@ public static class CustomTextureManager
                             block.SetVectorArray(kUpdateDataCenters, zoneCenters);
                             block.SetVectorArray(kUpdateDataSizesAndRotation, zoneSizesAndRotation);
                             block.SetFloatArray(kUpdateDataPrimitiveIDs, zonePrimitiveIDs);
-                        
+
                             cmd.DrawProcedural(Matrix4x4.identity, crt.material, passIndex, MeshTopology.Triangles, 6 * updateZones.Count, 0, block);
 
                             firstUpdate = false;

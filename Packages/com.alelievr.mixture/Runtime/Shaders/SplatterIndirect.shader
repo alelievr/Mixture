@@ -28,6 +28,7 @@ Shader "Hidden/Mixture/Splatter"
 	
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.cginc"
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/Splatter.hlsl"
+	#include "Packages/com.alelievr.mixture/Runtime/Shaders/Noises.hlsl"
 
 	TEXTURE_X(_Source0);
 	TEXTURE_X(_Source1);
@@ -47,6 +48,11 @@ Shader "Hidden/Mixture/Splatter"
 	TEXTURE_X(_Source15);
 	uint _TextureCount;
     StructuredBuffer<SplatPoint> _SplatPoints;
+
+	// Blend
+	float _SrcBlend;
+	float _DstBlend;
+	float _BlendOp;
 
 	// We only need vertex pos and uv for splat
 	struct VertexInput
@@ -109,8 +115,7 @@ Shader "Hidden/Mixture/Splatter"
 
 	float4 SampleRandomTexture(uint id, float3 uv)
 	{
-		// TODO: random function
-		uint r = id;
+		uint r = WhiteNoise(id * 562) * _TextureCount;
 
 		switch (r % _TextureCount)
 		{
@@ -154,7 +159,8 @@ Shader "Hidden/Mixture/Splatter"
 			Cull Off
 			ZTest Always
 			ZClip Off
-			Blend One One
+			Blend [_SrcBlend] [_DstBlend]
+			BlendOp [_BlendOp]
 
 			CGPROGRAM
 				// The list of defines that will be active when processing the node with a certain dimension
