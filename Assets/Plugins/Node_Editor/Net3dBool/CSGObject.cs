@@ -15,7 +15,7 @@ public class CSGObject : MonoBehaviour {
 			return;
 		}
 		
-		solidObject = new Solid (mf.sharedMesh.vertices, mf.sharedMesh.triangles, mf.sharedMesh.colors);
+		solidObject = new Solid (mf.sharedMesh.vertices, mf.sharedMesh.triangles, mf.sharedMesh.normals);
 		// Make sure the transform has been pushed into the solid.
 		solidObject.ApplyMatrix (gameObject.transform.localToWorldMatrix);
 	}

@@ -41,27 +41,27 @@ public class UnityPrimitivesDemo : MonoBehaviour
     {
         int[] indices = mesh.GetIndices(0);
         Vector3[] vertices = mesh.vertices;
-        Point3d[] mappedVertices = new Point3d[vertices.Length];
-        Color[] colors = new Color[vertices.Length];
-        Color3f[] mappedColors = new Color3f[vertices.Length];
+        Vector3[] mappedVertices = new Vector3[vertices.Length];
+        Vector3[] normals = new Vector3[vertices.Length];
+        Vector3[] mappedNormals = new Vector3[vertices.Length];
 
-        // Parse vertices and colors
-        for (int i = 0; i < vertices.Length; i++)
-        {
-            mappedVertices[i] = new Point3d(vertices[i].x, vertices[i].y, vertices[i].z);
-        }
+        // Parse vertices and normals
+        // for (int i = 0; i < vertices.Length; i++)
+        // {
+        //     mappedVertices[i] = vertices[i];
+        // }
 
-        // Parse colors
-        for(int i = 0; i < mappedColors.Length; i++)
+        // Parse normals
+        for(int i = 0; i < mappedNormals.Length; i++)
         {
             // Generate color if null
-            if(colors[i] != null)
+            if(normals[i] != null)
             {
-                colors[i] = Color.black;
+                normals[i] = Vector3.up;
             }
-            mappedColors[i] = new Color3f(colors[i].r, colors[i].g, colors[i].b);
+            mappedNormals[i] = normals[i];
         }
-        return new Solid(mappedVertices, indices, mappedColors);
+        return new Solid(mesh.vertices, indices, mappedNormals);
     }
 
     Mesh Create3dMesh(Solid solid)
@@ -70,8 +70,8 @@ public class UnityPrimitivesDemo : MonoBehaviour
 
         Point3d[] vertices = solid.getVertices();
         Vector3[] mappedVertices = new Vector3[vertices.Length];
-        Color3f[] colors = solid.getColors();
-        Color[] mappedColors = new Color[colors.Length];
+        Vector3[] normals = solid.getNormals();
+        Vector3[] mappedNormals = new Vector3[normals.Length];
 
         // Parse vertices
         for (int i = 0; i < vertices.Length; i++)
@@ -79,17 +79,17 @@ public class UnityPrimitivesDemo : MonoBehaviour
             mappedVertices[i] = new Vector3((float)vertices[i].x, (float)vertices[i].y, (float)vertices[i].z);
         }
 
-        // Parse colors
-        for (int i = 0; i < colors.Length; i++)
+        // Parse normals
+        for (int i = 0; i < normals.Length; i++)
         {
-            mappedColors[i] = new Color((float)colors[i].r, (float)colors[i].g, (float)colors[i].b);
+            mappedNormals[i] = normals[i];
         }
 
         // Attention! Always set vertices before indices/triangles
         mesh.vertices = mappedVertices;
         mesh.triangles = solid.getIndices();
-        mesh.colors = mappedColors;
-        mesh.RecalculateNormals();
+        mesh.normals = mappedNormals;
+        // mesh.RecalculateNormals();
 
         return mesh;
     }

@@ -342,7 +342,7 @@ namespace Mixture
 			if (defaultMaterials.TryGetValue(mat, out defaultMat))
 				return defaultMat;
 			
-			return defaultMaterials[mat] = new Material(mat.shader);
+			return defaultMaterials[mat] = CoreUtils.CreateEngineMaterial(mat.shader);
 		}
 
 		public void ResetMaterialPropertyToDefault(Material mat, string propName)

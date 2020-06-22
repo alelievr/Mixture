@@ -15,6 +15,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Net3dBool
 {
@@ -31,7 +32,7 @@ namespace Net3dBool
         /** vertex status relative to other object */
         private int status;
         /** vertex color */
-        private Color3f color;
+        private Vector3 normal;
 
         /** tolerance value to test equalities */
         private static  double TOL = 1e-5f;
@@ -53,33 +54,13 @@ namespace Net3dBool
      * @param position vertex position
      * @param color vertex color
      */
-        public Vertex(Point3d position, Color3f color)
+        public Vertex(Point3d position, Vector3 normal)
         {
-            this.color = color.Clone();
+            this.normal = normal;
 
             x = position.x;
             y = position.y;
             z = position.z;
-
-            adjacentVertices = new List<Vertex>();
-            status = UNKNOWN;
-        }
-
-        /**
-     * Constructs a vertex with unknown status
-     * 
-     * @param x coordinate on the x axis
-     * @param y coordinate on the y axis
-     * @param z coordinate on the z axis
-     * @param color vertex color
-     */
-        public Vertex(double x, double y, double z, Color3f color)
-        {
-            this.color = color.Clone();
-
-            this.x = x;
-            this.y = y;
-            this.z = z;
 
             adjacentVertices = new List<Vertex>();
             status = UNKNOWN;
@@ -92,9 +73,9 @@ namespace Net3dBool
      * @param color vertex color
      * @param status vertex status - UNKNOWN, BOUNDARY, INSIDE or OUTSIDE
      */
-        public Vertex(Point3d position, Color3f color, int status)
+        public Vertex(Point3d position, Vector3 normal, int status)
         {
-            this.color = color.Clone();
+            this.normal = normal;
 
             x = position.x;
             y = position.y;
@@ -113,9 +94,9 @@ namespace Net3dBool
      * @param color vertex color
      * @param status vertex status - UNKNOWN, BOUNDARY, INSIDE or OUTSIDE
      */
-        public Vertex(double x, double y, double z, Color3f color, int status)
+        public Vertex(double x, double y, double z, Vector3 normal, int status)
         {
-            this.color = color.Clone();
+            this.normal = normal;
 
             this.x = x;
             this.y = y;
@@ -142,7 +123,7 @@ namespace Net3dBool
             clone.x = x;
             clone.y = y;
             clone.z = z;
-            clone.color = color.Clone();
+            clone.normal = normal;
             clone.status = status;
             clone.adjacentVertices = new List<Vertex>();
             for (int i = 0; i < adjacentVertices.Count; i++)
@@ -173,7 +154,7 @@ namespace Net3dBool
         public bool equals(Vertex vertex)
         {
             return  Math.Abs(x - vertex.x) < TOL && Math.Abs(y - vertex.y) < TOL
-            && Math.Abs(z - vertex.z) < TOL && color.Equals(vertex.color);          
+            && Math.Abs(z - vertex.z) < TOL && normal.Equals(vertex.normal);          
         }
 
         //--------------------------------------SETS------------------------------------//
@@ -232,11 +213,13 @@ namespace Net3dBool
      * Gets the vertex color
      * 
      * @return vertex color
-     */
-        public Color3f getColor()
-        {
-            return color.Clone();
-        }
+    //  */
+    //     public Color3f getColor()
+    //     {
+    //         return color.Clone();
+    //     }
+
+        public Vector3 getNormal() => normal;
 
         //----------------------------------OTHERS--------------------------------------//
 
@@ -275,4 +258,3 @@ namespace Net3dBool
         }
     }
 }
-

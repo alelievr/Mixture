@@ -18,6 +18,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Net3dBool
 {
@@ -137,31 +138,32 @@ namespace Net3dBool
         {
             var vertices = new List<Vertex>();
             var indices = new List<int>();
-            var colors = new List<Color3f>();
+            var normals = new List<Vector3>();
 
             //group the elements of the two solids whose faces fit with the desired status  
-            groupObjectComponents(object1, vertices, indices, colors, faceStatus1, faceStatus2);
-            groupObjectComponents(object2, vertices, indices, colors, faceStatus3, faceStatus3);
+            groupObjectComponents(object1, vertices, indices, normals, faceStatus1, faceStatus2);
+            groupObjectComponents(object2, vertices, indices, normals, faceStatus3, faceStatus3);
 
             //turn the arrayLists to arrays
-            Point3d[] verticesArray = new Point3d[vertices.Count];
+            Vector3[] verticesArray = new Vector3[vertices.Count];
             for (int i = 0; i < vertices.Count; i++)
             {
-                verticesArray[i] = vertices[i].getPosition();
+                var p = vertices[i].getPosition();
+                verticesArray[i] = new Vector3((float)p.x, (float)p.y, (float)p.z);
             }
             int[] indicesArray = new int[indices.Count];
             for (int i = 0; i < indices.Count; i++)
             {
                 indicesArray[i] = indices[i];
             }
-            Color3f[] colorsArray = new Color3f[colors.Count];
-            for (int i = 0; i < colors.Count; i++)
+            Vector3[] normalsArray = new Vector3[normals.Count];
+            for (int i = 0; i < normals.Count; i++)
             {
-                colorsArray[i] = colors[i].Clone();
+                normalsArray[i] = normals[i];
             }
 
             //returns the solid containing the grouped elements
-            return new Solid(verticesArray, indicesArray, colorsArray);
+            return new Solid(verticesArray, indicesArray, normalsArray);
         }
 
         /**
@@ -175,7 +177,7 @@ namespace Net3dBool
      * @param faceStatus1 a status expected for the faces used to to fill the data arrays
      * @param faceStatus2 a status expected for the faces used to to fill the data arrays
      */
-        private void groupObjectComponents(Object3D obj, List<Vertex> vertices, List<int> indices, List<Color3f> colors, int faceStatus1, int faceStatus2)
+        private void groupObjectComponents(Object3D obj, List<Vertex> vertices, List<int> indices, List<Vector3> normals, int faceStatus1, int faceStatus2)
         {
             Face face;
             //for each face..
@@ -197,7 +199,7 @@ namespace Net3dBool
                         {
                             indices.Add(vertices.Count);
                             vertices.Add(faceVerts[j]);
-                            colors.Add(faceVerts[j].getColor());
+                            normals.Add(faceVerts[j].getNormal());
                         }
                     }
                 }
@@ -206,4 +208,3 @@ namespace Net3dBool
     }
 
 }
-

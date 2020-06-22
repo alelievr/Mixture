@@ -34,7 +34,7 @@ public class MyDemo: MonoBehaviour
 			return null;
 		}
 
-		var solidObject = new Solid (mf.sharedMesh.vertices, mf.sharedMesh.triangles, mf.sharedMesh.colors);
+		var solidObject = new Solid (mf.sharedMesh.vertices, mf.sharedMesh.triangles, mf.sharedMesh.normals);
 		// Make sure the transform has been pushed into the solid.
 		solidObject.ApplyMatrix (mf.transform.localToWorldMatrix);
 
@@ -71,28 +71,30 @@ public class MyDemo: MonoBehaviour
 
         // Apply vertices of new solid to a gameobject
         Mesh tMesh = new Mesh();
-        int mLen = newSolid.getVertices().Length;
+        var overtices = newSolid.getVertices();
+        int mLen = overtices.Length;
         Vector3[] vertices = new Vector3[mLen];
 
         // parse Point3d to Vector3
         for(int i = 0; i < mLen; i++)
         {
-            Point3d p = newSolid.getVertices()[i];
+            Point3d p = overtices[i];
             vertices[i] = new Vector3((float)p.x, (float)p.y, (float)p.z);
         }
 
         tMesh.vertices = vertices;
         tMesh.triangles = newSolid.getIndices();
+        tMesh.normals = newSolid.getNormals();
 
         // parse colors
-        int cLen = newSolid.getColors().Length;
-        Color[] clrs = new Color[cLen];
-        for (int j = 0; j < cLen; j++)
-        {
-            Net3dBool.Color3f c = newSolid.getColors()[j];
-            clrs[j] = new Color((float)c.r, (float)c.g, (float)c.b);
-        }
-        tMesh.colors = clrs;
+        // int cLen = newSolid.getColors().Length;
+        // Color[] clrs = new Color[cLen];
+        // for (int j = 0; j < cLen; j++)
+        // {
+        //     Net3dBool.Color3f c = newSolid.getColors()[j];
+        //     clrs[j] = new Color((float)c.r, (float)c.g, (float)c.b);
+        // }
+        // tMesh.colors = clrs;
 
         tMesh.RecalculateNormals();
         mf.mesh = tMesh;

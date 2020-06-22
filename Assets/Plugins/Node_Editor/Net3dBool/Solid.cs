@@ -27,7 +27,8 @@ namespace Net3dBool
         /** array of points defining the solid's vertices */
         protected Point3d[] vertices;
         /** array of color defining the vertices colors */
-        protected Color3f[] colors;
+        // protected Color3f[] colors;
+        protected Vector3[] normals;
 
         //--------------------------------CONSTRUCTORS----------------------------------//
 
@@ -46,18 +47,18 @@ namespace Net3dBool
      * @param indices array of indices for a array of vertices
      * @param colors array of colors defining the vertices colors 
      */
-        public Solid(Point3d[] vertices, int[] indices, Color3f[] colors)
+        public Solid(Vector3[] vertices, int[] indices, Vector3[] normals)
             : this()
         {
-            setData(vertices, indices, colors);     
+            setData(vertices, indices, normals);     
         }
 
 
-		public Solid(Vector3 [] vertices, int [] indices, Color[] colors)
-			: this()
-		{
-			setData (vertices, indices, colors);
-		}
+		// public Solid(Vector3 [] vertices, int [] indices, Color[] colors)
+		// 	: this()
+		// {
+		// 	setData (vertices, indices, colors);
+		// }
         /**
      * Constructs a solid based on a coordinates file. It contains vertices and indices, 
      * and its format is like this:
@@ -85,7 +86,8 @@ namespace Net3dBool
         protected void setInitialFeatures()
         {
             vertices = new Point3d[0];
-            colors = new Color3f[0];
+            // colors = new Color3f[0];
+            normals = new Vector3[0];
             indices = new int[0];
 
 //            setCapability(Shape3D.ALLOW_GEOMETRY_WRITE);
@@ -121,19 +123,21 @@ namespace Net3dBool
             return newIndices;
         }
 
+        public Vector3[] getNormals() => normals;
+
         /** Gets the vertices colors
      * 
      * @return vertices colors
      */
-        public Color3f[] getColors()
-        {
-            Color3f[] newColors = new Color3f[colors.Length];
-            for (int i = 0; i < newColors.Length; i++)
-            {
-                newColors[i] = colors[i];
-            }
-            return newColors;
-        }
+        // public Color3f[] getColors()
+        // {
+        //     Color3f[] newColors = new Color3f[colors.Length];
+        //     for (int i = 0; i < newColors.Length; i++)
+        //     {
+        //         newColors[i] = colors[i];
+        //     }
+        //     return newColors;
+        // }
 
         /**
      * Gets if the solid is empty (without any vertex)
@@ -163,41 +167,23 @@ namespace Net3dBool
      * @param indices array of indices for a array of vertices
      * @param colors array of colors defining the vertices colors 
      */
-        public void setData(Point3d[] vertices, int[] indices, Color3f[] colors)
+        public void setData(Vector3[] vertices, int[] indices, Vector3[] normals)
         {
             this.vertices = new Point3d[vertices.Length];
-            this.colors = new Color3f[colors.Length];
+            this.normals = new Vector3[normals.Length];
             this.indices = new int[indices.Length];
             if (indices.Length != 0)
             {
                 for (int i = 0; i < vertices.Length; i++)
                 {
-                    this.vertices[i] = vertices[i].Clone();
-                    this.colors[i] = colors[i].Clone();
+                    this.vertices[i] = new Point3d(vertices[i].x, vertices[i].y, vertices[i].z);
+                    this.normals[i] = normals[i];
                 }
                 Array.Copy(indices, 0, this.indices, 0, indices.Length);
 
                 defineGeometry();
             }
         }
-
-		public void setData(Vector3[] vertices, int[] indices, Color[] colors)
-		{
-			this.vertices = new Point3d[vertices.Length];
-			this.colors = new Color3f[colors.Length];
-			this.indices = new int[indices.Length];
-			if (indices.Length != 0)
-			{
-				for (int i = 0; i < vertices.Length; i++)
-					this.vertices[i] = new Point3d(vertices[i].x, vertices[i].y, vertices[i].z) ;
-				for(int j=0; j<colors.Length; j++)
-					this.colors[j] = new Color3f(colors[j].r, colors[j].g, colors[j].b);
-				Array.Copy(indices, 0, this.indices, 0, indices.Length);
-				
-				defineGeometry();
-			}
-		}
-
 
         /**
      * Sets the solid data. Defines the same color to all the vertices. An exception may 
@@ -208,12 +194,12 @@ namespace Net3dBool
      * @param indices array of indices for a array of vertices
      * @param color the color of the vertices (the solid color) 
      */
-        public void setData(Point3d[] vertices, int[] indices, Color3f color)
-        {
-            Color3f[] colors = new Color3f[vertices.Length];
-            colors.fill(color);
-            setData(vertices, indices, colors);
-        }
+        // public void setData(Point3d[] vertices, int[] indices, Color3f color)
+        // {
+        //     Color3f[] colors = new Color3f[vertices.Length];
+        //     colors.fill(color);
+        //     setData(vertices, indices, colors);
+        // }
 
         //-------------------------GEOMETRICAL_TRANSFORMATIONS-------------------------//
 
@@ -437,4 +423,3 @@ namespace Net3dBool
         }
     }
 }
-

@@ -20,6 +20,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Net3dBool
 {
@@ -48,7 +49,7 @@ namespace Net3dBool
             Vertex v1, v2, v3, vertex;
             Point3d[] verticesPoints = solid.getVertices();
             int[] indices = solid.getIndices();
-            Color3f[] colors = solid.getColors();
+            Vector3[] normals = solid.getNormals();
             var verticesTemp = new List<Vertex>();
 
 			Dictionary<int,int> revlookup = new Dictionary<int, int> ();
@@ -59,11 +60,11 @@ namespace Net3dBool
             vertices = new List<Vertex>();
             for (int i = 0; i < verticesPoints.Length; i++)
             {
-				Color3f col = new Color3f(1, 1, 1);
-				if(colors.Length > 0)
-					col = colors[i];
+				Vector3 normal = new Vector3(0, 1, 0);
+				if(normals.Length > 0)
+					normal = normals[i];
 
-                vertex = addVertex(verticesPoints[i], col, Vertex.UNKNOWN);
+                vertex = addVertex(verticesPoints[i], normal, Vertex.UNKNOWN);
                 verticesTemp.Add(vertex); 
             }
 
@@ -188,11 +189,11 @@ namespace Net3dBool
      * @param status vertex status
      * @return the vertex inserted (if a similar vertex already exists, this is returned)
      */
-        private Vertex addVertex(Point3d pos, Color3f color, int status)
+        private Vertex addVertex(Point3d pos, Vector3 normal, int status)
         {
             int i;
             //if already there is an equal vertex, it is not inserted
-            Vertex vertex = new Vertex(pos, color, status);
+            Vertex vertex = new Vertex(pos, normal, status);
             for (i = 0; i < vertices.Count; i++)
             {
                 if (vertex.equals(vertices[i]))
@@ -573,7 +574,7 @@ namespace Net3dBool
             Face face = faces[facePos];
             faces.RemoveAt(facePos);
 
-            Vertex vertex = addVertex(newPos, face.v1.getColor(), Vertex.BOUNDARY); 
+            Vertex vertex = addVertex(newPos, face.v1.getNormal(), Vertex.BOUNDARY); 
 
             if (splitEdge == 1)
             {
@@ -604,7 +605,7 @@ namespace Net3dBool
             Face face = faces[facePos];
             faces.RemoveAt(facePos);
 
-            Vertex vertex = addVertex(newPos, face.v1.getColor(), Vertex.BOUNDARY);
+            Vertex vertex = addVertex(newPos, face.v1.getNormal(), Vertex.BOUNDARY);
 
             if (endVertex.equals(face.v1))
             {
@@ -636,8 +637,8 @@ namespace Net3dBool
             Face face = faces[facePos];
             faces.RemoveAt(facePos);
 
-            Vertex vertex1 = addVertex(newPos1, face.v1.getColor(), Vertex.BOUNDARY);   
-            Vertex vertex2 = addVertex(newPos2, face.v1.getColor(), Vertex.BOUNDARY);
+            Vertex vertex1 = addVertex(newPos1, face.v1.getNormal(), Vertex.BOUNDARY);   
+            Vertex vertex2 = addVertex(newPos2, face.v1.getNormal(), Vertex.BOUNDARY);
 
             if (splitEdge == 1)
             {
@@ -671,7 +672,7 @@ namespace Net3dBool
             Face face = faces[facePos];
             faces.RemoveAt(facePos);
 
-            Vertex vertex = addVertex(newPos, face.v1.getColor(), Vertex.BOUNDARY);
+            Vertex vertex = addVertex(newPos, face.v1.getNormal(), Vertex.BOUNDARY);
 
             if (endVertex.equals(face.v1))
             {
@@ -707,8 +708,8 @@ namespace Net3dBool
             Face face = faces[facePos];
             faces.RemoveAt(facePos);
 
-            Vertex vertex1 = addVertex(newPos1, face.v1.getColor(), Vertex.BOUNDARY);
-            Vertex vertex2 = addVertex(newPos2, face.v1.getColor(), Vertex.BOUNDARY);
+            Vertex vertex1 = addVertex(newPos1, face.v1.getNormal(), Vertex.BOUNDARY);
+            Vertex vertex2 = addVertex(newPos2, face.v1.getNormal(), Vertex.BOUNDARY);
 
             if (startVertex.equals(face.v1) && endVertex.equals(face.v2))
             {
@@ -759,7 +760,7 @@ namespace Net3dBool
             Face face = faces[facePos];
             faces.RemoveAt(facePos);
 
-            Vertex vertex = addVertex(newPos, face.v1.getColor(), Vertex.BOUNDARY);
+            Vertex vertex = addVertex(newPos, face.v1.getNormal(), Vertex.BOUNDARY);
 
             addFace(face.v1, face.v2, vertex);
             addFace(face.v2, face.v3, vertex);
@@ -779,8 +780,8 @@ namespace Net3dBool
             Face face = faces[facePos];
             faces.RemoveAt(facePos);
 
-            Vertex vertex1 = addVertex(newPos1, face.v1.getColor(), Vertex.BOUNDARY);
-            Vertex vertex2 = addVertex(newPos2, face.v1.getColor(), Vertex.BOUNDARY);
+            Vertex vertex1 = addVertex(newPos1, face.v1.getNormal(), Vertex.BOUNDARY);
+            Vertex vertex2 = addVertex(newPos2, face.v1.getNormal(), Vertex.BOUNDARY);
 
             if (endVertex.equals(face.v1))
             {
@@ -818,8 +819,8 @@ namespace Net3dBool
             Face face = faces[facePos];
             faces.RemoveAt(facePos);
 
-            Vertex vertex1 = addVertex(newPos1, face.v1.getColor(), Vertex.BOUNDARY);
-            Vertex vertex2 = addVertex(newPos2, face.v1.getColor(), Vertex.BOUNDARY);
+            Vertex vertex1 = addVertex(newPos1, face.v1.getNormal(), Vertex.BOUNDARY);
+            Vertex vertex2 = addVertex(newPos2, face.v1.getNormal(), Vertex.BOUNDARY);
 
             double cont = 0;        
             if (linedVertex == 1)
@@ -914,4 +915,3 @@ namespace Net3dBool
         }
     }
 }
-
