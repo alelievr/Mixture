@@ -144,7 +144,7 @@ namespace Mixture
 			graph.outputNode = null;
 		}
 
-		void CreateNodeOfType(Type type, Vector2 position)
+		public void CreateNodeOfType(Type type, Vector2 position)
 		{
 			RegisterCompleteObjectUndo("Added " + type + " node");
 			AddNode(BaseNode.CreateFromType(type, position));

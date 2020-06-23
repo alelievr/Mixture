@@ -76,11 +76,14 @@ namespace Mixture
                 return false ;
 
             // Transform input meshes into solids:
-            var solids = inputMeshes.Select(i => {
-                var s = new Solid(i.mesh.vertices, i.mesh.triangles, i.mesh.normals);
-                s.ApplyMatrix(i.localToWorld);
-                return s;
-            }).ToList();
+            var solids = inputMeshes
+                .Where(i => i.mesh != null && i.mesh.vertices.Length > 0)
+                .Select(i => {
+                    var s = new Solid(i.mesh.vertices, i.mesh.triangles, i.mesh.normals);
+                    s.ApplyMatrix(i.localToWorld);
+                    return s;
+                })
+                .ToList();
 
             Solid resultMesh = solids[0];
             if (inputMeshes.Count > 1)

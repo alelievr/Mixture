@@ -233,6 +233,9 @@ namespace Net3dBool
             int numFacesStart = getNumFaces();
             int facesIgnored = 0;
 
+            int objNumFaces = obj.getNumFaces();
+            int numFaces = obj.getNumFaces();
+
             //if the objects bounds overlap...                              
             if (getBound().overlap(obj.getBound()))
             {           
@@ -240,15 +243,15 @@ namespace Net3dBool
                 for (int i = 0; i < getNumFaces(); i++)
                 {
                     //if object1 face bound and object2 bound overlap ...
-                    face1 = getFace(i);
+                    face1 = faces[i];
 
                     if (face1.getBound().overlap(obj.getBound()))
                     {
                         //for each object2 face...
-                        for (int j = 0; j < obj.getNumFaces(); j++)
+                        for (int j = 0; j < objNumFaces; j++)
                         {
                             //if object1 face bound and object2 face bound overlap...  
-                            face2 = obj.getFace(j);
+                            face2 = obj.faces[j];
                             if (face1.getBound().overlap(face2.getBound()))
                             {
                                 //PART I - DO TWO POLIGONS INTERSECT?
@@ -294,26 +297,27 @@ namespace Net3dBool
                                         if (segment1.intersect(segment2))
                                         {
                                             //PART II - SUBDIVIDING NON-COPLANAR POLYGONS
-                                            int lastNumFaces = getNumFaces();
+                                            int f = getNumFaces();
                                             this.splitFace(i, segment1, segment2);
 
                                             //prevent from infinite loop (with a loss of faces...)
-                                            //if(numFacesStart*20<getNumFaces())
+                                            //if(numFacesStart*20<f)
                                             //{
                                             //  System.out.println("possible infinite loop situation: terminating faces split");
                                             //  return;
                                             //}
 
                                             //if the face in the position isn't the same, there was a break 
-                                            if (face1 != getFace(i))
+                                            if (face1 != faces[i])
                                             {
+                                                f = getNumFaces();
                                                 //if the generated solid is equal the origin...
-                                                if (face1.equals(getFace(getNumFaces() - 1)))
+                                                if (face1.equals(faces[f - 1]))
                                                 {
                                                     //return it to its position and jump it
-                                                    if (i != (getNumFaces() - 1))
+                                                    if (i != (f - 1))
                                                     {
-                                                        faces.RemoveAt(getNumFaces() - 1);
+                                                        faces.RemoveAt(f - 1);
                                                         faces.Insert(i, face1);
                                                     }
                                                     else

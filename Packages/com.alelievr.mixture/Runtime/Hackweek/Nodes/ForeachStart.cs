@@ -26,6 +26,8 @@ namespace Mixture
         [Output("Output")]
         public MixtureAttribute output;
 
+		public int index = 0;
+
 		public override string	name => "Foreach Start";
 
 		public override bool    hasPreview => false;
@@ -33,8 +35,6 @@ namespace Mixture
 
 		// TODO :p 
 		public ForeachType type;
-
-		public int index = 0;
 
 		protected override void Enable()
 		{
@@ -100,7 +100,7 @@ namespace Mixture
 				return false;
 
 			output = inputs[index];
-			
+
 			index++;
 			return true;
 		}
@@ -112,6 +112,11 @@ namespace Mixture
 				return 0;
 
 			return inputs.Count;
+		}
+
+		public bool IsLastIteration()
+		{
+			return index == inputs.Count || inputs.Count == 0;
 		}
     }
 }

@@ -48,38 +48,87 @@ namespace Mixture
 			// HashSet<BaseNode> nodesToBeProcessed = new HashSet<BaseNode>();
 			Stack<BaseNode> nodeToExecute = new Stack<BaseNode>();
 			HashSet<ForeachStart> starts = new HashSet<ForeachStart>();
+			HashSet<ForeachEnd> ends = new HashSet<ForeachEnd>();
+			Stack<(ForeachStart node, int index)> jumps = new Stack<(ForeachStart, int)>();
 
-			processList = graph.nodes.Where(n => n.computeOrder != -1).OrderByDescending(n => n.computeOrder).ToList();
+			processList = graph.nodes.Where(n => n.computeOrder != -1).OrderBy(n => n.computeOrder).ToList();
 
 			CommandBuffer cmd = new CommandBuffer { name = "Mixture" };
 
-			foreach (var p in processList)
-				nodeToExecute.Push(p);
-
-			while (nodeToExecute.Count > 0)
+			int maxLoopCount = 0;
+			for (int executionIndex = 0; executionIndex < processList.Count; executionIndex++)
 			{
-				var node = nodeToExecute.Pop();
+				maxLoopCount++;
+				if (maxLoopCount > 200)
+				{
+					Debug.Log("Infinite loop in graph detected!");
+					return;
+				}
 
-				ProcessNode(cmd, node);
+				var node = processList[executionIndex];
+
 				if (node is ForeachStart fs)
 				{
 					if (!starts.Contains(fs))
 					{
-						// Gather nodes to execute multiple times:
-						var nodes = fs.GatherNodesInLoop();
-						var it = fs.PrepareNewIteration();
-						Debug.Log("Mixture feature it count: " + it);
-						foreach (var n in nodes)
-							Debug.Log(n);
-						for (int i = 0; i < it; i++)
-						{
-							foreach (var n in nodes)
-								nodeToExecute.Push(n);
-						}
+						fs.PrepareNewIteration();
+						jumps.Push((fs, executionIndex));
+						starts.Add(fs);
 					}
-					starts.Add(fs);
 				}
+
+				if (node is ForeachEnd fe)
+				{
+					if (!ends.Contains(fe))
+					{
+						fe.PrepareNewIteration();
+						ends.Add(fe);
+					}
+
+					if (jumps.Count == 0)
+					{
+						Debug.Log("Aborted execution, foreach end without start");
+						return ;
+					}
+					var jump = jumps.Peek();
+
+					// Jump back to the foreach start
+					if (!jump.node.IsLastIteration())
+						executionIndex = jump.index - 1;
+					else
+						jumps.Pop();
+				}
+
+				ProcessNode(cmd, node);
 			}
+
+			// foreach (var p in processList)
+			// 	nodeToExecute.Push(p);
+
+			// while (nodeToExecute.Count > 0)
+			// {
+			// 	var node = nodeToExecute.Pop();
+
+			// 	ProcessNode(cmd, node);
+			// 	if (node is ForeachStart fs)
+			// 	{
+			// 		if (!starts.Contains(fs))
+			// 		{
+			// 			// Gather nodes to execute multiple times:
+			// 			var nodes = fs.GatherNodesInLoop();
+			// 			var it = fs.PrepareNewIteration();
+			// 			Debug.Log("Mixture feature it count: " + it);
+			// 			foreach (var n in nodes)
+			// 				Debug.Log(n);
+			// 			for (int i = 0; i < it; i++)
+			// 			{
+			// 				foreach (var n in nodes)
+			// 					nodeToExecute.Push(n);
+			// 			}
+			// 		}
+			// 		starts.Add(fs);
+			// 	}
+			// }
 
 			// For now we process every node multiple time,
 			// future improvement: only refresh nodes when  asked by the CRT

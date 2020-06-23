@@ -60,25 +60,41 @@ namespace Mixture
         //     }
 		// }
 
-		public void Reset()
-		{
-			// ??
-		}
-
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			output = inputMesh;
-
 			switch (mode)
 			{
 				case AggregationMode.MergeResult:
-					// TODO Mesh.CombineMeshes
+					CombineInputMeshes();
 					break;
 				default:
 				case AggregationMode.None:
+					output = inputMesh.Clone();
 					break;
 			}
 			return true;
+		}
+
+		void CombineInputMeshes()
+		{
+			if (inputMesh == null || inputMesh.mesh == null)
+				return;
+
+			if (output == null || output.mesh == null)
+				output = new MixtureMesh{ mesh = new Mesh() };
+
+			var instances = new CombineInstance[2];
+			instances[0].mesh = inputMesh.mesh;
+			instances[0].transform = inputMesh.localToWorld;
+			instances[1].mesh = output.mesh;
+			instances[1].transform = output.localToWorld;
+			output.mesh = new Mesh();
+			output.mesh.CombineMeshes(instances);
+		}
+
+		public void PrepareNewIteration()
+		{
+			output = new MixtureMesh();
 		}
     }
 }

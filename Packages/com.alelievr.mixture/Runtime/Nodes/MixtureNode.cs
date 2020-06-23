@@ -160,6 +160,7 @@ namespace Mixture
                 target.filterMode = rtSettings.filterMode;
                 target.useMipMap = hasMips;
 				target.autoGenerateMips = autoGenerateMips;
+				target.enableRandomWrite = true;
 				target.Create();
 				if (target.material == null)
 					target.material = MixtureUtils.dummyCustomRenderTextureMaterial;

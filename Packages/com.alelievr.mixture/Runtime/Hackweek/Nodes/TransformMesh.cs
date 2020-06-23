@@ -24,8 +24,6 @@ namespace Mixture
 		public override bool    hasPreview => false;
 		public override bool showDefaultInspector => true;
 
-		public int index = 0;
-
 		protected override void Enable()
 		{
 		}
@@ -58,7 +56,10 @@ namespace Mixture
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			output = inputMesh;
+            if (inputMesh == null || inputMesh.mesh == null)
+                return false;
+
+			output = inputMesh.Clone();
 
             if (output != null && inputAttrib != null)
             {

@@ -67,7 +67,7 @@ namespace Mixture
             for (int i = 0; i < attributeCount; i++)
             {
                 attributes.Add(new MixtureAttribute{
-                    {"position", new Vector3(1, 1, 0)},
+                    {"position", new Vector3((float)i, 1, 0)},
                     {"scale", new Vector3(0.5f, 0.5f, 2)},
                 });
             }
