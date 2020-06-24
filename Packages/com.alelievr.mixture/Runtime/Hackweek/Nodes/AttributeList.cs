@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
-using System.Linq;
 using UnityEngine.Rendering;
-using System;
-using Net3dBool;
 
 namespace Mixture
 {
