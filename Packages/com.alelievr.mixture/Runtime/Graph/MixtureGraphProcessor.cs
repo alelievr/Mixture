@@ -8,7 +8,7 @@ namespace Mixture
 {
 	public class MixtureGraphProcessor : BaseGraphProcessor
 	{
-		List< BaseNode >		processList;
+		List<List<BaseNode>>	processLists = new List<List<BaseNode>>();
 		new MixtureGraph		graph => base.graph as MixtureGraph;
 		HashSet< BaseNode >		executedNodes = new HashSet<BaseNode>();
 
@@ -20,10 +20,10 @@ namespace Mixture
 			// CustomTextureManager.onBeforeCustomTextureUpdated += BeforeCustomRenderTextureUpdate;
 		}
 
-		public override void UpdateComputeOrder()
-		{
+		// public override void UpdateComputeOrder()
+		// {
 			
-		}
+		// }
 
 		// void BeforeCustomRenderTextureUpdate(CommandBuffer cmd, CustomRenderTexture crt)
 		// {
@@ -61,11 +61,14 @@ namespace Mixture
 			HashSet<ForeachEnd> ends = new HashSet<ForeachEnd>();
 			Stack<(ForeachStart node, int index)> jumps = new Stack<(ForeachStart, int)>();
 
-			processList = graph.nodes.Where(n => n.computeOrder != -1).OrderBy(n => n.computeOrder).ToList();
+			UpdateComputeOrder();
+
+			// processList = graph.nodes.Where(n => n.computeOrder != -1).OrderBy(n => n.computeOrder).ToList();
 
 			currentCmd = new CommandBuffer { name = "Mixture" };
 
 			int maxLoopCount = 0;
+			foreach (var processList in processLists)
 			for (int executionIndex = 0; executionIndex < processList.Count; executionIndex++)
 			{
 				maxLoopCount++;
@@ -200,6 +203,49 @@ namespace Mixture
 			}
 			else
 				node.OnProcess();
+		}
+
+		public override void UpdateComputeOrder()
+		{
+			// Find graph outputs:
+			HashSet<BaseNode> outputs = new HashSet<BaseNode>();
+			foreach (var node in graph.nodes)
+			{
+				if (node.GetOutputNodes().Count() == 0)
+					outputs.Add(node);
+				node.computeOrder = 1;
+			}
+
+
+			processLists.Clear();
+
+			Stack<BaseNode> dfs = new Stack<BaseNode>();
+			foreach (var output in outputs)
+			{
+				dfs.Push(output);
+				int index = 0;
+
+				var lst = new List<BaseNode>();
+
+				while (dfs.Count > 0)
+				{
+					var node = dfs.Pop();
+
+					node.computeOrder = index;
+					index--;
+
+					foreach (var dep in node.GetInputNodes())
+						dfs.Push(dep);
+					
+					lst.Add(node);
+				}
+
+				processLists.Add(lst.Where(n => n.computeOrder != 1).OrderBy(n => n.computeOrder).ToList());
+			}
+
+			// foreach (var processList in processLists)
+			// 	foreach (var p in processList)
+			// 		Debug.Log(p + " | " + p.computeOrder);
 		}
 	}
 }
