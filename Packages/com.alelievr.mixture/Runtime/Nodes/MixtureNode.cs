@@ -188,15 +188,15 @@ namespace Mixture
 
 			if (!supportedDimensions.Contains((OutputDimension)outputDimension))
 			{
-				AddMessage($"Dimension {outputDimension} is not supported by this node", NodeMessageType.Error);
+				// AddMessage($"Dimension {outputDimension} is not supported by this node", NodeMessageType.Error);
 				return ;
 			}
 			else
 			{
 				// TODO: simplify this with the node graph processor remove badges with matching words feature
-				RemoveMessage($"Dimension {TextureDimension.Tex2D} is not supported by this node");
-				RemoveMessage($"Dimension {TextureDimension.Tex3D} is not supported by this node");
-				RemoveMessage($"Dimension {TextureDimension.Cube} is not supported by this node");
+				// RemoveMessage($"Dimension {TextureDimension.Tex2D} is not supported by this node");
+				// RemoveMessage($"Dimension {TextureDimension.Tex3D} is not supported by this node");
+				// RemoveMessage($"Dimension {TextureDimension.Cube} is not supported by this node");
 			}
 
 			beforeProcessSetup?.Invoke();

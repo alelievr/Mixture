@@ -75,7 +75,7 @@ Shader "Hidden/Mixture/Rasterize3D"
             {
                 VertexToFragment o;
 
-                o.position = mul(float4(vertex.xyz, 1), unity_ObjectToWorld);
+                o.position = float4(mul(unity_ObjectToWorld, vertex).xyz, 1);
                 o.normal = normal;
 
                 return o;
@@ -101,7 +101,7 @@ Shader "Hidden/Mixture/Rasterize3D"
                 if (any(pos < 0) || any(pos > _OutputSize.x))
                     return 0;
 
-                _Output[uint3(pos)] = float4(1, 1, 0, 1);
+                _Output[uint3(pos)] = 1;
 
                 return 0;
             }

@@ -79,22 +79,37 @@ namespace Mixture
 		{
 			if (inputMesh == null || inputMesh.mesh == null)
 				return;
+			
+			inputMeshes.Add(inputMesh);
 
-			if (output == null || output.mesh == null)
-				output = new MixtureMesh{ mesh = new Mesh() };
+			// if (output == null || output.mesh == null)
+				// output = new MixtureMesh{ mesh = new Mesh() };
 
-			var instances = new CombineInstance[2];
-			instances[0].mesh = inputMesh.mesh;
-			instances[0].transform = inputMesh.localToWorld;
-			instances[1].mesh = output.mesh;
-			instances[1].transform = output.localToWorld;
-			output.mesh = new Mesh();
-			output.mesh.CombineMeshes(instances);
+			// var instances = new CombineInstance[2];
+			// instances[0].mesh = inputMesh.mesh;
+			// instances[0].transform = inputMesh.localToWorld;
+			// instances[1].mesh = output.mesh;
+			// instances[1].transform = output.localToWorld;
+			// output.mesh = new Mesh();
+			// output.mesh.CombineMeshes(instances);
 		}
 
+		List<MixtureMesh> inputMeshes = new List<MixtureMesh>();
 		public void PrepareNewIteration()
 		{
 			output = new MixtureMesh();
+			inputMeshes.Clear();
+		}
+
+		public void FinalIteration()
+		{
+			var combineInstances = inputMeshes
+				.Where(m => m?.mesh != null && m.mesh.vertexCount > 0)
+				.Select(m => new CombineInstance{ mesh = m.mesh, transform = m.localToWorld })
+				.ToArray();
+			
+			output.mesh = new Mesh { indexFormat = IndexFormat.UInt32};
+			output.mesh.CombineMeshes(combineInstances);
 		}
     }
 }

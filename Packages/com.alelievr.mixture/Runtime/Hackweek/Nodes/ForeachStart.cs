@@ -26,6 +26,7 @@ namespace Mixture
         [Output("Output")]
         public MixtureAttribute output;
 
+		[System.NonSerialized]
 		public int index = 0;
 
 		public override string	name => "Foreach Start";

@@ -28,7 +28,7 @@ namespace Mixture
 
 		public override string	name => "Mesh Operator";
 
-		public override Texture previewTexture => result?.mesh != null ? UnityEditor.AssetPreview.GetAssetPreview(result.mesh) ?? (Texture)preview : (Texture)preview;
+		public override Texture previewTexture => result?.mesh != null && !MixtureGraphProcessor.isProcessing ? UnityEditor.AssetPreview.GetAssetPreview(result.mesh) ?? (Texture)preview : (Texture)preview;
 		CustomRenderTexture		preview;
 		public override bool showDefaultInspector => true;
 
@@ -95,7 +95,7 @@ namespace Mixture
             }
 
             // Rebuild the baked mixture mesh:
-            var finalMesh = new Mesh();
+            var finalMesh = new Mesh{ indexFormat = IndexFormat.UInt32 };
             finalMesh.vertices = resultMesh.getVertices().Select(v => new Vector3((float)v.x, (float)v.y, (float)v.z)).ToArray();
             finalMesh.triangles = resultMesh.getIndices();
             finalMesh.normals = resultMesh.getNormals();
