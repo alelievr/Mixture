@@ -42,6 +42,13 @@ namespace Mixture
 		// 	}
 		// }
 
+		static CommandBuffer currentCmd;
+		public static void AddGPUAndCPUBarrier()
+		{
+			Graphics.ExecuteCommandBuffer(currentCmd);
+			currentCmd.Clear();
+		}
+
 		public override void Run()
 		{
 			mixtureDependencies.Clear();
@@ -53,7 +60,7 @@ namespace Mixture
 
 			processList = graph.nodes.Where(n => n.computeOrder != -1).OrderBy(n => n.computeOrder).ToList();
 
-			CommandBuffer cmd = new CommandBuffer { name = "Mixture" };
+			currentCmd = new CommandBuffer { name = "Mixture" };
 
 			int maxLoopCount = 0;
 			for (int executionIndex = 0; executionIndex < processList.Count; executionIndex++)
@@ -99,7 +106,7 @@ namespace Mixture
 						jumps.Pop();
 				}
 
-				ProcessNode(cmd, node);
+				ProcessNode(currentCmd, node);
 			}
 
 			// foreach (var p in processList)
@@ -160,7 +167,7 @@ namespace Mixture
 			// // update all nodes that are not depending on a CRT
 			// foreach (var node in processList.Except(nodesToBeProcessed))
 			// 	ProcessNode(cmd, node);
-			Graphics.ExecuteCommandBuffer(cmd);
+			Graphics.ExecuteCommandBuffer(currentCmd);
 		}
 
 		void ProcessNode(CommandBuffer cmd, BaseNode node)

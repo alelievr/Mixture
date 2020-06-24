@@ -20,14 +20,13 @@ namespace Mixture
         public Vector3 eulerAngles;
         public Vector3 scale = Vector3.one;
         
-        public bool bakeIntoMesh = false;
-
         [Output("Output")]
         public MixtureMesh output;
 
 		public override string	name => "Transform Mesh";
 
-		public override bool    hasPreview => false;
+		public override Texture previewTexture => output?.mesh != null ? UnityEditor.AssetPreview.GetAssetPreview(output.mesh) ?? Texture2D.blackTexture : Texture2D.blackTexture;
+		public override bool    hasPreview => true;
 		public override bool    showDefaultInspector => true;
 
 		protected override void Enable()
@@ -92,16 +91,13 @@ namespace Mixture
                 output.localToWorld = Matrix4x4.TRS(pos, Quaternion.Euler(eulerAngles), scale);
             }
 
-            if (bakeIntoMesh)
-            {
-                var combine = new CombineInstance[1];
-                combine[0].mesh = output.mesh;
-                combine[0].transform = output.localToWorld;
+            var combine = new CombineInstance[1];
+            combine[0].mesh = output.mesh;
+            combine[0].transform = output.localToWorld;
 
-                output.mesh = new Mesh();
-                output.localToWorld = Matrix4x4.identity;
-                output.mesh.CombineMeshes(combine);
-            }
+            output.mesh = new Mesh();
+            output.localToWorld = Matrix4x4.identity;
+            output.mesh.CombineMeshes(combine);
 
 			return true;
 		}
