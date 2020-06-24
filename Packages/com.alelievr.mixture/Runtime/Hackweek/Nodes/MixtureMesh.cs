@@ -9,6 +9,15 @@ namespace Mixture
         public Mesh         mesh;
         public Matrix4x4    localToWorld = Matrix4x4.identity;
 
-        public MixtureMesh Clone() => new MixtureMesh{ mesh = Object.Instantiate(mesh), localToWorld = localToWorld };
+        public MixtureMesh Clone()
+        {
+            var clonedMesh = new Mesh{ indexFormat = mesh.indexFormat };
+            clonedMesh.vertices = mesh.vertices;
+            clonedMesh.triangles = mesh.triangles;
+            clonedMesh.normals = mesh.normals;
+            clonedMesh.uv = mesh.uv;
+            clonedMesh.bounds = mesh.bounds;
+            return new MixtureMesh{ mesh = clonedMesh, localToWorld = localToWorld };
+        }
     }
 }

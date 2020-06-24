@@ -25,5 +25,12 @@ namespace Mixture
 			group.innerNodeGUIDs.Add(endView.nodeTarget.GUID);
 			owner.AddGroup(group);
         }
+
+		public override void Enable()
+		{
+			var indexField = new IntegerField { label = "index", value = foreachNode.index };
+			foreachNode.onProcessed += () => indexField.SetValueWithoutNotify(foreachNode.index);
+			controlsContainer.Add(indexField);
+		}
 	}
 }

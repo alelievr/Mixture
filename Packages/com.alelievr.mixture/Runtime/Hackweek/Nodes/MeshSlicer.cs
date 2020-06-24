@@ -28,7 +28,7 @@ namespace Mixture
 		// public Vector3 scale = Vector3.one;
 		// There is an issue with json serialization and new keyword :) 
 		// public Vector3 bug_position = Vector3.zero;
-        public override Texture previewTexture => output?.mesh != null ? UnityEditor.AssetPreview.GetAssetPreview(output.mesh) ?? Texture2D.blackTexture : Texture2D.blackTexture;
+        public override Texture previewTexture => output?.mesh != null && !MixtureGraphProcessor.isProcessing ? UnityEditor.AssetPreview.GetAssetPreview(output.mesh) ?? Texture2D.blackTexture : Texture2D.blackTexture;
 
         public bool positive;
 
@@ -45,7 +45,7 @@ namespace Mixture
 			if (input == null)
 				return false;
 
-            Mesh outputMesh = new Mesh();
+            Mesh outputMesh = new Mesh { indexFormat = IndexFormat.UInt32};
             bool success = false;
 
             if (inputPlanes == null || inputPlanes.Count == 0)

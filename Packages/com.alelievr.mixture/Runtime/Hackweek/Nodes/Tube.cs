@@ -19,7 +19,7 @@ namespace Mixture
 		public override bool showDefaultInspector => true;
 
 		private Mesh mesh;
-		public override Texture previewTexture => UnityEditor.AssetPreview.GetAssetPreview(mesh) ?? Texture2D.blackTexture;
+		public override Texture previewTexture => !MixtureGraphProcessor.isProcessing ? UnityEditor.AssetPreview.GetAssetPreview(mesh) ?? Texture2D.blackTexture : Texture2D.blackTexture;
 
 		// Tube Parameters
 		public float height = 1f;
@@ -36,7 +36,7 @@ namespace Mixture
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			mesh = new Mesh();
+			mesh = new Mesh{ indexFormat = IndexFormat.UInt32};
 
 			// Outter shell is at radius1 + radius2 / 2, inner shell at radius1 - radius2 / 2
 			float bottomRadius1 = radius1; // ability to have a different radius on the top and the bottom. // disable by the UI for now

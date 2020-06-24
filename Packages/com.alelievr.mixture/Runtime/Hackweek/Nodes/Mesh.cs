@@ -36,7 +36,7 @@ namespace Mixture
 			combine[0].mesh = output.mesh;
 			combine[0].transform = Matrix4x4.TRS(pos, Quaternion.Euler(eulerAngles), scale);
 
-			output.mesh = new Mesh();
+			output.mesh = new Mesh{ indexFormat = IndexFormat.UInt32 };
 			output.mesh.CombineMeshes(combine);
 
 			return true;

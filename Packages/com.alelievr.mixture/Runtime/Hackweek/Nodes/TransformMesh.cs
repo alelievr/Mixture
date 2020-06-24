@@ -25,7 +25,7 @@ namespace Mixture
 
 		public override string	name => "Transform Mesh";
 
-		public override Texture previewTexture => output?.mesh != null ? UnityEditor.AssetPreview.GetAssetPreview(output.mesh) ?? Texture2D.blackTexture : Texture2D.blackTexture;
+		public override Texture previewTexture => output?.mesh != null && !MixtureGraphProcessor.isProcessing ? UnityEditor.AssetPreview.GetAssetPreview(output.mesh) ?? Texture2D.blackTexture : Texture2D.blackTexture;
 		public override bool    hasPreview => true;
 		public override bool    showDefaultInspector => true;
 
@@ -72,15 +72,28 @@ namespace Mixture
                 inputAttrib.TryGetValue("position", out var position);
                 inputAttrib.TryGetValue("rotation", out var rotation);
                 inputAttrib.TryGetValue("scale", out var scale);
+                inputAttrib.TryGetValue("normal", out var normal);
 
+                if (normal != null && normal is Vector3 n)
+                    rotation = Quaternion.LookRotation(n, Vector3.up);
                 if (position == null)
                     position = Vector3.zero;
                 if (rotation == null)
                     rotation = Quaternion.identity;
                 if (scale == null)
                     scale = Vector3.one;
+                
+                // float4x4 m1 = output.localToWorld;
+                // float4x4 m2 = new float4x4((quaternion)(Quaternion)rotation, (float3)(Vector3)position);
+                // Vector3 s = (Vector3)scale;
+                // // m2.c0.x *= s.x;
+                // // m2.c1.y *= s.y;
+                // // m2.c2.z *= s.z;
+                // m2 *= m1;
+                // output.localToWorld = transpose(m2); 
 
                 output.localToWorld *= Matrix4x4.TRS((Vector3)position, (Quaternion)rotation, (Vector3)scale);
+                // output.localToWorld = MultiplyMatrix(output.localToWorld, Matrix4x4.TRS((Vector3)position, (Quaternion)rotation, (Vector3)scale));
 
                 // Is this needed ?
                 // Solid s = new Solid(output.mesh.vertices, output.mesh.triangles, output.mesh.normals);
@@ -95,7 +108,7 @@ namespace Mixture
             combine[0].mesh = output.mesh;
             combine[0].transform = output.localToWorld;
 
-            output.mesh = new Mesh();
+            output.mesh = new Mesh{ indexFormat = IndexFormat.UInt32};
             output.localToWorld = Matrix4x4.identity;
             output.mesh.CombineMeshes(combine);
 

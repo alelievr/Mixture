@@ -49,8 +49,11 @@ namespace Mixture
 			currentCmd.Clear();
 		}
 
+		public static bool isProcessing;
+
 		public override void Run()
 		{
+			isProcessing = true;
 			mixtureDependencies.Clear();
 			// HashSet<BaseNode> nodesToBeProcessed = new HashSet<BaseNode>();
 			Stack<BaseNode> nodeToExecute = new Stack<BaseNode>();
@@ -66,9 +69,8 @@ namespace Mixture
 			for (int executionIndex = 0; executionIndex < processList.Count; executionIndex++)
 			{
 				maxLoopCount++;
-				if (maxLoopCount > 200)
+				if (maxLoopCount > 10000)
 				{
-					Debug.Log("Infinite loop in graph detected!");
 					return;
 				}
 
@@ -84,6 +86,7 @@ namespace Mixture
 					}
 				}
 
+				bool finalIteration = false;
 				if (node is ForeachEnd fe)
 				{
 					if (!ends.Contains(fe))
@@ -103,10 +106,18 @@ namespace Mixture
 					if (!jump.node.IsLastIteration())
 						executionIndex = jump.index - 1;
 					else
+					{
 						jumps.Pop();
+						finalIteration = true;
+					}
 				}
 
 				ProcessNode(currentCmd, node);
+			
+				if (finalIteration && node is ForeachEnd fe2)
+				{
+					fe2.FinalIteration();
+				}
 			}
 
 			// foreach (var p in processList)
@@ -168,6 +179,7 @@ namespace Mixture
 			// foreach (var node in processList.Except(nodesToBeProcessed))
 			// 	ProcessNode(cmd, node);
 			Graphics.ExecuteCommandBuffer(currentCmd);
+			isProcessing = false;
 		}
 
 		void ProcessNode(CommandBuffer cmd, BaseNode node)

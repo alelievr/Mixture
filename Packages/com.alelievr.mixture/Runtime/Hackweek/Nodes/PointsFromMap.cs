@@ -36,51 +36,48 @@ namespace Mixture
             if (input.dimension != TextureDimension.Tex2D)
                 return false;
 
+            Color32[] colors = null;
+            cache = new Texture2D(input.width, input.height, rtSettings.GetGraphicsFormat(graph), TextureCreationFlags.None);
+            cache.filterMode = FilterMode.Point;
             if (input is RenderTexture rt)
             {
-                cache = new Texture2D(input.width, input.height, rtSettings.GetGraphicsFormat(graph), TextureCreationFlags.None);
-                cache.filterMode = FilterMode.Point;
-                // RenderTexture.active = rt;
-                // // Read pixels
-                // cache.ReadPixels(new Rect(0, 0, input.width, input.height), 0, 0);
-                // cache.Apply();
-                // RenderTexture.active = null; // added to avoid errors 
                 cmd.RequestAsyncReadback(rt, (r) => {
-                    var array = r.GetData<Color32>();
-                    cache.SetPixels32(array.ToArray());
-                    cache.Apply();
+                    colors = r.GetData<Color32>().ToArray();
                 });
                 cmd.WaitAllAsyncReadbackRequests();
                 MixtureGraphProcessor.AddGPUAndCPUBarrier();
             }
             else
-                cache = input as Texture2D;
+            {
+                colors = (input as Texture2D).GetPixels32();
+            }
 
             var r = new System.Random(42);
 
-            Color32[] pixels = cache.GetPixels32();
             points = new MixtureAttributeList();
 
-            for (int i = 0; i < pixels.Length; i++)
+            for (int i = 0; i < colors.Length; i++)
             {
                 float f = (float)r.NextDouble();
-                var p = pixels[i];
+                var p = colors[i];
 
                 float a = (float)p.a / 255.0f;
                 if (f * a > density)
                 {
-                    pixels[i] = Color.white;
+                    colors[i] = Color.white;
+                    Vector3 position = new Vector3((float)(i % input.width), 0, (Mathf.Floor(i / (float)input.width)));
+                    Vector2 uv = new Vector2(position.x / (float)input.width, position.z / (float)input.height);
                     points.Add(new MixtureAttribute{
-                        {"position", new Vector3(i % input.width, Mathf.Floor(i / input.width), 0)},
-                        {"normal", Vector3.up},
+                        {"uv", uv},
+                        {"position", position},
                         {"density", p.a}
                     });
                 }
                 else
-                    pixels[i] = Color.black;
+                    colors[i] = Color.black;
             }
 
-            cache.SetPixels32(pixels);
+            cache.SetPixels32(colors);
             cache.Apply();
 
 			return true;
