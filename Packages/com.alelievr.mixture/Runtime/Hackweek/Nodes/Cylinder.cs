@@ -141,7 +141,7 @@ namespace Mixture
 					float sin = Mathf.Sin(angle01 * _2pi);
 					Vector3 point1 = new Vector3(cos * Radius, 0, sin * Radius);
 					Vector3 point2 = new Vector3(cos * Radius, capHeight, sin * Radius);
-					normal = new Vector3(cos * -1, 0, sin * -1);
+					normal = new Vector3(cos, 0, sin);
 					Vector2 uv1 = new Vector2(angle01, 0);
 					Vector2 uv2 = new Vector2(angle01, 1);
 
