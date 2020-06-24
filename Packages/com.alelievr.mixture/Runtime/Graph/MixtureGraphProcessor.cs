@@ -56,7 +56,7 @@ namespace Mixture
 			isProcessing = true;
 			mixtureDependencies.Clear();
 			// HashSet<BaseNode> nodesToBeProcessed = new HashSet<BaseNode>();
-			Stack<BaseNode> nodeToExecute = new Stack<BaseNode>();
+			// Stack<BaseNode> nodeToExecute = new Stack<BaseNode>();
 			HashSet<ForeachStart> starts = new HashSet<ForeachStart>();
 			HashSet<ForeachEnd> ends = new HashSet<ForeachEnd>();
 			Stack<(ForeachStart node, int index)> jumps = new Stack<(ForeachStart, int)>();
@@ -69,57 +69,62 @@ namespace Mixture
 
 			int maxLoopCount = 0;
 			foreach (var processList in processLists)
-			for (int executionIndex = 0; executionIndex < processList.Count; executionIndex++)
 			{
-				maxLoopCount++;
-				if (maxLoopCount > 10000)
+				jumps.Clear();
+				starts.Clear();
+				ends.Clear();
+				for (int executionIndex = 0; executionIndex < processList.Count; executionIndex++)
 				{
-					return;
-				}
-
-				var node = processList[executionIndex];
-
-				if (node is ForeachStart fs)
-				{
-					if (!starts.Contains(fs))
+					maxLoopCount++;
+					if (maxLoopCount > 10000)
 					{
-						fs.PrepareNewIteration();
-						jumps.Push((fs, executionIndex));
-						starts.Add(fs);
-					}
-				}
-
-				bool finalIteration = false;
-				if (node is ForeachEnd fe)
-				{
-					if (!ends.Contains(fe))
-					{
-						fe.PrepareNewIteration();
-						ends.Add(fe);
+						return;
 					}
 
-					if (jumps.Count == 0)
-					{
-						Debug.Log("Aborted execution, foreach end without start");
-						return ;
-					}
-					var jump = jumps.Peek();
+					var node = processList[executionIndex];
 
-					// Jump back to the foreach start
-					if (!jump.node.IsLastIteration())
-						executionIndex = jump.index - 1;
-					else
+					if (node is ForeachStart fs)
 					{
-						jumps.Pop();
-						finalIteration = true;
+						if (!starts.Contains(fs))
+						{
+							fs.PrepareNewIteration();
+							jumps.Push((fs, executionIndex));
+							starts.Add(fs);
+						}
 					}
-				}
 
-				ProcessNode(currentCmd, node);
-			
-				if (finalIteration && node is ForeachEnd fe2)
-				{
-					fe2.FinalIteration();
+					bool finalIteration = false;
+					if (node is ForeachEnd fe)
+					{
+						if (!ends.Contains(fe))
+						{
+							fe.PrepareNewIteration();
+							ends.Add(fe);
+						}
+
+						if (jumps.Count == 0)
+						{
+							Debug.Log("Aborted execution, foreach end without start");
+							return ;
+						}
+						var jump = jumps.Peek();
+
+						// Jump back to the foreach start
+						if (!jump.node.IsLastIteration())
+							executionIndex = jump.index - 1;
+						else
+						{
+							jumps.Pop();
+							finalIteration = true;
+						}
+					}
+
+					ProcessNode(currentCmd, node);
+				
+					if (finalIteration && node is ForeachEnd fe2)
+					{
+						fe2.FinalIteration();
+					}
 				}
 			}
 
@@ -231,7 +236,7 @@ namespace Mixture
 				{
 					var node = dfs.Pop();
 
-					node.computeOrder = index;
+					node.computeOrder = Mathf.Min(node.computeOrder, index);
 					index--;
 
 					foreach (var dep in node.GetInputNodes())
@@ -243,9 +248,9 @@ namespace Mixture
 				processLists.Add(lst.Where(n => n.computeOrder != 1).OrderBy(n => n.computeOrder).ToList());
 			}
 
-			// foreach (var processList in processLists)
-			// 	foreach (var p in processList)
-			// 		Debug.Log(p + " | " + p.computeOrder);
+			foreach (var processList in processLists)
+				foreach (var p in processList)
+					Debug.Log(p + " | " + p.computeOrder);
 		}
 	}
 }
