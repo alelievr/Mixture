@@ -24,8 +24,6 @@ namespace Mixture
 		public Vector3 pos = Vector3.zero;
 		public Vector3 eulerAngles = Vector3.zero;
 
-		public bool bakeIntoMesh = false;
-
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			if (mesh == null)

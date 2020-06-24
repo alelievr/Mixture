@@ -99,6 +99,7 @@ namespace Mixture
                 combine[0].transform = output.localToWorld;
 
                 output.mesh = new Mesh();
+                output.localToWorld = Matrix4x4.identity;
                 output.mesh.CombineMeshes(combine);
             }
 
