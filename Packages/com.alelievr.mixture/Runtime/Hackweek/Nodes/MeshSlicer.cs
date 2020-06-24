@@ -72,6 +72,7 @@ namespace Mixture
                     {
                         if (pos is Vector3 p && normal is Vector3 n)
                         {
+                            UnityEngine.Debug.Log(p + " | " + n);
                             try {
                                 slicePlane.SetNormalAndPosition(n, p);
                                 success = cutter.SliceMesh(outputMesh, ref slicePlane);
