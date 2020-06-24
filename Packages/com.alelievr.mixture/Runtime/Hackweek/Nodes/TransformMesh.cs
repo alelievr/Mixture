@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
-using System.Linq;
 using UnityEngine.Rendering;
-using System;
-using Net3dBool;
 
 namespace Mixture
 {
@@ -75,7 +72,7 @@ namespace Mixture
                 inputAttrib.TryGetValue("normal", out var normal);
 
                 if (normal != null && normal is Vector3 n)
-                    rotation = Quaternion.LookRotation(n, Vector3.up);
+                    rotation = Quaternion.LookRotation(n, Vector3.up) * Quaternion.Euler(90, 0, 0);
                 if (position == null)
                     position = Vector3.zero;
                 if (rotation == null)
