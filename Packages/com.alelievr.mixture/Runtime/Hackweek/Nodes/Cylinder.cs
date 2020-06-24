@@ -193,7 +193,7 @@ namespace Mixture
 					Vector3 point2 = new Vector3(cos * Radius, capHeight, sin * Radius);
 					Vector3 point3 = new Vector3(cos2 * Radius, 0, sin2 * Radius);
 					Vector3 point4 = new Vector3(cos2 * Radius, capHeight, sin2 * Radius);
-					normal = new Vector3((cos + cos2) * -0.5f, 0, (sin + sin2) * -0.5f);
+					normal = new Vector3((cos + cos2) * 0.5f, 0, (sin + sin2) * 0.5f);
 					Vector2 uv1 = new Vector2(angle01_1, 0);
 					Vector2 uv2 = new Vector2(angle01_1, 1);
 					Vector2 uv3 = new Vector2(angle01_2, 0);
