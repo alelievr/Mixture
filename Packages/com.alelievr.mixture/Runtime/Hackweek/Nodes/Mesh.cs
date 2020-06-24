@@ -21,15 +21,25 @@ namespace Mixture
         public Mesh mesh;
 		public Vector3 scale = Vector3.one;
 		// There is an issue with json serialization and new keyword :) 
-		public Vector3 bug_position = Vector3.zero;
-		// TODO: rotation
+		public Vector3 pos = Vector3.zero;
+		public Vector3 eulerAngles = Vector3.zero;
+
+		public bool bakeIntoMesh = false;
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			if (mesh == null)
 				return false;
-            
-            output = new MixtureMesh{ mesh = mesh, localToWorld = Matrix4x4.TRS(bug_position, Quaternion.identity, scale) };
+
+            output = new MixtureMesh{ mesh = mesh };
+
+			// Apply matrix to mesh
+			var combine = new CombineInstance[1];
+			combine[0].mesh = output.mesh;
+			combine[0].transform = Matrix4x4.TRS(pos, Quaternion.Euler(eulerAngles), scale);
+
+			output.mesh = new Mesh();
+			output.mesh.CombineMeshes(combine);
 
 			return true;
 		}

@@ -16,13 +16,19 @@ namespace Mixture
 		[Input("Attribute")]
 		public MixtureAttribute inputAttrib;
 
+        public Vector3 pos;
+        public Vector3 eulerAngles;
+        public Vector3 scale = Vector3.one;
+        
+        public bool bakeIntoMesh = false;
+
         [Output("Output")]
         public MixtureMesh output;
 
 		public override string	name => "Transform Mesh";
 
 		public override bool    hasPreview => false;
-		public override bool showDefaultInspector => true;
+		public override bool    showDefaultInspector => true;
 
 		protected override void Enable()
 		{
@@ -61,7 +67,7 @@ namespace Mixture
 
 			output = inputMesh.Clone();
 
-            if (output != null && inputAttrib != null)
+            if (inputAttrib != null)
             {
                 // Try to get values from attribute in param:
                 inputAttrib.TryGetValue("position", out var position);
@@ -80,6 +86,20 @@ namespace Mixture
                 // Is this needed ?
                 // Solid s = new Solid(output.mesh.vertices, output.mesh.triangles, output.mesh.normals);
                 // s.ApplyMatrix(output.localToWorld);
+            }
+            else
+            {
+                output.localToWorld = Matrix4x4.TRS(pos, Quaternion.Euler(eulerAngles), scale);
+            }
+
+            if (bakeIntoMesh)
+            {
+                var combine = new CombineInstance[1];
+                combine[0].mesh = output.mesh;
+                combine[0].transform = output.localToWorld;
+
+                output.mesh = new Mesh();
+                output.mesh.CombineMeshes(combine);
             }
 
 			return true;

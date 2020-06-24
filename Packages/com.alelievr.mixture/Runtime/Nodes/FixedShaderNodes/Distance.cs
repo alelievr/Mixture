@@ -8,74 +8,98 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Custom/Distance")]
-	public class Distance : FixedShaderNode
+	public class Distance : ComputeShaderNode
 	{
+		[Input("Input")]
+		public Texture input;
+
+		[Output("Output")]
+		public CustomRenderTexture output;
+
+		public float threshold;
+		public float distance;
+
 		public override string name => "Distance";
 
-		public override string shaderName => "Hidden/Mixture/Distance";
+		protected override string computeShaderResourcePath => "Mixture/Distance";
 
-		public override bool displayMaterialInspector => true;
+		public override bool showDefaultInspector => true;
 
-		// Enumerate the list of material properties that you don't want to be turned into a connectable port.
-		protected override IEnumerable<string> filteredOutProperties => new string[]{};
+		public override Texture previewTexture => output;
 
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
 			OutputDimension.Texture2D,
+			OutputDimension.Texture3D,
 		};
+
+		int fillUvKernel;
+		int jumpFloodingKernel;
+		int finalPassKernel;
+
+		protected override void Enable()
+		{
+			base.Enable();
+
+			rtSettings.targetFormat = OutputFormat.RGBA_Float;
+			rtSettings.editFlags |= EditFlags.Dimension;
+
+			UpdateTempRenderTexture(ref output);
+
+			fillUvKernel = computeShader.FindKernel("FillUVMap");
+			jumpFloodingKernel = computeShader.FindKernel("JumpFlooding");
+			finalPassKernel = computeShader.FindKernel("FinalPass");
+		}
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			// Force the double buffering for multi-pass flooding
 			rtSettings.doubleBuffered = true;
 
-			if (!base.ProcessNode(cmd))
+			if (!base.ProcessNode(cmd) || input == null)
 				return false;
 
-			// Setup passes for jump flooding
-			int stepCount = Mathf.CeilToInt(Mathf.Log(output.width, 2));
-			CustomRenderTextureUpdateZone[] updateZones = new CustomRenderTextureUpdateZone[stepCount + 3];
+			UpdateTempRenderTexture(ref output);
 
-			updateZones[0] = new CustomRenderTextureUpdateZone{
-				needSwap = false,
-				passIndex = 0,
-				rotation = 0f,
-				updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
-				updateZoneSize = new Vector3(1f, 1f, 1f),
-			};
+			cmd.SetComputeFloatParam(computeShader, "_Threshold", threshold);
+			cmd.SetComputeVectorParam(computeShader, "_Size", new Vector4(input.width, 1.0f / input.width));
+			cmd.SetComputeFloatParam(computeShader, "_Distance", distance / 100.0f);
 
-			for (int i = 0; i < stepCount; i++)
+			output.doubleBuffered = true;
+			output.EnsureDoubleBufferConsistency();
+			var rt = output.GetDoubleBufferRenderTexture();
+			rt.Release();
+			rt.enableRandomWrite = true;
+			rt.Create();
+
+			// TODO: function for this
+			cmd.DisableShaderKeyword("CRT_2D");
+			cmd.DisableShaderKeyword("CRT_3D");
+			if (output.dimension == TextureDimension.Tex2D)
+				cmd.EnableShaderKeyword("CRT_2D");
+			else if (output.dimension == TextureDimension.Tex3D)
+				cmd.EnableShaderKeyword("CRT_3D");
+
+			cmd.SetComputeTextureParam(computeShader, fillUvKernel, "_Input", input);
+			cmd.SetComputeTextureParam(computeShader, fillUvKernel, "_Output", output);
+			cmd.SetComputeTextureParam(computeShader, fillUvKernel, "_FinalOutput", rt);
+			DispatchCompute(cmd, fillUvKernel, output.width, output.height, output.volumeDepth);
+
+			int maxLevels = (int)Mathf.Log(input.width, 2);
+			for (int i = 0; i <= maxLevels; i++)
 			{
-				updateZones[i + 1] = new CustomRenderTextureUpdateZone{
-					needSwap = true,
-					passIndex = stepCount - i + 1,
-					rotation = 0f,
-					updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
-					updateZoneSize = new Vector3(1f, 1f, 1f),
-				};
-			};
+				float offset = 1 << (maxLevels - i);
+				cmd.SetComputeFloatParam(computeShader, "_Offset", offset);
+				cmd.SetComputeTextureParam(computeShader, jumpFloodingKernel, "_Input", output);
+				cmd.SetComputeTextureParam(computeShader, jumpFloodingKernel, "_Output", rt);
+				DispatchCompute(cmd, jumpFloodingKernel, output.width, output.height, output.volumeDepth);
+				cmd.CopyTexture(rt, output);
+			}
 
-			updateZones[stepCount + 1] = new CustomRenderTextureUpdateZone{
-				needSwap = true,
-				passIndex = 1,
-				rotation = 0f,
-				updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
-				updateZoneSize = new Vector3(1f, 1f, 1f),
-			};
+			cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_Input", input);
+			cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_Output", rt);
+			cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_FinalOutput", output);
+			DispatchCompute(cmd, finalPassKernel, output.width, output.height, output.volumeDepth);
 
-			// CRT Workaround: we need to add an additional pass because there is a bug in the swap
-			// of the double buffered CRTs: the last pudate zone will not be passed to the next CRT in the chain.
-			// So we add a dummy pass to force a copy
-			updateZones[stepCount + 2] = new CustomRenderTextureUpdateZone{
-				needSwap = true,
-				passIndex = 1,
-				rotation = 0f,
-				updateZoneCenter = new Vector3(0.0f, 0.0f, 0.0f),
-				updateZoneSize = new Vector3(0f, 0f, 0f),
-			};
-
-			material.SetFloat("_SourceMipCount", Mathf.Log(output.width, 2));
-			output.SetUpdateZones(updateZones);
-			
 			return true;
 		}
 	}

@@ -30,7 +30,7 @@ namespace Mixture
         [Output("Volume")]
         public CustomRenderTexture sdf;
 
-		public override string	name => "Mesh To SDF";
+		public override string	name => "Mesh To UDF";
 		protected override string computeShaderResourcePath => "Mixture/MeshToSDF";
 
         public Resolution resolution = Resolution._128;
@@ -104,11 +104,11 @@ namespace Mixture
                 cmd.GetTemporaryRT(42, (int)sdf.width, (int)sdf.height, 0);
                 cmd.SetRenderTarget(42);
                 props.SetFloat("_Dir", 0);
-                cmd.DrawMesh(mesh.mesh, Matrix4x4.Rotate(Quaternion.Euler(0, 0, 90)), mat, 0, shaderPass: 0, props);
+                cmd.DrawMesh(mesh.mesh, mesh.localToWorld, mat, 0, shaderPass: 0, props);
                 props.SetFloat("_Dir", 1);
-                cmd.DrawMesh(mesh.mesh, Matrix4x4.Rotate(Quaternion.Euler(0, 90, 0)), mat, 0, shaderPass: 0, props);
+                cmd.DrawMesh(mesh.mesh, mesh.localToWorld, mat, 0, shaderPass: 0, props);
                 props.SetFloat("_Dir", 2);
-                cmd.DrawMesh(mesh.mesh, Matrix4x4.Rotate(Quaternion.Euler(90, 0, 90)), mat, 0, shaderPass: 0, props);
+                cmd.DrawMesh(mesh.mesh, mesh.localToWorld, mat, 0, shaderPass: 0, props);
                 cmd.ClearRandomWriteTargets();
             }
 
