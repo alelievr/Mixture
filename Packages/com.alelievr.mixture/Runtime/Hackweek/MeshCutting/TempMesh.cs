@@ -94,15 +94,20 @@ public class TempMesh
     /// <summary>
     /// Add a completely new triangle to the mesh
     /// </summary>
-    public void AddTriangle(Vector3[] points)
+    public void AddTriangle(Vector3[] points, float uvScale)
     {
         // Compute normal
         Vector3 normal = Vector3.Cross(points[1] - points[0], points[2] - points[1]).normalized;
 
+        Vector3 tangent = Vector3.Cross(normal, Vector3.forward).normalized;
+        Vector3 biTangent = Vector3.Cross(normal, tangent).normalized;
         for (int i = 0; i < 3; ++i)
         {
             // TODO: Compute uv values for the new triangle?
-            AddPoint(points[i], normal, Vector2.zero);
+            // Compute UVs from triangle:
+        
+            Vector2 uv = new Vector2(Vector3.Dot(points[i], tangent), Vector3.Dot(points[i], biTangent));
+            AddPoint(points[i], normal, uv * uvScale);
         }
 
         //Compute triangle area
@@ -139,4 +144,3 @@ public class TempMesh
         return a * b * Mathf.Sin(gamma) / 2;
     }
 }
-

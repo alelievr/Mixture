@@ -22,6 +22,8 @@ public class MeshCutter
 
     private readonly float threshold = 1e-6f;
 
+    float uvScale = 1;
+
     public MeshCutter(int initialArraySize)
     {
         PositiveMesh = new TempMesh(initialArraySize);
@@ -45,9 +47,9 @@ public class MeshCutter
     /// Returns posMesh and negMesh, which are the resuling meshes on both sides of the plane 
     /// (posMesh on the same side as the plane's normal, negMesh on the opposite side)
     /// </summary>
-    public bool SliceMesh(Mesh mesh, ref Plane slice)
+    public bool SliceMesh(Mesh mesh, ref Plane slice, float uvScale)
     {
-
+        this.uvScale = uvScale;
         // Let's always fill the vertices array so that we can access it even if the mesh didn't intersect
         mesh.GetVertices(ogVertices);
 
@@ -122,13 +124,13 @@ public class MeshCutter
             tempTriangle[0] = added[i];
             tempTriangle[1] = added[i + 1];
 
-            PositiveMesh.AddTriangle(tempTriangle);
+            PositiveMesh.AddTriangle(tempTriangle, uvScale);
 
             // Add backface triangle in meshNegative
             tempTriangle[0] = added[i + 1];
             tempTriangle[1] = added[i];
 
-            NegativeMesh.AddTriangle(tempTriangle);
+            NegativeMesh.AddTriangle(tempTriangle, uvScale);
         }
     }
 
@@ -182,8 +184,10 @@ public class MeshCutter
             edge2.Normalize();
 
             if (Vector3.Angle(edge1, edge2) > threshold)
+            {
                 // This is a corner
                 vertices.Add(pairs[i + 1]);
+            }
         }
 
         return vertices;
@@ -194,13 +198,12 @@ public class MeshCutter
         tempTriangle[0] = face[t1];
         tempTriangle[1] = face[t2];
         tempTriangle[2] = face[t3];
-        PositiveMesh.AddTriangle(tempTriangle);
+        PositiveMesh.AddTriangle(tempTriangle, uvScale);
 
         tempTriangle[1] = face[t3];
         tempTriangle[2] = face[t2];
-        NegativeMesh.AddTriangle(tempTriangle);
+        NegativeMesh.AddTriangle(tempTriangle, uvScale);
     }
     #endregion
     
 }
-

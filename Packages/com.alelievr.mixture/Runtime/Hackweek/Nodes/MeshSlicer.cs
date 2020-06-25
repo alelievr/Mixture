@@ -19,6 +19,7 @@ namespace Mixture
 
         public Vector3 planePos;
         public Vector3 planeNormal = Vector3.up;
+        public float uvScale = 1;
 
 		[Output("Sliced Mesh")]
 		public MixtureMesh output;
@@ -53,7 +54,7 @@ namespace Mixture
                 slicePlane.SetNormalAndPosition(planeNormal, planePos + Vector3.up * 0.00001f);
                 try
                 {
-                    success = cutter.SliceMesh(input.mesh, ref slicePlane);
+                    success = cutter.SliceMesh(input.mesh, ref slicePlane, uvScale);
                     var t = positive ? cutter.PositiveMesh : cutter.NegativeMesh;
                     outputMesh.SetVertices(t.vertices);
                     outputMesh.SetTriangles(t.triangles, 0);
@@ -74,7 +75,7 @@ namespace Mixture
                         {
                             try {
                                 slicePlane.SetNormalAndPosition(n, p);
-                                success = cutter.SliceMesh(outputMesh, ref slicePlane);
+                                success = cutter.SliceMesh(outputMesh, ref slicePlane, uvScale);
                                 var t = positive ? cutter.PositiveMesh : cutter.NegativeMesh;
                                 outputMesh.SetVertices(t.vertices);
                                 outputMesh.SetTriangles(t.triangles, 0);
