@@ -1,0 +1,173 @@
+﻿// Marching cubes algorithm from https://developer.nvidia.com/gpugems/GPUGems3/gpugems3_ch01.html
+
+#pragma kernel MarchingCubes
+// #pragma enable_d3d11_debug_symbols
+
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/MarchingCubesConstants.hlsl"
+// #include "Assets/Scripts/TerrainGenerator.cs.hlsl"
+
+SamplerState s_trilinear_clamp_sampler;
+
+Texture3D<half> _VolumeTexture;
+// Texture3D<half3> _NormalTexture;
+float3 _VolumeSize;
+// float3 worldPosition;
+float _Threshold = 0;
+
+RWStructuredBuffer<half3>		_Vertices;
+RWStructuredBuffer<half3>		_Normals;
+RWStructuredBuffer<int>			_Triangles;
+// RWStructuredBuffer<DebugPoint>	debugPoints;
+
+// static float _Border = 0;
+
+static int2 edgeConnection[12] =
+{
+	int2(0,1), int2(1,2), int2(2,3), int2(3,0), int2(4,5), int2(5,6), int2(6,7), int2(7,4), int2(0,4), int2(1,5), int2(2,6), int2(3,7)
+};
+
+// edgeDirection lists the direction vector (vertex1-vertex0) for each edge in the cube
+static float3 edgeDirection[12] =
+{
+	float3(1.0f, 0.0f, 0.0f),float3(0.0f, 1.0f, 0.0f),float3(-1.0f, 0.0f, 0.0f),float3(0.0f, -1.0f, 0.0f),
+	float3(1.0f, 0.0f, 0.0f),float3(0.0f, 1.0f, 0.0f),float3(-1.0f, 0.0f, 0.0f),float3(0.0f, -1.0f, 0.0f),
+	float3(0.0f, 0.0f, 1.0f),float3(0.0f, 0.0f, 1.0f),float3(0.0f, 0.0f, 1.0f),float3(0.0f,  0.0f, 1.0f)
+};
+
+// vertexOffset lists the positions, relative to vertex0, of each of the 8 _Vertices of a cube
+static float3 vertexOffset[8] =
+{
+	float3(0, 0, 0),float3(1, 0, 0),float3(1, 1, 0),float3(0, 1, 0),
+	float3(0, 0, 1),float3(1, 0, 1),float3(1, 1, 1),float3(0, 1, 1)
+};
+
+float3 ComputeNormal(float3 uvw)
+{
+	float4 step = float4(1.0 / _VolumeSize, 0);
+	float3 gradient = float3(
+		SAMPLE_TEXTURE3D_LOD(_VolumeTexture, s_trilinear_clamp_sampler, uvw + step.xww, 0) - SAMPLE_TEXTURE3D_LOD(_VolumeTexture, s_trilinear_clamp_sampler, uvw - step.xww, 0),
+		SAMPLE_TEXTURE3D_LOD(_VolumeTexture, s_trilinear_clamp_sampler, uvw + step.wwy, 0) - SAMPLE_TEXTURE3D_LOD(_VolumeTexture, s_trilinear_clamp_sampler, uvw - step.wwy, 0),
+		SAMPLE_TEXTURE3D_LOD(_VolumeTexture, s_trilinear_clamp_sampler, uvw + step.wzw, 0) - SAMPLE_TEXTURE3D_LOD(_VolumeTexture, s_trilinear_clamp_sampler, uvw - step.wzw, 0)
+	);
+
+	return normalize(-gradient);
+}
+
+float SampleNoise(float3 uvw)
+{
+	return SAMPLE_TEXTURE3D_LOD(_VolumeTexture, s_trilinear_clamp_sampler, uvw, 0);
+}
+
+void FillCube(float3 voxelUVW, out float cube[8])
+{
+	float2 offset = float2(rcp(_VolumeSize.x), 0);
+
+	cube[0] = SampleNoise(voxelUVW + offset.yyy);
+	cube[1] = SampleNoise(voxelUVW + offset.xyy);
+	cube[2] = SampleNoise(voxelUVW + offset.xxy);
+	cube[3] = SampleNoise(voxelUVW + offset.yxy);
+	cube[4] = SampleNoise(voxelUVW + offset.yyx);
+	cube[5] = SampleNoise(voxelUVW + offset.xyx);
+	cube[6] = SampleNoise(voxelUVW + offset.xxx);
+	cube[7] = SampleNoise(voxelUVW + offset.yxx);
+}
+
+// GetOffset finds the approximate point of intersection of the surface
+// between two points with the values v1 and v2
+float GetOffset(float v1, float v2)
+{
+	float delta = v2 - v1;
+	return (delta == 0.0f) ? 0.5f : (_Threshold - v1) / delta;
+}
+
+void CreateVertex(float3 position, float3 centre, float3 size, int index)
+{
+	float3 pos = (position - centre);
+	_Vertices[index] = pos;
+	float3 uvw = (position / size);
+	uvw += rcp(_VolumeSize * 2.0);
+	// _Normals[index] = SAMPLE_TEXTURE3D_LOD(_NormalTexture, s_trilinear_clamp_sampler, uvw, 0);
+	// _Normals[index] = LOAD_TEXTURE3D(_NormalTexture, position + 0.5);
+}
+
+[numthreads(8, 8, 8)]
+void MarchingCubes(uint3 id : SV_DispatchThreadID)
+{
+	float3 voxelUVW = float3(id) / _VolumeSize;
+
+	// int index = debugPoints.IncrementCounter();
+
+	// Sample at the center of the pixel
+	voxelUVW += rcp(_VolumeSize * 2.0);
+
+	float3 pos = float3(id) + rcp(_VolumeSize * 2.0);
+	float3 centre = float3(_VolumeSize.x, 0, _VolumeSize.z) / 2.0;
+
+	// debugPoints[index].position = float4(pos + worldPosition, SAMPLE_TEXTURE3D_LOD(_VolumeTexture, s_trilinear_clamp_sampler, voxelUVW, 0));
+	// debugPoints[index].direction = float4(SAMPLE_TEXTURE3D_LOD(_NormalTexture, s_trilinear_clamp_sampler, voxelUVW, 0), 0);
+
+	float cube[8];
+	FillCube(voxelUVW, cube);
+
+	int i = 0;
+	int flagIndex = 0;
+	float3 edgeVertex[12];
+
+	//Find which _Vertices are inside of the surface and which are outside
+	for (i = 0; i < 8; i++)
+		if (cube[i] <= _Threshold)
+			flagIndex |= 1 << i;
+
+	//Find which edges are intersected by the surface
+	int edgeFlags = GetCubeEdgeFlags(flagIndex);
+	// no connections, return
+	if (edgeFlags == 0)
+		return;
+
+	//Find the point of intersection of the surface with each edge
+	for (i = 0; i < 12; i++)
+	{
+		//if there is an intersection on this edge
+		if ((edgeFlags & (1 << i)) != 0)
+		{
+			float offset = GetOffset(cube[edgeConnection[i].x], cube[edgeConnection[i].y]);
+
+			edgeVertex[i] = pos + (vertexOffset[edgeConnection[i].x] + offset * edgeDirection[i]);
+		}
+	}
+
+
+	//Save the _Triangles that were found. There can be up to five per cube
+	for (i = 0; i < 5; i++)
+	{
+		//If the connection table is not -1 then this a triangle.
+		if (GetTriTable2(flagIndex * 16 + 3 * i) >= 0)
+		{
+			float3 position;
+
+			int verticesCount = _Vertices.IncrementCounter() * 3;
+
+			position = edgeVertex[GetTriTable2(flagIndex * 16 + (3 * i + 0))];
+			CreateVertex(position, centre, _VolumeSize, verticesCount + 0);
+
+			position = edgeVertex[GetTriTable2(flagIndex * 16 + (3 * i + 1))];
+			CreateVertex(position, centre, _VolumeSize, verticesCount + 1);
+
+			position = edgeVertex[GetTriTable2(flagIndex * 16 + (3 * i + 2))];
+			CreateVertex(position, centre, _VolumeSize, verticesCount + 2);
+
+			// Only used for debug
+			_Triangles[verticesCount + 0] = verticesCount + 0;
+			_Triangles[verticesCount + 1] = verticesCount + 1;
+			_Triangles[verticesCount + 2] = verticesCount + 2;
+		}
+	}
+
+}
+
+// [numthreads(1024, 1, 1)]
+// void ClearKernel(uint3 id : SV_DispatchThreadID)
+// {
+
+// }

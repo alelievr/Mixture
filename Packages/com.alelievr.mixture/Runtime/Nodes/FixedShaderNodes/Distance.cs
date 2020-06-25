@@ -16,8 +16,8 @@ namespace Mixture
 		[Output("Output")]
 		public CustomRenderTexture output;
 
-		public float threshold;
-		public float distance;
+		public float threshold = 0.5f;
+		public float distance = 50;
 
 		public override string name => "Distance";
 
@@ -35,6 +35,17 @@ namespace Mixture
 		int fillUvKernel;
 		int jumpFloodingKernel;
 		int finalPassKernel;
+
+		[CustomPortBehavior(nameof(output))]
+		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
+		{
+			yield return new PortData{
+				displayName = "output",
+				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
+				identifier = "output",
+				acceptMultipleEdges = true,
+			};
+		}
 
 		protected override void Enable()
 		{

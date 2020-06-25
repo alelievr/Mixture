@@ -161,7 +161,7 @@ namespace Mixture
 
 			if (input != null && inputPort.GetEdges().Count != 0)
 			{
-				if ( input.dimension != graph.outputTexture.dimension)
+				if (input.dimension != (TextureDimension)rtSettings.dimension)
 				{
 					Debug.LogError("Error: Expected texture type input for the OutputNode is " + graph.outputTexture.dimension + " but " + input?.dimension + " was provided");
 					return false;

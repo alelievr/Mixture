@@ -25,7 +25,7 @@ namespace Mixture
 
 		// TODO: other stuff
 
-		public Mesh				mesh = new Mesh { name = "Baked Geometry" };
+		public Mesh				mesh = new Mesh { name = "Baked Geometry", indexFormat = IndexFormat.UInt32};
 		public override string	name => "Baked Geometry";
 
 		public override Texture previewTexture => !MixtureGraphProcessor.isProcessing ? UnityEditor.AssetPreview.GetAssetPreview(mesh) ?? (Texture)preview : Texture2D.blackTexture;
