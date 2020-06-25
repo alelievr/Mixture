@@ -6,6 +6,11 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	public interface INeedLoopReset
+	{
+		void PrepareNewIteration();
+	}
+
 	public class MixtureGraphProcessor : BaseGraphProcessor
 	{
 		List<List<BaseNode>>	processLists = new List<List<BaseNode>>();
@@ -56,9 +61,10 @@ namespace Mixture
 			isProcessing = true;
 			mixtureDependencies.Clear();
 			// HashSet<BaseNode> nodesToBeProcessed = new HashSet<BaseNode>();
-			Stack<BaseNode> nodeToExecute = new Stack<BaseNode>();
+			// Stack<BaseNode> nodeToExecute = new Stack<BaseNode>();
 			HashSet<ForeachStart> starts = new HashSet<ForeachStart>();
 			HashSet<ForeachEnd> ends = new HashSet<ForeachEnd>();
+			HashSet<INeedLoopReset> iNeedLoopReset = new HashSet<INeedLoopReset>();
 			Stack<(ForeachStart node, int index)> jumps = new Stack<(ForeachStart, int)>();
 
 			UpdateComputeOrder();
@@ -69,57 +75,71 @@ namespace Mixture
 
 			int maxLoopCount = 0;
 			foreach (var processList in processLists)
-			for (int executionIndex = 0; executionIndex < processList.Count; executionIndex++)
 			{
-				maxLoopCount++;
-				if (maxLoopCount > 10000)
-				{
-					return;
-				}
+				jumps.Clear();
+				starts.Clear();
+				ends.Clear();
+				iNeedLoopReset.Clear();
 
-				var node = processList[executionIndex];
-
-				if (node is ForeachStart fs)
+				for (int executionIndex = 0; executionIndex < processList.Count; executionIndex++)
 				{
-					if (!starts.Contains(fs))
+					maxLoopCount++;
+					if (maxLoopCount > 10000)
 					{
-						fs.PrepareNewIteration();
-						jumps.Push((fs, executionIndex));
-						starts.Add(fs);
-					}
-				}
-
-				bool finalIteration = false;
-				if (node is ForeachEnd fe)
-				{
-					if (!ends.Contains(fe))
-					{
-						fe.PrepareNewIteration();
-						ends.Add(fe);
+						return;
 					}
 
-					if (jumps.Count == 0)
-					{
-						Debug.Log("Aborted execution, foreach end without start");
-						return ;
-					}
-					var jump = jumps.Peek();
+					var node = processList[executionIndex];
 
-					// Jump back to the foreach start
-					if (!jump.node.IsLastIteration())
-						executionIndex = jump.index - 1;
-					else
+					if (node is ForeachStart fs)
 					{
-						jumps.Pop();
-						finalIteration = true;
+						if (!starts.Contains(fs))
+						{
+							fs.PrepareNewIteration();
+							jumps.Push((fs, executionIndex));
+							starts.Add(fs);
+						}
 					}
-				}
 
-				ProcessNode(currentCmd, node);
-			
-				if (finalIteration && node is ForeachEnd fe2)
-				{
-					fe2.FinalIteration();
+					bool finalIteration = false;
+					if (node is ForeachEnd fe)
+					{
+						if (!ends.Contains(fe))
+						{
+							fe.PrepareNewIteration();
+							ends.Add(fe);
+						}
+
+						if (jumps.Count == 0)
+						{
+							Debug.Log("Aborted execution, foreach end without start");
+							return ;
+						}
+						var jump = jumps.Peek();
+
+						// Jump back to the foreach start
+						if (!jump.node.IsLastIteration())
+							executionIndex = jump.index - 1;
+						else
+						{
+							var fs2 = jumps.Pop();
+							starts.Remove(fs2.node);
+							ends.Remove(fe);
+							finalIteration = true;
+						}
+					}
+
+					if (node is INeedLoopReset i)
+					{
+						i.PrepareNewIteration();
+					}
+
+					ProcessNode(currentCmd, node);
+				
+					if (finalIteration && node is ForeachEnd fe2)
+					{
+						fe2.FinalIteration();
+					}
 				}
 			}
 
@@ -225,13 +245,13 @@ namespace Mixture
 				dfs.Push(output);
 				int index = 0;
 
-				var lst = new List<BaseNode>();
+				var lst = new HashSet<BaseNode>();
 
 				while (dfs.Count > 0)
 				{
 					var node = dfs.Pop();
 
-					node.computeOrder = index;
+					node.computeOrder = Mathf.Min(node.computeOrder, index);
 					index--;
 
 					foreach (var dep in node.GetInputNodes())
