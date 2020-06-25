@@ -6,6 +6,11 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	public interface INeedLoopReset
+	{
+		void PrepareNewIteration();
+	}
+
 	public class MixtureGraphProcessor : BaseGraphProcessor
 	{
 		List<List<BaseNode>>	processLists = new List<List<BaseNode>>();
@@ -59,6 +64,7 @@ namespace Mixture
 			// Stack<BaseNode> nodeToExecute = new Stack<BaseNode>();
 			HashSet<ForeachStart> starts = new HashSet<ForeachStart>();
 			HashSet<ForeachEnd> ends = new HashSet<ForeachEnd>();
+			HashSet<INeedLoopReset> iNeedLoopReset = new HashSet<INeedLoopReset>();
 			Stack<(ForeachStart node, int index)> jumps = new Stack<(ForeachStart, int)>();
 
 			UpdateComputeOrder();
@@ -73,6 +79,8 @@ namespace Mixture
 				jumps.Clear();
 				starts.Clear();
 				ends.Clear();
+				iNeedLoopReset.Clear();
+
 				for (int executionIndex = 0; executionIndex < processList.Count; executionIndex++)
 				{
 					maxLoopCount++;
@@ -114,9 +122,16 @@ namespace Mixture
 							executionIndex = jump.index - 1;
 						else
 						{
-							jumps.Pop();
+							var fs2 = jumps.Pop();
+							starts.Remove(fs2.node);
+							ends.Remove(fe);
 							finalIteration = true;
 						}
+					}
+
+					if (node is INeedLoopReset i)
+					{
+						i.PrepareNewIteration();
 					}
 
 					ProcessNode(currentCmd, node);
@@ -230,7 +245,7 @@ namespace Mixture
 				dfs.Push(output);
 				int index = 0;
 
-				var lst = new List<BaseNode>();
+				var lst = new HashSet<BaseNode>();
 
 				while (dfs.Count > 0)
 				{
@@ -248,9 +263,9 @@ namespace Mixture
 				processLists.Add(lst.Where(n => n.computeOrder != 1).OrderBy(n => n.computeOrder).ToList());
 			}
 
-			foreach (var processList in processLists)
-				foreach (var p in processList)
-					Debug.Log(p + " | " + p.computeOrder);
+			// foreach (var processList in processLists)
+			// 	foreach (var p in processList)
+			// 		Debug.Log(p + " | " + p.computeOrder);
 		}
 	}
 }
