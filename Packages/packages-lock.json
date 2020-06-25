@@ -16,6 +16,13 @@
       "dependencies": {},
       "url": "https://package.openupm.com"
     },
+    "com.autodesk.fbx": {
+      "version": "3.0.1-preview.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -51,6 +58,17 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.formats.fbx": {
+      "version": "3.2.0-preview.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.recorder": "2.2.0-preview.4",
+        "com.unity.timeline": "1.0.0",
+        "com.autodesk.fbx": "3.0.1-preview.1"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.ide.rider": {
       "version": "2.0.3",
       "depth": 0,
@@ -79,6 +97,15 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.recorder": {
+      "version": "2.2.0-preview.4",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.timeline": "1.0.0"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {
@@ -147,6 +174,13 @@
         "com.unity.modules.imgui": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0"
       },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.timeline": {
+      "version": "1.2.6",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.ugui": {
