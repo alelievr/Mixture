@@ -14,6 +14,7 @@ namespace Mixture
 		public enum AggregationMode
 		{
 			MergeResult,
+			List,
 			None,
 		}
 
@@ -21,7 +22,7 @@ namespace Mixture
 		public MixtureMesh inputMesh;
 
         [Output("Output")]
-        public MixtureMesh output;
+        public object output;
 
 		public override string	name => "Foreach End";
 
@@ -47,51 +48,47 @@ namespace Mixture
         //     };
 		// }
 
-		// [CustomPortInput(nameof(inputMeshes), typeof(MixtureMesh))]
-		// protected void GetMaterialInputs(List< SerializableEdge > edges)
-		// {
-        //     if (inputMeshes == null)
-        //         inputMeshes = new List<MixtureMesh>();
-        //     inputMeshes.Clear();
-		// 	foreach (var edge in edges)
-        //     {
-        //         if (edge.passThroughBuffer is MixtureMesh m)
-        //             inputMeshes.Add(m);
-        //     }
-		// }
-
-		protected override bool ProcessNode(CommandBuffer cmd)
+		[CustomPortBehavior(nameof(output))]
+		protected IEnumerable< PortData > GetMaterialInputs(List< SerializableEdge > edges)
 		{
+			var portData = new PortData{
+				identifier = nameof(output),
+				displayName = "Output",
+				acceptMultipleEdges = true,
+			};
 			switch (mode)
 			{
 				case AggregationMode.MergeResult:
-					CombineInputMeshes();
+					portData.displayType = typeof(MixtureMesh);
+					break;
+				case AggregationMode.List:
+					portData.displayType = typeof(List<MixtureMesh>);
+					break;
+				default:
+				case AggregationMode.None:
+					portData.displayType = typeof(MixtureMesh);
+					break;
+			}
+
+			yield return portData;
+		}
+
+		protected override bool ProcessNode(CommandBuffer cmd)
+		{
+			inputMeshes.Add(inputMesh);
+			switch (mode)
+			{
+				case AggregationMode.MergeResult:
 					break;
 				default:
 				case AggregationMode.None:
 					output = inputMesh.Clone();
 					break;
+				case AggregationMode.List:
+					output = inputMeshes;
+					break;
 			}
 			return true;
-		}
-
-		void CombineInputMeshes()
-		{
-			if (inputMesh == null || inputMesh.mesh == null)
-				return;
-			
-			inputMeshes.Add(inputMesh);
-
-			// if (output == null || output.mesh == null)
-				// output = new MixtureMesh{ mesh = new Mesh() };
-
-			// var instances = new CombineInstance[2];
-			// instances[0].mesh = inputMesh.mesh;
-			// instances[0].transform = inputMesh.localToWorld;
-			// instances[1].mesh = output.mesh;
-			// instances[1].transform = output.localToWorld;
-			// output.mesh = new Mesh();
-			// output.mesh.CombineMeshes(instances);
 		}
 
 		List<MixtureMesh> inputMeshes = new List<MixtureMesh>();
@@ -103,13 +100,18 @@ namespace Mixture
 
 		public void FinalIteration()
 		{
-			var combineInstances = inputMeshes
-				.Where(m => m?.mesh != null && m.mesh.vertexCount > 0)
-				.Select(m => new CombineInstance{ mesh = m.mesh, transform = m.localToWorld })
-				.ToArray();
-			
-			output.mesh = new Mesh { indexFormat = IndexFormat.UInt32};
-			output.mesh.CombineMeshes(combineInstances);
+			if (mode == AggregationMode.MergeResult || mode == AggregationMode.None)
+			{
+				var combineInstances = inputMeshes
+					.Where(m => m?.mesh != null && m.mesh.vertexCount > 0)
+					.Select(m => new CombineInstance{ mesh = m.mesh, transform = m.localToWorld })
+					.ToArray();
+
+				var mixtureMesh = output as MixtureMesh;
+				mixtureMesh.mesh = new Mesh { indexFormat = IndexFormat.UInt32};
+				mixtureMesh.mesh.CombineMeshes(combineInstances);
+				output = mixtureMesh;
+			}
 		}
     }
 }

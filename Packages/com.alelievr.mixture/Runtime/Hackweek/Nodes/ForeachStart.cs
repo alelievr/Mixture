@@ -30,10 +30,16 @@ namespace Mixture
 		[Output("Index")]
 		public int index = 0;
 
+		[System.NonSerialized]
+		[Output("Count")]
+		public int count = 0;
+
 		public override string	name => "Foreach Start";
 
 		public override bool    hasPreview => false;
-		public override bool showDefaultInspector => true;
+		public override bool	showDefaultInspector => true;
+
+		public override string      layoutStyle => "ForeachStyle";
 
 		// TODO :p 
 		public ForeachType type;
@@ -98,21 +104,22 @@ namespace Mixture
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
+			index++;
 			if (inputs == null || inputs.Count == 0 || index >= inputs.Count || index < 0)
 				return false;
 
 			output = inputs[index];
 
-			index++;
 			return true;
 		}
 
 		public int PrepareNewIteration()
 		{
-			index = 0;
+			index = -1;
 			if (inputs == null)
 				return 0;
 
+			count = inputs.Count;
 			return inputs.Count;
 		}
 

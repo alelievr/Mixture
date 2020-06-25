@@ -31,6 +31,10 @@ namespace Mixture
 			var indexField = new IntegerField { label = "index", value = foreachNode.index };
 			foreachNode.onProcessed += () => indexField.SetValueWithoutNotify(foreachNode.index);
 			controlsContainer.Add(indexField);
+
+			var countField = new IntegerField { label = "count", value = foreachNode.count };
+			foreachNode.onProcessed += () => countField.SetValueWithoutNotify(foreachNode.count);
+			controlsContainer.Add(countField);
 		}
 	}
 }

@@ -17,6 +17,10 @@ public class MixtureConversions : ITypeAdapter
     public static Color ConvertVector3ToColor(Vector3 from) => new Color(from.x, from.y, from.z, 1.0f);
     public static Vector3 ConvertColorToVector3(Color from) => new Vector3(from.r, from.g, from.b);
 
+    // Float to int:
+    public static int ConvertFloatToInt(float from) => Mathf.RoundToInt(from);
+    public static float ConvertIntToFloat(int from) => (float)from;
+
     // Utils function for the custom material property assignation (AssignMaterialPropertiesFromEdges)
     public static Vector4 ConvertObjectToVector4(object o)
     {

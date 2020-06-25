@@ -131,7 +131,13 @@ namespace Mixture
 
 					if (node is INeedLoopReset i)
 					{
-						i.PrepareNewIteration();
+						if (!iNeedLoopReset.Contains(i))
+						{
+							i.PrepareNewIteration();
+							iNeedLoopReset.Add(i);
+						}
+
+						// TODO: remove this node form iNeedLoopReset when we go over a foreach start again
 					}
 
 					ProcessNode(currentCmd, node);
