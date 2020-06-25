@@ -9,7 +9,7 @@ using Random = System.Random;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Random Element From List")]
+	[System.Serializable, NodeMenuItem("Get Element From List")]
 	public class RandomElementFromList : MixtureNode
 	{
         [Input("List")]
@@ -18,13 +18,10 @@ namespace Mixture
 		[Input("Index")]
 		public int index;
 
-		[Input("Compute Order Hack")]
-		public MixtureMesh hack;
-
 		[Output("Element")]
 		public MixtureMesh elem;
 
-		public override string	name => "Random Element From List";
+		public override string	name => "Get Element From List";
 
 		public override bool    hasPreview => true;
 		public override bool    showDefaultInspector => true;

@@ -11,6 +11,13 @@ namespace Mixture
 		void PrepareNewIteration();
 	}
 
+	public class ComputeOrderInfo
+	{
+		public Dictionary<BaseNode, int> foreachLoopLevel = new Dictionary<BaseNode, int>();
+
+		public void Clear() => foreachLoopLevel.Clear();
+	}
+
 	public class MixtureGraphProcessor : BaseGraphProcessor
 	{
 		List<List<BaseNode>>	processLists = new List<List<BaseNode>>();
@@ -242,8 +249,9 @@ namespace Mixture
 				node.computeOrder = 1;
 			}
 
-
 			processLists.Clear();
+
+			info.Clear();
 
 			Stack<BaseNode> dfs = new Stack<BaseNode>();
 			foreach (var output in outputs)
@@ -269,9 +277,28 @@ namespace Mixture
 				processLists.Add(lst.Where(n => n.computeOrder != 1).OrderBy(n => n.computeOrder).ToList());
 			}
 
+			foreach (var processList in processLists)
+			{
+				int foreachIndex = 0;
+				foreach (var node in processList)
+				{
+					if (node is ForeachStart fs)
+						foreachIndex++;
+					info.foreachLoopLevel[node] = foreachIndex;
+					if (node is ForeachEnd fe)
+						foreachIndex--;
+				}
+			}
+
 			// foreach (var processList in processLists)
 			// 	foreach (var p in processList)
 			// 		Debug.Log(p + " | " + p.computeOrder);
+		}
+
+		ComputeOrderInfo info = new ComputeOrderInfo();
+		public ComputeOrderInfo GetComputeOrderInfo()
+		{
+			return info;
 		}
 	}
 }
