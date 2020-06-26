@@ -1,5 +1,33 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!21 &-6272672413668578948
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs/ShaderNodeDefault
+  m_Shader: {fileID: -6465566751694194690, guid: a57875ca9cf4ffb40ba189c47bf92e2f,
+    type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_971754B4:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!28 &-5607271510536943995
 Texture2D:
   m_ObjectHideFlags: 0
@@ -46,6 +74,34 @@ Texture2D:
     offset: 0
     size: 0
     path: 
+--- !u!21 &-3116439902814239107
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs/ShaderNodeDefault
+  m_Shader: {fileID: -6465566751694194690, guid: 11e296aa7c069ff45b28600d7db76af0,
+    type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_971754B4:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -64,7 +120,19 @@ MonoBehaviour:
     jsonDatas: '{"GUID":"20aad9a2-f45b-443d-9f30-0287577d108c","computeOrder":0,"position":{"serializedVersion":"2","x":0.0,"y":0.0,"width":100.0,"height":100.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":1024,"height":1024,"sliceCount":1,"potSize":1024,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"targetFormat":52,"editFlags":981,"doubleBuffered":false,"wrapMode":0,"filterMode":0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"input":{"instanceID":0},"hasMips":false,"customMipMapShader":{"instanceID":0},"currentSlice":0,"compressionFormat":12,"compressionQuality":100,"enableCompression":true}'
   - type: Mixture.RidgedPerlinNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"a4dc0b32-60e3-4478-900f-a97b3dd31e33","computeOrder":-1,"position":{"serializedVersion":"2","x":-463.2608642578125,"y":46.52174377441406,"width":250.0,"height":585.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"targetFormat":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"49eed0c8b6dca3949a7864570e424043","type":3},"material":{"fileID":3023660784114011229,"guid":"0ef1a16940509b14b8fb79155070cbd9","type":2}}'
+    jsonDatas: '{"GUID":"a4dc0b32-60e3-4478-900f-a97b3dd31e33","computeOrder":-4,"position":{"serializedVersion":"2","x":-513.6001586914063,"y":12.500007629394532,"width":250.0,"height":600.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"targetFormat":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"49eed0c8b6dca3949a7864570e424043","type":3},"material":{"fileID":3023660784114011229,"guid":"0ef1a16940509b14b8fb79155070cbd9","type":2}}'
+  - type: Mixture.ExternalOutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"94cf7e19-d0d2-4f90-9f65-0652ee066004","computeOrder":0,"position":{"serializedVersion":"2","x":651.5001831054688,"y":633.7001953125,"width":350.0,"height":612.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"targetFormat":8,"editFlags":133,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"input":{"instanceID":0},"hasMips":false,"customMipMapShader":{"instanceID":0},"currentSlice":0,"compressionFormat":12,"compressionQuality":100,"enableCompression":false,"asset":{"fileID":2800000,"guid":"45f7ec12e447bc545b853fa08283c280","type":3},"externalOutputDimension":0,"external2DOoutputType":1}'
+  - type: Mixture.HeightToNormalNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"e4e301d7-e5bb-470c-b18f-374f1aafa1f6","computeOrder":-2,"position":{"serializedVersion":"2","x":0.00000762939453125,"y":647.0001220703125,"width":250.0,"height":536.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":2,"targetFormat":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"6049b66f24a82c54abb0696833b03131","type":3},"material":{"fileID":2150865866188659389,"guid":"0ef1a16940509b14b8fb79155070cbd9","type":2}}'
+  - type: Mixture.ShaderNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"a42cf5b7-e4a2-4af5-a77f-fd1cafbaef5b","computeOrder":-3,"position":{"serializedVersion":"2","x":-283.0500183105469,"y":665.5501098632813,"width":250.0,"height":459.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"targetFormat":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"output":{"instanceID":0},"shader":{"fileID":-6465566751694194690,"guid":"11e296aa7c069ff45b28600d7db76af0","type":3},"material":{"fileID":-3116439902814239107,"guid":"0ef1a16940509b14b8fb79155070cbd9","type":2}}'
+  - type: Mixture.ShaderNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"ad51fe69-ea2d-4690-ad69-e2515153875a","computeOrder":-1,"position":{"serializedVersion":"2","x":310.00006103515627,"y":647.0001220703125,"width":250.0,"height":441.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"targetFormat":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"output":{"instanceID":0},"shader":{"fileID":-6465566751694194690,"guid":"a57875ca9cf4ffb40ba189c47bf92e2f","type":3},"material":{"fileID":-6272672413668578948,"guid":"0ef1a16940509b14b8fb79155070cbd9","type":2}}'
   edges:
   - GUID: e1ba0caa-3cf7-41c9-b180-5cd8fb70421a
     owner: {fileID: 11400000}
@@ -74,20 +142,86 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: input
     outputPortIdentifier: output
+  - GUID: 41e3f935-71d8-4407-a372-6683560761ab
+    owner: {fileID: 11400000}
+    inputNodeGUID: a42cf5b7-e4a2-4af5-a77f-fd1cafbaef5b
+    outputNodeGUID: a4dc0b32-60e3-4478-900f-a97b3dd31e33
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: Texture2D_971754B4
+    outputPortIdentifier: output
+  - GUID: 769049bc-e515-47d2-a0da-912067b90e71
+    owner: {fileID: 11400000}
+    inputNodeGUID: e4e301d7-e5bb-470c-b18f-374f1aafa1f6
+    outputNodeGUID: a42cf5b7-e4a2-4af5-a77f-fd1cafbaef5b
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Source_2D
+    outputPortIdentifier: output
+  - GUID: 69ebcad7-90c0-45b7-a99b-9e996e4c0c36
+    owner: {fileID: 11400000}
+    inputNodeGUID: ad51fe69-ea2d-4690-ad69-e2515153875a
+    outputNodeGUID: e4e301d7-e5bb-470c-b18f-374f1aafa1f6
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: Texture2D_971754B4
+    outputPortIdentifier: output
+  - GUID: 6c0299bd-84f0-4379-93d7-fc12cc2867bd
+    owner: {fileID: 11400000}
+    inputNodeGUID: 94cf7e19-d0d2-4f90-9f65-0652ee066004
+    outputNodeGUID: ad51fe69-ea2d-4690-ad69-e2515153875a
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: input
+    outputPortIdentifier: output
   groups: []
   stackNodes: []
   pinnedElements: []
   exposedParameters: []
-  position: {x: 443, y: 176, z: 0}
-  scale: {x: 0.65751624, y: 0.65751624, z: 1}
+  position: {x: -386, y: -624, z: 0}
+  scale: {x: 1, y: 1, z: 1}
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 0
   objectReferences:
   - {fileID: 3023660784114011229}
+  - {fileID: 2150865866188659389}
+  - {fileID: -3116439902814239107}
+  - {fileID: -6272672413668578948}
   _outputTexture: {fileID: -5607271510536943995}
   references:
     version: 1
+--- !u!21 &2150865866188659389
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/HeightToNormal
+  m_Shader: {fileID: 4800000, guid: 6049b66f24a82c54abb0696833b03131, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Channel: 0
+    - _MaxHeight: 20
+    - _OutputRange: 0
+    - _OutputSpace: 0
+    - _Strength: 1
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!21 &3023660784114011229
 Material:
   serializedVersion: 6
