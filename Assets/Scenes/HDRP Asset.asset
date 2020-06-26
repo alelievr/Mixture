@@ -150,8 +150,7 @@ MonoBehaviour:
       isFptlEnabled: 0
   m_RenderPipelineResources: {fileID: 11400000, guid: 3ce144cff5783da45aa5d4fdc2da14b7,
     type: 2}
-  m_RenderPipelineRayTracingResources: {fileID: 11400000, guid: ba6e7f30e5cffc249a8bf7ee5756c196,
-    type: 2}
+  m_RenderPipelineRayTracingResources: {fileID: 0}
   m_DefaultVolumeProfile: {fileID: 11400000, guid: 3676df03a8372fc44858b3905502a47b,
     type: 2}
   m_DefaultLookDevProfile: {fileID: 11400000, guid: 254c4fe87beb7be4fa72e1681edbed02,
@@ -166,9 +165,6 @@ MonoBehaviour:
     maximumLODLevel: 0
     maximumLODLevelMode: 0
     maximumLODLevelQualityLevel: 0
-    sssQualityMode: 0
-    sssQualityLevel: 0
-    sssCustomSampleBudget: 20
     materialQuality: 0
   m_RenderingPathDefaultBakedOrCustomReflectionFrameSettings:
     bitDatas:
@@ -180,9 +176,6 @@ MonoBehaviour:
     maximumLODLevel: 0
     maximumLODLevelMode: 0
     maximumLODLevelQualityLevel: 0
-    sssQualityMode: 0
-    sssQualityLevel: 0
-    sssCustomSampleBudget: 20
     materialQuality: 0
   m_RenderingPathDefaultRealtimeReflectionFrameSettings:
     bitDatas:
@@ -194,23 +187,16 @@ MonoBehaviour:
     maximumLODLevel: 0
     maximumLODLevelMode: 0
     maximumLODLevelQualityLevel: 0
-    sssQualityMode: 0
-    sssQualityLevel: 0
-    sssCustomSampleBudget: 20
     materialQuality: 0
   m_RenderPipelineSettings:
     supportShadowMask: 1
     supportSSR: 1
-    supportSSRTransparent: 0
     supportSSAO: 1
-    supportSSGI: 0
     supportSubsurfaceScattering: 1
-    sssSampleBudget:
-      m_Values: 140000002800000050000000
-      m_SchemaId:
-        m_Id: With3Levels
+    increaseSssSampleCount: 0
     supportVolumetrics: 1
-    supportLightLayers: 0
+    increaseResolutionOfVolumetrics: 0
+    supportLightLayers: 1
     lightLayerName0: Light Layer default
     lightLayerName1: Light Layer 1
     lightLayerName2: Light Layer 2
@@ -233,17 +219,9 @@ MonoBehaviour:
     supportRuntimeDebugDisplay: 1
     supportDitheringCrossFade: 1
     supportTerrainHole: 0
-    supportProbeVolume: 0
     supportRayTracing: 1
-    supportedRayTracingMode: 3
-    probeVolumeSettings:
-      atlasWidth: 128
-      atlasHeight: 128
-      atlasDepth: 512
-      atlasOctahedralDepthWidth: 2048
-      atlasOctahedralDepthHeight: 2048
     lightLoopSettings:
-      cookieAtlasSize: 512
+      cookieAtlasSize: 2048
       cookieFormat: 74
       pointCookieSize: 128
       cubeCookieTexArraySize: 16
@@ -277,8 +255,6 @@ MonoBehaviour:
         shadowAtlasResolution: 4096
         shadowAtlasDepthBits: 32
         useDynamicViewportRescale: 1
-      cachedPunctualLightShadowAtlas: 2048
-      cachedAreaLightShadowAtlas: 1024
       shadowResolutionDirectional:
         m_Values: 00010000000200000004000000080000
         m_SchemaId:
@@ -370,13 +346,8 @@ MonoBehaviour:
   m_DefaultMaterialQualityLevel: 4
   diffusionProfileSettings: {fileID: 0}
   diffusionProfileSettingsList:
-  - {fileID: 11400000, guid: ca2e5540606e0554f8d81cb33a00b731, type: 2}
+  - {fileID: 0}
   - {fileID: 11400000, guid: e4b6b77f97e092843b35568bdeda3851, type: 2}
   beforeTransparentCustomPostProcesses: []
   beforePostProcessCustomPostProcesses: []
   afterPostProcessCustomPostProcesses: []
-  virtualTexturingSettings:
-    streamingCpuCacheSizeInMegaBytes: 256
-    streamingGpuCacheSettings:
-    - format: 0
-      sizeInMegaBytes: 128
