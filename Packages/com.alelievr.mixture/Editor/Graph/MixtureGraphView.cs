@@ -177,7 +177,7 @@ namespace Mixture
 			// Update groups too:
 			foreach (var view in groupViews)
 			{
-				var startNodeGUID = view.group.innerNodeGUIDs.FirstOrDefault(guid => graph.nodesPerGUID[guid] is ForeachStart);
+				var startNodeGUID = view.group.innerNodeGUIDs.FirstOrDefault(guid => graph.nodesPerGUID.ContainsKey(guid) && graph.nodesPerGUID[guid] is ForeachStart);
 				if (startNodeGUID != null)
 				{
 					if (info.foreachLoopLevel.TryGetValue(graph.nodesPerGUID[startNodeGUID], out var level))

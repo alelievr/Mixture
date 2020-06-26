@@ -21,7 +21,6 @@ namespace Mixture
 			var pos = nodeTarget.position.position + new Vector2(300, 0);
             var endView = owner.AddNode(BaseNode.CreateFromType(typeof(ForeachEnd), pos));
 			var group = new Group("Foreach", pos);
-			group.color = new Color32(45, 14, 188, 127);
 			group.innerNodeGUIDs.Add(nodeTarget.GUID);
 			group.innerNodeGUIDs.Add(endView.nodeTarget.GUID);
 			owner.AddGroup(group);

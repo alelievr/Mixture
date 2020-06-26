@@ -30,7 +30,6 @@ namespace Mixture
 		public override bool    showDefaultInspector => true;
 
 		public AggregationMode mode;
-		public override string      layoutStyle => "ForeachStyle";
 
 		protected override void Enable()
 		{

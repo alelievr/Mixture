@@ -39,8 +39,6 @@ namespace Mixture
 		public override bool    hasPreview => false;
 		public override bool	showDefaultInspector => true;
 
-		public override string      layoutStyle => "ForeachStyle";
-
 		// TODO :p 
 		public ForeachType type;
 

@@ -17,6 +17,8 @@ namespace Mixture
             clonedMesh.normals = mesh.normals;
             clonedMesh.uv = mesh.uv;
             clonedMesh.bounds = mesh.bounds;
+            clonedMesh.colors = mesh.colors;
+            clonedMesh.colors32 = mesh.colors32;
             return new MixtureMesh{ mesh = clonedMesh, localToWorld = localToWorld };
         }
     }
