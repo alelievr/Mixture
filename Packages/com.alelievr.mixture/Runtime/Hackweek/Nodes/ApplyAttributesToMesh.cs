@@ -28,7 +28,7 @@ namespace Mixture
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-            if (input?.mesh == null)
+            if (input?.mesh == null || inputPoints == null)
                 return false;
 
             Color[] colors = new Color[input.mesh.vertices.Length];

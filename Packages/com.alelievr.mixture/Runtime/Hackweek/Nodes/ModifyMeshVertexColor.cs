@@ -14,6 +14,9 @@ namespace Mixture
 	{
         [Input("Attributes")]
         public MixtureAttributeList inputPoints;
+
+        [Input("Mesh Attribute")]
+        public MixtureAttribute     meshAttrib;
         
         [Output("Attributes")]
         public MixtureAttributeList outputPoints;
@@ -25,10 +28,13 @@ namespace Mixture
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-            if (inputPoints == null)
+            if (inputPoints == null || meshAttrib == null)
                 return false;
 
              outputPoints = inputPoints;
+
+            meshAttrib.TryGetValue("scale", out var meshScale);
+            Vector3 meshScaleVec = (Vector3)meshScale;
 
             foreach (var point in inputPoints)
             {
@@ -38,7 +44,7 @@ namespace Mixture
 
                 var pos = (Vector3)point["position"];
 
-                point["color"] = new Color(pos.x, pos.y, pos.z);
+                point["color"] = new Color(meshScaleVec.x, meshScaleVec.y, meshScaleVec.z);
             }
         
 			return true;
