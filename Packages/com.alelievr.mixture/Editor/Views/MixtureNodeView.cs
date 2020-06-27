@@ -454,7 +454,7 @@ namespace Mixture
 			processTimeLabel = new Label();
 			processTimeLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
 
-			controlsContainer.parent.parent.Add(processTimeLabel);
+			Add(processTimeLabel);
 
 			schedule.Execute(() => {
 				// Update processing time every 200 millis
