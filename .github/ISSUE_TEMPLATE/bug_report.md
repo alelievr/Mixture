@@ -17,7 +17,7 @@ Steps to reproduce the behavior:
 4. See error
 
 **Setup (please complete the following information):**
- - OS: [e.g. iOS]
+ - OS: [e.g. Windows]
  - Unity Version: [e.g. 2020.2.0a13]
 
 **Additional informations**
