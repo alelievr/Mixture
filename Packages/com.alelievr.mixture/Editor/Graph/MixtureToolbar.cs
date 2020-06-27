@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 using GraphProcessor;
 
 namespace Mixture
@@ -20,11 +21,13 @@ namespace Mixture
 			public const string processButtonText = "Process";
             public const string saveAllText = "Save All";
 			public const string parameterViewsText = "Parameters";
+			public static GUIContent bugReport = new GUIContent("Bug Report", MixtureUtils.bugIcon);
 		}
 
 		protected override void AddButtons()
 		{
 			// Add the hello world button on the left of the toolbar
+			AddButton(Styles.processButtonText, Process, left: false);
 			ToggleRealtime(graph.realtimePreview);
 			AddToggle(Styles.realtimePreviewToggleText, graph.realtimePreview, ToggleRealtime, left: false);
 
@@ -32,8 +35,9 @@ namespace Mixture
 			// For now we don't display the show parameters
 			// AddToggle("Show Parameters", exposedParamsVisible, (v) => graphView.ToggleView<ExposedParameterView>());
 			AddButton("Show In Project", () => {
-				Selection.activeObject = graph;
 				EditorGUIUtility.PingObject(graph.outputTexture);
+				ProjectWindowUtil.ShowCreatedAsset(graph.outputTexture);
+				// Selection.activeObject = graph;
 			});
 			AddToggle(Styles.parameterViewsText, graph.isParameterViewOpen, ToggleParameterView, left: true);
 
@@ -42,6 +46,12 @@ namespace Mixture
 			AddToggle("Pinned Views", pinnedViewsVisible, (v) => graphView.ToggleView< PinnedViewBoard >());
 			if (!graph.isRealtime)
 				AddButton(Styles.saveAllText, SaveAll , left: false);
+			AddButton(Styles.bugReport, ReportBugCallback, left: false);
+		}
+
+		void ReportBugCallback()
+		{
+			Application.OpenURL(@"https://github.com/alelievr/Mixture/issues/new?assignees=alelievr&labels=bug&template=bug_report.md&title=%5BBUG%5D");
 		}
 
         void SaveAll()
@@ -81,12 +91,12 @@ namespace Mixture
 		{
 			if (state)
 			{
-				RemoveButton(Styles.processButtonText, false);
+				HideButton(Styles.processButtonText);
 				MixtureUpdater.AddGraphToProcess(graphView);
 			}
 			else
 			{
-				AddProcessButton();
+				ShowButton(Styles.processButtonText);
 				MixtureUpdater.RemoveGraphToProcess(graphView);
 			}
 			graph.realtimePreview = state;
@@ -100,7 +110,6 @@ namespace Mixture
 
 		void AddProcessButton()
 		{
-			AddButton(Styles.processButtonText, Process, left: false);
 		}
 
 		void Process()
