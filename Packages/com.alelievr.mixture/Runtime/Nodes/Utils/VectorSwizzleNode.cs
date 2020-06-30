@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Utils/Vector Swizzle")]
-	public class VectorSwizzle : MixtureNode, INeedsCPU
+	public class VectorSwizzle : MixtureNode
 	{
 		[Input("Input")]
 		public Vector4	input;

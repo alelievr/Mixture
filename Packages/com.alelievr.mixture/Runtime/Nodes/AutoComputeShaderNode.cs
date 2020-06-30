@@ -10,7 +10,7 @@ using System.IO;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Compute Shader")]
-	class AutoComputeShaderNode : ComputeShaderNode
+	public class AutoComputeShaderNode : ComputeShaderNode
 	{
 		[Serializable]
 		public struct ComputeParameter
@@ -135,6 +135,7 @@ namespace Mixture
 				desc.allocatedTexture = new RenderTexture(descriptor)
 				{
 					name = "AutoAllocated - " + name,
+					hideFlags = HideFlags.HideAndDontSave,
 				};
 				desc.allocatedTexture.Create();
 			}
@@ -298,6 +299,8 @@ namespace Mixture
 			UpdateTempRenderTexture(ref tempRenderTexture);
 
             BindManagedResources(kernelIndex);
+
+			cmd.SetComputeVectorParam(computeShader, "_Time", new Vector4(Time.realtimeSinceStartup, Mathf.Sin(Time.realtimeSinceStartup), Mathf.Cos(Time.realtimeSinceStartup), Time.deltaTime));
 			DispatchCompute(cmd, kernelIndex, rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), rtSettings.GetDepth(graph));
 
             if (!String.IsNullOrEmpty(previewKernel))

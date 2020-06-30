@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Sqrt")]
-	public class VectorSqrtNode : MixtureNode, INeedsCPU
+	public class VectorSqrtNode : MixtureNode
 	{
 		public override bool hasSettings => false;
 

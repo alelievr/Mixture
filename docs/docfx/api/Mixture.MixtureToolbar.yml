@@ -1,0 +1,139 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.MixtureToolbar
+  commentId: T:Mixture.MixtureToolbar
+  id: MixtureToolbar
+  parent: Mixture
+  children:
+  - Mixture.MixtureToolbar.#ctor(BaseGraphView)
+  - Mixture.MixtureToolbar.AddButtons
+  langs:
+  - csharp
+  - vb
+  name: MixtureToolbar
+  nameWithType: MixtureToolbar
+  fullName: Mixture.MixtureToolbar
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureToolbar.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: MixtureToolbar
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureToolbar.cs
+    startLine: 10
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: 'public class MixtureToolbar : ToolbarView'
+    content.vb: >-
+      Public Class MixtureToolbar
+          Inherits ToolbarView
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.MixtureToolbar.#ctor(BaseGraphView)
+  commentId: M:Mixture.MixtureToolbar.#ctor(BaseGraphView)
+  id: '#ctor(BaseGraphView)'
+  parent: Mixture.MixtureToolbar
+  langs:
+  - csharp
+  - vb
+  name: MixtureToolbar(BaseGraphView)
+  nameWithType: MixtureToolbar.MixtureToolbar(BaseGraphView)
+  fullName: Mixture.MixtureToolbar.MixtureToolbar(BaseGraphView)
+  type: Constructor
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureToolbar.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: .ctor
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureToolbar.cs
+    startLine: 12
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public MixtureToolbar(BaseGraphView graphView)
+    parameters:
+    - id: graphView
+      type: BaseGraphView
+    content.vb: Public Sub New(graphView As BaseGraphView)
+  overload: Mixture.MixtureToolbar.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureToolbar.AddButtons
+  commentId: M:Mixture.MixtureToolbar.AddButtons
+  id: AddButtons
+  parent: Mixture.MixtureToolbar
+  langs:
+  - csharp
+  - vb
+  name: AddButtons()
+  nameWithType: MixtureToolbar.AddButtons()
+  fullName: Mixture.MixtureToolbar.AddButtons()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureToolbar.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: AddButtons
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureToolbar.cs
+    startLine: 26
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected override void AddButtons()
+    content.vb: Protected Overrides Sub AddButtons
+  overload: Mixture.MixtureToolbar.AddButtons*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mixture.MixtureToolbar.#ctor*
+  commentId: Overload:Mixture.MixtureToolbar.#ctor
+  name: MixtureToolbar
+  nameWithType: MixtureToolbar.MixtureToolbar
+  fullName: Mixture.MixtureToolbar.MixtureToolbar
+- uid: BaseGraphView
+  isExternal: true
+  name: BaseGraphView
+  nameWithType: BaseGraphView
+  fullName: BaseGraphView
+- uid: Mixture.MixtureToolbar.AddButtons*
+  commentId: Overload:Mixture.MixtureToolbar.AddButtons
+  name: AddButtons
+  nameWithType: MixtureToolbar.AddButtons
+  fullName: Mixture.MixtureToolbar.AddButtons

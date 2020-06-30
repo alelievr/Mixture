@@ -1,0 +1,614 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.ComputeShaderNodeView
+  commentId: T:Mixture.ComputeShaderNodeView
+  id: ComputeShaderNodeView
+  parent: Mixture
+  children:
+  - Mixture.ComputeShaderNodeView.AddOpenButton
+  - Mixture.ComputeShaderNodeView.computePath
+  - Mixture.ComputeShaderNodeView.computeShaderChanged
+  - Mixture.ComputeShaderNodeView.Enable
+  - Mixture.ComputeShaderNodeView.openButtonUI
+  langs:
+  - csharp
+  - vb
+  name: ComputeShaderNodeView
+  nameWithType: ComputeShaderNodeView
+  fullName: Mixture.ComputeShaderNodeView
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/ComputeShaderNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ComputeShaderNodeView
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/ComputeShaderNodeView.cs
+    startLine: 14
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: 'public class ComputeShaderNodeView : MixtureNodeView'
+    content.vb: >-
+      Public Class ComputeShaderNodeView
+          Inherits MixtureNodeView
+  inheritance:
+  - System.Object
+  - Mixture.MixtureNodeView
+  derivedClasses:
+  - Mixture.SplatterNodeView
+  inheritedMembers:
+  - Mixture.MixtureNodeView.previewContainer
+  - Mixture.MixtureNodeView.owner
+  - Mixture.MixtureNodeView.nodeTarget
+  - Mixture.MixtureNodeView.header
+  - Mixture.MixtureNodeView.hasSettings
+  - Mixture.MixtureNodeView.settingsView
+  - Mixture.MixtureNodeView.CreateSettingsView
+  - Mixture.MixtureNodeView.MaterialPropertiesGUI(UnityEngine.Material,System.Boolean)
+  - Mixture.MixtureNodeView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+  - Mixture.MixtureNodeView.CreateTexturePreview(UnityEngine.UIElements.VisualElement,MixtureNode,System.Int32)
+  - Mixture.MixtureNodeView.DrawImGUIPreview(MixtureNode,UnityEngine.Rect,System.Int32)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.ComputeShaderNodeView.openButtonUI
+  commentId: F:Mixture.ComputeShaderNodeView.openButtonUI
+  id: openButtonUI
+  parent: Mixture.ComputeShaderNodeView
+  langs:
+  - csharp
+  - vb
+  name: openButtonUI
+  nameWithType: ComputeShaderNodeView.openButtonUI
+  fullName: Mixture.ComputeShaderNodeView.openButtonUI
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/ComputeShaderNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: openButtonUI
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/ComputeShaderNodeView.cs
+    startLine: 17
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected VisualElement openButtonUI
+    return:
+      type: UnityEngine.UIElements.VisualElement
+    content.vb: Protected openButtonUI As VisualElement
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.ComputeShaderNodeView.computePath
+  commentId: F:Mixture.ComputeShaderNodeView.computePath
+  id: computePath
+  parent: Mixture.ComputeShaderNodeView
+  langs:
+  - csharp
+  - vb
+  name: computePath
+  nameWithType: ComputeShaderNodeView.computePath
+  fullName: Mixture.ComputeShaderNodeView.computePath
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/ComputeShaderNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: computePath
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/ComputeShaderNodeView.cs
+    startLine: 24
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: >-
+      [NonSerialized]
+
+      protected string computePath
+    return:
+      type: System.String
+    content.vb: >-
+      <NonSerialized>
+
+      Protected computePath As String
+  attributes:
+  - type: System.NonSerializedAttribute
+    ctor: System.NonSerializedAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.ComputeShaderNodeView.computeShaderChanged
+  commentId: E:Mixture.ComputeShaderNodeView.computeShaderChanged
+  id: computeShaderChanged
+  parent: Mixture.ComputeShaderNodeView
+  langs:
+  - csharp
+  - vb
+  name: computeShaderChanged
+  nameWithType: ComputeShaderNodeView.computeShaderChanged
+  fullName: Mixture.ComputeShaderNodeView.computeShaderChanged
+  type: Event
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/ComputeShaderNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: computeShaderChanged
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/ComputeShaderNodeView.cs
+    startLine: 29
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected event Action computeShaderChanged
+    return:
+      type: System.Action
+    content.vb: Protected Event computeShaderChanged As Action
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.ComputeShaderNodeView.Enable
+  commentId: M:Mixture.ComputeShaderNodeView.Enable
+  id: Enable
+  parent: Mixture.ComputeShaderNodeView
+  langs:
+  - csharp
+  - vb
+  name: Enable()
+  nameWithType: ComputeShaderNodeView.Enable()
+  fullName: Mixture.ComputeShaderNodeView.Enable()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/ComputeShaderNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Enable
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/ComputeShaderNodeView.cs
+    startLine: 31
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public override void Enable()
+    content.vb: Public Overrides Sub Enable
+  overridden: Mixture.MixtureNodeView.Enable
+  overload: Mixture.ComputeShaderNodeView.Enable*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: Mixture.ComputeShaderNodeView.AddOpenButton
+  commentId: M:Mixture.ComputeShaderNodeView.AddOpenButton
+  id: AddOpenButton
+  parent: Mixture.ComputeShaderNodeView
+  langs:
+  - csharp
+  - vb
+  name: AddOpenButton()
+  nameWithType: ComputeShaderNodeView.AddOpenButton()
+  fullName: Mixture.ComputeShaderNodeView.AddOpenButton()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/ComputeShaderNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: AddOpenButton
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/ComputeShaderNodeView.cs
+    startLine: 64
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected void AddOpenButton()
+    content.vb: Protected Sub AddOpenButton
+  overload: Mixture.ComputeShaderNodeView.AddOpenButton*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: Mixture.MixtureNodeView
+  commentId: T:Mixture.MixtureNodeView
+  parent: Mixture
+  name: MixtureNodeView
+  nameWithType: MixtureNodeView
+  fullName: Mixture.MixtureNodeView
+- uid: Mixture.MixtureNodeView.previewContainer
+  commentId: F:Mixture.MixtureNodeView.previewContainer
+  parent: Mixture.MixtureNodeView
+  name: previewContainer
+  nameWithType: MixtureNodeView.previewContainer
+  fullName: Mixture.MixtureNodeView.previewContainer
+- uid: Mixture.MixtureNodeView.owner
+  commentId: P:Mixture.MixtureNodeView.owner
+  parent: Mixture.MixtureNodeView
+  name: owner
+  nameWithType: MixtureNodeView.owner
+  fullName: Mixture.MixtureNodeView.owner
+- uid: Mixture.MixtureNodeView.nodeTarget
+  commentId: P:Mixture.MixtureNodeView.nodeTarget
+  parent: Mixture.MixtureNodeView
+  name: nodeTarget
+  nameWithType: MixtureNodeView.nodeTarget
+  fullName: Mixture.MixtureNodeView.nodeTarget
+- uid: Mixture.MixtureNodeView.header
+  commentId: P:Mixture.MixtureNodeView.header
+  parent: Mixture.MixtureNodeView
+  name: header
+  nameWithType: MixtureNodeView.header
+  fullName: Mixture.MixtureNodeView.header
+- uid: Mixture.MixtureNodeView.hasSettings
+  commentId: P:Mixture.MixtureNodeView.hasSettings
+  parent: Mixture.MixtureNodeView
+  name: hasSettings
+  nameWithType: MixtureNodeView.hasSettings
+  fullName: Mixture.MixtureNodeView.hasSettings
+- uid: Mixture.MixtureNodeView.settingsView
+  commentId: F:Mixture.MixtureNodeView.settingsView
+  parent: Mixture.MixtureNodeView
+  name: settingsView
+  nameWithType: MixtureNodeView.settingsView
+  fullName: Mixture.MixtureNodeView.settingsView
+- uid: Mixture.MixtureNodeView.CreateSettingsView
+  commentId: M:Mixture.MixtureNodeView.CreateSettingsView
+  parent: Mixture.MixtureNodeView
+  name: CreateSettingsView()
+  nameWithType: MixtureNodeView.CreateSettingsView()
+  fullName: Mixture.MixtureNodeView.CreateSettingsView()
+  spec.csharp:
+  - uid: Mixture.MixtureNodeView.CreateSettingsView
+    name: CreateSettingsView
+    nameWithType: MixtureNodeView.CreateSettingsView
+    fullName: Mixture.MixtureNodeView.CreateSettingsView
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNodeView.CreateSettingsView
+    name: CreateSettingsView
+    nameWithType: MixtureNodeView.CreateSettingsView
+    fullName: Mixture.MixtureNodeView.CreateSettingsView
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNodeView.MaterialPropertiesGUI(UnityEngine.Material,System.Boolean)
+  commentId: M:Mixture.MixtureNodeView.MaterialPropertiesGUI(UnityEngine.Material,System.Boolean)
+  parent: Mixture.MixtureNodeView
+  isExternal: true
+  name: MaterialPropertiesGUI(Material, Boolean)
+  nameWithType: MixtureNodeView.MaterialPropertiesGUI(Material, Boolean)
+  fullName: Mixture.MixtureNodeView.MaterialPropertiesGUI(UnityEngine.Material, System.Boolean)
+  spec.csharp:
+  - uid: Mixture.MixtureNodeView.MaterialPropertiesGUI(UnityEngine.Material,System.Boolean)
+    name: MaterialPropertiesGUI
+    nameWithType: MixtureNodeView.MaterialPropertiesGUI
+    fullName: Mixture.MixtureNodeView.MaterialPropertiesGUI
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Material
+    name: Material
+    nameWithType: Material
+    fullName: UnityEngine.Material
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNodeView.MaterialPropertiesGUI(UnityEngine.Material,System.Boolean)
+    name: MaterialPropertiesGUI
+    nameWithType: MixtureNodeView.MaterialPropertiesGUI
+    fullName: Mixture.MixtureNodeView.MaterialPropertiesGUI
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Material
+    name: Material
+    nameWithType: Material
+    fullName: UnityEngine.Material
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNodeView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+  commentId: M:Mixture.MixtureNodeView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+  parent: Mixture.MixtureNodeView
+  isExternal: true
+  name: BuildContextualMenu(ContextualMenuPopulateEvent)
+  nameWithType: MixtureNodeView.BuildContextualMenu(ContextualMenuPopulateEvent)
+  fullName: Mixture.MixtureNodeView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+  spec.csharp:
+  - uid: Mixture.MixtureNodeView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+    name: BuildContextualMenu
+    nameWithType: MixtureNodeView.BuildContextualMenu
+    fullName: Mixture.MixtureNodeView.BuildContextualMenu
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.UIElements.ContextualMenuPopulateEvent
+    name: ContextualMenuPopulateEvent
+    nameWithType: ContextualMenuPopulateEvent
+    fullName: UnityEngine.UIElements.ContextualMenuPopulateEvent
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNodeView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+    name: BuildContextualMenu
+    nameWithType: MixtureNodeView.BuildContextualMenu
+    fullName: Mixture.MixtureNodeView.BuildContextualMenu
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.UIElements.ContextualMenuPopulateEvent
+    name: ContextualMenuPopulateEvent
+    nameWithType: ContextualMenuPopulateEvent
+    fullName: UnityEngine.UIElements.ContextualMenuPopulateEvent
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNodeView.CreateTexturePreview(UnityEngine.UIElements.VisualElement,MixtureNode,System.Int32)
+  commentId: M:Mixture.MixtureNodeView.CreateTexturePreview(UnityEngine.UIElements.VisualElement,MixtureNode,System.Int32)
+  parent: Mixture.MixtureNodeView
+  isExternal: true
+  name: CreateTexturePreview(VisualElement, MixtureNode, Int32)
+  nameWithType: MixtureNodeView.CreateTexturePreview(VisualElement, MixtureNode, Int32)
+  fullName: Mixture.MixtureNodeView.CreateTexturePreview(UnityEngine.UIElements.VisualElement, MixtureNode, System.Int32)
+  spec.csharp:
+  - uid: Mixture.MixtureNodeView.CreateTexturePreview(UnityEngine.UIElements.VisualElement,MixtureNode,System.Int32)
+    name: CreateTexturePreview
+    nameWithType: MixtureNodeView.CreateTexturePreview
+    fullName: Mixture.MixtureNodeView.CreateTexturePreview
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.UIElements.VisualElement
+    name: VisualElement
+    nameWithType: VisualElement
+    fullName: UnityEngine.UIElements.VisualElement
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MixtureNode
+    name: MixtureNode
+    nameWithType: MixtureNode
+    fullName: MixtureNode
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNodeView.CreateTexturePreview(UnityEngine.UIElements.VisualElement,MixtureNode,System.Int32)
+    name: CreateTexturePreview
+    nameWithType: MixtureNodeView.CreateTexturePreview
+    fullName: Mixture.MixtureNodeView.CreateTexturePreview
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.UIElements.VisualElement
+    name: VisualElement
+    nameWithType: VisualElement
+    fullName: UnityEngine.UIElements.VisualElement
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MixtureNode
+    name: MixtureNode
+    nameWithType: MixtureNode
+    fullName: MixtureNode
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNodeView.DrawImGUIPreview(MixtureNode,UnityEngine.Rect,System.Int32)
+  commentId: M:Mixture.MixtureNodeView.DrawImGUIPreview(MixtureNode,UnityEngine.Rect,System.Int32)
+  parent: Mixture.MixtureNodeView
+  isExternal: true
+  name: DrawImGUIPreview(MixtureNode, Rect, Int32)
+  nameWithType: MixtureNodeView.DrawImGUIPreview(MixtureNode, Rect, Int32)
+  fullName: Mixture.MixtureNodeView.DrawImGUIPreview(MixtureNode, UnityEngine.Rect, System.Int32)
+  spec.csharp:
+  - uid: Mixture.MixtureNodeView.DrawImGUIPreview(MixtureNode,UnityEngine.Rect,System.Int32)
+    name: DrawImGUIPreview
+    nameWithType: MixtureNodeView.DrawImGUIPreview
+    fullName: Mixture.MixtureNodeView.DrawImGUIPreview
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MixtureNode
+    name: MixtureNode
+    nameWithType: MixtureNode
+    fullName: MixtureNode
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNodeView.DrawImGUIPreview(MixtureNode,UnityEngine.Rect,System.Int32)
+    name: DrawImGUIPreview
+    nameWithType: MixtureNodeView.DrawImGUIPreview
+    fullName: Mixture.MixtureNodeView.DrawImGUIPreview
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MixtureNode
+    name: MixtureNode
+    nameWithType: MixtureNode
+    fullName: MixtureNode
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEngine.UIElements.VisualElement
+  commentId: T:UnityEngine.UIElements.VisualElement
+  parent: UnityEngine.UIElements
+  isExternal: true
+  name: VisualElement
+  nameWithType: VisualElement
+  fullName: UnityEngine.UIElements.VisualElement
+- uid: UnityEngine.UIElements
+  commentId: N:UnityEngine.UIElements
+  isExternal: true
+  name: UnityEngine.UIElements
+  nameWithType: UnityEngine.UIElements
+  fullName: UnityEngine.UIElements
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Action
+  commentId: T:System.Action
+  parent: System
+  isExternal: true
+  name: Action
+  nameWithType: Action
+  fullName: System.Action
+- uid: Mixture.MixtureNodeView.Enable
+  commentId: M:Mixture.MixtureNodeView.Enable
+  parent: Mixture.MixtureNodeView
+  name: Enable()
+  nameWithType: MixtureNodeView.Enable()
+  fullName: Mixture.MixtureNodeView.Enable()
+  spec.csharp:
+  - uid: Mixture.MixtureNodeView.Enable
+    name: Enable
+    nameWithType: MixtureNodeView.Enable
+    fullName: Mixture.MixtureNodeView.Enable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNodeView.Enable
+    name: Enable
+    nameWithType: MixtureNodeView.Enable
+    fullName: Mixture.MixtureNodeView.Enable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.ComputeShaderNodeView.Enable*
+  commentId: Overload:Mixture.ComputeShaderNodeView.Enable
+  name: Enable
+  nameWithType: ComputeShaderNodeView.Enable
+  fullName: Mixture.ComputeShaderNodeView.Enable
+- uid: Mixture.ComputeShaderNodeView.AddOpenButton*
+  commentId: Overload:Mixture.ComputeShaderNodeView.AddOpenButton
+  name: AddOpenButton
+  nameWithType: ComputeShaderNodeView.AddOpenButton
+  fullName: Mixture.ComputeShaderNodeView.AddOpenButton

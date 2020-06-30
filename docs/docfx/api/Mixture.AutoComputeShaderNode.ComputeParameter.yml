@@ -1,0 +1,310 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.AutoComputeShaderNode.ComputeParameter
+  commentId: T:Mixture.AutoComputeShaderNode.ComputeParameter
+  id: AutoComputeShaderNode.ComputeParameter
+  parent: Mixture
+  children:
+  - Mixture.AutoComputeShaderNode.ComputeParameter.displayName
+  - Mixture.AutoComputeShaderNode.ComputeParameter.propertyName
+  - Mixture.AutoComputeShaderNode.ComputeParameter.specificType
+  - Mixture.AutoComputeShaderNode.ComputeParameter.sType
+  langs:
+  - csharp
+  - vb
+  name: AutoComputeShaderNode.ComputeParameter
+  nameWithType: AutoComputeShaderNode.ComputeParameter
+  fullName: Mixture.AutoComputeShaderNode.ComputeParameter
+  type: Struct
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ComputeParameter
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 14
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Serializable]
+
+      public struct ComputeParameter
+    content.vb: >-
+      <Serializable>
+
+      Public Structure ComputeParameter
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - struct
+  modifiers.vb:
+  - Public
+  - Structure
+- uid: Mixture.AutoComputeShaderNode.ComputeParameter.displayName
+  commentId: F:Mixture.AutoComputeShaderNode.ComputeParameter.displayName
+  id: displayName
+  parent: Mixture.AutoComputeShaderNode.ComputeParameter
+  langs:
+  - csharp
+  - vb
+  name: displayName
+  nameWithType: AutoComputeShaderNode.ComputeParameter.displayName
+  fullName: Mixture.AutoComputeShaderNode.ComputeParameter.displayName
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: displayName
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 17
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public string displayName
+    return:
+      type: System.String
+    content.vb: Public displayName As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.AutoComputeShaderNode.ComputeParameter.propertyName
+  commentId: F:Mixture.AutoComputeShaderNode.ComputeParameter.propertyName
+  id: propertyName
+  parent: Mixture.AutoComputeShaderNode.ComputeParameter
+  langs:
+  - csharp
+  - vb
+  name: propertyName
+  nameWithType: AutoComputeShaderNode.ComputeParameter.propertyName
+  fullName: Mixture.AutoComputeShaderNode.ComputeParameter.propertyName
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: propertyName
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 18
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public string propertyName
+    return:
+      type: System.String
+    content.vb: Public propertyName As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.AutoComputeShaderNode.ComputeParameter.specificType
+  commentId: F:Mixture.AutoComputeShaderNode.ComputeParameter.specificType
+  id: specificType
+  parent: Mixture.AutoComputeShaderNode.ComputeParameter
+  langs:
+  - csharp
+  - vb
+  name: specificType
+  nameWithType: AutoComputeShaderNode.ComputeParameter.specificType
+  fullName: Mixture.AutoComputeShaderNode.ComputeParameter.specificType
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: specificType
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 19
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public string specificType
+    return:
+      type: System.String
+    content.vb: Public specificType As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.AutoComputeShaderNode.ComputeParameter.sType
+  commentId: F:Mixture.AutoComputeShaderNode.ComputeParameter.sType
+  id: sType
+  parent: Mixture.AutoComputeShaderNode.ComputeParameter
+  langs:
+  - csharp
+  - vb
+  name: sType
+  nameWithType: AutoComputeShaderNode.ComputeParameter.sType
+  fullName: Mixture.AutoComputeShaderNode.ComputeParameter.sType
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: sType
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 20
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public SerializableType sType
+    return:
+      type: SerializableType
+    content.vb: Public sType As SerializableType
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: ValueType.Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: SerializableType
+  isExternal: true
+  name: SerializableType
+  nameWithType: SerializableType
+  fullName: SerializableType

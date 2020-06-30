@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Utils/Random Color")]
-	public class RandomColorNode : MixtureNode, INeedsCPU
+	public class RandomColorNode : MixtureNode
 	{
 		public override bool hasSettings => false;
 

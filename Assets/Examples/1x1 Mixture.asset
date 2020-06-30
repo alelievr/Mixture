@@ -24,6 +24,53 @@ Material:
     - _Bias: {r: 0, g: 0, b: 0, a: 0}
     - _Scale: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
+--- !u!21 &-1517980234254903484
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/Add
+  m_Shader: {fileID: 4800000, guid: 30368c84ef4f1eb4d900c9b34b8c58ce, type: 3}
+  m_ShaderKeywords: CRT_CUBE
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SourceA_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceA_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceA_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -42,6 +89,8 @@ MonoBehaviour:
     jsonDatas: '{"GUID":"daef4c32-d376-4158-9e10-07b8a8a7f0b7","computeOrder":2,"position":{"serializedVersion":"2","x":-59.0,"y":-17.130430221557618,"width":350.0,"height":517.0},"expanded":true,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":16,"height":16,"sliceCount":16,"potSize":0,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":4,"targetFormat":52,"editFlags":981,"doubleBuffered":false,"wrapMode":0,"filterMode":0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"input":{"instanceID":0},"hasMips":false,"customMipMapShader":{"instanceID":0},"currentSlice":0,"compressionFormat":4,"compressionQuality":100,"enableCompression":false}'
   - type: Mixture.UVNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"e25736be-1cf1-47fc-912f-36cf86266e5a","computeOrder":1,"position":{"serializedVersion":"2","x":-309.0,"y":-17.0,"width":250.0,"height":437.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"targetFormat":0,"editFlags":255,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"0e57459cc2eca8e4eb3e062b8ed60321","type":3},"material":{"fileID":-3223953952058006724,"guid":"c2be6bc90df544afd8928f1b1030b9ee","type":2}}'
+  - type: Mixture.AddNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"d094c5f7-3871-4428-8306-38cddad3b8eb","computeOrder":1,"position":{"serializedVersion":"2","x":-593.0,"y":371.0,"width":250.0,"height":873.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"targetFormat":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"30368c84ef4f1eb4d900c9b34b8c58ce","type":3},"material":{"fileID":-1517980234254903484,"guid":"c2be6bc90df544afd8928f1b1030b9ee","type":2}}'
   edges:
   - GUID: 157bcc98-7745-49b3-89f6-d313e56f78db
     owner: {fileID: 11400000}
@@ -65,13 +114,14 @@ MonoBehaviour:
       serializedType: Mixture.PinnedViewBoard, Unity.ShaderGraph.GraphicsTests, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: 509, y: 93, z: 0}
-  scale: {x: 1, y: 1, z: 1}
+  position: {x: 925, y: -258, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 0
   objectReferences:
   - {fileID: -3223953952058006724}
+  - {fileID: -1517980234254903484}
   _outputTexture: {fileID: 6982677941647048320}
   references:
     version: 1

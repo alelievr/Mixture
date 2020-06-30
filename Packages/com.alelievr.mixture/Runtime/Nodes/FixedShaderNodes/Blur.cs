@@ -20,7 +20,7 @@ namespace Mixture
 		{
 			if (!base.ProcessNode(cmd))
 				return false;
-			
+
 			CustomRenderTextureUpdateZone[] updateZones;
 		
 			// Setup the custom render texture multi-pass for the blur:

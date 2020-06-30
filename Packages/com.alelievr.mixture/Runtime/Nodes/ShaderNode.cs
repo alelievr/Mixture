@@ -15,7 +15,7 @@ namespace Mixture
 		[Input(name = "In")]
 		public List< object >		materialInputs;
 
-		[Output(name = "Out")]
+		[Output(name = "Out"), Tooltip("Output Texture")]
 		public CustomRenderTexture	output = null;
 
 		public Shader			shader;

@@ -1,0 +1,563 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class VectorSwizzle
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class VectorSwizzle
+   ">
+    <meta name="generator" content="docfx 2.55.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Mixture.VectorSwizzle">
+  
+  
+  <h1 id="Mixture_VectorSwizzle" data-uid="Mixture.VectorSwizzle" class="text-break">Class VectorSwizzle
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Mixture.MixtureNode.html">MixtureNode</a></div>
+    <div class="level2"><span class="xref">VectorSwizzle</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_graph">MixtureNode.graph</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_rtSettings">MixtureNode.rtSettings</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_defaultRTSettings">MixtureNode.defaultRTSettings</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_nodeWidth">MixtureNode.nodeWidth</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewTexture">MixtureNode.previewTexture</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_hasSettings">MixtureNode.hasSettings</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_hasPreview">MixtureNode.hasPreview</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_supportedDimensions">MixtureNode.supportedDimensions</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_defaultPreviewChannels">MixtureNode.defaultPreviewChannels</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_showPreviewExposure">MixtureNode.showPreviewExposure</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_isPreviewCollapsed">MixtureNode.isPreviewCollapsed</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_onSettingsChanged">MixtureNode.onSettingsChanged</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_beforeProcessSetup">MixtureNode.beforeProcessSetup</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_afterProcessCleanup">MixtureNode.afterProcessCleanup</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_showControlsOnHover">MixtureNode.showControlsOnHover</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_temporaryMaterials">MixtureNode.temporaryMaterials</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewMode">MixtureNode.previewMode</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewMip">MixtureNode.previewMip</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewVisible">MixtureNode.previewVisible</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewEV100">MixtureNode.previewEV100</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_recorder">MixtureNode.recorder</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnNodeCreated">MixtureNode.OnNodeCreated()</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_UpdateTempRenderTexture_UnityEngine_CustomRenderTexture__System_Boolean_System_Boolean_">MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnProcess_UnityEngine_Rendering_CommandBuffer_">MixtureNode.OnProcess(CommandBuffer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_Process">MixtureNode.Process()</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_AddObjectToGraph_UnityEngine_Object_">MixtureNode.AddObjectToGraph(Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_RemoveObjectFromGraph_UnityEngine_Object_">MixtureNode.RemoveObjectFromGraph(Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetPropertyType_UnityEngine_Shader_System_Int32_">MixtureNode.GetPropertyType(Shader, Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetMaterialPortDatas_UnityEngine_Material_">MixtureNode.GetMaterialPortDatas(Material)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_AssignMaterialPropertiesFromEdges_System_Collections_Generic_List_SerializableEdge__UnityEngine_Material_">MixtureNode.AssignMaterialPropertiesFromEdges(List&lt;SerializableEdge&gt;, Material)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnSettingsChanged">MixtureNode.OnSettingsChanged()</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetDefaultMaterial_UnityEngine_Material_">MixtureNode.GetDefaultMaterial(Material)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_ResetMaterialPropertyToDefault_UnityEngine_Material_System_String_">MixtureNode.ResetMaterialPropertyToDefault(Material, String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetMixtureDependencies">MixtureNode.GetMixtureDependencies()</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetTempMaterial_System_String_">MixtureNode.GetTempMaterial(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_Disable">MixtureNode.Disable()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Mixture.html">Mixture</a></h6>
+  <h6><strong>Assembly</strong>: Mixture.Runtime.dll</h6>
+  <h5 id="Mixture_VectorSwizzle_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Serializable]
+public class VectorSwizzle : MixtureNode</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_VectorSwizzle_compW.md&amp;value=---%0Auid%3A%20Mixture.VectorSwizzle.compW%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/VectorSwizzleNode.cs/#L24">View Source</a>
+  </span>
+  <h4 id="Mixture_VectorSwizzle_compW" data-uid="Mixture.VectorSwizzle.compW">compW</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VectorSwizzle.Component compW</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.VectorSwizzle.Component.html">VectorSwizzle.Component</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_VectorSwizzle_compX.md&amp;value=---%0Auid%3A%20Mixture.VectorSwizzle.compX%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/VectorSwizzleNode.cs/#L21">View Source</a>
+  </span>
+  <h4 id="Mixture_VectorSwizzle_compX" data-uid="Mixture.VectorSwizzle.compX">compX</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VectorSwizzle.Component compX</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.VectorSwizzle.Component.html">VectorSwizzle.Component</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_VectorSwizzle_compY.md&amp;value=---%0Auid%3A%20Mixture.VectorSwizzle.compY%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/VectorSwizzleNode.cs/#L22">View Source</a>
+  </span>
+  <h4 id="Mixture_VectorSwizzle_compY" data-uid="Mixture.VectorSwizzle.compY">compY</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VectorSwizzle.Component compY</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.VectorSwizzle.Component.html">VectorSwizzle.Component</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_VectorSwizzle_compZ.md&amp;value=---%0Auid%3A%20Mixture.VectorSwizzle.compZ%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/VectorSwizzleNode.cs/#L23">View Source</a>
+  </span>
+  <h4 id="Mixture_VectorSwizzle_compZ" data-uid="Mixture.VectorSwizzle.compZ">compZ</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VectorSwizzle.Component compZ</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.VectorSwizzle.Component.html">VectorSwizzle.Component</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_VectorSwizzle_custom.md&amp;value=---%0Auid%3A%20Mixture.VectorSwizzle.custom%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/VectorSwizzleNode.cs/#L25">View Source</a>
+  </span>
+  <h4 id="Mixture_VectorSwizzle_custom" data-uid="Mixture.VectorSwizzle.custom">custom</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float custom</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_VectorSwizzle_input.md&amp;value=---%0Auid%3A%20Mixture.VectorSwizzle.input%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/VectorSwizzleNode.cs/#L14">View Source</a>
+  </span>
+  <h4 id="Mixture_VectorSwizzle_input" data-uid="Mixture.VectorSwizzle.input">input</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector4 input</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector4</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_VectorSwizzle_output.md&amp;value=---%0Auid%3A%20Mixture.VectorSwizzle.output%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/VectorSwizzleNode.cs/#L17">View Source</a>
+  </span>
+  <h4 id="Mixture_VectorSwizzle_output" data-uid="Mixture.VectorSwizzle.output">output</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector4 output</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector4</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_VectorSwizzle_name.md&amp;value=---%0Auid%3A%20Mixture.VectorSwizzle.name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/VectorSwizzleNode.cs/#L45">View Source</a>
+  </span>
+  <a id="Mixture_VectorSwizzle_name_" data-uid="Mixture.VectorSwizzle.name*"></a>
+  <h4 id="Mixture_VectorSwizzle_name" data-uid="Mixture.VectorSwizzle.name">name</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string name { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_VectorSwizzle_showDefaultInspector.md&amp;value=---%0Auid%3A%20Mixture.VectorSwizzle.showDefaultInspector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/VectorSwizzleNode.cs/#L19">View Source</a>
+  </span>
+  <a id="Mixture_VectorSwizzle_showDefaultInspector_" data-uid="Mixture.VectorSwizzle.showDefaultInspector*"></a>
+  <h4 id="Mixture_VectorSwizzle_showDefaultInspector" data-uid="Mixture.VectorSwizzle.showDefaultInspector">showDefaultInspector</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool showDefaultInspector { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_showDefaultInspector">MixtureNode.showDefaultInspector</a></div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_VectorSwizzle_ProcessNode_UnityEngine_Rendering_CommandBuffer_.md&amp;value=---%0Auid%3A%20Mixture.VectorSwizzle.ProcessNode(UnityEngine.Rendering.CommandBuffer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/VectorSwizzleNode.cs/#L59">View Source</a>
+  </span>
+  <a id="Mixture_VectorSwizzle_ProcessNode_" data-uid="Mixture.VectorSwizzle.ProcessNode*"></a>
+  <h4 id="Mixture_VectorSwizzle_ProcessNode_UnityEngine_Rendering_CommandBuffer_" data-uid="Mixture.VectorSwizzle.ProcessNode(UnityEngine.Rendering.CommandBuffer)">ProcessNode(CommandBuffer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override bool ProcessNode(CommandBuffer cmd)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Rendering.CommandBuffer</span></td>
+        <td><span class="parametername">cmd</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_">MixtureNode.ProcessNode(CommandBuffer)</a></div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_VectorSwizzle.md&amp;value=---%0Auid%3A%20Mixture.VectorSwizzle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/VectorSwizzleNode.cs/#L10" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

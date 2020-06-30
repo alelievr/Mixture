@@ -1,0 +1,231 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.MixtureGraphWindow
+  commentId: T:Mixture.MixtureGraphWindow
+  id: MixtureGraphWindow
+  parent: Mixture
+  children:
+  - Mixture.MixtureGraphWindow.InitializeWindow(BaseGraph)
+  - Mixture.MixtureGraphWindow.OnDestroy
+  - Mixture.MixtureGraphWindow.OnEnable
+  - Mixture.MixtureGraphWindow.Open(MixtureGraph)
+  langs:
+  - csharp
+  - vb
+  name: MixtureGraphWindow
+  nameWithType: MixtureGraphWindow
+  fullName: Mixture.MixtureGraphWindow
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphWindow.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: MixtureGraphWindow
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphWindow.cs
+    startLine: 9
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: 'public class MixtureGraphWindow : BaseGraphWindow'
+    content.vb: >-
+      Public Class MixtureGraphWindow
+          Inherits BaseGraphWindow
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.MixtureGraphWindow.Open(MixtureGraph)
+  commentId: M:Mixture.MixtureGraphWindow.Open(MixtureGraph)
+  id: Open(MixtureGraph)
+  parent: Mixture.MixtureGraphWindow
+  langs:
+  - csharp
+  - vb
+  name: Open(MixtureGraph)
+  nameWithType: MixtureGraphWindow.Open(MixtureGraph)
+  fullName: Mixture.MixtureGraphWindow.Open(MixtureGraph)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphWindow.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Open
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphWindow.cs
+    startLine: 13
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static MixtureGraphWindow Open(MixtureGraph graph)
+    parameters:
+    - id: graph
+      type: MixtureGraph
+    return:
+      type: Mixture.MixtureGraphWindow
+    content.vb: Public Shared Function Open(graph As MixtureGraph) As MixtureGraphWindow
+  overload: Mixture.MixtureGraphWindow.Open*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MixtureGraphWindow.OnEnable
+  commentId: M:Mixture.MixtureGraphWindow.OnEnable
+  id: OnEnable
+  parent: Mixture.MixtureGraphWindow
+  langs:
+  - csharp
+  - vb
+  name: OnEnable()
+  nameWithType: MixtureGraphWindow.OnEnable()
+  fullName: Mixture.MixtureGraphWindow.OnEnable()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphWindow.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: OnEnable
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphWindow.cs
+    startLine: 37
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected void OnEnable()
+    content.vb: Protected Sub OnEnable
+  overload: Mixture.MixtureGraphWindow.OnEnable*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.MixtureGraphWindow.InitializeWindow(BaseGraph)
+  commentId: M:Mixture.MixtureGraphWindow.InitializeWindow(BaseGraph)
+  id: InitializeWindow(BaseGraph)
+  parent: Mixture.MixtureGraphWindow
+  langs:
+  - csharp
+  - vb
+  name: InitializeWindow(BaseGraph)
+  nameWithType: MixtureGraphWindow.InitializeWindow(BaseGraph)
+  fullName: Mixture.MixtureGraphWindow.InitializeWindow(BaseGraph)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphWindow.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: InitializeWindow
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphWindow.cs
+    startLine: 43
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected override void InitializeWindow(BaseGraph graph)
+    parameters:
+    - id: graph
+      type: BaseGraph
+    content.vb: Protected Overrides Sub InitializeWindow(graph As BaseGraph)
+  overload: Mixture.MixtureGraphWindow.InitializeWindow*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
+- uid: Mixture.MixtureGraphWindow.OnDestroy
+  commentId: M:Mixture.MixtureGraphWindow.OnDestroy
+  id: OnDestroy
+  parent: Mixture.MixtureGraphWindow
+  langs:
+  - csharp
+  - vb
+  name: OnDestroy()
+  nameWithType: MixtureGraphWindow.OnDestroy()
+  fullName: Mixture.MixtureGraphWindow.OnDestroy()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphWindow.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: OnDestroy
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphWindow.cs
+    startLine: 57
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected override void OnDestroy()
+    content.vb: Protected Overrides Sub OnDestroy
+  overload: Mixture.MixtureGraphWindow.OnDestroy*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mixture.MixtureGraphWindow.Open*
+  commentId: Overload:Mixture.MixtureGraphWindow.Open
+  name: Open
+  nameWithType: MixtureGraphWindow.Open
+  fullName: Mixture.MixtureGraphWindow.Open
+- uid: MixtureGraph
+  isExternal: true
+  name: MixtureGraph
+  nameWithType: MixtureGraph
+  fullName: MixtureGraph
+- uid: Mixture.MixtureGraphWindow
+  commentId: T:Mixture.MixtureGraphWindow
+  parent: Mixture
+  name: MixtureGraphWindow
+  nameWithType: MixtureGraphWindow
+  fullName: Mixture.MixtureGraphWindow
+- uid: Mixture.MixtureGraphWindow.OnEnable*
+  commentId: Overload:Mixture.MixtureGraphWindow.OnEnable
+  name: OnEnable
+  nameWithType: MixtureGraphWindow.OnEnable
+  fullName: Mixture.MixtureGraphWindow.OnEnable
+- uid: Mixture.MixtureGraphWindow.InitializeWindow*
+  commentId: Overload:Mixture.MixtureGraphWindow.InitializeWindow
+  name: InitializeWindow
+  nameWithType: MixtureGraphWindow.InitializeWindow
+  fullName: Mixture.MixtureGraphWindow.InitializeWindow
+- uid: BaseGraph
+  isExternal: true
+  name: BaseGraph
+  nameWithType: BaseGraph
+  fullName: BaseGraph
+- uid: Mixture.MixtureGraphWindow.OnDestroy*
+  commentId: Overload:Mixture.MixtureGraphWindow.OnDestroy
+  name: OnDestroy
+  nameWithType: MixtureGraphWindow.OnDestroy
+  fullName: Mixture.MixtureGraphWindow.OnDestroy

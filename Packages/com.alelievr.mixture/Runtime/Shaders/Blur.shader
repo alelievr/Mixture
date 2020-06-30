@@ -3,11 +3,11 @@
 	Properties
 	{
 		// By default a shader node is supposed to handle all the input texture dimension, we use a prefix to determine which one is used
-		[InlineTexture]_Source_2D("Source", 2D) = "white" {}
-		[InlineTexture]_Source_3D("Source", 3D) = "white" {}
-		[InlineTexture]_Source_Cube("Source", Cube) = "white" {}
+		[Tooltip(Source Texture)][InlineTexture]_Source_2D("Source", 2D) = "white" {}
+		[Tooltip(Source Texture)][InlineTexture]_Source_3D("Source", 3D) = "white" {}
+		[Tooltip(Source Texture)][InlineTexture]_Source_Cube("Source", Cube) = "white" {}
 
-		_Radius("Radius", Float) = 0
+		[Tooltip(Blur radius in pixels)]_Radius("Radius", Float) = 0
 		// Other parameters
 	}
 

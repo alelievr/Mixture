@@ -1,0 +1,1290 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.MixtureRTSettings
+  commentId: T:Mixture.MixtureRTSettings
+  id: MixtureRTSettings
+  parent: Mixture
+  children:
+  - Mixture.MixtureRTSettings.CanEdit(Mixture.EditFlags)
+  - Mixture.MixtureRTSettings.defaultValue
+  - Mixture.MixtureRTSettings.depthMode
+  - Mixture.MixtureRTSettings.depthPercent
+  - Mixture.MixtureRTSettings.dimension
+  - Mixture.MixtureRTSettings.doubleBuffered
+  - Mixture.MixtureRTSettings.editFlags
+  - Mixture.MixtureRTSettings.filterMode
+  - Mixture.MixtureRTSettings.GetDepth(Mixture.MixtureGraph)
+  - Mixture.MixtureRTSettings.GetGraphicsFormat(Mixture.MixtureGraph)
+  - Mixture.MixtureRTSettings.GetHeight(Mixture.MixtureGraph)
+  - Mixture.MixtureRTSettings.GetTextureDimension(Mixture.MixtureGraph)
+  - Mixture.MixtureRTSettings.GetWidth(Mixture.MixtureGraph)
+  - Mixture.MixtureRTSettings.height
+  - Mixture.MixtureRTSettings.heightMode
+  - Mixture.MixtureRTSettings.heightPercent
+  - Mixture.MixtureRTSettings.isHDR
+  - Mixture.MixtureRTSettings.NeedsUpdate(Mixture.MixtureGraph,UnityEngine.Texture)
+  - Mixture.MixtureRTSettings.potSize
+  - Mixture.MixtureRTSettings.sizeMode
+  - Mixture.MixtureRTSettings.sliceCount
+  - Mixture.MixtureRTSettings.targetFormat
+  - Mixture.MixtureRTSettings.width
+  - Mixture.MixtureRTSettings.widthMode
+  - Mixture.MixtureRTSettings.widthPercent
+  - Mixture.MixtureRTSettings.wrapMode
+  langs:
+  - csharp
+  - vb
+  name: MixtureRTSettings
+  nameWithType: MixtureRTSettings
+  fullName: Mixture.MixtureRTSettings
+  type: Struct
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: MixtureRTSettings
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 13
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Serializable]
+
+      public struct MixtureRTSettings
+    content.vb: >-
+      <Serializable>
+
+      Public Structure MixtureRTSettings
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - struct
+  modifiers.vb:
+  - Public
+  - Structure
+- uid: Mixture.MixtureRTSettings.widthPercent
+  commentId: F:Mixture.MixtureRTSettings.widthPercent
+  id: widthPercent
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: widthPercent
+  nameWithType: MixtureRTSettings.widthPercent
+  fullName: Mixture.MixtureRTSettings.widthPercent
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: widthPercent
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 17
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Range(0.0001F, 1F)]
+
+      public float widthPercent
+    return:
+      type: System.Single
+    content.vb: >-
+      <Range(0.0001F, 1F)>
+
+      Public widthPercent As Single
+  attributes:
+  - type: UnityEngine.RangeAttribute
+    ctor: UnityEngine.RangeAttribute.#ctor(System.Single,System.Single)
+    arguments:
+    - type: System.Single
+      value: 9.99999975E-05
+    - type: System.Single
+      value: 1
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.heightPercent
+  commentId: F:Mixture.MixtureRTSettings.heightPercent
+  id: heightPercent
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: heightPercent
+  nameWithType: MixtureRTSettings.heightPercent
+  fullName: Mixture.MixtureRTSettings.heightPercent
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: heightPercent
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 19
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Range(0.0001F, 1F)]
+
+      public float heightPercent
+    return:
+      type: System.Single
+    content.vb: >-
+      <Range(0.0001F, 1F)>
+
+      Public heightPercent As Single
+  attributes:
+  - type: UnityEngine.RangeAttribute
+    ctor: UnityEngine.RangeAttribute.#ctor(System.Single,System.Single)
+    arguments:
+    - type: System.Single
+      value: 9.99999975E-05
+    - type: System.Single
+      value: 1
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.depthPercent
+  commentId: F:Mixture.MixtureRTSettings.depthPercent
+  id: depthPercent
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: depthPercent
+  nameWithType: MixtureRTSettings.depthPercent
+  fullName: Mixture.MixtureRTSettings.depthPercent
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: depthPercent
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 21
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Range(0.0001F, 1F)]
+
+      public float depthPercent
+    return:
+      type: System.Single
+    content.vb: >-
+      <Range(0.0001F, 1F)>
+
+      Public depthPercent As Single
+  attributes:
+  - type: UnityEngine.RangeAttribute
+    ctor: UnityEngine.RangeAttribute.#ctor(System.Single,System.Single)
+    arguments:
+    - type: System.Single
+      value: 9.99999975E-05
+    - type: System.Single
+      value: 1
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.width
+  commentId: F:Mixture.MixtureRTSettings.width
+  id: width
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: width
+  nameWithType: MixtureRTSettings.width
+  fullName: Mixture.MixtureRTSettings.width
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: width
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 23
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Min(1F)]
+
+      public int width
+    return:
+      type: System.Int32
+    content.vb: >-
+      <Min(1F)>
+
+      Public width As Integer
+  attributes:
+  - type: UnityEngine.MinAttribute
+    ctor: UnityEngine.MinAttribute.#ctor(System.Single)
+    arguments:
+    - type: System.Single
+      value: 1
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.height
+  commentId: F:Mixture.MixtureRTSettings.height
+  id: height
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: height
+  nameWithType: MixtureRTSettings.height
+  fullName: Mixture.MixtureRTSettings.height
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: height
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 25
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Min(1F)]
+
+      public int height
+    return:
+      type: System.Int32
+    content.vb: >-
+      <Min(1F)>
+
+      Public height As Integer
+  attributes:
+  - type: UnityEngine.MinAttribute
+    ctor: UnityEngine.MinAttribute.#ctor(System.Single)
+    arguments:
+    - type: System.Single
+      value: 1
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.sliceCount
+  commentId: F:Mixture.MixtureRTSettings.sliceCount
+  id: sliceCount
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: sliceCount
+  nameWithType: MixtureRTSettings.sliceCount
+  fullName: Mixture.MixtureRTSettings.sliceCount
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: sliceCount
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 27
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Min(1F)]
+
+      public int sliceCount
+    return:
+      type: System.Int32
+    content.vb: >-
+      <Min(1F)>
+
+      Public sliceCount As Integer
+  attributes:
+  - type: UnityEngine.MinAttribute
+    ctor: UnityEngine.MinAttribute.#ctor(System.Single)
+    arguments:
+    - type: System.Single
+      value: 1
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.potSize
+  commentId: F:Mixture.MixtureRTSettings.potSize
+  id: potSize
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: potSize
+  nameWithType: MixtureRTSettings.potSize
+  fullName: Mixture.MixtureRTSettings.potSize
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: potSize
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 28
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public POTSize potSize
+    return:
+      type: Mixture.POTSize
+    content.vb: Public potSize As POTSize
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.widthMode
+  commentId: F:Mixture.MixtureRTSettings.widthMode
+  id: widthMode
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: widthMode
+  nameWithType: MixtureRTSettings.widthMode
+  fullName: Mixture.MixtureRTSettings.widthMode
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: widthMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 29
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public OutputSizeMode widthMode
+    return:
+      type: Mixture.OutputSizeMode
+    content.vb: Public widthMode As OutputSizeMode
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.heightMode
+  commentId: F:Mixture.MixtureRTSettings.heightMode
+  id: heightMode
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: heightMode
+  nameWithType: MixtureRTSettings.heightMode
+  fullName: Mixture.MixtureRTSettings.heightMode
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: heightMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 30
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public OutputSizeMode heightMode
+    return:
+      type: Mixture.OutputSizeMode
+    content.vb: Public heightMode As OutputSizeMode
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.depthMode
+  commentId: F:Mixture.MixtureRTSettings.depthMode
+  id: depthMode
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: depthMode
+  nameWithType: MixtureRTSettings.depthMode
+  fullName: Mixture.MixtureRTSettings.depthMode
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: depthMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 31
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public OutputSizeMode depthMode
+    return:
+      type: Mixture.OutputSizeMode
+    content.vb: Public depthMode As OutputSizeMode
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.dimension
+  commentId: F:Mixture.MixtureRTSettings.dimension
+  id: dimension
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: dimension
+  nameWithType: MixtureRTSettings.dimension
+  fullName: Mixture.MixtureRTSettings.dimension
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: dimension
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 32
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public OutputDimension dimension
+    return:
+      type: Mixture.OutputDimension
+    content.vb: Public dimension As OutputDimension
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.targetFormat
+  commentId: F:Mixture.MixtureRTSettings.targetFormat
+  id: targetFormat
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: targetFormat
+  nameWithType: MixtureRTSettings.targetFormat
+  fullName: Mixture.MixtureRTSettings.targetFormat
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: targetFormat
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 33
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public OutputFormat targetFormat
+    return:
+      type: Mixture.OutputFormat
+    content.vb: Public targetFormat As OutputFormat
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.editFlags
+  commentId: F:Mixture.MixtureRTSettings.editFlags
+  id: editFlags
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: editFlags
+  nameWithType: MixtureRTSettings.editFlags
+  fullName: Mixture.MixtureRTSettings.editFlags
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: editFlags
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 34
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public EditFlags editFlags
+    return:
+      type: Mixture.EditFlags
+    content.vb: Public editFlags As EditFlags
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.doubleBuffered
+  commentId: F:Mixture.MixtureRTSettings.doubleBuffered
+  id: doubleBuffered
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: doubleBuffered
+  nameWithType: MixtureRTSettings.doubleBuffered
+  fullName: Mixture.MixtureRTSettings.doubleBuffered
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: doubleBuffered
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 35
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public bool doubleBuffered
+    return:
+      type: System.Boolean
+    content.vb: Public doubleBuffered As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.wrapMode
+  commentId: F:Mixture.MixtureRTSettings.wrapMode
+  id: wrapMode
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: wrapMode
+  nameWithType: MixtureRTSettings.wrapMode
+  fullName: Mixture.MixtureRTSettings.wrapMode
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: wrapMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 36
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public TextureWrapMode wrapMode
+    return:
+      type: UnityEngine.TextureWrapMode
+    content.vb: Public wrapMode As TextureWrapMode
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.filterMode
+  commentId: F:Mixture.MixtureRTSettings.filterMode
+  id: filterMode
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: filterMode
+  nameWithType: MixtureRTSettings.filterMode
+  fullName: Mixture.MixtureRTSettings.filterMode
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: filterMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 37
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public FilterMode filterMode
+    return:
+      type: UnityEngine.FilterMode
+    content.vb: Public filterMode As FilterMode
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.sizeMode
+  commentId: P:Mixture.MixtureRTSettings.sizeMode
+  id: sizeMode
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: sizeMode
+  nameWithType: MixtureRTSettings.sizeMode
+  fullName: Mixture.MixtureRTSettings.sizeMode
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: sizeMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 39
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public OutputSizeMode sizeMode { get; set; }
+    parameters: []
+    return:
+      type: Mixture.OutputSizeMode
+    content.vb: Public Property sizeMode As OutputSizeMode
+  overload: Mixture.MixtureRTSettings.sizeMode*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.defaultValue
+  commentId: P:Mixture.MixtureRTSettings.defaultValue
+  id: defaultValue
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: defaultValue
+  nameWithType: MixtureRTSettings.defaultValue
+  fullName: Mixture.MixtureRTSettings.defaultValue
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: defaultValue
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 50
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static MixtureRTSettings defaultValue { get; }
+    parameters: []
+    return:
+      type: Mixture.MixtureRTSettings
+    content.vb: Public Shared ReadOnly Property defaultValue As MixtureRTSettings
+  overload: Mixture.MixtureRTSettings.defaultValue*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureRTSettings.isHDR
+  commentId: P:Mixture.MixtureRTSettings.isHDR
+  id: isHDR
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: isHDR
+  nameWithType: MixtureRTSettings.isHDR
+  fullName: Mixture.MixtureRTSettings.isHDR
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: isHDR
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 72
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public bool isHDR { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property isHDR As Boolean
+  overload: Mixture.MixtureRTSettings.isHDR*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: Mixture.MixtureRTSettings.CanEdit(Mixture.EditFlags)
+  commentId: M:Mixture.MixtureRTSettings.CanEdit(Mixture.EditFlags)
+  id: CanEdit(Mixture.EditFlags)
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: CanEdit(EditFlags)
+  nameWithType: MixtureRTSettings.CanEdit(EditFlags)
+  fullName: Mixture.MixtureRTSettings.CanEdit(Mixture.EditFlags)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: CanEdit
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 74
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public bool CanEdit(EditFlags flag)
+    parameters:
+    - id: flag
+      type: Mixture.EditFlags
+    return:
+      type: System.Boolean
+    content.vb: Public Function CanEdit(flag As EditFlags) As Boolean
+  overload: Mixture.MixtureRTSettings.CanEdit*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.GetWidth(Mixture.MixtureGraph)
+  commentId: M:Mixture.MixtureRTSettings.GetWidth(Mixture.MixtureGraph)
+  id: GetWidth(Mixture.MixtureGraph)
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: GetWidth(MixtureGraph)
+  nameWithType: MixtureRTSettings.GetWidth(MixtureGraph)
+  fullName: Mixture.MixtureRTSettings.GetWidth(Mixture.MixtureGraph)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetWidth
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 76
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public int GetWidth(MixtureGraph graph)
+    parameters:
+    - id: graph
+      type: Mixture.MixtureGraph
+    return:
+      type: System.Int32
+    content.vb: Public Function GetWidth(graph As MixtureGraph) As Integer
+  overload: Mixture.MixtureRTSettings.GetWidth*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.GetHeight(Mixture.MixtureGraph)
+  commentId: M:Mixture.MixtureRTSettings.GetHeight(Mixture.MixtureGraph)
+  id: GetHeight(Mixture.MixtureGraph)
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: GetHeight(MixtureGraph)
+  nameWithType: MixtureRTSettings.GetHeight(MixtureGraph)
+  fullName: Mixture.MixtureRTSettings.GetHeight(Mixture.MixtureGraph)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetHeight
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 87
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public int GetHeight(MixtureGraph graph)
+    parameters:
+    - id: graph
+      type: Mixture.MixtureGraph
+    return:
+      type: System.Int32
+    content.vb: Public Function GetHeight(graph As MixtureGraph) As Integer
+  overload: Mixture.MixtureRTSettings.GetHeight*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.GetDepth(Mixture.MixtureGraph)
+  commentId: M:Mixture.MixtureRTSettings.GetDepth(Mixture.MixtureGraph)
+  id: GetDepth(Mixture.MixtureGraph)
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: GetDepth(MixtureGraph)
+  nameWithType: MixtureRTSettings.GetDepth(MixtureGraph)
+  fullName: Mixture.MixtureRTSettings.GetDepth(Mixture.MixtureGraph)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetDepth
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 98
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public int GetDepth(MixtureGraph graph)
+    parameters:
+    - id: graph
+      type: Mixture.MixtureGraph
+    return:
+      type: System.Int32
+    content.vb: Public Function GetDepth(graph As MixtureGraph) As Integer
+  overload: Mixture.MixtureRTSettings.GetDepth*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.GetGraphicsFormat(Mixture.MixtureGraph)
+  commentId: M:Mixture.MixtureRTSettings.GetGraphicsFormat(Mixture.MixtureGraph)
+  id: GetGraphicsFormat(Mixture.MixtureGraph)
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: GetGraphicsFormat(MixtureGraph)
+  nameWithType: MixtureRTSettings.GetGraphicsFormat(MixtureGraph)
+  fullName: Mixture.MixtureRTSettings.GetGraphicsFormat(Mixture.MixtureGraph)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetGraphicsFormat
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 113
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public GraphicsFormat GetGraphicsFormat(MixtureGraph graph)
+    parameters:
+    - id: graph
+      type: Mixture.MixtureGraph
+    return:
+      type: UnityEngine.Experimental.Rendering.GraphicsFormat
+    content.vb: Public Function GetGraphicsFormat(graph As MixtureGraph) As GraphicsFormat
+  overload: Mixture.MixtureRTSettings.GetGraphicsFormat*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.GetTextureDimension(Mixture.MixtureGraph)
+  commentId: M:Mixture.MixtureRTSettings.GetTextureDimension(Mixture.MixtureGraph)
+  id: GetTextureDimension(Mixture.MixtureGraph)
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: GetTextureDimension(MixtureGraph)
+  nameWithType: MixtureRTSettings.GetTextureDimension(MixtureGraph)
+  fullName: Mixture.MixtureRTSettings.GetTextureDimension(Mixture.MixtureGraph)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetTextureDimension
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 122
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public TextureDimension GetTextureDimension(MixtureGraph graph)
+    parameters:
+    - id: graph
+      type: Mixture.MixtureGraph
+    return:
+      type: UnityEngine.Rendering.TextureDimension
+    content.vb: Public Function GetTextureDimension(graph As MixtureGraph) As TextureDimension
+  overload: Mixture.MixtureRTSettings.GetTextureDimension*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureRTSettings.NeedsUpdate(Mixture.MixtureGraph,UnityEngine.Texture)
+  commentId: M:Mixture.MixtureRTSettings.NeedsUpdate(Mixture.MixtureGraph,UnityEngine.Texture)
+  id: NeedsUpdate(Mixture.MixtureGraph,UnityEngine.Texture)
+  parent: Mixture.MixtureRTSettings
+  langs:
+  - csharp
+  - vb
+  name: NeedsUpdate(MixtureGraph, Texture)
+  nameWithType: MixtureRTSettings.NeedsUpdate(MixtureGraph, Texture)
+  fullName: Mixture.MixtureRTSettings.NeedsUpdate(Mixture.MixtureGraph, UnityEngine.Texture)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: NeedsUpdate
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureRTSettings.cs
+    startLine: 131
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public bool NeedsUpdate(MixtureGraph graph, Texture t)
+    parameters:
+    - id: graph
+      type: Mixture.MixtureGraph
+    - id: t
+      type: UnityEngine.Texture
+    return:
+      type: System.Boolean
+    content.vb: Public Function NeedsUpdate(graph As MixtureGraph, t As Texture) As Boolean
+  overload: Mixture.MixtureRTSettings.NeedsUpdate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: ValueType.Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: Mixture.POTSize
+  commentId: T:Mixture.POTSize
+  parent: Mixture
+  name: POTSize
+  nameWithType: POTSize
+  fullName: Mixture.POTSize
+- uid: Mixture.OutputSizeMode
+  commentId: T:Mixture.OutputSizeMode
+  parent: Mixture
+  name: OutputSizeMode
+  nameWithType: OutputSizeMode
+  fullName: Mixture.OutputSizeMode
+- uid: Mixture.OutputDimension
+  commentId: T:Mixture.OutputDimension
+  parent: Mixture
+  name: OutputDimension
+  nameWithType: OutputDimension
+  fullName: Mixture.OutputDimension
+- uid: Mixture.OutputFormat
+  commentId: T:Mixture.OutputFormat
+  parent: Mixture
+  name: OutputFormat
+  nameWithType: OutputFormat
+  fullName: Mixture.OutputFormat
+- uid: Mixture.EditFlags
+  commentId: T:Mixture.EditFlags
+  parent: Mixture
+  name: EditFlags
+  nameWithType: EditFlags
+  fullName: Mixture.EditFlags
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: UnityEngine.TextureWrapMode
+  commentId: T:UnityEngine.TextureWrapMode
+  parent: UnityEngine
+  isExternal: true
+  name: TextureWrapMode
+  nameWithType: TextureWrapMode
+  fullName: UnityEngine.TextureWrapMode
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: UnityEngine.FilterMode
+  commentId: T:UnityEngine.FilterMode
+  parent: UnityEngine
+  isExternal: true
+  name: FilterMode
+  nameWithType: FilterMode
+  fullName: UnityEngine.FilterMode
+- uid: Mixture.MixtureRTSettings.sizeMode*
+  commentId: Overload:Mixture.MixtureRTSettings.sizeMode
+  name: sizeMode
+  nameWithType: MixtureRTSettings.sizeMode
+  fullName: Mixture.MixtureRTSettings.sizeMode
+- uid: Mixture.MixtureRTSettings.defaultValue*
+  commentId: Overload:Mixture.MixtureRTSettings.defaultValue
+  name: defaultValue
+  nameWithType: MixtureRTSettings.defaultValue
+  fullName: Mixture.MixtureRTSettings.defaultValue
+- uid: Mixture.MixtureRTSettings
+  commentId: T:Mixture.MixtureRTSettings
+  parent: Mixture
+  name: MixtureRTSettings
+  nameWithType: MixtureRTSettings
+  fullName: Mixture.MixtureRTSettings
+- uid: Mixture.MixtureRTSettings.isHDR*
+  commentId: Overload:Mixture.MixtureRTSettings.isHDR
+  name: isHDR
+  nameWithType: MixtureRTSettings.isHDR
+  fullName: Mixture.MixtureRTSettings.isHDR
+- uid: Mixture.MixtureRTSettings.CanEdit*
+  commentId: Overload:Mixture.MixtureRTSettings.CanEdit
+  name: CanEdit
+  nameWithType: MixtureRTSettings.CanEdit
+  fullName: Mixture.MixtureRTSettings.CanEdit
+- uid: Mixture.MixtureRTSettings.GetWidth*
+  commentId: Overload:Mixture.MixtureRTSettings.GetWidth
+  name: GetWidth
+  nameWithType: MixtureRTSettings.GetWidth
+  fullName: Mixture.MixtureRTSettings.GetWidth
+- uid: Mixture.MixtureGraph
+  commentId: T:Mixture.MixtureGraph
+  parent: Mixture
+  name: MixtureGraph
+  nameWithType: MixtureGraph
+  fullName: Mixture.MixtureGraph
+- uid: Mixture.MixtureRTSettings.GetHeight*
+  commentId: Overload:Mixture.MixtureRTSettings.GetHeight
+  name: GetHeight
+  nameWithType: MixtureRTSettings.GetHeight
+  fullName: Mixture.MixtureRTSettings.GetHeight
+- uid: Mixture.MixtureRTSettings.GetDepth*
+  commentId: Overload:Mixture.MixtureRTSettings.GetDepth
+  name: GetDepth
+  nameWithType: MixtureRTSettings.GetDepth
+  fullName: Mixture.MixtureRTSettings.GetDepth
+- uid: Mixture.MixtureRTSettings.GetGraphicsFormat*
+  commentId: Overload:Mixture.MixtureRTSettings.GetGraphicsFormat
+  name: GetGraphicsFormat
+  nameWithType: MixtureRTSettings.GetGraphicsFormat
+  fullName: Mixture.MixtureRTSettings.GetGraphicsFormat
+- uid: UnityEngine.Experimental.Rendering.GraphicsFormat
+  commentId: T:UnityEngine.Experimental.Rendering.GraphicsFormat
+  parent: UnityEngine.Experimental.Rendering
+  isExternal: true
+  name: GraphicsFormat
+  nameWithType: GraphicsFormat
+  fullName: UnityEngine.Experimental.Rendering.GraphicsFormat
+- uid: UnityEngine.Experimental.Rendering
+  commentId: N:UnityEngine.Experimental.Rendering
+  isExternal: true
+  name: UnityEngine.Experimental.Rendering
+  nameWithType: UnityEngine.Experimental.Rendering
+  fullName: UnityEngine.Experimental.Rendering
+- uid: Mixture.MixtureRTSettings.GetTextureDimension*
+  commentId: Overload:Mixture.MixtureRTSettings.GetTextureDimension
+  name: GetTextureDimension
+  nameWithType: MixtureRTSettings.GetTextureDimension
+  fullName: Mixture.MixtureRTSettings.GetTextureDimension
+- uid: UnityEngine.Rendering.TextureDimension
+  commentId: T:UnityEngine.Rendering.TextureDimension
+  parent: UnityEngine.Rendering
+  isExternal: true
+  name: TextureDimension
+  nameWithType: TextureDimension
+  fullName: UnityEngine.Rendering.TextureDimension
+- uid: UnityEngine.Rendering
+  commentId: N:UnityEngine.Rendering
+  isExternal: true
+  name: UnityEngine.Rendering
+  nameWithType: UnityEngine.Rendering
+  fullName: UnityEngine.Rendering
+- uid: Mixture.MixtureRTSettings.NeedsUpdate*
+  commentId: Overload:Mixture.MixtureRTSettings.NeedsUpdate
+  name: NeedsUpdate
+  nameWithType: MixtureRTSettings.NeedsUpdate
+  fullName: Mixture.MixtureRTSettings.NeedsUpdate
+- uid: UnityEngine.Texture
+  commentId: T:UnityEngine.Texture
+  parent: UnityEngine
+  isExternal: true
+  name: Texture
+  nameWithType: Texture
+  fullName: UnityEngine.Texture

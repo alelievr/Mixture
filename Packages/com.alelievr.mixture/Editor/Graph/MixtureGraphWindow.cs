@@ -11,7 +11,7 @@ namespace Mixture
 	{
 		internal MixtureGraphView view;
 
-		public static BaseGraphWindow Open(MixtureGraph graph)
+		public static MixtureGraphWindow Open(MixtureGraph graph)
 		{
 			// Focus the window if the graph is already opened
 			var mixtureWindows = Resources.FindObjectsOfTypeAll<MixtureGraphWindow>();

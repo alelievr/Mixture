@@ -1,0 +1,899 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.InlineTextureDrawer
+  commentId: T:Mixture.InlineTextureDrawer
+  id: InlineTextureDrawer
+  parent: Mixture
+  children:
+  - Mixture.InlineTextureDrawer.#ctor
+  - Mixture.InlineTextureDrawer.#ctor(System.String)
+  - Mixture.InlineTextureDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+  - Mixture.InlineTextureDrawer.GetPropertyHeight(UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
+  langs:
+  - csharp
+  - vb
+  name: InlineTextureDrawer
+  nameWithType: InlineTextureDrawer
+  fullName: Mixture.InlineTextureDrawer
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/InlineTextureDrawer.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: InlineTextureDrawer
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/InlineTextureDrawer.cs
+    startLine: 5
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: 'public class InlineTextureDrawer : MixturePropertyDrawer'
+    content.vb: >-
+      Public Class InlineTextureDrawer
+          Inherits MixturePropertyDrawer
+  inheritance:
+  - System.Object
+  - UnityEditor.MaterialPropertyDrawer
+  - Mixture.MixturePropertyDrawer
+  inheritedMembers:
+  - Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,MixtureGraph)
+  - Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
+  - Mixture.MixturePropertyDrawer.GetGraph(UnityEditor.MaterialEditor)
+  - Mixture.MixturePropertyDrawer.GetNodeView(UnityEditor.MaterialEditor)
+  - Mixture.MixturePropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
+  - UnityEditor.MaterialPropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,UnityEngine.GUIContent,UnityEditor.MaterialEditor)
+  - UnityEditor.MaterialPropertyDrawer.Apply(UnityEditor.MaterialProperty)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.InlineTextureDrawer.#ctor
+  commentId: M:Mixture.InlineTextureDrawer.#ctor
+  id: '#ctor'
+  parent: Mixture.InlineTextureDrawer
+  langs:
+  - csharp
+  - vb
+  name: InlineTextureDrawer()
+  nameWithType: InlineTextureDrawer.InlineTextureDrawer()
+  fullName: Mixture.InlineTextureDrawer.InlineTextureDrawer()
+  type: Constructor
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/InlineTextureDrawer.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: .ctor
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/InlineTextureDrawer.cs
+    startLine: 9
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public InlineTextureDrawer()
+    content.vb: Public Sub New
+  overload: Mixture.InlineTextureDrawer.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.InlineTextureDrawer.#ctor(System.String)
+  commentId: M:Mixture.InlineTextureDrawer.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: Mixture.InlineTextureDrawer
+  langs:
+  - csharp
+  - vb
+  name: InlineTextureDrawer(String)
+  nameWithType: InlineTextureDrawer.InlineTextureDrawer(String)
+  fullName: Mixture.InlineTextureDrawer.InlineTextureDrawer(System.String)
+  type: Constructor
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/InlineTextureDrawer.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: .ctor
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/InlineTextureDrawer.cs
+    startLine: 10
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public InlineTextureDrawer(string v)
+    parameters:
+    - id: v
+      type: System.String
+    content.vb: Public Sub New(v As String)
+  overload: Mixture.InlineTextureDrawer.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.InlineTextureDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+  commentId: M:Mixture.InlineTextureDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+  id: DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+  parent: Mixture.InlineTextureDrawer
+  langs:
+  - csharp
+  - vb
+  name: DrawerGUI(Rect, MaterialProperty, String, MaterialEditor, MixtureGraph, MixtureNodeView)
+  nameWithType: InlineTextureDrawer.DrawerGUI(Rect, MaterialProperty, String, MaterialEditor, MixtureGraph, MixtureNodeView)
+  fullName: Mixture.InlineTextureDrawer.DrawerGUI(UnityEngine.Rect, UnityEditor.MaterialProperty, System.String, UnityEditor.MaterialEditor, MixtureGraph, Mixture.MixtureNodeView)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/InlineTextureDrawer.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: DrawerGUI
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/InlineTextureDrawer.cs
+    startLine: 15
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected override void DrawerGUI(Rect position, MaterialProperty prop, string label, MaterialEditor editor, MixtureGraph graph, MixtureNodeView nodeView)
+    parameters:
+    - id: position
+      type: UnityEngine.Rect
+    - id: prop
+      type: UnityEditor.MaterialProperty
+    - id: label
+      type: System.String
+    - id: editor
+      type: UnityEditor.MaterialEditor
+    - id: graph
+      type: MixtureGraph
+    - id: nodeView
+      type: Mixture.MixtureNodeView
+    content.vb: Protected Overrides Sub DrawerGUI(position As Rect, prop As MaterialProperty, label As String, editor As MaterialEditor, graph As MixtureGraph, nodeView As MixtureNodeView)
+  overridden: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+  overload: Mixture.InlineTextureDrawer.DrawerGUI*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
+- uid: Mixture.InlineTextureDrawer.GetPropertyHeight(UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
+  commentId: M:Mixture.InlineTextureDrawer.GetPropertyHeight(UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
+  id: GetPropertyHeight(UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
+  parent: Mixture.InlineTextureDrawer
+  langs:
+  - csharp
+  - vb
+  name: GetPropertyHeight(MaterialProperty, String, MaterialEditor)
+  nameWithType: InlineTextureDrawer.GetPropertyHeight(MaterialProperty, String, MaterialEditor)
+  fullName: Mixture.InlineTextureDrawer.GetPropertyHeight(UnityEditor.MaterialProperty, System.String, UnityEditor.MaterialEditor)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/InlineTextureDrawer.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetPropertyHeight
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/InlineTextureDrawer.cs
+    startLine: 29
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public override float GetPropertyHeight(MaterialProperty prop, string label, MaterialEditor editor)
+    parameters:
+    - id: prop
+      type: UnityEditor.MaterialProperty
+    - id: label
+      type: System.String
+    - id: editor
+      type: UnityEditor.MaterialEditor
+    return:
+      type: System.Single
+    content.vb: Public Overrides Function GetPropertyHeight(prop As MaterialProperty, label As String, editor As MaterialEditor) As Single
+  overridden: Mixture.MixturePropertyDrawer.GetPropertyHeight(UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
+  overload: Mixture.InlineTextureDrawer.GetPropertyHeight*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: UnityEditor.MaterialPropertyDrawer
+  commentId: T:UnityEditor.MaterialPropertyDrawer
+  parent: UnityEditor
+  isExternal: true
+  name: MaterialPropertyDrawer
+  nameWithType: MaterialPropertyDrawer
+  fullName: UnityEditor.MaterialPropertyDrawer
+- uid: Mixture.MixturePropertyDrawer
+  commentId: T:Mixture.MixturePropertyDrawer
+  parent: Mixture
+  name: MixturePropertyDrawer
+  nameWithType: MixturePropertyDrawer
+  fullName: Mixture.MixturePropertyDrawer
+- uid: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,MixtureGraph)
+  commentId: M:Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,MixtureGraph)
+  parent: Mixture.MixturePropertyDrawer
+  isExternal: true
+  name: RegisterEditor(MaterialEditor, MixtureNodeView, MixtureGraph)
+  nameWithType: MixturePropertyDrawer.RegisterEditor(MaterialEditor, MixtureNodeView, MixtureGraph)
+  fullName: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor, Mixture.MixtureNodeView, MixtureGraph)
+  spec.csharp:
+  - uid: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,MixtureGraph)
+    name: RegisterEditor
+    nameWithType: MixturePropertyDrawer.RegisterEditor
+    fullName: Mixture.MixturePropertyDrawer.RegisterEditor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.MaterialEditor
+    name: MaterialEditor
+    nameWithType: MaterialEditor
+    fullName: UnityEditor.MaterialEditor
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: Mixture.MixtureNodeView
+    name: MixtureNodeView
+    nameWithType: MixtureNodeView
+    fullName: Mixture.MixtureNodeView
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MixtureGraph
+    name: MixtureGraph
+    nameWithType: MixtureGraph
+    fullName: MixtureGraph
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,MixtureGraph)
+    name: RegisterEditor
+    nameWithType: MixturePropertyDrawer.RegisterEditor
+    fullName: Mixture.MixturePropertyDrawer.RegisterEditor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.MaterialEditor
+    name: MaterialEditor
+    nameWithType: MaterialEditor
+    fullName: UnityEditor.MaterialEditor
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: Mixture.MixtureNodeView
+    name: MixtureNodeView
+    nameWithType: MixtureNodeView
+    fullName: Mixture.MixtureNodeView
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MixtureGraph
+    name: MixtureGraph
+    nameWithType: MixtureGraph
+    fullName: MixtureGraph
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
+  commentId: M:Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
+  parent: Mixture.MixturePropertyDrawer
+  isExternal: true
+  name: UnregisterGraph(MixtureGraph)
+  nameWithType: MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
+  fullName: Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
+  spec.csharp:
+  - uid: Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
+    name: UnregisterGraph
+    nameWithType: MixturePropertyDrawer.UnregisterGraph
+    fullName: Mixture.MixturePropertyDrawer.UnregisterGraph
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MixtureGraph
+    name: MixtureGraph
+    nameWithType: MixtureGraph
+    fullName: MixtureGraph
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
+    name: UnregisterGraph
+    nameWithType: MixturePropertyDrawer.UnregisterGraph
+    fullName: Mixture.MixturePropertyDrawer.UnregisterGraph
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MixtureGraph
+    name: MixtureGraph
+    nameWithType: MixtureGraph
+    fullName: MixtureGraph
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixturePropertyDrawer.GetGraph(UnityEditor.MaterialEditor)
+  commentId: M:Mixture.MixturePropertyDrawer.GetGraph(UnityEditor.MaterialEditor)
+  parent: Mixture.MixturePropertyDrawer
+  isExternal: true
+  name: GetGraph(MaterialEditor)
+  nameWithType: MixturePropertyDrawer.GetGraph(MaterialEditor)
+  fullName: Mixture.MixturePropertyDrawer.GetGraph(UnityEditor.MaterialEditor)
+  spec.csharp:
+  - uid: Mixture.MixturePropertyDrawer.GetGraph(UnityEditor.MaterialEditor)
+    name: GetGraph
+    nameWithType: MixturePropertyDrawer.GetGraph
+    fullName: Mixture.MixturePropertyDrawer.GetGraph
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.MaterialEditor
+    name: MaterialEditor
+    nameWithType: MaterialEditor
+    fullName: UnityEditor.MaterialEditor
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixturePropertyDrawer.GetGraph(UnityEditor.MaterialEditor)
+    name: GetGraph
+    nameWithType: MixturePropertyDrawer.GetGraph
+    fullName: Mixture.MixturePropertyDrawer.GetGraph
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.MaterialEditor
+    name: MaterialEditor
+    nameWithType: MaterialEditor
+    fullName: UnityEditor.MaterialEditor
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixturePropertyDrawer.GetNodeView(UnityEditor.MaterialEditor)
+  commentId: M:Mixture.MixturePropertyDrawer.GetNodeView(UnityEditor.MaterialEditor)
+  parent: Mixture.MixturePropertyDrawer
+  isExternal: true
+  name: GetNodeView(MaterialEditor)
+  nameWithType: MixturePropertyDrawer.GetNodeView(MaterialEditor)
+  fullName: Mixture.MixturePropertyDrawer.GetNodeView(UnityEditor.MaterialEditor)
+  spec.csharp:
+  - uid: Mixture.MixturePropertyDrawer.GetNodeView(UnityEditor.MaterialEditor)
+    name: GetNodeView
+    nameWithType: MixturePropertyDrawer.GetNodeView
+    fullName: Mixture.MixturePropertyDrawer.GetNodeView
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.MaterialEditor
+    name: MaterialEditor
+    nameWithType: MaterialEditor
+    fullName: UnityEditor.MaterialEditor
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixturePropertyDrawer.GetNodeView(UnityEditor.MaterialEditor)
+    name: GetNodeView
+    nameWithType: MixturePropertyDrawer.GetNodeView
+    fullName: Mixture.MixturePropertyDrawer.GetNodeView
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.MaterialEditor
+    name: MaterialEditor
+    nameWithType: MaterialEditor
+    fullName: UnityEditor.MaterialEditor
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixturePropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
+  commentId: M:Mixture.MixturePropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
+  parent: Mixture.MixturePropertyDrawer
+  isExternal: true
+  name: OnGUI(Rect, MaterialProperty, String, MaterialEditor)
+  nameWithType: MixturePropertyDrawer.OnGUI(Rect, MaterialProperty, String, MaterialEditor)
+  fullName: Mixture.MixturePropertyDrawer.OnGUI(UnityEngine.Rect, UnityEditor.MaterialProperty, System.String, UnityEditor.MaterialEditor)
+  spec.csharp:
+  - uid: Mixture.MixturePropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
+    name: OnGUI
+    nameWithType: MixturePropertyDrawer.OnGUI
+    fullName: Mixture.MixturePropertyDrawer.OnGUI
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.MaterialProperty
+    name: MaterialProperty
+    nameWithType: MaterialProperty
+    fullName: UnityEditor.MaterialProperty
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.MaterialEditor
+    name: MaterialEditor
+    nameWithType: MaterialEditor
+    fullName: UnityEditor.MaterialEditor
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixturePropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
+    name: OnGUI
+    nameWithType: MixturePropertyDrawer.OnGUI
+    fullName: Mixture.MixturePropertyDrawer.OnGUI
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.MaterialProperty
+    name: MaterialProperty
+    nameWithType: MaterialProperty
+    fullName: UnityEditor.MaterialProperty
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.MaterialEditor
+    name: MaterialEditor
+    nameWithType: MaterialEditor
+    fullName: UnityEditor.MaterialEditor
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.MaterialPropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,UnityEngine.GUIContent,UnityEditor.MaterialEditor)
+  commentId: M:UnityEditor.MaterialPropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,UnityEngine.GUIContent,UnityEditor.MaterialEditor)
+  parent: UnityEditor.MaterialPropertyDrawer
+  isExternal: true
+  name: OnGUI(Rect, MaterialProperty, GUIContent, MaterialEditor)
+  nameWithType: MaterialPropertyDrawer.OnGUI(Rect, MaterialProperty, GUIContent, MaterialEditor)
+  fullName: UnityEditor.MaterialPropertyDrawer.OnGUI(UnityEngine.Rect, UnityEditor.MaterialProperty, UnityEngine.GUIContent, UnityEditor.MaterialEditor)
+  spec.csharp:
+  - uid: UnityEditor.MaterialPropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,UnityEngine.GUIContent,UnityEditor.MaterialEditor)
+    name: OnGUI
+    nameWithType: MaterialPropertyDrawer.OnGUI
+    fullName: UnityEditor.MaterialPropertyDrawer.OnGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.MaterialProperty
+    name: MaterialProperty
+    nameWithType: MaterialProperty
+    fullName: UnityEditor.MaterialProperty
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.GUIContent
+    name: GUIContent
+    nameWithType: GUIContent
+    fullName: UnityEngine.GUIContent
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.MaterialEditor
+    name: MaterialEditor
+    nameWithType: MaterialEditor
+    fullName: UnityEditor.MaterialEditor
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.MaterialPropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,UnityEngine.GUIContent,UnityEditor.MaterialEditor)
+    name: OnGUI
+    nameWithType: MaterialPropertyDrawer.OnGUI
+    fullName: UnityEditor.MaterialPropertyDrawer.OnGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.MaterialProperty
+    name: MaterialProperty
+    nameWithType: MaterialProperty
+    fullName: UnityEditor.MaterialProperty
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.GUIContent
+    name: GUIContent
+    nameWithType: GUIContent
+    fullName: UnityEngine.GUIContent
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.MaterialEditor
+    name: MaterialEditor
+    nameWithType: MaterialEditor
+    fullName: UnityEditor.MaterialEditor
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.MaterialPropertyDrawer.Apply(UnityEditor.MaterialProperty)
+  commentId: M:UnityEditor.MaterialPropertyDrawer.Apply(UnityEditor.MaterialProperty)
+  parent: UnityEditor.MaterialPropertyDrawer
+  isExternal: true
+  name: Apply(MaterialProperty)
+  nameWithType: MaterialPropertyDrawer.Apply(MaterialProperty)
+  fullName: UnityEditor.MaterialPropertyDrawer.Apply(UnityEditor.MaterialProperty)
+  spec.csharp:
+  - uid: UnityEditor.MaterialPropertyDrawer.Apply(UnityEditor.MaterialProperty)
+    name: Apply
+    nameWithType: MaterialPropertyDrawer.Apply
+    fullName: UnityEditor.MaterialPropertyDrawer.Apply
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.MaterialProperty
+    name: MaterialProperty
+    nameWithType: MaterialProperty
+    fullName: UnityEditor.MaterialProperty
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.MaterialPropertyDrawer.Apply(UnityEditor.MaterialProperty)
+    name: Apply
+    nameWithType: MaterialPropertyDrawer.Apply
+    fullName: UnityEditor.MaterialPropertyDrawer.Apply
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.MaterialProperty
+    name: MaterialProperty
+    nameWithType: MaterialProperty
+    fullName: UnityEditor.MaterialProperty
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEditor
+  commentId: N:UnityEditor
+  isExternal: true
+  name: UnityEditor
+  nameWithType: UnityEditor
+  fullName: UnityEditor
+- uid: Mixture.InlineTextureDrawer.#ctor*
+  commentId: Overload:Mixture.InlineTextureDrawer.#ctor
+  name: InlineTextureDrawer
+  nameWithType: InlineTextureDrawer.InlineTextureDrawer
+  fullName: Mixture.InlineTextureDrawer.InlineTextureDrawer
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+  commentId: M:Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+  parent: Mixture.MixturePropertyDrawer
+  isExternal: true
+  name: DrawerGUI(Rect, MaterialProperty, String, MaterialEditor, MixtureGraph, MixtureNodeView)
+  nameWithType: MixturePropertyDrawer.DrawerGUI(Rect, MaterialProperty, String, MaterialEditor, MixtureGraph, MixtureNodeView)
+  fullName: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect, UnityEditor.MaterialProperty, System.String, UnityEditor.MaterialEditor, MixtureGraph, Mixture.MixtureNodeView)
+  spec.csharp:
+  - uid: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+    name: DrawerGUI
+    nameWithType: MixturePropertyDrawer.DrawerGUI
+    fullName: Mixture.MixturePropertyDrawer.DrawerGUI
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.MaterialProperty
+    name: MaterialProperty
+    nameWithType: MaterialProperty
+    fullName: UnityEditor.MaterialProperty
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.MaterialEditor
+    name: MaterialEditor
+    nameWithType: MaterialEditor
+    fullName: UnityEditor.MaterialEditor
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MixtureGraph
+    name: MixtureGraph
+    nameWithType: MixtureGraph
+    fullName: MixtureGraph
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: Mixture.MixtureNodeView
+    name: MixtureNodeView
+    nameWithType: MixtureNodeView
+    fullName: Mixture.MixtureNodeView
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+    name: DrawerGUI
+    nameWithType: MixturePropertyDrawer.DrawerGUI
+    fullName: Mixture.MixturePropertyDrawer.DrawerGUI
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.MaterialProperty
+    name: MaterialProperty
+    nameWithType: MaterialProperty
+    fullName: UnityEditor.MaterialProperty
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.MaterialEditor
+    name: MaterialEditor
+    nameWithType: MaterialEditor
+    fullName: UnityEditor.MaterialEditor
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MixtureGraph
+    name: MixtureGraph
+    nameWithType: MixtureGraph
+    fullName: MixtureGraph
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: Mixture.MixtureNodeView
+    name: MixtureNodeView
+    nameWithType: MixtureNodeView
+    fullName: Mixture.MixtureNodeView
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.InlineTextureDrawer.DrawerGUI*
+  commentId: Overload:Mixture.InlineTextureDrawer.DrawerGUI
+  name: DrawerGUI
+  nameWithType: InlineTextureDrawer.DrawerGUI
+  fullName: Mixture.InlineTextureDrawer.DrawerGUI
+- uid: UnityEngine.Rect
+  commentId: T:UnityEngine.Rect
+  parent: UnityEngine
+  isExternal: true
+  name: Rect
+  nameWithType: Rect
+  fullName: UnityEngine.Rect
+- uid: UnityEditor.MaterialProperty
+  commentId: T:UnityEditor.MaterialProperty
+  parent: UnityEditor
+  isExternal: true
+  name: MaterialProperty
+  nameWithType: MaterialProperty
+  fullName: UnityEditor.MaterialProperty
+- uid: UnityEditor.MaterialEditor
+  commentId: T:UnityEditor.MaterialEditor
+  parent: UnityEditor
+  isExternal: true
+  name: MaterialEditor
+  nameWithType: MaterialEditor
+  fullName: UnityEditor.MaterialEditor
+- uid: MixtureGraph
+  isExternal: true
+  name: MixtureGraph
+  nameWithType: MixtureGraph
+  fullName: MixtureGraph
+- uid: Mixture.MixtureNodeView
+  commentId: T:Mixture.MixtureNodeView
+  parent: Mixture
+  name: MixtureNodeView
+  nameWithType: MixtureNodeView
+  fullName: Mixture.MixtureNodeView
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: Mixture.MixturePropertyDrawer.GetPropertyHeight(UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
+  commentId: M:Mixture.MixturePropertyDrawer.GetPropertyHeight(UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
+  parent: Mixture.MixturePropertyDrawer
+  isExternal: true
+  name: GetPropertyHeight(MaterialProperty, String, MaterialEditor)
+  nameWithType: MixturePropertyDrawer.GetPropertyHeight(MaterialProperty, String, MaterialEditor)
+  fullName: Mixture.MixturePropertyDrawer.GetPropertyHeight(UnityEditor.MaterialProperty, System.String, UnityEditor.MaterialEditor)
+  spec.csharp:
+  - uid: Mixture.MixturePropertyDrawer.GetPropertyHeight(UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
+    name: GetPropertyHeight
+    nameWithType: MixturePropertyDrawer.GetPropertyHeight
+    fullName: Mixture.MixturePropertyDrawer.GetPropertyHeight
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.MaterialProperty
+    name: MaterialProperty
+    nameWithType: MaterialProperty
+    fullName: UnityEditor.MaterialProperty
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.MaterialEditor
+    name: MaterialEditor
+    nameWithType: MaterialEditor
+    fullName: UnityEditor.MaterialEditor
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixturePropertyDrawer.GetPropertyHeight(UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
+    name: GetPropertyHeight
+    nameWithType: MixturePropertyDrawer.GetPropertyHeight
+    fullName: Mixture.MixturePropertyDrawer.GetPropertyHeight
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.MaterialProperty
+    name: MaterialProperty
+    nameWithType: MaterialProperty
+    fullName: UnityEditor.MaterialProperty
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.MaterialEditor
+    name: MaterialEditor
+    nameWithType: MaterialEditor
+    fullName: UnityEditor.MaterialEditor
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.InlineTextureDrawer.GetPropertyHeight*
+  commentId: Overload:Mixture.InlineTextureDrawer.GetPropertyHeight
+  name: GetPropertyHeight
+  nameWithType: InlineTextureDrawer.GetPropertyHeight
+  fullName: Mixture.InlineTextureDrawer.GetPropertyHeight
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single

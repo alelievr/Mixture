@@ -1,0 +1,178 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.OutputDimension
+  commentId: T:Mixture.OutputDimension
+  id: OutputDimension
+  parent: Mixture
+  children:
+  - Mixture.OutputDimension.CubeMap
+  - Mixture.OutputDimension.Default
+  - Mixture.OutputDimension.Texture2D
+  - Mixture.OutputDimension.Texture3D
+  langs:
+  - csharp
+  - vb
+  name: OutputDimension
+  nameWithType: OutputDimension
+  fullName: Mixture.OutputDimension
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: OutputDimension
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 471
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public enum OutputDimension
+    content.vb: Public Enum OutputDimension
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.OutputDimension.Default
+  commentId: F:Mixture.OutputDimension.Default
+  id: Default
+  parent: Mixture.OutputDimension
+  langs:
+  - csharp
+  - vb
+  name: Default
+  nameWithType: OutputDimension.Default
+  fullName: Mixture.OutputDimension.Default
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Default
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 473
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Default = 0
+    return:
+      type: Mixture.OutputDimension
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.OutputDimension.Texture2D
+  commentId: F:Mixture.OutputDimension.Texture2D
+  id: Texture2D
+  parent: Mixture.OutputDimension
+  langs:
+  - csharp
+  - vb
+  name: Texture2D
+  nameWithType: OutputDimension.Texture2D
+  fullName: Mixture.OutputDimension.Texture2D
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Texture2D
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 474
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Texture2D = 2
+    return:
+      type: Mixture.OutputDimension
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.OutputDimension.CubeMap
+  commentId: F:Mixture.OutputDimension.CubeMap
+  id: CubeMap
+  parent: Mixture.OutputDimension
+  langs:
+  - csharp
+  - vb
+  name: CubeMap
+  nameWithType: OutputDimension.CubeMap
+  fullName: Mixture.OutputDimension.CubeMap
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: CubeMap
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 475
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: CubeMap = 4
+    return:
+      type: Mixture.OutputDimension
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.OutputDimension.Texture3D
+  commentId: F:Mixture.OutputDimension.Texture3D
+  id: Texture3D
+  parent: Mixture.OutputDimension
+  langs:
+  - csharp
+  - vb
+  name: Texture3D
+  nameWithType: OutputDimension.Texture3D
+  fullName: Mixture.OutputDimension.Texture3D
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Texture3D
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 476
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Texture3D = 3
+    return:
+      type: Mixture.OutputDimension
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.OutputDimension
+  commentId: T:Mixture.OutputDimension
+  parent: Mixture
+  name: OutputDimension
+  nameWithType: OutputDimension
+  fullName: Mixture.OutputDimension

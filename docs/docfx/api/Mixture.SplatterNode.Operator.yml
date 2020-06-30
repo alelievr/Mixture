@@ -1,0 +1,310 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.SplatterNode.Operator
+  commentId: T:Mixture.SplatterNode.Operator
+  id: SplatterNode.Operator
+  parent: Mixture
+  children:
+  - Mixture.SplatterNode.Operator.Additive
+  - Mixture.SplatterNode.Operator.Blend
+  - Mixture.SplatterNode.Operator.Max
+  - Mixture.SplatterNode.Operator.Min
+  - Mixture.SplatterNode.Operator.Multiplicative
+  - Mixture.SplatterNode.Operator.PreMultiplied
+  - Mixture.SplatterNode.Operator.SoftAdditive
+  - Mixture.SplatterNode.Operator.Substractive
+  langs:
+  - csharp
+  - vb
+  name: SplatterNode.Operator
+  nameWithType: SplatterNode.Operator
+  fullName: Mixture.SplatterNode.Operator
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Operator
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 27
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public enum Operator
+    content.vb: Public Enum Operator
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.SplatterNode.Operator.Blend
+  commentId: F:Mixture.SplatterNode.Operator.Blend
+  id: Blend
+  parent: Mixture.SplatterNode.Operator
+  langs:
+  - csharp
+  - vb
+  name: Blend
+  nameWithType: SplatterNode.Operator.Blend
+  fullName: Mixture.SplatterNode.Operator.Blend
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Blend
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 29
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Blend = 0
+    return:
+      type: Mixture.SplatterNode.Operator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.Operator.PreMultiplied
+  commentId: F:Mixture.SplatterNode.Operator.PreMultiplied
+  id: PreMultiplied
+  parent: Mixture.SplatterNode.Operator
+  langs:
+  - csharp
+  - vb
+  name: PreMultiplied
+  nameWithType: SplatterNode.Operator.PreMultiplied
+  fullName: Mixture.SplatterNode.Operator.PreMultiplied
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: PreMultiplied
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 29
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: PreMultiplied = 1
+    return:
+      type: Mixture.SplatterNode.Operator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.Operator.Additive
+  commentId: F:Mixture.SplatterNode.Operator.Additive
+  id: Additive
+  parent: Mixture.SplatterNode.Operator
+  langs:
+  - csharp
+  - vb
+  name: Additive
+  nameWithType: SplatterNode.Operator.Additive
+  fullName: Mixture.SplatterNode.Operator.Additive
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Additive
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 29
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Additive = 2
+    return:
+      type: Mixture.SplatterNode.Operator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.Operator.SoftAdditive
+  commentId: F:Mixture.SplatterNode.Operator.SoftAdditive
+  id: SoftAdditive
+  parent: Mixture.SplatterNode.Operator
+  langs:
+  - csharp
+  - vb
+  name: SoftAdditive
+  nameWithType: SplatterNode.Operator.SoftAdditive
+  fullName: Mixture.SplatterNode.Operator.SoftAdditive
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: SoftAdditive
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 29
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: SoftAdditive = 3
+    return:
+      type: Mixture.SplatterNode.Operator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.Operator.Substractive
+  commentId: F:Mixture.SplatterNode.Operator.Substractive
+  id: Substractive
+  parent: Mixture.SplatterNode.Operator
+  langs:
+  - csharp
+  - vb
+  name: Substractive
+  nameWithType: SplatterNode.Operator.Substractive
+  fullName: Mixture.SplatterNode.Operator.Substractive
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Substractive
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 29
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Substractive = 4
+    return:
+      type: Mixture.SplatterNode.Operator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.Operator.Multiplicative
+  commentId: F:Mixture.SplatterNode.Operator.Multiplicative
+  id: Multiplicative
+  parent: Mixture.SplatterNode.Operator
+  langs:
+  - csharp
+  - vb
+  name: Multiplicative
+  nameWithType: SplatterNode.Operator.Multiplicative
+  fullName: Mixture.SplatterNode.Operator.Multiplicative
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Multiplicative
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 29
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Multiplicative = 5
+    return:
+      type: Mixture.SplatterNode.Operator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.Operator.Max
+  commentId: F:Mixture.SplatterNode.Operator.Max
+  id: Max
+  parent: Mixture.SplatterNode.Operator
+  langs:
+  - csharp
+  - vb
+  name: Max
+  nameWithType: SplatterNode.Operator.Max
+  fullName: Mixture.SplatterNode.Operator.Max
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Max
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 29
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Max = 6
+    return:
+      type: Mixture.SplatterNode.Operator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.Operator.Min
+  commentId: F:Mixture.SplatterNode.Operator.Min
+  id: Min
+  parent: Mixture.SplatterNode.Operator
+  langs:
+  - csharp
+  - vb
+  name: Min
+  nameWithType: SplatterNode.Operator.Min
+  fullName: Mixture.SplatterNode.Operator.Min
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Min
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 29
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Min = 7
+    return:
+      type: Mixture.SplatterNode.Operator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.SplatterNode.Operator
+  commentId: T:Mixture.SplatterNode.Operator
+  parent: Mixture
+  name: SplatterNode.Operator
+  nameWithType: SplatterNode.Operator
+  fullName: Mixture.SplatterNode.Operator

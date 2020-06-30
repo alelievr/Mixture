@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Utils/Debug Log")]
-	public class DebugLogNode : MixtureNode, INeedsCPU
+	public class DebugLogNode : MixtureNode
 	{
 		[Input("obj")]
 		public object	input;

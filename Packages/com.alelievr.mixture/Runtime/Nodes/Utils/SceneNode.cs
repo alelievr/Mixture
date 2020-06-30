@@ -10,10 +10,18 @@ using UnityEditor.Experimental.SceneManagement;
 #endif
 using UnityEngine.Serialization;
 
-using Debug = UnityEngine.Debug;
-
 namespace Mixture
 {
+    [Documentation(@"
+Renders the content of the prefab using the camera at the root of the prefab.
+You can use choose to output different buffers from the prefab: Color, Depth, World Normal, Tangent or World Position.
+
+Opening the prefab will switch to a render texture so you can visualize the changes in real-time in the graph.
+When you are satisfied with the setup in the prefab, click on 'Save Current View' to save the texture as sub-asset of the graph, you cna the close the prefab and the scene node will use this baked texture as output.
+
+Note that this node is currently only available with HDRP.
+")]
+
 	[System.Serializable, NodeMenuItem("Utils/Scene Capture")]
 	public class SceneNode : MixtureNode
 	{
@@ -32,6 +40,7 @@ namespace Mixture
         [SerializeField, HideInInspector, FormerlySerializedAs("output")]
 		internal Texture2D savedTexture;
 
+        [Tooltip("Rendered view from the camera in the prefab")]
 		[Output(name = "Output")]
         [System.NonSerialized]
         public Texture outputTexture;

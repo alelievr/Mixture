@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Object = UnityEngine.Object;
 using UnityEngine.Experimental.Rendering;
+using System.Text.RegularExpressions;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Rendering;
@@ -236,6 +237,7 @@ namespace Mixture
 			}
 		}
 
+		static Regex tooltipRegex = new Regex(@"Tooltip\((.*)\)");
 		protected IEnumerable< PortData > GetMaterialPortDatas(Material material)
 		{
 			if (material == null)
@@ -250,6 +252,14 @@ namespace Mixture
 				var name = s.GetPropertyName(i);
 				var displayName = s.GetPropertyDescription(i);
 				var type = s.GetPropertyType(i);
+				var tooltip = s.GetPropertyAttributes(i).Where(s => s.Contains("Tooltip")).FirstOrDefault();
+
+				if (tooltip != null)
+				{
+					// Parse tooltip:
+					var m = tooltipRegex.Match(tooltip);
+					tooltip = m.Groups[1].Value;
+				}
 
 				if (flags == ShaderPropertyFlags.HideInInspector
 					|| flags == ShaderPropertyFlags.NonModifiableTextureData
@@ -263,6 +273,7 @@ namespace Mixture
 					identifier = name,
 					displayName = displayName,
 					displayType = GetPropertyType(s, i),
+					tooltip = tooltip,
 				};
 			}
 		}
@@ -342,7 +353,7 @@ namespace Mixture
 			if (defaultMaterials.TryGetValue(mat, out defaultMat))
 				return defaultMat;
 			
-			return defaultMaterials[mat] = new Material(mat.shader);
+			return defaultMaterials[mat] = new Material(mat.shader) { hideFlags =  HideFlags.HideAndDontSave };
 		}
 
 		public void ResetMaterialPropertyToDefault(Material mat, string propName)
