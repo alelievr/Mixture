@@ -43,6 +43,8 @@ namespace Mixture
 
 		public override bool				showControlsOnHover => canShowOnHover && false; // Disable this feature for now
 
+		public override bool				needsInspector => true;
+
 		protected Dictionary<string, Material> temporaryMaterials = new Dictionary<string, Material>();
 
         // UI Serialization

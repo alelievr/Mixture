@@ -40,7 +40,7 @@ namespace Mixture
             return settingsView;
 		}
 
-        public override void Enable()
+        public override void Enable(bool fromInspector)
 		{
 			var stylesheet = Resources.Load<StyleSheet>(stylesheetName);
 			if(!styleSheets.Contains(stylesheet))
@@ -82,7 +82,7 @@ namespace Mixture
 			InitProcessingTimeLabel();
 
 			if (nodeTarget.showDefaultInspector)
-				DrawDefaultInspector();
+				DrawDefaultInspector(fromInspector);
         }
 
 		~MixtureNodeView()
