@@ -15,9 +15,9 @@ namespace Mixture
 	{
 		FloatNode		floatNode;
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 			
 			
 			floatNode = nodeTarget as FloatNode;

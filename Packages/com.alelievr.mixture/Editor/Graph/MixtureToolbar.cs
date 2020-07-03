@@ -21,7 +21,7 @@ namespace Mixture
 			public const string processButtonText = "Process";
             public const string saveAllText = "Save All";
 			public const string parameterViewsText = "Parameters";
-			public static GUIContent bugReport = new GUIContent("Bug Report", MixtureUtils.bugIcon);
+			public static GUIContent bugReport = new GUIContent("Bug Report", MixtureEditorUtils.bugIcon);
 		}
 
 		protected override void AddButtons()

@@ -28,6 +28,7 @@ namespace Mixture
 		protected MixtureRTSettingsView settingsView;
 	
 		Label processTimeLabel;
+		Image pinIcon;
 		
 		const string stylesheetName = "MixtureCommon";
 
@@ -39,6 +40,8 @@ namespace Mixture
 
             return settingsView;
 		}
+
+		public sealed override void Enable() => throw new System.Exception("Do not use !");
 
         public override void Enable(bool fromInspector)
 		{
@@ -66,18 +69,28 @@ namespace Mixture
 				controlsContainer.Add(title);
 			}
 
-			RegisterCallback< MouseDownEvent >(e => {
-				if (owner.GetPinnedElementStatus< PinnedViewBoard >() == DropdownMenuAction.Status.Normal)
-				{
-					if (e.clickCount == 2)
+			// No preview in the inspector, we display it in the preview
+			if (!fromInspector)
+			{
+				pinIcon = new Image{ image = MixtureEditorUtils.pinIcon, scaleMode = ScaleMode.ScaleToFit, tintColor = new Color32(245, 127, 23, 255)};
+				var pinButton = new Button(() => {
+					if (nodeTarget.isPinned)
+						UnpinView();
+					else
 						PinView();
-				}
-			});
+				});
+				if (nodeTarget.isPinned)
+					PinView();
 
-			previewContainer = new VisualElement();
-			previewContainer.AddToClassList("Preview");
-			controlsContainer.Add(previewContainer);
-			UpdateTexturePreview();
+				pinButton.Add(pinIcon);
+				pinButton.AddToClassList("PinButton");
+				rightTitleContainer.Add(pinButton);
+
+				previewContainer = new VisualElement();
+				previewContainer.AddToClassList("Preview");
+				controlsContainer.Add(previewContainer);
+				UpdateTexturePreview();
+			}
 
 			InitProcessingTimeLabel();
 
@@ -205,30 +218,25 @@ namespace Mixture
 			return propertiesChanged;
 		}
 
-		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-		{
-			evt.menu.AppendAction("Pin View", (a) => {
-				if (a.status == DropdownMenuAction.Status.Checked)
-					UnpinView();
-				else
-					PinView();
-			}, PinStatus);
-
-			base.BuildContextualMenu(evt);
-		}
-
 		internal void PinView()
 		{
-			if (!PinnedViewBoard.instance.HasView(controlsContainer))
-				PinnedViewBoard.instance.Add(this, controlsContainer, nodeTarget.name);
-			nodeTarget.canShowOnHover = false;
+			// if (!PinnedViewBoard.instance.HasView(controlsContainer))
+				// PinnedViewBoard.instance.Add(this, controlsContainer, nodeTarget.name);
+			// owner.mixtureNodeInspector.AddPinnedView(this);
+			nodeTarget.isPinned = true;
+			pinIcon.image = MixtureEditorUtils.unpinIcon;
+			schedule.Execute(() => {
+				owner.mixtureNodeInspector.AddPinnedView(this);
+			}).ExecuteLater(1);
 		}
 
 		internal void UnpinView()
 		{
-			PinnedViewBoard.instance.Remove(controlsContainer);
-			mainContainer.Add(controlsContainer);
-			nodeTarget.canShowOnHover = true;
+			owner.mixtureNodeInspector.RemovePinnedView(this);
+			nodeTarget.isPinned = false;
+			pinIcon.image = MixtureEditorUtils.pinIcon;
+			// PinnedViewBoard.instance.Remove(controlsContainer);
+			// mainContainer.Add(controlsContainer);
 		}
 
 		DropdownMenuAction.Status PinStatus(DropdownMenuAction action)

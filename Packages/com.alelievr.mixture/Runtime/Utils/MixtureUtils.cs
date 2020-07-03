@@ -139,12 +139,6 @@ namespace Mixture
 			get => _realtimeIcon32 == null ? _realtimeIcon32 = Resources.Load< Texture2D >("Icons/MixtureRealtimeIcon_32") : _realtimeIcon32;
 		}
 
-        static Texture2D _bugIcon;
-        public static Texture2D bugIcon
-        {
-            get => _bugIcon == null ? _bugIcon = Resources.Load<Texture2D>("Icons/Bug") : _bugIcon;
-        }
-
 		static ComputeShader			_clearCompute;
 		public static ComputeShader		clearCompute
 		{

@@ -13,9 +13,9 @@ namespace Mixture
 	[NodeCustomEditor(typeof(RandomRangeNode))]
 	public class RandomRangeNodeView : MixtureNodeView
 	{
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 
 			var node = nodeTarget as RandomRangeNode;
 

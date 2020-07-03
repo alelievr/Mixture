@@ -41,9 +41,10 @@ namespace Mixture
 		public event Action					beforeProcessSetup;
 		public event Action					afterProcessCleanup;
 
-		public override bool				showControlsOnHover => canShowOnHover && false; // Disable this feature for now
+		public override bool				showControlsOnHover => false; // Disable this feature for now
 
 		public override bool				needsInspector => true;
+
 
 		protected Dictionary<string, Material> temporaryMaterials = new Dictionary<string, Material>();
 
@@ -56,8 +57,7 @@ namespace Mixture
         public bool previewVisible = true;
 		[SerializeField]
 		public float previewEV100 = 0.0f;
-
-		internal bool canShowOnHover = true;
+		public bool	isPinned;
 
 		CustomSampler		_sampler;
 		CustomSampler		sampler
@@ -163,6 +163,7 @@ namespace Mixture
                 target.filterMode = rtSettings.filterMode;
                 target.useMipMap = hasMips;
 				target.autoGenerateMips = autoGenerateMips;
+				target.hideFlags = HideFlags.HideAndDontSave;
 				target.Create();
 				if (target.material == null)
 					target.material = MixtureUtils.dummyCustomRenderTextureMaterial;

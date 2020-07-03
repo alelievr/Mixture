@@ -55,7 +55,7 @@ namespace Mixture
 				{
 					if (_customMipMapMaterial != null)
 						Material.DestroyImmediate(_customMipMapMaterial, false);
-					_customMipMapMaterial = new Material(customMipMapShader);
+					_customMipMapMaterial = new Material(customMipMapShader) { hideFlags = HideFlags.HideAndDontSave };
 				}
 
 				return _customMipMapMaterial;
@@ -108,7 +108,8 @@ namespace Mixture
 					UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null);
 				};
 			}
-			tempRenderTexture.material = finalCopyMaterial;
+			if (tempRenderTexture != null)
+				tempRenderTexture.material = finalCopyMaterial;
 
 			// SRP mip generation:
 			RenderPipelineManager.beginFrameRendering += BeginFrameRendering;

@@ -17,9 +17,9 @@ namespace Mixture
         GameObject  openedPrefabRoot;
         string      openedPrefabPath;
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 
             openPrefabButton = new Button(OpenPrefab) { text = "Open Scene"};
             controlsContainer.Add(openPrefabButton);

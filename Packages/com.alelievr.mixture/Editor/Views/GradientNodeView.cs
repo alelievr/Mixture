@@ -15,9 +15,9 @@ namespace Mixture
 	{
 		GradientNode		gradientNode;
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 			gradientNode = nodeTarget as GradientNode;
 
 			var gradientField = new GradientField() {

@@ -23,7 +23,7 @@ namespace Mixture
 		// For now we only support custom mip maps for texture 2D
 		bool supportsCustomMipMap => outputNode.hasMips && (TextureDimension)outputNode.rtSettings.dimension == TextureDimension.Tex2D;
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
 			capabilities &= ~Capabilities.Deletable;
             outputNode = nodeTarget as OutputNode;
@@ -31,7 +31,7 @@ namespace Mixture
 
             BuildOutputNodeSettings();
 
-            base.Enable();
+            base.Enable(fromInspector);
 
 			outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
 			graph.onOutputTextureUpdated += UpdatePreviewImage;

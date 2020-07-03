@@ -6,9 +6,9 @@ namespace Mixture
 	[NodeCustomEditor(typeof(RandomColorNode))]
 	public class RandomColorNodeView : MixtureNodeView
 	{
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 
 			var node = nodeTarget as RandomColorNode;
 

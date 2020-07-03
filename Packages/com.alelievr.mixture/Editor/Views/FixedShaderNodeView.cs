@@ -21,9 +21,9 @@ namespace Mixture
 		ObjectField			debugShaderField;
 		ObjectField			debugMaterialField;
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 
 			if (fixedShaderNode.material != null && !owner.graph.IsObjectInGraph(fixedShaderNode.material))
 				owner.graph.AddObjectToGraph(fixedShaderNode.material);
