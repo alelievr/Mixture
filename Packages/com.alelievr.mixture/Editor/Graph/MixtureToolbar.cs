@@ -22,6 +22,7 @@ namespace Mixture
             public const string saveAllText = "Save All";
 			public const string parameterViewsText = "Parameters";
 			public static GUIContent bugReport = new GUIContent("Bug Report", MixtureEditorUtils.bugIcon);
+			public static GUIContent improveMixture = new GUIContent("Improve Mixture", MixtureEditorUtils.bugIcon);
 		}
 
 		protected override void AddButtons()
@@ -46,7 +47,13 @@ namespace Mixture
 			AddToggle("Pinned Views", pinnedViewsVisible, (v) => graphView.ToggleView< PinnedViewBoard >());
 			if (!graph.isRealtime)
 				AddButton(Styles.saveAllText, SaveAll , left: false);
-			AddButton(Styles.bugReport, ReportBugCallback, left: false);
+			// AddButton(Styles.bugReport, ReportBugCallback, left: false);
+			AddDropDownButton(Styles.improveMixture, ShowImproveMixtureWindow, left: false);
+		}
+
+		void ShowImproveMixtureWindow()
+		{
+
 		}
 
 		void ReportBugCallback()

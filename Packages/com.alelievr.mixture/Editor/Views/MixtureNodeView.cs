@@ -224,7 +224,9 @@ namespace Mixture
 				// PinnedViewBoard.instance.Add(this, controlsContainer, nodeTarget.name);
 			// owner.mixtureNodeInspector.AddPinnedView(this);
 			nodeTarget.isPinned = true;
-			pinIcon.image = MixtureEditorUtils.unpinIcon;
+			pinIcon.transform.rotation = Quaternion.Euler(0, 0, 75);
+			// pinIcon.transform.position += new Vector3(-0.2f, 0, 0);
+			pinIcon.AddToClassList("Clicked");
 			schedule.Execute(() => {
 				owner.mixtureNodeInspector.AddPinnedView(this);
 			}).ExecuteLater(1);
@@ -234,7 +236,10 @@ namespace Mixture
 		{
 			owner.mixtureNodeInspector.RemovePinnedView(this);
 			nodeTarget.isPinned = false;
-			pinIcon.image = MixtureEditorUtils.pinIcon;
+			// pinIcon.image = MixtureEditorUtils.pinIcon;
+			pinIcon.RemoveFromClassList("Clicked");
+			// pinIcon.transform.position -= new Vector3(0.2f, 0, 0);
+			pinIcon.transform.rotation = Quaternion.identity;
 			// PinnedViewBoard.instance.Remove(controlsContainer);
 			// mainContainer.Add(controlsContainer);
 		}

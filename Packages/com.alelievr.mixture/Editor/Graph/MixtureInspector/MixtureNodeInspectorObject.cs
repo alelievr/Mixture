@@ -22,9 +22,16 @@ namespace Mixture
 
         Material previewMaterial;
 
-        // Preview material params:
-        Vector2 pan;
+        // Preview params:
+        Vector2 middleClickMousePosition;
+        Vector2 middleClickCameraPosition;
+        Vector2 positionOffset;
+        Vector2 positionOffsetTarget;
+        Vector2 lastMousePosition;
+        float zoomTarget = 1;
         float zoom = 1;
+        float zoomSpeed = 20f;
+        double timeSinceStartup, latestTime, deltaTime;
 
         const float maxZoom = 256;
 
@@ -108,14 +115,12 @@ namespace Mixture
                 comparisonWindow = new ComparisonPopupWindow(this);
                 UnityEditor.PopupWindow.Show(new Rect(EditorGUIUtility.currentViewWidth - ComparisonPopupWindow.width, -ComparisonPopupWindow.height, 0, 0), comparisonWindow);
             }
-            if (e.type != EventType.Repaint)
-                Repaint();
         }
 
         void Fit()
         {
-            m_ZoomTarget = 1;
-            m_PositionOffsetTarget = Vector2.zero;
+            zoomTarget = 1;
+            positionOffsetTarget = Vector2.zero;
         }
 
         public override void OnInteractivePreviewGUI(Rect previewRect, GUIStyle background)
@@ -123,31 +128,7 @@ namespace Mixture
             Texture previewTexture = null;
             Texture compareTexture = null;
 
-            OnGUI2(previewRect);
-
-            if (e.type == EventType.ScrollWheel)
-            {
-                float step = e.delta.y * 0.01f;
-                zoom *= 1.0f + step;
-
-                Vector2 localPos = (e.mousePosition / previewRect.size) * 2.0f - Vector2.one;
-
-                var p = Matrix4x4.Translate(localPos) * Matrix4x4.Scale(Vector3.one * zoom) * Matrix4x4.Translate(-localPos) * localPos;
-
-                pan = new Vector2(p.x, p.y);
-                // pan += new Vector2(-localPos.x, localPos.y) * step * (1.0f / zoom);
-
-                Repaint();
-            }
-
-            if (e.type == EventType.MouseDrag)
-            {
-                if (e.button == 0)
-                    pan += new Vector2(-e.delta.x / previewRect.width, e.delta.y / previewRect.height) / zoom;
-                else if (e.button == 1)
-                    compareSlider = e.mousePosition.x / (float)previewRect.width;
-                Repaint();
-            }
+            HandleZoomAndPan(previewRect);
 
             previewTextureIndex = 0;
 
@@ -161,218 +142,81 @@ namespace Mixture
                 previewMaterial.SetTexture("_MainTex0", previewTexture);
                 previewMaterial.SetTexture("_MainTex1", compareTexture);
                 previewMaterial.SetFloat("_ComparisonSlider", compareSlider);
-                previewMaterial.SetFloat("_Zoom", m_Zoom);
+                previewMaterial.SetFloat("_Zoom", zoom);
                 previewMaterial.SetVector("_Pan", shaderPos / previewRect.size);
                 EditorGUI.DrawPreviewTexture(previewRect, previewTexture, previewMaterial);
             }
             else
                 EditorGUI.DrawRect(previewRect, new Color(1, 0, 1, 1));
-
-            Color oldHandlesColor = Handles.color;
-            Handles.color = new Color(1.2f, 0.2f, 0.2f, 1);
-            Handles.DrawLine(new Vector3(-10000, shaderPos.y), new Vector3(10000, shaderPos.y));
-            Handles.DrawLine(new Vector3(shaderPos.x, -1000), new Vector3(shaderPos.x, 1000));
-            Handles.color = oldHandlesColor;
         }
 
         Vector2 T(Vector2 pos)
         {
-            pos *= m_Zoom;
-            pos += m_PositionOffset;
+            pos *= zoom;
+            pos += positionOffset;
             return pos;
         }
 
-        Vector2 InvT(Vector2 pos)
-        {
-            pos -= m_PositionOffset;
-            pos /= m_Zoom;
-
-            return pos;
-        }
-
-        Vector2 m_MiddleClickMousePosition;
-        Vector2 m_MiddleClickCameraPosition;
-        Vector2 m_PositionOffset;
-        Vector2 m_PositionOffsetTarget;
-        float m_ZoomTarget = 1;
-        Vector2 lastMousePosition;
-        float m_Zoom = 1;
-        float m_ZoomSpeed = 20f;
-        double timeSinceStartup, latestTime, deltaTime;
-        void HandleZoomAndPan(Rect previewRect)
-        {
-            timeSinceStartup = EditorApplication.timeSinceStartup;
-            deltaTime = timeSinceStartup  - latestTime;
-            latestTime = timeSinceStartup;
-
-            lastMousePosition = e.mousePosition / previewRect.size * 2 - Vector2.one;
-            lastMousePosition.x = -lastMousePosition.x;
-            lastMousePosition = InvT(lastMousePosition);
-            if (e.type == EventType.ScrollWheel)
-                Debug.Log(lastMousePosition);
-            switch (e.type)
-            {
-                case EventType.MouseDown:
-                    if (IsMiddleMouse(e.button, e.modifiers))
-                    {
-                        m_MiddleClickMousePosition = lastMousePosition;
-                        m_MiddleClickCameraPosition = m_PositionOffset;
-                    }
-                    break;
-
-                case EventType.MouseDrag:
-                    if (IsMiddleMouse(e.button, e.modifiers))
-                    {
-                        m_PositionOffset = m_MiddleClickCameraPosition + (lastMousePosition - m_MiddleClickMousePosition);
-                        // m_PositionOffset /= previewRect.size * 2.0f - Vector2.one;
-                        m_PositionOffsetTarget = m_PositionOffset;
-                    }
-                    break;
-                case EventType.MouseUp:
-                    // if (SeedPictHandlePos != Vector2.zero)
-                    { 
-                        // graph.backgroundPictPivot = (backgroundPictPos - SeedPictHandlePos) / backgroundPictHeight;
-                        // SeedPictHandlePos = Vector2.zero;
-                    }
-                    break;
-                case EventType.ScrollWheel:
-                    float delta = 1f + Mathf.Abs((float)e.delta.y * 0.1f);
-                    delta = e.delta.y > 0 ? delta = 1 / delta : delta;
-                    m_ZoomTarget *= delta;
-                    m_PositionOffsetTarget = lastMousePosition + (m_PositionOffsetTarget - lastMousePosition) * delta;
-                    Debug.Log("m_PositionOffset: " + m_PositionOffsetTarget + " | " + delta);
-                    break;
-            }
-
-            float zoomDiff = m_ZoomTarget - m_Zoom;
-            Vector2 offsetDiff = m_PositionOffsetTarget - m_PositionOffset;
-
-            // if (Mathf.Abs(zoomDiff) > 0.001f || offsetDiff.magnitude > 0.001f)
-            // {
-            //     //m_Zoom += zoomDiff * m_ZoomSpeed * Time.deltaTime;
-            //     //m_PositionOffset += offsetDiff * m_ZoomSpeed * Time.deltaTime;
-            //     m_Zoom += zoomDiff * m_ZoomSpeed * (float)deltaTime;
-            //     m_PositionOffset += offsetDiff * m_ZoomSpeed * (float)deltaTime;
-            //     //Debug.Log(deltaTime.ToString("f4"));    
-            // }
-            // else
-            {
-               m_Zoom = m_ZoomTarget;
-               m_PositionOffset = m_PositionOffsetTarget;
-            }
-
-        }
         bool IsMiddleMouse(int button, EventModifiers mods) => e.button == 2 || (e.button == 0 && e.modifiers == EventModifiers.Alt);
 
-        public void OnGUI2(Rect previewRect)
+        public void HandleZoomAndPan(Rect previewRect)
         {
             timeSinceStartup = EditorApplication.timeSinceStartup;
-            deltaTime = timeSinceStartup  - latestTime;
+            deltaTime = timeSinceStartup - latestTime;
             latestTime = timeSinceStartup;
 
             lastMousePosition = e.mousePosition;
             switch (e.type)
             {
-
                 case EventType.MouseDown:
+                    if (IsMiddleMouse(e.button, e.modifiers))
                     {
-                        if (IsMiddleMouse(e.button, e.modifiers))
-                        {
-                            m_MiddleClickMousePosition = lastMousePosition;
-                            m_MiddleClickCameraPosition = m_PositionOffset;
-                        }
-
-                        break;
+                        middleClickMousePosition = lastMousePosition;
+                        middleClickCameraPosition = positionOffset;
+                        Repaint();
                     }
-
+                    break;
                 case EventType.MouseDrag:
+                    if (IsMiddleMouse(e.button, e.modifiers))
                     {
-                        if (IsMiddleMouse(e.button, e.modifiers))
-                        {
-                            m_PositionOffset = m_MiddleClickCameraPosition + (lastMousePosition - m_MiddleClickMousePosition);
-                            m_PositionOffsetTarget = m_PositionOffset;
-                        }
-
-                        break;
+                        positionOffset = middleClickCameraPosition + (lastMousePosition - middleClickMousePosition);
+                        positionOffsetTarget = positionOffset;
+                        Repaint();
                     }
-
-                case EventType.MouseUp:
+                    if (e.button == 1)
                     {
-                        // if (SeedPictHandlePos != Vector2.zero)
-                        // { 
-                        //     graph.backgroundPictPivot = (backgroundPictPos - SeedPictHandlePos) / backgroundPictHeight;
-                        //     SeedPictHandlePos = Vector2.zero;
-                        // }
-                        break;
+                        compareSlider = (e.mousePosition.x - positionOffsetTarget.x) / zoom / (float)previewRect.width % 1;
+                        Repaint();
                     }
-
+                    break;
                 case EventType.ScrollWheel:
-                    {
-                        float delta = Mathf.Clamp(1f + Mathf.Abs((float)e.delta.y * 0.1f), 0.1f, 2f);
-                        delta = e.delta.y > 0 ? 1f / delta : delta;
-                        m_ZoomTarget *= delta;
-                        if (m_ZoomTarget < maxZoom)
-                            m_PositionOffsetTarget = lastMousePosition + (m_PositionOffsetTarget - lastMousePosition) * delta;
-                        break;
-                    }
-
-                // case EventType.KeyDown:
-                //     if (e.keyCode == KeyCode.R)
-                //     {
-                //         ViewReset();
-                //     }
-                //     if (e.keyCode == KeyCode.F)
-                //     {
-                //         ViewFit();
-                //     }
-                    // break;
-
-                
-
-                default:
+                    float delta = Mathf.Clamp(1f + Mathf.Abs((float)e.delta.y * 0.1f), 0.1f, 2f);
+                    delta = e.delta.y > 0 ? 1f / delta : delta;
+                    zoomTarget *= delta;
+                    if (zoomTarget < maxZoom)
+                        positionOffsetTarget = lastMousePosition + (positionOffsetTarget - lastMousePosition) * delta;
                     break;
             }
 
-
-
-            m_ZoomTarget = Mathf.Clamp(m_ZoomTarget, 0.05f, maxZoom);
-            float zoomDiff = m_ZoomTarget - m_Zoom;
-            Vector2 offsetDiff = m_PositionOffsetTarget - m_PositionOffset;
+            zoomTarget = Mathf.Clamp(zoomTarget, 0.05f, maxZoom);
+            float zoomDiff = zoomTarget - zoom;
+            Vector2 offsetDiff = positionOffsetTarget - positionOffset;
 
             if (Mathf.Abs(zoomDiff) > 0.001f || offsetDiff.magnitude > 0.001f)
             {
-                //m_Zoom += zoomDiff * m_ZoomSpeed * Time.deltaTime;
-                //m_PositionOffset += offsetDiff * m_ZoomSpeed * Time.deltaTime;
-                m_Zoom += zoomDiff * m_ZoomSpeed * (float)deltaTime;
-                m_PositionOffset += offsetDiff * m_ZoomSpeed * (float)deltaTime;
-                //Debug.Log(deltaTime.ToString("f4"));    
+                zoom += zoomDiff * zoomSpeed * (float)deltaTime;
+                positionOffset += offsetDiff * zoomSpeed * (float)deltaTime;
+                Repaint();
             }
             else
             {
-               m_Zoom = m_ZoomTarget;
-               m_PositionOffset = m_PositionOffsetTarget;
+               zoom = zoomTarget;
+               positionOffset = positionOffsetTarget;
             }
-
-            //backgroundPictPivot = Vector2.one * 0.25f;
-            // if (graph.backgroundImage != null && graph.displayBackground)
-            // {
-            //     ComputeBackgroundTransform();
-            //     DrawTextureBottomCenter(backgroundPictPos, backgroundPictHeight, graph.backgroundImage);
-
-            //     if (graph.HeightHandlePos != Vector2.zero)
-            //     {
-            //         graph.HeightHandlePos = new Vector2(backgroundPictPos.x, graph.HeightHandlePos.y);
-            //         graph.HeightHandlePos = GenHandle(graph.HeightHandlePos, 8, true, false, true);
-            //     }
-            //     else
-            //         graph.HeightHandlePos = new Vector2(0, -1000);
-            // }
-
             shaderPos = T(Vector2.zero);
         }
         Vector2 shaderPos;
     }
-
 
     public class MixtureNodeInspectorObject : NodeInspectorObject
     {
