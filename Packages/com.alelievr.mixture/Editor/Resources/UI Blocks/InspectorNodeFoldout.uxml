@@ -1,12 +1,16 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <ui:VisualElement style="height: initial; flex-direction: row; justify-content: flex-start; max-width: 100%;">
+        <Style src="/Packages/com.alelievr.mixture/Editor/Resources/MixtureCommon.uss" />
+        <Style src="/Packages/com.alelievr.mixture/Editor/Resources/MixtureNodeInspector.uss" />
         <ui:Foldout name="Foldout" style="width: 100%;">
             <ui:VisualElement name="FoldoutContainer" style="background-color: rgba(0, 0, 0, 0);" />
         </ui:Foldout>
     </ui:VisualElement>
-    <ui:VisualElement style="width: initial; height: 21px; position: absolute; right: 0; left: 18px; flex-direction: row;">
+    <ui:VisualElement style="width: 21px; height: 21px; position: absolute; right: 0; left: auto; flex-direction: row-reverse; flex-grow: 1; flex-shrink: 0;">
+        <Style src="/Packages/com.alelievr.mixture/Editor/Resources/MixtureCommon.uss" />
+        <Style src="/Packages/com.alelievr.mixture/Editor/Resources/MixtureNodeInspector.uss" />
         <ui:VisualElement name="NodePreview" style="width: 21px; height: 21px; margin-right: 4px; display: none;" />
         <ui:Label name="NodeName" style="justify-content: center; align-items: center; height: 21px; flex-grow: 1; -unity-text-align: middle-left; display: none;" />
-        <ui:VisualElement name="UnpinButton" class="PinButton_Hover" style="width: 21px; height: 21px; position: absolute; right: 0; background-image: resource(&apos;Icons/Unpin&apos;); -unity-background-image-tint-color: rgba(245, 127, 23, 255);" />
+        <ui:VisualElement name="UnpinButton" class="PinButton_Hover" style="width: 21px; height: 21px; position: absolute; right: 0; background-image: resource(&apos;Icons/Unpin&apos;); -unity-background-image-tint-color: rgb(245, 127, 23);" />
     </ui:VisualElement>
 </ui:UXML>

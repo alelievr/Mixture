@@ -173,5 +173,23 @@ namespace Mixture
         {
             get => _documentation == null ? _documentation = LoadIcon("Icons/Documentation") : _documentation;
         }
+
+        static Texture2D _lockOpen;
+        public static Texture2D lockOpen
+        {
+            get => _lockOpen == null ? _lockOpen = LoadIcon("Icons/LockOpened") : _lockOpen;
+        }
+
+        static Texture2D _lockClose;
+        public static Texture2D lockClose
+        {
+            get => _lockClose == null ? _lockClose = LoadIcon("Icons/LockClosed") : _lockClose;
+        }
+
+        static Texture2D _settings;
+        public static Texture2D settingsIcon
+        {
+            get => _settings == null ? _settings = LoadIcon("Icons/Settings") : _settings;
+        }
     }
 }

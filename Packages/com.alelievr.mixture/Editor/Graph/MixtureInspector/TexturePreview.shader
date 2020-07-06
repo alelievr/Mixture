@@ -21,16 +21,20 @@ Shader "Hidden/MixtureInspectorPreview"
 			ZTest LEqual
 
 
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
 			#include "Packages/com.alelievr.mixture/Editor/Resources/MixturePreview.hlsl"
 
-			sampler2D _MainTex0;
+            sampler s_trilinear_repeat_sampler;
+            sampler s_linear_repeat_sampler;
+            sampler s_point_repeat_sampler;
+
+			Texture2D _MainTex0;
 			float4 _MainTex0_ST;
 			float4 _MainTex0_TexelSize;
-			sampler2D _MainTex1;
+			Texture2D _MainTex1;
 			float4 _MainTex1_ST;
 			float4 _MainTex1_TexelSize;
 
@@ -39,25 +43,42 @@ Shader "Hidden/MixtureInspectorPreview"
             float _ComparisonSlider;
             float _Zoom;
             float4 _Pan;
+            float _YRatio;
+            float _Exp;
+            float _FilterMode;
+
+            float4 SampleColor(Texture2D tex, float2 uv, float mip)
+            {
+                switch (_FilterMode)
+                {
+                    default:
+                    case 0: // Point
+                        return tex.SampleLevel(s_point_repeat_sampler, uv, mip);
+                    case 1: // Bilinear
+                        return tex.SampleLevel(s_linear_repeat_sampler, uv, mip);
+                    case 2: // Trilinear
+                        return tex.SampleLevel(s_trilinear_repeat_sampler, uv, mip);
+                }
+            }
 
             float4 frag (v2f i) : SV_Target
             {
-                float2 uv = i.uv;// + _Pan.xy;
+                float2 uv = i.uv;
                 uv += float2(-_Pan.x, _Pan.y - 1);
                 uv *= rcp(_Zoom.xx);
 
-
-                // return float4(abs(uv), 0, 1);
-
-				float4 color0 = tex2Dlod(_MainTex0, float4(uv, 0.0, floor(_PreviewMip))) * _Channels;
-				float4 color1 = tex2Dlod(_MainTex1, float4(uv, 0.0, floor(_PreviewMip))) * _Channels;
+				float4 color0 = SampleColor(_MainTex0, uv, floor(_PreviewMip)) * _Channels;
+				float4 color1 = SampleColor(_MainTex1, uv, floor(_PreviewMip)) * _Channels;
 
                 // TODO: blend the two colors with comparison mode
-                float4 color = frac(uv.x) > _ComparisonSlider ? color0 : color1;
+                float4 color = frac(uv.x) < _ComparisonSlider ? color0 : color1;
+
+                // Apply exposure:
+                color.rgb = color.rgb * exp2(_Exp);
 
                 return MakePreviewColor(i, _MainTex0_TexelSize.zw, color);
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

@@ -1,21 +1,18 @@
-.PinnedView
-{
-    border-color: #bc5100;
+.PinnedView {
+    border-color: rgb(188, 81, 0);
 }
 
-.SelectedNode
-{
+.SelectedNode {
     border-color: rgb(55, 194, 255);
 }
 
-#Foldout > Toggle
-{
-    background-color: rgba(0.5, 0.5, 0.5, 0.3);
+#Foldout > Toggle {
+    background-color: rgba(0, 0, 0, 0.2);
     width: 110%;
     height: 21px;
+    font-size: 14px;
 }
 
-#Foldout > Toggle > VisualElement
-{
+#Foldout > Toggle > VisualElement > #unity-checkmark {
     align-self: center;
 }

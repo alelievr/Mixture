@@ -18,7 +18,7 @@ namespace Mixture
         Dictionary<BaseNode, VisualElement> nodeInspectorCache = new Dictionary<BaseNode, VisualElement>();
         internal List<MixtureNode> nodeWithPreviews = new List<MixtureNode>();
 
-        ComparisonPopupWindow comparisonWindow;
+        NodeInspectorSettingsPopupWindow comparisonWindow;
 
         Material previewMaterial;
 
@@ -33,11 +33,21 @@ namespace Mixture
         float zoomSpeed = 20f;
         double timeSinceStartup, latestTime, deltaTime;
 
-        const float maxZoom = 256;
+        const float maxZoom = 512;
+        const float minZoom = 0.05f;
+        const int buttonWidth = 25;
 
-        internal int previewTextureIndex = 0;
-        internal int comparisonTextureIndex = 0;
-        internal float compareSlider;
+        float compareSlider;
+        bool compareEnabled = false;
+        bool lockFirstPreview = false;
+        bool lockSecondPreview = false;
+        MixtureNode firstLockedPreviewTarget;
+        MixtureNode secondLockedPreviewTarget;
+        int compareMode = 0;
+
+        // Preview settings
+        internal FilterMode filterMode;
+        internal float exposure;
 
         VisualTreeAsset nodeInspectorFoldout;
 
@@ -55,10 +65,7 @@ namespace Mixture
 
             base.OnEnable();
 
-            selectedNodeList.styleSheets.Add(Resources.Load<StyleSheet>("MixtureCommon"));
-            selectedNodeList.styleSheets.Add(Resources.Load<StyleSheet>("MixtureNodeInspector"));
             mixtureInspector.pinnedNodeUpdate += UpdateNodeInspectorList;
-
             previewMaterial = new Material(Shader.Find("Hidden/MixtureInspectorPreview")) { hideFlags = HideFlags.HideAndDontSave };
         }
 
@@ -96,9 +103,6 @@ namespace Mixture
                 if (nodeView.nodeTarget is MixtureNode n && n.hasPreview & n.previewTexture != null)
                     nodeWithPreviews.Add(n);
             }
-
-            // Put pinned in first.
-            // nodeWithPreviews.Reverse();
         }
 
         VisualElement CreateMixtureNodeBlock(BaseNodeView nodeView, bool selection)
@@ -125,12 +129,6 @@ namespace Mixture
 
             unpinButton.style.unityBackgroundImageTintColor = selection ? (Color)new Color32(15, 134, 255, 255) : (Color)new Color32(245, 127, 23, 255);
 
-            // if (nodeView.nodeTarget is MixtureNode n && n.hasPreview)
-            //     nodePreview.Add(new Image{ image = n.previewTexture});
-            // else
-                // nodeFoldout.Remove(nodePreview);
-
-            // nodeName.text = nodeView.nodeTarget.name;
             foldout.text = nodeView.nodeTarget.name;
 
             var tmp = nodeView.controlsContainer;
@@ -145,6 +143,8 @@ namespace Mixture
 
         public override bool HasPreviewGUI() => nodeWithPreviews.Count > 0;
 
+        static GUILayoutOption buttonLayout = GUILayout.Width(buttonWidth);
+
         public override void OnPreviewSettings()
         {
             var options = nodeWithPreviews.Select(n => n.name).ToArray();
@@ -155,16 +155,42 @@ namespace Mixture
                 return;
             }
 
-            if (GUILayout.Button(MixtureEditorUtils.fitIcon, EditorStyles.toolbarButton, GUILayout.Width(26)))
+            if (GUILayout.Button(MixtureEditorUtils.fitIcon, EditorStyles.toolbarButton, buttonLayout))
                 Fit();
+
+            GUILayout.Space(2);
             
-            previewTextureIndex = EditorGUILayout.Popup(previewTextureIndex, options, GUILayout.Width(120));
-            if (EditorGUILayout.DropdownButton(new GUIContent(MixtureEditorUtils.compareIcon), FocusType.Passive, GUILayout.Width(40)))
+            if (!lockFirstPreview)
+                firstLockedPreviewTarget = nodeWithPreviews.FirstOrDefault();
+            if (!lockSecondPreview)
             {
-                comparisonWindow = new ComparisonPopupWindow(this);
-                UnityEditor.PopupWindow.Show(new Rect(EditorGUIUtility.currentViewWidth - ComparisonPopupWindow.width, -ComparisonPopupWindow.height, 0, 0), comparisonWindow);
+                if (lockFirstPreview)
+                    secondLockedPreviewTarget = nodeWithPreviews.FirstOrDefault();
+                else
+                    secondLockedPreviewTarget = nodeWithPreviews.Count > 1 ? nodeWithPreviews[1] : nodeWithPreviews.FirstOrDefault();
+            }
+
+            GUILayout.Label(firstLockedPreviewTarget.name, EditorStyles.toolbarButton);
+            lockFirstPreview = GUILayout.Toggle(lockFirstPreview, GetLockIcon(lockFirstPreview), EditorStyles.toolbarButton, buttonLayout);
+            if (compareEnabled)
+            {
+                compareMode = EditorGUILayout.Popup(compareMode, new string[]{"|"}, EditorStyles.toolbarButton, buttonLayout);
+                GUILayout.Label(secondLockedPreviewTarget.name, EditorStyles.toolbarButton);
+                lockSecondPreview = GUILayout.Toggle(lockSecondPreview, GetLockIcon(lockSecondPreview), EditorStyles.toolbarButton, buttonLayout);
+            }
+
+            compareEnabled = GUILayout.Toggle(compareEnabled, MixtureEditorUtils.compareIcon, EditorStyles.toolbarButton, buttonLayout);
+
+            GUILayout.Space(2);
+
+            if (GUILayout.Button(MixtureEditorUtils.settingsIcon, EditorStyles.toolbarButton, buttonLayout))
+            {
+                comparisonWindow = new NodeInspectorSettingsPopupWindow(this);
+                UnityEditor.PopupWindow.Show(new Rect(EditorGUIUtility.currentViewWidth - NodeInspectorSettingsPopupWindow.width, -NodeInspectorSettingsPopupWindow.height, 0, 0), comparisonWindow);
             }
         }
+
+        Texture2D GetLockIcon(bool locked) => locked ? MixtureEditorUtils.lockClose : MixtureEditorUtils.lockOpen;
 
         void Fit()
         {
@@ -174,26 +200,19 @@ namespace Mixture
 
         public override void OnInteractivePreviewGUI(Rect previewRect, GUIStyle background)
         {
-            Texture previewTexture = null;
-            Texture compareTexture = null;
-
             HandleZoomAndPan(previewRect);
 
-            previewTextureIndex = 0;
-
-            if (previewTextureIndex >= 0 && previewTextureIndex < nodeWithPreviews.Count)
-                previewTexture = nodeWithPreviews[previewTextureIndex].previewTexture;
-            if (comparisonTextureIndex >= 0 && comparisonTextureIndex < nodeWithPreviews.Count)
-                compareTexture = nodeWithPreviews[comparisonTextureIndex].previewTexture;
-
-            if (previewTexture != null && e.type == EventType.Repaint)
+            if (firstLockedPreviewTarget.previewTexture != null && e.type == EventType.Repaint)
             {
-                previewMaterial.SetTexture("_MainTex0", previewTexture);
-                previewMaterial.SetTexture("_MainTex1", compareTexture);
+                previewMaterial.SetTexture("_MainTex0", firstLockedPreviewTarget.previewTexture);
+                previewMaterial.SetTexture("_MainTex1", secondLockedPreviewTarget.previewTexture);
                 previewMaterial.SetFloat("_ComparisonSlider", compareSlider);
+                previewMaterial.SetFloat("_YRatio", previewRect.height / previewRect.width);
                 previewMaterial.SetFloat("_Zoom", zoom);
                 previewMaterial.SetVector("_Pan", shaderPos / previewRect.size);
-                EditorGUI.DrawPreviewTexture(previewRect, previewTexture, previewMaterial);
+                previewMaterial.SetFloat("_FilterMode", (int)filterMode);
+                previewMaterial.SetFloat("_Exp", exposure);
+                EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, previewMaterial);
             }
             else
                 EditorGUI.DrawRect(previewRect, new Color(1, 0, 1, 1));
@@ -241,13 +260,13 @@ namespace Mixture
                 case EventType.ScrollWheel:
                     float delta = Mathf.Clamp(1f + Mathf.Abs((float)e.delta.y * 0.1f), 0.1f, 2f);
                     delta = e.delta.y > 0 ? 1f / delta : delta;
+                    if (zoomTarget * delta > maxZoom || zoomTarget * delta < minZoom)
+                        delta = 1;
                     zoomTarget *= delta;
-                    if (zoomTarget < maxZoom)
-                        positionOffsetTarget = lastMousePosition + (positionOffsetTarget - lastMousePosition) * delta;
+                    positionOffsetTarget = lastMousePosition + (positionOffsetTarget - lastMousePosition) * delta;
                     break;
             }
 
-            zoomTarget = Mathf.Clamp(zoomTarget, 0.05f, maxZoom);
             float zoomDiff = zoomTarget - zoom;
             Vector2 offsetDiff = positionOffsetTarget - positionOffset;
 

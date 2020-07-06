@@ -72,7 +72,7 @@ namespace Mixture
 		protected override NodeInspectorObject CreateNodeInspectorObject()
 		{
 			var inspector = ScriptableObject.CreateInstance<MixtureNodeInspectorObject>();
-			inspector.name = "Node Inspector";
+			inspector.name = "";
 			inspector.hideFlags = HideFlags.HideAndDontSave ^ HideFlags.NotEditable;
 
 			return inspector;
