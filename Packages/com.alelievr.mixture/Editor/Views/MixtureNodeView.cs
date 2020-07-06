@@ -72,17 +72,17 @@ namespace Mixture
 			// No preview in the inspector, we display it in the preview
 			if (!fromInspector)
 			{
-				pinIcon = new Image{ image = MixtureEditorUtils.pinIcon, scaleMode = ScaleMode.ScaleToFit, tintColor = new Color32(245, 127, 23, 255)};
+				pinIcon = new Image{ image = MixtureEditorUtils.pinIcon, scaleMode = ScaleMode.ScaleToFit };
 				var pinButton = new Button(() => {
 					if (nodeTarget.isPinned)
 						UnpinView();
 					else
 						PinView();
 				});
+				pinButton.Add(pinIcon);
 				if (nodeTarget.isPinned)
 					PinView();
 
-				pinButton.Add(pinIcon);
 				pinButton.AddToClassList("PinButton");
 				rightTitleContainer.Add(pinButton);
 
@@ -101,6 +101,7 @@ namespace Mixture
 		~MixtureNodeView()
 		{
 			MixturePropertyDrawer.UnregisterGraph(owner.graph);
+			owner.mixtureNodeInspector.RemovePinnedView(this);
 		}
 
 		void UpdatePorts()
@@ -220,13 +221,9 @@ namespace Mixture
 
 		internal void PinView()
 		{
-			// if (!PinnedViewBoard.instance.HasView(controlsContainer))
-				// PinnedViewBoard.instance.Add(this, controlsContainer, nodeTarget.name);
-			// owner.mixtureNodeInspector.AddPinnedView(this);
 			nodeTarget.isPinned = true;
-			pinIcon.transform.rotation = Quaternion.Euler(0, 0, 75);
-			// pinIcon.transform.position += new Vector3(-0.2f, 0, 0);
-			pinIcon.AddToClassList("Clicked");
+			pinIcon.tintColor = new Color32(245, 127, 23, 255);
+			pinIcon.image = MixtureEditorUtils.unpinIcon;
 			schedule.Execute(() => {
 				owner.mixtureNodeInspector.AddPinnedView(this);
 			}).ExecuteLater(1);
@@ -236,23 +233,9 @@ namespace Mixture
 		{
 			owner.mixtureNodeInspector.RemovePinnedView(this);
 			nodeTarget.isPinned = false;
-			// pinIcon.image = MixtureEditorUtils.pinIcon;
-			pinIcon.RemoveFromClassList("Clicked");
-			// pinIcon.transform.position -= new Vector3(0.2f, 0, 0);
+			pinIcon.tintColor = Color.white;
+			pinIcon.image = MixtureEditorUtils.pinIcon;
 			pinIcon.transform.rotation = Quaternion.identity;
-			// PinnedViewBoard.instance.Remove(controlsContainer);
-			// mainContainer.Add(controlsContainer);
-		}
-
-		DropdownMenuAction.Status PinStatus(DropdownMenuAction action)
-		{
-			if (owner.GetPinnedElementStatus< PinnedViewBoard >() != DropdownMenuAction.Status.Normal)
-				return DropdownMenuAction.Status.Disabled;
-			
-			if (PinnedViewBoard.instance.HasView(controlsContainer))
-				return DropdownMenuAction.Status.Checked;
-			else
-				return DropdownMenuAction.Status.Normal;
 		}
 
 		protected void CreateTexturePreview(VisualElement previewContainer, MixtureNode node, int currentSlice = 0)

@@ -21,8 +21,32 @@ namespace Mixture
 			public const string processButtonText = "Process";
             public const string saveAllText = "Save All";
 			public const string parameterViewsText = "Parameters";
+			public static GUIContent documentation = new GUIContent("Documentation", MixtureEditorUtils.documentationIcon);
 			public static GUIContent bugReport = new GUIContent("Bug Report", MixtureEditorUtils.bugIcon);
-			public static GUIContent improveMixture = new GUIContent("Improve Mixture", MixtureEditorUtils.bugIcon);
+			public static GUIContent featureRequest = new GUIContent("Feature Request", MixtureEditorUtils.featureRequestIcon);
+			public static GUIContent improveMixture = new GUIContent("Improve Mixture", MixtureEditorUtils.featureRequestIcon);
+			static GUIStyle _improveButtonStyle = null;
+			public static GUIStyle improveButtonStyle => _improveButtonStyle == null ? _improveButtonStyle = new GUIStyle(GUI.skin.button) { alignment = TextAnchor.MiddleLeft } : _improveButtonStyle;
+		}
+
+		public class ImproveMixturePopupWindow : PopupWindowContent
+		{
+			public static readonly int width = 150;
+
+			public override Vector2 GetWindowSize()
+			{
+				return new Vector2(width, 94);
+			}
+
+			public override void OnGUI(Rect rect)
+			{
+				if (GUILayout.Button(Styles.documentation, Styles.improveButtonStyle))
+					Application.OpenURL(@"https://alelievr.github.io/Mixture/");
+				if (GUILayout.Button(Styles.bugReport, Styles.improveButtonStyle))
+					Application.OpenURL(@"https://github.com/alelievr/Mixture/issues/new?assignees=alelievr&labels=bug&template=bug_report.md&title=%5BBUG%5D");
+				if (GUILayout.Button(Styles.featureRequest, Styles.improveButtonStyle))
+					Application.OpenURL(@"https://github.com/alelievr/Mixture/issues/new?assignees=alelievr&labels=enhancement&template=feature_request.md&title=");
+			}
 		}
 
 		protected override void AddButtons()
@@ -42,9 +66,6 @@ namespace Mixture
 			});
 			AddToggle(Styles.parameterViewsText, graph.isParameterViewOpen, ToggleParameterView, left: true);
 
-			// Pinned views
-			bool pinnedViewsVisible = graphView.GetPinnedElementStatus< PinnedViewBoard >() != Status.Hidden;
-			AddToggle("Pinned Views", pinnedViewsVisible, (v) => graphView.ToggleView< PinnedViewBoard >());
 			if (!graph.isRealtime)
 				AddButton(Styles.saveAllText, SaveAll , left: false);
 			// AddButton(Styles.bugReport, ReportBugCallback, left: false);
@@ -53,12 +74,12 @@ namespace Mixture
 
 		void ShowImproveMixtureWindow()
 		{
-
-		}
-
-		void ReportBugCallback()
-		{
-			Application.OpenURL(@"https://github.com/alelievr/Mixture/issues/new?assignees=alelievr&labels=bug&template=bug_report.md&title=%5BBUG%5D");
+			var rect = EditorWindow.focusedWindow.position;
+			// rect.position = Vector2.zero;
+			rect.xMin = rect.width - ImproveMixturePopupWindow.width;
+			rect.yMin = 21;
+			rect.size = Vector2.zero;
+			PopupWindow.Show(rect, new ImproveMixturePopupWindow());
 		}
 
         void SaveAll()

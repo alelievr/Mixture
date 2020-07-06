@@ -153,19 +153,25 @@ namespace Mixture
         static Texture2D _fitIcon;
         public static Texture2D fitIcon
         {
-            get => _fitIcon == null ? _fitIcon = LoadIcon("Icons/Fit") as Texture2D: _fitIcon;
+            get => _fitIcon == null ? _fitIcon = LoadIcon("Icons/Fit") : _fitIcon;
         }
 
         static Texture2D _githubIcon;
         public static Texture2D githubIcon
         {
-            get => _githubIcon == null ? _githubIcon = LoadIcon("Icons/Github") as Texture2D: _githubIcon;
+            get => _githubIcon == null ? _githubIcon = LoadIcon("Icons/Github") : _githubIcon;
         }
 
         static Texture2D _featureRequest;
-        public static Texture2D featureRequest
+        public static Texture2D featureRequestIcon
         {
-            get => _featureRequest == null ? _featureRequest = LoadIcon("Icons/Github") as Texture2D: _featureRequest;
+            get => _featureRequest == null ? _featureRequest = LoadIcon("Icons/FeatureRequest") : _featureRequest;
+        }
+
+        static Texture2D _documentation;
+        public static Texture2D documentationIcon
+        {
+            get => _documentation == null ? _documentation = LoadIcon("Icons/Documentation") : _documentation;
         }
     }
 }

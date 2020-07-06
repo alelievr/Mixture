@@ -39,15 +39,22 @@ namespace Mixture
         internal int comparisonTextureIndex = 0;
         internal float compareSlider;
 
+        VisualTreeAsset nodeInspectorFoldout;
+
         protected override void OnHeaderGUI()
         {
             base.OnHeaderGUI();
+            // EditorGUILayout.LabelField(new GUIContent("Node Inspector", MixtureUtils.icon));
         }
 
         protected override void OnEnable()
         {
             mixtureInspector = target as MixtureNodeInspectorObject;
+
+            nodeInspectorFoldout = Resources.Load("UI Blocks/InspectorNodeFoldout") as VisualTreeAsset;
+
             base.OnEnable();
+
             selectedNodeList.styleSheets.Add(Resources.Load<StyleSheet>("MixtureCommon"));
             selectedNodeList.styleSheets.Add(Resources.Load<StyleSheet>("MixtureNodeInspector"));
             mixtureInspector.pinnedNodeUpdate += UpdateNodeInspectorList;
@@ -71,7 +78,7 @@ namespace Mixture
             // Selection first
             foreach (var nodeView in mixtureInspector.selectedNodes)
             {
-                var view = CreateNodeBlock(nodeView);
+                var view = CreateMixtureNodeBlock(nodeView, true);
                 view.AddToClassList("SelectedNode");
                 selectedNodeList.Add(view);
 
@@ -82,7 +89,7 @@ namespace Mixture
             // Then pinned nodes                
             foreach (var nodeView in mixtureInspector.pinnedNodes)
             {
-                var view = CreateNodeBlock(nodeView);
+                var view = CreateMixtureNodeBlock(nodeView, false);
                 view.AddToClassList("PinnedView");
                 selectedNodeList.Add(view);
                 
@@ -92,6 +99,48 @@ namespace Mixture
 
             // Put pinned in first.
             // nodeWithPreviews.Reverse();
+        }
+
+        VisualElement CreateMixtureNodeBlock(BaseNodeView nodeView, bool selection)
+        {
+            var nodeFoldout = nodeInspectorFoldout.CloneTree();
+            var foldout = nodeFoldout.Q("Foldout") as Foldout;
+            var nodeName = nodeFoldout.Q("NodeName") as Label;
+            var nodePreview = nodeFoldout.Q("NodePreview") as VisualElement;
+            var foldoutContainer = nodeFoldout.Q("FoldoutContainer");
+            var unpinButton = nodeFoldout.Q("UnpinButton") as VisualElement;
+
+            unpinButton.RegisterCallback<MouseDownEvent>((e) =>
+            {
+                if (selection)
+                {
+                    mixtureInspector.selectedNodes.Remove(nodeView);
+                    UpdateNodeInspectorList();
+                }
+                else
+                {
+                    (nodeView as MixtureNodeView)?.UnpinView();
+                }
+            });
+
+            unpinButton.style.unityBackgroundImageTintColor = selection ? (Color)new Color32(15, 134, 255, 255) : (Color)new Color32(245, 127, 23, 255);
+
+            // if (nodeView.nodeTarget is MixtureNode n && n.hasPreview)
+            //     nodePreview.Add(new Image{ image = n.previewTexture});
+            // else
+                // nodeFoldout.Remove(nodePreview);
+
+            // nodeName.text = nodeView.nodeTarget.name;
+            foldout.text = nodeView.nodeTarget.name;
+
+            var tmp = nodeView.controlsContainer;
+            nodeView.controlsContainer = foldoutContainer;
+            nodeView.Enable(true);
+            nodeView.controlsContainer.AddToClassList("NodeControls");
+            var block = nodeView.controlsContainer;
+            nodeView.controlsContainer = tmp;
+
+            return nodeFoldout;
         }
 
         public override bool HasPreviewGUI() => nodeWithPreviews.Count > 0;

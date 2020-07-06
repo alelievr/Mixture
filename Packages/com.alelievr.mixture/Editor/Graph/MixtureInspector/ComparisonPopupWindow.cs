@@ -7,10 +7,6 @@ namespace Mixture
 {
     public class ComparisonPopupWindow : PopupWindowContent
     {
-        bool toggle1 = true;
-        bool toggle2 = true;
-        bool toggle3 = true;
-
         MixtureNodeInspectorObjectEditor inspector;
 
         public static readonly int width = 200;
@@ -38,14 +34,6 @@ namespace Mixture
 
             if (EditorGUI.EndChangeCheck())
                 inspector.Repaint();
-        }
-
-        public override void OnOpen()
-        {
-        }
-
-        public override void OnClose()
-        {
         }
     }
 }
