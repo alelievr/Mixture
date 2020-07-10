@@ -8,57 +8,66 @@ using System;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("For Start")]
-	public class For : MixtureNode
+	public class ForStart : MixtureNode
 	{
-		public enum ForeachType
-		{
-			Attribute,
-			Vertex,
-			Face,
-			Object,
-			Pixel
-		}
+		[Input]
+		public object inputs;
 
-		[Input("Input Attributes", allowMultiple: false)]
-		public MixtureAttributeList inputs = new MixtureAttributeList();
-
-        [Output("Output")]
-        public MixtureAttribute output;
+        [Output]
+        public object output;
 
 		[System.NonSerialized]
 		[Output("Index")]
 		public int index = 0;
 
 		[Input("Count")]
+		public int inputCount = 0;
+
 		[Output("Count")]
-		public int count = 0;
+		public int outputCount = 0;
+
+        [SerializeField]
+        SerializableType inputType = new SerializableType(typeof(object));
 
 		public override string	name => "For Start";
 
 		public override bool    hasPreview => false;
 		public override bool	showDefaultInspector => true;
 
-		// TODO :p 
-		public ForeachType type;
-
 		protected override void Enable()
 		{
 		}
 
-		// Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code
-		// [CustomPortBehavior(nameof(inputMeshes))]
-		// public IEnumerable< PortData > ListMaterialProperties(List< SerializableEdge > edges)
-		// {
-        //     yield return new PortData
-        //     {
-        //         identifier = nameof(inputMeshes),
-        //         displayName = "Input Meshes",
-        //         allowMultiple = true,
-        //         displayType()
-        //     };
-		// }
+		[CustomPortBehavior(nameof(inputs))]
+		public IEnumerable< PortData > InputPortType(List< SerializableEdge > edges)
+		{
+            if (edges.Count > 0)
+                inputType.type = edges[0].outputPort.portData.displayType ?? edges[0].outputPort.fieldInfo.FieldType;
+			else
+				inputType.type = typeof(object);
 
-		// [CustomPortInput(nameof(inputMeshes), typeof(MixtureMesh))]
+            yield return new PortData
+            {
+                identifier = nameof(inputs),
+                displayName = "Input",
+                acceptMultipleEdges = true,
+                displayType = inputType.type,
+            };
+		}
+
+		[CustomPortBehavior(nameof(output))]
+		public IEnumerable< PortData > OutputPortType(List< SerializableEdge > edges)
+		{
+            yield return new PortData
+            {
+                identifier = nameof(output),
+                displayName = "Output",
+                acceptMultipleEdges = true,
+                displayType = inputType.type,
+            };
+		}
+
+		// [CustomPortInput(nameof(inputs), typeof(MixtureMesh))]
 		// protected void GetMaterialInputs(List< SerializableEdge > edges)
 		// {
         //     if (inputMeshes == null)
@@ -101,28 +110,13 @@ namespace Mixture
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
+            inputCount = outputCount;
 			index++;
-			if (inputs == null || inputs.Count == 0 || index >= inputs.Count || index < 0)
-				return false;
-
-			output = inputs[index];
-
 			return true;
 		}
 
-		public int PrepareNewIteration()
-		{
-			index = -1;
-			if (inputs == null)
-				return 0;
+		public int PrepareNewIteration() => inputCount;
 
-			count = inputs.Count;
-			return inputs.Count;
-		}
-
-		public bool IsLastIteration()
-		{
-			return index == inputs.Count || inputs.Count == 0;
-		}
+		public bool IsLastIteration() => index == inputCount || inputCount == 0;
     }
 }
