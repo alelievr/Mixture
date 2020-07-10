@@ -44,6 +44,8 @@ namespace Mixture
         MixtureNode firstLockedPreviewTarget;
         MixtureNode secondLockedPreviewTarget;
         int compareMode = 0;
+        Vector2 shaderPos;
+        bool needsRepaint;
 
         // Preview settings
         internal FilterMode filterMode;
@@ -218,14 +220,14 @@ namespace Mixture
                 EditorGUI.DrawRect(previewRect, new Color(1, 0, 1, 1));
         }
 
-        Vector2 T(Vector2 pos)
+        Vector2 LocalToWorld(Vector2 pos)
         {
             pos *= zoom;
             pos += positionOffset;
             return pos;
         }
 
-        bool IsMiddleMouse(int button, EventModifiers mods) => e.button == 2 || (e.button == 0 && e.modifiers == EventModifiers.Alt);
+        bool IsMoveMouse(int button, EventModifiers mods) => e.button == 2 || e.button == 0;
 
         public void HandleZoomAndPan(Rect previewRect)
         {
@@ -237,24 +239,24 @@ namespace Mixture
             switch (e.type)
             {
                 case EventType.MouseDown:
-                    if (IsMiddleMouse(e.button, e.modifiers))
+                    if (IsMoveMouse(e.button, e.modifiers))
                     {
                         middleClickMousePosition = lastMousePosition;
                         middleClickCameraPosition = positionOffset;
-                        Repaint();
+                        needsRepaint = true;
                     }
                     break;
                 case EventType.MouseDrag:
-                    if (IsMiddleMouse(e.button, e.modifiers))
+                    if (IsMoveMouse(e.button, e.modifiers))
                     {
                         positionOffset = middleClickCameraPosition + (lastMousePosition - middleClickMousePosition);
                         positionOffsetTarget = positionOffset;
-                        Repaint();
+                        needsRepaint = true;
                     }
                     if (e.button == 1)
                     {
                         compareSlider = (e.mousePosition.x - positionOffsetTarget.x) / zoom / (float)previewRect.width % 1;
-                        Repaint();
+                        needsRepaint = true;
                     }
                     break;
                 case EventType.ScrollWheel:
@@ -270,20 +272,25 @@ namespace Mixture
             float zoomDiff = zoomTarget - zoom;
             Vector2 offsetDiff = positionOffsetTarget - positionOffset;
 
-            if (Mathf.Abs(zoomDiff) > 0.001f || offsetDiff.magnitude > 0.001f)
+            if (Mathf.Abs(zoomDiff) > 0.01f || offsetDiff.magnitude > 0.01f)
             {
                 zoom += zoomDiff * zoomSpeed * (float)deltaTime;
                 positionOffset += offsetDiff * zoomSpeed * (float)deltaTime;
-                Repaint();
+                needsRepaint = true;
             }
             else
             {
                zoom = zoomTarget;
                positionOffset = positionOffsetTarget;
             }
-            shaderPos = T(Vector2.zero);
+            shaderPos = LocalToWorld(Vector2.zero);
+
+            if (needsRepaint)
+            {
+                Repaint();
+                needsRepaint = false;
+            }
         }
-        Vector2 shaderPos;
     }
 
     public class MixtureNodeInspectorObject : NodeInspectorObject
