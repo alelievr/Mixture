@@ -73,6 +73,7 @@ namespace Mixture
 
         GameObject SavePrefab(GameObject sceneObject)
         {
+#if UNITY_EDITOR
             Debug.Log(graph.mainAssetPath);
             string dirPath = Path.GetDirectoryName(graph.mainAssetPath) + "/" + graph.name;
             if (!Directory.Exists(dirPath))
@@ -81,6 +82,9 @@ namespace Mixture
             string prefabPath = AssetDatabase.GenerateUniqueAssetPath(dirPath + "/" + "SceneCapture.prefab");
 
             return PrefabUtility.SaveAsPrefabAssetAndConnect(sceneObject, prefabPath, InteractionMode.UserAction);
+#else
+    return null;
+#endif
         }
 
         protected override void Enable()
@@ -91,7 +95,9 @@ namespace Mixture
                 var defaultPrefab = CreateDefaultPrefab();
                 prefab = SavePrefab(defaultPrefab);
                 MixtureUtils.DestroyGameObject(defaultPrefab);
+#if UNITY_EDITOR
                 ProjectWindowUtil.ShowCreatedAsset(prefab);
+#endif
             }
             UpdateRenderTextures();
         }

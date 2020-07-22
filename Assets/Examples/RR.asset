@@ -248,6 +248,29 @@ Material:
     m_Colors:
     - _Bias: {r: 0, g: 0, b: 0, a: 0}
     - _Scale: {r: 2, g: 2, b: 1, a: 0}
+--- !u!21 &-6525585685754892443
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/UV
+  m_Shader: {fileID: 4800000, guid: 0e57459cc2eca8e4eb3e062b8ed60321, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats: []
+    m_Colors:
+    - _Bias: {r: 0, g: 0, b: 0, a: 0}
+    - _Scale: {r: 1, g: 1, b: 1, a: 0}
 --- !u!21 &-6193452285717213173
 Material:
   serializedVersion: 6
@@ -456,7 +479,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Radius: 5.2
+    - _Radius: 1
     - _Threshold: 0.5
     m_Colors: []
 --- !u!21 &-3509724019202489496
@@ -1403,6 +1426,46 @@ Material:
     m_Colors:
     - Color_5CCCD6B7: {r: 1, g: 1, b: 1, a: 1}
     - Color_C14C79E4: {r: 0, g: 0, b: 0, a: 0}
+--- !u!21 &7684679429113508019
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/PerlinNoise
+  m_Shader: {fileID: 4800000, guid: 3ff8d72a4c500ad4093607671bcd9097, type: 3}
+  m_ShaderKeywords: CRT_2D USE_CUSTOM_UV _TILINGMODE_NONE
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _UV_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Frequency: 5
+    - _Lacunarity: 2
+    - _Octaves: 5
+    - _Persistance: 0.5
+    - _Seed: 42
+    - _TilingMode: 0
+    m_Colors:
+    - _OutputRange: {r: -1, g: 1, b: 0, a: 0}
 --- !u!21 &7726816343954451963
 Material:
   serializedVersion: 6

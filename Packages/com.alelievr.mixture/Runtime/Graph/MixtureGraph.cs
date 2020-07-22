@@ -63,10 +63,14 @@ namespace Mixture
 		{
 			get
 			{
+#if UNITY_EDITOR
 				if (!String.IsNullOrEmpty(_mainAssetPath) && AssetDatabase.IsMainAssetAtPathLoaded(_mainAssetPath))
 					return _mainAssetPath;
 				else
 					return _mainAssetPath = AssetDatabase.GetAssetPath(this);
+#else
+                return null;
+#endif
 			}
 		}
 
@@ -154,6 +158,7 @@ namespace Mixture
             if (oldTextureObject == outputTexture)
                 return;
 
+#if UNITY_EDITOR
             if (oldTextureObject != null) // release memory and remove asset
             {
                 AssetDatabase.RemoveObjectFromAsset(oldTextureObject);
@@ -167,6 +172,7 @@ namespace Mixture
 
             if (Selection.activeObject == oldTextureObject)
                 Selection.activeObject = outputTexture;
+#endif
         }
 
 		void UpdateOutputRealtimeTexture()
@@ -367,12 +373,14 @@ namespace Mixture
             if (isRealtime)
                 return;
             
+#if UNITY_EDITOR
             // We only need to update the main asset texture because the outputTexture should
             // always be correctly setup when we arrive here.
             var currentTexture = AssetDatabase.LoadAssetAtPath<Texture>(mainAssetPath);
             UpdateMainAsset(currentTexture);
 
             ReadBackTexture(this.outputNode);
+#endif
         }
 
         public struct ReadbackData
@@ -504,7 +512,9 @@ namespace Mixture
                     return;
             }
 
+#if UNITY_EDITOR
             EditorGUIUtility.PingObject(data.targetTexture);
+#endif
         }
 
         /// <summary>
@@ -514,18 +524,18 @@ namespace Mixture
         /// <param name="destination"></param>
         void CompressTexture(Texture source, Texture destination)
         {
+#if UNITY_EDITOR
             // Copy the readback texture into the compressed one (replace it)
             EditorUtility.CopySerialized(source, destination);
             UnityEngine.Object.DestroyImmediate(source);
 
-#if UNITY_EDITOR
             EditorUtility.CompressTexture(destination as Texture2D, (TextureFormat)outputNode.compressionFormat, (UnityEditor.TextureCompressionQuality)outputNode.compressionQuality);
-#endif
 
             // Trick to re-generate the preview and update the texture when the asset was changed
             AssetDatabase.ImportAsset(this.mainAssetPath);
             AssetDatabase.SaveAssets();
             AssetDatabase.ImportAsset(this.mainAssetPath);
+#endif
         }
     }
 }
