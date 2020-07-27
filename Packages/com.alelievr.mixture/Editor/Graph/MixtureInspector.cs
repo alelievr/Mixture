@@ -2,6 +2,7 @@
 using UnityEngine.Rendering;
 using UnityEditor;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Object = UnityEngine.Object;
 using UnityEngine.UIElements;
@@ -13,7 +14,7 @@ namespace Mixture
 	[InitializeOnLoad]
 	class MixtureSmallIconRenderer
 	{
-		static Dictionary< string, bool >	mixtureAssets = new Dictionary< string, bool >();
+		static Dictionary< string, MixtureGraph >	mixtureAssets = new Dictionary< string, MixtureGraph >();
 
 		static MixtureSmallIconRenderer() => EditorApplication.projectWindowItemOnGUI += DrawMixtureSmallIcon;
 		
@@ -23,10 +24,10 @@ namespace Mixture
 			if (rect.height != 16)
 				return ;
 			
-			bool isRealtime;
-			if (mixtureAssets.TryGetValue(assetGUID, out isRealtime))
+			MixtureGraph graph;
+			if (mixtureAssets.TryGetValue(assetGUID, out graph))
 			{
-				DrawMixtureSmallIcon(rect, isRealtime);
+				DrawMixtureSmallIcon(rect, graph);
 				return ;
 			}
 
@@ -40,25 +41,34 @@ namespace Mixture
 			var texture = AssetDatabase.LoadAssetAtPath< Texture >(assetPath);
 			if (texture == null)
 				return ;
-			
-			isRealtime = texture is CustomRenderTexture;
-			mixtureAssets.Add(assetGUID, isRealtime);
 
-			DrawMixtureSmallIcon(rect, isRealtime);
+			// and then that it have a Mixture Graph as subasset
+			graph = AssetDatabase.LoadAllAssetsAtPath(assetPath).FirstOrDefault(o => o is MixtureGraph) as MixtureGraph;
+			if (graph == null)
+				return ;
+
+			mixtureAssets.Add(assetGUID, graph);
+
+			DrawMixtureSmallIcon(rect, graph);
 		}
 
-		static void DrawMixtureSmallIcon(Rect rect, bool realtime)
+		static void DrawMixtureSmallIcon(Rect rect, MixtureGraph graph)
 		{
 			Rect clearRect = new Rect(rect.x, rect.y, 20, 16);
 			Rect iconRect = new Rect(rect.x + 2, rect.y, 16, 16);
 
+			// TODO: find a way to detect the focus of the project window instantaneously
+			bool focused = false;
+
 			// Draw a quad of the color of the background
-			Color backgroundColor = EditorGUIUtility.isProSkin
-				? new Color32(56, 56, 56, 255)
-				: new Color32(194, 194, 194, 255);
+			Color backgroundColor;
+			if (EditorGUIUtility.isProSkin)
+				backgroundColor = focused ? new Color32(44, 93, 135, 255) : new Color32(56, 56, 56, 255);
+			else
+				backgroundColor = new Color32(194, 194, 194, 255);
 
 			EditorGUI.DrawRect(clearRect, backgroundColor);
-			GUI.DrawTexture(iconRect, realtime ? MixtureUtils.realtimeIcon32 : MixtureUtils.icon32);
+			GUI.DrawTexture(iconRect, graph.isRealtime ? MixtureUtils.realtimeIcon32 : MixtureUtils.icon32);
 		}
 	}
 

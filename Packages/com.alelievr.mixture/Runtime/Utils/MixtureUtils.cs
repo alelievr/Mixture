@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using System.Linq;
 using System.Collections.Generic;
+using GraphProcessor;
 
 namespace Mixture
 {
@@ -237,6 +238,22 @@ namespace Mixture
 			int x = Mathf.Clamp(size / 128, 1, 128);
 			int y = Mathf.Max(size / 4096, 1);
 			cmd.DispatchCompute(clearCompute, 0, x, y, 1);
+		}
+
+		public static PortData UpdateInputPortType(ref SerializableType type, string displayName, List<SerializableEdge> edges)
+		{
+            if (edges.Count > 0)
+                type.type = edges[0].outputPort.portData.displayType ?? edges[0].outputPort.fieldInfo.FieldType;
+			else
+				type.type = typeof(object);
+
+            return new PortData
+            {
+                identifier = displayName,
+                displayName = displayName,
+                acceptMultipleEdges = false,
+                displayType = type.type,
+            };
 		}
     }
 }

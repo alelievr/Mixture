@@ -162,7 +162,7 @@ namespace Mixture
 			foreach (var view in nodeViews)
 			{
 				// view.titleContainer.style.color = new StyleColor(StyleKeyword.Initial);
-				if (info.foreachLoopLevel.TryGetValue(view.nodeTarget, out var level))
+				if (info.forLoopLevel.TryGetValue(view.nodeTarget, out var level))
 				{
 					if (level > 0)
 					{
@@ -177,10 +177,10 @@ namespace Mixture
 			// Update groups too:
 			foreach (var view in groupViews)
 			{
-				var startNodeGUID = view.group.innerNodeGUIDs.FirstOrDefault(guid => graph.nodesPerGUID.ContainsKey(guid) && graph.nodesPerGUID[guid] is ForeachStart);
+				var startNodeGUID = view.group.innerNodeGUIDs.FirstOrDefault(guid => graph.nodesPerGUID.ContainsKey(guid) && graph.nodesPerGUID[guid] is ILoopStart);
 				if (startNodeGUID != null)
 				{
-					if (info.foreachLoopLevel.TryGetValue(graph.nodesPerGUID[startNodeGUID], out var level))
+					if (info.forLoopLevel.TryGetValue(graph.nodesPerGUID[startNodeGUID], out var level))
 					{
 						if (level > 0)
 						{

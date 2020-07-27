@@ -8,13 +8,13 @@ using System;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Switch")]
-	public class Switch : MixtureNode
+	public class Switch : MixtureNode, IConditional
 	{
-		[Input]
-		public List<object> inputs;
-
         [Input]
         public int index;
+
+		[Input]
+		public List<object> inputs;
 
         [Output]
         public object output;
@@ -34,16 +34,9 @@ namespace Mixture
 		[CustomPortBehavior(nameof(inputs))]
 		public IEnumerable< PortData > InputPortType(List< SerializableEdge > edges)
 		{
-            if (edges.Count == 1)
-                inputType.type = edges[0].outputPort.portData.displayType;
-
-            yield return new PortData
-            {
-                identifier = nameof(inputs),
-                displayName = "Input",
-                acceptMultipleEdges = true,
-                displayType = inputType.type,
-            };
+			var data = MixtureUtils.UpdateInputPortType(ref inputType, "Input", edges);
+            data.acceptMultipleEdges = true;
+            yield return data;
 		}
 
 		[CustomPortBehavior(nameof(output))]
@@ -63,5 +56,10 @@ namespace Mixture
             // TODO
 			return true;
 		}
+
+        public string GetExecutedBranch()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

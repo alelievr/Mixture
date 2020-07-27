@@ -18,7 +18,7 @@ namespace Mixture
 			group.innerNodeGUIDs.Add(nodeTarget.GUID);
 			group.innerNodeGUIDs.Add(endView.nodeTarget.GUID);
 			owner.AddGroup(group);
-            // TODO: connect the nodes
+			owner.Connect(endView.inputPortViews[0], outputPortViews[0]);
         }
 
 		public override void Enable()

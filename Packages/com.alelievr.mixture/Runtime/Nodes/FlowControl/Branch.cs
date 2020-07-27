@@ -10,14 +10,17 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Branch"), NodeMenuItem("If")]
 	public class Branch : MixtureNode
 	{
-		[Input]
-		public object input;
-
         [Input]
         public bool condition;
 
+		[Input]
+		public object input;
+
         [Output]
-        public object output;
+        public object outputTrue;
+
+        [Output]
+        public object outputFalse;
 
         [SerializeField]
         SerializableType inputType = new SerializableType(typeof(object));
@@ -27,6 +30,8 @@ namespace Mixture
 		public override bool    hasPreview => false;
 		public override bool	showDefaultInspector => true;
 
+        bool comparison;
+
 		protected override void Enable()
 		{
 		}
@@ -34,25 +39,28 @@ namespace Mixture
 		[CustomPortBehavior(nameof(input))]
 		public IEnumerable< PortData > InputPortType(List< SerializableEdge > edges)
 		{
-            if (edges.Count == 1)
-                inputType.type = edges[0].outputPort.portData.displayType;
+			yield return MixtureUtils.UpdateInputPortType(ref inputType, "Input", edges);
+		}
 
+		[CustomPortBehavior(nameof(outputTrue))]
+		public IEnumerable< PortData > OutputTruePortType(List< SerializableEdge > edges)
+		{
             yield return new PortData
             {
-                identifier = nameof(input),
-                displayName = "Input",
+                identifier = nameof(outputTrue),
+                displayName = "True",
                 acceptMultipleEdges = true,
                 displayType = inputType.type,
             };
 		}
-
-		[CustomPortBehavior(nameof(output))]
-		public IEnumerable< PortData > OutputPortType(List< SerializableEdge > edges)
+        
+		[CustomPortBehavior(nameof(outputFalse))]
+		public IEnumerable< PortData > OutputFalsePortType(List< SerializableEdge > edges)
 		{
             yield return new PortData
             {
-                identifier = nameof(output),
-                displayName = "Output",
+                identifier = nameof(outputFalse),
+                displayName = "False",
                 acceptMultipleEdges = true,
                 displayType = inputType.type,
             };
@@ -61,7 +69,17 @@ namespace Mixture
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
             // TODO
+            comparison = true;
+
 			return true;
 		}
+
+        public string GetExecutedBranch()
+        {
+            if (comparison)
+                return nameof(outputTrue);
+            else
+                return nameof(outputFalse);
+        }
     }
 }

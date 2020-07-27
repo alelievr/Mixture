@@ -8,13 +8,15 @@ using System;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("For End")]
-	public class ForEnd : MixtureNode
+	[System.Serializable]
+	// [NodeMenuItem("For End")]
+	public class ForEnd : MixtureNode, ILoopEnd
 	{
 		public enum AggregationMode
 		{
-			MergeResult,
-			None,
+			FeedbackToStartNode = 0,
+			// MergeResult = 1,
+			None = 2,
 		}
 
 		[Input("Input")]
@@ -30,86 +32,133 @@ namespace Mixture
 
 		public AggregationMode mode;
 
+		[System.NonSerialized]
+		ForStart loopStart;
+
+		[SerializeField, HideInInspector]
+		string loopStartGUID;
+
 		protected override void Enable()
 		{
+			onAfterEdgeConnected += EdgeConnectionCallback;
+			onAfterEdgeDisconnected += EdgeConnectionCallback;
+			RegisterLoopStart();
+		}
+
+		void RegisterLoopStart()
+		{
+			if (loopStart == null && !String.IsNullOrEmpty(loopStartGUID) && graph.nodesPerGUID.ContainsKey(loopStartGUID))
+				loopStart = graph.nodesPerGUID[loopStartGUID] as ForStart;
+			if (loopStart != null)
+			{
+				loopStart.onAfterEdgeConnected += EdgeConnectionCallback;
+				loopStart.onAfterEdgeDisconnected += EdgeConnectionCallback;
+			}
+		}
+
+		void UnregisterLoopStart()
+		{
+			if (loopStart != null)
+			{
+				loopStart.onAfterEdgeConnected -= EdgeConnectionCallback;
+				loopStart.onAfterEdgeDisconnected -= EdgeConnectionCallback;
+			}
+		}
+
+		void EdgeConnectionCallback(SerializableEdge edge)
+		{
+			if (edge.inputPort == inputPorts[0])
+			{
+				// Update the loop start:
+				var newLoopStart = FindInDependencies(n => n is ForStart) as ForStart;
+				if (newLoopStart != loopStart)
+				{
+					UnregisterLoopStart();
+					loopStart = newLoopStart;
+					RegisterLoopStart();
+				}
+				else
+				{
+					loopStart = newLoopStart;
+				}
+				if (loopStart != null)
+					loopStartGUID = loopStart.GUID;
+				UpdateAllPorts();
+			}
+			else if (loopStart != null && edge.inputPort == loopStart.inputPorts[0])
+			{
+				UpdateAllPorts();
+			}
 		}
 
 		// Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code
 		[CustomPortBehavior(nameof(input))]
-		public IEnumerable< PortData > ListMaterialProperties(List< SerializableEdge > edges)
+		public IEnumerable< PortData > InputPortType(List< SerializableEdge > edges)
 		{
+			var inputType = loopStart?.inputType?.type ?? typeof(object);
+
             yield return new PortData
             {
                 identifier = nameof(input),
                 displayName = "Input",
                 acceptMultipleEdges = false,
-                displayType = typeof(object), // TODO
+                displayType = inputType,
             };
 		}
 
-		// [CustomPortBehavior(nameof(output))]
-		// protected IEnumerable< PortData > GetMaterialInputs(List< SerializableEdge > edges)
-		// {
-		// 	var portData = new PortData{
-		// 		identifier = nameof(output),
-		// 		displayName = "Output",
-		// 		acceptMultipleEdges = true,
-		// 	};
-		// 	switch (mode)
-		// 	{
-		// 		case AggregationMode.MergeResult:
-		// 			portData.displayType = typeof(MixtureMesh);
-		// 			break;
-		// 		case AggregationMode.List:
-		// 			portData.displayType = typeof(List<MixtureMesh>);
-		// 			break;
-		// 		default:
-		// 		case AggregationMode.None:
-		// 			portData.displayType = typeof(MixtureMesh);
-		// 			break;
-		// 	}
+		[CustomPortBehavior(nameof(output))]
+		public IEnumerable< PortData > OutputPortType(List< SerializableEdge > edges)
+		{
+			var inputType = loopStart?.inputType?.type ?? typeof(object);
 
-		// 	yield return portData;
-		// }
+            yield return new PortData
+            {
+                identifier = nameof(output),
+                displayName = "Output",
+                acceptMultipleEdges = true,
+                displayType = inputType,
+            };
+		}
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			// inputMeshes.Add(inputMesh);
-			// switch (mode)
-			// {
-			// 	case AggregationMode.MergeResult:
-			// 		break;
-			// 	default:
-			// 	case AggregationMode.None:
-			// 		output = inputMesh.Clone();
-			// 		break;
-			// 	case AggregationMode.List:
-			// 		output = inputMeshes;
-			// 		break;
-			// }
+			if (loopStart == null)
+			{
+				Debug.Log("For End node is not connected to a start");
+				return false;
+			}
+
+			if (mode == AggregationMode.FeedbackToStartNode)
+			{
+				// Feedback the input texture as start output for next iteration
+				loopStart.output = input;
+			}
+
 			return true;
 		}
 
-		List<MixtureMesh> inputMeshes = new List<MixtureMesh>();
-		public void PrepareNewIteration()
+		public void PrepareNewIteration(BaseNode startNode)
 		{
 			output = new MixtureMesh();
 			inputMeshes.Clear();
 		}
 
+        public void PrepareLoopEnd(ILoopStart loopStartNode)
+        {
+			if (loopStartNode == null)
+			{
+				Debug.LogError("For End connected to a non For start loop");
+				return;
+			}
+        }
+
+		List<MixtureMesh> inputMeshes = new List<MixtureMesh>();
 		public void FinalIteration()
 		{
-			if (mode == AggregationMode.MergeResult || mode == AggregationMode.None)
+			output = input;
+			// TODO
+			// if (mode == AggregationMode.MergeResult)
 			{
-				// var combineInstances = inputMeshes
-				// 	.Where(m => m?.mesh != null && m.mesh.vertexCount > 0)
-				// 	.Select(m => new CombineInstance{ mesh = m.mesh, transform = m.localToWorld })
-				// 	.ToArray();
-
-				// var mixtureMesh = output as MixtureMesh;
-				// mixtureMesh.mesh = new Mesh { indexFormat = IndexFormat.UInt32};
-				// mixtureMesh.mesh.CombineMeshes(combineInstances);
-				// output = mixtureMesh;
 			}
 		}
     }

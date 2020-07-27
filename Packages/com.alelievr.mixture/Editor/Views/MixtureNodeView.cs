@@ -205,6 +205,53 @@ namespace Mixture
 			return propertiesChanged;
 		}
 
+		// Custom property draw, we don't want things that are connected to an edge or useless like the render queue
+		protected int GetMaterialHash(Material material)
+		{
+			int hash = 0;
+
+			if (material == null || material.shader == null)
+				return hash;
+				
+			MaterialProperty[] properties = MaterialEditor.GetMaterialProperties(new []{material});
+			var portViews = GetPortViewsFromFieldName(nameof(ShaderNode.materialInputs));
+
+			foreach (var property in properties)
+			{
+				if ((property.flags & (MaterialProperty.PropFlags.HideInInspector | MaterialProperty.PropFlags.PerRendererData)) != 0)
+					continue;
+
+				// Retrieve the port view from the property name
+				var portView = portViews?.FirstOrDefault(p => p.portData.identifier == property.name);
+				if (portView != null && portView.connected)
+					continue;
+
+				switch (property.type)
+				{
+					case MaterialProperty.PropType.Float:
+						hash += property.floatValue.GetHashCode();
+						break;
+					case MaterialProperty.PropType.Color:
+						hash += property.colorValue.GetHashCode();
+						break;
+					case MaterialProperty.PropType.Range:
+						hash += property.rangeLimits.GetHashCode();
+						hash += property.floatValue.GetHashCode();
+						break;
+					case MaterialProperty.PropType.Vector:
+						hash += property.vectorValue.GetHashCode();
+						break;
+					case MaterialProperty.PropType.Texture:
+						hash += property.textureValue?.GetHashCode() ?? 0;
+						hash += property.textureScaleAndOffset.GetHashCode();
+						hash += property.textureDimension.GetHashCode();
+						break;
+				}
+			}
+
+			return hash;
+		}
+
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			evt.menu.AppendAction("Pin View", (a) => {

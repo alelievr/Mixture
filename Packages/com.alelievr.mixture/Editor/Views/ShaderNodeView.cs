@@ -21,7 +21,7 @@ namespace Mixture
 		ObjectField		debugCustomRenderTextureField;
 		ObjectField		shaderField;
 
-		int				materialCRC;
+		int				materialHash;
 		DateTime		lastModified;
 		string			shaderPath;
 
@@ -173,10 +173,10 @@ namespace Mixture
 
 		void MaterialGUI()
 		{
-			if (shaderNode.material.ComputeCRC() != materialCRC)
+			if (GetMaterialHash(shaderNode.material) != materialHash)
 			{
 				NotifyNodeChanged();
-				materialCRC = shaderNode.material.ComputeCRC();
+				materialHash = GetMaterialHash(shaderNode.material);
 			}
 
 			// Update the GUI when shader is modified

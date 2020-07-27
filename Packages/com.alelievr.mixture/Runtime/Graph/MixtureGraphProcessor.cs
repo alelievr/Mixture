@@ -6,16 +6,11 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	public interface INeedLoopReset
-	{
-		void PrepareNewIteration();
-	}
-
 	public class ComputeOrderInfo
 	{
-		public Dictionary<BaseNode, int> foreachLoopLevel = new Dictionary<BaseNode, int>();
+		public Dictionary<BaseNode, int> forLoopLevel = new Dictionary<BaseNode, int>();
 
-		public void Clear() => foreachLoopLevel.Clear();
+		public void Clear() => forLoopLevel.Clear();
 	}
 
 	public class MixtureGraphProcessor : BaseGraphProcessor
@@ -67,12 +62,10 @@ namespace Mixture
 		{
 			isProcessing = true;
 			mixtureDependencies.Clear();
-			// HashSet<BaseNode> nodesToBeProcessed = new HashSet<BaseNode>();
-			// Stack<BaseNode> nodeToExecute = new Stack<BaseNode>();
-			HashSet<ForeachStart> starts = new HashSet<ForeachStart>();
-			HashSet<ForeachEnd> ends = new HashSet<ForeachEnd>();
+			HashSet<ILoopStart> starts = new HashSet<ILoopStart>();
+			HashSet<ILoopEnd> ends = new HashSet<ILoopEnd>();
 			HashSet<INeedLoopReset> iNeedLoopReset = new HashSet<INeedLoopReset>();
-			Stack<(ForeachStart node, int index)> jumps = new Stack<(ForeachStart, int)>();
+			Stack<(ILoopStart node, int index)> jumps = new Stack<(ILoopStart, int)>();
 
 			UpdateComputeOrder();
 
@@ -92,46 +85,46 @@ namespace Mixture
 				{
 					maxLoopCount++;
 					if (maxLoopCount > 10000)
-					{
 						return;
-					}
 
 					var node = processList[executionIndex];
 
-					if (node is ForeachStart fs)
+					if (node is ILoopStart loopStart)
 					{
-						if (!starts.Contains(fs))
+						if (!starts.Contains(loopStart))
 						{
-							fs.PrepareNewIteration();
-							jumps.Push((fs, executionIndex));
-							starts.Add(fs);
+							loopStart.PrepareLoopStart();
+							jumps.Push((loopStart, executionIndex));
+							starts.Add(loopStart);
 						}
 					}
 
 					bool finalIteration = false;
-					if (node is ForeachEnd fe)
+					if (node is ILoopEnd loopEnd)
 					{
-						if (!ends.Contains(fe))
-						{
-							fe.PrepareNewIteration();
-							ends.Add(fe);
-						}
-
 						if (jumps.Count == 0)
 						{
-							Debug.Log("Aborted execution, foreach end without start");
+							Debug.Log("Aborted execution, for end without start");
 							return ;
 						}
-						var jump = jumps.Peek();
+
+						var startLoop = jumps.Peek();
+						if (!ends.Contains(loopEnd))
+						{
+							loopEnd.PrepareLoopEnd(startLoop.node);
+							ends.Add(loopEnd);
+						}
 
 						// Jump back to the foreach start
-						if (!jump.node.IsLastIteration())
-							executionIndex = jump.index - 1;
+						if (!startLoop.node.IsLastIteration())
+						{
+							executionIndex = startLoop.index - 1;
+						}
 						else
 						{
 							var fs2 = jumps.Pop();
 							starts.Remove(fs2.node);
-							ends.Remove(fe);
+							ends.Remove(loopEnd);
 							finalIteration = true;
 						}
 					}
@@ -146,74 +139,16 @@ namespace Mixture
 
 						// TODO: remove this node form iNeedLoopReset when we go over a foreach start again
 					}
+				
+					if (finalIteration && node is ILoopEnd le)
+					{
+						le.FinalIteration();
+					}
 
 					ProcessNode(currentCmd, node);
-				
-					if (finalIteration && node is ForeachEnd fe2)
-					{
-						fe2.FinalIteration();
-					}
 				}
 			}
 
-			// foreach (var p in processList)
-			// 	nodeToExecute.Push(p);
-
-			// while (nodeToExecute.Count > 0)
-			// {
-			// 	var node = nodeToExecute.Pop();
-
-			// 	ProcessNode(cmd, node);
-			// 	if (node is ForeachStart fs)
-			// 	{
-			// 		if (!starts.Contains(fs))
-			// 		{
-			// 			// Gather nodes to execute multiple times:
-			// 			var nodes = fs.GatherNodesInLoop();
-			// 			var it = fs.PrepareNewIteration();
-			// 			Debug.Log("Mixture feature it count: " + it);
-			// 			foreach (var n in nodes)
-			// 				Debug.Log(n);
-			// 			for (int i = 0; i < it; i++)
-			// 			{
-			// 				foreach (var n in nodes)
-			// 					nodeToExecute.Push(n);
-			// 			}
-			// 		}
-			// 		starts.Add(fs);
-			// 	}
-			// }
-
-			// For now we process every node multiple time,
-			// future improvement: only refresh nodes when  asked by the CRT
-			// foreach (BaseNode node in processList)
-			// {
-			// 	ProcessNode(cmd, node);
-			// 	// if (node is IUseCustomRenderTextureProcessing iUseCRT)
-			// 	// {
-			// 	// 	var mixtureNode = node as MixtureNode;
-			// 	// 	var crt = iUseCRT.GetCustomRenderTexture();
-
-			// 	// 	if (crt != null)
-			// 	// 	{
-			// 	// 		crt.Update();
-			// 	// 		CustomTextureManager.UpdateCustomRenderTexture(cmd, crt);
-			// 	// 		// CustomTextureManager.RegisterNewCustomRenderTexture(crt);
-			// 	// 		// var deps = mixtureNode.GetMixtureDependencies();
-			// 	// 		// foreach (var dep in deps)
-			// 	// 		// 	nodesToBeProcessed.Add(dep);
-			// 	// 		// mixtureDependencies.Add(crt, deps);
-			// 	// 		// crt.Update();
-			// 	// 	}
-			// 	// }
-			// }
-
-			// executedNodes.Clear();
-			// CustomTextureManager.ForceUpdateNow();
-
-			// // update all nodes that are not depending on a CRT
-			// foreach (var node in processList.Except(nodesToBeProcessed))
-			// 	ProcessNode(cmd, node);
 			Graphics.ExecuteCommandBuffer(currentCmd);
 			isProcessing = false;
 		}
@@ -279,14 +214,14 @@ namespace Mixture
 
 			foreach (var processList in processLists)
 			{
-				int foreachIndex = 0;
+				int loopIndex = 0;
 				foreach (var node in processList)
 				{
-					if (node is ForeachStart fs)
-						foreachIndex++;
-					info.foreachLoopLevel[node] = foreachIndex;
-					if (node is ForeachEnd fe)
-						foreachIndex--;
+					if (node is ForStart fs)
+						loopIndex++;
+					info.forLoopLevel[node] = loopIndex;
+					if (node is ForEnd fe)
+						loopIndex--;
 				}
 			}
 

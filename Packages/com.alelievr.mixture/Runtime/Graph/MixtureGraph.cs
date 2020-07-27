@@ -530,7 +530,6 @@ namespace Mixture
                     Debug.LogError(data.targetTexture + " is not a supported type for saving");
                     return;
             }
-
         }
 
         /// <summary>
