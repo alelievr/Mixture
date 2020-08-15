@@ -1,4 +1,3 @@
-#if MIXTURE_EXPERIMENTAL
 using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
@@ -28,6 +27,7 @@ namespace Mixture
 		public override string	name => "For End";
 
 		public override bool    hasPreview => false;
+		public override bool    hasSettings => false;
 		public override bool    showDefaultInspector => true;
 
 		public AggregationMode mode;
@@ -129,12 +129,59 @@ namespace Mixture
 			}
 
 			if (mode == AggregationMode.FeedbackToStartNode)
-			{
-				// Feedback the input texture as start output for next iteration
-				loopStart.output = input;
-			}
+				FeedbackInputToStartNode(cmd);
+
+			// So right now we need to flush the command buffer because we are changing
+			// the inputs to some potential CRT nodes in the loop, which result in a change 
+			// of material value and because this change is not registered within the command
+			// buffer, it would cause issues to just change values without flushing the cmd.
+			// We need to consider either material property blocks or a material pool in the loop
+			// for these nodes.
+			MixtureGraphProcessor.AddGPUAndCPUBarrier(cmd);
 
 			return true;
+		}
+
+		RenderTexture doubleBufferForEnd;
+
+		void FeedbackInputToStartNode(CommandBuffer cmd)
+		{
+			var feedback = input;
+
+			// For render texture we double buffer the input just in case there is only one
+			// node in the for loop which will result in the output and input being the same
+			// for this node. Which could break most of the nodes that uses render textures.
+			if (feedback is RenderTexture rt)
+			{
+				if (doubleBufferForEnd == null)
+					doubleBufferForEnd = new RenderTexture(1, 1, 0);
+				
+				if (doubleBufferForEnd.width != rt.width
+					|| doubleBufferForEnd.height != rt.height
+					|| doubleBufferForEnd.graphicsFormat != rt.graphicsFormat
+					|| doubleBufferForEnd.useMipMap != rt.useMipMap
+					|| doubleBufferForEnd.filterMode != rt.filterMode
+					|| doubleBufferForEnd.wrapMode != rt.wrapMode)
+				{
+					doubleBufferForEnd.Release();
+					doubleBufferForEnd.height = rt.height;
+					doubleBufferForEnd.width = rt.width;
+					doubleBufferForEnd.graphicsFormat = rt.graphicsFormat;
+					doubleBufferForEnd.useMipMap = rt.useMipMap;
+					doubleBufferForEnd.wrapMode = rt.wrapMode;
+					doubleBufferForEnd.filterMode = rt.filterMode;
+					doubleBufferForEnd.autoGenerateMips = false;
+					doubleBufferForEnd.name = "Double Buffer For End";
+					doubleBufferForEnd.Create();
+				}
+
+				cmd.CopyTexture(rt, doubleBufferForEnd);
+
+				feedback = doubleBufferForEnd;
+			}
+
+			// Feedback the input texture as start output for next iteration
+			loopStart.output = feedback;
 		}
 
 		public void PrepareNewIteration(BaseNode startNode)
@@ -161,6 +208,10 @@ namespace Mixture
 			{
 			}
 		}
+
+		protected override void Disable()
+		{
+			doubleBufferForEnd?.Release();
+		}
     }
 }
-#endif

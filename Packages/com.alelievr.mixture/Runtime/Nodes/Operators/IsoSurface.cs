@@ -24,7 +24,8 @@ namespace Mixture
 
 		public override bool showDefaultInspector => true;
 
-		public override Texture previewTexture => !MixtureGraphProcessor.isProcessing && output?.mesh != null ? UnityEditor.AssetPreview.GetAssetPreview(output.mesh) ?? Texture2D.blackTexture : Texture2D.blackTexture;
+		// TODO: do not use GetAssetPreview, it's super slow and only do low res previews.
+		public override Texture previewTexture => output?.mesh != null ? UnityEditor.AssetPreview.GetAssetPreview(output.mesh) ?? Texture2D.blackTexture : Texture2D.blackTexture;
 
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
 			OutputDimension.Texture2D,
@@ -79,7 +80,7 @@ namespace Mixture
 			cmd.SetComputeBufferParam(computeShader, marchingCubes, "_Triangles", triangles);
 			DispatchCompute(cmd, marchingCubes, input.width, input.height, TextureUtils.GetSliceCount(input));
 
-            MixtureGraphProcessor.AddGPUAndCPUBarrier();
+            MixtureGraphProcessor.AddGPUAndCPUBarrier(cmd);
 
             ComputeBuffer.CopyCount(vertices, counterReadback, 0);
             int[] count = new int[1];
@@ -102,22 +103,6 @@ namespace Mixture
             mesh.UploadMeshData(false);
 
             output = new MixtureMesh{ mesh = mesh };
-
-			// int maxLevels = (int)Mathf.Log(input.width, 2);
-			// for (int i = 0; i <= maxLevels; i++)
-			// {
-			// 	float offset = 1 << (maxLevels - i);
-			// 	cmd.SetComputeFloatParam(computeShader, "_Offset", offset);
-			// 	cmd.SetComputeTextureParam(computeShader, jumpFloodingKernel, "_Input", output);
-			// 	cmd.SetComputeTextureParam(computeShader, jumpFloodingKernel, "_Output", rt);
-			// 	DispatchCompute(cmd, jumpFloodingKernel, output.width, output.height, output.volumeDepth);
-			// 	cmd.CopyTexture(rt, output);
-			// }
-
-			// cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_Input", input);
-			// cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_Output", rt);
-			// cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_FinalOutput", output);
-			// DispatchCompute(cmd, finalPassKernel, output.width, output.height, output.volumeDepth);
 
 			return true;
 		}

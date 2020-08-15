@@ -29,7 +29,8 @@ namespace Mixture
 		public Mesh				mesh = new Mesh { name = "Baked Geometry", indexFormat = IndexFormat.UInt32};
 		public override string	name => "Baked Geometry";
 
-		public override Texture previewTexture => !MixtureGraphProcessor.isProcessing ? UnityEditor.AssetPreview.GetAssetPreview(mesh) ?? (Texture)preview : Texture2D.blackTexture;
+		// TODO: do not use GetAssetPreview, it's super slow and only do low res previews.
+		public override Texture previewTexture => UnityEditor.AssetPreview.GetAssetPreview(mesh) ?? (Texture)preview ?? Texture2D.blackTexture;
 		CustomRenderTexture		preview;
 
 		protected override void Enable()

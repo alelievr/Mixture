@@ -23,6 +23,8 @@ namespace Mixture
 
 		public override void Enable()
 		{
+			base.Enable();
+			controlsContainer.Add(AddControlField(nameof(ForStart.inputCount), "Iter"));
 			var indexLabel = new Label { text = "Current Index: " + forNode.index };
 			forNode.onProcessed += () => indexLabel.text = "Current Index: " + forNode.index;
 			controlsContainer.Add(indexLabel);

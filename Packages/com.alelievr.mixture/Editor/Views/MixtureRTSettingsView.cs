@@ -17,6 +17,7 @@ namespace Mixture
         Label sizeHeader;
         Label smpHeader;
         Label formatHeader;
+        Label otherHeader;
 
         EnumField outputWidthMode;
 		EnumField outputHeightMode;
@@ -35,6 +36,9 @@ namespace Mixture
 		FloatField outputDepthPercentage;
 
 		Toggle doubleBuffered;
+
+		EnumField refreshMode;
+        FloatField period;
 
         event Action onChanged;
 
@@ -286,7 +290,14 @@ namespace Mixture
             UpdateFieldVisibility(node);
 
 			if (owner.graph.isRealtime)
+            {
+                // Realtime fields and refresh mode
+                otherHeader = new Label("Other");
+                otherHeader.AddToClassList(headerStyleClass);
+                this.Add(otherHeader);
+
 				AddRealtimeFields(node, owner);
+            }
         }
 
 		void AddRealtimeFields(MixtureNode node, MixtureGraphView owner)
@@ -301,6 +312,24 @@ namespace Mixture
 			});
 
 			Add(doubleBuffered);
+
+			refreshMode = new EnumField("Refresh Mode", node.rtSettings.refreshMode);
+			refreshMode.RegisterValueChangedCallback(e => {
+				owner.RegisterCompleteObjectUndo("Set Refresh Mode " + e.newValue);
+				node.rtSettings.refreshMode = (RefreshMode)e.newValue;
+                onChanged?.Invoke();
+			});
+
+			Add(refreshMode);
+
+			period = new FloatField("Refresh Mode") { value = node.rtSettings.period };
+			period.RegisterValueChangedCallback(e => {
+				owner.RegisterCompleteObjectUndo("Set Period " + e.newValue);
+				node.rtSettings.period = e.newValue;
+                onChanged?.Invoke();
+			});
+
+			Add(period);
 		}
         
 		void SetVisible(VisualElement element, bool visible)

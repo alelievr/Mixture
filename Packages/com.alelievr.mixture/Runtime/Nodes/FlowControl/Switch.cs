@@ -10,11 +10,11 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Switch")]
 	public class Switch : MixtureNode, IConditional
 	{
-        [Input]
-        public int index;
-
 		[Input]
 		public List<object> inputs;
+
+        [Input]
+        public int index;
 
         [Output]
         public object output;
@@ -26,6 +26,8 @@ namespace Mixture
 
 		public override bool    hasPreview => false;
 		public override bool	showDefaultInspector => true;
+		
+		public override float 	nodeWidth => MixtureUtils.smallNodeWidth;
 
 		protected override void Enable()
 		{
@@ -37,6 +39,12 @@ namespace Mixture
 			var data = MixtureUtils.UpdateInputPortType(ref inputType, "Input", edges);
             data.acceptMultipleEdges = true;
             yield return data;
+		}
+
+		[CustomPortInput(nameof(inputs), typeof(object))]
+		void AssignComputeInputs(List< SerializableEdge > edges)
+		{
+			// TODO
 		}
 
 		[CustomPortBehavior(nameof(output))]

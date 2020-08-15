@@ -25,45 +25,7 @@ Shader "Hidden/Mixture/Rasterize3D"
 
             RWTexture3D<float4> _Output : register(u2);
             float2              _OutputSize;
-
-            // struct appdata
-            // {
-            //     float4 vertex : POSITION;
-            //     float2 uv : TEXCOORD0;
-            // };
-
-            // struct v2f
-            // {
-            //     float2 uv : TEXCOORD0;
-            //     UNITY_FOG_COORDS(1)
-            //     float4 vertex : SV_POSITION;
-            // };
-
-            // v2f vert (appdata v)
-            // {
-            //     v2f o;
-            //     o.vertex = float4(v.vertex.xyz, 1);
-            //     o.uv = v.uv;
-            //     UNITY_TRANSFER_FOG(o,o.vertex);
-            //     _Output[uint3(0, 0, 0)] = 1;
-            //     return o;
-            // }
-            
-            // fixed4 frag (v2f i) : SV_Target
-            // {
-            //     float3 pos = vertex.xyz;
-
-            //     if (any(pos < 0))
-            //         return 0;
-            //     if (any(pos > 2))
-            //         return 0;
-                
-            //     pos /= 2 * _OutputSize.x;
-            //     _Output[uint3(pos)] = 1;
-            //     return 0;
-            // }
-
-            float _Dir;
+            float               _Dir;
 
             struct VertexToFragment
             {

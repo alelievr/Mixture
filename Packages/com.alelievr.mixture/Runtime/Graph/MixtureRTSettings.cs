@@ -36,6 +36,8 @@ namespace Mixture
 		public bool doubleBuffered;
         public TextureWrapMode wrapMode;
         public FilterMode filterMode;
+		public RefreshMode refreshMode;
+		public float period;
 
 		public OutputSizeMode sizeMode
 		{
@@ -67,6 +69,7 @@ namespace Mixture
 				doubleBuffered = false,
                 wrapMode = TextureWrapMode.Repeat,
                 filterMode = FilterMode.Bilinear,
+				refreshMode = RefreshMode.OnLoad,
 			};
 		}
 

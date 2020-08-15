@@ -30,7 +30,7 @@ namespace Mixture
 		{
 			get
 			{
-				if (MixtureGraphProcessor.isProcessing || list == null || list.Count == 0)
+				if (list == null || list.Count == 0)
 					return Texture2D.blackTexture;
 				
 				int i = (int)Time.time;

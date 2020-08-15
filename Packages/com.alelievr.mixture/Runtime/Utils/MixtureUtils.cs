@@ -10,6 +10,7 @@ namespace Mixture
     {
 		public static readonly float		defaultNodeWidth = 250f;
 		public static readonly float		operatorNodeWidth = 100f;
+		public static readonly float		smallNodeWidth = 150f;
 
 		static Material  _blitIconMaterial;
 		public static Material  blitIconMaterial
@@ -168,6 +169,16 @@ namespace Mixture
 				default:
 					break;
 			}
+		}
+
+		public static void SetupComputeDimensionKeyword(ComputeShader computeShader, TextureDimension dimension)
+		{
+			computeShader.DisableKeyword("CRT_2D");
+			computeShader.DisableKeyword("CRT_3D");
+			if (dimension == TextureDimension.Tex2D)
+				computeShader.EnableKeyword("CRT_2D");
+			else if (dimension == TextureDimension.Tex3D)
+				computeShader.EnableKeyword("CRT_3D");
 		}
 
 		static readonly Dictionary< TextureDimension, string >	shaderPropertiesDimension = new Dictionary<TextureDimension, string>{

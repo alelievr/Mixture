@@ -14,6 +14,6 @@ namespace Mixture
 
 		public override bool 	hasSettings => false;
 		public override string	name => "Float";
-		public override float	nodeWidth => 200;
+		public override float	nodeWidth => MixtureUtils.smallNodeWidth;
 	}
 }

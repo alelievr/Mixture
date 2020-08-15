@@ -36,12 +36,23 @@ namespace Mixture
 		int jumpFloodingKernel;
 		int finalPassKernel;
 
+		[CustomPortBehavior(nameof(input))]
+		protected IEnumerable< PortData > ChangeInputPortType(List< SerializableEdge > edges)
+		{
+			yield return new PortData{
+				displayName = "output",
+				displayType = input != null ? TextureUtils.GetTypeFromDimension(input.dimension) : typeof(Texture),
+				identifier = "output",
+				acceptMultipleEdges = true,
+			};
+		}
+
 		[CustomPortBehavior(nameof(output))]
 		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{
 			yield return new PortData{
 				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
+				displayType = TextureUtils.GetTypeFromDimension(input != null ? input.dimension : TextureDimension.Tex2D),
 				identifier = "output",
 				acceptMultipleEdges = true,
 			};
@@ -82,13 +93,7 @@ namespace Mixture
 			rt.enableRandomWrite = true;
 			rt.Create();
 
-			// TODO: function for this
-			cmd.DisableShaderKeyword("CRT_2D");
-			cmd.DisableShaderKeyword("CRT_3D");
-			if (output.dimension == TextureDimension.Tex2D)
-				cmd.EnableShaderKeyword("CRT_2D");
-			else if (output.dimension == TextureDimension.Tex3D)
-				cmd.EnableShaderKeyword("CRT_3D");
+			MixtureUtils.SetupComputeDimensionKeyword(computeShader, input.dimension);
 
 			cmd.SetComputeTextureParam(computeShader, fillUvKernel, "_Input", input);
 			cmd.SetComputeTextureParam(computeShader, fillUvKernel, "_Output", output);

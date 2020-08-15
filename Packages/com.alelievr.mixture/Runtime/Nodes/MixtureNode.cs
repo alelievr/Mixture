@@ -128,6 +128,7 @@ namespace Mixture
 					autoGenerateMips = autoGenerateMips,
 					enableRandomWrite = true,
 					hideFlags = HideFlags.HideAndDontSave,
+					updatePeriod = GetUpdatePeriod(),
 				};
 				target.Create();
 				target.material = MixtureUtils.dummyCustomRenderTextureMaterial;
@@ -147,7 +148,8 @@ namespace Mixture
 				|| target.doubleBuffered != rtSettings.doubleBuffered
                 || target.wrapMode != rtSettings.wrapMode
 				|| target.useMipMap != hasMips
-				|| target.autoGenerateMips != autoGenerateMips)
+				|| target.autoGenerateMips != autoGenerateMips
+				|| target.updatePeriod != GetUpdatePeriod())
 			{
 				target.Release();
 				target.width = Math.Max(1, outputWidth);
@@ -161,12 +163,29 @@ namespace Mixture
                 target.useMipMap = hasMips;
 				target.autoGenerateMips = autoGenerateMips;
 				target.enableRandomWrite = true;
+				target.updatePeriod = GetUpdatePeriod();
 				target.Create();
 				if (target.material == null)
 					target.material = MixtureUtils.dummyCustomRenderTextureMaterial;
 			}
 
 			return false;
+		}
+
+		float GetUpdatePeriod()
+		{
+			switch (rtSettings.refreshMode)
+			{
+				case RefreshMode.EveryXFrame:
+					return (1.0f / Application.targetFrameRate) * rtSettings.period;
+				case RefreshMode.EveryXMillis:
+					return rtSettings.period / 1000.0f;
+				case RefreshMode.EveryXSeconds:
+					return rtSettings.period;
+				default:
+				case RefreshMode.OnLoad:
+					return 0;
+			}
 		}
 
 		public void OnProcess(CommandBuffer cmd)
@@ -367,33 +386,6 @@ namespace Mixture
 			}
 		}
 		
-		static IEnumerable<BaseNode> GetNonCRTInputNodes(BaseNode child)
-		{
-			foreach (var node in child.GetInputNodes())
-				if (!(node is IUseCustomRenderTextureProcessing))
-					yield return node;
-		}
-
-		public List<BaseNode> GetMixtureDependencies()
-		{
-			HashSet<BaseNode> dependencies = new HashSet<BaseNode>();
-			Stack<BaseNode> inputNodes = new Stack<BaseNode>(GetNonCRTInputNodes(this));
-
-			dependencies.Add(this);
-
-			while (inputNodes.Count > 0)
-			{
-				var child = inputNodes.Pop();
-
-				foreach (var parent in GetNonCRTInputNodes(child))
-					inputNodes.Push(parent);
-				
-				dependencies.Add(child);
-			}
-
-			return dependencies.OrderBy(d => d.computeOrder).ToList();
-		}
-
 		public Material GetTempMaterial(string shaderName)
 		{
 			temporaryMaterials.TryGetValue(shaderName, out var material);
@@ -499,5 +491,13 @@ namespace Mixture
     	Fast     = 0,
     	Normal   = 50,
     	Best     = 100,
+	}
+
+	public enum RefreshMode
+	{
+		OnLoad,
+		EveryXFrame,
+		EveryXMillis,
+		EveryXSeconds,
 	}
 }

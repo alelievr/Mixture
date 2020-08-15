@@ -14,7 +14,7 @@ namespace Mixture
 
 		public override bool 	hasSettings => false;
 		public override string	name => "Integer";
-		public override float	nodeWidth => 200;
+		public override float	nodeWidth => MixtureUtils.smallNodeWidth;
 		public override bool showDefaultInspector => true;
 	}
 }

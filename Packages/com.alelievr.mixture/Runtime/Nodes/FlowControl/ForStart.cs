@@ -32,7 +32,9 @@ namespace Mixture
 		public override string	name => "For Start";
 
 		public override bool    hasPreview => false;
+		public override bool    hasSettings => false;
 		public override bool	showDefaultInspector => true;
+		public override float	nodeWidth => MixtureUtils.smallNodeWidth;
 
 		[CustomPortBehavior(nameof(input))]
 		public IEnumerable< PortData > InputPortType(List< SerializableEdge > edges)
@@ -86,7 +88,7 @@ namespace Mixture
 			return true;
 		}
 
-		public bool IsLastIteration() => index == inputCount || inputCount == 0;
+		public bool IsLastIteration() => index == inputCount || inputCount <= 0;
 
         public void PrepareLoopStart()
         {

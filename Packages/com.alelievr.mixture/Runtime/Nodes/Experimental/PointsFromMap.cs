@@ -46,7 +46,7 @@ namespace Mixture
                     colors = r.GetData<Color32>().ToArray();
                 });
                 cmd.WaitAllAsyncReadbackRequests();
-                MixtureGraphProcessor.AddGPUAndCPUBarrier();
+                MixtureGraphProcessor.AddGPUAndCPUBarrier(cmd);
             }
             else
             {

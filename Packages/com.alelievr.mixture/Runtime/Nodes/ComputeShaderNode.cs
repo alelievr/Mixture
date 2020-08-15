@@ -115,7 +115,6 @@ namespace Mixture
 			cmd.SetComputeVectorParam(compute, previewResolutionId, new Vector4(previewTexture.width, previewTexture.height, 1.0f / previewTexture.width, 1.0f / previewTexture.height));
 
 			cmd.DispatchCompute(computeShader, kernelIndex,
-
 				Mathf.Max(1, width / (int)x),
 				Mathf.Max(1, height / (int)y),
 				Mathf.Max(1, depth / (int)z)
