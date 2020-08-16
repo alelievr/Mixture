@@ -43,7 +43,7 @@ namespace Mixture
 				return ;
 
 			// and then that it have a Mixture Graph as subasset
-			graph = AssetDatabase.LoadAllAssetsAtPath(assetPath).FirstOrDefault(o => o is MixtureGraph) as MixtureGraph;
+			graph = MixtureEditorUtils.GetGraphAtPath(assetPath);
 			if (graph == null)
 				return ;
 
@@ -82,12 +82,8 @@ namespace Mixture
 		protected virtual void OnEnable()
 		{
 			// Load the mixture graph:
-			var assets = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(target));
+			graph = MixtureEditorUtils.GetGraphAtPath(AssetDatabase.GetAssetPath(target));
 
-			foreach (var asset in assets)
-				if (asset is MixtureGraph mixture)
-					graph = mixture;
-			
 			if (graph != null)
 			{
 				graph.onExposedParameterListChanged += UpdateExposedParameters;

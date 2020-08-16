@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Linq;
 using GraphProcessor;
 using UnityEngine.Rendering;
+using System;
 
 namespace Mixture
 {
@@ -19,9 +20,22 @@ namespace Mixture
 		new MixtureGraph		graph => base.graph as MixtureGraph;
 		HashSet< BaseNode >		executedNodes = new HashSet<BaseNode>();
 
-		// Dictionary<BaseNode, List<BaseNode>> mixtureDependencies = new Dictionary<BaseNode, List<BaseNode>>();
+        // Dictionary<BaseNode, List<BaseNode>> mixtureDependencies = new Dictionary<BaseNode, List<BaseNode>>();
 
-		public bool isProcessing = false;
+        struct ProcessingScope : IDisposable
+        {
+			MixtureGraphProcessor processor;
+
+			public ProcessingScope(MixtureGraphProcessor processor)
+			{
+				this.processor = processor;
+				processor.isProcessing++;
+			}
+
+            public void Dispose() => processor.isProcessing--;
+        }
+
+        internal int isProcessing = 0;
 
 		public MixtureGraphProcessor(BaseGraph graph) : base(graph)
 		{
@@ -56,7 +70,7 @@ namespace Mixture
 
 		void BeforeCustomRenderTextureUpdate(CommandBuffer cmd, CustomRenderTexture crt)
 		{
-			if (!isProcessing)
+			if (isProcessing == 0)
 			{
 				// TODO: cache
 				// Trigger the graph processing from a CRT update if we weren't processing
@@ -93,18 +107,22 @@ namespace Mixture
 
 		void RunGraphFor(CommandBuffer cmd, IEnumerable<BaseNode> nodesToProcess)
 		{
-			HashSet<BaseNode> finalNodes = new HashSet<BaseNode>();
-
-			// Gather all nodes to process:
-			foreach (var node in nodesToProcess)
+			using (new ProcessingScope(this))
 			{
-				foreach (var dep in GetNodeDependencies(node))
-				{
-					finalNodes.Add(dep);
-				}
-			}
+				isProcessing++;
+				HashSet<BaseNode> finalNodes = new HashSet<BaseNode>();
 
-			ProcessNodeList(cmd, finalNodes);
+				// Gather all nodes to process:
+				foreach (var node in nodesToProcess)
+				{
+					foreach (var dep in GetNodeDependencies(node))
+					{
+						finalNodes.Add(dep);
+					}
+				}
+
+				ProcessNodeList(cmd, finalNodes);
+			}
 		}
 
 		public List<BaseNode> GetNodeDependencies(BaseNode node)
@@ -216,101 +234,105 @@ namespace Mixture
 
 		public override void Run()
 		{
-			isProcessing = true;
-			// mixtureDependencies.Clear();
+			using (new ProcessingScope(this))
+			{
+				// mixtureDependencies.Clear();
 
-			UpdateComputeOrder();
+				UpdateComputeOrder();
 
-			// Update node dependencies
-			// foreach (var node in graph.nodes)
-			// 	mixtureDependencies.Add(node, GetNodeDependencies(node));
+				// Update node dependencies
+				// foreach (var node in graph.nodes)
+				// 	mixtureDependencies.Add(node, GetNodeDependencies(node));
 
-			// New code:
-			var cmd = new CommandBuffer { name = "Mixture" };
-			RunGraphFor(cmd, graph.graphOutputs);
+				// New code:
+				var cmd = new CommandBuffer { name = "Mixture" };
+				RunGraphFor(cmd, graph.graphOutputs);
 
-			// int maxLoopCount = 0;
-			// foreach (var processList in processLists)
-			// {
-			// 	jumps.Clear();
-			// 	starts.Clear();
-			// 	ends.Clear();
-			// 	iNeedLoopReset.Clear();
+				// int maxLoopCount = 0;
+				// foreach (var processList in processLists)
+				// {
+				// 	jumps.Clear();
+				// 	starts.Clear();
+				// 	ends.Clear();
+				// 	iNeedLoopReset.Clear();
 
-			// 	for (int executionIndex = 0; executionIndex < processList.Count; executionIndex++)
-			// 	{
-			// 		maxLoopCount++;
-			// 		if (maxLoopCount > 10000)
-			// 			return;
+				// 	for (int executionIndex = 0; executionIndex < processList.Count; executionIndex++)
+				// 	{
+				// 		maxLoopCount++;
+				// 		if (maxLoopCount > 10000)
+				// 			return;
 
-			// 		var node = processList[executionIndex];
+				// 		var node = processList[executionIndex];
 
-			// 		if (node is ILoopStart loopStart)
-			// 		{
-			// 			if (!starts.Contains(loopStart))
-			// 			{
-			// 				loopStart.PrepareLoopStart();
-			// 				jumps.Push((loopStart, executionIndex));
-			// 				starts.Add(loopStart);
-			// 			}
-			// 		}
+				// 		if (node is ILoopStart loopStart)
+				// 		{
+				// 			if (!starts.Contains(loopStart))
+				// 			{
+				// 				loopStart.PrepareLoopStart();
+				// 				jumps.Push((loopStart, executionIndex));
+				// 				starts.Add(loopStart);
+				// 			}
+				// 		}
 
-			// 		bool finalIteration = false;
-			// 		if (node is ILoopEnd loopEnd)
-			// 		{
-			// 			if (jumps.Count == 0)
-			// 			{
-			// 				Debug.Log("Aborted execution, for end without start");
-			// 				return ;
-			// 			}
+				// 		bool finalIteration = false;
+				// 		if (node is ILoopEnd loopEnd)
+				// 		{
+				// 			if (jumps.Count == 0)
+				// 			{
+				// 				Debug.Log("Aborted execution, for end without start");
+				// 				return ;
+				// 			}
 
-			// 			var startLoop = jumps.Peek();
-			// 			if (!ends.Contains(loopEnd))
-			// 			{
-			// 				loopEnd.PrepareLoopEnd(startLoop.node);
-			// 				ends.Add(loopEnd);
-			// 			}
+				// 			var startLoop = jumps.Peek();
+				// 			if (!ends.Contains(loopEnd))
+				// 			{
+				// 				loopEnd.PrepareLoopEnd(startLoop.node);
+				// 				ends.Add(loopEnd);
+				// 			}
 
-			// 			// Jump back to the foreach start
-			// 			if (!startLoop.node.IsLastIteration())
-			// 			{
-			// 				executionIndex = startLoop.index - 1;
-			// 			}
-			// 			else
-			// 			{
-			// 				var fs2 = jumps.Pop();
-			// 				starts.Remove(fs2.node);
-			// 				ends.Remove(loopEnd);
-			// 				finalIteration = true;
-			// 			}
-			// 		}
+				// 			// Jump back to the foreach start
+				// 			if (!startLoop.node.IsLastIteration())
+				// 			{
+				// 				executionIndex = startLoop.index - 1;
+				// 			}
+				// 			else
+				// 			{
+				// 				var fs2 = jumps.Pop();
+				// 				starts.Remove(fs2.node);
+				// 				ends.Remove(loopEnd);
+				// 				finalIteration = true;
+				// 			}
+				// 		}
 
-			// 		if (node is INeedLoopReset i)
-			// 		{
-			// 			if (!iNeedLoopReset.Contains(i))
-			// 			{
-			// 				i.PrepareNewIteration();
-			// 				iNeedLoopReset.Add(i);
-			// 			}
+				// 		if (node is INeedLoopReset i)
+				// 		{
+				// 			if (!iNeedLoopReset.Contains(i))
+				// 			{
+				// 				i.PrepareNewIteration();
+				// 				iNeedLoopReset.Add(i);
+				// 			}
 
-			// 			// TODO: remove this node form iNeedLoopReset when we go over a foreach start again
-			// 		}
-				
-			// 		if (finalIteration && node is ILoopEnd le)
-			// 		{
-			// 			le.FinalIteration();
-			// 		}
+				// 			// TODO: remove this node form iNeedLoopReset when we go over a foreach start again
+				// 		}
+					
+				// 		if (finalIteration && node is ILoopEnd le)
+				// 		{
+				// 			le.FinalIteration();
+				// 		}
 
-			// 		ProcessNode(cmd, node);
-			// 	}
-			// }
+				// 		ProcessNode(cmd, node);
+				// 	}
+				// }
 
-			Graphics.ExecuteCommandBuffer(cmd);
-			isProcessing = false;
+				Graphics.ExecuteCommandBuffer(cmd);
+			}
 		}
 
 		void ProcessNode(CommandBuffer cmd, BaseNode node)
 		{
+			if (node.computeOrder < 0)
+				return;
+
 			if (node is MixtureNode m)
 			{
 				m.OnProcess(cmd);

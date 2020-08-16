@@ -13,6 +13,9 @@ namespace Mixture
 		[Input]
 		public object input;
 
+		[Input("Count")]
+		public int inputCount = 4;
+
         [Output]
         public object output;
 
@@ -20,13 +23,10 @@ namespace Mixture
 		[Output("Index")]
 		public int index = 0;
 
-		[Input("Count")]
-		public int inputCount = 10;
-
 		[Output("Count")]
 		public int outputCount = 0;
 
-        [SerializeField]
+        [HideInInspector, SerializeField]
         internal SerializableType inputType = new SerializableType(typeof(object));
 
 		public override string	name => "For Start";

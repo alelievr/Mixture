@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using UnityEditor.ProjectWindowCallback;
+using System.Linq;
 
 namespace Mixture
 {
@@ -112,5 +112,10 @@ namespace Mixture
             AssetDatabase.Refresh();
             MixtureGraphWindow.Open(mixture);
 		}
+
+        public static MixtureGraph GetGraphAtPath(string path)
+        {
+			return AssetDatabase.LoadAllAssetsAtPath(path).FirstOrDefault(o => o is MixtureGraph) as MixtureGraph;
+        }
     }
 }
