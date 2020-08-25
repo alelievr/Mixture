@@ -119,10 +119,12 @@ namespace Mixture
 			{
 				var child = inputNodes.Pop();
 
+				if (!dependencies.Add(child))
+					continue;
+
 				foreach (var parent in child.GetInputNodes())
 					inputNodes.Push(parent);
 
-				dependencies.Add(child);
 
 				// Max dependencies on a node, maybe we can put a warning if it's reached?
 				if (dependencies.Count > 2000)
