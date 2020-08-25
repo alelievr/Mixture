@@ -35,6 +35,9 @@ namespace Mixture
 				if (p.direction == startPort.direction)
 					return false;
 
+				if (p.node == startPort.node)
+					return false;
+
 				//Check if there is custom adapters for this assignation
 				if (CustomPortIO.IsAssignable(startPort.portType, p.portType))
 					return true;
