@@ -340,7 +340,7 @@ public static class CustomTextureManager
                                 if (doubleBuffer != null)
                                 {
                                     // For now, it's just a copy, once we actually do the swap of pointer, be careful to reset the Active Render Texture
-                                    cmd.Blit(doubleBuffer, crt);
+                                    cmd.CopyTexture(doubleBuffer, slice, crt, slice);
                                     cmd.SetRenderTarget(doubleBuffer, 0, (crt.dimension == TextureDimension.Cube) ? (CubemapFace)slice : 0, slice);
                                 }
                             }

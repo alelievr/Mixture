@@ -20,7 +20,7 @@ namespace Mixture
 		{
 			if (!base.ProcessNode(cmd))
 				return false;
-			
+
 			CustomRenderTextureUpdateZone[] updateZones;
 		
 			// Setup the custom render texture multi-pass for the blur:
@@ -43,16 +43,6 @@ namespace Mixture
 							rotation = 0f,
                     		updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
                     		updateZoneSize = new Vector3(1f, 1f, 1f),
-						},
-						// CRT Workaround: we need to add an additional pass because there is a bug in the swap
-						// of the double buffered CRTs: the last pudate zone will not be passed to the next CRT in the chain.
-						// So we add a dummy pass to force a copy
-						new CustomRenderTextureUpdateZone{
-							needSwap = true,
-							passIndex = 1,
-							rotation = 0f,
-                    		updateZoneCenter = new Vector3(0.0f, 0.0f, 0.0f),
-                    		updateZoneSize = new Vector3(0f, 0f, 0f),
 						},
 					};
 					break;
