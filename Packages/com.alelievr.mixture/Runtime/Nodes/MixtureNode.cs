@@ -297,8 +297,13 @@ namespace Mixture
 			// Update material settings when processing the graph:
 			foreach (var edge in edges)
 			{
+				// Just in case something bad happened in a node
+				if (edge.passThroughBuffer == null)
+					continue;
+
 				string propName = edge.inputPort.portData.identifier;
 				int propertyIndex = material.shader.FindPropertyIndex(propName);
+
 				switch (material.shader.GetPropertyType(propertyIndex))
 				{
 					case ShaderPropertyType.Color:
@@ -453,22 +458,28 @@ namespace Mixture
 
 	public enum OutputDimension
 	{
-		Default = TextureDimension.None,
+		SameAsOutput = TextureDimension.None,
 		Texture2D = TextureDimension.Tex2D,
 		CubeMap = TextureDimension.Cube,
 		Texture3D = TextureDimension.Tex3D,
 		// Texture2DArray = TextureDimension.Tex2DArray, // Not supported by CRT, will be handled as Texture3D and then saved as Tex2DArray
 	}
 
-	public enum OutputFormat
+	public enum OutputPrecision
 	{
-		Default = GraphicsFormat.None,
-		RGBA_LDR = GraphicsFormat.R8G8B8A8_UNorm,
-		RGBA_sRGB = GraphicsFormat.R8G8B8A8_SRGB,
-		RGBA_Half = GraphicsFormat.R16G16B16A16_SFloat,
-		RGBA_Float = GraphicsFormat.R32G32B32A32_SFloat,
-		R8_Unsigned = GraphicsFormat.R8_UNorm,
-		R16 = GraphicsFormat.R16_SFloat,
+		SameAsOutput,
+		SRGB,
+		LDR,
+		Half,
+		Full,
+	}
+
+	public enum OutputChannel
+	{
+		SameAsOutput,
+		RGBA,
+		RG,
+		R,
 	}
 
 	[Flags]

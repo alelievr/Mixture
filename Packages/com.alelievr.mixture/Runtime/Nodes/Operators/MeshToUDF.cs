@@ -46,7 +46,8 @@ namespace Mixture
             rtSettings.editFlags = 0;
             rtSettings.sizeMode = OutputSizeMode.Fixed;
             rtSettings.width = rtSettings.height = rtSettings.sliceCount = (int)resolution;
-            rtSettings.targetFormat = OutputFormat.RGBA_Float;
+            rtSettings.outputChannels = OutputChannel.RGBA;
+            rtSettings.outputPrecision = OutputPrecision.Full;
             rtSettings.filterMode = FilterMode.Point;
             rtSettings.dimension = OutputDimension.Texture3D;
             UpdateTempRenderTexture(ref sdf);

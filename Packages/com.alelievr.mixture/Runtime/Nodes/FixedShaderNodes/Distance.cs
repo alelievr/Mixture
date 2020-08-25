@@ -62,7 +62,8 @@ namespace Mixture
 		{
 			base.Enable();
 
-			rtSettings.targetFormat = OutputFormat.RGBA_Float;
+			rtSettings.outputChannels = OutputChannel.RGBA;
+			rtSettings.outputPrecision = OutputPrecision.Full;
 			rtSettings.editFlags |= EditFlags.Dimension;
 
 			UpdateTempRenderTexture(ref output);

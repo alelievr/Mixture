@@ -20,6 +20,8 @@ namespace Mixture
         {
             public MixtureGraph graph;
             public Texture2D    expected;
+
+            public override string ToString() => graph.name;
         }
 
         public static IEnumerable<MixtureTestCase> GetMixtureTestCases()
@@ -66,13 +68,22 @@ namespace Mixture
                 Texture2D destination = new Texture2D(
                     settings.GetWidth(testCase.graph),
                     settings.GetHeight(testCase.graph),
-                    settings.GetGraphicsFormat(testCase.graph),
+                    settings.GetGraphicsFormat(testCase.graph), // We only use this format for tests
                     TextureCreationFlags.None
                 );
 
-                Graphics.ConvertTexture(testCase.expected, destination);
+                // Convert image to RGBA
+                var colors = testCase.expected.GetPixels();
+                destination.SetPixels(colors);
 
-                ImageAssert.AreEqual(destination, result, null);
+                ImageAssert.AreEqual(destination, result, new ImageComparisonSettings{
+                    TargetWidth = destination.width,
+                    TargetHeight = destination.height,
+                    PerPixelCorrectnessThreshold = 0.001f,
+                    AverageCorrectnessThreshold = 0.0015f,
+                    UseHDR = false,
+                    UseBackBuffer = false,
+                });
             }
 
             yield return null;

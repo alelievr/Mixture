@@ -83,6 +83,8 @@ namespace Mixture
                 width = 512,
                 height = 512,
                 sliceCount = 1,
+				outputChannels = OutputChannel.RGBA,
+				outputPrecision = OutputPrecision.Full,
 				potSize = POTSize._1024,
                 editFlags = EditFlags.POTSize | EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat
             };
@@ -91,9 +93,11 @@ namespace Mixture
         protected override void Enable()
         {
 			// Sanitize the RT Settings for the output node, they must contains only valid information for the output node
-			if (rtSettings.targetFormat == OutputFormat.Default)
-				rtSettings.targetFormat = OutputFormat.RGBA_Float;
-			if (rtSettings.dimension == OutputDimension.Default)
+			if (rtSettings.outputChannels == OutputChannel.SameAsOutput)
+				rtSettings.outputChannels = OutputChannel.RGBA;
+			if (rtSettings.outputPrecision == OutputPrecision.SameAsOutput)
+				rtSettings.outputPrecision = OutputPrecision.Full;
+			if (rtSettings.dimension == OutputDimension.SameAsOutput)
 				rtSettings.dimension = OutputDimension.Texture2D;
 			rtSettings.editFlags |= EditFlags.POTSize;
 
@@ -188,7 +192,7 @@ namespace Mixture
 				UpdateTempRenderTexture(ref mipmapRenderTexture, true, false);
 				GenerateCustomMipMaps();
 			}
-			else
+			else if (Camera.main != null)
 			{
 				Camera.main.RemoveCommandBuffers(CameraEvent.BeforeDepthTexture);
 			}
@@ -241,7 +245,7 @@ namespace Mixture
 			}
 
 			// Dirty hack to enqueue the command buffer but it's okay because it's the builtin renderer.
-			if (GraphicsSettings.renderPipelineAsset == null)
+			if (GraphicsSettings.renderPipelineAsset == null && Camera.main != null)
 			{
 				Camera.main.RemoveCommandBuffer(CameraEvent.BeforeDepthTexture, mipchainCmd);
 				Camera.main.AddCommandBuffer(CameraEvent.BeforeDepthTexture, mipchainCmd);

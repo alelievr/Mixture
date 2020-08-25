@@ -38,8 +38,9 @@ namespace Mixture
             height = 512,
             width = 512,
             sliceCount = 1,
-            dimension = OutputDimension.Default,
-            targetFormat = OutputFormat.RGBA_LDR,
+            dimension = OutputDimension.SameAsOutput,
+            outputChannels = OutputChannel.SameAsOutput,
+            outputPrecision = OutputPrecision.SameAsOutput,
             editFlags = EditFlags.Height | EditFlags.Width| EditFlags.TargetFormat,
             wrapMode = TextureWrapMode.Repeat,
             filterMode = FilterMode.Bilinear,
@@ -51,9 +52,7 @@ namespace Mixture
             //base.Enable();
 
             // Sanitize the RT Settings for the output node, they must contains only valid information for the output node
-            if (rtSettings.targetFormat == OutputFormat.Default)
-                rtSettings.targetFormat = OutputFormat.RGBA_Float;
-            if (rtSettings.dimension == OutputDimension.Default)
+            if (rtSettings.dimension == OutputDimension.SameAsOutput)
                 rtSettings.dimension = OutputDimension.Texture2D;
 
             if (graph.isRealtime)

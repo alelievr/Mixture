@@ -23,7 +23,8 @@ namespace Mixture
 		EnumField outputHeightMode;
 		EnumField outputDepthMode;
 		EnumField outputDimension;
-		EnumField outputFormat;
+		EnumField outputChannels;
+		EnumField outputPrecision;
         EnumField wrapMode;
         EnumField filterMode;
         EnumField potSize;
@@ -45,6 +46,13 @@ namespace Mixture
         MixtureGraphView    owner;
         MixtureNode         node;
         MixtureGraph        graph;
+
+        // TODO: Avoid user to pick unavailable texture formats:
+        enum SRGBOutputChannels
+        {
+            RGBA = OutputChannel.RGBA,
+            // R = OutputChannel.R,
+        }
 
         public MixtureRTSettingsView(MixtureNode node, MixtureGraphView owner)
         {
@@ -275,17 +283,28 @@ namespace Mixture
                 onChanged?.Invoke();
             });
 
-            outputFormat = new EnumField(node.rtSettings.targetFormat) {
-                label = "Pixel Format",
+            outputChannels = new EnumField(node.rtSettings.outputChannels) {
+                label = "Output Channels",
             };
-            outputFormat.RegisterValueChangedCallback(e => {
-                owner.RegisterCompleteObjectUndo("Updated Graphics Format " + e.newValue);
-                node.rtSettings.targetFormat = (OutputFormat)e.newValue;
+            outputChannels.RegisterValueChangedCallback(e => {
+                owner.RegisterCompleteObjectUndo("Updated Output Channels " + e.newValue);
+                node.rtSettings.outputChannels = (OutputChannel)e.newValue;
+                onChanged?.Invoke();
+            });
+
+            outputPrecision = new EnumField(node.rtSettings.outputPrecision) {
+                label = "Output Precision",
+            };
+            outputPrecision.RegisterValueChangedCallback(e => {
+                owner.RegisterCompleteObjectUndo("Updated Output Precision " + e.newValue);
+                node.rtSettings.outputPrecision = (OutputPrecision)e.newValue;
+                // outputPrecision.Init();
                 onChanged?.Invoke();
             });
 
 			this.Add(outputDimension);
-			this.Add(outputFormat);
+			this.Add(outputChannels);
+			this.Add(outputPrecision);
 
             UpdateFieldVisibility(node);
 
@@ -357,7 +376,12 @@ namespace Mixture
 			SetVisible(outputDepth, rtSettings.CanEdit(EditFlags.Depth) && rtSettings.depthMode == OutputSizeMode.Fixed && (rtSettings.potSize == POTSize.Custom || !rtSettings.CanEdit(EditFlags.POTSize)));
             SetVisible(outputDepthPercentage, rtSettings.CanEdit(EditFlags.Depth) && rtSettings.depthMode == OutputSizeMode.PercentageOfOutput);
             SetVisible(outputDimension, rtSettings.CanEdit(EditFlags.Dimension));
-            SetVisible(outputFormat, rtSettings.CanEdit(EditFlags.TargetFormat));
+            SetVisible(outputChannels, rtSettings.CanEdit(EditFlags.TargetFormat));
+            SetVisible(outputPrecision, rtSettings.CanEdit(EditFlags.TargetFormat));
+
+            // GraphicsFormatUtility.GetComponentCount((GraphicsFormat)rtSettings.targetFormat);
+            // GraphicsFormatUtility.Get((GraphicsFormat)rtSettings.targetFormat);
+            // GraphicsFormatUtility.GetBlockWidth()
         }
 
         public void RegisterChangedCallback(Action callback) => onChanged += callback;

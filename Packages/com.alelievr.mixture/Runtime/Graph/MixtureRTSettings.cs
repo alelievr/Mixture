@@ -31,7 +31,9 @@ namespace Mixture
 		public OutputSizeMode heightMode;
 		public OutputSizeMode depthMode;
 		public OutputDimension dimension;
-		public OutputFormat targetFormat;
+		public GraphicsFormat graphicsFormat => ConvertToGraphicsFormat(outputChannels, outputPrecision);
+		public OutputChannel outputChannels;
+		public OutputPrecision outputPrecision;
 		public EditFlags editFlags;
 		public bool doubleBuffered;
         public TextureWrapMode wrapMode;
@@ -63,8 +65,9 @@ namespace Mixture
 				widthMode = OutputSizeMode.Default,
 				heightMode = OutputSizeMode.Default,
 				depthMode = OutputSizeMode.Default,
-				dimension = OutputDimension.Default,
-				targetFormat = OutputFormat.Default,
+				dimension = OutputDimension.SameAsOutput,
+				outputChannels = OutputChannel.RGBA,
+				outputPrecision = OutputPrecision.Full,
 				editFlags = EditFlags.None,
 				doubleBuffered = false,
                 wrapMode = TextureWrapMode.Repeat,
@@ -73,7 +76,34 @@ namespace Mixture
 			};
 		}
 
-        public bool isHDR => targetFormat != OutputFormat.RGBA_LDR && targetFormat != OutputFormat.RGBA_sRGB && targetFormat != OutputFormat.R8_Unsigned;
+		internal static GraphicsFormat ConvertToGraphicsFormat(OutputChannel channels, OutputPrecision precisions)
+		{
+			return (channels, precisions) switch
+			{
+				// RGBA
+				(OutputChannel.RGBA, OutputPrecision.SRGB) => GraphicsFormat.R8G8B8A8_SRGB,
+				(OutputChannel.RGBA, OutputPrecision.LDR) => GraphicsFormat.R8G8B8A8_UNorm,
+				(OutputChannel.RGBA, OutputPrecision.Half) => GraphicsFormat.R16G16B16A16_SFloat,
+				(OutputChannel.RGBA, OutputPrecision.Full) => GraphicsFormat.R32G32B32A32_SFloat,
+
+				// RG
+				(OutputChannel.RG, OutputPrecision.SRGB) => GraphicsFormat.R8G8_SRGB,
+				(OutputChannel.RG, OutputPrecision.LDR) => GraphicsFormat.R8G8_UNorm,
+				(OutputChannel.RG, OutputPrecision.Half) => GraphicsFormat.R16G16_SFloat,
+				(OutputChannel.RG, OutputPrecision.Full) => GraphicsFormat.R32G32_SFloat,
+
+				// R
+				(OutputChannel.R, OutputPrecision.SRGB) => GraphicsFormat.R8_SRGB,
+				(OutputChannel.R, OutputPrecision.LDR) => GraphicsFormat.R8_UNorm,
+				(OutputChannel.R, OutputPrecision.Half) => GraphicsFormat.R16_SFloat,
+				(OutputChannel.R, OutputPrecision.Full) => GraphicsFormat.R32_SFloat,
+
+				// Convertion not found
+				(var x, var y) => throw new Exception($"Missing GraphicsFormat convertion for {x} {y}"),
+			};
+		}
+
+        public bool isHDR => outputPrecision == OutputPrecision.Half || outputPrecision == OutputPrecision.Full;
 		
 		public bool CanEdit(EditFlags flag) => (this.editFlags & flag) != 0;
 
@@ -101,7 +131,7 @@ namespace Mixture
 
 		public int GetDepth(MixtureGraph graph)
 		{
-			var d = dimension == OutputDimension.Default ? graph.outputNode.rtSettings.dimension : dimension;
+			var d = dimension == OutputDimension.SameAsOutput ? graph.outputNode.rtSettings.dimension : dimension;
 			if (d == OutputDimension.Texture2D || d == OutputDimension.CubeMap)
 				return 1;
 			
@@ -114,22 +144,18 @@ namespace Mixture
 			}
 		}
 
-		public GraphicsFormat GetGraphicsFormat(MixtureGraph graph)
-		{
-			// if this function is called from the output node and the format is none, then we set it to a default value
-			if (graph.outputNode.rtSettings.targetFormat == OutputFormat.Default)
-				return (GraphicsFormat)OutputFormat.RGBA_Float;
-			else
-				return targetFormat == OutputFormat.Default ? (GraphicsFormat)graph.outputNode.rtSettings.targetFormat : (GraphicsFormat)targetFormat;
-		}
-		
+		public GraphicsFormat GetGraphicsFormat(MixtureGraph graph) => ConvertToGraphicsFormat(GetOutputChannels(graph), GetOutputPrecision(graph));
+
+		public OutputPrecision GetOutputPrecision(MixtureGraph graph) => outputPrecision == OutputPrecision.SameAsOutput ? graph.outputNode.rtSettings.outputPrecision : outputPrecision;
+		public OutputChannel GetOutputChannels(MixtureGraph graph) => outputChannels == OutputChannel.SameAsOutput ? graph.outputNode.rtSettings.outputChannels : outputChannels;
+
 		public TextureDimension GetTextureDimension(MixtureGraph graph)
 		{
 			// if this function is called from the output node and the dimension is default, then we set it to a default value
-			if (graph.outputNode.rtSettings.dimension == OutputDimension.Default)
+			if (graph.outputNode.rtSettings.dimension == OutputDimension.SameAsOutput)
 				return TextureDimension.Tex2D;
 			else
-				return dimension == OutputDimension.Default ? (TextureDimension)graph.outputNode.rtSettings.dimension : (TextureDimension)dimension;
+				return dimension == OutputDimension.SameAsOutput ? (TextureDimension)graph.outputNode.rtSettings.dimension : (TextureDimension)dimension;
 		}
 
 		public bool NeedsUpdate(MixtureGraph graph, Texture t)

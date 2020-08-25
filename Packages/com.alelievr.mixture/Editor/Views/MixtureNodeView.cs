@@ -406,7 +406,7 @@ namespace Mixture
 
 				// Shadow
 				GUI.color = Color.white;
-				GUI.Label(infoRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
+				GUI.Label(infoRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.GetGraphicsFormat(owner.graph)}", EditorStyles.boldLabel);
 			}
 		}
 
