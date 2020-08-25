@@ -526,7 +526,7 @@ namespace Mixture
                     break;
                 case Cubemap t:
                     for (int i = 0; i < 6; i++)
-                        FetchSlice(i, (c, mip) => t.SetPixels(c.Cast<Color>().ToArray(), (CubemapFace)i, mip), (c, mip) => t.SetPixels(c, (CubemapFace)i, mip));
+                        FetchSlice(i, (c, mip) => t.SetPixels(c.Select(c32 => (Color)c32).ToArray(), (CubemapFace)i, mip), (c, mip) => t.SetPixels(c, (CubemapFace)i, mip));
 
                     t.Apply(false);
                     break;
