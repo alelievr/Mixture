@@ -16,11 +16,6 @@ namespace Mixture
         void FinalIteration();
     }
 
-    public interface IConditional
-    {
-        string GetExecutedBranch();
-    }
-
 	public interface INeedLoopReset
 	{
 		void PrepareNewIteration();

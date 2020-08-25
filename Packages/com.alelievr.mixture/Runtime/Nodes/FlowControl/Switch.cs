@@ -7,11 +7,11 @@ using System;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Switch")]
-	public class Switch : MixtureNode, IConditional
+	[System.Serializable, NodeMenuItem("Switch"), NodeMenuItem("Select")]
+	public class Switch : MixtureNode
 	{
 		[Input]
-		public List<object> inputs;
+		public List<object> inputs = new List<object>();
 
         [Input]
         public int index;
@@ -29,10 +29,6 @@ namespace Mixture
 		
 		public override float 	nodeWidth => MixtureUtils.smallNodeWidth;
 
-		protected override void Enable()
-		{
-		}
-
 		[CustomPortBehavior(nameof(inputs))]
 		public IEnumerable< PortData > InputPortType(List< SerializableEdge > edges)
 		{
@@ -42,9 +38,9 @@ namespace Mixture
 		}
 
 		[CustomPortInput(nameof(inputs), typeof(object))]
-		void AssignComputeInputs(List< SerializableEdge > edges)
+		void AssignSwitchInputs(List< SerializableEdge > edges)
 		{
-			// TODO
+			inputs = edges.Select(e => e.passThroughBuffer).ToList();
 		}
 
 		[CustomPortBehavior(nameof(output))]
@@ -61,13 +57,11 @@ namespace Mixture
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-            // TODO
+			if (inputs == null || index < 0 || index >= inputs.Count)
+				return false;
+
+			output = inputs[index];
 			return true;
 		}
-
-        public string GetExecutedBranch()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

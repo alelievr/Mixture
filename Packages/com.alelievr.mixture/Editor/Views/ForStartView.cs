@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using GraphProcessor;
+using System.Linq;
 
 namespace Mixture
 {
@@ -18,7 +19,7 @@ namespace Mixture
 			group.innerNodeGUIDs.Add(nodeTarget.GUID);
 			group.innerNodeGUIDs.Add(endView.nodeTarget.GUID);
 			owner.AddGroup(group);
-			owner.Connect(endView.inputPortViews[0], outputPortViews[0]);
+			owner.Connect(endView.inputPortViews[0], outputPortViews.FirstOrDefault(p => p.portName == "Output"));
         }
 
 		public override void Enable()

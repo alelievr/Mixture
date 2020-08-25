@@ -11,16 +11,16 @@ namespace Mixture
 	public class Branch : MixtureNode
 	{
         [Input]
+        public object inputTrue;
+
+        [Input]
+        public object inputFalse;
+
+        [Input]
         public bool condition;
 
-		[Input]
-		public object input;
-
-        [Output]
-        public object outputTrue;
-
-        [Output]
-        public object outputFalse;
+		[Output]
+		public object output;
 
         [SerializeField]
         SerializableType inputType = new SerializableType(typeof(object));
@@ -30,56 +30,35 @@ namespace Mixture
 		public override bool    hasPreview => false;
 		public override bool	showDefaultInspector => true;
 
-        bool comparison;
-
-		protected override void Enable()
+		[CustomPortBehavior(nameof(inputTrue))]
+		public IEnumerable< PortData > InputPortTypeTrue(List< SerializableEdge > edges)
 		{
+			yield return MixtureUtils.UpdateInputPortType(ref inputType, "True", edges);
 		}
 
-		[CustomPortBehavior(nameof(input))]
-		public IEnumerable< PortData > InputPortType(List< SerializableEdge > edges)
+		[CustomPortBehavior(nameof(inputFalse))]
+		public IEnumerable< PortData > InputPortTypeFalse(List< SerializableEdge > edges)
 		{
-			yield return MixtureUtils.UpdateInputPortType(ref inputType, "Input", edges);
+			yield return MixtureUtils.UpdateInputPortType(ref inputType, "False", edges);
 		}
 
-		[CustomPortBehavior(nameof(outputTrue))]
+		[CustomPortBehavior(nameof(output))]
 		public IEnumerable< PortData > OutputTruePortType(List< SerializableEdge > edges)
 		{
             yield return new PortData
             {
-                identifier = nameof(outputTrue),
-                displayName = "True",
+                identifier = nameof(inputTrue),
+                displayName = "Result",
                 acceptMultipleEdges = true,
                 displayType = inputType.type,
             };
 		}
         
-		[CustomPortBehavior(nameof(outputFalse))]
-		public IEnumerable< PortData > OutputFalsePortType(List< SerializableEdge > edges)
-		{
-            yield return new PortData
-            {
-                identifier = nameof(outputFalse),
-                displayName = "False",
-                acceptMultipleEdges = true,
-                displayType = inputType.type,
-            };
-		}
-
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-            // TODO
-            comparison = true;
-
+            output = condition ? inputTrue : inputFalse;
+                
 			return true;
 		}
-
-        public string GetExecutedBranch()
-        {
-            if (comparison)
-                return nameof(outputTrue);
-            else
-                return nameof(outputFalse);
-        }
     }
 }

@@ -56,11 +56,16 @@ namespace Mixture
             if (testCase.expected == null)
             {
                 string expectedPath = referenceImagesFolder + testCase.graph.name + ".png";
-                Debug.Log($"No reference image found for {testCase.graph}, Creating one at {expectedPath}");
 
                 var bytes = ImageConversion.EncodeToPNG(result);
                 File.WriteAllBytes(expectedPath, bytes);
                 AssetDatabase.ImportAsset(expectedPath);
+                var ti = AssetImporter.GetAtPath(expectedPath) as TextureImporter;
+                ti.isReadable = true;
+                ti.SaveAndReimport();
+                throw new System.Exception(
+                    $@"No reference image found for {testCase.graph}, Creating one at {expectedPath}.
+Please re-run the test to ensure the reference image validity.");
             }
             else
             {
@@ -72,7 +77,7 @@ namespace Mixture
                     TextureCreationFlags.None
                 );
 
-                // Convert image to RGBA
+                // Convert image to graph format
                 var colors = testCase.expected.GetPixels();
                 destination.SetPixels(colors);
 
@@ -80,7 +85,7 @@ namespace Mixture
                     TargetWidth = destination.width,
                     TargetHeight = destination.height,
                     PerPixelCorrectnessThreshold = 0.001f,
-                    AverageCorrectnessThreshold = 0.0015f,
+                    AverageCorrectnessThreshold = 0.005f,
                     UseHDR = false,
                     UseBackBuffer = false,
                 });

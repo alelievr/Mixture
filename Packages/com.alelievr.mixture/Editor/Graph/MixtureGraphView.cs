@@ -157,12 +157,10 @@ namespace Mixture
 		void UpdateNodeColors()
 		{
 			// Get processing info from the processor
-			var info = processor.GetComputeOrderInfo();
-
 			foreach (var view in nodeViews)
 			{
 				// view.titleContainer.style.color = new StyleColor(StyleKeyword.Initial);
-				if (info.forLoopLevel.TryGetValue(view.nodeTarget, out var level))
+				if (processor.info.forLoopLevel.TryGetValue(view.nodeTarget, out var level))
 				{
 					if (level > 0)
 					{
@@ -180,7 +178,7 @@ namespace Mixture
 				var startNodeGUID = view.group.innerNodeGUIDs.FirstOrDefault(guid => graph.nodesPerGUID.ContainsKey(guid) && graph.nodesPerGUID[guid] is ILoopStart);
 				if (startNodeGUID != null)
 				{
-					if (info.forLoopLevel.TryGetValue(graph.nodesPerGUID[startNodeGUID], out var level))
+					if (processor.info.forLoopLevel.TryGetValue(graph.nodesPerGUID[startNodeGUID], out var level))
 					{
 						if (level > 0)
 						{

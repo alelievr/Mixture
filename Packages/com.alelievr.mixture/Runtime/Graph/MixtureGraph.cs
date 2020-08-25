@@ -454,10 +454,12 @@ namespace Mixture
         
         struct Color16
         {
+#pragma warning disable CS0649 // Field x is never assigned to, and will always have its default value 0
             ushort  r;
             ushort  g;
             ushort  b;
             ushort  a;
+#pragma warning restore CS0649
 
             public Color ToColor() => new Color((float)r / ushort.MaxValue, (float)g / ushort.MaxValue, (float)b / ushort.MaxValue, (float)a / ushort.MaxValue);
         }
