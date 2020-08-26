@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using System.Linq;
 using System.Collections.Generic;
+using GraphProcessor;
 
 namespace Mixture
 {
@@ -9,6 +10,7 @@ namespace Mixture
     {
 		public static readonly float		defaultNodeWidth = 250f;
 		public static readonly float		operatorNodeWidth = 100f;
+		public static readonly float		smallNodeWidth = 150f;
 
 		static Material  _blitIconMaterial;
 		public static Material  blitIconMaterial
@@ -169,6 +171,16 @@ namespace Mixture
 			}
 		}
 
+		public static void SetupComputeDimensionKeyword(ComputeShader computeShader, TextureDimension dimension)
+		{
+			computeShader.DisableKeyword("CRT_2D");
+			computeShader.DisableKeyword("CRT_3D");
+			if (dimension == TextureDimension.Tex2D)
+				computeShader.EnableKeyword("CRT_2D");
+			else if (dimension == TextureDimension.Tex3D)
+				computeShader.EnableKeyword("CRT_3D");
+		}
+
 		static readonly Dictionary< TextureDimension, string >	shaderPropertiesDimension = new Dictionary<TextureDimension, string>{
             { TextureDimension.Tex2D, "_2D" },
             { TextureDimension.Tex3D, "_3D" },
@@ -237,6 +249,22 @@ namespace Mixture
 			int x = Mathf.Clamp(size / 128, 1, 128);
 			int y = Mathf.Max(size / 4096, 1);
 			cmd.DispatchCompute(clearCompute, 0, x, y, 1);
+		}
+
+		public static PortData UpdateInputPortType(ref SerializableType type, string displayName, List<SerializableEdge> edges)
+		{
+            if (edges.Count > 0)
+                type.type = edges[0].outputPort.portData.displayType ?? edges[0].outputPort.fieldInfo.FieldType;
+			else
+				type.type = typeof(object);
+
+            return new PortData
+            {
+                identifier = displayName,
+                displayName = displayName,
+                acceptMultipleEdges = false,
+                displayType = type.type,
+            };
 		}
     }
 }

@@ -15,7 +15,7 @@ namespace Mixture
 	{
 		VisualElement	    shaderCreationUI;
 		FixedShaderNode		fixedShaderNode => nodeTarget as FixedShaderNode;
-		int					materialCRC = -1;
+		int					materialHash = -1;
 
 		ObjectField			debugCustomRenderTextureField;
 		ObjectField			debugShaderField;
@@ -25,10 +25,15 @@ namespace Mixture
 		{
 			base.Enable(fromInspector);
 
-			if (fixedShaderNode.material != null && !owner.graph.IsObjectInGraph(fixedShaderNode.material))
-				owner.graph.AddObjectToGraph(fixedShaderNode.material);
+			if (!fromInspector)
+			{
+				if (fixedShaderNode.material != null && !owner.graph.IsObjectInGraph(fixedShaderNode.material))
+					owner.graph.AddObjectToGraph(fixedShaderNode.material);
 
-			InitializeDebug();
+				InitializeDebug();
+
+				onPortDisconnected += ResetMaterialPropertyToDefault;
+			}
 
 			if (fixedShaderNode.displayMaterialInspector)
 			{
@@ -37,8 +42,6 @@ namespace Mixture
 
 				controlsContainer.Add(materialIMGUI);
 			}
-
-			onPortDisconnected += ResetMaterialPropertyToDefault;
 		}
 
 		~FixedShaderNodeView() => onPortDisconnected -= ResetMaterialPropertyToDefault;
@@ -67,9 +70,12 @@ namespace Mixture
 
 		void MaterialGUI()
 		{
-			if (materialCRC != -1 && materialCRC != fixedShaderNode.material.ComputeCRC())
+			if (fixedShaderNode.material == null)
+				return;
+
+			if (materialHash != -1 && materialHash != GetMaterialHash(fixedShaderNode.material))
 				NotifyNodeChanged();
-			materialCRC = fixedShaderNode.material.ComputeCRC();
+			materialHash = GetMaterialHash(fixedShaderNode.material);
 
 			// Update the GUI when shader is modified
 			if (MaterialPropertiesGUI(fixedShaderNode.material))

@@ -135,7 +135,7 @@ public static class CustomTextureManager
 
     static void InitializeCustomRenderTexture(CustomRenderTexture crt)
     {
-        // Debug.Log("Load: " + crt);
+        // Debug.Log("Load: " + crt + " | " + crt.updateMode);
     }
 
     static void OnCRTUnloaded(CustomRenderTexture crt) => customRenderTextures.Remove(crt);
@@ -340,7 +340,7 @@ public static class CustomTextureManager
                                 if (doubleBuffer != null)
                                 {
                                     // For now, it's just a copy, once we actually do the swap of pointer, be careful to reset the Active Render Texture
-                                    cmd.Blit(doubleBuffer, crt);
+                                    cmd.CopyTexture(doubleBuffer, slice, crt, slice);
                                     cmd.SetRenderTarget(doubleBuffer, 0, (crt.dimension == TextureDimension.Cube) ? (CubemapFace)slice : 0, slice);
                                 }
                             }

@@ -21,7 +21,7 @@ namespace Mixture
 		{
 			initialized += Initialize;
 			Undo.undoRedoPerformed += ReloadGraph;
-			nodeDuplicated += OnNodeDuplicated;
+			// nodeDuplicated += OnNodeDuplicated;
 
 			SetupZoom(0.05f, 32f);
 		}
@@ -35,6 +35,9 @@ namespace Mixture
 				var portView = p as PortView;
 
 				if (p.direction == startPort.direction)
+					return false;
+
+				if (p.node == startPort.node)
 					return false;
 
 				//Check if there is custom adapters for this assignation
@@ -137,7 +140,10 @@ namespace Mixture
 			RegisterCallback< KeyDownEvent >(KeyCallback);
 
 			processor = new MixtureGraphProcessor(graph);
-			computeOrderUpdated += processor.UpdateComputeOrder;
+			computeOrderUpdated += () => {
+				processor.UpdateComputeOrder();
+				UpdateNodeColors();
+			};
 			graph.onOutputTextureUpdated += () => processor.Run();
 			graph.onGraphChanges += _ => {
 				this.schedule.Execute(() => ProcessGraph()).ExecuteLater(10);
@@ -155,7 +161,53 @@ namespace Mixture
 			graph.outputNode = null;
 		}
 
-		void CreateNodeOfType(Type type, Vector2 position)
+		Color[] nestingLevel = new Color[]
+		{
+			new Color(0.06167674f, 0.1060795f, 0.1698113f),
+			new Color(0.1509434f, 0.06763973f, 0.1494819f),
+			new Color(0.05764706f, 0.098f, 0.08358824f),
+		};
+
+		void UpdateNodeColors()
+		{
+			// Get processing info from the processor
+			foreach (var view in nodeViews)
+			{
+				// view.titleContainer.style.color = new StyleColor(StyleKeyword.Initial);
+				if (processor.info.forLoopLevel.TryGetValue(view.nodeTarget, out var level))
+				{
+					if (level > 0)
+					{
+						level = Mathf.Max(level - 1, 0) % nestingLevel.Length;
+						var c = nestingLevel[level];
+						c *= 2;
+						view.titleContainer.style.backgroundColor = c;
+					}
+				}
+			}
+
+			// Update groups too:
+			foreach (var view in groupViews)
+			{
+				var startNodeGUID = view.group.innerNodeGUIDs.FirstOrDefault(guid => graph.nodesPerGUID.ContainsKey(guid) && graph.nodesPerGUID[guid] is ILoopStart);
+				if (startNodeGUID != null)
+				{
+					if (processor.info.forLoopLevel.TryGetValue(graph.nodesPerGUID[startNodeGUID], out var level))
+					{
+						if (level > 0)
+						{
+							level = Mathf.Clamp(level - 1, 0, nestingLevel.Length);
+							if (level >= 1)
+								view.BringToFront();
+							var c = nestingLevel[level];
+							view.UpdateGroupColor(c);
+						}
+					}
+				}
+			}
+		}
+
+		public void CreateNodeOfType(Type type, Vector2 position)
 		{
 			RegisterCompleteObjectUndo("Added " + type + " node");
 			AddNode(BaseNode.CreateFromType(type, position));

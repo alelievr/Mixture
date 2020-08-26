@@ -64,9 +64,9 @@
 		float4 color;
 		
 		if (sampleSelf)
-			color = SAMPLE_SELF_LINEAR_CLAMP(float3(i.localTexcoord.xy, 0), i.direction);
+			color = SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz, i.direction);
 		else
-			color = SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy, 0), i.direction);
+			color = SAMPLE_X_LINEAR_CLAMP(_Source, i.localTexcoord.xyz, i.direction);
 
 		if (_Radius == 0)
 			return color;

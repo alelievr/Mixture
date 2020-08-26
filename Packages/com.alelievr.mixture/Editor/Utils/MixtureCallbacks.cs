@@ -112,7 +112,7 @@ namespace Mixture
 			{
 				// Check if the CustomRenderTexture we're opening is a Mixture graph
 				var path = AssetDatabase.GetAssetPath(EditorUtility.InstanceIDToObject(instanceID));
-				var graph = AssetDatabase.LoadAllAssetsAtPath(path).FirstOrDefault(o => o is MixtureGraph) as MixtureGraph;
+				var graph = MixtureEditorUtils.GetGraphAtPath(path);
 
 				if (graph == null)
 					return false;
@@ -156,7 +156,7 @@ namespace Mixture
 			// By default isRealtime is false so we don't need to initialize it like in the realtime mixture create function
 			public override MixtureGraph CreateMixtureGraphAsset()
 			{
-				var g = AssetDatabase.LoadAllAssetsAtPath(template).FirstOrDefault(a => a is MixtureGraph) as MixtureGraph;
+				var g = MixtureEditorUtils.GetGraphAtPath(template);
 				g = ScriptableObject.Instantiate(g) as MixtureGraph;
 
 				g.ClearObjectReferences();

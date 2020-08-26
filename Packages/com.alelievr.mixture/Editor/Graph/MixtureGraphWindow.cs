@@ -57,7 +57,8 @@ namespace Mixture
 
 		protected override void OnDestroy()
 		{
-			MixtureUpdater.RemoveGraphToProcess(view as MixtureGraphView);
+			view?.Dispose();
+			MixtureUpdater.RemoveGraphToProcess(view);
 		}
 	}
 }

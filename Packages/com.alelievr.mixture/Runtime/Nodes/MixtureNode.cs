@@ -131,6 +131,7 @@ namespace Mixture
 					autoGenerateMips = autoGenerateMips,
 					enableRandomWrite = true,
 					hideFlags = HideFlags.HideAndDontSave,
+					updatePeriod = GetUpdatePeriod(),
 				};
 				target.Create();
 				target.material = MixtureUtils.dummyCustomRenderTextureMaterial;
@@ -150,7 +151,8 @@ namespace Mixture
 				|| target.doubleBuffered != rtSettings.doubleBuffered
                 || target.wrapMode != rtSettings.wrapMode
 				|| target.useMipMap != hasMips
-				|| target.autoGenerateMips != autoGenerateMips)
+				|| target.autoGenerateMips != autoGenerateMips
+				|| target.updatePeriod != GetUpdatePeriod())
 			{
 				target.Release();
 				target.width = Math.Max(1, outputWidth);
@@ -163,13 +165,34 @@ namespace Mixture
                 target.filterMode = rtSettings.filterMode;
                 target.useMipMap = hasMips;
 				target.autoGenerateMips = autoGenerateMips;
+				target.enableRandomWrite = true;
+				target.updatePeriod = GetUpdatePeriod();
 				target.hideFlags = HideFlags.HideAndDontSave;
 				target.Create();
 				if (target.material == null)
 					target.material = MixtureUtils.dummyCustomRenderTextureMaterial;
 			}
 
+			// Patch update mode based on graph type
+			target.updateMode = (graph.isRealtime) ? target.updateMode = CustomRenderTextureUpdateMode.Realtime : CustomRenderTextureUpdateMode.OnDemand;
+
 			return false;
+		}
+
+		float GetUpdatePeriod()
+		{
+			switch (rtSettings.refreshMode)
+			{
+				case RefreshMode.EveryXFrame:
+					return (1.0f / Application.targetFrameRate) * rtSettings.period;
+				case RefreshMode.EveryXMillis:
+					return rtSettings.period / 1000.0f;
+				case RefreshMode.EveryXSeconds:
+					return rtSettings.period;
+				default:
+				case RefreshMode.OnLoad:
+					return 0;
+			}
 		}
 
 		public void OnProcess(CommandBuffer cmd)
@@ -191,15 +214,15 @@ namespace Mixture
 
 			if (!supportedDimensions.Contains((OutputDimension)outputDimension))
 			{
-				AddMessage($"Dimension {outputDimension} is not supported by this node", NodeMessageType.Error);
+				// AddMessage($"Dimension {outputDimension} is not supported by this node", NodeMessageType.Error);
 				return ;
 			}
 			else
 			{
 				// TODO: simplify this with the node graph processor remove badges with matching words feature
-				RemoveMessage($"Dimension {TextureDimension.Tex2D} is not supported by this node");
-				RemoveMessage($"Dimension {TextureDimension.Tex3D} is not supported by this node");
-				RemoveMessage($"Dimension {TextureDimension.Cube} is not supported by this node");
+				// RemoveMessage($"Dimension {TextureDimension.Tex2D} is not supported by this node");
+				// RemoveMessage($"Dimension {TextureDimension.Tex3D} is not supported by this node");
+				// RemoveMessage($"Dimension {TextureDimension.Cube} is not supported by this node");
 			}
 
 			beforeProcessSetup?.Invoke();
@@ -291,8 +314,13 @@ namespace Mixture
 			// Update material settings when processing the graph:
 			foreach (var edge in edges)
 			{
+				// Just in case something bad happened in a node
+				if (edge.passThroughBuffer == null)
+					continue;
+
 				string propName = edge.inputPort.portData.identifier;
 				int propertyIndex = material.shader.FindPropertyIndex(propName);
+
 				switch (material.shader.GetPropertyType(propertyIndex))
 				{
 					case ShaderPropertyType.Color:
@@ -356,7 +384,7 @@ namespace Mixture
 			if (defaultMaterials.TryGetValue(mat, out defaultMat))
 				return defaultMat;
 			
-			return defaultMaterials[mat] = new Material(mat.shader) { hideFlags =  HideFlags.HideAndDontSave };
+			return defaultMaterials[mat] = CoreUtils.CreateEngineMaterial(mat.shader);
 		}
 
 		public void ResetMaterialPropertyToDefault(Material mat, string propName)
@@ -380,33 +408,6 @@ namespace Mixture
 			}
 		}
 		
-		static IEnumerable<BaseNode> GetNonCRTInputNodes(BaseNode child)
-		{
-			foreach (var node in child.GetInputNodes())
-				if (!(node is IUseCustomRenderTextureProcessing))
-					yield return node;
-		}
-
-		public List<BaseNode> GetMixtureDependencies()
-		{
-			HashSet<BaseNode> dependencies = new HashSet<BaseNode>();
-			Stack<BaseNode> inputNodes = new Stack<BaseNode>(GetNonCRTInputNodes(this));
-
-			dependencies.Add(this);
-
-			while (inputNodes.Count > 0)
-			{
-				var child = inputNodes.Pop();
-
-				foreach (var parent in GetNonCRTInputNodes(child))
-					inputNodes.Push(parent);
-				
-				dependencies.Add(child);
-			}
-
-			return dependencies.OrderBy(d => d.computeOrder).ToList();
-		}
-
 		public Material GetTempMaterial(string shaderName)
 		{
 			temporaryMaterials.TryGetValue(shaderName, out var material);
@@ -474,22 +475,28 @@ namespace Mixture
 
 	public enum OutputDimension
 	{
-		Default = TextureDimension.None,
+		SameAsOutput = TextureDimension.None,
 		Texture2D = TextureDimension.Tex2D,
 		CubeMap = TextureDimension.Cube,
 		Texture3D = TextureDimension.Tex3D,
 		// Texture2DArray = TextureDimension.Tex2DArray, // Not supported by CRT, will be handled as Texture3D and then saved as Tex2DArray
 	}
 
-	public enum OutputFormat
+	public enum OutputPrecision
 	{
-		Default = GraphicsFormat.None,
-		RGBA_LDR = GraphicsFormat.R8G8B8A8_UNorm,
-		RGBA_sRGB = GraphicsFormat.R8G8B8A8_SRGB,
-		RGBA_Half = GraphicsFormat.R16G16B16A16_SFloat,
-		RGBA_Float = GraphicsFormat.R32G32B32A32_SFloat,
-		R8_Unsigned = GraphicsFormat.R8_UNorm,
-		R16 = GraphicsFormat.R16_SFloat,
+		SameAsOutput,
+		SRGB,
+		LDR,
+		Half,
+		Full,
+	}
+
+	public enum OutputChannel
+	{
+		SameAsOutput,
+		RGBA,
+		RG,
+		R,
 	}
 
 	[Flags]
@@ -512,5 +519,13 @@ namespace Mixture
     	Fast     = 0,
     	Normal   = 50,
     	Best     = 100,
+	}
+
+	public enum RefreshMode
+	{
+		OnLoad,
+		EveryXFrame,
+		EveryXMillis,
+		EveryXSeconds,
 	}
 }

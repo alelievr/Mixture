@@ -1,0 +1,178 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel FillUVMap
+#pragma kernel JumpFlooding
+#pragma kernel FinalPass
+
+#pragma multi_compile_local CRT_2D CRT_3D
+#pragma enable_d3d11_debug_symbols
+
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+
+float2 _Size;
+
+#if CRT_2D
+Texture2D<float4> _Input;
+RWTexture2D<float4> _Output;
+RWTexture2D<float4> _FinalOutput;
+
+float4 LoadInput(uint3 uv) { return _Input[uv.xy]; }
+float4 LoadOutput(uint3 uv) { return _Output[uv.xy]; }
+void WriteOutput(uint3 uv, float4 value) { _Output[uv.xy] = value; }
+void WriteFinalOutput(uint3 uv, float4 value) { _FinalOutput[uv.xy] = value; }
+
+#elif CRT_3D
+Texture3D<float4> _Input;
+RWTexture3D<float4> _Output;
+RWTexture3D<float4> _FinalOutput;
+
+float4 LoadInput(uint3 uv) { return _Input[uv.xyz]; }
+float4 LoadOutput(uint3 uv) { return _Output[uv.xyz]; }
+void WriteOutput(uint3 uv, float4 value) { _Output[uv.xyz] = value; }
+void WriteFinalOutput(uint3 uv, float4 value) { _FinalOutput[uv.xyz] = value; }
+
+#endif
+
+float _Offset;
+float _Threshold;
+float _Distance;
+sampler s_point_repeat_sampler;
+
+bool PassThreshold(float3 color)
+{
+    return Luminance(color) > _Threshold;
+}
+
+[numthreads(8,8,1)]
+void FillUVMap(uint3 id : SV_DispatchThreadID)
+{
+    float4 input = LoadInput(id);
+
+    if (PassThreshold(input.rgb))
+        WriteOutput(id, float4(id / _Size.x, 1));
+    else
+        WriteOutput(id, 0); // mark UV as invalid with w = 0
+    
+    // Clear the double buffered texture too
+    WriteFinalOutput(id, 0);
+}
+
+static float2 offset2D[9] = 
+{
+    float2(-1, -1),
+    float2(-1,  0),
+    float2(-1,  1),
+    float2( 0, -1),
+    float2( 0,  0),
+    float2( 0,  1),
+    float2( 1, -1),
+    float2( 1,  0),
+    float2( 1,  1),
+};
+
+static float3 offset3D[27] = 
+{
+    float3(-1, -1, -1),
+    float3(-1,  0, -1),
+    float3(-1,  1, -1),
+    float3( 0, -1, -1),
+    float3( 0,  0, -1),
+    float3( 0,  1, -1),
+    float3( 1, -1, -1),
+    float3( 1,  0, -1),
+    float3( 1,  1, -1),
+
+    float3(-1, -1,  0),
+    float3(-1,  0,  0),
+    float3(-1,  1,  0),
+    float3( 0, -1,  0),
+    float3( 0,  0,  0),
+    float3( 0,  1,  0),
+    float3( 1, -1,  0),
+    float3( 1,  0,  0),
+    float3( 1,  1,  0),
+
+    float3(-1, -1,  1),
+    float3(-1,  0,  1),
+    float3(-1,  1,  1),
+    float3( 0, -1,  1),
+    float3( 0,  0,  1),
+    float3( 0,  1,  1),
+    float3( 1, -1,  1),
+    float3( 1,  0,  1),
+    float3( 1,  1,  1),
+};
+
+[numthreads(8,8,1)]
+void JumpFlooding(uint3 id : SV_DispatchThreadID)
+{
+    float4 nearest = LoadInput(id);
+
+    if (nearest.w < 0.5)
+        nearest = float4(-10, -10, -10, 0);
+
+#if CRT_2D
+    for (int i = 0; i < 9; i++)
+    {
+        float3 o = id + float3(offset2D[i], 0) * _Offset;
+#elif CRT_3D
+    for (int i = 0; i < 27; i++)
+    {
+        float3 o = id + offset3D[i] * _Offset;
+#endif
+        // Make the fetch repeat:
+        o %= _Size.x;
+        o.x += (o.x < 0) ? _Size.x : 0;
+        o.y += (o.y < 0) ? _Size.x : 0;
+        o.z += (o.z < 0) ? _Size.x : 0;
+        float4 n1 = LoadOutput(o);
+
+        // Discard invalid samples
+        if (n1.w < 0.5)
+            continue;
+
+        float3 uv = id / _Size.x;
+        if (length(uv - n1) < length(uv - nearest))
+            nearest = n1;
+    }
+
+    WriteOutput(id, nearest);
+}
+
+[numthreads(8, 8, 1)]
+void FinalPass(uint3 id : SV_DispatchThreadID)
+{
+    float4 input = LoadInput(id);
+    float3 defaultUV = id / _Size.x;
+    float3 uv = defaultUV;
+    float fadeFactor = 1;
+    float4 uvValue = LoadOutput(id);
+
+    if (!PassThreshold(input.rgb))
+    {
+
+        // Only assign UV when they are valid
+        if (uvValue.w > 0.5)
+            uv = uvValue.xyz;
+    }
+
+    float dist = length(frac(uv - defaultUV + 0.5) - 0.5);
+
+    if (all(uv == defaultUV))
+        dist = 0;
+
+    if (dist >= _Distance)
+        uv = defaultUV;
+    else
+        fadeFactor = 1 - (dist / max(_Distance, 0.000001));
+
+#if CRT_2D
+    float4 finalColor = _Input.SampleLevel(s_point_repeat_sampler, uv.xy, 0);
+#else
+    float4 finalColor = _Input.SampleLevel(s_point_repeat_sampler, uv.xyz, 0);
+#endif
+
+    // merge input alpha and dilated alpha to avoid artifacts:
+    finalColor.a *= max(fadeFactor, input.a);
+
+    WriteFinalOutput(id, finalColor);
+}

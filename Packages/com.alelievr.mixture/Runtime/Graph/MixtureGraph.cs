@@ -88,6 +88,8 @@ namespace Mixture
 				outputNode = AddNode(BaseNode.CreateFromType< OutputNode >(Vector2.zero)) as OutputNode;
 
 #if UNITY_EDITOR
+            // TODO: check if the asset is in a Resources folder for realtime and put a warning if it's not the case
+            // + store the Resources path in a string
 			if (isRealtime)
 				RealtimeMixtureReferences.realtimeMixtureCRTs.Add(outputTexture as CustomRenderTexture);
 #endif
@@ -181,7 +183,7 @@ namespace Mixture
 
 			if (!(outputTexture is CustomRenderTexture))
 			{
-				outputTexture = new CustomRenderTexture(s.width, s.height, (GraphicsFormat)s.targetFormat) { name = "Realtime Final Copy", enableRandomWrite = true };
+				outputTexture = new CustomRenderTexture(s.width, s.height, s.graphicsFormat) { name = "Realtime Final Copy", enableRandomWrite = true };
 			}
 
 			var crt = outputTexture as CustomRenderTexture;
@@ -189,7 +191,7 @@ namespace Mixture
 				|| crt.height != s.height
 				|| crt.useMipMap != outputNode.hasMips
 				|| crt.volumeDepth != s.sliceCount
-				|| crt.graphicsFormat != (GraphicsFormat)s.targetFormat
+				|| crt.graphicsFormat != (GraphicsFormat)s.graphicsFormat
 				|| crt.updateMode != CustomRenderTextureUpdateMode.Realtime;
 
 			if (needsUpdate)
@@ -198,7 +200,7 @@ namespace Mixture
 					crt.Release();
 				crt.width = s.width;
 				crt.height = s.height;
-				crt.graphicsFormat = (GraphicsFormat)s.targetFormat;
+				crt.graphicsFormat = (GraphicsFormat)s.graphicsFormat;
 				crt.useMipMap = outputNode.hasMips;
 				crt.autoGenerateMips = false;
 				crt.updateMode = CustomRenderTextureUpdateMode.Realtime;
@@ -216,15 +218,15 @@ namespace Mixture
 			switch (outputNode.rtSettings.dimension)
 			{
 				case OutputDimension.Texture2D:
-					outputTexture = new Texture2D(s.width, s.height, (GraphicsFormat)s.targetFormat, creationFlags); // By default we compress the texture
+					outputTexture = new Texture2D(s.width, s.height, (GraphicsFormat)s.graphicsFormat, creationFlags); // By default we compress the texture
 					onOutputTextureUpdated?.Invoke();
 					break;
 				case OutputDimension.Texture3D:
-					outputTexture = new Texture3D(s.width, s.height, s.sliceCount, (GraphicsFormat)s.targetFormat, creationFlags);
+					outputTexture = new Texture3D(s.width, s.height, s.sliceCount, (GraphicsFormat)s.graphicsFormat, creationFlags);
 					onOutputTextureUpdated?.Invoke();
 					break;
 				case OutputDimension.CubeMap:
-					outputTexture = new Cubemap(s.width, (GraphicsFormat)s.targetFormat, creationFlags);
+					outputTexture = new Cubemap(s.width, (GraphicsFormat)s.graphicsFormat, creationFlags);
 					onOutputTextureUpdated?.Invoke();
 					break;
 				default:
@@ -241,12 +243,12 @@ namespace Mixture
                 Texture outputTexture = null;
                 bool isHDR = external.rtSettings.isHDR;
 
-                OutputDimension dimension = (OutputDimension)(external.rtSettings.dimension == OutputDimension.Default ? (OutputDimension)external.rtSettings.GetTextureDimension(this) : external.rtSettings.dimension);
-                GraphicsFormat format = (GraphicsFormat)external.rtSettings.targetFormat;
+                OutputDimension dimension = (OutputDimension)(external.rtSettings.dimension == OutputDimension.SameAsOutput ? (OutputDimension)external.rtSettings.GetTextureDimension(this) : external.rtSettings.dimension);
+                GraphicsFormat format = (GraphicsFormat)external.rtSettings.graphicsFormat;
 
                 switch (dimension)
                 {
-                    case OutputDimension.Default:
+                    case OutputDimension.SameAsOutput:
                     case OutputDimension.Texture2D:
                         outputTexture = new Texture2D(external.tempRenderTexture.width, external.tempRenderTexture.height, format, TextureCreationFlags.MipChain);
                         break;
@@ -454,14 +456,20 @@ namespace Mixture
         
         struct Color16
         {
+#pragma warning disable CS0649 // Field x is never assigned to, and will always have its default value 0
             ushort  r;
             ushort  g;
             ushort  b;
+            ushort  a;
+#pragma warning restore CS0649
+
+            public Color ToColor() => new Color((float)r / ushort.MaxValue, (float)g / ushort.MaxValue, (float)b / ushort.MaxValue, (float)a / ushort.MaxValue);
         }
 
         protected void WriteRequestResult(AsyncGPUReadbackRequest request, ReadbackData data)
         {
-            var outputFormat = data.node.rtSettings.GetGraphicsFormat(this);
+            var outputPrecision = data.node.rtSettings.GetOutputPrecision(this);
+            var outputChannels = data.node.rtSettings.GetOutputChannels(this);
 
             if (request.hasError)
             {
@@ -471,30 +479,28 @@ namespace Mixture
 
             void FetchSlice(int slice, Action<Color32[], int> SetPixelsColor32, Action<Color[], int> SetPixelsColor)
             {
+                // TODO: free those buffersa
                 NativeArray<Color32> colors32;
                 NativeArray<Color> colors;
 
-                switch ((OutputFormat)outputFormat)
+                switch (outputPrecision)
                 {
-                    case OutputFormat.RGBA_Float:
-                        colors = request.GetData<Color>(slice);
-                        SetPixelsColor(colors.ToArray(), data.mipLevel);
-                        break;
-                    case OutputFormat.RGBA_LDR:
-                    case OutputFormat.RGBA_sRGB:
+                    case OutputPrecision.LDR:
+                    case OutputPrecision.SRGB:
                         colors32 = request.GetData<Color32>(slice);
                         SetPixelsColor32(colors32.ToArray(), data.mipLevel);
                         break;
-                    case OutputFormat.R8_Unsigned:
-                        var r8Colors = request.GetData<byte>(slice);
-                        SetPixelsColor32(r8Colors.Select(r => new Color32(r, 0, 0, 0)).ToArray(), data.mipLevel);
+                    case OutputPrecision.Half:
+                        colors = new NativeArray<Color>(request.GetData<Color16>(slice).ToArray().Select(c => c.ToColor()).ToArray(), Allocator.Persistent);
+                        SetPixelsColor(colors.ToArray(), data.mipLevel);
                         break;
-                    case OutputFormat.R16: // For now we don't support half readback
-                    case OutputFormat.RGBA_Half: // For now we don't support half readback
-                        // var r8Colors = request.GetData<short>(slice);
-                        // SetPixelsColor32(r8Colors.Select(r => new Color32(r, 0, 0, 0)).ToArray());
+                    case OutputPrecision.Full:
+                        colors = request.GetData<Color>(slice);
+                        SetPixelsColor(colors.ToArray(), data.mipLevel);
+                        break;
+                    // TODO: handle RGB, RG and R formats
                     default:
-                        Debug.LogError("Can't readback an image with format: " + outputFormat);
+                        Debug.LogError("Can't readback an image with format: " + outputChannels + " " + outputPrecision);
                         break;
                 }
             }
@@ -522,7 +528,7 @@ namespace Mixture
                     break;
                 case Cubemap t:
                     for (int i = 0; i < 6; i++)
-                        FetchSlice(i, (c, mip) => t.SetPixels(c.Cast<Color>().ToArray(), (CubemapFace)i, mip), (c, mip) => t.SetPixels(c, (CubemapFace)i, mip));
+                        FetchSlice(i, (c, mip) => t.SetPixels(c.Select(c32 => (Color)c32).ToArray(), (CubemapFace)i, mip), (c, mip) => t.SetPixels(c, (CubemapFace)i, mip));
 
                     t.Apply(false);
                     break;
@@ -530,7 +536,6 @@ namespace Mixture
                     Debug.LogError(data.targetTexture + " is not a supported type for saving");
                     return;
             }
-
         }
 
         /// <summary>

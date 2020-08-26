@@ -35,16 +35,8 @@ namespace Mixture
 		public override Texture 	previewTexture => graph.isRealtime ? graph.outputTexture : tempRenderTexture;
 		public override float		nodeWidth => 350;
 
-		Material					_finalCopyMaterial;
-		protected Material			finalCopyMaterial
-		{
-			get
-			{
-				if (_finalCopyMaterial == null)
-					_finalCopyMaterial = CoreUtils.CreateEngineMaterial(Shader.Find("Hidden/Mixture/FinalCopy"));
-				return _finalCopyMaterial;
-			}
-		}
+		[SerializeField]
+		internal Material			finalCopyMaterial;
 
 		Material					_customMipMapMaterial;
 		Material					customMipMapMaterial
@@ -73,6 +65,8 @@ namespace Mixture
 		[NonSerialized]
 		protected HashSet< string > uniqueMessages = new HashSet< string >();
 
+		CommandBuffer mipchainCmd = new CommandBuffer();
+
 		protected override MixtureRTSettings defaultRTSettings
         {
             get => new MixtureRTSettings()
@@ -83,6 +77,8 @@ namespace Mixture
                 width = 512,
                 height = 512,
                 sliceCount = 1,
+				outputChannels = OutputChannel.RGBA,
+				outputPrecision = OutputPrecision.Full,
 				potSize = POTSize._1024,
                 editFlags = EditFlags.POTSize | EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat
             };
@@ -91,11 +87,19 @@ namespace Mixture
         protected override void Enable()
         {
 			// Sanitize the RT Settings for the output node, they must contains only valid information for the output node
-			if (rtSettings.targetFormat == OutputFormat.Default)
-				rtSettings.targetFormat = OutputFormat.RGBA_Float;
-			if (rtSettings.dimension == OutputDimension.Default)
+			if (rtSettings.outputChannels == OutputChannel.SameAsOutput)
+				rtSettings.outputChannels = OutputChannel.RGBA;
+			if (rtSettings.outputPrecision == OutputPrecision.SameAsOutput)
+				rtSettings.outputPrecision = OutputPrecision.Full;
+			if (rtSettings.dimension == OutputDimension.SameAsOutput)
 				rtSettings.dimension = OutputDimension.Texture2D;
 			rtSettings.editFlags |= EditFlags.POTSize;
+
+			if (finalCopyMaterial == null)
+			{
+				finalCopyMaterial = new Material(Shader.Find("Hidden/Mixture/FinalCopy"));
+				finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+			}
 
 			if (graph.isRealtime)
 			{
@@ -108,6 +112,8 @@ namespace Mixture
 					UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null);
 				};
 			}
+
+			// tempRenderTexture can be null here if the graph haven't been imported yet
 			if (tempRenderTexture != null)
 				tempRenderTexture.material = finalCopyMaterial;
 
@@ -129,6 +135,8 @@ namespace Mixture
 				Debug.LogError("Output Node can't write to target texture, Graph references a null output texture");
 				return false;
 			}
+
+			UpdateMessages();
 			
 			// Update the renderTexture reference for realtime graph
 			if (graph.isRealtime)
@@ -137,7 +145,33 @@ namespace Mixture
 					onTempRenderTextureUpdated?.Invoke();
 				tempRenderTexture = graph.outputTexture as CustomRenderTexture;
 			}
+			else
+			{
+				// Update the renderTexture size and format:
+				if (UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null))
+					onTempRenderTextureUpdated?.Invoke();
+			}
 
+			if (!UpdateFinalCopyMaterial())
+				return false;
+
+			// The CustomRenderTexture update will be triggered at the begining of the next frame so we wait one frame to generate the mipmaps
+			// We need to do this because we can't generate custom mipMaps with CustomRenderTextures
+			if (customMipMapShader != null && hasMips)
+			{
+				UpdateTempRenderTexture(ref mipmapRenderTexture, true, false);
+				GenerateCustomMipMaps();
+			}
+			else if (Camera.main != null)
+			{
+				Camera.main.RemoveCommandBuffers(CameraEvent.BeforeDepthTexture);
+			}
+
+			return true;
+		}
+
+		void UpdateMessages()
+		{
 			var inputPort = GetPort(nameof(input), nameof(input));
 
 			if (inputPort.GetEdges().Count == 0)
@@ -150,19 +184,19 @@ namespace Mixture
 				uniqueMessages.Clear();
 				ClearMessages();
 			}
+		}
 
-			// Update the renderTexture size and format:
-			if (UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null))
-				onTempRenderTextureUpdated?.Invoke();
-
+		bool UpdateFinalCopyMaterial()
+		{
 			// Manually reset all texture inputs
 			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_2D");
 			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_3D");
 			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_Cube");
 
+			var inputPort = GetPort(nameof(input), nameof(input));
 			if (input != null && inputPort.GetEdges().Count != 0)
 			{
-				if ( input.dimension != graph.outputTexture.dimension)
+				if (input.dimension != (TextureDimension)rtSettings.dimension)
 				{
 					Debug.LogError("Error: Expected texture type input for the OutputNode is " + graph.outputTexture.dimension + " but " + input?.dimension + " was provided");
 					return false;
@@ -182,22 +216,8 @@ namespace Mixture
 
 			tempRenderTexture.material = finalCopyMaterial;
 
-			// The CustomRenderTexture update will be triggered at the begining of the next frame so we wait one frame to generate the mipmaps
-			// We need to do this because we can't generate custom mipMaps with CustomRenderTextures
-			if (customMipMapShader != null && hasMips)
-			{
-				UpdateTempRenderTexture(ref mipmapRenderTexture, true, false);
-				GenerateCustomMipMaps();
-			}
-			else
-			{
-				Camera.main.RemoveCommandBuffers(CameraEvent.BeforeDepthTexture);
-			}
-
 			return true;
 		}
-
-		CommandBuffer mipchainCmd = new CommandBuffer();
 
 		void GenerateCustomMipMaps()
 		{
@@ -242,7 +262,7 @@ namespace Mixture
 			}
 
 			// Dirty hack to enqueue the command buffer but it's okay because it's the builtin renderer.
-			if (GraphicsSettings.renderPipelineAsset == null)
+			if (GraphicsSettings.renderPipelineAsset == null && Camera.main != null)
 			{
 				Camera.main.RemoveCommandBuffer(CameraEvent.BeforeDepthTexture, mipchainCmd);
 				Camera.main.AddCommandBuffer(CameraEvent.BeforeDepthTexture, mipchainCmd);
