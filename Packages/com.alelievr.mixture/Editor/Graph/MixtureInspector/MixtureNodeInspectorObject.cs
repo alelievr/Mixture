@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using GraphProcessor;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -206,14 +207,32 @@ namespace Mixture
 
             if (firstLockedPreviewTarget.previewTexture != null && e.type == EventType.Repaint)
             {
-                previewMaterial.SetTexture("_MainTex0", firstLockedPreviewTarget.previewTexture);
-                previewMaterial.SetTexture("_MainTex1", secondLockedPreviewTarget.previewTexture);
+                MixtureUtils.SetupDimensionKeyword(previewMaterial, firstLockedPreviewTarget.previewTexture.dimension);
+
+                // Set texture property based on the dimension
+                if (firstLockedPreviewTarget.previewTexture.dimension == TextureDimension.Tex2D)
+                {
+                    previewMaterial.SetTexture("_MainTex0_2D", firstLockedPreviewTarget.previewTexture);
+                    previewMaterial.SetTexture("_MainTex1_2D", secondLockedPreviewTarget.previewTexture);
+                }
+                else if (firstLockedPreviewTarget.previewTexture.dimension == TextureDimension.Tex3D)
+                {
+                    previewMaterial.SetTexture("_MainTex0_3D", firstLockedPreviewTarget.previewTexture);
+                    previewMaterial.SetTexture("_MainTex1_3D", secondLockedPreviewTarget.previewTexture);
+                } 
+                else
+                {
+                    previewMaterial.SetTexture("_MainTex0_Cube", firstLockedPreviewTarget.previewTexture);
+                    previewMaterial.SetTexture("_MainTex1_Cube", secondLockedPreviewTarget.previewTexture);
+                }
+
                 previewMaterial.SetFloat("_ComparisonSlider", compareSlider);
                 previewMaterial.SetFloat("_YRatio", previewRect.height / previewRect.width);
                 previewMaterial.SetFloat("_Zoom", zoom);
                 previewMaterial.SetVector("_Pan", shaderPos / previewRect.size);
                 previewMaterial.SetFloat("_FilterMode", (int)filterMode);
                 previewMaterial.SetFloat("_Exp", exposure);
+                previewMaterial.SetVector("_TextureSize", new Vector4(firstLockedPreviewTarget.previewTexture.width, firstLockedPreviewTarget.previewTexture.height, 1.0f / firstLockedPreviewTarget.previewTexture.width, 1.0f / firstLockedPreviewTarget.previewTexture.height));
                 EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, previewMaterial);
             }
             else
