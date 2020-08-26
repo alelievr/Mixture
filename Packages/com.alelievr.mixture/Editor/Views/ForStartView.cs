@@ -22,9 +22,9 @@ namespace Mixture
 			owner.Connect(endView.inputPortViews[0], outputPortViews.FirstOrDefault(p => p.portName == "Output"));
         }
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 			controlsContainer.Add(AddControlField(nameof(ForStart.inputCount), "Iter"));
 			var indexLabel = new Label { text = "Current Index: " + forNode.index };
 			forNode.onProcessed += () => indexLabel.text = "Current Index: " + forNode.index;

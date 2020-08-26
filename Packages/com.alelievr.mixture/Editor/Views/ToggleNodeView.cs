@@ -15,9 +15,9 @@ namespace Mixture
 	{
 		ToggleNode		toggleNode;
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 			toggleNode = nodeTarget as ToggleNode;
 
 			var toggle = new Toggle() {

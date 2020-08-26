@@ -41,8 +41,6 @@ namespace Mixture
             return settingsView;
 		}
 
-		public sealed override void Enable() => throw new System.Exception("Do not use !");
-
         public override void Enable(bool fromInspector)
 		{
 			var stylesheet = Resources.Load<StyleSheet>(stylesheetName);
@@ -264,18 +262,6 @@ namespace Mixture
 			}
 
 			return hash;
-		}
-
-		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-		{
-			evt.menu.AppendAction("Pin View", (a) => {
-				if (a.status == DropdownMenuAction.Status.Checked)
-					UnpinView();
-				else
-					PinView();
-			}, PinStatus);
-
-			base.BuildContextualMenu(evt);
 		}
 
 		internal void PinView()

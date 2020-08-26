@@ -19,9 +19,9 @@ namespace Mixture
 		ObjectField		debugCustomRenderTextureField;
 		ObjectField		meshField;
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 
 
 			meshField = new ObjectField

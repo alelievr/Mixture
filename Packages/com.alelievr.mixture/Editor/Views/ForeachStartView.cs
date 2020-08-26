@@ -21,7 +21,7 @@ namespace Mixture
 			owner.AddGroup(group);
         }
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
 			var indexField = new IntegerField { label = "index", value = foreachNode.index };
 			foreachNode.onProcessed += () => indexField.SetValueWithoutNotify(foreachNode.index);
