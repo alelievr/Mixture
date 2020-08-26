@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Custom/Distance")]
-	public class Distance : ComputeShaderNode
+	public class Distance : ComputeShaderNode, IUseCustomRenderTextureProcessing
 	{
 		[Input("Input")]
 		public Texture input;
@@ -41,7 +41,7 @@ namespace Mixture
 		{
 			yield return new PortData{
 				displayName = "output",
-				displayType = input != null ? TextureUtils.GetTypeFromDimension(input.dimension) : typeof(Texture),
+				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
 				identifier = "output",
 				acceptMultipleEdges = true,
 			};
@@ -119,5 +119,9 @@ namespace Mixture
 
 			return true;
 		}
+
+        protected override void Disable() => CoreUtils.Destroy(output);
+
+		public CustomRenderTexture GetCustomRenderTexture() => output;
 	}
 }

@@ -35,16 +35,8 @@ namespace Mixture
 		public override Texture 	previewTexture => graph.isRealtime ? graph.outputTexture : tempRenderTexture;
 		public override float		nodeWidth => 350;
 
-		Material					_finalCopyMaterial;
-		protected Material			finalCopyMaterial
-		{
-			get
-			{
-				if (_finalCopyMaterial == null)
-					_finalCopyMaterial = CoreUtils.CreateEngineMaterial(Shader.Find("Hidden/Mixture/FinalCopy"));
-				return _finalCopyMaterial;
-			}
-		}
+		[SerializeField]
+		internal Material			finalCopyMaterial;
 
 		Material					_customMipMapMaterial;
 		Material					customMipMapMaterial
@@ -72,6 +64,8 @@ namespace Mixture
 		// TODO: move this to NodeGraphProcessor
 		[NonSerialized]
 		protected HashSet< string > uniqueMessages = new HashSet< string >();
+
+		CommandBuffer mipchainCmd = new CommandBuffer();
 
 		protected override MixtureRTSettings defaultRTSettings
         {
@@ -101,6 +95,12 @@ namespace Mixture
 				rtSettings.dimension = OutputDimension.Texture2D;
 			rtSettings.editFlags |= EditFlags.POTSize;
 
+			if (finalCopyMaterial == null)
+			{
+				finalCopyMaterial = new Material(Shader.Find("Hidden/Mixture/FinalCopy"));
+				finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+			}
+
 			if (graph.isRealtime)
 			{
 				tempRenderTexture = graph.outputTexture as CustomRenderTexture;
@@ -112,7 +112,10 @@ namespace Mixture
 					UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null);
 				};
 			}
-			tempRenderTexture.material = finalCopyMaterial;
+
+			// tempRenderTexture can be null here if the graph haven't been imported yet
+			if (tempRenderTexture != null)
+				tempRenderTexture.material = finalCopyMaterial;
 
 			// SRP mip generation:
 			RenderPipelineManager.beginFrameRendering += BeginFrameRendering;
@@ -132,6 +135,8 @@ namespace Mixture
 				Debug.LogError("Output Node can't write to target texture, Graph references a null output texture");
 				return false;
 			}
+
+			UpdateMessages();
 			
 			// Update the renderTexture reference for realtime graph
 			if (graph.isRealtime)
@@ -140,7 +145,33 @@ namespace Mixture
 					onTempRenderTextureUpdated?.Invoke();
 				tempRenderTexture = graph.outputTexture as CustomRenderTexture;
 			}
+			else
+			{
+				// Update the renderTexture size and format:
+				if (UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null))
+					onTempRenderTextureUpdated?.Invoke();
+			}
 
+			if (!UpdateFinalCopyMaterial())
+				return false;
+
+			// The CustomRenderTexture update will be triggered at the begining of the next frame so we wait one frame to generate the mipmaps
+			// We need to do this because we can't generate custom mipMaps with CustomRenderTextures
+			if (customMipMapShader != null && hasMips)
+			{
+				UpdateTempRenderTexture(ref mipmapRenderTexture, true, false);
+				GenerateCustomMipMaps();
+			}
+			else if (Camera.main != null)
+			{
+				Camera.main.RemoveCommandBuffers(CameraEvent.BeforeDepthTexture);
+			}
+
+			return true;
+		}
+
+		void UpdateMessages()
+		{
 			var inputPort = GetPort(nameof(input), nameof(input));
 
 			if (inputPort.GetEdges().Count == 0)
@@ -153,16 +184,16 @@ namespace Mixture
 				uniqueMessages.Clear();
 				ClearMessages();
 			}
+		}
 
-			// Update the renderTexture size and format:
-			if (UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null))
-				onTempRenderTextureUpdated?.Invoke();
-
+		bool UpdateFinalCopyMaterial()
+		{
 			// Manually reset all texture inputs
 			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_2D");
 			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_3D");
 			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_Cube");
 
+			var inputPort = GetPort(nameof(input), nameof(input));
 			if (input != null && inputPort.GetEdges().Count != 0)
 			{
 				if (input.dimension != (TextureDimension)rtSettings.dimension)
@@ -185,22 +216,8 @@ namespace Mixture
 
 			tempRenderTexture.material = finalCopyMaterial;
 
-			// The CustomRenderTexture update will be triggered at the begining of the next frame so we wait one frame to generate the mipmaps
-			// We need to do this because we can't generate custom mipMaps with CustomRenderTextures
-			if (customMipMapShader != null && hasMips)
-			{
-				UpdateTempRenderTexture(ref mipmapRenderTexture, true, false);
-				GenerateCustomMipMaps();
-			}
-			else if (Camera.main != null)
-			{
-				Camera.main.RemoveCommandBuffers(CameraEvent.BeforeDepthTexture);
-			}
-
 			return true;
 		}
-
-		CommandBuffer mipchainCmd = new CommandBuffer();
 
 		void GenerateCustomMipMaps()
 		{

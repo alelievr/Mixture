@@ -14,6 +14,7 @@ namespace Mixture
 			// We only accept these types:
 			yield return typeof(bool);
 			yield return typeof(string);
+			yield return typeof(Color);
 			yield return typeof(Texture);
 			yield return typeof(Texture2D);
 			yield return typeof(Texture3D);

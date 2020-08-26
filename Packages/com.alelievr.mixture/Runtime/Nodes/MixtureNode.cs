@@ -169,6 +169,9 @@ namespace Mixture
 					target.material = MixtureUtils.dummyCustomRenderTextureMaterial;
 			}
 
+			// Patch update mode based on graph type
+			target.updateMode = (graph.isRealtime) ? target.updateMode = CustomRenderTextureUpdateMode.Realtime : CustomRenderTextureUpdateMode.OnDemand;
+
 			return false;
 		}
 

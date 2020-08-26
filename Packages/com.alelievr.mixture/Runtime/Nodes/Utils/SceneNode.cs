@@ -50,8 +50,10 @@ namespace Mixture
 
         [System.NonSerialized]
         internal bool           prefabOpened = false;
+#if UNITY_EDITOR
         [System.NonSerialized]
         bool                    createNewPrefab = false;
+#endif
         [System.NonSerialized]
         internal Camera         prefabCamera;
         internal MixtureBufferOutput bufferOutput;

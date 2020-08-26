@@ -33,6 +33,10 @@ namespace Mixture
 
             base.Enable();
 
+			// We don't need the code for removing the material because this node can't be removed
+			if (outputNode.finalCopyMaterial != null && !owner.graph.IsObjectInGraph(outputNode.finalCopyMaterial))
+				owner.graph.AddObjectToGraph(outputNode.finalCopyMaterial);
+
 			outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
 			graph.onOutputTextureUpdated += UpdatePreviewImage;
 

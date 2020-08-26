@@ -24,7 +24,18 @@ namespace Mixture
 		public override string	name => "Transform Mesh";
 
 		// TODO: do not use GetAssetPreview, it's super slow and only do low res previews.
-		public override Texture previewTexture => output?.mesh != null ? UnityEditor.AssetPreview.GetAssetPreview(output.mesh) ?? Texture2D.blackTexture : Texture2D.blackTexture;
+        public override Texture previewTexture
+		{
+			get
+			{
+#if UNITY_EDITOR
+				return output?.mesh != null ? UnityEditor.AssetPreview.GetAssetPreview(output.mesh) ?? Texture2D.blackTexture : Texture2D.blackTexture;
+#else
+				return Texture2D.blackTexture;
+#endif
+			}
+		}
+
 		public override bool    hasPreview => true;
 		public override bool    showDefaultInspector => true;
 

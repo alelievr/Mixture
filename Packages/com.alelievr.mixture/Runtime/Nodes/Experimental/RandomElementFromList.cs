@@ -38,7 +38,11 @@ namespace Mixture
 				if (e.mesh == null)
 					return Texture2D.blackTexture;
 
+#if UNITY_EDITOR
 				return UnityEditor.AssetPreview.GetAssetPreview(e.mesh) ?? Texture2D.blackTexture;
+#else
+				return Texture2D.blackTexture;
+#endif
 			}
 		}
 

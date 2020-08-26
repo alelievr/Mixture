@@ -341,7 +341,7 @@ namespace Mixture
 
 			Add(refreshMode);
 
-			period = new FloatField("Refresh Mode") { value = node.rtSettings.period };
+			period = new FloatField("Period") { value = node.rtSettings.period };
 			period.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Set Period " + e.newValue);
 				node.rtSettings.period = e.newValue;

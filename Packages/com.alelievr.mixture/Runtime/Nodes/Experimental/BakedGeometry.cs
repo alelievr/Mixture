@@ -30,7 +30,17 @@ namespace Mixture
 		public override string	name => "Baked Geometry";
 
 		// TODO: do not use GetAssetPreview, it's super slow and only do low res previews.
-		public override Texture previewTexture => UnityEditor.AssetPreview.GetAssetPreview(mesh) ?? (Texture)preview ?? Texture2D.blackTexture;
+		public override Texture previewTexture
+		{
+			get
+			{
+#if UNITY_EDITOR
+				return UnityEditor.AssetPreview.GetAssetPreview(mesh) ?? (Texture)preview ?? Texture2D.blackTexture;
+#else
+				return Texture2D.blackTexture;
+#endif
+			}
+		}
 		CustomRenderTexture		preview;
 
 		protected override void Enable()

@@ -88,6 +88,8 @@ namespace Mixture
 				outputNode = AddNode(BaseNode.CreateFromType< OutputNode >(Vector2.zero)) as OutputNode;
 
 #if UNITY_EDITOR
+            // TODO: check if the asset is in a Resources folder for realtime and put a warning if it's not the case
+            // + store the Resources path in a string
 			if (isRealtime)
 				RealtimeMixtureReferences.realtimeMixtureCRTs.Add(outputTexture as CustomRenderTexture);
 #endif

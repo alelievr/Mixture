@@ -135,7 +135,7 @@ public static class CustomTextureManager
 
     static void InitializeCustomRenderTexture(CustomRenderTexture crt)
     {
-        // Debug.Log("Load: " + crt);
+        // Debug.Log("Load: " + crt + " | " + crt.updateMode);
     }
 
     static void OnCRTUnloaded(CustomRenderTexture crt) => customRenderTextures.Remove(crt);
