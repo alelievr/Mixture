@@ -38,7 +38,7 @@ namespace Mixture
         const float minZoom = 0.05f;
         const int buttonWidth = 25;
 
-        float compareSlider;
+        float compareSlider = 0.5f;
         bool compareEnabled = false;
         bool lockFirstPreview = false;
         bool lockSecondPreview = false;
@@ -226,7 +226,7 @@ namespace Mixture
                     previewMaterial.SetTexture("_MainTex1_Cube", secondLockedPreviewTarget.previewTexture);
                 }
 
-                previewMaterial.SetFloat("_ComparisonSlider", compareSlider);
+                previewMaterial.SetFloat("_ComparisonSlider", compareEnabled ? compareSlider : 0);
                 previewMaterial.SetFloat("_YRatio", previewRect.height / previewRect.width);
                 previewMaterial.SetFloat("_Zoom", zoom);
                 previewMaterial.SetVector("_Pan", shaderPos / previewRect.size);

@@ -44,25 +44,30 @@ namespace Mixture
 				SetShader((Shader)v.newValue);
 			});
 
-			if (shaderNode.shader != null)
-				shaderPath = AssetDatabase.GetAssetPath(shaderNode.shader);
-			if (!String.IsNullOrEmpty(shaderPath))
-				lastModified = File.GetLastWriteTime(shaderPath);
-			var lastWriteDetector = schedule.Execute(DetectShaderChanges);
-			lastWriteDetector.Every(200);
 			
-			InitializeDebug();
+			if (!fromInspector)
+			{
+				Debug.Log("Enable!");
+				if (shaderNode.shader != null)
+					shaderPath = AssetDatabase.GetAssetPath(shaderNode.shader);
+				if (!String.IsNullOrEmpty(shaderPath))
+					lastModified = File.GetLastWriteTime(shaderPath);
 
-			controlsContainer.Add(shaderField);
+				var lastWriteDetector = schedule.Execute(DetectShaderChanges);
+				lastWriteDetector.Every(200);
+				InitializeDebug();
 
-			shaderCreationUI = new VisualElement();
-			controlsContainer.Add(shaderCreationUI);
-			UpdateShaderCreationUI();
+				controlsContainer.Add(shaderField);
 
-			controlsContainer.Add(new IMGUIContainer(MaterialGUI));
-			materialEditor = Editor.CreateEditor(shaderNode.material) as MaterialEditor;
+				shaderCreationUI = new VisualElement();
+				controlsContainer.Add(shaderCreationUI);
+				UpdateShaderCreationUI();
 
-			onPortDisconnected += ResetMaterialPropertyToDefault;
+				controlsContainer.Add(new IMGUIContainer(MaterialGUI));
+				materialEditor = Editor.CreateEditor(shaderNode.material) as MaterialEditor;
+
+				onPortDisconnected += ResetMaterialPropertyToDefault;
+			}
 		}
 
 		~ShaderNodeView()
@@ -104,6 +109,8 @@ namespace Mixture
 			{
 				value = shaderNode.output
 			};
+
+			Debug.Log("Debug>?");
 			
 			debugContainer.Add(debugCustomRenderTextureField);
 		}

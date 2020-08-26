@@ -25,10 +25,15 @@ namespace Mixture
 		{
 			base.Enable(fromInspector);
 
-			if (fixedShaderNode.material != null && !owner.graph.IsObjectInGraph(fixedShaderNode.material))
-				owner.graph.AddObjectToGraph(fixedShaderNode.material);
+			if (!fromInspector)
+			{
+				if (fixedShaderNode.material != null && !owner.graph.IsObjectInGraph(fixedShaderNode.material))
+					owner.graph.AddObjectToGraph(fixedShaderNode.material);
 
-			InitializeDebug();
+				InitializeDebug();
+
+				onPortDisconnected += ResetMaterialPropertyToDefault;
+			}
 
 			if (fixedShaderNode.displayMaterialInspector)
 			{
@@ -37,8 +42,6 @@ namespace Mixture
 
 				controlsContainer.Add(materialIMGUI);
 			}
-
-			onPortDisconnected += ResetMaterialPropertyToDefault;
 		}
 
 		~FixedShaderNodeView() => onPortDisconnected -= ResetMaterialPropertyToDefault;
