@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Utils/Time")]
-	public class TimeNode : MixtureNode, INeedsCPU
+	public class TimeNode : MixtureNode
 	{
 		[Output(name = "Time")]
 		public float				time;

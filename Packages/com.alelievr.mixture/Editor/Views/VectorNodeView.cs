@@ -13,9 +13,9 @@ namespace Mixture
 	[NodeCustomEditor(typeof(VectorNode))]
 	public class VectorNodeView : MixtureNodeView
 	{
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 
 			var vectorNode = nodeTarget as VectorNode;
 

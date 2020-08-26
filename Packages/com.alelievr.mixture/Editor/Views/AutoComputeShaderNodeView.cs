@@ -23,9 +23,9 @@ namespace Mixture
 
 		VisualElement		allocList;
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 
             shaderCreationUI = new VisualElement();
             controlsContainer.Add(shaderCreationUI);
@@ -57,7 +57,7 @@ namespace Mixture
 			};
 		}
 
-		void SetComputeShader(ComputeShader newShader)
+		internal void SetComputeShader(ComputeShader newShader)
 		{
 			owner.RegisterCompleteObjectUndo("Updated Shader of Compute Shader Node");
 			computeShaderNode.computeShader = newShader;
@@ -210,6 +210,20 @@ namespace Mixture
 						allocList.Add(bufferAllocSettings);
 					}
 				}
+			}
+		}
+
+		internal void AutoAllocResource(string resourceName)
+		{
+			var desc = computeShaderNode.managedResources.FirstOrDefault(r => r.propertyName == resourceName);
+
+			if (desc != null)
+			{
+				desc.autoAlloc = true;
+				UpdateComputeShaderData(computeShaderNode.computeShader);
+				UpdateAllocUI();
+				ForceUpdatePorts();
+				NotifyNodeChanged();
 			}
 		}
 

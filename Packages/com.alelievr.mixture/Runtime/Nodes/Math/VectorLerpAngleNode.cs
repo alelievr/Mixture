@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Lerp Angle")]
-	public class VectorLerpAngleNode : MixtureNode, INeedsCPU
+	public class VectorLerpAngleNode : MixtureNode
 	{
 		public override bool hasSettings => false;
 		

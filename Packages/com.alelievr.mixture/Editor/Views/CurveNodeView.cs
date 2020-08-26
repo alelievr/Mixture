@@ -15,9 +15,9 @@ namespace Mixture
 	{
 		CurveNode		curveNode;
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 			curveNode = nodeTarget as CurveNode;
 
 			var gradientField = new CurveField() {

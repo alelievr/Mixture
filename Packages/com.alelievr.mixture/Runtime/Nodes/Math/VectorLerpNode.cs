@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Lerp")]
-	public class VectorLerpNode : MixtureNode, INeedsCPU
+	public class VectorLerpNode : MixtureNode
 	{
 		public override bool hasSettings => false;
 

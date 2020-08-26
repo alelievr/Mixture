@@ -1,0 +1,670 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.MixtureNodeView
+  commentId: T:Mixture.MixtureNodeView
+  id: MixtureNodeView
+  parent: Mixture
+  children:
+  - Mixture.MixtureNodeView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+  - Mixture.MixtureNodeView.CreateSettingsView
+  - Mixture.MixtureNodeView.CreateTexturePreview(UnityEngine.UIElements.VisualElement,MixtureNode,System.Int32)
+  - Mixture.MixtureNodeView.DrawImGUIPreview(MixtureNode,UnityEngine.Rect,System.Int32)
+  - Mixture.MixtureNodeView.Enable
+  - Mixture.MixtureNodeView.Finalize
+  - Mixture.MixtureNodeView.hasSettings
+  - Mixture.MixtureNodeView.header
+  - Mixture.MixtureNodeView.MaterialPropertiesGUI(UnityEngine.Material,System.Boolean)
+  - Mixture.MixtureNodeView.nodeTarget
+  - Mixture.MixtureNodeView.owner
+  - Mixture.MixtureNodeView.previewContainer
+  - Mixture.MixtureNodeView.settingsView
+  langs:
+  - csharp
+  - vb
+  name: MixtureNodeView
+  nameWithType: MixtureNodeView
+  fullName: Mixture.MixtureNodeView
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: MixtureNodeView
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+    startLine: 13
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: 'public class MixtureNodeView : BaseNodeView'
+    content.vb: >-
+      Public Class MixtureNodeView
+          Inherits BaseNodeView
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - Mixture.ColorNodeView
+  - Mixture.ComputeShaderNodeView
+  - Mixture.CurveNodeView
+  - Mixture.CustomTextureNodeView
+  - Mixture.FixedShaderNodeView
+  - Mixture.FloatNodeView
+  - Mixture.GradientNodeView
+  - Mixture.MaterialBinderView
+  - Mixture.OutputNodeView
+  - Mixture.RandomColorNodeView
+  - Mixture.RandomRangeNodeView
+  - Mixture.SampleGradientNodeView
+  - Mixture.SceneNodeView
+  - Mixture.ShaderNodeView
+  - Mixture.TextureNodeView
+  - Mixture.VectorNodeView
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.MixtureNodeView.previewContainer
+  commentId: F:Mixture.MixtureNodeView.previewContainer
+  id: previewContainer
+  parent: Mixture.MixtureNodeView
+  langs:
+  - csharp
+  - vb
+  name: previewContainer
+  nameWithType: MixtureNodeView.previewContainer
+  fullName: Mixture.MixtureNodeView.previewContainer
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: previewContainer
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+    startLine: 16
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected VisualElement previewContainer
+    return:
+      type: UnityEngine.UIElements.VisualElement
+    content.vb: Protected previewContainer As VisualElement
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.MixtureNodeView.owner
+  commentId: P:Mixture.MixtureNodeView.owner
+  id: owner
+  parent: Mixture.MixtureNodeView
+  langs:
+  - csharp
+  - vb
+  name: owner
+  nameWithType: MixtureNodeView.owner
+  fullName: Mixture.MixtureNodeView.owner
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: owner
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+    startLine: 18
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected MixtureGraphView owner { get; }
+    parameters: []
+    return:
+      type: Mixture.MixtureGraphView
+    content.vb: Protected ReadOnly Property owner As MixtureGraphView
+  overload: Mixture.MixtureNodeView.owner*
+  modifiers.csharp:
+  - protected
+  - get
+  modifiers.vb:
+  - Protected
+  - ReadOnly
+- uid: Mixture.MixtureNodeView.nodeTarget
+  commentId: P:Mixture.MixtureNodeView.nodeTarget
+  id: nodeTarget
+  parent: Mixture.MixtureNodeView
+  langs:
+  - csharp
+  - vb
+  name: nodeTarget
+  nameWithType: MixtureNodeView.nodeTarget
+  fullName: Mixture.MixtureNodeView.nodeTarget
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: nodeTarget
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+    startLine: 19
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected MixtureNode nodeTarget { get; }
+    parameters: []
+    return:
+      type: MixtureNode
+    content.vb: Protected ReadOnly Property nodeTarget As MixtureNode
+  overload: Mixture.MixtureNodeView.nodeTarget*
+  modifiers.csharp:
+  - protected
+  - get
+  modifiers.vb:
+  - Protected
+  - ReadOnly
+- uid: Mixture.MixtureNodeView.header
+  commentId: P:Mixture.MixtureNodeView.header
+  id: header
+  parent: Mixture.MixtureNodeView
+  langs:
+  - csharp
+  - vb
+  name: header
+  nameWithType: MixtureNodeView.header
+  fullName: Mixture.MixtureNodeView.header
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: header
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+    startLine: 24
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected virtual string header { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Protected Overridable ReadOnly Property header As String
+  overload: Mixture.MixtureNodeView.header*
+  modifiers.csharp:
+  - protected
+  - virtual
+  - get
+  modifiers.vb:
+  - Protected
+  - Overridable
+  - ReadOnly
+- uid: Mixture.MixtureNodeView.hasSettings
+  commentId: P:Mixture.MixtureNodeView.hasSettings
+  id: hasSettings
+  parent: Mixture.MixtureNodeView
+  langs:
+  - csharp
+  - vb
+  name: hasSettings
+  nameWithType: MixtureNodeView.hasSettings
+  fullName: Mixture.MixtureNodeView.hasSettings
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: hasSettings
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+    startLine: 25
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected override bool hasSettings { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Protected Overrides ReadOnly Property hasSettings As Boolean
+  overload: Mixture.MixtureNodeView.hasSettings*
+  modifiers.csharp:
+  - protected
+  - override
+  - get
+  modifiers.vb:
+  - Protected
+  - Overrides
+  - ReadOnly
+- uid: Mixture.MixtureNodeView.settingsView
+  commentId: F:Mixture.MixtureNodeView.settingsView
+  id: settingsView
+  parent: Mixture.MixtureNodeView
+  langs:
+  - csharp
+  - vb
+  name: settingsView
+  nameWithType: MixtureNodeView.settingsView
+  fullName: Mixture.MixtureNodeView.settingsView
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: settingsView
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+    startLine: 27
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected MixtureRTSettingsView settingsView
+    return:
+      type: Mixture.MixtureRTSettingsView
+    content.vb: Protected settingsView As MixtureRTSettingsView
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.MixtureNodeView.CreateSettingsView
+  commentId: M:Mixture.MixtureNodeView.CreateSettingsView
+  id: CreateSettingsView
+  parent: Mixture.MixtureNodeView
+  langs:
+  - csharp
+  - vb
+  name: CreateSettingsView()
+  nameWithType: MixtureNodeView.CreateSettingsView()
+  fullName: Mixture.MixtureNodeView.CreateSettingsView()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: CreateSettingsView
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+    startLine: 33
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected override VisualElement CreateSettingsView()
+    return:
+      type: UnityEngine.UIElements.VisualElement
+    content.vb: Protected Overrides Function CreateSettingsView As VisualElement
+  overload: Mixture.MixtureNodeView.CreateSettingsView*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
+- uid: Mixture.MixtureNodeView.Enable
+  commentId: M:Mixture.MixtureNodeView.Enable
+  id: Enable
+  parent: Mixture.MixtureNodeView
+  langs:
+  - csharp
+  - vb
+  name: Enable()
+  nameWithType: MixtureNodeView.Enable()
+  fullName: Mixture.MixtureNodeView.Enable()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Enable
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+    startLine: 42
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public override void Enable()
+    content.vb: Public Overrides Sub Enable
+  overload: Mixture.MixtureNodeView.Enable*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: Mixture.MixtureNodeView.Finalize
+  commentId: M:Mixture.MixtureNodeView.Finalize
+  id: Finalize
+  parent: Mixture.MixtureNodeView
+  langs:
+  - csharp
+  - vb
+  name: Finalize()
+  nameWithType: MixtureNodeView.Finalize()
+  fullName: Mixture.MixtureNodeView.Finalize()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Finalize
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+    startLine: 87
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected void Finalize()
+    content.vb: Protected Sub Finalize
+  overload: Mixture.MixtureNodeView.Finalize*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.MixtureNodeView.MaterialPropertiesGUI(UnityEngine.Material,System.Boolean)
+  commentId: M:Mixture.MixtureNodeView.MaterialPropertiesGUI(UnityEngine.Material,System.Boolean)
+  id: MaterialPropertiesGUI(UnityEngine.Material,System.Boolean)
+  parent: Mixture.MixtureNodeView
+  langs:
+  - csharp
+  - vb
+  name: MaterialPropertiesGUI(Material, Boolean)
+  nameWithType: MixtureNodeView.MaterialPropertiesGUI(Material, Boolean)
+  fullName: Mixture.MixtureNodeView.MaterialPropertiesGUI(UnityEngine.Material, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: MaterialPropertiesGUI
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+    startLine: 160
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected bool MaterialPropertiesGUI(Material material, bool autoLabelWidth = true)
+    parameters:
+    - id: material
+      type: UnityEngine.Material
+    - id: autoLabelWidth
+      type: System.Boolean
+    return:
+      type: System.Boolean
+    content.vb: Protected Function MaterialPropertiesGUI(material As Material, autoLabelWidth As Boolean = True) As Boolean
+  overload: Mixture.MixtureNodeView.MaterialPropertiesGUI*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.MixtureNodeView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+  commentId: M:Mixture.MixtureNodeView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+  id: BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+  parent: Mixture.MixtureNodeView
+  langs:
+  - csharp
+  - vb
+  name: BuildContextualMenu(ContextualMenuPopulateEvent)
+  nameWithType: MixtureNodeView.BuildContextualMenu(ContextualMenuPopulateEvent)
+  fullName: Mixture.MixtureNodeView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: BuildContextualMenu
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+    startLine: 207
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+    parameters:
+    - id: evt
+      type: UnityEngine.UIElements.ContextualMenuPopulateEvent
+    content.vb: Public Overrides Sub BuildContextualMenu(evt As ContextualMenuPopulateEvent)
+  overload: Mixture.MixtureNodeView.BuildContextualMenu*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: Mixture.MixtureNodeView.CreateTexturePreview(UnityEngine.UIElements.VisualElement,MixtureNode,System.Int32)
+  commentId: M:Mixture.MixtureNodeView.CreateTexturePreview(UnityEngine.UIElements.VisualElement,MixtureNode,System.Int32)
+  id: CreateTexturePreview(UnityEngine.UIElements.VisualElement,MixtureNode,System.Int32)
+  parent: Mixture.MixtureNodeView
+  langs:
+  - csharp
+  - vb
+  name: CreateTexturePreview(VisualElement, MixtureNode, Int32)
+  nameWithType: MixtureNodeView.CreateTexturePreview(VisualElement, MixtureNode, Int32)
+  fullName: Mixture.MixtureNodeView.CreateTexturePreview(UnityEngine.UIElements.VisualElement, MixtureNode, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: CreateTexturePreview
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+    startLine: 244
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected void CreateTexturePreview(VisualElement previewContainer, MixtureNode node, int currentSlice = 0)
+    parameters:
+    - id: previewContainer
+      type: UnityEngine.UIElements.VisualElement
+    - id: node
+      type: MixtureNode
+    - id: currentSlice
+      type: System.Int32
+    content.vb: Protected Sub CreateTexturePreview(previewContainer As VisualElement, node As MixtureNode, currentSlice As Integer = 0)
+  overload: Mixture.MixtureNodeView.CreateTexturePreview*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.MixtureNodeView.DrawImGUIPreview(MixtureNode,UnityEngine.Rect,System.Int32)
+  commentId: M:Mixture.MixtureNodeView.DrawImGUIPreview(MixtureNode,UnityEngine.Rect,System.Int32)
+  id: DrawImGUIPreview(MixtureNode,UnityEngine.Rect,System.Int32)
+  parent: Mixture.MixtureNodeView
+  langs:
+  - csharp
+  - vb
+  name: DrawImGUIPreview(MixtureNode, Rect, Int32)
+  nameWithType: MixtureNodeView.DrawImGUIPreview(MixtureNode, Rect, Int32)
+  fullName: Mixture.MixtureNodeView.DrawImGUIPreview(MixtureNode, UnityEngine.Rect, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: DrawImGUIPreview
+    path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureNodeView.cs
+    startLine: 412
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected virtual void DrawImGUIPreview(MixtureNode node, Rect previewRect, int currentSlice)
+    parameters:
+    - id: node
+      type: MixtureNode
+    - id: previewRect
+      type: UnityEngine.Rect
+    - id: currentSlice
+      type: System.Int32
+    content.vb: Protected Overridable Sub DrawImGUIPreview(node As MixtureNode, previewRect As Rect, currentSlice As Integer)
+  overload: Mixture.MixtureNodeView.DrawImGUIPreview*
+  modifiers.csharp:
+  - protected
+  - virtual
+  modifiers.vb:
+  - Protected
+  - Overridable
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEngine.UIElements.VisualElement
+  commentId: T:UnityEngine.UIElements.VisualElement
+  parent: UnityEngine.UIElements
+  isExternal: true
+  name: VisualElement
+  nameWithType: VisualElement
+  fullName: UnityEngine.UIElements.VisualElement
+- uid: UnityEngine.UIElements
+  commentId: N:UnityEngine.UIElements
+  isExternal: true
+  name: UnityEngine.UIElements
+  nameWithType: UnityEngine.UIElements
+  fullName: UnityEngine.UIElements
+- uid: Mixture.MixtureNodeView.owner*
+  commentId: Overload:Mixture.MixtureNodeView.owner
+  name: owner
+  nameWithType: MixtureNodeView.owner
+  fullName: Mixture.MixtureNodeView.owner
+- uid: Mixture.MixtureGraphView
+  commentId: T:Mixture.MixtureGraphView
+  parent: Mixture
+  name: MixtureGraphView
+  nameWithType: MixtureGraphView
+  fullName: Mixture.MixtureGraphView
+- uid: Mixture.MixtureNodeView.nodeTarget*
+  commentId: Overload:Mixture.MixtureNodeView.nodeTarget
+  name: nodeTarget
+  nameWithType: MixtureNodeView.nodeTarget
+  fullName: Mixture.MixtureNodeView.nodeTarget
+- uid: MixtureNode
+  isExternal: true
+  name: MixtureNode
+  nameWithType: MixtureNode
+  fullName: MixtureNode
+- uid: Mixture.MixtureNodeView.header*
+  commentId: Overload:Mixture.MixtureNodeView.header
+  name: header
+  nameWithType: MixtureNodeView.header
+  fullName: Mixture.MixtureNodeView.header
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: Mixture.MixtureNodeView.hasSettings*
+  commentId: Overload:Mixture.MixtureNodeView.hasSettings
+  name: hasSettings
+  nameWithType: MixtureNodeView.hasSettings
+  fullName: Mixture.MixtureNodeView.hasSettings
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: Mixture.MixtureRTSettingsView
+  commentId: T:Mixture.MixtureRTSettingsView
+  parent: Mixture
+  name: MixtureRTSettingsView
+  nameWithType: MixtureRTSettingsView
+  fullName: Mixture.MixtureRTSettingsView
+- uid: Mixture.MixtureNodeView.CreateSettingsView*
+  commentId: Overload:Mixture.MixtureNodeView.CreateSettingsView
+  name: CreateSettingsView
+  nameWithType: MixtureNodeView.CreateSettingsView
+  fullName: Mixture.MixtureNodeView.CreateSettingsView
+- uid: Mixture.MixtureNodeView.Enable*
+  commentId: Overload:Mixture.MixtureNodeView.Enable
+  name: Enable
+  nameWithType: MixtureNodeView.Enable
+  fullName: Mixture.MixtureNodeView.Enable
+- uid: Mixture.MixtureNodeView.Finalize*
+  commentId: Overload:Mixture.MixtureNodeView.Finalize
+  name: Finalize
+  nameWithType: MixtureNodeView.Finalize
+  fullName: Mixture.MixtureNodeView.Finalize
+- uid: Mixture.MixtureNodeView.MaterialPropertiesGUI*
+  commentId: Overload:Mixture.MixtureNodeView.MaterialPropertiesGUI
+  name: MaterialPropertiesGUI
+  nameWithType: MixtureNodeView.MaterialPropertiesGUI
+  fullName: Mixture.MixtureNodeView.MaterialPropertiesGUI
+- uid: UnityEngine.Material
+  commentId: T:UnityEngine.Material
+  parent: UnityEngine
+  isExternal: true
+  name: Material
+  nameWithType: Material
+  fullName: UnityEngine.Material
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: Mixture.MixtureNodeView.BuildContextualMenu*
+  commentId: Overload:Mixture.MixtureNodeView.BuildContextualMenu
+  name: BuildContextualMenu
+  nameWithType: MixtureNodeView.BuildContextualMenu
+  fullName: Mixture.MixtureNodeView.BuildContextualMenu
+- uid: UnityEngine.UIElements.ContextualMenuPopulateEvent
+  commentId: T:UnityEngine.UIElements.ContextualMenuPopulateEvent
+  parent: UnityEngine.UIElements
+  isExternal: true
+  name: ContextualMenuPopulateEvent
+  nameWithType: ContextualMenuPopulateEvent
+  fullName: UnityEngine.UIElements.ContextualMenuPopulateEvent
+- uid: Mixture.MixtureNodeView.CreateTexturePreview*
+  commentId: Overload:Mixture.MixtureNodeView.CreateTexturePreview
+  name: CreateTexturePreview
+  nameWithType: MixtureNodeView.CreateTexturePreview
+  fullName: Mixture.MixtureNodeView.CreateTexturePreview
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: Mixture.MixtureNodeView.DrawImGUIPreview*
+  commentId: Overload:Mixture.MixtureNodeView.DrawImGUIPreview
+  name: DrawImGUIPreview
+  nameWithType: MixtureNodeView.DrawImGUIPreview
+  fullName: Mixture.MixtureNodeView.DrawImGUIPreview
+- uid: UnityEngine.Rect
+  commentId: T:UnityEngine.Rect
+  parent: UnityEngine
+  isExternal: true
+  name: Rect
+  nameWithType: Rect
+  fullName: UnityEngine.Rect

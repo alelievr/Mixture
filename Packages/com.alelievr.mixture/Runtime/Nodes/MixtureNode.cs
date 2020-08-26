@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Object = UnityEngine.Object;
 using UnityEngine.Experimental.Rendering;
+using System.Text.RegularExpressions;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Rendering;
@@ -40,7 +41,10 @@ namespace Mixture
 		public event Action					beforeProcessSetup;
 		public event Action					afterProcessCleanup;
 
-		public override bool				showControlsOnHover => canShowOnHover && false; // Disable this feature for now
+		public override bool				showControlsOnHover => false; // Disable this feature for now
+
+		public override bool				needsInspector => true;
+
 
 		protected Dictionary<string, Material> temporaryMaterials = new Dictionary<string, Material>();
 
@@ -53,8 +57,7 @@ namespace Mixture
         public bool previewVisible = true;
 		[SerializeField]
 		public float previewEV100 = 0.0f;
-
-		internal bool canShowOnHover = true;
+		public bool	isPinned;
 
 		CustomSampler		_sampler;
 		CustomSampler		sampler
@@ -164,6 +167,7 @@ namespace Mixture
 				target.autoGenerateMips = autoGenerateMips;
 				target.enableRandomWrite = true;
 				target.updatePeriod = GetUpdatePeriod();
+				target.hideFlags = HideFlags.HideAndDontSave;
 				target.Create();
 				if (target.material == null)
 					target.material = MixtureUtils.dummyCustomRenderTextureMaterial;
@@ -259,6 +263,7 @@ namespace Mixture
 			}
 		}
 
+		static Regex tooltipRegex = new Regex(@"Tooltip\((.*)\)");
 		protected IEnumerable< PortData > GetMaterialPortDatas(Material material)
 		{
 			if (material == null)
@@ -273,6 +278,14 @@ namespace Mixture
 				var name = s.GetPropertyName(i);
 				var displayName = s.GetPropertyDescription(i);
 				var type = s.GetPropertyType(i);
+				var tooltip = s.GetPropertyAttributes(i).Where(s => s.Contains("Tooltip")).FirstOrDefault();
+
+				if (tooltip != null)
+				{
+					// Parse tooltip:
+					var m = tooltipRegex.Match(tooltip);
+					tooltip = m.Groups[1].Value;
+				}
 
 				if (flags == ShaderPropertyFlags.HideInInspector
 					|| flags == ShaderPropertyFlags.NonModifiableTextureData
@@ -286,6 +299,7 @@ namespace Mixture
 					identifier = name,
 					displayName = displayName,
 					displayType = GetPropertyType(s, i),
+					tooltip = tooltip,
 				};
 			}
 		}

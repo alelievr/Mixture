@@ -1,0 +1,87 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.IUseCustomRenderTextureProcessing
+  commentId: T:Mixture.IUseCustomRenderTextureProcessing
+  id: IUseCustomRenderTextureProcessing
+  parent: Mixture
+  children:
+  - Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture
+  langs:
+  - csharp
+  - vb
+  name: IUseCustomRenderTextureProcessing
+  nameWithType: IUseCustomRenderTextureProcessing
+  fullName: Mixture.IUseCustomRenderTextureProcessing
+  type: Interface
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/IUseCustomRenderTextureProcessing.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: IUseCustomRenderTextureProcessing
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/IUseCustomRenderTextureProcessing.cs
+    startLine: 4
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public interface IUseCustomRenderTextureProcessing
+    content.vb: Public Interface IUseCustomRenderTextureProcessing
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture
+  commentId: M:Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture
+  id: GetCustomRenderTexture
+  parent: Mixture.IUseCustomRenderTextureProcessing
+  langs:
+  - csharp
+  - vb
+  name: GetCustomRenderTexture()
+  nameWithType: IUseCustomRenderTextureProcessing.GetCustomRenderTexture()
+  fullName: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/IUseCustomRenderTextureProcessing.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetCustomRenderTexture
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/IUseCustomRenderTextureProcessing.cs
+    startLine: 6
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: CustomRenderTexture GetCustomRenderTexture()
+    return:
+      type: UnityEngine.CustomRenderTexture
+    content.vb: Function GetCustomRenderTexture As CustomRenderTexture
+  overload: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture*
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture*
+  commentId: Overload:Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture
+  name: GetCustomRenderTexture
+  nameWithType: IUseCustomRenderTextureProcessing.GetCustomRenderTexture
+  fullName: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture
+- uid: UnityEngine.CustomRenderTexture
+  commentId: T:UnityEngine.CustomRenderTexture
+  parent: UnityEngine
+  isExternal: true
+  name: CustomRenderTexture
+  nameWithType: CustomRenderTexture
+  fullName: UnityEngine.CustomRenderTexture
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine

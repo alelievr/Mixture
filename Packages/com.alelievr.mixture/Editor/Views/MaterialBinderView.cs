@@ -11,9 +11,9 @@ namespace Mixture
 	[NodeCustomEditor(typeof(MaterialBinder))]
 	public class MaterialBinderView : MixtureNodeView
 	{
-        public override void Enable()
+        public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 
             var materialPicker = controlsContainer.Q(null, "unity-object-field") as ObjectField;
 

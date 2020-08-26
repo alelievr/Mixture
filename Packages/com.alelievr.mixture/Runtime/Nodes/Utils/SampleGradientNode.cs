@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Utils/Sample Gradient")]
-	public class SampleGradientNode : MixtureNode, INeedsCPU
+	public class SampleGradientNode : MixtureNode
 	{
         [Input("x"),Range(0.0f,1.0f)]
         public float x=0.0f;

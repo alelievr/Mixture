@@ -10,7 +10,8 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("CustomTexture")]
+	// Disable this node waiting for UI/UX pass
+	// [System.Serializable, NodeMenuItem("CustomTexture")]
 	public class CustomTextureNode : MixtureNode
 	{
 		[Input(name = "Init")]

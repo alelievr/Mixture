@@ -27,9 +27,9 @@ namespace Mixture
 
 		protected override string header => "Shader Properties";
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 
 			if (shaderNode.material != null && !owner.graph.IsObjectInGraph(shaderNode.material))
 				owner.graph.AddObjectToGraph(shaderNode.material);

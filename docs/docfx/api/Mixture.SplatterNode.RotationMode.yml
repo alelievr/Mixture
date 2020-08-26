@@ -1,0 +1,145 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.SplatterNode.RotationMode
+  commentId: T:Mixture.SplatterNode.RotationMode
+  id: SplatterNode.RotationMode
+  parent: Mixture
+  children:
+  - Mixture.SplatterNode.RotationMode.Fixed
+  - Mixture.SplatterNode.RotationMode.RandomBetween
+  - Mixture.SplatterNode.RotationMode.TowardsCenter
+  langs:
+  - csharp
+  - vb
+  name: SplatterNode.RotationMode
+  nameWithType: SplatterNode.RotationMode
+  fullName: Mixture.SplatterNode.RotationMode
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: RotationMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 17
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public enum RotationMode
+    content.vb: Public Enum RotationMode
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.SplatterNode.RotationMode.Fixed
+  commentId: F:Mixture.SplatterNode.RotationMode.Fixed
+  id: Fixed
+  parent: Mixture.SplatterNode.RotationMode
+  langs:
+  - csharp
+  - vb
+  name: Fixed
+  nameWithType: SplatterNode.RotationMode.Fixed
+  fullName: Mixture.SplatterNode.RotationMode.Fixed
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Fixed
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 19
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Fixed = 0
+    return:
+      type: Mixture.SplatterNode.RotationMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.RotationMode.RandomBetween
+  commentId: F:Mixture.SplatterNode.RotationMode.RandomBetween
+  id: RandomBetween
+  parent: Mixture.SplatterNode.RotationMode
+  langs:
+  - csharp
+  - vb
+  name: RandomBetween
+  nameWithType: SplatterNode.RotationMode.RandomBetween
+  fullName: Mixture.SplatterNode.RotationMode.RandomBetween
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: RandomBetween
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 19
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: RandomBetween = 1
+    return:
+      type: Mixture.SplatterNode.RotationMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.RotationMode.TowardsCenter
+  commentId: F:Mixture.SplatterNode.RotationMode.TowardsCenter
+  id: TowardsCenter
+  parent: Mixture.SplatterNode.RotationMode
+  langs:
+  - csharp
+  - vb
+  name: TowardsCenter
+  nameWithType: SplatterNode.RotationMode.TowardsCenter
+  fullName: Mixture.SplatterNode.RotationMode.TowardsCenter
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: TowardsCenter
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 19
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: TowardsCenter = 2
+    return:
+      type: Mixture.SplatterNode.RotationMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.SplatterNode.RotationMode
+  commentId: T:Mixture.SplatterNode.RotationMode
+  parent: Mixture
+  name: SplatterNode.RotationMode
+  nameWithType: SplatterNode.RotationMode
+  fullName: Mixture.SplatterNode.RotationMode

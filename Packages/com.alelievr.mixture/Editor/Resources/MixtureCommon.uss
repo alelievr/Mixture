@@ -1,81 +1,84 @@
-.ControlsContainer
-{
-	border-top-width: 1px;
-	border-color: #181818;
-	padding-top: 4px;
+.ControlsContainer {
+    border-top-width: 1px;
+    border-color: rgb(24, 24, 24);
+    padding-top: 4px;
 }
 
-.PropertyContainer
-{
-	padding: 6px;
+.PropertyContainer {
+    padding: 6px;
 }
 
-.PreviewToggleButton
-{
-	font-size: 12px;
-	height:16px;
-	background-image: resource("Collapse-Up");
-	-unity-background-scale-mode: scale-to-fit;
+.PreviewToggleButton {
+    font-size: 12px;
+    height: 16px;
+    background-image: resource('Collapse-Up');
+    -unity-background-scale-mode: scale-to-fit;
 }
 
-.Collapsed
-{
-	background-image: resource("Collapse-Down");
+.Collapsed {
+    background-image: resource('Collapse-Down');
 }
 
-.PreviewToggleButton:hover
-{
-	background-color:#444;
+.PreviewToggleButton:hover {
+    background-color: rgb(68, 68, 68);
 }
 
-.PreviewToggleButton:active
-{
-	background-color:#555;
+.PreviewToggleButton:active {
+    background-color: rgb(85, 85, 85);
 }
 
-.RTSettingsView
-{
-	border-top-width:1px;
-	border-color:#181818;
-	background-color:#222;
-	padding: 6px;
-	padding-left: 10px;
+.RTSettingsView {
+    border-top-width: 1px;
+    border-color: rgb(24, 24, 24);
+    background-color: rgb(34, 34, 34);
+    padding: 6px;
+    padding-left: 10px;
 }
 
-.PropertyEditorTitle
-{
+.PropertyEditorTitle {
     -unity-font-style: bold;
     font-size: 16px;
 }
 
-.PropertyEditorHeader
-{
+.PropertyEditorHeader {
     -unity-font-style: bold;
     font-size: 12px;
     margin-top: 10px;
     margin-bottom: 4px;
 }
 
-.MaterialInspector
-{
-	margin-left: 10px;
+.MaterialInspector {
+    margin-left: 10px;
 }
 
-.Hidden
-{
-	display : none;
+.Hidden {
+    display: none;
 }
 
-.Visible
-{
-	display : flex;
+.Visible {
+    display: flex;
 }
 
-.ControlsContainer > * > Label
-{
-	min-width: 80px;
+.ControlsContainer > * > Label {
+    min-width: 80px;
 }
 
 .Preview {
     background-color: rgba(63, 63, 63, 0.8);
+}
+
+.PinButton {
+    background-color: rgb(54, 54, 54);
+    border-width: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 0;
+}
+
+.PinButton:hover {
+    background-color: rgb(64, 64, 64);
+}
+
+.PinButton_Hover:hover {
+    background-color: rgb(64, 64, 64);
 }

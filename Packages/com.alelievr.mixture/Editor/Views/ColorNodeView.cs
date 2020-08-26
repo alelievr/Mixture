@@ -15,9 +15,9 @@ namespace Mixture
 	{
 		ColorNode		colorNode;
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 			colorNode = nodeTarget as ColorNode;
 
 			var colorField = new ColorField() {

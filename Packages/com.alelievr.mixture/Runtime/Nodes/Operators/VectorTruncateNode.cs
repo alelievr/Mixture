@@ -9,7 +9,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Truncate")]
-	public class VectorTruncateNode : MixtureNode, INeedsCPU
+	public class VectorTruncateNode : MixtureNode
 	{
 		// TODO: multi VectorTruncate port
 		public override bool hasSettings => false;

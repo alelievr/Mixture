@@ -13,9 +13,9 @@ namespace Mixture
         Button saveButton;
         Button updateButton;
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
         {
-            base.Enable();
+            base.Enable(fromInspector);
 
             // We can delete external outputs
             capabilities |= Capabilities.Deletable;

@@ -115,30 +115,30 @@ namespace Mixture
         static Texture2D _windowIcon;
         public static Texture2D windowIcon
         {
-            get => _windowIcon == null ? _windowIcon = Resources.Load<Texture2D>("MixtureIcon") : _windowIcon;
+            get => _windowIcon == null ? _windowIcon = Resources.Load<Texture2D>("Icons/MixtureIcon") : _windowIcon;
         }
         static Texture2D _icon;
         public static Texture2D icon
         {
-            get => _icon == null ? _icon = Resources.Load<Texture2D>("MixtureIcon_128") : _icon;
+            get => _icon == null ? _icon = Resources.Load<Texture2D>("Icons/MixtureIcon_128") : _icon;
         }
 
         static Texture2D				_icon32;
 		public static Texture2D			icon32
 		{
-			get => _icon32 == null ? _icon32 = Resources.Load< Texture2D >("MixtureIcon_32") : _icon32;
+			get => _icon32 == null ? _icon32 = Resources.Load< Texture2D >("Icons/MixtureIcon_32") : _icon32;
 		}
 		
 		static Texture2D				_realtimeIcon;
 		public static Texture2D			realtimeIcon
 		{
-			get => _realtimeIcon == null ? _realtimeIcon = Resources.Load< Texture2D >("MixtureRealtimeIcon_128") : _realtimeIcon;
+			get => _realtimeIcon == null ? _realtimeIcon = Resources.Load< Texture2D >("Icons/MixtureRealtimeIcon_128") : _realtimeIcon;
 		}
 
 		static Texture2D				_realtimeIcon32;
 		public static Texture2D			realtimeIcon32
 		{
-			get => _realtimeIcon32 == null ? _realtimeIcon32 = Resources.Load< Texture2D >("MixtureRealtimeIcon_32") : _realtimeIcon32;
+			get => _realtimeIcon32 == null ? _realtimeIcon32 = Resources.Load< Texture2D >("Icons/MixtureRealtimeIcon_32") : _realtimeIcon32;
 		}
 
 		static ComputeShader			_clearCompute;

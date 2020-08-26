@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Remap")]
-	public class VectorRemapNode : MixtureNode, INeedsCPU
+	public class VectorRemapNode : MixtureNode
 	{
 		// TODO: multi VectorRemap port
 		public override bool hasSettings => false;

@@ -49,7 +49,7 @@ namespace Mixture
         protected override void Enable()
         {
             // Do NOT Call base.Enable() as it references the node as the main output of the graph.
-            //base.Enable();
+            //base.Enable(fromInspector);
 
             // Sanitize the RT Settings for the output node, they must contains only valid information for the output node
             if (rtSettings.dimension == OutputDimension.SameAsOutput)

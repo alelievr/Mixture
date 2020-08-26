@@ -12,11 +12,11 @@ namespace Mixture
 	{
 		SplatterNode node;
 
-		public override void Enable()
-		{
-			base.Enable();
+		// public override void Enable()
+		// {
+		// 	base.Enable(fromInspector);
 
-			node = nodeTarget as SplatterNode;
-		}
+		// 	node = nodeTarget as SplatterNode;
+		// }
 	}
 }

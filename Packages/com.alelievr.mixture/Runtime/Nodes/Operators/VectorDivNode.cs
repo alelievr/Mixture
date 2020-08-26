@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Div")]
-	public class VectorDivNode : MixtureNode, INeedsCPU
+	public class VectorDivNode : MixtureNode
 	{
 		// TODO: multi VectorDiv port
 		public override bool hasSettings => false;

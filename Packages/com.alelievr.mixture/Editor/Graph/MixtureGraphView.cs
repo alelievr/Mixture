@@ -15,6 +15,8 @@ namespace Mixture
 		public MixtureGraphProcessor	processor { get; private set; }
 		public new MixtureGraph	graph => base.graph as MixtureGraph;
 
+		public MixtureNodeInspectorObject mixtureNodeInspector => nodeInspector as MixtureNodeInspectorObject;
+
 		public MixtureGraphView(EditorWindow window) : base(window)
 		{
 			initialized += Initialize;
@@ -68,6 +70,15 @@ namespace Mixture
 			}));
 
 			return compatiblePorts;
+		}
+
+		protected override NodeInspectorObject CreateNodeInspectorObject()
+		{
+			var inspector = ScriptableObject.CreateInstance<MixtureNodeInspectorObject>();
+			inspector.name = "";
+			inspector.hideFlags = HideFlags.HideAndDontSave ^ HideFlags.NotEditable;
+
+			return inspector;
 		}
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)

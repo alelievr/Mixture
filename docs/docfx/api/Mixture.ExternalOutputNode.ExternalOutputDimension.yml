@@ -1,0 +1,112 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.ExternalOutputNode.ExternalOutputDimension
+  commentId: T:Mixture.ExternalOutputNode.ExternalOutputDimension
+  id: ExternalOutputNode.ExternalOutputDimension
+  parent: Mixture
+  children:
+  - Mixture.ExternalOutputNode.ExternalOutputDimension.Texture2D
+  - Mixture.ExternalOutputNode.ExternalOutputDimension.Texture3D
+  langs:
+  - csharp
+  - vb
+  name: ExternalOutputNode.ExternalOutputDimension
+  nameWithType: ExternalOutputNode.ExternalOutputDimension
+  fullName: Mixture.ExternalOutputNode.ExternalOutputDimension
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ExternalOutputDimension
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
+    startLine: 10
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public enum ExternalOutputDimension
+    content.vb: Public Enum ExternalOutputDimension
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.ExternalOutputNode.ExternalOutputDimension.Texture2D
+  commentId: F:Mixture.ExternalOutputNode.ExternalOutputDimension.Texture2D
+  id: Texture2D
+  parent: Mixture.ExternalOutputNode.ExternalOutputDimension
+  langs:
+  - csharp
+  - vb
+  name: Texture2D
+  nameWithType: ExternalOutputNode.ExternalOutputDimension.Texture2D
+  fullName: Mixture.ExternalOutputNode.ExternalOutputDimension.Texture2D
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Texture2D
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
+    startLine: 12
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Texture2D = 0
+    return:
+      type: Mixture.ExternalOutputNode.ExternalOutputDimension
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ExternalOutputNode.ExternalOutputDimension.Texture3D
+  commentId: F:Mixture.ExternalOutputNode.ExternalOutputDimension.Texture3D
+  id: Texture3D
+  parent: Mixture.ExternalOutputNode.ExternalOutputDimension
+  langs:
+  - csharp
+  - vb
+  name: Texture3D
+  nameWithType: ExternalOutputNode.ExternalOutputDimension.Texture3D
+  fullName: Mixture.ExternalOutputNode.ExternalOutputDimension.Texture3D
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Texture3D
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
+    startLine: 13
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Texture3D = 1
+    return:
+      type: Mixture.ExternalOutputNode.ExternalOutputDimension
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.ExternalOutputNode.ExternalOutputDimension
+  commentId: T:Mixture.ExternalOutputNode.ExternalOutputDimension
+  parent: Mixture
+  name: ExternalOutputNode.ExternalOutputDimension
+  nameWithType: ExternalOutputNode.ExternalOutputDimension
+  fullName: Mixture.ExternalOutputNode.ExternalOutputDimension

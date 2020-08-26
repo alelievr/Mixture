@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 using GraphProcessor;
 
 namespace Mixture
@@ -20,11 +21,38 @@ namespace Mixture
 			public const string processButtonText = "Process";
             public const string saveAllText = "Save All";
 			public const string parameterViewsText = "Parameters";
+			public static GUIContent documentation = new GUIContent("Documentation", MixtureEditorUtils.documentationIcon);
+			public static GUIContent bugReport = new GUIContent("Bug Report", MixtureEditorUtils.bugIcon);
+			public static GUIContent featureRequest = new GUIContent("Feature Request", MixtureEditorUtils.featureRequestIcon);
+			public static GUIContent improveMixture = new GUIContent("Improve Mixture", MixtureEditorUtils.featureRequestIcon);
+			static GUIStyle _improveButtonStyle = null;
+			public static GUIStyle improveButtonStyle => _improveButtonStyle == null ? _improveButtonStyle = new GUIStyle(GUI.skin.button) { alignment = TextAnchor.MiddleLeft } : _improveButtonStyle;
+		}
+
+		public class ImproveMixturePopupWindow : PopupWindowContent
+		{
+			public static readonly int width = 150;
+
+			public override Vector2 GetWindowSize()
+			{
+				return new Vector2(width, 94);
+			}
+
+			public override void OnGUI(Rect rect)
+			{
+				if (GUILayout.Button(Styles.documentation, Styles.improveButtonStyle))
+					Application.OpenURL(@"https://alelievr.github.io/Mixture/");
+				if (GUILayout.Button(Styles.bugReport, Styles.improveButtonStyle))
+					Application.OpenURL(@"https://github.com/alelievr/Mixture/issues/new?assignees=alelievr&labels=bug&template=bug_report.md&title=%5BBUG%5D");
+				if (GUILayout.Button(Styles.featureRequest, Styles.improveButtonStyle))
+					Application.OpenURL(@"https://github.com/alelievr/Mixture/issues/new?assignees=alelievr&labels=enhancement&template=feature_request.md&title=");
+			}
 		}
 
 		protected override void AddButtons()
 		{
 			// Add the hello world button on the left of the toolbar
+			AddButton(Styles.processButtonText, Process, left: false);
 			ToggleRealtime(graph.realtimePreview);
 			AddToggle(Styles.realtimePreviewToggleText, graph.realtimePreview, ToggleRealtime, left: false);
 
@@ -32,16 +60,26 @@ namespace Mixture
 			// For now we don't display the show parameters
 			// AddToggle("Show Parameters", exposedParamsVisible, (v) => graphView.ToggleView<ExposedParameterView>());
 			AddButton("Show In Project", () => {
-				Selection.activeObject = graph;
 				EditorGUIUtility.PingObject(graph.outputTexture);
+				ProjectWindowUtil.ShowCreatedAsset(graph.outputTexture);
+				// Selection.activeObject = graph;
 			});
 			AddToggle(Styles.parameterViewsText, graph.isParameterViewOpen, ToggleParameterView, left: true);
 
-			// Pinned views
-			bool pinnedViewsVisible = graphView.GetPinnedElementStatus< PinnedViewBoard >() != Status.Hidden;
-			AddToggle("Pinned Views", pinnedViewsVisible, (v) => graphView.ToggleView< PinnedViewBoard >());
 			if (!graph.isRealtime)
 				AddButton(Styles.saveAllText, SaveAll , left: false);
+			// AddButton(Styles.bugReport, ReportBugCallback, left: false);
+			AddDropDownButton(Styles.improveMixture, ShowImproveMixtureWindow, left: false);
+		}
+
+		void ShowImproveMixtureWindow()
+		{
+			var rect = EditorWindow.focusedWindow.position;
+			// rect.position = Vector2.zero;
+			rect.xMin = rect.width - ImproveMixturePopupWindow.width;
+			rect.yMin = 21;
+			rect.size = Vector2.zero;
+			PopupWindow.Show(rect, new ImproveMixturePopupWindow());
 		}
 
         void SaveAll()
@@ -81,12 +119,12 @@ namespace Mixture
 		{
 			if (state)
 			{
-				RemoveButton(Styles.processButtonText, false);
+				HideButton(Styles.processButtonText);
 				MixtureUpdater.AddGraphToProcess(graphView);
 			}
 			else
 			{
-				AddProcessButton();
+				ShowButton(Styles.processButtonText);
 				MixtureUpdater.RemoveGraphToProcess(graphView);
 			}
 			graph.realtimePreview = state;
@@ -100,7 +138,6 @@ namespace Mixture
 
 		void AddProcessButton()
 		{
-			AddButton(Styles.processButtonText, Process, left: false);
 		}
 
 		void Process()

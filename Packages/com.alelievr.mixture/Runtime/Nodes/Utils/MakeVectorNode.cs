@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
     [System.Serializable, NodeMenuItem("Utils/Make Vector")]
-    public class MakeVectorNode : MixtureNode, INeedsCPU
+    public class MakeVectorNode : MixtureNode
     {
         [Input("X")]
         public float X;

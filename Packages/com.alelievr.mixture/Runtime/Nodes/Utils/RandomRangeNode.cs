@@ -10,7 +10,7 @@ using Random = System.Random;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Utils/Random Range")]
-	public class RandomRangeNode : MixtureNode, INeedsCPU
+	public class RandomRangeNode : MixtureNode
 	{
 		[Output("Random")]
 		public float	random;

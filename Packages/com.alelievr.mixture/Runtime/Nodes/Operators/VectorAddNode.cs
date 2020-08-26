@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Add")]
-	public class VectorAddNode : MixtureNode, INeedsCPU
+	public class VectorAddNode : MixtureNode
 	{
 		// TODO: multi Vectoradd port
 		public override bool hasSettings => false;

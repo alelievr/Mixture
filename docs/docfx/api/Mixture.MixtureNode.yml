@@ -1,0 +1,2124 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.MixtureNode
+  commentId: T:Mixture.MixtureNode
+  id: MixtureNode
+  parent: Mixture
+  children:
+  - Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
+  - Mixture.MixtureNode.afterProcessCleanup
+  - Mixture.MixtureNode.AssignMaterialPropertiesFromEdges(System.Collections.Generic.List{SerializableEdge},UnityEngine.Material)
+  - Mixture.MixtureNode.beforeProcessSetup
+  - Mixture.MixtureNode.defaultPreviewChannels
+  - Mixture.MixtureNode.defaultRTSettings
+  - Mixture.MixtureNode.Disable
+  - Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
+  - Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
+  - Mixture.MixtureNode.GetMixtureDependencies
+  - Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
+  - Mixture.MixtureNode.GetTempMaterial(System.String)
+  - Mixture.MixtureNode.graph
+  - Mixture.MixtureNode.hasPreview
+  - Mixture.MixtureNode.hasSettings
+  - Mixture.MixtureNode.isPreviewCollapsed
+  - Mixture.MixtureNode.nodeWidth
+  - Mixture.MixtureNode.OnNodeCreated
+  - Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
+  - Mixture.MixtureNode.onSettingsChanged
+  - Mixture.MixtureNode.OnSettingsChanged
+  - Mixture.MixtureNode.previewEV100
+  - Mixture.MixtureNode.previewMip
+  - Mixture.MixtureNode.previewMode
+  - Mixture.MixtureNode.previewTexture
+  - Mixture.MixtureNode.previewVisible
+  - Mixture.MixtureNode.Process
+  - Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  - Mixture.MixtureNode.recorder
+  - Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
+  - Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
+  - Mixture.MixtureNode.rtSettings
+  - Mixture.MixtureNode.showControlsOnHover
+  - Mixture.MixtureNode.showDefaultInspector
+  - Mixture.MixtureNode.showPreviewExposure
+  - Mixture.MixtureNode.supportedDimensions
+  - Mixture.MixtureNode.temporaryMaterials
+  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  langs:
+  - csharp
+  - vb
+  name: MixtureNode
+  nameWithType: MixtureNode
+  fullName: Mixture.MixtureNode
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: MixtureNode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 17
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: 'public abstract class MixtureNode : BaseNode'
+    content.vb: >-
+      Public MustInherit Class MixtureNode
+          Inherits BaseNode
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - Mixture.BreakVectorNode
+  - Mixture.ColorNode
+  - Mixture.ComputeShaderNode
+  - Mixture.CurveNode
+  - Mixture.CustomTextureNode
+  - Mixture.DebugLogNode
+  - Mixture.FloatNode
+  - Mixture.GetPixel
+  - Mixture.GradientNode
+  - Mixture.MakeVectorNode
+  - Mixture.MaterialBinder
+  - Mixture.OutputNode
+  - Mixture.RandomColorNode
+  - Mixture.RandomRangeNode
+  - Mixture.SampleGradientNode
+  - Mixture.SceneNode
+  - Mixture.ShaderNode
+  - Mixture.TextureNode
+  - Mixture.TimeNode
+  - Mixture.VectorAbsNode
+  - Mixture.VectorAddNode
+  - Mixture.VectorClampNode
+  - Mixture.VectorDivNode
+  - Mixture.VectorFracNode
+  - Mixture.VectorInverseLerpNode
+  - Mixture.VectorLerpAngleNode
+  - Mixture.VectorLerpNode
+  - Mixture.VectorModNode
+  - Mixture.VectorMulNode
+  - Mixture.VectorNode
+  - Mixture.VectorPingPongNode
+  - Mixture.VectorPowNode
+  - Mixture.VectorRemapNode
+  - Mixture.VectorSqrtNode
+  - Mixture.VectorSubNode
+  - Mixture.VectorSwizzle
+  - Mixture.VectorTruncateNode
+  modifiers.csharp:
+  - public
+  - abstract
+  - class
+  modifiers.vb:
+  - Public
+  - MustInherit
+  - Class
+- uid: Mixture.MixtureNode.graph
+  commentId: P:Mixture.MixtureNode.graph
+  id: graph
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: graph
+  nameWithType: MixtureNode.graph
+  fullName: Mixture.MixtureNode.graph
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: graph
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 19
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected MixtureGraph graph { get; }
+    parameters: []
+    return:
+      type: Mixture.MixtureGraph
+    content.vb: Protected ReadOnly Property graph As MixtureGraph
+  overload: Mixture.MixtureNode.graph*
+  modifiers.csharp:
+  - protected
+  - get
+  modifiers.vb:
+  - Protected
+  - ReadOnly
+- uid: Mixture.MixtureNode.rtSettings
+  commentId: F:Mixture.MixtureNode.rtSettings
+  id: rtSettings
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: rtSettings
+  nameWithType: MixtureNode.rtSettings
+  fullName: Mixture.MixtureNode.rtSettings
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: rtSettings
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 21
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public MixtureRTSettings rtSettings
+    return:
+      type: Mixture.MixtureRTSettings
+    content.vb: Public rtSettings As MixtureRTSettings
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.defaultRTSettings
+  commentId: P:Mixture.MixtureNode.defaultRTSettings
+  id: defaultRTSettings
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: defaultRTSettings
+  nameWithType: MixtureNode.defaultRTSettings
+  fullName: Mixture.MixtureNode.defaultRTSettings
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: defaultRTSettings
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 23
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected virtual MixtureRTSettings defaultRTSettings { get; }
+    parameters: []
+    return:
+      type: Mixture.MixtureRTSettings
+    content.vb: Protected Overridable ReadOnly Property defaultRTSettings As MixtureRTSettings
+  overload: Mixture.MixtureNode.defaultRTSettings*
+  modifiers.csharp:
+  - protected
+  - virtual
+  - get
+  modifiers.vb:
+  - Protected
+  - Overridable
+  - ReadOnly
+- uid: Mixture.MixtureNode.nodeWidth
+  commentId: P:Mixture.MixtureNode.nodeWidth
+  id: nodeWidth
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: nodeWidth
+  nameWithType: MixtureNode.nodeWidth
+  fullName: Mixture.MixtureNode.nodeWidth
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: nodeWidth
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 24
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public virtual float nodeWidth { get; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Overridable ReadOnly Property nodeWidth As Single
+  overload: Mixture.MixtureNode.nodeWidth*
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  modifiers.vb:
+  - Public
+  - Overridable
+  - ReadOnly
+- uid: Mixture.MixtureNode.previewTexture
+  commentId: P:Mixture.MixtureNode.previewTexture
+  id: previewTexture
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: previewTexture
+  nameWithType: MixtureNode.previewTexture
+  fullName: Mixture.MixtureNode.previewTexture
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: previewTexture
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 25
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public virtual Texture previewTexture { get; }
+    parameters: []
+    return:
+      type: UnityEngine.Texture
+    content.vb: Public Overridable ReadOnly Property previewTexture As Texture
+  overload: Mixture.MixtureNode.previewTexture*
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  modifiers.vb:
+  - Public
+  - Overridable
+  - ReadOnly
+- uid: Mixture.MixtureNode.hasSettings
+  commentId: P:Mixture.MixtureNode.hasSettings
+  id: hasSettings
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: hasSettings
+  nameWithType: MixtureNode.hasSettings
+  fullName: Mixture.MixtureNode.hasSettings
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: hasSettings
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 26
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public virtual bool hasSettings { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overridable ReadOnly Property hasSettings As Boolean
+  overload: Mixture.MixtureNode.hasSettings*
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  modifiers.vb:
+  - Public
+  - Overridable
+  - ReadOnly
+- uid: Mixture.MixtureNode.hasPreview
+  commentId: P:Mixture.MixtureNode.hasPreview
+  id: hasPreview
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: hasPreview
+  nameWithType: MixtureNode.hasPreview
+  fullName: Mixture.MixtureNode.hasPreview
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: hasPreview
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 27
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public virtual bool hasPreview { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overridable ReadOnly Property hasPreview As Boolean
+  overload: Mixture.MixtureNode.hasPreview*
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  modifiers.vb:
+  - Public
+  - Overridable
+  - ReadOnly
+- uid: Mixture.MixtureNode.supportedDimensions
+  commentId: P:Mixture.MixtureNode.supportedDimensions
+  id: supportedDimensions
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: supportedDimensions
+  nameWithType: MixtureNode.supportedDimensions
+  fullName: Mixture.MixtureNode.supportedDimensions
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: supportedDimensions
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 28
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public virtual List<OutputDimension> supportedDimensions { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{Mixture.OutputDimension}
+    content.vb: Public Overridable ReadOnly Property supportedDimensions As List(Of OutputDimension)
+  overload: Mixture.MixtureNode.supportedDimensions*
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  modifiers.vb:
+  - Public
+  - Overridable
+  - ReadOnly
+- uid: Mixture.MixtureNode.defaultPreviewChannels
+  commentId: P:Mixture.MixtureNode.defaultPreviewChannels
+  id: defaultPreviewChannels
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: defaultPreviewChannels
+  nameWithType: MixtureNode.defaultPreviewChannels
+  fullName: Mixture.MixtureNode.defaultPreviewChannels
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: defaultPreviewChannels
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 33
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public virtual PreviewChannels defaultPreviewChannels { get; }
+    parameters: []
+    return:
+      type: Mixture.PreviewChannels
+    content.vb: Public Overridable ReadOnly Property defaultPreviewChannels As PreviewChannels
+  overload: Mixture.MixtureNode.defaultPreviewChannels*
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  modifiers.vb:
+  - Public
+  - Overridable
+  - ReadOnly
+- uid: Mixture.MixtureNode.showDefaultInspector
+  commentId: P:Mixture.MixtureNode.showDefaultInspector
+  id: showDefaultInspector
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: showDefaultInspector
+  nameWithType: MixtureNode.showDefaultInspector
+  fullName: Mixture.MixtureNode.showDefaultInspector
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: showDefaultInspector
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 34
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public virtual bool showDefaultInspector { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overridable ReadOnly Property showDefaultInspector As Boolean
+  overload: Mixture.MixtureNode.showDefaultInspector*
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  modifiers.vb:
+  - Public
+  - Overridable
+  - ReadOnly
+- uid: Mixture.MixtureNode.showPreviewExposure
+  commentId: P:Mixture.MixtureNode.showPreviewExposure
+  id: showPreviewExposure
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: showPreviewExposure
+  nameWithType: MixtureNode.showPreviewExposure
+  fullName: Mixture.MixtureNode.showPreviewExposure
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: showPreviewExposure
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 35
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public virtual bool showPreviewExposure { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overridable ReadOnly Property showPreviewExposure As Boolean
+  overload: Mixture.MixtureNode.showPreviewExposure*
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  modifiers.vb:
+  - Public
+  - Overridable
+  - ReadOnly
+- uid: Mixture.MixtureNode.isPreviewCollapsed
+  commentId: F:Mixture.MixtureNode.isPreviewCollapsed
+  id: isPreviewCollapsed
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: isPreviewCollapsed
+  nameWithType: MixtureNode.isPreviewCollapsed
+  fullName: Mixture.MixtureNode.isPreviewCollapsed
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: isPreviewCollapsed
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 37
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [SerializeField]
+
+      public bool isPreviewCollapsed
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <SerializeField>
+
+      Public isPreviewCollapsed As Boolean
+  attributes:
+  - type: UnityEngine.SerializeField
+    ctor: UnityEngine.SerializeField.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.onSettingsChanged
+  commentId: E:Mixture.MixtureNode.onSettingsChanged
+  id: onSettingsChanged
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: onSettingsChanged
+  nameWithType: MixtureNode.onSettingsChanged
+  fullName: Mixture.MixtureNode.onSettingsChanged
+  type: Event
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: onSettingsChanged
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 39
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public event Action onSettingsChanged
+    return:
+      type: System.Action
+    content.vb: Public Event onSettingsChanged As Action
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.beforeProcessSetup
+  commentId: E:Mixture.MixtureNode.beforeProcessSetup
+  id: beforeProcessSetup
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: beforeProcessSetup
+  nameWithType: MixtureNode.beforeProcessSetup
+  fullName: Mixture.MixtureNode.beforeProcessSetup
+  type: Event
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: beforeProcessSetup
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 40
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public event Action beforeProcessSetup
+    return:
+      type: System.Action
+    content.vb: Public Event beforeProcessSetup As Action
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.afterProcessCleanup
+  commentId: E:Mixture.MixtureNode.afterProcessCleanup
+  id: afterProcessCleanup
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: afterProcessCleanup
+  nameWithType: MixtureNode.afterProcessCleanup
+  fullName: Mixture.MixtureNode.afterProcessCleanup
+  type: Event
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: afterProcessCleanup
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 41
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public event Action afterProcessCleanup
+    return:
+      type: System.Action
+    content.vb: Public Event afterProcessCleanup As Action
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.showControlsOnHover
+  commentId: P:Mixture.MixtureNode.showControlsOnHover
+  id: showControlsOnHover
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: showControlsOnHover
+  nameWithType: MixtureNode.showControlsOnHover
+  fullName: Mixture.MixtureNode.showControlsOnHover
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: showControlsOnHover
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 43
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public override bool showControlsOnHover { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides ReadOnly Property showControlsOnHover As Boolean
+  overload: Mixture.MixtureNode.showControlsOnHover*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: Mixture.MixtureNode.temporaryMaterials
+  commentId: F:Mixture.MixtureNode.temporaryMaterials
+  id: temporaryMaterials
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: temporaryMaterials
+  nameWithType: MixtureNode.temporaryMaterials
+  fullName: Mixture.MixtureNode.temporaryMaterials
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: temporaryMaterials
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 45
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected Dictionary<string, Material> temporaryMaterials
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,UnityEngine.Material}
+    content.vb: Protected temporaryMaterials As Dictionary(Of String, Material)
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.MixtureNode.previewMode
+  commentId: F:Mixture.MixtureNode.previewMode
+  id: previewMode
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: previewMode
+  nameWithType: MixtureNode.previewMode
+  fullName: Mixture.MixtureNode.previewMode
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: previewMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 49
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [SerializeField]
+
+      public PreviewChannels previewMode
+    return:
+      type: Mixture.PreviewChannels
+    content.vb: >-
+      <SerializeField>
+
+      Public previewMode As PreviewChannels
+  attributes:
+  - type: UnityEngine.SerializeField
+    ctor: UnityEngine.SerializeField.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.previewMip
+  commentId: F:Mixture.MixtureNode.previewMip
+  id: previewMip
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: previewMip
+  nameWithType: MixtureNode.previewMip
+  fullName: Mixture.MixtureNode.previewMip
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: previewMip
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 51
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [SerializeField]
+
+      public float previewMip
+    return:
+      type: System.Single
+    content.vb: >-
+      <SerializeField>
+
+      Public previewMip As Single
+  attributes:
+  - type: UnityEngine.SerializeField
+    ctor: UnityEngine.SerializeField.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.previewVisible
+  commentId: F:Mixture.MixtureNode.previewVisible
+  id: previewVisible
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: previewVisible
+  nameWithType: MixtureNode.previewVisible
+  fullName: Mixture.MixtureNode.previewVisible
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: previewVisible
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 53
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [SerializeField]
+
+      public bool previewVisible
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <SerializeField>
+
+      Public previewVisible As Boolean
+  attributes:
+  - type: UnityEngine.SerializeField
+    ctor: UnityEngine.SerializeField.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.previewEV100
+  commentId: F:Mixture.MixtureNode.previewEV100
+  id: previewEV100
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: previewEV100
+  nameWithType: MixtureNode.previewEV100
+  fullName: Mixture.MixtureNode.previewEV100
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: previewEV100
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 55
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [SerializeField]
+
+      public float previewEV100
+    return:
+      type: System.Single
+    content.vb: >-
+      <SerializeField>
+
+      Public previewEV100 As Single
+  attributes:
+  - type: UnityEngine.SerializeField
+    ctor: UnityEngine.SerializeField.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.recorder
+  commentId: P:Mixture.MixtureNode.recorder
+  id: recorder
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: recorder
+  nameWithType: MixtureNode.recorder
+  fullName: Mixture.MixtureNode.recorder
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: recorder
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 76
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected Recorder recorder { get; }
+    parameters: []
+    return:
+      type: UnityEngine.Profiling.Recorder
+    content.vb: Protected ReadOnly Property recorder As Recorder
+  overload: Mixture.MixtureNode.recorder*
+  modifiers.csharp:
+  - protected
+  - get
+  modifiers.vb:
+  - Protected
+  - ReadOnly
+- uid: Mixture.MixtureNode.OnNodeCreated
+  commentId: M:Mixture.MixtureNode.OnNodeCreated
+  id: OnNodeCreated
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: OnNodeCreated()
+  nameWithType: MixtureNode.OnNodeCreated()
+  fullName: Mixture.MixtureNode.OnNodeCreated()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: OnNodeCreated
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 89
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public override void OnNodeCreated()
+    content.vb: Public Overrides Sub OnNodeCreated
+  overload: Mixture.MixtureNode.OnNodeCreated*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  id: UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: UpdateTempRenderTexture(ref CustomRenderTexture, Boolean, Boolean)
+  nameWithType: MixtureNode.UpdateTempRenderTexture(ref CustomRenderTexture, Boolean, Boolean)
+  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(ref UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: UpdateTempRenderTexture
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 96
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false)
+    parameters:
+    - id: target
+      type: UnityEngine.CustomRenderTexture
+    - id: hasMips
+      type: System.Boolean
+    - id: autoGenerateMips
+      type: System.Boolean
+    return:
+      type: System.Boolean
+    content.vb: Protected Function UpdateTempRenderTexture(ByRef target As CustomRenderTexture, hasMips As Boolean = False, autoGenerateMips As Boolean = False) As Boolean
+  overload: Mixture.MixtureNode.UpdateTempRenderTexture*
+  nameWithType.vb: MixtureNode.UpdateTempRenderTexture(ByRef CustomRenderTexture, Boolean, Boolean)
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+  fullName.vb: Mixture.MixtureNode.UpdateTempRenderTexture(ByRef UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean)
+  name.vb: UpdateTempRenderTexture(ByRef CustomRenderTexture, Boolean, Boolean)
+- uid: Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
+  commentId: M:Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
+  id: OnProcess(UnityEngine.Rendering.CommandBuffer)
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: OnProcess(CommandBuffer)
+  nameWithType: MixtureNode.OnProcess(CommandBuffer)
+  fullName: Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: OnProcess
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 171
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public void OnProcess(CommandBuffer cmd)
+    parameters:
+    - id: cmd
+      type: UnityEngine.Rendering.CommandBuffer
+    content.vb: Public Sub OnProcess(cmd As CommandBuffer)
+  overload: Mixture.MixtureNode.OnProcess*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.Process
+  commentId: M:Mixture.MixtureNode.Process
+  id: Process
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: Process()
+  nameWithType: MixtureNode.Process()
+  fullName: Mixture.MixtureNode.Process()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Process
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 182
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected override sealed void Process()
+    content.vb: Protected NotOverridable Overrides Sub Process
+  overload: Mixture.MixtureNode.Process*
+  modifiers.csharp:
+  - protected
+  - override
+  - sealed
+  modifiers.vb:
+  - Protected
+  - Overrides
+  - NotOverridable
+- uid: Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  commentId: M:Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  id: ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: ProcessNode(CommandBuffer)
+  nameWithType: MixtureNode.ProcessNode(CommandBuffer)
+  fullName: Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ProcessNode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 215
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected virtual bool ProcessNode(CommandBuffer cmd)
+    parameters:
+    - id: cmd
+      type: UnityEngine.Rendering.CommandBuffer
+    return:
+      type: System.Boolean
+    content.vb: Protected Overridable Function ProcessNode(cmd As CommandBuffer) As Boolean
+  overload: Mixture.MixtureNode.ProcessNode*
+  modifiers.csharp:
+  - protected
+  - virtual
+  modifiers.vb:
+  - Protected
+  - Overridable
+- uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
+  commentId: M:Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
+  id: AddObjectToGraph(UnityEngine.Object)
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: AddObjectToGraph(Object)
+  nameWithType: MixtureNode.AddObjectToGraph(Object)
+  fullName: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: AddObjectToGraph
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 217
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected void AddObjectToGraph(Object obj)
+    parameters:
+    - id: obj
+      type: UnityEngine.Object
+    content.vb: Protected Sub AddObjectToGraph(obj As Object)
+  overload: Mixture.MixtureNode.AddObjectToGraph*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
+  commentId: M:Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
+  id: RemoveObjectFromGraph(UnityEngine.Object)
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: RemoveObjectFromGraph(Object)
+  nameWithType: MixtureNode.RemoveObjectFromGraph(Object)
+  fullName: Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: RemoveObjectFromGraph
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 218
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected void RemoveObjectFromGraph(Object obj)
+    parameters:
+    - id: obj
+      type: UnityEngine.Object
+    content.vb: Protected Sub RemoveObjectFromGraph(obj As Object)
+  overload: Mixture.MixtureNode.RemoveObjectFromGraph*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
+  commentId: M:Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
+  id: GetPropertyType(UnityEngine.Shader,System.Int32)
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: GetPropertyType(Shader, Int32)
+  nameWithType: MixtureNode.GetPropertyType(Shader, Int32)
+  fullName: Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetPropertyType
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 220
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected Type GetPropertyType(Shader shader, int shaderPropertyIndex)
+    parameters:
+    - id: shader
+      type: UnityEngine.Shader
+    - id: shaderPropertyIndex
+      type: System.Int32
+    return:
+      type: System.Type
+    content.vb: Protected Function GetPropertyType(shader As Shader, shaderPropertyIndex As Integer) As Type
+  overload: Mixture.MixtureNode.GetPropertyType*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
+  commentId: M:Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
+  id: GetMaterialPortDatas(UnityEngine.Material)
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: GetMaterialPortDatas(Material)
+  nameWithType: MixtureNode.GetMaterialPortDatas(Material)
+  fullName: Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetMaterialPortDatas
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 240
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected IEnumerable<PortData> GetMaterialPortDatas(Material material)
+    parameters:
+    - id: material
+      type: UnityEngine.Material
+    return:
+      type: System.Collections.Generic.IEnumerable{PortData}
+    content.vb: Protected Function GetMaterialPortDatas(material As Material) As IEnumerable(Of PortData)
+  overload: Mixture.MixtureNode.GetMaterialPortDatas*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.MixtureNode.AssignMaterialPropertiesFromEdges(System.Collections.Generic.List{SerializableEdge},UnityEngine.Material)
+  commentId: M:Mixture.MixtureNode.AssignMaterialPropertiesFromEdges(System.Collections.Generic.List{SerializableEdge},UnityEngine.Material)
+  id: AssignMaterialPropertiesFromEdges(System.Collections.Generic.List{SerializableEdge},UnityEngine.Material)
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: AssignMaterialPropertiesFromEdges(List<SerializableEdge>, Material)
+  nameWithType: MixtureNode.AssignMaterialPropertiesFromEdges(List<SerializableEdge>, Material)
+  fullName: Mixture.MixtureNode.AssignMaterialPropertiesFromEdges(System.Collections.Generic.List<SerializableEdge>, UnityEngine.Material)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: AssignMaterialPropertiesFromEdges
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 285
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected void AssignMaterialPropertiesFromEdges(List<SerializableEdge> edges, Material material)
+    parameters:
+    - id: edges
+      type: System.Collections.Generic.List{SerializableEdge}
+    - id: material
+      type: UnityEngine.Material
+    content.vb: Protected Sub AssignMaterialPropertiesFromEdges(edges As List(Of SerializableEdge), material As Material)
+  overload: Mixture.MixtureNode.AssignMaterialPropertiesFromEdges*
+  nameWithType.vb: MixtureNode.AssignMaterialPropertiesFromEdges(List(Of SerializableEdge), Material)
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+  fullName.vb: Mixture.MixtureNode.AssignMaterialPropertiesFromEdges(System.Collections.Generic.List(Of SerializableEdge), UnityEngine.Material)
+  name.vb: AssignMaterialPropertiesFromEdges(List(Of SerializableEdge), Material)
+- uid: Mixture.MixtureNode.OnSettingsChanged
+  commentId: M:Mixture.MixtureNode.OnSettingsChanged
+  id: OnSettingsChanged
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: OnSettingsChanged()
+  nameWithType: MixtureNode.OnSettingsChanged()
+  fullName: Mixture.MixtureNode.OnSettingsChanged()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: OnSettingsChanged
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 344
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public void OnSettingsChanged()
+    content.vb: Public Sub OnSettingsChanged
+  overload: Mixture.MixtureNode.OnSettingsChanged*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
+  commentId: M:Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
+  id: GetDefaultMaterial(UnityEngine.Material)
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: GetDefaultMaterial(Material)
+  nameWithType: MixtureNode.GetDefaultMaterial(Material)
+  fullName: Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetDefaultMaterial
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 348
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public Material GetDefaultMaterial(Material mat)
+    parameters:
+    - id: mat
+      type: UnityEngine.Material
+    return:
+      type: UnityEngine.Material
+    content.vb: Public Function GetDefaultMaterial(mat As Material) As Material
+  overload: Mixture.MixtureNode.GetDefaultMaterial*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
+  commentId: M:Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
+  id: ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: ResetMaterialPropertyToDefault(Material, String)
+  nameWithType: MixtureNode.ResetMaterialPropertyToDefault(Material, String)
+  fullName: Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material, System.String)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ResetMaterialPropertyToDefault
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 358
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public void ResetMaterialPropertyToDefault(Material mat, string propName)
+    parameters:
+    - id: mat
+      type: UnityEngine.Material
+    - id: propName
+      type: System.String
+    content.vb: Public Sub ResetMaterialPropertyToDefault(mat As Material, propName As String)
+  overload: Mixture.MixtureNode.ResetMaterialPropertyToDefault*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.GetMixtureDependencies
+  commentId: M:Mixture.MixtureNode.GetMixtureDependencies
+  id: GetMixtureDependencies
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: GetMixtureDependencies()
+  nameWithType: MixtureNode.GetMixtureDependencies()
+  fullName: Mixture.MixtureNode.GetMixtureDependencies()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetMixtureDependencies
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 386
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public List<BaseNode> GetMixtureDependencies()
+    return:
+      type: System.Collections.Generic.List{BaseNode}
+    content.vb: Public Function GetMixtureDependencies As List(Of BaseNode)
+  overload: Mixture.MixtureNode.GetMixtureDependencies*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.GetTempMaterial(System.String)
+  commentId: M:Mixture.MixtureNode.GetTempMaterial(System.String)
+  id: GetTempMaterial(System.String)
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: GetTempMaterial(String)
+  nameWithType: MixtureNode.GetTempMaterial(String)
+  fullName: Mixture.MixtureNode.GetTempMaterial(System.String)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetTempMaterial
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 406
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public Material GetTempMaterial(string shaderName)
+    parameters:
+    - id: shaderName
+      type: System.String
+    return:
+      type: UnityEngine.Material
+    content.vb: Public Function GetTempMaterial(shaderName As String) As Material
+  overload: Mixture.MixtureNode.GetTempMaterial*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.Disable
+  commentId: M:Mixture.MixtureNode.Disable
+  id: Disable
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: Disable()
+  nameWithType: MixtureNode.Disable()
+  fullName: Mixture.MixtureNode.Disable()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Disable
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 421
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected override void Disable()
+    content.vb: Protected Overrides Sub Disable
+  overload: Mixture.MixtureNode.Disable*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mixture.MixtureNode.graph*
+  commentId: Overload:Mixture.MixtureNode.graph
+  name: graph
+  nameWithType: MixtureNode.graph
+  fullName: Mixture.MixtureNode.graph
+- uid: Mixture.MixtureGraph
+  commentId: T:Mixture.MixtureGraph
+  parent: Mixture
+  name: MixtureGraph
+  nameWithType: MixtureGraph
+  fullName: Mixture.MixtureGraph
+- uid: Mixture.MixtureRTSettings
+  commentId: T:Mixture.MixtureRTSettings
+  parent: Mixture
+  name: MixtureRTSettings
+  nameWithType: MixtureRTSettings
+  fullName: Mixture.MixtureRTSettings
+- uid: Mixture.MixtureNode.defaultRTSettings*
+  commentId: Overload:Mixture.MixtureNode.defaultRTSettings
+  name: defaultRTSettings
+  nameWithType: MixtureNode.defaultRTSettings
+  fullName: Mixture.MixtureNode.defaultRTSettings
+- uid: Mixture.MixtureNode.nodeWidth*
+  commentId: Overload:Mixture.MixtureNode.nodeWidth
+  name: nodeWidth
+  nameWithType: MixtureNode.nodeWidth
+  fullName: Mixture.MixtureNode.nodeWidth
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: Mixture.MixtureNode.previewTexture*
+  commentId: Overload:Mixture.MixtureNode.previewTexture
+  name: previewTexture
+  nameWithType: MixtureNode.previewTexture
+  fullName: Mixture.MixtureNode.previewTexture
+- uid: UnityEngine.Texture
+  commentId: T:UnityEngine.Texture
+  parent: UnityEngine
+  isExternal: true
+  name: Texture
+  nameWithType: Texture
+  fullName: UnityEngine.Texture
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: Mixture.MixtureNode.hasSettings*
+  commentId: Overload:Mixture.MixtureNode.hasSettings
+  name: hasSettings
+  nameWithType: MixtureNode.hasSettings
+  fullName: Mixture.MixtureNode.hasSettings
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: Mixture.MixtureNode.hasPreview*
+  commentId: Overload:Mixture.MixtureNode.hasPreview
+  name: hasPreview
+  nameWithType: MixtureNode.hasPreview
+  fullName: Mixture.MixtureNode.hasPreview
+- uid: Mixture.MixtureNode.supportedDimensions*
+  commentId: Overload:Mixture.MixtureNode.supportedDimensions
+  name: supportedDimensions
+  nameWithType: MixtureNode.supportedDimensions
+  fullName: Mixture.MixtureNode.supportedDimensions
+- uid: System.Collections.Generic.List{Mixture.OutputDimension}
+  commentId: T:System.Collections.Generic.List{Mixture.OutputDimension}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<OutputDimension>
+  nameWithType: List<OutputDimension>
+  fullName: System.Collections.Generic.List<Mixture.OutputDimension>
+  nameWithType.vb: List(Of OutputDimension)
+  fullName.vb: System.Collections.Generic.List(Of Mixture.OutputDimension)
+  name.vb: List(Of OutputDimension)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Mixture.OutputDimension
+    name: OutputDimension
+    nameWithType: OutputDimension
+    fullName: Mixture.OutputDimension
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Mixture.OutputDimension
+    name: OutputDimension
+    nameWithType: OutputDimension
+    fullName: Mixture.OutputDimension
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: Mixture.MixtureNode.defaultPreviewChannels*
+  commentId: Overload:Mixture.MixtureNode.defaultPreviewChannels
+  name: defaultPreviewChannels
+  nameWithType: MixtureNode.defaultPreviewChannels
+  fullName: Mixture.MixtureNode.defaultPreviewChannels
+- uid: Mixture.PreviewChannels
+  commentId: T:Mixture.PreviewChannels
+  parent: Mixture
+  name: PreviewChannels
+  nameWithType: PreviewChannels
+  fullName: Mixture.PreviewChannels
+- uid: Mixture.MixtureNode.showDefaultInspector*
+  commentId: Overload:Mixture.MixtureNode.showDefaultInspector
+  name: showDefaultInspector
+  nameWithType: MixtureNode.showDefaultInspector
+  fullName: Mixture.MixtureNode.showDefaultInspector
+- uid: Mixture.MixtureNode.showPreviewExposure*
+  commentId: Overload:Mixture.MixtureNode.showPreviewExposure
+  name: showPreviewExposure
+  nameWithType: MixtureNode.showPreviewExposure
+  fullName: Mixture.MixtureNode.showPreviewExposure
+- uid: System.Action
+  commentId: T:System.Action
+  parent: System
+  isExternal: true
+  name: Action
+  nameWithType: Action
+  fullName: System.Action
+- uid: Mixture.MixtureNode.showControlsOnHover*
+  commentId: Overload:Mixture.MixtureNode.showControlsOnHover
+  name: showControlsOnHover
+  nameWithType: MixtureNode.showControlsOnHover
+  fullName: Mixture.MixtureNode.showControlsOnHover
+- uid: System.Collections.Generic.Dictionary{System.String,UnityEngine.Material}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,UnityEngine.Material}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  name: Dictionary<String, Material>
+  nameWithType: Dictionary<String, Material>
+  fullName: System.Collections.Generic.Dictionary<System.String, UnityEngine.Material>
+  nameWithType.vb: Dictionary(Of String, Material)
+  fullName.vb: System.Collections.Generic.Dictionary(Of System.String, UnityEngine.Material)
+  name.vb: Dictionary(Of String, Material)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Material
+    name: Material
+    nameWithType: Material
+    fullName: UnityEngine.Material
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Material
+    name: Material
+    nameWithType: Material
+    fullName: UnityEngine.Material
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.recorder*
+  commentId: Overload:Mixture.MixtureNode.recorder
+  name: recorder
+  nameWithType: MixtureNode.recorder
+  fullName: Mixture.MixtureNode.recorder
+- uid: UnityEngine.Profiling.Recorder
+  commentId: T:UnityEngine.Profiling.Recorder
+  parent: UnityEngine.Profiling
+  isExternal: true
+  name: Recorder
+  nameWithType: Recorder
+  fullName: UnityEngine.Profiling.Recorder
+- uid: UnityEngine.Profiling
+  commentId: N:UnityEngine.Profiling
+  isExternal: true
+  name: UnityEngine.Profiling
+  nameWithType: UnityEngine.Profiling
+  fullName: UnityEngine.Profiling
+- uid: Mixture.MixtureNode.OnNodeCreated*
+  commentId: Overload:Mixture.MixtureNode.OnNodeCreated
+  name: OnNodeCreated
+  nameWithType: MixtureNode.OnNodeCreated
+  fullName: Mixture.MixtureNode.OnNodeCreated
+- uid: Mixture.MixtureNode.UpdateTempRenderTexture*
+  commentId: Overload:Mixture.MixtureNode.UpdateTempRenderTexture
+  name: UpdateTempRenderTexture
+  nameWithType: MixtureNode.UpdateTempRenderTexture
+  fullName: Mixture.MixtureNode.UpdateTempRenderTexture
+- uid: UnityEngine.CustomRenderTexture
+  commentId: T:UnityEngine.CustomRenderTexture
+  parent: UnityEngine
+  isExternal: true
+  name: CustomRenderTexture
+  nameWithType: CustomRenderTexture
+  fullName: UnityEngine.CustomRenderTexture
+- uid: Mixture.MixtureNode.OnProcess*
+  commentId: Overload:Mixture.MixtureNode.OnProcess
+  name: OnProcess
+  nameWithType: MixtureNode.OnProcess
+  fullName: Mixture.MixtureNode.OnProcess
+- uid: UnityEngine.Rendering.CommandBuffer
+  commentId: T:UnityEngine.Rendering.CommandBuffer
+  parent: UnityEngine.Rendering
+  isExternal: true
+  name: CommandBuffer
+  nameWithType: CommandBuffer
+  fullName: UnityEngine.Rendering.CommandBuffer
+- uid: UnityEngine.Rendering
+  commentId: N:UnityEngine.Rendering
+  isExternal: true
+  name: UnityEngine.Rendering
+  nameWithType: UnityEngine.Rendering
+  fullName: UnityEngine.Rendering
+- uid: Mixture.MixtureNode.Process*
+  commentId: Overload:Mixture.MixtureNode.Process
+  name: Process
+  nameWithType: MixtureNode.Process
+  fullName: Mixture.MixtureNode.Process
+- uid: Mixture.MixtureNode.ProcessNode*
+  commentId: Overload:Mixture.MixtureNode.ProcessNode
+  name: ProcessNode
+  nameWithType: MixtureNode.ProcessNode
+  fullName: Mixture.MixtureNode.ProcessNode
+- uid: Mixture.MixtureNode.AddObjectToGraph*
+  commentId: Overload:Mixture.MixtureNode.AddObjectToGraph
+  name: AddObjectToGraph
+  nameWithType: MixtureNode.AddObjectToGraph
+  fullName: Mixture.MixtureNode.AddObjectToGraph
+- uid: UnityEngine.Object
+  commentId: T:UnityEngine.Object
+  parent: UnityEngine
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: UnityEngine.Object
+- uid: Mixture.MixtureNode.RemoveObjectFromGraph*
+  commentId: Overload:Mixture.MixtureNode.RemoveObjectFromGraph
+  name: RemoveObjectFromGraph
+  nameWithType: MixtureNode.RemoveObjectFromGraph
+  fullName: Mixture.MixtureNode.RemoveObjectFromGraph
+- uid: Mixture.MixtureNode.GetPropertyType*
+  commentId: Overload:Mixture.MixtureNode.GetPropertyType
+  name: GetPropertyType
+  nameWithType: MixtureNode.GetPropertyType
+  fullName: Mixture.MixtureNode.GetPropertyType
+- uid: UnityEngine.Shader
+  commentId: T:UnityEngine.Shader
+  parent: UnityEngine
+  isExternal: true
+  name: Shader
+  nameWithType: Shader
+  fullName: UnityEngine.Shader
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: Mixture.MixtureNode.GetMaterialPortDatas*
+  commentId: Overload:Mixture.MixtureNode.GetMaterialPortDatas
+  name: GetMaterialPortDatas
+  nameWithType: MixtureNode.GetMaterialPortDatas
+  fullName: Mixture.MixtureNode.GetMaterialPortDatas
+- uid: UnityEngine.Material
+  commentId: T:UnityEngine.Material
+  parent: UnityEngine
+  isExternal: true
+  name: Material
+  nameWithType: Material
+  fullName: UnityEngine.Material
+- uid: System.Collections.Generic.IEnumerable{PortData}
+  commentId: T:System.Collections.Generic.IEnumerable{PortData}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<PortData>
+  nameWithType: IEnumerable<PortData>
+  fullName: System.Collections.Generic.IEnumerable<PortData>
+  nameWithType.vb: IEnumerable(Of PortData)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of PortData)
+  name.vb: IEnumerable(Of PortData)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PortData
+    name: PortData
+    nameWithType: PortData
+    fullName: PortData
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PortData
+    name: PortData
+    nameWithType: PortData
+    fullName: PortData
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.AssignMaterialPropertiesFromEdges*
+  commentId: Overload:Mixture.MixtureNode.AssignMaterialPropertiesFromEdges
+  name: AssignMaterialPropertiesFromEdges
+  nameWithType: MixtureNode.AssignMaterialPropertiesFromEdges
+  fullName: Mixture.MixtureNode.AssignMaterialPropertiesFromEdges
+- uid: System.Collections.Generic.List{SerializableEdge}
+  commentId: T:System.Collections.Generic.List{SerializableEdge}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<SerializableEdge>
+  nameWithType: List<SerializableEdge>
+  fullName: System.Collections.Generic.List<SerializableEdge>
+  nameWithType.vb: List(Of SerializableEdge)
+  fullName.vb: System.Collections.Generic.List(Of SerializableEdge)
+  name.vb: List(Of SerializableEdge)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: SerializableEdge
+    name: SerializableEdge
+    nameWithType: SerializableEdge
+    fullName: SerializableEdge
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: SerializableEdge
+    name: SerializableEdge
+    nameWithType: SerializableEdge
+    fullName: SerializableEdge
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.OnSettingsChanged*
+  commentId: Overload:Mixture.MixtureNode.OnSettingsChanged
+  name: OnSettingsChanged
+  nameWithType: MixtureNode.OnSettingsChanged
+  fullName: Mixture.MixtureNode.OnSettingsChanged
+- uid: Mixture.MixtureNode.GetDefaultMaterial*
+  commentId: Overload:Mixture.MixtureNode.GetDefaultMaterial
+  name: GetDefaultMaterial
+  nameWithType: MixtureNode.GetDefaultMaterial
+  fullName: Mixture.MixtureNode.GetDefaultMaterial
+- uid: Mixture.MixtureNode.ResetMaterialPropertyToDefault*
+  commentId: Overload:Mixture.MixtureNode.ResetMaterialPropertyToDefault
+  name: ResetMaterialPropertyToDefault
+  nameWithType: MixtureNode.ResetMaterialPropertyToDefault
+  fullName: Mixture.MixtureNode.ResetMaterialPropertyToDefault
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: Mixture.MixtureNode.GetMixtureDependencies*
+  commentId: Overload:Mixture.MixtureNode.GetMixtureDependencies
+  name: GetMixtureDependencies
+  nameWithType: MixtureNode.GetMixtureDependencies
+  fullName: Mixture.MixtureNode.GetMixtureDependencies
+- uid: System.Collections.Generic.List{BaseNode}
+  commentId: T:System.Collections.Generic.List{BaseNode}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<BaseNode>
+  nameWithType: List<BaseNode>
+  fullName: System.Collections.Generic.List<BaseNode>
+  nameWithType.vb: List(Of BaseNode)
+  fullName.vb: System.Collections.Generic.List(Of BaseNode)
+  name.vb: List(Of BaseNode)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: BaseNode
+    name: BaseNode
+    nameWithType: BaseNode
+    fullName: BaseNode
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: BaseNode
+    name: BaseNode
+    nameWithType: BaseNode
+    fullName: BaseNode
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.GetTempMaterial*
+  commentId: Overload:Mixture.MixtureNode.GetTempMaterial
+  name: GetTempMaterial
+  nameWithType: MixtureNode.GetTempMaterial
+  fullName: Mixture.MixtureNode.GetTempMaterial
+- uid: Mixture.MixtureNode.Disable*
+  commentId: Overload:Mixture.MixtureNode.Disable
+  name: Disable
+  nameWithType: MixtureNode.Disable
+  fullName: Mixture.MixtureNode.Disable

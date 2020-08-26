@@ -117,5 +117,84 @@ namespace Mixture
         {
 			return AssetDatabase.LoadAllAssetsAtPath(path).FirstOrDefault(o => o is MixtureGraph) as MixtureGraph;
         }
+
+        static Texture2D LoadIcon(string resourceName)
+        {
+            if (UnityEditorInternal.InternalEditorUtility.HasPro())
+            {
+                string darkIconPath = Path.GetDirectoryName(resourceName) + "/d_" + Path.GetFileName(resourceName);
+                var darkIcon = Resources.Load<Texture2D>(darkIconPath);
+                if (darkIcon != null)
+                    return darkIcon;
+            }
+
+            return Resources.Load<Texture2D>(resourceName);
+        }
+
+        static Texture2D _bugIcon;
+        public static Texture2D bugIcon
+        {
+            get => _bugIcon == null ? _bugIcon = LoadIcon("Icons/Bug") : _bugIcon;
+        }
+
+        static Texture2D _pinIcon;
+        public static Texture2D pinIcon
+        {
+            get => _pinIcon == null ? _pinIcon = LoadIcon("Icons/Pin") : _pinIcon;
+        }
+
+        static Texture2D _unpinIcon;
+        public static Texture2D unpinIcon
+        {
+            get => _unpinIcon == null ? _unpinIcon = LoadIcon("Icons/Unpin") : _unpinIcon;
+        }
+
+        static Texture2D _compareIcon;
+        public static Texture2D compareIcon
+        {
+            get => _compareIcon == null ? _compareIcon = LoadIcon("Icons/CompareImages") : _compareIcon;
+        }
+
+        static Texture2D _fitIcon;
+        public static Texture2D fitIcon
+        {
+            get => _fitIcon == null ? _fitIcon = LoadIcon("Icons/Fit") : _fitIcon;
+        }
+
+        static Texture2D _githubIcon;
+        public static Texture2D githubIcon
+        {
+            get => _githubIcon == null ? _githubIcon = LoadIcon("Icons/Github") : _githubIcon;
+        }
+
+        static Texture2D _featureRequest;
+        public static Texture2D featureRequestIcon
+        {
+            get => _featureRequest == null ? _featureRequest = LoadIcon("Icons/FeatureRequest") : _featureRequest;
+        }
+
+        static Texture2D _documentation;
+        public static Texture2D documentationIcon
+        {
+            get => _documentation == null ? _documentation = LoadIcon("Icons/Documentation") : _documentation;
+        }
+
+        static Texture2D _lockOpen;
+        public static Texture2D lockOpen
+        {
+            get => _lockOpen == null ? _lockOpen = LoadIcon("Icons/LockOpened") : _lockOpen;
+        }
+
+        static Texture2D _lockClose;
+        public static Texture2D lockClose
+        {
+            get => _lockClose == null ? _lockClose = LoadIcon("Icons/LockClosed") : _lockClose;
+        }
+
+        static Texture2D _settings;
+        public static Texture2D settingsIcon
+        {
+            get => _settings == null ? _settings = LoadIcon("Icons/Settings") : _settings;
+        }
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Operators/Vector Ping Pong")]
-	public class VectorPingPongNode : MixtureNode, INeedsCPU
+	public class VectorPingPongNode : MixtureNode
 	{
 		public override bool hasSettings => false;
 

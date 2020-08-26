@@ -1,0 +1,211 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.SplatterNode.Sequence
+  commentId: T:Mixture.SplatterNode.Sequence
+  id: SplatterNode.Sequence
+  parent: Mixture
+  children:
+  - Mixture.SplatterNode.Sequence.FibonacciSpiral
+  - Mixture.SplatterNode.Sequence.Grid
+  - Mixture.SplatterNode.Sequence.Halton
+  - Mixture.SplatterNode.Sequence.R2
+  - Mixture.SplatterNode.Sequence.Stack
+  langs:
+  - csharp
+  - vb
+  name: SplatterNode.Sequence
+  nameWithType: SplatterNode.Sequence
+  fullName: Mixture.SplatterNode.Sequence
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Sequence
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 12
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public enum Sequence
+    content.vb: Public Enum Sequence
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.SplatterNode.Sequence.Stack
+  commentId: F:Mixture.SplatterNode.Sequence.Stack
+  id: Stack
+  parent: Mixture.SplatterNode.Sequence
+  langs:
+  - csharp
+  - vb
+  name: Stack
+  nameWithType: SplatterNode.Sequence.Stack
+  fullName: Mixture.SplatterNode.Sequence.Stack
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Stack
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 14
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Stack = 0
+    return:
+      type: Mixture.SplatterNode.Sequence
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.Sequence.Grid
+  commentId: F:Mixture.SplatterNode.Sequence.Grid
+  id: Grid
+  parent: Mixture.SplatterNode.Sequence
+  langs:
+  - csharp
+  - vb
+  name: Grid
+  nameWithType: SplatterNode.Sequence.Grid
+  fullName: Mixture.SplatterNode.Sequence.Grid
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Grid
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 14
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Grid = 1
+    return:
+      type: Mixture.SplatterNode.Sequence
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.Sequence.R2
+  commentId: F:Mixture.SplatterNode.Sequence.R2
+  id: R2
+  parent: Mixture.SplatterNode.Sequence
+  langs:
+  - csharp
+  - vb
+  name: R2
+  nameWithType: SplatterNode.Sequence.R2
+  fullName: Mixture.SplatterNode.Sequence.R2
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: R2
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 14
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: R2 = 2
+    return:
+      type: Mixture.SplatterNode.Sequence
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.Sequence.Halton
+  commentId: F:Mixture.SplatterNode.Sequence.Halton
+  id: Halton
+  parent: Mixture.SplatterNode.Sequence
+  langs:
+  - csharp
+  - vb
+  name: Halton
+  nameWithType: SplatterNode.Sequence.Halton
+  fullName: Mixture.SplatterNode.Sequence.Halton
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Halton
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 14
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Halton = 3
+    return:
+      type: Mixture.SplatterNode.Sequence
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.Sequence.FibonacciSpiral
+  commentId: F:Mixture.SplatterNode.Sequence.FibonacciSpiral
+  id: FibonacciSpiral
+  parent: Mixture.SplatterNode.Sequence
+  langs:
+  - csharp
+  - vb
+  name: FibonacciSpiral
+  nameWithType: SplatterNode.Sequence.FibonacciSpiral
+  fullName: Mixture.SplatterNode.Sequence.FibonacciSpiral
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: FibonacciSpiral
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 14
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: FibonacciSpiral = 4
+    return:
+      type: Mixture.SplatterNode.Sequence
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.SplatterNode.Sequence
+  commentId: T:Mixture.SplatterNode.Sequence
+  parent: Mixture
+  name: SplatterNode.Sequence
+  nameWithType: SplatterNode.Sequence
+  fullName: Mixture.SplatterNode.Sequence
