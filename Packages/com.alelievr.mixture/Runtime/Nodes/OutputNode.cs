@@ -214,7 +214,8 @@ namespace Mixture
 					finalCopyMaterial.SetTexture("_Source_Cube", input);
 			}
 
-			tempRenderTexture.material = finalCopyMaterial;
+			if (tempRenderTexture != null)
+				tempRenderTexture.material = finalCopyMaterial;
 
 			return true;
 		}

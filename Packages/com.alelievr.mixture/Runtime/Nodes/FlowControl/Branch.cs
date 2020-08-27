@@ -22,7 +22,7 @@ namespace Mixture
 		[Output]
 		public object output;
 
-        [SerializeField]
+        [HideInInspector, SerializeField]
         SerializableType inputType = new SerializableType(typeof(object));
 
 		public override string	name => "Branch";
