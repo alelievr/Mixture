@@ -148,6 +148,7 @@ namespace Mixture
 
         static GUILayoutOption buttonLayout = GUILayout.Width(buttonWidth);
 
+        // TODO: move interactive preview to another class
         public override void OnPreviewSettings()
         {
             var options = nodeWithPreviews.Select(n => n.name).ToArray();
