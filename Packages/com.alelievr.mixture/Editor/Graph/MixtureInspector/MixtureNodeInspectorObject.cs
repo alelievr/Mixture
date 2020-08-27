@@ -274,7 +274,8 @@ namespace Mixture
                     }
                     if (e.button == 1)
                     {
-                        compareSlider = (e.mousePosition.x - positionOffsetTarget.x) / zoom / (float)previewRect.width % 1;
+                        float pos = (e.mousePosition.x - positionOffsetTarget.x) / zoom / (float)previewRect.width % 1;
+                        compareSlider = pos < 0 ? pos + 1 : pos;
                         needsRepaint = true;
                     }
                     break;
