@@ -454,18 +454,6 @@ namespace Mixture
                 CompressTexture(target, externalTexture == null ? outputTexture : externalTexture);
         }
         
-        struct Color16
-        {
-#pragma warning disable CS0649 // Field x is never assigned to, and will always have its default value 0
-            ushort  r;
-            ushort  g;
-            ushort  b;
-            ushort  a;
-#pragma warning restore CS0649
-
-            public Color ToColor() => new Color((float)r / ushort.MaxValue, (float)g / ushort.MaxValue, (float)b / ushort.MaxValue, (float)a / ushort.MaxValue);
-        }
-
         protected void WriteRequestResult(AsyncGPUReadbackRequest request, ReadbackData data)
         {
             var outputPrecision = data.node.rtSettings.GetOutputPrecision(this);
@@ -477,58 +465,25 @@ namespace Mixture
                 return;
             }
 
-            void FetchSlice(int slice, Action<Color32[], int> SetPixelsColor32, Action<Color[], int> SetPixelsColor)
-            {
-                // TODO: free those buffersa
-                NativeArray<Color32> colors32;
-                NativeArray<Color> colors;
-
-                switch (outputPrecision)
-                {
-                    case OutputPrecision.LDR:
-                    case OutputPrecision.SRGB:
-                        colors32 = request.GetData<Color32>(slice);
-                        SetPixelsColor32(colors32.ToArray(), data.mipLevel);
-                        break;
-                    case OutputPrecision.Half:
-                        colors = new NativeArray<Color>(request.GetData<Color16>(slice).ToArray().Select(c => c.ToColor()).ToArray(), Allocator.Persistent);
-                        SetPixelsColor(colors.ToArray(), data.mipLevel);
-                        break;
-                    case OutputPrecision.Full:
-                        colors = request.GetData<Color>(slice);
-                        SetPixelsColor(colors.ToArray(), data.mipLevel);
-                        break;
-                    // TODO: handle RGB, RG and R formats
-                    default:
-                        Debug.LogError("Can't readback an image with format: " + outputChannels + " " + outputPrecision);
-                        break;
-                }
-            }
-
             switch (data.targetTexture)
             {
                 case Texture2D t:
-                    FetchSlice(0, t.SetPixels32, t.SetPixels);
+                    t.SetPixelData(request.GetData<float>(0), data.mipLevel);
                     t.Apply(false);
                     break;
                 case Texture3D t:
-                    List<Color32> colors32List = new List<Color32>();
-                    List<Color> colorsList = new List<Color>();
-                    
+                    List<float> rawData = new List<float>();
+
                     int sliceCount = Mathf.Max(data.node.tempRenderTexture.volumeDepth / (1 << data.mipLevel), 1);
                     for (int i = 0; i < sliceCount; i++)
-                        FetchSlice(i, (c, mip) => colors32List.AddRange(c), (c, mip) => colorsList.AddRange(c));
+                        rawData.AddRange(request.GetData<float>(i).ToList());
 
-                    if (colors32List.Count != 0)
-                        t.SetPixels32(colors32List.ToArray(), data.mipLevel);
-                    else
-                        t.SetPixels(colorsList.ToArray(), data.mipLevel);
-
+                    t.SetPixelData(rawData.ToArray(), data.mipLevel);
                     t.Apply(false);
                     break;
                 case Cubemap t:
                     for (int i = 0; i < 6; i++)
-                        FetchSlice(i, (c, mip) => t.SetPixels(c.Select(c32 => (Color)c32).ToArray(), (CubemapFace)i, mip), (c, mip) => t.SetPixels(c, (CubemapFace)i, mip));
+                        t.SetPixelData(request.GetData<float>(i), data.mipLevel, (CubemapFace)i);
 
                     t.Apply(false);
                     break;

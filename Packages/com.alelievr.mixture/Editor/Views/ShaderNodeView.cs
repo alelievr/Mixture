@@ -44,10 +44,8 @@ namespace Mixture
 				SetShader((Shader)v.newValue);
 			});
 
-			
 			if (!fromInspector)
 			{
-				Debug.Log("Enable!");
 				if (shaderNode.shader != null)
 					shaderPath = AssetDatabase.GetAssetPath(shaderNode.shader);
 				if (!String.IsNullOrEmpty(shaderPath))
@@ -110,8 +108,6 @@ namespace Mixture
 				value = shaderNode.output
 			};
 
-			Debug.Log("Debug>?");
-			
 			debugContainer.Add(debugCustomRenderTextureField);
 		}
 
