@@ -131,7 +131,7 @@ void JumpFlooding(uint3 id : SV_DispatchThreadID)
             continue;
 
         float3 uv = id / _Size.x;
-        if (length(uv - n1) < length(uv - nearest))
+        if (length(uv - n1.xyz) < length(uv - nearest.xyz))
             nearest = n1;
     }
 

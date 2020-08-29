@@ -174,7 +174,7 @@ namespace Mixture
 		{
 			if (material == null || material.shader == null)
 				return false;
-				
+
 			if (autoLabelWidth)
 			{
 				EditorGUIUtility.wideMode = false;

@@ -97,8 +97,14 @@ namespace Mixture
 
 			if (finalCopyMaterial == null)
 			{
-				finalCopyMaterial = new Material(Shader.Find("Hidden/Mixture/FinalCopy"));
-				finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+				var shader = Shader.Find("Hidden/Mixture/FinalCopy");
+
+				// shader can be null if this function is called during the import of the package
+				if (shader != null)
+				{
+					finalCopyMaterial = new Material(shader);
+					finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+				}
 			}
 
 			if (graph.isRealtime)

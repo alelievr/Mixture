@@ -105,7 +105,11 @@ namespace Mixture
 			{
 				if (_dummyCustomRenderTextureMaterial == null)
 				{
-					_dummyCustomRenderTextureMaterial = new Material(Shader.Find("Hidden/CustomRenderTextureMissingMaterial"));
+					var shader = Shader.Find("Hidden/CustomRenderTextureMissingMaterial");
+
+					// The shader can be null if a mixture is called while the package is imported
+					if (shader != null)
+						_dummyCustomRenderTextureMaterial = new Material(shader);
 				}
 
 				return _dummyCustomRenderTextureMaterial;

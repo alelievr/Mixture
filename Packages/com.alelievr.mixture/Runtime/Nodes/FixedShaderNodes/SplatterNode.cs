@@ -265,8 +265,8 @@ namespace Mixture
 
 		protected override void Disable()
 		{
-			argumentBuffer.Dispose();
-			splatPointsBuffer.Dispose();
+			argumentBuffer?.Dispose();
+			splatPointsBuffer?.Dispose();
 			base.Disable();
 		}
 	}

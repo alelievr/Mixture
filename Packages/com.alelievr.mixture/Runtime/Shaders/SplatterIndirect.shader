@@ -135,8 +135,8 @@ Shader "Hidden/Mixture/Splatter"
 			case 13: return SAMPLE_RANDOM(13, uv);
 			case 14: return SAMPLE_RANDOM(14, uv);
 			case 15: return SAMPLE_RANDOM(15, uv);
+			default: return 0;
 		}
-		return 0;
 	}
 
 	float4 Fragment(FramegentInput i) : SV_Target

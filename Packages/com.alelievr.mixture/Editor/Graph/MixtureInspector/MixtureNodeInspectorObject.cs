@@ -206,7 +206,7 @@ namespace Mixture
         {
             HandleZoomAndPan(previewRect);
 
-            if (firstLockedPreviewTarget.previewTexture != null && e.type == EventType.Repaint)
+            if (firstLockedPreviewTarget?.previewTexture != null && e.type == EventType.Repaint)
             {
                 MixtureUtils.SetupDimensionKeyword(previewMaterial, firstLockedPreviewTarget.previewTexture.dimension);
 
