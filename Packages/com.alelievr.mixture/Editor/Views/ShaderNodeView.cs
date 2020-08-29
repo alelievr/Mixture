@@ -15,7 +15,6 @@ namespace Mixture
 	{
 		VisualElement	shaderCreationUI;
 		VisualElement	materialEditorUI;
-		MaterialEditor	materialEditor;
 		ShaderNode		shaderNode => nodeTarget as ShaderNode;
 
 		ObjectField		debugCustomRenderTextureField;
@@ -55,17 +54,18 @@ namespace Mixture
 				lastWriteDetector.Every(200);
 				InitializeDebug();
 
-				controlsContainer.Add(shaderField);
-
-				shaderCreationUI = new VisualElement();
-				controlsContainer.Add(shaderCreationUI);
-				UpdateShaderCreationUI();
-
-				controlsContainer.Add(new IMGUIContainer(MaterialGUI));
-				materialEditor = Editor.CreateEditor(shaderNode.material) as MaterialEditor;
-
 				onPortDisconnected += ResetMaterialPropertyToDefault;
 			}
+
+			controlsContainer.Add(shaderField);
+
+			shaderCreationUI = new VisualElement();
+			controlsContainer.Add(shaderCreationUI);
+			UpdateShaderCreationUI();
+
+			var materialIMGUI = new IMGUIContainer(MaterialGUI);
+			controlsContainer.Add(materialIMGUI);
+			materialIMGUI.AddToClassList("MaterialInspector");
 		}
 
 		~ShaderNodeView()
