@@ -51,6 +51,7 @@ namespace Mixture
         // Preview settings
         internal FilterMode filterMode;
         internal float exposure;
+        internal PreviewChannels channels = PreviewChannels.RGBA;
 
         VisualTreeAsset nodeInspectorFoldout;
 
@@ -234,6 +235,7 @@ namespace Mixture
                 previewMaterial.SetFloat("_FilterMode", (int)filterMode);
                 previewMaterial.SetFloat("_Exp", exposure);
                 previewMaterial.SetVector("_TextureSize", new Vector4(firstLockedPreviewTarget.previewTexture.width, firstLockedPreviewTarget.previewTexture.height, 1.0f / firstLockedPreviewTarget.previewTexture.width, 1.0f / firstLockedPreviewTarget.previewTexture.height));
+                previewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(channels));
                 EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, previewMaterial);
             }
             else

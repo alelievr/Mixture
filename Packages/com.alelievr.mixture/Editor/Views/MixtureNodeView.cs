@@ -337,16 +337,6 @@ namespace Mixture
 			return GUILayoutUtility.GetRect(1, width, 1, height);
 		}
 
-        static Vector4 GetChannelsMask(PreviewChannels channels)
-        {
-            return new Vector4(
-                (channels & PreviewChannels.R) == 0 ? 0 : 1,
-                (channels & PreviewChannels.G) == 0 ? 0 : 1,
-                (channels & PreviewChannels.B) == 0 ? 0 : 1,
-                (channels & PreviewChannels.A) == 0 ? 0 : 1
-                );
-        }
-
 		void DrawPreviewCommonSettings(Texture texture)
 		{
 			GUILayout.Space(6);
@@ -462,7 +452,7 @@ namespace Mixture
 				case TextureDimension.Tex2D:
 					MixtureUtils.texture2DPreviewMaterial.SetTexture("_MainTex", node.previewTexture);
 					MixtureUtils.texture2DPreviewMaterial.SetVector("_Size", new Vector4(node.previewTexture.width,node.previewTexture.height, 1, 1));
-					MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
+					MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(nodeTarget.previewMode));
 					MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
 					MixtureUtils.texture2DPreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
 
@@ -471,7 +461,7 @@ namespace Mixture
 					break;
 				case TextureDimension.Tex3D:
 					MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", node.previewTexture);
-					MixtureUtils.texture3DPreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
+					MixtureUtils.texture3DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(nodeTarget.previewMode));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", ((float)currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
@@ -481,7 +471,7 @@ namespace Mixture
 					break;
 				case TextureDimension.Cube:
 					MixtureUtils.textureCubePreviewMaterial.SetTexture("_Cubemap", node.previewTexture);
-					MixtureUtils.textureCubePreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
+					MixtureUtils.textureCubePreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(nodeTarget.previewMode));
 					MixtureUtils.textureCubePreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
 					MixtureUtils.textureCubePreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
 

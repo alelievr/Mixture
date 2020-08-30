@@ -10,7 +10,7 @@ namespace Mixture
         MixtureNodeInspectorObjectEditor inspector;
 
         public static readonly int width = 220;
-        public static readonly int height = 50;
+        public static readonly int height = 70;
 
         public override Vector2 GetWindowSize()
         {
@@ -30,6 +30,16 @@ namespace Mixture
             EditorGUIUtility.labelWidth = 70;
             inspector.filterMode = (FilterMode)EditorGUILayout.EnumPopup("Filter Mode", inspector.filterMode);
             inspector.exposure = EditorGUILayout.Slider("Exposure", inspector.exposure, -12, 12);
+            EditorGUILayout.BeginHorizontal();
+            bool r = GUILayout.Toggle((inspector.channels & PreviewChannels.R) != 0, "R", EditorStyles.toolbarButton);
+            bool g = GUILayout.Toggle((inspector.channels & PreviewChannels.G) != 0, "G", EditorStyles.toolbarButton);
+            bool b = GUILayout.Toggle((inspector.channels & PreviewChannels.B) != 0, "B", EditorStyles.toolbarButton);
+            bool a = GUILayout.Toggle((inspector.channels & PreviewChannels.A) != 0, "A", EditorStyles.toolbarButton);
+            inspector.channels = (r ? PreviewChannels.R : 0) |
+					             (g ? PreviewChannels.G : 0) |
+					             (b ? PreviewChannels.B : 0) |
+					             (a ? PreviewChannels.A : 0);
+            EditorGUILayout.EndHorizontal();
             // EditorGUIUtility.labelWidth = 0;
             // inspector.compareSlider = EditorGUILayout.Slider(inspector.compareSlider, 0, 1);
 

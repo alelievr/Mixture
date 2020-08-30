@@ -196,5 +196,15 @@ namespace Mixture
         {
             get => _settings == null ? _settings = LoadIcon("Icons/Settings") : _settings;
         }
+
+        public static Vector4 GetChannelsMask(PreviewChannels channels)
+        {
+            return new Vector4(
+                (channels & PreviewChannels.R) == 0 ? 0 : 1,
+                (channels & PreviewChannels.G) == 0 ? 0 : 1,
+                (channels & PreviewChannels.B) == 0 ? 0 : 1,
+                (channels & PreviewChannels.A) == 0 ? 0 : 1
+                );
+        }
     }
 }
