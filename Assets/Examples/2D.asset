@@ -47,33 +47,6 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!21 &-6363719157873858286
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs/ShaderNodeDefault
-  m_Shader: {fileID: 4800000, guid: 90058f2da8582924ca724065bcdf8584, type: 3}
-  m_ShaderKeywords: CRT_2D
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _Input:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors:
-    - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
-  m_BuildTextureStacks: []
 --- !u!28 &-6271889868359918643
 Texture2D:
   m_ObjectHideFlags: 0
@@ -140,9 +113,12 @@ MonoBehaviour:
   - type: Mixture.CellularNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     jsonDatas: '{"GUID":"9f3f98b3-ff74-41f4-a2cb-7db36effd2ac","computeOrder":0,"position":{"serializedVersion":"2","x":-10.999982833862305,"y":-36.00006866455078,"width":250.0,"height":645.0},"expanded":true,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":255,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"da55f2393d0f8384db177010fad4c19c","type":3},"material":{"fileID":7412953962164294820,"guid":"491caa3e4fe93d0408347d7640170082","type":2}}'
-  - type: Mixture.ShaderNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+  - type: Mixture.RidgedPerlinNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"2af8e628-b4e4-4342-acdc-1482a67def15","computeOrder":2,"position":{"serializedVersion":"2","x":-311.0,"y":-321.96002197265627,"width":250.0,"height":511.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"90058f2da8582924ca724065bcdf8584","type":3},"material":{"fileID":-6363719157873858286,"guid":"491caa3e4fe93d0408347d7640170082","type":2}}'
+    jsonDatas: '{"GUID":"ee9db6b4-8af6-4db0-8895-b5cfeca82140","computeOrder":2,"position":{"serializedVersion":"2","x":-74.55001831054688,"y":613.10009765625,"width":250.0,"height":584.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"49eed0c8b6dca3949a7864570e424043","type":3},"material":{"fileID":2770006062732836367,"guid":"491caa3e4fe93d0408347d7640170082","type":2}}'
+  - type: Mixture.RidgedCellularNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"74113f2a-6f92-46ff-a21b-ad36722f5d9a","computeOrder":3,"position":{"serializedVersion":"2","x":-261.0,"y":-36.000003814697269,"width":250.0,"height":375.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"709dbd2e7ab678c4cb23bcf7fcf6fb2f","type":3},"material":{"fileID":6783865555539827090,"guid":"491caa3e4fe93d0408347d7640170082","type":2}}'
   edges:
   - GUID: 8b01226d-dfcf-42f5-9a34-14572846bc60
     owner: {fileID: 11400000}
@@ -186,18 +162,19 @@ MonoBehaviour:
       serializedType: Mixture.MixtureParameterView, Unity.ShaderGraph.GraphicsTests,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: 545, y: 369, z: 0}
-  scale: {x: 0.8695652, y: 0.8695652, z: 1}
-  realtimePreview: 0
+  position: {x: 606, y: -78, z: 0}
+  scale: {x: 1.3225, y: 1.3225, z: 1}
+  realtimePreview: 1
   isRealtime: 0
   isParameterViewOpen: 0
   objectReferences:
   - {fileID: 7412953962164294820}
   - {fileID: 0}
-  - {fileID: -6363719157873858286}
   - {fileID: 104215503536926863}
   - {fileID: -7515695781811813903}
   - {fileID: 458437118441847180}
+  - {fileID: 2770006062732836367}
+  - {fileID: 6783865555539827090}
   _outputTexture: {fileID: -6271889868359918643}
   references:
     version: 1
@@ -279,6 +256,93 @@ Material:
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
+--- !u!21 &2770006062732836367
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/RidgedPerlinNoise
+  m_Shader: {fileID: 4800000, guid: 49eed0c8b6dca3949a7864570e424043, type: 3}
+  m_ShaderKeywords: CRT_2D _TILINGMODE_NONE
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _UV_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Channels: 3
+    - _Frequency: 5
+    - _Lacunarity: 2
+    - _Octaves: 5
+    - _Persistance: 0.5
+    - _Seed: 0
+    - _TilingMode: 0
+    m_Colors:
+    - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &6783865555539827090
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/RidgedCellularNoise
+  m_Shader: {fileID: 4800000, guid: 709dbd2e7ab678c4cb23bcf7fcf6fb2f, type: 3}
+  m_ShaderKeywords: CRT_2D _TILINGMODE_NONE
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _UV_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _CellSize: 1.9
+    - _CellsMode: 0
+    - _Channels: 4
+    - _DistanceMode: 0
+    - _Frequency: 3.82
+    - _Lacunarity: 1.5
+    - _Octaves: 2
+    - _Persistance: 1.33
+    - _Seed: 42
+    - _TilingMode: 0
+    m_Colors:
+    - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
 --- !u!21 &7412953962164294820
 Material:
   serializedVersion: 6
@@ -313,6 +377,7 @@ Material:
     m_Floats:
     - _CellSize: 2.07
     - _CellsMode: 0
+    - _Channels: 4
     - _DistanceMode: 0
     - _Frequency: 2
     - _Lacunarity: 4
@@ -321,5 +386,5 @@ Material:
     - _Seed: 42
     - _TilingMode: 1
     m_Colors:
-    - _OutputRange: {r: 1, g: 0, b: 0, a: 0}
+    - _OutputRange: {r: 0.59, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

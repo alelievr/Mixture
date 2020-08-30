@@ -170,7 +170,7 @@ namespace Mixture
 		}
 
 		// Custom property draw, we don't want things that are connected to an edge or useless like the render queue
-		protected bool MaterialPropertiesGUI(Material material, bool autoLabelWidth = true)
+		protected bool MaterialPropertiesGUI(Material material, bool fromInspector, bool autoLabelWidth = true)
 		{
 			if (material == null || material.shader == null)
 				return false;
@@ -196,6 +196,10 @@ namespace Mixture
 			foreach (var property in properties)
 			{
 				if ((property.flags & (MaterialProperty.PropFlags.HideInInspector | MaterialProperty.PropFlags.PerRendererData)) != 0)
+					continue;
+
+				int idx = material.shader.FindPropertyIndex(property.name);
+				if (!fromInspector && material.shader.GetPropertyAttributes(idx).Contains("ShowInInspector"))
 					continue;
 
 				// Retrieve the port view from the property name

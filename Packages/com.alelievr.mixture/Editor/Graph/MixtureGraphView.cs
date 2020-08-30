@@ -21,7 +21,7 @@ namespace Mixture
 		{
 			initialized += Initialize;
 			Undo.undoRedoPerformed += ReloadGraph;
-			// nodeDuplicated += OnNodeDuplicated;
+			nodeDuplicated += OnNodeDuplicated;
 
 			SetupZoom(0.05f, 32f);
 		}

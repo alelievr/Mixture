@@ -12,5 +12,7 @@ namespace Mixture
 		public override string name => "Ridged Cellular Noise";
 
 		public override string shaderName => "Hidden/Mixture/RidgedCellularNoise";
+
+		protected override IEnumerable<string> filteredOutProperties => base.filteredOutProperties.Concat(new string[]{ "_DistanceMode", "_CellsMode" });
 	}
 }

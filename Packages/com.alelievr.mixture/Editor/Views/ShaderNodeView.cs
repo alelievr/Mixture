@@ -63,7 +63,7 @@ namespace Mixture
 			controlsContainer.Add(shaderCreationUI);
 			UpdateShaderCreationUI();
 
-			var materialIMGUI = new IMGUIContainer(MaterialGUI);
+			var materialIMGUI = new IMGUIContainer(() => MaterialGUI(fromInspector));
 			controlsContainer.Add(materialIMGUI);
 			materialIMGUI.AddToClassList("MaterialInspector");
 		}
@@ -174,7 +174,7 @@ namespace Mixture
 			shaderNode.IsShaderValid();
 		}
 
-		void MaterialGUI()
+		void MaterialGUI(bool fromInspector)
 		{
 			if (GetMaterialHash(shaderNode.material) != materialHash)
 			{
@@ -183,7 +183,7 @@ namespace Mixture
 			}
 
 			// Update the GUI when shader is modified
-			if (MaterialPropertiesGUI(shaderNode.material))
+			if (MaterialPropertiesGUI(shaderNode.material, fromInspector))
 			{
 				schedule.Execute(() => UpdateShaderCreationUI());
 				// We fore the update of node ports

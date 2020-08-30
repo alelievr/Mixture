@@ -7,15 +7,16 @@
 		[InlineTexture(HideInNodeInspector)] _UV_Cube("UVs", Cube) = "white" {}
 
         [KeywordEnum(None, Tiled)] _TilingMode("Tiling Mode", Float) = 0
-		[Enum(Euclidean, 0, Manhattan, 1, Minkowski, 2)] _DistanceMode("Distance Mode", Float) = 0
-		[Enum(Gradient, 0, Cells, 1, Valleys, 2)] _CellsMode("Cells Mode", Float) = 0
-		[MixtureVector2]_OutputRange("Output Range", Vector) = (0, 1, 0, 0)
+		[ShowInInspector][Enum(Euclidean, 0, Manhattan, 1, Minkowski, 2)] _DistanceMode("Distance Mode", Float) = 0
+		[ShowInInspector][Enum(Gradient, 0, Cells, 1, Valleys, 2)] _CellsMode("Cells Mode", Float) = 0
+		[ShowInInspector][MixtureVector2]_OutputRange("Output Range", Vector) = (0, 1, 0, 0)
 		_Lacunarity("Lacunarity", Float) = 2
 		_Frequency("Frequency", Float) = 5
 		_Persistance("Persistance", Float) = 0.3
 		[IntRange]_Octaves("Octaves", Range(1, 12)) = 3
-		_CellSize("Cell Size", Float) = 1
-		_Seed("Seed", Int) = 42
+		[ShowInInspector]_CellSize("Cell Size", Float) = 1
+		[ShowInInspector]_Seed("Seed", Int) = 42
+		[ShowInInspector][Enum(RRRR, 0, R, 1, RG, 2, RGB, 3, RGBA, 4)]_Channels("Channels", Int) = 0
 	}
 	SubShader
 	{
@@ -32,6 +33,7 @@
 			#define CUSTOM_DISTANCE _DistanceMode
 			#define CUSTOM_DISTANCE_MULTIPLIER _CellSize
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Noises.hlsl"
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/NoiseUtils.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -50,10 +52,11 @@
 			float _Persistance;
 			float _CellsMode;
 			int _Seed;
+			int _Channels;
 
-			float4 mixture (v2f_customrendertexture i) : SV_Target
+			float GenerateNoise(v2f_customrendertexture i, int seed)
 			{
-				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), _Seed);
+				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), seed);
 
 #ifdef CRT_2D
 				float4 noise = GenerateCellular2DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rgbr;
@@ -70,7 +73,12 @@
 					case 2: noise = noise.zzzz; break;
 				}
 
-				return RemapClamp(noise, 0, 1, _OutputRange.x, _OutputRange.y);
+				return RemapClamp(noise, 0, 1, _OutputRange.x, _OutputRange.y).x;
+			}
+
+			float4 mixture (v2f_customrendertexture i) : SV_Target
+			{
+				return GenerateNoiseForChannels(i, _Channels, _Seed);
 			}
 			ENDCG
 		}

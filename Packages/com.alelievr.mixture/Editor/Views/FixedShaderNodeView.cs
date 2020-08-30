@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using GraphProcessor;
-using System.Linq;
+using System;
 
 namespace Mixture
 {
@@ -37,7 +33,15 @@ namespace Mixture
 
 			if (fixedShaderNode.displayMaterialInspector)
 			{
-				var materialIMGUI = new IMGUIContainer(MaterialGUI);
+				Action<bool> safeMaterialGUI = (bool init) => {
+					// Copy fromInspector to avoid having the same value (lambda capture fromInspector pointer)
+					bool f = fromInspector;
+					if (!init)
+						MaterialGUI(f);
+				};
+				safeMaterialGUI(true);
+				var materialIMGUI = new IMGUIContainer(() => safeMaterialGUI(false));
+
 				materialIMGUI.AddToClassList("MaterialInspector");
 
 				controlsContainer.Add(materialIMGUI);
@@ -68,7 +72,7 @@ namespace Mixture
 			debugContainer.Add(debugShaderField);
 		}
 
-		void MaterialGUI()
+		void MaterialGUI(bool fromInspector)
 		{
 			if (fixedShaderNode.material == null)
 				return;
@@ -78,7 +82,7 @@ namespace Mixture
 			materialHash = GetMaterialHash(fixedShaderNode.material);
 
 			// Update the GUI when shader is modified
-			if (MaterialPropertiesGUI(fixedShaderNode.material))
+			if (MaterialPropertiesGUI(fixedShaderNode.material, fromInspector))
 				ForceUpdatePorts();
 		}
 

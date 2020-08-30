@@ -785,8 +785,4 @@ float GeneratePerlin2D_FBM(float2 coordinate)
     return f;
 }
 
-// Tilable noises:
-
-
-
 #endif

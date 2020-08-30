@@ -7,12 +7,13 @@
 		[InlineTexture(HideInNodeInspector)] _UV_Cube("UVs", Cube) = "white" {}
 
         [KeywordEnum(None, Tiled)] _TilingMode("Tiling Mode", Float) = 0
-		[MixtureVector2]_OutputRange("Output Range", Vector) = (-1, 1, 0, 0)
+		[ShowInInspector][MixtureVector2]_OutputRange("Output Range", Vector) = (-1, 1, 0, 0)
 		_Lacunarity("Lacunarity", Float) = 2
 		_Frequency("Frequency", Float) = 5
 		_Persistance("Persistance", Float) = 0.5
 		[IntRange]_Octaves("Octaves", Range(1, 12)) = 5
-		_Seed("Seed", Int) = 42
+		[ShowInInspector]_Seed("Seed", Int) = 42
+		[ShowInInspector][Enum(RRRR, 0, R, 1, RG, 2, RGB, 3, RGBA, 4)]_Channels("Channels", Int) = 0
 	}
 	SubShader
 	{
@@ -24,6 +25,7 @@
 			CGPROGRAM
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Noises.hlsl"
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/NoiseUtils.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -41,18 +43,23 @@
 			float _Lacunarity;
 			float _Persistance;
 			int _Seed;
+			int _Channels;
 
-			float4 mixture (v2f_customrendertexture i) : SV_Target
+			float GenerateNoise(v2f_customrendertexture i, int seed)
 			{
-				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), _Seed);
+				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), seed);
 
 #ifdef CRT_2D
 				float noise = GeneratePerlin2DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity);
 #else
 				float noise = GeneratePerlin3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity);
 #endif
-
 				return RemapClamp(noise, -1, 1, _OutputRange.x, _OutputRange.y);
+			}
+
+			float4 mixture (v2f_customrendertexture i) : SV_Target
+			{
+				return GenerateNoiseForChannels(i, _Channels, _Seed);
 			}
 			ENDCG
 		}
