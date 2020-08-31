@@ -20,19 +20,7 @@ namespace Mixture
 			base.Enable(fromInspector);
 			textureNode = nodeTarget as TextureNode;
 
-
-			var textureField = new ObjectField() {
-				label = "Texture",
-				objectType = typeof(Texture2D),
-				value = textureNode.texture
-			};
-			textureField.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Updated Texture " + e.newValue);
-				textureNode.texture = (Texture2D)e.newValue;
-				NotifyNodeChanged();
-			});
-
-			controlsContainer.Add(textureField);
+			controlsContainer.Add(AddControlField(nameof(TextureNode.texture)));
 		}
 
 	}

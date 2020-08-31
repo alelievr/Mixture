@@ -10,9 +10,10 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Textures/Splatter"), NodeMenuItem("Textures/Scatter")]
 	public class SplatterNode : ComputeShaderNode
 	{
+		// Note: keep in sync with Splatter.compute switch case _Sequence
 		public enum Sequence
 		{
-			Stack, Grid, R2, Halton, FibonacciSpiral,
+			Grid, Stack, R2, FibonacciSpiral,
 		}
 
 		public enum RotationMode
@@ -36,9 +37,8 @@ namespace Mixture
 		[Output]
 		public Texture output;
 
+		[ShowInInspector, Range(1, 1820)] 
 		public int maxSplatCount = 256;
-
-		public Vector2 extent = Vector2.one;
 
 		public Sequence sequence;
 
@@ -54,27 +54,40 @@ namespace Mixture
 		[VisibleIf(nameof(sequence), Sequence.Grid)]
 		public Vector2 gridShift = Vector2.zero;
 
+		// R2
+		[VisibleIf(nameof(sequence), Sequence.R2), Range(0, 1)]
+		public float lambda = 0;
+
+		// Fibonacci Spiral
+		[VisibleIf(nameof(sequence), Sequence.FibonacciSpiral)]
+		public float rotation;
+		[VisibleIf(nameof(sequence), Sequence.FibonacciSpiral)]
+		public float radius = 1;
+		[VisibleIf(nameof(sequence), Sequence.FibonacciSpiral)]
+		public float goldenRatio = 2.399999f;
+
 		// Other
+		[ShowInInspector]
 		public Vector3 positionJitter = Vector3.zero;
 
-		// R2
-		public RotationMode rotationMode;
-
 		// Rotation
-		[VisibleIf(nameof(rotationMode), RotationMode.Fixed)]
+		[ShowInInspector]
+		public RotationMode rotationMode;
+		[ShowInInspector, VisibleIf(nameof(rotationMode), RotationMode.Fixed)]
 		public Vector3 fixedAngles;
-		[VisibleIf(nameof(rotationMode), RotationMode.RandomBetween)]
+		[ShowInInspector, VisibleIf(nameof(rotationMode), RotationMode.RandomBetween)]
 		public Vector3 minAngles = new Vector3(-180, -180, -180);
-		[VisibleIf(nameof(rotationMode), RotationMode.RandomBetween)]
+		[ShowInInspector, VisibleIf(nameof(rotationMode), RotationMode.RandomBetween)]
 		public Vector3 maxAngles = new Vector3(180, 180, 180);
 
+		[ShowInInspector]
 		public ScaleMode scaleMode = ScaleMode.Fixed;
 		// Scale
-		[VisibleIf(nameof(scaleMode), ScaleMode.Fixed)]
+		[ShowInInspector, VisibleIf(nameof(scaleMode), ScaleMode.Fixed)]
 		public Vector3 fixedScale = Vector3.one;
-		[VisibleIf(nameof(scaleMode), ScaleMode.RandomBetween)]
+		[ShowInInspector, VisibleIf(nameof(scaleMode), ScaleMode.RandomBetween)]
 		public Vector3 minScale = new Vector3(0.5f, 0.5f, 0.5f);
-		[VisibleIf(nameof(scaleMode), ScaleMode.RandomBetween)]
+		[ShowInInspector, VisibleIf(nameof(scaleMode), ScaleMode.RandomBetween)]
 		public Vector3 maxScale = new Vector3(1.5f, 1.5f, 1.5f);
 
 		public Operator blendOperator = Operator.Blend;
@@ -82,7 +95,7 @@ namespace Mixture
 		public override string name => "Splatter";
 		protected override string computeShaderResourcePath => "Mixture/Splatter";
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
-			// TODO: support of Texture3D
+			// TODO: support of Texture3D and cubemaps
 			OutputDimension.Texture2D,
 		};
 		public override bool showDefaultInspector => true;
@@ -102,6 +115,10 @@ namespace Mixture
 		static readonly int _GridSize = Shader.PropertyToID("_GridSize");
 		static readonly int _GridCram = Shader.PropertyToID("_GridCram");
 		static readonly int _GridShift = Shader.PropertyToID("_GridShift");
+		static readonly int _Lambda = Shader.PropertyToID("_Lambda");
+		static readonly int _FibonacciRotation = Shader.PropertyToID("_FibonacciRotation");
+		static readonly int _Radius = Shader.PropertyToID("_Radius");
+		static readonly int _GoldenRatio = Shader.PropertyToID("_GoldenRatio");
 		static readonly int _FixedAngles = Shader.PropertyToID("_FixedAngles");
 		static readonly int _MinAngles = Shader.PropertyToID("_MinAngles");
 		static readonly int _MaxAngles = Shader.PropertyToID("_MaxAngles");
@@ -111,7 +128,6 @@ namespace Mixture
 		static readonly int _PositionJitter = Shader.PropertyToID("_PositionJitter");
 		static readonly int _Time = Shader.PropertyToID("_Time");
 		static readonly int _ElementCount = Shader.PropertyToID("_ElementCount");
-		static readonly int _Extent = Shader.PropertyToID("_Extent");
 		static readonly int _TextureCount = Shader.PropertyToID("_TextureCount");
 		static readonly int _SrcBlend = Shader.PropertyToID("_SrcBlend");
 		static readonly int _DstBlend = Shader.PropertyToID("_DstBlend");
@@ -146,12 +162,23 @@ namespace Mixture
 				Debug.LogError("Max number of splat input texture reached for splatter node, please remove one.");
 		}
 
+		[CustomPortBehavior(nameof(output))]
+		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
+		{
+			yield return new PortData{
+				displayName = "output",
+				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
+				identifier = "output",
+				acceptMultipleEdges = true,
+			};
+		}
+
 		protected override void Enable()
 		{
 			base.Enable();
 
 			argumentBuffer = new ComputeBuffer(1, sizeof(int) * 5, ComputeBufferType.IndirectArguments);
-			// We have a max of 16k splats, should be enough :)
+			// We have a max of 16k splats, should be enough :) It means a total of 1820 particles max (we divide by 9 for tiling)
 			splatPointsBuffer = new ComputeBuffer(16384, sizeof(float) * 9);
 
 			generatePointKernel = computeShader.FindKernel("GenerateSplatPoints");
@@ -165,9 +192,9 @@ namespace Mixture
 			SetComputeArgs(cmd);
 			computeShader.GetKernelThreadGroupSizes(generatePointKernel, out uint x, out _, out _);
 			DispatchCompute(cmd, generatePointKernel, maxSplatCount + ((int)x - maxSplatCount % (int)x));
-		
+
 			indirectArguments[0] = 6;
-			indirectArguments[1] = Mathf.Max(0, maxSplatCount);
+			indirectArguments[1] = Mathf.Max(0, maxSplatCount * 9);
 			indirectArguments[2] = 0;
 			indirectArguments[3] = 0;
 			indirectArguments[4] = 0;
@@ -196,7 +223,7 @@ namespace Mixture
 		void SetComputeArgs(CommandBuffer cmd)
 		{
 			cmd.SetComputeBufferParam(computeShader, generatePointKernel, _SplatPoints, splatPointsBuffer);
-			cmd.SetComputeFloatParam(computeShader, _Time, Time.time);
+			cmd.SetComputeFloatParam(computeShader, _Time, (Application.isPlaying) ? Time.time : Time.realtimeSinceStartup);
 			cmd.SetComputeFloatParam(computeShader, _ElementCount, maxSplatCount);
 			cmd.SetComputeIntParam(computeShader, _Sequence, (int)sequence);
 			cmd.SetComputeIntParam(computeShader, _RotationMode, (int)rotationMode);
@@ -205,6 +232,10 @@ namespace Mixture
 			cmd.SetComputeVectorParam(computeShader, _GridSize, gridSize);
 			cmd.SetComputeVectorParam(computeShader, _GridCram, gridCram);
 			cmd.SetComputeVectorParam(computeShader, _GridShift, gridShift);
+			cmd.SetComputeFloatParam(computeShader, _Lambda, lambda);
+			cmd.SetComputeFloatParam(computeShader, _FibonacciRotation, rotation * Mathf.Deg2Rad);
+			cmd.SetComputeFloatParam(computeShader, _Radius, radius);
+			cmd.SetComputeFloatParam(computeShader, _GoldenRatio, goldenRatio);
 			cmd.SetComputeVectorParam(computeShader, _FixedAngles, fixedAngles);
 			cmd.SetComputeVectorParam(computeShader, _MinAngles, minAngles);
 			cmd.SetComputeVectorParam(computeShader, _MaxAngles, maxAngles);
@@ -212,7 +243,6 @@ namespace Mixture
 			cmd.SetComputeVectorParam(computeShader, _MinScale, minScale);
 			cmd.SetComputeVectorParam(computeShader, _MaxScale, maxScale);
 			cmd.SetComputeVectorParam(computeShader, _PositionJitter, positionJitter);
-			cmd.SetComputeVectorParam(computeShader, _Extent, extent);
 		}
 
 		void SetBlendSettings(Material mat)

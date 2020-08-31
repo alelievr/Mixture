@@ -7,7 +7,6 @@ RWStructuredBuffer<SplatPoint> _SplatPoints;
 int _Sequence;
 int _RotationMode;
 int _ScaleMode;
-float2 _Extent;
 
 // Stack
 float3 _StackPosition;
@@ -18,6 +17,12 @@ float2 _GridCram;
 float2 _GridShift;
 
 // R2
+float _Lambda;
+
+// Fibonacci Spiral
+float _FibonacciRotation;
+float _Radius;
+float _GoldenRatio;
 
 // Rotation
 float3 _FixedAngles;
@@ -34,16 +39,16 @@ float _Time;
 float _ElementCount;
 float3 _PositionJitter;
 
-void Stack(uint id)
+void Stack(uint id, uint position1D)
 {
     _SplatPoints[id].position = _StackPosition;
 }
 
-void Grid(uint id)
+void Grid(uint id, uint position1D)
 {
     float3 p;
-    float x = id % floor(_GridSize.x);
-    float y = id / floor(_GridSize.y);
+    float x = position1D % floor(_GridSize.x);
+    float y = position1D / floor(_GridSize.y);
     float r = floor(_GridSize.x) / floor(_GridSize.y);
     p = float3(x, y - x / floor(_GridSize.y), 0);
     p /= float3(_GridSize.x / 2, _GridSize.y / 2 * r, 1);
@@ -51,22 +56,52 @@ void Grid(uint id)
     p.xy -= _GridCram * p.xy;
     p.xy += p.yx * _GridShift.xy;
 
-    _SplatPoints[id].position = p;
+    _SplatPoints[id].position = frac(p / 2) * 2; // Keep the final position in frame bounds
     _SplatPoints[id].scale = float3(rcp(_GridSize.x), rcp(_GridSize.y), 1);
 }
 
-void R2(uint id)
-{
+// constants 
+static float phi = 1.324717957244746;
+static float pi = 3.14159265359;
+static float delta0 = 0.76;
+static float i0 = 0.700;
+static float2 alpha = float2(1.0/phi, 1.0/phi/phi);
 
+// Floor division modulo
+float2 fmod(float2 x)
+{
+ 	return x - floor(x);   
 }
 
-void Halton(uint id)
+// See IQ's "Integer Hash - III" shader: https://www.shadertoy.com/view/4tXyWN 
+float hash( float2 x )
 {
-
+    float2 q = 1103515245U * ( (uint2(x)>>1U) ^ (uint2(x.yx)   ) );
+    uint  n = 1103515245U * ( (uint(q.x)  ) ^ (uint(q.y)>>3U) );
+    return float(n) * (1.0/float(0xffffffffU));
 }
 
-void FibonacciSpiral(uint id)
+// Source: https://www.shadertoy.com/view/MtVBRw
+void R2(uint id, uint position1D)
 {
+    position1D++;
+
+    float2 u = float2(hash(float2(position1D, 0)), hash(float2(position1D, 1)))-0.5;
+	float2 pos = fmod(alpha * float(position1D) + _Lambda * delta0 * sqrt(pi) / (4.0 * sqrt(float(position1D) - i0)) * u);
+
+    _SplatPoints[id].position = float3(pos * 2 - 1, 0);
+}
+
+void FibonacciSpiral(uint id, uint position1D)
+{
+    float goldenRatio = max(0.0000001, _GoldenRatio);
+    float maxRadius = sqrt(goldenRatio * _ElementCount);
+    float theta = goldenRatio * position1D;
+    float radius = sqrt(theta) * _Radius;
+    float x = cos(theta + _FibonacciRotation) * radius;
+    float y = sin(theta + _FibonacciRotation) * radius;
+
+    _SplatPoints[id].position = float3(x, y, 0) / maxRadius;
 }
 
 float3 WhiteNoise3(uint id)
@@ -102,33 +137,36 @@ void RandomBetweenScale(uint id)
 [numthreads(64,1,1)]
 void GenerateSplatPoints(uint id : SV_DispatchThreadID)
 {
+    if (id > _ElementCount)
+        return;
+
+    uint position1D = id;
+
+    // Real id due to tiling
+    id *= 9;
+
     // Reset accumulated values:
     if (_Sequence != -1)
         _SplatPoints[id].scale = 1;
 
     switch (_Sequence)
     {
-        case 0: // Stack
-            Stack(id);
+        case 0: // Grid
+            Grid(id, position1D);
             break;
-        case 1: // Grid
-            Grid(id);
+        case 1: // Stack
+            Stack(id, position1D);
             break;
         case 2: // R2
-            R2(id);
+            R2(id, position1D);
             break;
-        case 3: // Halton
-            Halton(id);
-            break;
-        case 4: // FibonacciSpiral
-            FibonacciSpiral(id);
+        case 3: // FibonacciSpiral
+            FibonacciSpiral(id, position1D);
             break;
     }
 
     // Add jitter to initial position:
     _SplatPoints[id].position += JitterPosition(id);
-    _SplatPoints[id].position *= float3(_Extent, 1); // and extent
-    _SplatPoints[id].scale *= float3(_Extent, 1); // and extent
 
     switch (_RotationMode)
     {
@@ -151,5 +189,19 @@ void GenerateSplatPoints(uint id : SV_DispatchThreadID)
         case 1: // Random
             RandomBetweenScale(id);
             break;
+    }
+
+    static float3 tiledPositions[8] = {
+        float3(-2, 2, 0), float3(0, 2, 0), float3(2, 2, 0),
+        float3(-2, 0, 0),                  float3(2, 0, 0),
+        float3(-2,-2, 0), float3(0,-2, 0), float3(2,-2, 0),
+    };
+
+    // Add the remaining 8 splats for tiling:
+    SplatPoint tiledSplat = _SplatPoints[id];
+    for (int i = 0; i < 8; i++)
+    {
+        _SplatPoints[id + i + 1] = tiledSplat;
+        _SplatPoints[id + i + 1].position += tiledPositions[i];
     }
 }

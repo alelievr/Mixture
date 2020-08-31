@@ -11,11 +11,11 @@ float4 GenerateNoiseForChannels(v2f_customrendertexture i, int channels, int see
         case 0: // RRRR
             return GenerateNoise(i, seed).rrrr;
         case 1: // R
-            return float4(GenerateNoise(i, seed), 0, 0, 0);
+            return float4(GenerateNoise(i, seed), 0, 0, 1);
         case 2: // RG
-            return float4(GenerateNoise(i, seed), GenerateNoise(i, seed + 42), 0, 0);
+            return float4(GenerateNoise(i, seed), GenerateNoise(i, seed + 42), 0, 1);
         case 3: // RGB
-            return float4(GenerateNoise(i, seed), GenerateNoise(i, seed + 42), GenerateNoise(i, seed - 69), 0);
+            return float4(GenerateNoise(i, seed), GenerateNoise(i, seed + 42), GenerateNoise(i, seed - 69), 1);
         case 4: // RGBA
             return float4(GenerateNoise(i, seed), GenerateNoise(i, seed + 42), GenerateNoise(i, seed - 69), GenerateNoise(i, seed + 5359));
         default:
