@@ -3,7 +3,7 @@
 	Properties
 	{
 		[InlineTexture]_Source_2D("Input", 2D) = "white" {}
-		[Enum(Tangent, 0, Object, 1)] _OutputSpace("Output Space", Float) = 0.0
+		// [Enum(Tangent, 0, Object, 1)] _OutputSpace("Output Space", Float) = 0.0
 		[MixtureChannel]_Channel("Height Channel", Float) = 0
 		[Range]_Strength("Scale", Range(0.001, 4.0)) = 1.0
 		_MaxHeight("Max Height", Float) = 1.0
@@ -29,7 +29,7 @@
 			float _Channel;
 			float _Strength;
 			float _OutputRange;
-			float _OutputSpace;
+			// float _OutputSpace;
 			float _MaxHeight;
 
 			float sampleHeight(float2 uv)
@@ -66,8 +66,8 @@
 				float2 dduv = _Source_2D_TexelSize.xy;
 				float3 output = normal(dduv * 1.5, i.localTexcoord.xy);
 
-				if (_OutputSpace == 0.0)
-					output.xyz = float3(output.x, -output.y, output.z);
+				// if (_OutputSpace == 0.0)
+				// 	output.xyz = float3(output.x, -output.y, output.z);
 
 				if (_OutputRange == 0.0)
 					output = output * 0.5 + 0.5;

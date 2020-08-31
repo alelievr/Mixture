@@ -45,8 +45,6 @@ float4 MakePreviewColor(v2f i, float2 texelSize, float4 imageColor)
         imageColor.a = 1.0;
     }
 
-    // Apply gamma
-    imageColor.xyz = pow(imageColor.xyz, 1.0 / 2.2);
     // Then checkerboard
     imageColor.xyz = lerp(checkerboard, imageColor.xyz, imageColor.a);
 

@@ -161,7 +161,6 @@ namespace Mixture
             if (oldTextureObject == outputTexture)
                 return;
 
-#if UNITY_EDITOR
             if (oldTextureObject != null) // release memory and remove asset
             {
                 AssetDatabase.RemoveObjectFromAsset(oldTextureObject);
@@ -177,7 +176,6 @@ namespace Mixture
                 Selection.activeObject = outputTexture;
 #endif
         }
-#endif
 
 		void UpdateOutputRealtimeTexture()
 		{
@@ -245,8 +243,8 @@ namespace Mixture
                 Texture outputTexture = null;
                 bool isHDR = external.rtSettings.isHDR;
 
-                OutputDimension dimension = (OutputDimension)(external.rtSettings.dimension == OutputDimension.SameAsOutput ? (OutputDimension)external.rtSettings.GetTextureDimension(this) : external.rtSettings.dimension);
-                GraphicsFormat format = (GraphicsFormat)external.rtSettings.graphicsFormat;
+                OutputDimension dimension = (OutputDimension)external.rtSettings.GetTextureDimension(this);
+                GraphicsFormat format = (GraphicsFormat)external.rtSettings.GetGraphicsFormat(this);
 
                 switch (dimension)
                 {
@@ -313,12 +311,15 @@ namespace Mixture
                         contents = ImageConversion.EncodeToEXR(outputTexture as Texture2D);
                     else
                     {
-
                         var colors = (outputTexture as Texture2D).GetPixels();
-                        for (int i = 0; i < colors.Length; i++)
+
+                        // We only do the convertion for whe the graph uses SRGB images
+                        if (external.rtSettings.GetOutputPrecision(this) == OutputPrecision.SRGB)
                         {
-                            colors[i] = colors[i].gamma;
+                            for (int i = 0; i < colors.Length; i++)
+                                colors[i] = colors[i].linear;
                         }
+
                         (outputTexture as Texture2D).SetPixels(colors);
 
                         contents = ImageConversion.EncodeToPNG(outputTexture as Texture2D);
@@ -390,7 +391,6 @@ namespace Mixture
             if (isRealtime)
                 return;
             
-#if UNITY_EDITOR
             // We only need to update the main asset texture because the outputTexture should
             // always be correctly setup when we arrive here.
             var currentTexture = AssetDatabase.LoadAssetAtPath<Texture>(mainAssetPath);

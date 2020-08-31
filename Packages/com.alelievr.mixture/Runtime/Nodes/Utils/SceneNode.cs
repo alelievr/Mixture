@@ -94,9 +94,6 @@ Note that this node is currently only available with HDRP.
             string prefabPath = AssetDatabase.GenerateUniqueAssetPath(dirPath + "/" + "SceneCapture.prefab");
 
             return PrefabUtility.SaveAsPrefabAssetAndConnect(sceneObject, prefabPath, InteractionMode.UserAction);
-#else
-    return null;
-#endif
         }
 #endif
 

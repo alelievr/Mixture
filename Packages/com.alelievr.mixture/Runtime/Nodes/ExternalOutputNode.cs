@@ -64,6 +64,18 @@ namespace Mixture
                 UpdateTempRenderTexture(ref tempRenderTexture);
             }
 
+			if (finalCopyMaterial == null)
+			{
+				var shader = Shader.Find("Hidden/Mixture/FinalCopy");
+
+				// shader can be null if this function is called during the import of the package
+				if (shader != null)
+				{
+					finalCopyMaterial = new Material(shader);
+					finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+				}
+			}
+
             tempRenderTexture.material = finalCopyMaterial;
 
             // TODO: add this for every mixture node
