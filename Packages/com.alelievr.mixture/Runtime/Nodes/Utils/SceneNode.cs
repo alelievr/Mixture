@@ -94,6 +94,9 @@ Note that this node is currently only available with HDRP.
             string prefabPath = AssetDatabase.GenerateUniqueAssetPath(dirPath + "/" + "SceneCapture.prefab");
 
             return PrefabUtility.SaveAsPrefabAssetAndConnect(sceneObject, prefabPath, InteractionMode.UserAction);
+#else
+    return null;
+#endif
         }
 #endif
 
@@ -106,7 +109,9 @@ Note that this node is currently only available with HDRP.
                 var defaultPrefab = GameObject.Instantiate(LoadDefaultPrefab());
                 prefab = SavePrefab(defaultPrefab);
                 MixtureUtils.DestroyGameObject(defaultPrefab);
+#if UNITY_EDITOR
                 ProjectWindowUtil.ShowCreatedAsset(prefab);
+#endif
             }
 #endif
             UpdateRenderTextures();

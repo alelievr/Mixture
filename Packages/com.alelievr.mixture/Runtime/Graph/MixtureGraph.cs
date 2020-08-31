@@ -161,6 +161,7 @@ namespace Mixture
             if (oldTextureObject == outputTexture)
                 return;
 
+#if UNITY_EDITOR
             if (oldTextureObject != null) // release memory and remove asset
             {
                 AssetDatabase.RemoveObjectFromAsset(oldTextureObject);
@@ -174,6 +175,7 @@ namespace Mixture
 
             if (Selection.activeObject == oldTextureObject)
                 Selection.activeObject = outputTexture;
+#endif
         }
 #endif
 
@@ -388,6 +390,7 @@ namespace Mixture
             if (isRealtime)
                 return;
             
+#if UNITY_EDITOR
             // We only need to update the main asset texture because the outputTexture should
             // always be correctly setup when we arrive here.
             var currentTexture = AssetDatabase.LoadAssetAtPath<Texture>(mainAssetPath);
@@ -491,6 +494,10 @@ namespace Mixture
                     Debug.LogError(data.targetTexture + " is not a supported type for saving");
                     return;
             }
+
+#if UNITY_EDITOR
+            EditorGUIUtility.PingObject(data.targetTexture);
+#endif
         }
 
         /// <summary>
