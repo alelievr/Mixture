@@ -106,9 +106,8 @@ Note that this node is currently only available with HDRP.
                 var defaultPrefab = GameObject.Instantiate(LoadDefaultPrefab());
                 prefab = SavePrefab(defaultPrefab);
                 MixtureUtils.DestroyGameObject(defaultPrefab);
-#if UNITY_EDITOR
                 ProjectWindowUtil.ShowCreatedAsset(prefab);
-#endif
+                EditorGUIUtility.PingObject(prefab);
             }
 #endif
             UpdateRenderTextures();
