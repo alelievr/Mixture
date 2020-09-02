@@ -241,7 +241,7 @@ namespace Mixture
             try
             {
                 Texture outputTexture = null;
-                bool isHDR = external.rtSettings.isHDR;
+                bool isHDR = external.rtSettings.IsHDR(this);
 
                 OutputDimension dimension = (OutputDimension)external.rtSettings.GetTextureDimension(this);
                 GraphicsFormat format = (GraphicsFormat)external.rtSettings.GetGraphicsFormat(this);
@@ -473,6 +473,7 @@ namespace Mixture
                 case Texture2D t:
                     t.SetPixelData(request.GetData<float>(0), data.mipLevel);
                     t.Apply(false);
+                    var r = t.GetRawTextureData();
                     break;
                 case Texture3D t:
                     List<float> rawData = new List<float>();
@@ -487,7 +488,6 @@ namespace Mixture
                 case Cubemap t:
                     for (int i = 0; i < 6; i++)
                         t.SetPixelData(request.GetData<float>(i), data.mipLevel, (CubemapFace)i);
-
                     t.Apply(false);
                     break;
                 default:

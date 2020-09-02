@@ -42,4 +42,17 @@ public class MixtureConversions : ITypeAdapter
     }
 
     public static object ConvertVector4ToObject(Vector4 v) => v;
+
+    public static Color ConvertObjectToColor(object o)
+    {
+        switch (o)
+        {
+            case Vector3 v: return ConvertVector3ToColor(v);
+            case Vector4 v: return ConvertVector4ToColor(v);
+            case Color c: return c;
+            default: return Color.black;
+        }
+    }
+
+    public static object ConvertColorToObject(Color c) => c;
 }

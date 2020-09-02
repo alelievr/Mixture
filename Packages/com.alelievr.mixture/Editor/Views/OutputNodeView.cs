@@ -11,9 +11,6 @@ namespace Mixture
 	[NodeCustomEditor(typeof(OutputNode))]
 	public class OutputNodeView : MixtureNodeView
 	{
-		VisualElement	shaderCreationUI;
-		VisualElement	materialEditorUI;
-		MaterialEditor	materialEditor;
 		protected OutputNode	outputNode;
 		protected MixtureGraph	graph;
 

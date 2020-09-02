@@ -4,14 +4,14 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using GraphProcessor;
 using UnityEditor.Experimental.GraphView;
+using System.Collections.Generic;
 
 namespace Mixture
 {
     [NodeCustomEditor(typeof(ExternalOutputNode))]
     public class ExternalOutputNodeView : OutputNodeView
     {
-        Button saveButton;
-        Button updateButton;
+        List<(Button save, Button update)> buttons = new List<(Button, Button)>();
 
 		public override void Enable(bool fromInspector)
         {
@@ -78,14 +78,16 @@ namespace Mixture
             else
             {
                 // Add Buttons
-                saveButton = new Button(SaveExternal)
+                var saveButton = new Button(SaveExternal)
                 {
                     text = "Save As..."
                 };
-                updateButton = new Button(UpdateExternal)
+                var updateButton = new Button(UpdateExternal)
                 {
                     text = "Update"
                 };
+
+                buttons.Add((saveButton, updateButton));
 
                 var horizontal = new VisualElement();
                 horizontal.style.flexDirection = FlexDirection.Row;
@@ -98,18 +100,24 @@ namespace Mixture
 
         void UpdateButtons()
         {
-            if(graph.isRealtime)
+            foreach (var button in buttons)
             {
-                saveButton.style.display = DisplayStyle.None;
-                updateButton.style.display = DisplayStyle.None;
-            }
-            else
-            {
-                var externalOutputNode = nodeTarget as ExternalOutputNode;
-                // Manage First save or Update
-                saveButton.style.display = DisplayStyle.Flex;
-                updateButton.style.display = DisplayStyle.Flex;
-                updateButton.SetEnabled(externalOutputNode.asset != null);
+                if (button.save == null || button.update == null)
+                    continue;
+
+                if (graph.isRealtime)
+                {
+                    button.save.style.display = DisplayStyle.None;
+                    button.update.style.display = DisplayStyle.None;
+                }
+                else
+                {
+                    var externalOutputNode = nodeTarget as ExternalOutputNode;
+                    // Manage First save or Update
+                    button.save.style.display = DisplayStyle.Flex;
+                    button.update.style.display = DisplayStyle.Flex;
+                    button.update.SetEnabled(externalOutputNode.asset != null);
+                }
             }
         }
 

@@ -218,6 +218,8 @@ namespace Mixture
 					finalCopyMaterial.SetTexture("_Source_3D", input);
 				else
 					finalCopyMaterial.SetTexture("_Source_Cube", input);
+
+				finalCopyMaterial.SetInt("_IsSRGB", rtSettings.GetOutputPrecision(graph) == OutputPrecision.SRGB ? 1 : 0);
 			}
 
 			if (tempRenderTexture != null)

@@ -9,7 +9,6 @@ namespace Mixture
 	[NodeCustomEditor(typeof(FixedShaderNode))]
 	public class FixedShaderNodeView : MixtureNodeView
 	{
-		VisualElement	    shaderCreationUI;
 		FixedShaderNode		fixedShaderNode => nodeTarget as FixedShaderNode;
 		int					materialHash = -1;
 

@@ -19,7 +19,6 @@ namespace Mixture
 		{
 			base.Enable(fromInspector);
 			
-			
 			floatNode = nodeTarget as FloatNode;
 			var textureField = new FloatField() {
 				label = "Vector",

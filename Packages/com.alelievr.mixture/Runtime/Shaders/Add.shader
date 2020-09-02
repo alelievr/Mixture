@@ -3,15 +3,15 @@
 	Properties
 	{
 		// By default a shader node is supposed to handle all the input texture dimension, we use a prefix to determine which one is used
-		[Tooltip(Input A)][InlineTexture]_SourceA_2D("Source A", 2D) = "white" {}
-		[Tooltip(Input A)][InlineTexture]_SourceA_3D("Source A", 3D) = "white" {}
-		[Tooltip(Input A)][InlineTexture]_SourceA_Cube("Source A", Cube) = "white" {}
+		[Tooltip(Input A)][InlineTexture]_SourceA_2D("Source A", 2D) = "black" {}
+		[Tooltip(Input A)][InlineTexture]_SourceA_3D("Source A", 3D) = "black" {}
+		[Tooltip(Input A)][InlineTexture]_SourceA_Cube("Source A", Cube) = "black" {}
 
-		[Tooltip(Input B)][InlineTexture]_SourceB_2D("Source B", 2D) = "white" {}
-		[Tooltip(Input B)][InlineTexture]_SourceB_3D("Source B", 3D) = "white" {}
-		[Tooltip(Input B)][InlineTexture]_SourceB_Cube("Source B", Cube) = "white" {}
+		[Tooltip(Input B)][InlineTexture]_SourceB_2D("Source B", 2D) = "black" {}
+		[Tooltip(Input B)][InlineTexture]_SourceB_3D("Source B", 3D) = "black" {}
+		[Tooltip(Input B)][InlineTexture]_SourceB_Cube("Source B", Cube) = "black" {}
 
-		[Tooltip(Input Color)]_Color("Color", Color) = (0, 0, 0, 0)
+		[Tooltip(Input Color)][HDR]_Color("Color", Color) = (0, 0, 0, 0)
 	}
 	SubShader
 	{

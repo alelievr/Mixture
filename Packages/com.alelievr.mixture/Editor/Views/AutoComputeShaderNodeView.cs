@@ -15,9 +15,9 @@ namespace Mixture
 	[NodeCustomEditor(typeof(AutoComputeShaderNode))]
 	class AutoComputeShaderNodeView : ComputeShaderNodeView
 	{
-		VisualElement		shaderCreationUI;
 		AutoComputeShaderNode	computeShaderNode => nodeTarget as AutoComputeShaderNode;
-		ObjectField			shaderField;
+
+		List<(VisualElement shaderCreationUI, ObjectField shaderField)> uiList = new List<(VisualElement, ObjectField)>();
 
 		DateTime			lastModified;
 
@@ -27,13 +27,12 @@ namespace Mixture
 		{
 			base.Enable(fromInspector);
 
-            shaderCreationUI = new VisualElement();
+            var shaderCreationUI = new VisualElement();
             controlsContainer.Add(shaderCreationUI);
-			UpdateShaderCreationUI();
+			var shaderField = new ObjectField("Compute Shader") { value = computeShaderNode.computeShader, objectType = typeof(ComputeShader) };
+			uiList.Add((shaderCreationUI, shaderField));
+			UpdateShaderCreationUI(shaderCreationUI, shaderField);
 
-			openButtonUI.Clear();
-
-			shaderField = new ObjectField("Compute Shader") { value = computeShaderNode.computeShader, objectType = typeof(ComputeShader) };
 			controlsContainer.Add(shaderField);
 
 			// If the user created a custom version of compute, he doesn't need the selector + UI
@@ -41,27 +40,32 @@ namespace Mixture
 			{
 				SetComputeShader((ComputeShader)v.newValue);
 			});
+		
+			if (!fromInspector)
+			{
+				owner.graph.onOutputTextureUpdated += () => {
+					foreach (var res in computeShaderNode.managedResources)
+						if (res.allocatedTexture != null && res.textureAllocMode == AutoComputeShaderNode.TextureAllocMode.SameAsOutput)
+							computeShaderNode.UpdateManagedResource(res);
+				};
 
-			owner.graph.onOutputTextureUpdated += () => {
-				foreach (var res in computeShaderNode.managedResources)
-					if (res.allocatedTexture != null && res.textureAllocMode == AutoComputeShaderNode.TextureAllocMode.SameAsOutput)
-						computeShaderNode.UpdateManagedResource(res);
-			};
-
-			if (computeShaderNode.computeShader != null)
-				UpdateComputeShaderData(computeShaderNode.computeShader);
-			
-			computeShaderChanged += () => {
-				UpdateComputeShaderData(computeShaderNode.computeShader);
-				RefreshPorts();
-			};
+				if (computeShaderNode.computeShader != null)
+					UpdateComputeShaderData(computeShaderNode.computeShader);
+				
+				computeShaderChanged += () => {
+					UpdateComputeShaderData(computeShaderNode.computeShader);
+					RefreshPorts();
+				};
+			}
 		}
 
 		internal void SetComputeShader(ComputeShader newShader)
 		{
 			owner.RegisterCompleteObjectUndo("Updated Shader of Compute Shader Node");
 			computeShaderNode.computeShader = newShader;
-			shaderField.value = newShader;
+			foreach (var kp in uiList)
+				if (kp.shaderField != null)
+					kp.shaderField.value = newShader;
 			computePath = AssetDatabase.GetAssetPath(newShader);
 
 			string resourcePath = null;
@@ -74,13 +78,13 @@ namespace Mixture
 			if (newShader != null)
 				UpdateComputeShaderData(newShader);
 
-			UpdateShaderCreationUI();
+			foreach (var kp in uiList)
+				UpdateShaderCreationUI(kp.shaderCreationUI, kp.shaderField);
 
 			ForceUpdatePorts();
 
 			computeShaderNode.ComputeIsValid();
 		}
-
 
 		protected override VisualElement CreateSettingsView()
 		{
@@ -98,10 +102,12 @@ namespace Mixture
 			return settings;
 		}
 
-		void UpdateShaderCreationUI()
+		void UpdateShaderCreationUI(VisualElement shaderCreationUI, ObjectField shaderField)
 		{
 			shaderCreationUI.Clear();
-			openButtonUI.Clear();
+			foreach (var openButtonUI in openButtonsUI)
+				if (openButtonUI != null)
+					openButtonUI.Clear();
 
 			if (computeShaderNode.computeShader == null)
 			{
@@ -111,7 +117,8 @@ namespace Mixture
 			}
 			else
 			{
-				AddOpenButton();
+				foreach (var openButtonUI in openButtonsUI)
+					AddOpenButton(openButtonUI);
 			}
 
 			void CreateNewComputeShader()

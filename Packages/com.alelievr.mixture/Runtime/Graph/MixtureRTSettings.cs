@@ -103,7 +103,11 @@ namespace Mixture
 			};
 		}
 
-        public bool isHDR => outputPrecision == OutputPrecision.Half || outputPrecision == OutputPrecision.Full;
+        public bool IsHDR(MixtureGraph graph)
+		{
+			var p = GetOutputPrecision(graph);
+			return p == OutputPrecision.Half || p == OutputPrecision.Full;
+		}
 		
 		public bool CanEdit(EditFlags flag) => (this.editFlags & flag) != 0;
 

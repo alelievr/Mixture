@@ -15,7 +15,7 @@ namespace Mixture
 	[NodeCustomEditor(typeof(ComputeShaderNode))]
 	public class ComputeShaderNodeView : MixtureNodeView
 	{
-		protected VisualElement		openButtonUI;
+		protected List<VisualElement>		openButtonsUI = new List<VisualElement>();
 		ComputeShaderNode	computeShaderNode => nodeTarget as ComputeShaderNode;
 
 		ObjectField			debugCustomRenderTextureField = null;
@@ -33,19 +33,23 @@ namespace Mixture
 		{
 			base.Enable(fromInspector);
 
-            openButtonUI = new VisualElement();
+            var openButtonUI = new VisualElement();
+			openButtonsUI.Add(openButtonUI);
             controlsContainer.Add(openButtonUI);
         
-            AddOpenButton();
+            AddOpenButton(openButtonUI);
 
-			InitializeDebug();
+			if (!fromInspector)
+			{
+				InitializeDebug();
 
-			if (computePath == null)
-				computePath = AssetDatabase.GetAssetPath(computeShaderNode.computeShader);
-			if (!String.IsNullOrEmpty(computePath))
-				lastModified = File.GetLastWriteTime(computePath);
-			var detector = schedule.Execute(DetectComputeShaderChanges);
-			detector.Every(200);
+				if (computePath == null)
+					computePath = AssetDatabase.GetAssetPath(computeShaderNode.computeShader);
+				if (!String.IsNullOrEmpty(computePath))
+					lastModified = File.GetLastWriteTime(computePath);
+				var detector = schedule.Execute(DetectComputeShaderChanges);
+				detector.Every(200);
+			}
 		}
 
 		void InitializeDebug()
@@ -62,7 +66,7 @@ namespace Mixture
 			debugContainer.Add(debugCustomRenderTextureField);
 		}
 
-		protected void AddOpenButton()
+		protected void AddOpenButton(VisualElement openButtonUI)
 		{
 			openButtonUI.Clear();
 

@@ -270,5 +270,13 @@ namespace Mixture
                 displayType = type.type,
             };
 		}
+
+		public static void SetupIsSRGB(Material material, MixtureNode node, MixtureGraph graph)
+		{
+			bool srgb = node.rtSettings.GetOutputPrecision(graph) == OutputPrecision.SRGB;
+
+			// Output node already have a convertion on the crt level
+			material.SetInt("_IsSRGB", srgb && !(node is OutputNode) ? 1: 0);
+		}
     }
 }

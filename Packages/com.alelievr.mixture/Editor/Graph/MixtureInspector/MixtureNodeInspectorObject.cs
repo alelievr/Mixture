@@ -123,6 +123,7 @@ namespace Mixture
                 if (selection)
                 {
                     mixtureInspector.selectedNodes.Remove(nodeView);
+                    nodeView.owner.RemoveFromSelection(nodeView);
                     UpdateNodeInspectorList();
                 }
                 else

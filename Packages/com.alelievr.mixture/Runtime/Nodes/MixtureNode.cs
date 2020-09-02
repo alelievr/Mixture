@@ -324,7 +324,7 @@ namespace Mixture
 				switch (material.shader.GetPropertyType(propertyIndex))
 				{
 					case ShaderPropertyType.Color:
-						material.SetColor(propName, (Color)edge.passThroughBuffer);
+						material.SetColor(propName, MixtureConversions.ConvertObjectToColor(edge.passThroughBuffer));
 						break;
 					case ShaderPropertyType.Texture:
 						// TODO: texture scale and offset

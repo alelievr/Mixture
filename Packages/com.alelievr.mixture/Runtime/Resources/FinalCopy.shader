@@ -16,6 +16,7 @@ Shader "Hidden/Mixture/FinalCopy"
 			CGPROGRAM
 
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			#include "Packages/com.alelievr.mixture/Editor/Resources/MixtureSRGB.hlsl"
 			
             #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 
@@ -27,7 +28,11 @@ Shader "Hidden/Mixture/FinalCopy"
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				return SAMPLE_X_NEAREST_CLAMP(_Source, i.localTexcoord.xyz, i.direction);
+				float4 color = SAMPLE_X_NEAREST_CLAMP(_Source, i.localTexcoord.xyz, i.direction);
+
+				color.rgb = ConvertToLinearIfNeeded(color.rgb);
+
+				return color;
 			}
 			ENDCG
 		}

@@ -12,8 +12,6 @@ namespace Mixture
 	{
 		SceneNode		sceneNode => nodeTarget as SceneNode;
 
-        Button openPrefabButton;
-
         GameObject  openedPrefabRoot;
         string      openedPrefabPath;
 
@@ -21,7 +19,7 @@ namespace Mixture
 		{
 			base.Enable(fromInspector);
 
-            openPrefabButton = new Button(OpenPrefab) { text = "Open Scene"};
+            var openPrefabButton = new Button(OpenPrefab) { text = "Open Scene"};
             controlsContainer.Add(openPrefabButton);
 
             // TODO: dynamically add/remove this button if the scene is opened
@@ -37,6 +35,9 @@ namespace Mixture
             PrefabStage.prefabStageClosing -= PrefabClosed;
             PrefabStage.prefabStageClosing += PrefabClosed;
 
+            void PrefabOpened(PrefabStage stage) => OnPrefabOpened(stage, openPrefabButton);
+            void PrefabClosed(PrefabStage stage) => OnPrefabClosed(stage, openPrefabButton);
+
             var stage = PrefabStageUtility.GetCurrentPrefabStage();
             if (stage != null && stage.assetPath == AssetDatabase.GetAssetPath(sceneNode.prefab))
                 PrefabOpened(stage);
@@ -45,7 +46,6 @@ namespace Mixture
         ~SceneNodeView()
         {
             EditorApplication.update -= RenderPrefabScene;
-            PrefabClosed(null);
         }
 
         void RenderPrefabScene()
@@ -58,7 +58,7 @@ namespace Mixture
             }
         }
 
-        void PrefabOpened(PrefabStage stage)
+        void OnPrefabOpened(PrefabStage stage, Button openPrefabButton)
         {
             if (stage.assetPath != AssetDatabase.GetAssetPath(sceneNode.prefab))
                 return;
@@ -77,7 +77,7 @@ namespace Mixture
             openedPrefabPath = stage.assetPath;
         }
 
-        void PrefabClosed(PrefabStage stage)
+        void OnPrefabClosed(PrefabStage stage, Button openPrefabButton)
         {
             if (stage.assetPath != AssetDatabase.GetAssetPath(sceneNode.prefab))
                 return;

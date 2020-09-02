@@ -59,6 +59,7 @@ namespace Mixture
 
             var asset = AssetDatabase.LoadAssetAtPath< T >(newPath);
             ProjectWindowUtil.ShowCreatedAsset(asset);
+            EditorGUIUtility.PingObject(asset);
             return asset;
         }
 

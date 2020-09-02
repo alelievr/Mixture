@@ -18,7 +18,6 @@ namespace Mixture
             var materialPicker = controlsContainer.Q(null, "unity-object-field") as ObjectField;
 
 			materialPicker.RegisterValueChangedCallback(e => {
-				Debug.Log("Update !");
 				ForceUpdatePorts();
 			});
         }

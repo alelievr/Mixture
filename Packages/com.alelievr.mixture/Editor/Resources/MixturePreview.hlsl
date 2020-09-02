@@ -1,5 +1,6 @@
 #include "UnityCG.cginc"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/PhysicalCamera.hlsl"
+#include "Packages/com.alelievr.mixture/Editor/Resources/MixtureSRGB.hlsl"
 
 struct appdata
 {
@@ -45,10 +46,13 @@ float4 MakePreviewColor(v2f i, float2 texelSize, float4 imageColor)
         imageColor.a = 1.0;
     }
 
+    // Apply srgb convertion for LDR
+    imageColor.xyz = ConvertToSRGBIfNeeded(imageColor.xyz);
     // Then checkerboard
     imageColor.xyz = lerp(checkerboard, imageColor.xyz, imageColor.a);
 
-    imageColor.xyz *= ConvertEV100ToExposure(_EV100);
+    // Preview exposure offset
+    imageColor.xyz *= pow(2, _EV100);
 
     return imageColor * tex2D(_GUIClipTexture, i.clipUV).a;
 }
