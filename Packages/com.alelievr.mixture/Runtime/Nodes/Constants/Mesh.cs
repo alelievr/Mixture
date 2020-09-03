@@ -18,6 +18,7 @@ namespace Mixture
 		public override bool hasPreview => false;
 		public override bool showDefaultInspector => true;
 
+		[Input, SerializeField]
         public Mesh mesh;
 		public Vector3 scale = Vector3.one;
 		// There is an issue with json serialization and new keyword :) 

@@ -28,14 +28,16 @@ namespace Mixture
 		public List<MixtureMesh> inputMeshes = new List<MixtureMesh>();
 
         [Output("Volume")]
-        public CustomRenderTexture sdf;
+        public CustomRenderTexture outputVolume;
+
+        public float renderingVolumeSize = 1;
 
 		public override string	name => "Mesh To UDF";
 		protected override string computeShaderResourcePath => "Mixture/MeshToSDF";
 
         public Resolution resolution = Resolution._128;
 
-		public override Texture previewTexture => sdf;
+		public override Texture previewTexture => outputVolume;
 		public override bool showDefaultInspector => true;
 
         MaterialPropertyBlock props;
@@ -50,24 +52,23 @@ namespace Mixture
             rtSettings.outputPrecision = OutputPrecision.Full;
             rtSettings.filterMode = FilterMode.Point;
             rtSettings.dimension = OutputDimension.Texture3D;
-            UpdateTempRenderTexture(ref sdf);
+            UpdateTempRenderTexture(ref outputVolume);
             props = new MaterialPropertyBlock();
 		}
 
-        protected override void Disable() => CoreUtils.Destroy(sdf);
+        protected override void Disable() => CoreUtils.Destroy(outputVolume);
 
-		// Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code
-		// [CustomPortBehavior(nameof(inputMeshes))]
-		// public IEnumerable< PortData > ListMaterialProperties(List< SerializableEdge > edges)
-		// {
-        //     yield return new PortData
-        //     {
-        //         identifier = nameof(inputMeshes),
-        //         displayName = "Input Meshes",
-        //         allowMultiple = true,
-        //         displayType()
-        //     };
-		// }
+		[CustomPortBehavior(nameof(inputMeshes))]
+		public IEnumerable< PortData > InputMeshesDisplayType(List< SerializableEdge > edges)
+		{
+            yield return new PortData
+            {
+                identifier = nameof(inputMeshes),
+                displayName = "Input Meshes",
+                acceptMultipleEdges = true,
+                displayType = typeof(MixtureMesh),
+            };
+		}
 
 		[CustomPortInput(nameof(inputMeshes), typeof(MixtureMesh))]
 		protected void GetMaterialInputs(List< SerializableEdge > edges)
@@ -82,12 +83,26 @@ namespace Mixture
             }
 		}
 
+        [CustomPortBehavior(nameof(outputVolume))]
+		public IEnumerable< PortData > ListMaterialProperties(List< SerializableEdge > edges)
+        {
+            yield return new PortData
+            {
+                identifier = nameof(outputVolume),
+                displayName = "Volume",
+                displayType = typeof(Texture3D),
+                acceptMultipleEdges = true,
+            };
+        }
+
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
             if (!base.ProcessNode(cmd))
                 return false;
 
-            UpdateTempRenderTexture(ref sdf);
+            // Patch rtsettings with correct resolution input
+            rtSettings.width = rtSettings.height = rtSettings.sliceCount = (int)resolution;
+            UpdateTempRenderTexture(ref outputVolume);
 
             // Render the input meshes into the 3D volume:
             foreach (var mesh in inputMeshes)
@@ -95,22 +110,27 @@ namespace Mixture
                 if (mesh?.mesh == null)
                     continue;
 
-                cmd.SetComputeTextureParam(computeShader, 0, "_Output", sdf);
-                DispatchCompute(cmd, 0, sdf.width, sdf.height, sdf.volumeDepth);
+                cmd.SetComputeTextureParam(computeShader, 0, "_Output", outputVolume);
+                DispatchCompute(cmd, 0, outputVolume.width, outputVolume.height, outputVolume.volumeDepth);
 
                 var mat = GetTempMaterial(rasterize3DShader);
-                // mat.SetTexture("_Output", sdf);
-                mat.SetVector("_OutputSize", new Vector4(sdf.width, 1.0f / (float)sdf.width));
-                cmd.SetRandomWriteTarget(2, sdf);
-                cmd.GetTemporaryRT(42, (int)sdf.width, (int)sdf.height, 0);
+                mat.SetVector("_OutputSize", new Vector4(outputVolume.width, 1.0f / (float)outputVolume.width));
+                cmd.SetRandomWriteTarget(2, outputVolume);
+                cmd.GetTemporaryRT(42, (int)outputVolume.width, (int)outputVolume.height, 0);
                 cmd.SetRenderTarget(42);
-                props.SetFloat("_Dir", 0);
-                cmd.DrawMesh(mesh.mesh, mesh.localToWorld, mat, 0, shaderPass: 0, props);
-                props.SetFloat("_Dir", 1);
-                cmd.DrawMesh(mesh.mesh, mesh.localToWorld, mat, 0, shaderPass: 0, props);
-                props.SetFloat("_Dir", 2);
-                cmd.DrawMesh(mesh.mesh, mesh.localToWorld, mat, 0, shaderPass: 0, props);
+                RenderMesh(Quaternion.Euler(90, 0, 0));
+                RenderMesh(Quaternion.Euler(0, 90, 0));
+                RenderMesh(Quaternion.Euler(0, 0, 90));
                 cmd.ClearRandomWriteTargets();
+
+                void RenderMesh(Quaternion cameraRotation)
+                {
+                    var worldToCamera = Matrix4x4.Rotate(cameraRotation);
+                    var projection = Matrix4x4.Ortho(-renderingVolumeSize, renderingVolumeSize, -renderingVolumeSize, renderingVolumeSize, -renderingVolumeSize, renderingVolumeSize); // Rendering bounds
+                    var vp = projection * worldToCamera;
+                    props.SetMatrix("_CameraMatrix", vp);
+                    cmd.DrawMesh(mesh.mesh, mesh.localToWorld, mat, 0, shaderPass: 0, props);
+                }
             }
 
 			return true;

@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Hidden/Mixture/Rasterize3D"
 {	
 	Properties
@@ -23,42 +25,30 @@ Shader "Hidden/Mixture/Rasterize3D"
 
             #include "UnityCG.cginc"
 
-            RWTexture3D<float4> _Output : register(u2);
+            RWTexture3D<float>  _Output : register(u2);
             float2              _OutputSize;
             float               _Dir;
+            float4x4            _CameraMatrix;
 
             struct VertexToFragment
             {
-                float4 position : SV_POSITION;
-                float3 normal : TEXCOORD0;
+                float4 vertex : SV_POSITION;
+                float3 worldPos : TEXCOORD0;
             };
 
-            VertexToFragment vert(float4 vertex : POSITION, float3 normal : NORMAL)
+            VertexToFragment vert(float4 vertex : POSITION)
             {
                 VertexToFragment o;
 
-                o.position = float4(mul(unity_ObjectToWorld, vertex).xyz, 1);
-                o.normal = normal;
+                o.vertex = mul(_CameraMatrix, float4(vertex.xyz, 1.0));
+                o.worldPos = mul (unity_ObjectToWorld, vertex);
 
                 return o;
             }
 
             fixed4 frag(VertexToFragment i) : COLOR
             {
-                float3 pos = i.position.xyz;
-
-                pos.z = pos.z * 0.5 + 0.5;
-                pos.z *= _OutputSize.x;
-
-                switch (_Dir)
-                {
-                    case 1:
-                        pos = pos.yzx;
-                        break;
-                    case 2:
-                        pos = pos.zyx;
-                        break;
-                }
+                float3 pos = (i.worldPos * 0.5 + 0.5) * _OutputSize.x;
 
                 if (any(pos < 0) || any(pos > _OutputSize.x))
                     return 0;

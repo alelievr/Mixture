@@ -112,7 +112,7 @@ namespace Mixture
 		{
 			if (nodeTarget.hasPreview)
 			{
-                if (previewContainer.childCount == 0 || CheckDimensionChanged())
+                if (previewContainer != null && previewContainer.childCount == 0 || CheckDimensionChanged())
                     CreateTexturePreview(previewContainer, nodeTarget); // TODO : Add Slice Preview
             }
 		}
@@ -394,25 +394,13 @@ namespace Mixture
 
 				// Shadow
 				GUI.color = Color.white;
-				GUI.Label(infoRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.GetGraphicsFormat(owner.graph)}", EditorStyles.boldLabel);
+				int slices = TextureUtils.GetSliceCount(texture);
+				GUI.Label(infoRect, $"{texture.width}x{texture.height}{(slices > 0 ? "x" + slices.ToString() : "")} - {nodeTarget.rtSettings.GetGraphicsFormat(owner.graph)}", EditorStyles.boldLabel);
 			}
 		}
 
 		void CreateTexturePreviewImGUI(VisualElement previewContainer, MixtureNode node, int currentSlice)
 		{
-			// Add slider for texture 3D
-			if (node.previewTexture.dimension == TextureDimension.Tex3D)
-			{
-				var previewSliceIndex = new SliderInt(0, TextureUtils.GetSliceCount(node.previewTexture) - 1)
-				{
-					label = "Slice",
-					value = currentSlice,
-				};
-				previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
-					currentSlice = a.newValue;
-				});
-				previewContainer.Add(previewSliceIndex);
-			}
 			if (node.showPreviewExposure)
 			{
 				var previewExposure = new Slider(0, 10)
@@ -429,6 +417,9 @@ namespace Mixture
 			var previewImageSlice = new IMGUIContainer(() => {
 				if (node.previewTexture == null)
 					return;
+				
+				if (node.previewTexture.dimension == TextureDimension.Tex3D)
+					currentSlice = EditorGUILayout.IntSlider("3D Slice", currentSlice, 0, TextureUtils.GetSliceCount(node.previewTexture) - 1);
 
 				DrawPreviewCommonSettings(node.previewTexture);
 

@@ -9,13 +9,14 @@
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 
 float2 _Size;
+float _InputScaleFactor;
 
 #if CRT_2D
 Texture2D<float4> _Input;
 RWTexture2D<float4> _Output;
 RWTexture2D<float4> _FinalOutput;
 
-float4 LoadInput(uint3 uv) { return _Input[uv.xy]; }
+float4 LoadInput(uint3 uv) { return _Input[uint2(float2(uv.xy) * _InputScaleFactor)]; }
 float4 LoadOutput(uint3 uv) { return _Output[uv.xy]; }
 void WriteOutput(uint3 uv, float4 value) { _Output[uv.xy] = value; }
 void WriteFinalOutput(uint3 uv, float4 value) { _FinalOutput[uv.xy] = value; }
@@ -25,7 +26,7 @@ Texture3D<float4> _Input;
 RWTexture3D<float4> _Output;
 RWTexture3D<float4> _FinalOutput;
 
-float4 LoadInput(uint3 uv) { return _Input[uv.xyz]; }
+float4 LoadInput(uint3 uv) { return _Input[uint3(float3(uv.xyz) * _InputScaleFactor)]; }
 float4 LoadOutput(uint3 uv) { return _Output[uv.xyz]; }
 void WriteOutput(uint3 uv, float4 value) { _Output[uv.xyz] = value; }
 void WriteFinalOutput(uint3 uv, float4 value) { _FinalOutput[uv.xyz] = value; }

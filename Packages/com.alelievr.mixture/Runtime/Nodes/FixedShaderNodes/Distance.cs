@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[System.Serializable, NodeMenuItem("Custom/Distance")]
-	public class Distance : ComputeShaderNode, IUseCustomRenderTextureProcessing
+	public class Distance : ComputeShaderNode
 	{
 		[Input("Input")]
 		public Texture input;
@@ -52,7 +52,7 @@ namespace Mixture
 		{
 			yield return new PortData{
 				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension(input != null ? input.dimension : TextureDimension.Tex2D),
+				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
 				identifier = "output",
 				acceptMultipleEdges = true,
 			};
@@ -64,7 +64,7 @@ namespace Mixture
 
 			rtSettings.outputChannels = OutputChannel.RGBA;
 			rtSettings.outputPrecision = OutputPrecision.Full;
-			rtSettings.editFlags |= EditFlags.Dimension;
+			rtSettings.editFlags = EditFlags.Dimension | EditFlags.Size;
 
 			UpdateTempRenderTexture(ref output);
 
@@ -84,7 +84,7 @@ namespace Mixture
 			UpdateTempRenderTexture(ref output);
 
 			cmd.SetComputeFloatParam(computeShader, "_Threshold", threshold);
-			cmd.SetComputeVectorParam(computeShader, "_Size", new Vector4(input.width, 1.0f / input.width));
+			cmd.SetComputeVectorParam(computeShader, "_Size", new Vector4(output.width, 1.0f / output.width));
 			cmd.SetComputeFloatParam(computeShader, "_Distance", distance / 100.0f);
 
 			output.doubleBuffered = true;
@@ -99,12 +99,14 @@ namespace Mixture
 			cmd.SetComputeTextureParam(computeShader, fillUvKernel, "_Input", input);
 			cmd.SetComputeTextureParam(computeShader, fillUvKernel, "_Output", output);
 			cmd.SetComputeTextureParam(computeShader, fillUvKernel, "_FinalOutput", rt);
+			cmd.SetComputeFloatParam(computeShader, "_InputScaleFactor", (float)input.width / (float)output.width);
 			DispatchCompute(cmd, fillUvKernel, output.width, output.height, output.volumeDepth);
 
 			int maxLevels = (int)Mathf.Log(input.width, 2);
 			for (int i = 0; i <= maxLevels; i++)
 			{
 				float offset = 1 << (maxLevels - i);
+				cmd.SetComputeFloatParam(computeShader, "_InputScaleFactor", 1);
 				cmd.SetComputeFloatParam(computeShader, "_Offset", offset);
 				cmd.SetComputeTextureParam(computeShader, jumpFloodingKernel, "_Input", output);
 				cmd.SetComputeTextureParam(computeShader, jumpFloodingKernel, "_Output", rt);
@@ -112,6 +114,7 @@ namespace Mixture
 				cmd.CopyTexture(rt, output);
 			}
 
+			cmd.SetComputeFloatParam(computeShader, "_InputScaleFactor", (float)input.width / (float)output.width);
 			cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_Input", input);
 			cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_Output", rt);
 			cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_FinalOutput", output);

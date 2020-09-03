@@ -321,13 +321,16 @@ namespace Mixture
     {
         public event Action pinnedNodeUpdate;
 
-        public HashSet<BaseNodeView> pinnedNodes = new HashSet<BaseNodeView>();
+        public List<BaseNodeView> pinnedNodes = new List<BaseNodeView>();
 
         public void AddPinnedView(BaseNodeView view)
         {
             Selection.activeObject = this;
-            if (pinnedNodes.Add(view))
+            if (!pinnedNodes.Any(b => b.nodeTarget.GUID == view.nodeTarget.GUID))
+            {
+                pinnedNodes.Add(view);
                 pinnedNodeUpdate?.Invoke();
+            }
         }
 
         public void RemovePinnedView(BaseNodeView view)
