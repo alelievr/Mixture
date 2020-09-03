@@ -25,15 +25,14 @@
 
 		Pass
 		{
-			CGPROGRAM
+			HLSLPROGRAM
 			float _DistanceMode;
 			float _CellSize;
 
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
 			#define CUSTOM_DISTANCE _DistanceMode
 			#define CUSTOM_DISTANCE_MULTIPLIER _CellSize
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Noises.hlsl"
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/NoiseUtils.hlsl"
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/CellularNoise.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -56,10 +55,10 @@
 
 			float GenerateNoise(v2f_customrendertexture i, int seed)
 			{
-				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), seed);
+				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction).xyz, seed);
 
 #ifdef CRT_2D
-				float4 noise = GenerateRidgedCellular2DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rgbr;
+				float4 noise = GenerateRidgedCellular2DNoise(uvs.xy, _Frequency, _Octaves, _Persistance, _Lacunarity).rgbr;
 #else
 				float4 noise = GenerateRidgedCellular3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rgbr;
 #endif
@@ -79,7 +78,7 @@
 			{
 				return GenerateNoiseForChannels(i, _Channels, _Seed);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

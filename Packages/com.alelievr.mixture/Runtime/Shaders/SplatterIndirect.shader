@@ -28,7 +28,7 @@ Shader "Hidden/Mixture/Splatter"
 	
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.cginc"
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/Splatter.hlsl"
-	#include "Packages/com.alelievr.mixture/Runtime/Shaders/Noises.hlsl"
+	#include "Packages/com.alelievr.mixture/Runtime/Shaders/NoiseUtils.hlsl"
 
 	TEXTURE_X(_Source0);
 	TEXTURE_X(_Source1);

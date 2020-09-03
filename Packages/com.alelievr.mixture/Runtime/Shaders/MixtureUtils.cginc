@@ -154,7 +154,7 @@ float4x4 rotationMatrix(float3 axis, float angle)
 
 float3 Rotate(float3 axis, float3 vec, float deg)
 {
-	return mul(rotationMatrix(axis, deg * (UNITY_PI / 180.0)), float4(vec, 0));
+	return mul(rotationMatrix(axis, deg * (UNITY_PI / 180.0)), float4(vec, 0)).xyz;
 }
 
 #define TEMPLATE_FLT_2(functionName, a, b, body) \

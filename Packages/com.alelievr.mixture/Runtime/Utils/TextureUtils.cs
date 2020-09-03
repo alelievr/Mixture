@@ -79,7 +79,12 @@ namespace Mixture
                 case Cubemap _:
                     return 1;
                 case RenderTexture rt:
-                    return rt.volumeDepth;
+                    if (rt.dimension == TextureDimension.Tex2D || rt.dimension == TextureDimension.Cube)
+                        return 1;
+                    else if (rt.dimension == TextureDimension.Tex3D || rt.dimension == TextureDimension.Tex2DArray || rt.dimension == TextureDimension.CubeArray)
+                        return rt.volumeDepth;
+                    else
+                        return 0;
                 default:
                     return 0;
             }

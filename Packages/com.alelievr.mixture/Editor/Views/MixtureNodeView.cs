@@ -394,8 +394,8 @@ namespace Mixture
 
 				// Shadow
 				GUI.color = Color.white;
-				int slices = TextureUtils.GetSliceCount(texture);
-				GUI.Label(infoRect, $"{texture.width}x{texture.height}{(slices > 0 ? "x" + slices.ToString() : "")} - {nodeTarget.rtSettings.GetGraphicsFormat(owner.graph)}", EditorStyles.boldLabel);
+				int slices = (texture.dimension == TextureDimension.Cube) ? 6 : TextureUtils.GetSliceCount(texture);
+				GUI.Label(infoRect, $"{texture.width}x{texture.height}{(slices > 1 ? "x" + slices.ToString() : "")} - {nodeTarget.rtSettings.GetGraphicsFormat(owner.graph)}", EditorStyles.boldLabel);
 			}
 		}
 

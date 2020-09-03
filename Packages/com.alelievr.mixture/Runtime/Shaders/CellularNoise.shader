@@ -25,14 +25,14 @@
 
 		Pass
 		{
-			CGPROGRAM
+			HLSLPROGRAM
 			float _DistanceMode;
 			float _CellSize;
 
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
 			#define CUSTOM_DISTANCE _DistanceMode
 			#define CUSTOM_DISTANCE_MULTIPLIER _CellSize
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Noises.hlsl"
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/CellularNoise.hlsl"
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/NoiseUtils.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
@@ -80,7 +80,7 @@
 			{
 				return GenerateNoiseForChannels(i, _Channels, _Seed);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

@@ -8,10 +8,6 @@
 #define UNITY_PI 3.14159265358979323846
 #endif
 
-#undef SAMPLE_DEPTH_TEXTURE
-#undef SAMPLE_DEPTH_TEXTURE_LOD
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-
 // Keep in sync with CustomRenderTexture.h
 #define kCustomTextureBatchSize 16
 
@@ -60,14 +56,14 @@ float4      _CustomRenderTextureInfo; // x = width, y = height, z = depth, w = f
 #define _CustomRenderTextureCubeFace    _CustomRenderTextureInfo.w
 #define _CustomRenderTexture3DSlice     _CustomRenderTextureInfo.w
 
-TEXTURE2D(_SelfTexture2D);
-SAMPLER(sampler_SelfTexture2D);
+Texture2D _SelfTexture2D;
+sampler sampler_SelfTexture2D;
 
-TEXTURECUBE(_SelfTextureCube);
-SAMPLER(sampler_SelfTextureCube);
+TextureCube _SelfTextureCube;
+sampler sampler_SelfTextureCube;
 
-TEXTURE3D(_SelfTexture3D);
-SAMPLER(sampler_SelfTexture3D);
+Texture3D _SelfTexture3D;
+sampler sampler_SelfTexture3D;
 
 float3 CustomRenderTextureComputeCubeDirection(float2 globalTexcoord)
 {
@@ -232,7 +228,7 @@ struct v2f_init_customrendertexture
 v2f_init_customrendertexture InitCustomRenderTextureVertexShader (appdata_init_customrendertexture v)
 {
     v2f_init_customrendertexture o;
-    o.vertex = UnityObjectToClipPos(v.vertex);
+    o.vertex = v.vertex;
     o.texcoord = float3(v.texcoord.xy, CustomRenderTexture3DTexcoordW);
     o.direction = CustomRenderTextureComputeCubeDirection(v.texcoord.xy);
     return o;

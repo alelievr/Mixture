@@ -24,8 +24,7 @@
 		{
 			CGPROGRAM
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/Noises.hlsl"
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/NoiseUtils.hlsl"
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/PerlinNoise.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0

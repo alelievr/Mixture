@@ -1,7 +1,7 @@
 ﻿#pragma kernel GenerateSplatPoints
 
 #include "Packages/com.alelievr.mixture/Runtime/Shaders/Splatter.hlsl"
-#include "Packages/com.alelievr.mixture/Runtime/Shaders/Noises.hlsl"
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/NoiseUtils.hlsl"
 
 RWStructuredBuffer<SplatPoint> _SplatPoints;
 int _Sequence;
