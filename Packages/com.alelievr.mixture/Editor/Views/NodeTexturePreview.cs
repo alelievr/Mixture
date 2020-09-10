@@ -3,6 +3,8 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System.Linq;
 using System.Reflection;
+using UnityEditor;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -10,13 +12,14 @@ namespace Mixture
     // with a material in UIElement is usable
 	public class NodeTexturePreview : VisualElement
     {
-        MixtureNodeView nodeView;
+        MixtureNodeView     nodeView;
+        MixtureGraphView    graphView;
 
         VisualElement previewRoot;
         
         // Texture Preview elements
         VisualElement   previewContainer;
-        Toggle          r, g, b, a;
+        Toggle          rgb, r, g, b, a;
         VisualElement   mipmapInputs;
         SliderInt       mipmapSlider;
         Label           currentMipIndex;
@@ -34,6 +37,7 @@ namespace Mixture
         public NodeTexturePreview(MixtureNodeView view)
         {
             nodeView = view;
+            graphView = nodeView.owner as MixtureGraphView;
             previewRoot = Resources.Load<VisualTreeAsset>("UI Blocks/Preview").CloneTree();
             Add(previewRoot);
 
@@ -43,6 +47,7 @@ namespace Mixture
 
             // Init all preview components:
             previewContainer = this.Q("PreviewContainer");
+            rgb = this.Q("ToggleRGB") as Toggle;
             r = this.Q("ToggleR") as Toggle;
             g = this.Q("ToggleG") as Toggle;
             b = this.Q("ToggleB") as Toggle;
@@ -59,7 +64,7 @@ namespace Mixture
             collapseButton = this.Q("PreviewFoldout") as Button;
             previewImage = this.Q("PreviewImage");
 
-            previewImage.generateVisualContent += DrawPreview;
+            previewImage.Add(new IMGUIContainer(DrawPreviewImage));
 
             collapseButton.clicked += PreviewColapse;
 
@@ -80,36 +85,49 @@ namespace Mixture
             }
         }
 
-        static Vertex[] rectangleVertices = new Vertex[]
+        void DrawPreviewImage()
         {
-            new Vertex{ position = new Vector3(0, 0), uv = new Vector2(0, 0), tint = Color.red},
-            new Vertex{ position = new Vector3(0, 1), uv = new Vector2(0, 1), tint = Color.red},
-            new Vertex{ position = new Vector3(1, 1), uv = new Vector2(1, 1), tint = Color.red},
-            new Vertex{ position = new Vector3(1, 0), uv = new Vector2(1, 0), tint = Color.red},
-        };
+            var node = nodeView.nodeTarget as MixtureNode;
+            var previewRect = previewImage.layout;
 
-        static ushort[] rectangleIndices = new ushort[]
-        {
-            0, 1, 2, 2, 3, 0
-        };
+			switch (node.previewTexture.dimension)
+			{
+				case TextureDimension.Tex2D:
+					MixtureUtils.texture2DPreviewMaterial.SetTexture("_MainTex", node.previewTexture);
+					MixtureUtils.texture2DPreviewMaterial.SetVector("_Size", new Vector4(node.previewTexture.width,node.previewTexture.height, 1, 1));
+					MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(node.previewMode));
+					MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", node.previewMip);
+					MixtureUtils.texture2DPreviewMaterial.SetFloat("_EV100", node.previewEV100);
+					MixtureUtils.SetupIsSRGB(MixtureUtils.texture2DPreviewMaterial, node, graphView.graph);
 
-        void DrawPreview(MeshGenerationContext mgc)
-        {
-            // Why do we need to re-allocate everything every time we render???
-            var allocWithMaterial = mgc.GetType().GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).FirstOrDefault(m => m.Name == "Allocate" && m.GetParameters().Length == 5);
-            var rectangle = allocWithMaterial.Invoke(mgc, new object[]{
-                4, 6, null, null, 0
-            }) as MeshWriteData;
+					if (Event.current.type == EventType.Repaint)
+						EditorGUI.DrawPreviewTexture(previewRect, node.previewTexture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+					break;
+				case TextureDimension.Tex3D:
+					MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", node.previewTexture);
+					MixtureUtils.texture3DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(node.previewMode));
+					MixtureUtils.texture3DPreviewMaterial.SetFloat("_PreviewMip", node.previewMip);
+					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", (node.previewSlice + 0.5f) / node.rtSettings.GetDepth(graphView.graph));
+					MixtureUtils.texture3DPreviewMaterial.SetFloat("_EV100", node.previewEV100);
+					MixtureUtils.SetupIsSRGB(MixtureUtils.texture3DPreviewMaterial, node, graphView.graph);
 
-            foreach (var vertex in rectangleVertices)
-            {
-                var v = vertex;
+					if (Event.current.type == EventType.Repaint)
+						EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0, ColorWriteMask.Red);
+					break;
+				case TextureDimension.Cube:
+					MixtureUtils.textureCubePreviewMaterial.SetTexture("_Cubemap", node.previewTexture);
+					MixtureUtils.textureCubePreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(node.previewMode));
+					MixtureUtils.textureCubePreviewMaterial.SetFloat("_PreviewMip", node.previewMip);
+					MixtureUtils.textureCubePreviewMaterial.SetFloat("_EV100", node.previewEV100);
+					MixtureUtils.SetupIsSRGB(MixtureUtils.textureCubePreviewMaterial, node, graphView.graph);
 
-                // Change the size of the thing
-                v.position *= 100; // TODO
-                rectangle.SetNextVertex(v);
-            }
-            rectangle.SetAllIndices(rectangleIndices);
+					if (Event.current.type == EventType.Repaint)
+						EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
+					break;
+				default:
+					Debug.LogError(node.previewTexture + " is not a supported type for preview");
+					break;
+			}
         }
     }
 }

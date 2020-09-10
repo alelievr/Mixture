@@ -116,7 +116,7 @@ namespace Mixture
 			AssetDatabase.SaveAssets();
 			foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(graph.mainAssetPath))
 			{
-				if (asset != graph.outputTexture)
+				if (asset != graph.mainOutputTexture)
 					asset.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 			}
 			AssetDatabase.SaveAssets();

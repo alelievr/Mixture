@@ -2,6 +2,7 @@
 using UnityEngine;
 using GraphProcessor;
 using System;
+using System.Linq;
 using UnityEngine.Rendering;
 
 namespace Mixture
@@ -9,57 +10,37 @@ namespace Mixture
 	[System.Serializable]
 	public class OutputNode : MixtureNode, IUseCustomRenderTextureProcessing
 	{
-		[Input(name = "In")]
-		public Texture			input;
+		[Input, SerializeField, HideInInspector]
+		public List<OutputTextureSettings> outputTextureSettings = new List<OutputTextureSettings>();
 
-		public bool				hasMips = false;
+		public OutputTextureSettings mainOutput => outputTextureSettings[0];
 
-		public Shader			customMipMapShader;
+		// TODO: custom input and behavior functions
+
+		// [Input(name = "In")]
+		// public Texture			input;
+
+		// public bool				hasMips = false;
+
+		// public Shader			customMipMapShader;
 
 		// We use a temporary renderTexture to display the result of the graph
 		// in the preview so we don't have to readback the memory each time we change something
-		[NonSerialized, HideInInspector]
-		public CustomRenderTexture	tempRenderTexture;
-
-		// A second temporary render texture with mip maps is needed to generate the custom mip maps.
-		// It's needed because we can't read/write to the same render target even between different mips
-		[NonSerialized, HideInInspector]
-		public CustomRenderTexture	mipmapRenderTexture;
-
-		// Serialized properties for the view:
-		public int					currentSlice;
 
 		public event Action			onTempRenderTextureUpdated;
 
 		public override string		name => "Output Texture Asset";
-		public override Texture 	previewTexture => graph.isRealtime ? graph.outputTexture : tempRenderTexture;
+		public override Texture 	previewTexture => graph.isRealtime ? graph.mainOutputTexture : outputTextureSettings[0].finalCopyRT;
 		public override float		nodeWidth => 350;
 
-		[SerializeField]
-		internal Material			finalCopyMaterial;
+		// [SerializeField]
+		// internal Material			finalCopyMaterial;
 
-		Material					_customMipMapMaterial;
-		Material					customMipMapMaterial
-		{
-			get
-			{
-				if (_customMipMapMaterial == null || _customMipMapMaterial.shader != customMipMapShader)
-				{
-					if (_customMipMapMaterial != null)
-						Material.DestroyImmediate(_customMipMapMaterial, false);
-					_customMipMapMaterial = new Material(customMipMapShader) { hideFlags = HideFlags.HideAndDontSave };
-				}
-
-				return _customMipMapMaterial;
-			}
-		}
-
-		MaterialPropertyBlock				mipMapPropertyBlock;
 
 		// Compression settings
-		public MixtureCompressionFormat		compressionFormat = MixtureCompressionFormat.DXT5;
-		public MixtureCompressionQuality	compressionQuality = MixtureCompressionQuality.Best;
-		public bool							enableCompression = false;
+		// public MixtureCompressionFormat		compressionFormat = MixtureCompressionFormat.DXT5;
+		// public MixtureCompressionQuality	compressionQuality = MixtureCompressionQuality.Best;
+		// public bool							enableCompression = false;
 		
 		// TODO: move this to NodeGraphProcessor
 		[NonSerialized]
@@ -95,82 +76,123 @@ namespace Mixture
 				rtSettings.dimension = OutputDimension.Texture2D;
 			rtSettings.editFlags |= EditFlags.POTSize;
 
-			if (finalCopyMaterial == null)
-			{
-				var shader = Shader.Find("Hidden/Mixture/FinalCopy");
-
-				// shader can be null if this function is called during the import of the package
-				if (shader != null)
-				{
-					finalCopyMaterial = new Material(shader);
-					finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
-				}
-			}
-
-			if (graph.isRealtime)
-			{
-				tempRenderTexture = graph.outputTexture as CustomRenderTexture;
-			}
-			else
-			{
-				UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null);
-				graph.onOutputTextureUpdated += () => {
-					UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null);
-				};
-			}
-
-			// tempRenderTexture can be null here if the graph haven't been imported yet
-			if (tempRenderTexture != null)
-				tempRenderTexture.material = finalCopyMaterial;
+			// Checks that the output have always at least one element:
+			if (outputTextureSettings.Count == 0)
+				AddTextureOutput();
 
 			// SRP mip generation:
 			RenderPipelineManager.beginFrameRendering += BeginFrameRendering;
 		}
 
+		// Disable reset on output texture settings
+		protected override bool CanResetPort(NodePort port) => false;
+
+		// TODO: output texture setting presets when adding a new output
+
+		public OutputTextureSettings AddTextureOutput()
+		{
+			var output = new OutputTextureSettings
+			{
+				inputTexture = null,
+				name = $"Input {outputTextureSettings?.Count + 1}",
+				finalCopyMaterial = CreateFinalCopyMaterial(),
+			};
+
+			if (graph.isRealtime)
+				output.finalCopyRT = graph.mainOutputTexture as CustomRenderTexture;
+			else
+			{
+				UpdateTempRenderTexture(ref output.finalCopyRT, output.hasMipMaps, output.customMipMapShader == null);
+				graph.onOutputTextureUpdated += () => {
+					UpdateTempRenderTexture(ref output.finalCopyRT, output.hasMipMaps, output.customMipMapShader == null);
+				};
+			}
+
+			// output.finalCopyRT can be null here if the graph haven't been imported yet
+			if (output.finalCopyRT != null)
+				output.finalCopyRT.material = output.finalCopyMaterial;
+
+			if (outputTextureSettings.Count == 0)
+			{
+				output.mainAsset = true;
+				output.name = "Main Texture";
+			}
+
+			outputTextureSettings.Add(output);
+
+			return output;
+		}
+
+		public void RemoveTextureOutput(OutputTextureSettings settings)
+		{
+			outputTextureSettings.Remove(settings);
+			Debug.Log("TODO: remove serialized texture");
+		}
+
+		Material CreateFinalCopyMaterial()
+		{
+			var finalCopyShader = Shader.Find("Hidden/Mixture/FinalCopy");
+
+			if (finalCopyShader == null)
+			{
+				Debug.LogError("Can't find Hidden/Mixture/FinalCopy shader");
+				return null;
+			}
+
+			return new Material(finalCopyShader){ hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector};
+		}
+
         protected override void Disable()
 		{
-			if (!graph.isRealtime)
-				CoreUtils.Destroy(tempRenderTexture);
-			CoreUtils.Destroy(mipmapRenderTexture);
+			foreach (var output in outputTextureSettings)
+			{
+				if (!graph.isRealtime)
+					CoreUtils.Destroy(output.finalCopyRT);
+				CoreUtils.Destroy(output.mipmapTempRT);
+			}
 		}
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			if (graph.outputTexture == null)
+			if (graph.mainOutputTexture == null)
 			{
 				Debug.LogError("Output Node can't write to target texture, Graph references a null output texture");
 				return false;
 			}
 
 			UpdateMessages();
-			
-			// Update the renderTexture reference for realtime graph
-			if (graph.isRealtime)
-			{
-				if (tempRenderTexture != graph.outputTexture)
-					onTempRenderTextureUpdated?.Invoke();
-				tempRenderTexture = graph.outputTexture as CustomRenderTexture;
-			}
-			else
-			{
-				// Update the renderTexture size and format:
-				if (UpdateTempRenderTexture(ref tempRenderTexture, hasMips, customMipMapShader == null))
-					onTempRenderTextureUpdated?.Invoke();
-			}
 
-			if (!UpdateFinalCopyMaterial())
-				return false;
+			foreach (var output in outputTextureSettings)
+			{
+				// Update the renderTexture reference for realtime graph
+				if (graph.isRealtime)
+				{
+					Debug.Log("TODO?");
+					// if (tempRenderTexture != graph.mainOutputTexture)
+					// 	onTempRenderTextureUpdated?.Invoke();
+					// tempRenderTexture = graph.mainOutputTexture as CustomRenderTexture;
+				}
+				else
+				{
+					// Update the renderTexture size and format:
+					if (UpdateTempRenderTexture(ref output.finalCopyRT, output.hasMipMaps, output.customMipMapShader == null))
+						onTempRenderTextureUpdated?.Invoke();
+				}
 
-			// The CustomRenderTexture update will be triggered at the begining of the next frame so we wait one frame to generate the mipmaps
-			// We need to do this because we can't generate custom mipMaps with CustomRenderTextures
-			if (customMipMapShader != null && hasMips)
-			{
-				UpdateTempRenderTexture(ref mipmapRenderTexture, true, false);
-				GenerateCustomMipMaps();
-			}
-			else if (Camera.main != null)
-			{
-				Camera.main.RemoveCommandBuffers(CameraEvent.BeforeDepthTexture);
+				if (!UpdateFinalCopyMaterial(output))
+					continue;
+
+				// The CustomRenderTexture update will be triggered at the begining of the next frame so we wait one frame to generate the mipmaps
+				// We need to do this because we can't generate custom mipMaps with CustomRenderTextures
+				if (output.customMipMapShader != null && output.hasMipMaps)
+				{
+					UpdateTempRenderTexture(ref output.mipmapTempRT, true, false);
+					GenerateCustomMipMaps(output);
+				}
+				else if (Camera.main != null)
+				{
+					Camera.main.RemoveCommandBuffers(CameraEvent.BeforeDepthTexture);
+				}
 			}
 
 			return true;
@@ -178,9 +200,7 @@ namespace Mixture
 
 		void UpdateMessages()
 		{
-			var inputPort = GetPort(nameof(input), nameof(input));
-
-			if (inputPort.GetEdges().Count == 0)
+			if (inputPorts.All(p => p?.GetEdges()?.Count == 0))
 			{
 				if (uniqueMessages.Add("OutputNotConnected"))
 					AddMessage("Output node input is not connected", NodeMessageType.Warning);
@@ -192,81 +212,88 @@ namespace Mixture
 			}
 		}
 
-		bool UpdateFinalCopyMaterial()
+		bool UpdateFinalCopyMaterial(OutputTextureSettings targetOutput)
 		{
-			// Manually reset all texture inputs
-			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_2D");
-			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_3D");
-			ResetMaterialPropertyToDefault(finalCopyMaterial, "_Source_Cube");
+			if (targetOutput.finalCopyMaterial == null)
+			{
+				targetOutput.finalCopyMaterial = CreateFinalCopyMaterial();
+				if (!graph.IsObjectInGraph(targetOutput.finalCopyMaterial))
+					graph.AddObjectToGraph(targetOutput.finalCopyMaterial);
+			}
 
-			var inputPort = GetPort(nameof(input), nameof(input));
-			if (input != null && inputPort.GetEdges().Count != 0)
+			// Manually reset all texture inputs
+			ResetMaterialPropertyToDefault(targetOutput.finalCopyMaterial, "_Source_2D");
+			ResetMaterialPropertyToDefault(targetOutput.finalCopyMaterial, "_Source_3D");
+			ResetMaterialPropertyToDefault(targetOutput.finalCopyMaterial, "_Source_Cube");
+
+			var input = targetOutput.inputTexture;
+			if (input != null)
 			{
 				if (input.dimension != (TextureDimension)rtSettings.dimension)
 				{
-					Debug.LogError("Error: Expected texture type input for the OutputNode is " + graph.outputTexture.dimension + " but " + input?.dimension + " was provided");
+					Debug.LogError("Error: Expected texture type input for the OutputNode is " + graph.mainOutputTexture.dimension + " but " + input?.dimension + " was provided");
 					return false;
 				}
 
-				MixtureUtils.SetupDimensionKeyword(finalCopyMaterial, input.dimension);
+				MixtureUtils.SetupDimensionKeyword(targetOutput.finalCopyMaterial, input.dimension);
 
 				if (input.dimension == TextureDimension.Tex2D)
 				{
-					finalCopyMaterial.SetTexture("_Source_2D", input);
+					targetOutput.finalCopyMaterial.SetTexture("_Source_2D", input);
 				}
 				else if (input.dimension == TextureDimension.Tex3D)
-					finalCopyMaterial.SetTexture("_Source_3D", input);
+					targetOutput.finalCopyMaterial.SetTexture("_Source_3D", input);
 				else
-					finalCopyMaterial.SetTexture("_Source_Cube", input);
+					targetOutput.finalCopyMaterial.SetTexture("_Source_Cube", input);
 
-				finalCopyMaterial.SetInt("_IsSRGB", rtSettings.GetOutputPrecision(graph) == OutputPrecision.SRGB ? 1 : 0);
+				targetOutput.finalCopyMaterial.SetInt("_IsSRGB", rtSettings.GetOutputPrecision(graph) == OutputPrecision.SRGB ? 1 : 0);
 			}
 
-			if (tempRenderTexture != null)
-				tempRenderTexture.material = finalCopyMaterial;
+			if (targetOutput.finalCopyRT != null)
+				targetOutput.finalCopyRT.material = targetOutput.finalCopyMaterial;
 
 			return true;
 		}
 
-		void GenerateCustomMipMaps()
+		void GenerateCustomMipMaps(OutputTextureSettings targetOutput)
 		{
 #if UNITY_EDITOR
-			if (mipmapRenderTexture == null || tempRenderTexture == null)
+			if (targetOutput.mipmapTempRT == null || targetOutput.finalCopyRT == null)
 				return;
 
 			mipchainCmd.Clear();
 
 			mipchainCmd.name = "Generate Custom MipMaps";
 
-			if (mipMapPropertyBlock == null)
-				mipMapPropertyBlock = new MaterialPropertyBlock();
+			if (targetOutput.mipMapPropertyBlock == null)
+				targetOutput.mipMapPropertyBlock = new MaterialPropertyBlock();
 			
 			int slice = 0;
 			// TODO: support 3D textures and Cubemaps
-			// for (int slice = 0; slice < tempRenderTexture.volumeDepth; slice++)
+			// for (int slice = 0; slice < targetOutput.finalCopyRT.volumeDepth; slice++)
 			{
-				for (int i = 0; i < tempRenderTexture.mipmapCount - 1; i++)
+				for (int i = 0; i < targetOutput.finalCopyRT.mipmapCount - 1; i++)
 				{
 					int mipLevel = i + 1;
-					mipmapRenderTexture.name = "Tmp mipmap";
-					mipchainCmd.SetRenderTarget(mipmapRenderTexture, mipLevel, CubemapFace.Unknown, 0);
+					targetOutput.mipmapTempRT.name = "Tmp mipmap";
+					mipchainCmd.SetRenderTarget(targetOutput.mipmapTempRT, mipLevel, CubemapFace.Unknown, 0);
 
-					Vector4 textureSize = new Vector4(tempRenderTexture.width, tempRenderTexture.height, tempRenderTexture.volumeDepth, 0);
+					Vector4 textureSize = new Vector4(targetOutput.finalCopyRT.width, targetOutput.finalCopyRT.height, targetOutput.finalCopyRT.volumeDepth, 0);
 					textureSize /= 1 << (mipLevel);
 					Vector4 textureSizeRcp = new Vector4(1.0f / textureSize.x, 1.0f / textureSize.y, 1.0f / textureSize.z, 0);
 
-					mipMapPropertyBlock.SetTexture("_InputTexture_2D", tempRenderTexture);
-					mipMapPropertyBlock.SetTexture("_InputTexture_3D", tempRenderTexture);
-					mipMapPropertyBlock.SetFloat("_CurrentMipLevel", mipLevel - 1);
-					mipMapPropertyBlock.SetFloat("_MaxMipLevel", tempRenderTexture.mipmapCount);
-					mipMapPropertyBlock.SetVector("_InputTextureSize", textureSize);
-					mipMapPropertyBlock.SetVector("_InputTextureSizeRcp", textureSizeRcp);
-					mipMapPropertyBlock.SetFloat("_CurrentSlice", slice / (float)tempRenderTexture.width);
+					targetOutput.mipMapPropertyBlock.SetTexture("_InputTexture_2D", targetOutput.finalCopyRT);
+					targetOutput.mipMapPropertyBlock.SetTexture("_InputTexture_3D", targetOutput.finalCopyRT);
+					targetOutput.mipMapPropertyBlock.SetFloat("_CurrentMipLevel", mipLevel - 1);
+					targetOutput.mipMapPropertyBlock.SetFloat("_MaxMipLevel", targetOutput.finalCopyRT.mipmapCount);
+					targetOutput.mipMapPropertyBlock.SetVector("_InputTextureSize", textureSize);
+					targetOutput.mipMapPropertyBlock.SetVector("_InputTextureSizeRcp", textureSizeRcp);
+					targetOutput.mipMapPropertyBlock.SetFloat("_CurrentSlice", slice / (float)targetOutput.finalCopyRT.width);
 
-					MixtureUtils.SetupDimensionKeyword(customMipMapMaterial, tempRenderTexture.dimension);
-					mipchainCmd.DrawProcedural(Matrix4x4.identity, customMipMapMaterial, 0, MeshTopology.Triangles, 3, 1, mipMapPropertyBlock);
+					MixtureUtils.SetupDimensionKeyword(targetOutput.customMipMapMaterial, targetOutput.finalCopyRT.dimension);
+					mipchainCmd.DrawProcedural(Matrix4x4.identity, targetOutput.customMipMapMaterial, 0, MeshTopology.Triangles, 3, 1, targetOutput.mipMapPropertyBlock);
 
-					mipchainCmd.CopyTexture(mipmapRenderTexture, slice, mipLevel, tempRenderTexture, slice, mipLevel);
+					mipchainCmd.CopyTexture(targetOutput.mipmapTempRT, slice, mipLevel, targetOutput.finalCopyRT, slice, mipLevel);
 				}
 			}
 
@@ -282,7 +309,7 @@ namespace Mixture
 		void BeginFrameRendering(ScriptableRenderContext renderContext, Camera[] cameras)
 		{
 #if UNITY_EDITOR
-			if (hasMips)
+			if (outputTextureSettings.Any(o => o.hasMipMaps))
 			{
 				renderContext.ExecuteCommandBuffer(mipchainCmd);
 				renderContext.Submit();
@@ -290,18 +317,42 @@ namespace Mixture
 #endif
 		}
 
-		[CustomPortBehavior(nameof(input))]
+		[CustomPortBehavior(nameof(outputTextureSettings))]
 		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{
 			TextureDimension dim = (GetType() == typeof(ExternalOutputNode)) ? rtSettings.GetTextureDimension(graph) : (TextureDimension)rtSettings.dimension;
+			Type displayType = TextureUtils.GetTypeFromDimension(dim);
 
-			yield return new PortData{
-				displayName = "input",
-				displayType = TextureUtils.GetTypeFromDimension(dim),
-				identifier = "input",
-			};
+			foreach (var output in outputTextureSettings)
+			{
+				yield return new PortData{
+					displayName = output.name,
+					displayType = displayType,
+					identifier = output.name,
+				};
+			}
 		}
 
-        public CustomRenderTexture GetCustomRenderTexture() => tempRenderTexture;
+		[CustomPortInput(nameof(outputTextureSettings), typeof(Texture))]
+		void AssignSubTextures(List< SerializableEdge > edges)
+		{
+			foreach (var edge in edges)
+			{
+				// Find the correct output texture:
+				var output = outputTextureSettings.Find(o => o.name == edge.inputPort.portData.displayName);
+
+				if (output != null)
+				{
+					output.inputTexture = edge.passThroughBuffer as Texture;
+					Debug.Log("Assigned " + output.name + " to " + output.inputTexture);
+				}
+			}
+		}
+
+        public IEnumerable<CustomRenderTexture> GetCustomRenderTextures()
+        {
+			foreach (var output in outputTextureSettings)
+				yield return output.finalCopyRT;
+        }
     }
 }

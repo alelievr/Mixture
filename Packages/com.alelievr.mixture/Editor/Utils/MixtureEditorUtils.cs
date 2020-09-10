@@ -104,11 +104,11 @@ namespace Mixture
             return CopyAssetWithNameFromTemplate<ComputeShader>(graph, name, GetAssetTemplatePath<ComputeShader>(computeShaderTemplate));
         }
 
-		public static void ToggleMode(MixtureGraph mixture)
+		public static void ToggleMixtureGraphMode(MixtureGraph mixture)
 		{
 			mixture.isRealtime = !mixture.isRealtime;
             AssetDatabase.SaveAssets();
-            mixture.UpdateOutputTexture(true);
+            mixture.UpdateOutputTextures(true);
 			AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(mixture), ImportAssetOptions.ForceUpdate | ImportAssetOptions.ImportRecursive | ImportAssetOptions.DontDownloadFromCacheServer);
             AssetDatabase.Refresh();
             MixtureGraphWindow.Open(mixture);

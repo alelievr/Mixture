@@ -113,7 +113,7 @@ namespace Mixture
 			if (nodeTarget.hasPreview)
 			{
                 if (previewContainer != null && previewContainer.childCount == 0 || CheckDimensionChanged())
-                    CreateTexturePreview(previewContainer, nodeTarget); // TODO : Add Slice Preview
+                    CreateTexturePreview(previewContainer, nodeTarget);
             }
 		}
 
@@ -287,7 +287,7 @@ namespace Mixture
 			pinIcon.transform.rotation = Quaternion.identity;
 		}
 
-		protected void CreateTexturePreview(VisualElement previewContainer, MixtureNode node, int currentSlice = 0)
+		protected void CreateTexturePreview(VisualElement previewContainer, MixtureNode node)
 		{
 			previewContainer.Clear();
 
@@ -297,7 +297,7 @@ namespace Mixture
 			VisualElement texturePreview = new VisualElement();
 			previewContainer.Add(texturePreview);
 
-			CreateTexturePreviewImGUI(texturePreview, node, currentSlice);
+			CreateTexturePreviewImGUI(texturePreview, node);
 
             previewContainer.name = node.previewTexture.dimension.ToString();
 
@@ -399,7 +399,7 @@ namespace Mixture
 			}
 		}
 
-		void CreateTexturePreviewImGUI(VisualElement previewContainer, MixtureNode node, int currentSlice)
+		void CreateTexturePreviewImGUI(VisualElement previewContainer, MixtureNode node)
 		{
 			if (node.showPreviewExposure)
 			{
@@ -419,24 +419,22 @@ namespace Mixture
 					return;
 				
 				if (node.previewTexture.dimension == TextureDimension.Tex3D)
-					currentSlice = EditorGUILayout.IntSlider("3D Slice", currentSlice, 0, TextureUtils.GetSliceCount(node.previewTexture) - 1);
+				{
+					node.previewSlice = EditorGUILayout.Slider("3D Slice", node.previewSlice, 0, TextureUtils.GetSliceCount(node.previewTexture) - 1);
+				}
 
 				DrawPreviewCommonSettings(node.previewTexture);
 
 				Rect previewRect = GetPreviewRect(node.previewTexture);
-				DrawImGUIPreview(node, previewRect, currentSlice);
+				DrawImGUIPreview(node, previewRect, node.previewSlice);
 
 				DrawTextureInfoHover(previewRect, node.previewTexture);
             });
 
-			// Force the ImGUI preview to refresh
-			EditorApplication.update -= previewImageSlice.MarkDirtyRepaint;
-			EditorApplication.update += previewImageSlice.MarkDirtyRepaint;
-
 			previewContainer.Add(previewImageSlice);
 		}
 
-		protected virtual void DrawImGUIPreview(MixtureNode node, Rect previewRect, int currentSlice)
+		protected virtual void DrawImGUIPreview(MixtureNode node, Rect previewRect, float currentSlice)
 		{
 			switch (node.previewTexture.dimension)
 			{
@@ -455,7 +453,7 @@ namespace Mixture
 					MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", node.previewTexture);
 					MixtureUtils.texture3DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(nodeTarget.previewMode));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
-					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", ((float)currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
+					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", (currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
 					MixtureUtils.SetupIsSRGB(MixtureUtils.texture3DPreviewMaterial, nodeTarget, owner.graph);
 

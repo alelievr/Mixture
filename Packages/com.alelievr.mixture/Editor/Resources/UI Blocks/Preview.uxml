@@ -2,10 +2,11 @@
     <ui:VisualElement name="PreviewContainer" class="Preview" style="height: 100%;">
         <Style src="Preview.uss" />
         <uie:Toolbar>
-            <uie:ToolbarToggle label="R" value="true" name="ToggleR" style="width: 24px;" />
-            <uie:ToolbarToggle label="G" value="true" name="ToggleG" style="width: 24px;" />
-            <uie:ToolbarToggle label="B" value="true" name="ToggleB" style="width: 24px;" />
-            <uie:ToolbarToggle label="A" value="true" name="ToggleA" style="width: 24px;" />
+            <uie:ToolbarToggle label="RGB" value="true" name="ToggleRGB" style="width: 36px; font-size: 14px; padding-left: 2px; padding-right: 2px;" />
+            <uie:ToolbarToggle label="R" value="true" name="ToggleR" style="width: 24px; font-size: 14px; padding-left: 4px; padding-right: 4px;" />
+            <uie:ToolbarToggle label="G" value="true" name="ToggleG" style="width: 24px; font-size: 14px;" />
+            <uie:ToolbarToggle label="B" value="true" name="ToggleB" style="width: 24px; font-size: 14px;" />
+            <uie:ToolbarToggle label="A" value="true" name="ToggleA" style="width: 24px; font-size: 14px;" />
             <ui:VisualElement name="MipMapInput" style="flex-grow: 1; flex-direction: row;">
                 <ui:VisualElement name="MipMapHigh" style="background-image: resource(&apos;Icons/TextureMipMapHigh&apos;); width: 16px; height: 16px; margin-top: 1px;" />
                 <ui:SliderInt picking-mode="Ignore" value="0" high-value="10" name="MipMapSlider" style="flex-grow: 1;" />
@@ -14,13 +15,13 @@
             </ui:VisualElement>
         </uie:Toolbar>
         <ui:VisualElement name="SliceInputs" style="flex-direction: row;">
-            <ui:VisualElement name="LayersIcon" style="width: 18px; height: 16px; background-image: resource(&apos;Icons/LayersIcon&apos;); -unity-background-image-tint-color: rgba(127, 127, 127, 255);" />
+            <ui:VisualElement name="LayersIcon" style="width: 18px; height: 16px; background-image: resource(&apos;Icons/LayersIcon&apos;); -unity-background-image-tint-color: rgb(127, 127, 127);" />
             <ui:SliderInt picking-mode="Ignore" value="0" high-value="128" name="SliceSlider" style="flex-grow: 1;" />
             <ui:TextField picking-mode="Ignore" value="filler text" text="2048" name="SliceNumber" style="width: 38px;" />
         </ui:VisualElement>
         <ui:VisualElement name="PreviewImage" style="height: auto; width: auto; flex-grow: 1;">
             <ui:VisualElement name="ImageInfo" style="position: absolute; flex-grow: 1; bottom: 0; width: 100%; background-color: rgba(0, 0, 0, 0.57);">
-                <ui:Label text="128x128 - R8G8B8A8_UNorm" name="ImageInfoText" style="margin-left: 8px; margin-right: 8px; margin-top: 2px; margin-bottom: 2px; color: rgba(200, 200, 200, 255);" />
+                <ui:Label text="128x128 - R8G8B8A8_UNorm" name="ImageInfoText" style="margin-left: 8px; margin-right: 8px; margin-top: 2px; margin-bottom: 2px; color: rgb(200, 200, 200);" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="PreviewFoldout">

@@ -6,6 +6,7 @@ SubShader
 		Blend One Zero
 
 		CGPROGRAM
+		#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 		#include "Packages/com.alelievr.mixture/Runtime/Shaders/CustomTexture.hlsl"
 		#include "Packages/com.alelievr.mixture/Runtime/CustomTextureShaderGraph/CustomTextureGraph.hlsl"
 		#pragma vertex CustomRenderTextureVertexShader

@@ -85,6 +85,9 @@ namespace Mixture
 					NotifyNodeChanged();
 
 					shaderNode.IsShaderValid();
+
+					if (shaderNode.shader?.name != null)
+						title = shaderNode.shader.name;
 				}).ExecuteLater(100);
 			}
 			lastModified = modificationDate;

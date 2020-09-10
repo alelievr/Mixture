@@ -67,10 +67,10 @@ public static class CallBlendingMixture
         blendGraph.SetParameterValue("Source", source);
         blendGraph.SetParameterValue("Target", target);
         // Disable compression because ImageConversion.EncodeTo doesn't support it
-        blendGraph.outputNode.enableCompression = false;
+        blendGraph.outputNode.mainOutput.enableCompression = false;
 
         // Debug
-        debugRT = blendGraph.outputNode.tempRenderTexture;
+        debugRT = blendGraph.outputNode.mainOutput.finalCopyRT;
 
         // Initialize completely the graph
         // TODO: move this to the graph initialization (we'll embedde the processor in the graph)

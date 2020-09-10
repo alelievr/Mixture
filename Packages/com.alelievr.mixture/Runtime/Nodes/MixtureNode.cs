@@ -57,6 +57,7 @@ namespace Mixture
         public bool previewVisible = true;
 		[SerializeField]
 		public float previewEV100 = 0.0f;
+		public float previewSlice = 0;
 		public bool	isPinned;
 
 		CustomSampler		_sampler;
@@ -98,7 +99,7 @@ namespace Mixture
 
 		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false)
 		{
-			if (graph.outputTexture == null)
+			if (graph.mainOutputTexture == null)
 				return false;
 
 			int outputWidth = rtSettings.GetWidth(graph);
@@ -111,7 +112,7 @@ namespace Mixture
 				outputHeight = outputDepth = outputWidth; // we only use the width for cubemaps
 
             if (targetFormat == GraphicsFormat.None)
-                targetFormat = graph.outputTexture.graphicsFormat;
+                targetFormat = graph.mainOutputTexture.graphicsFormat;
 			if (dimension == TextureDimension.None)
 				dimension = TextureDimension.Tex2D;
 

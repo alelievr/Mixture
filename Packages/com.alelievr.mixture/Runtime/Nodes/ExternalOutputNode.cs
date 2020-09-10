@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using GraphProcessor;
 using System;
+using System.Linq;
 using UnityEngine.Rendering;
 
 namespace Mixture
@@ -55,34 +56,36 @@ namespace Mixture
             if (rtSettings.dimension == OutputDimension.SameAsOutput)
                 rtSettings.dimension = OutputDimension.Texture2D;
 
-            if (graph.isRealtime)
-            {
-                tempRenderTexture = graph.outputTexture as CustomRenderTexture;
-            }
-            else
-            {
-                UpdateTempRenderTexture(ref tempRenderTexture);
-            }
+            Debug.Log("TODO!");
 
-			if (finalCopyMaterial == null)
-			{
-				var shader = Shader.Find("Hidden/Mixture/FinalCopy");
+            // if (graph.isRealtime)
+            // {
+            //     tempRenderTexture = graph.outputTexture as CustomRenderTexture;
+            // }
+            // else
+            // {
+            //     UpdateTempRenderTexture(ref tempRenderTexture);
+            // }
 
-				// shader can be null if this function is called during the import of the package
-				if (shader != null)
-				{
-					finalCopyMaterial = new Material(shader);
-					finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
-				}
-			}
+			// if (finalCopyMaterial == null)
+			// {
+			// 	var shader = Shader.Find("Hidden/Mixture/FinalCopy");
 
-            tempRenderTexture.material = finalCopyMaterial;
+			// 	// shader can be null if this function is called during the import of the package
+			// 	if (shader != null)
+			// 	{
+			// 		finalCopyMaterial = new Material(shader);
+			// 		finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+			// 	}
+			// }
+
+            // tempRenderTexture.material = finalCopyMaterial;
 
             // TODO: add this for every mixture node
             onSettingsChanged += () => { graph.NotifyNodeChanged(this); };
         }
 
-        protected override void Disable() => CoreUtils.Destroy(tempRenderTexture);
+        protected override void Disable() => CoreUtils.Destroy(outputTextureSettings.First().finalCopyRT);
 
         protected override bool ProcessNode(CommandBuffer cmd)
         {

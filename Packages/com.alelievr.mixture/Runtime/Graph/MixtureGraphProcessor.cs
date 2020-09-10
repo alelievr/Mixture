@@ -125,7 +125,7 @@ namespace Mixture
 			{
 				// TODO: cache
 				// Trigger the graph processing from a CRT update if we weren't processing
-				BaseNode node = graph.nodes.FirstOrDefault(n => n is IUseCustomRenderTextureProcessing i && i.GetCustomRenderTexture() == crt);
+				BaseNode node = graph.nodes.FirstOrDefault(n => n is IUseCustomRenderTextureProcessing i && i.GetCustomRenderTextures().Any(c => c == crt));
 
 				// node can be null if the CRT doesn't belong to the graph.
 				if (node != null)
@@ -300,13 +300,14 @@ namespace Mixture
 				m.OnProcess(cmd);
 				if (node is IUseCustomRenderTextureProcessing iUseCRT)
 				{
-                    var crt = iUseCRT.GetCustomRenderTexture();
-
-                    if (crt != null)
-                    {
-                        crt.Update();
-                        CustomTextureManager.UpdateCustomRenderTexture(cmd, crt);
-                    }
+                    foreach (var crt in iUseCRT.GetCustomRenderTextures())
+					{
+						if (crt != null)
+						{
+							crt.Update();
+							CustomTextureManager.UpdateCustomRenderTexture(cmd, crt);
+						}
+					}
 				}
 			}
 			else

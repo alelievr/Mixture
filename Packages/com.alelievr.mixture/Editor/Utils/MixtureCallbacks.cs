@@ -136,16 +136,16 @@ namespace Mixture
 				AssetDatabase.CreateAsset(mixture, pathName);
 
 				// Generate the output texture:
-				mixture.UpdateOutputTexture(false);
+				mixture.UpdateOutputTextures(false);
 
 				// Then set it as main object
-				AssetDatabase.AddObjectToAsset(mixture.outputTexture, mixture);
-				AssetDatabase.SetMainObject(mixture.outputTexture, pathName);
+				AssetDatabase.AddObjectToAsset(mixture.mainOutputTexture, mixture);
+				AssetDatabase.SetMainObject(mixture.mainOutputTexture, pathName);
 				AssetDatabase.SaveAssets();
 				AssetDatabase.Refresh();
 
-				ProjectWindowUtil.ShowCreatedAsset(mixture.outputTexture);
-				Selection.activeObject = mixture.outputTexture;
+				ProjectWindowUtil.ShowCreatedAsset(mixture.mainOutputTexture);
+				Selection.activeObject = mixture.mainOutputTexture;
 			}
 		}
 

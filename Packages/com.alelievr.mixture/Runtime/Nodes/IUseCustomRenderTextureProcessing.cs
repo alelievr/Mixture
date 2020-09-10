@@ -1,9 +1,10 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Mixture
 {
     public interface IUseCustomRenderTextureProcessing
     {
-        CustomRenderTexture GetCustomRenderTexture();
+        IEnumerable<CustomRenderTexture> GetCustomRenderTextures();
     }
 }

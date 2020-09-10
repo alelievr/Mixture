@@ -140,6 +140,9 @@ namespace Mixture
 			return true;
 		}
 
-        public CustomRenderTexture GetCustomRenderTexture() => output;
+        public IEnumerable<CustomRenderTexture> GetCustomRenderTextures()
+		{
+			yield return output;
+		}
     }
 }
