@@ -42,6 +42,40 @@ Material:
     m_Colors:
     - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
+--- !u!21 &-5711246096604925849
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/FinalCopy
+  m_Shader: {fileID: 4800000, guid: 513c040fbfb854aebb92cf147e30125a, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -57,16 +91,16 @@ MonoBehaviour:
   serializedNodes:
   - type: Mixture.OutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"691aa737-9a89-40dd-b56d-201a248e396d","computeOrder":0,"position":{"serializedVersion":"2","x":-44.0,"y":-44.5,"width":320.0,"height":463.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"outputChannels":1,"outputPrecision":4,"editFlags":469,"doubleBuffered":false,"wrapMode":0,"filterMode":0,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"outputTextureSettings":[{"inputTexture":{"instanceID":0},"name":"Main
-      Texture","enableCompression":true,"compressionFormat":12,"compressionQuality":100,"hasMipMaps":false,"customMipMapShader":{"instanceID":0},"mainAsset":true,"finalCopyMaterial":{"instanceID":0}}]}'
+    jsonDatas: '{"GUID":"691aa737-9a89-40dd-b56d-201a248e396d","computeOrder":1,"position":{"serializedVersion":"2","x":-44.0,"y":-44.5,"width":320.0,"height":463.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"outputChannels":1,"outputPrecision":4,"editFlags":469,"doubleBuffered":false,"wrapMode":0,"filterMode":0,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"outputTextureSettings":[{"inputTexture":{"instanceID":0},"name":"Main
+      Texture","enableCompression":true,"compressionFormat":12,"compressionQuality":100,"hasMipMaps":false,"customMipMapShader":{"instanceID":0},"finalCopyMaterial":{"fileID":-5711246096604925849,"guid":"1b9fc58bafab440499c3b16c53fa78a1","type":2}}]}'
   - type: Mixture.RidgedPerlinNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"45b55e43-50ed-49df-b940-105b197c4bb0","computeOrder":1,"position":{"serializedVersion":"2","x":-312.0,"y":-44.0,"width":250.0,"height":585.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":255,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"49eed0c8b6dca3949a7864570e424043","type":3},"material":{"fileID":-6286007035632309462,"guid":"1b9fc58bafab440499c3b16c53fa78a1","type":2}}'
+    jsonDatas: '{"GUID":"45b55e43-50ed-49df-b940-105b197c4bb0","computeOrder":0,"position":{"serializedVersion":"2","x":-312.0,"y":-44.0,"width":250.0,"height":585.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":255,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"49eed0c8b6dca3949a7864570e424043","type":3},"material":{"fileID":-6286007035632309462,"guid":"1b9fc58bafab440499c3b16c53fa78a1","type":2}}'
   - type: Mixture.TimeNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"3fd32b5b-8edd-4948-a1ef-e34f4d5d42dc","computeOrder":2,"position":{"serializedVersion":"2","x":-707.0,"y":4.0,"width":120.0,"height":178.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"time":10.788575172424317,"sinTime":-0.9786520600318909,"cosTime":-0.2055240124464035,"deltaTime":0.01136690005660057,"frameCount":1074.0}'
+    jsonDatas: '{"GUID":"3fd32b5b-8edd-4948-a1ef-e34f4d5d42dc","computeOrder":2,"position":{"serializedVersion":"2","x":-707.0,"y":4.0,"width":120.0,"height":178.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"time":171.19915771484376,"sinTime":0.9998443722724915,"cosTime":0.017640991136431695,"deltaTime":0.013834199868142605,"frameCount":3090.0}'
   - type: Mixture.VectorRemapNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"0f096cfa-9d5f-4086-9aaa-b326aaf6027b","computeOrder":3,"position":{"serializedVersion":"2","x":-570.0,"y":28.0,"width":250.0,"height":166.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"a":{"x":-0.9786520600318909,"y":-0.9786520600318909,"z":-0.9786520600318909,"w":-0.9786520600318909},"o":{"x":0.008539176546037197,"y":0.008539176546037197,"z":0.008539176546037197,"w":0.008539176546037197},"inputMin":-1.0,"inputMax":1.0,"outputMin":0.0,"outputMax":0.800000011920929}'
+    jsonDatas: '{"GUID":"0f096cfa-9d5f-4086-9aaa-b326aaf6027b","computeOrder":3,"position":{"serializedVersion":"2","x":-570.0,"y":28.0,"width":250.0,"height":166.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"a":{"x":0.9998443722724915,"y":0.9998443722724915,"z":0.9998443722724915,"w":0.9998443722724915},"o":{"x":0.7999377250671387,"y":0.7999377250671387,"z":0.7999377250671387,"w":0.7999377250671387},"inputMin":-1.0,"inputMax":1.0,"outputMin":0.0,"outputMax":0.800000011920929}'
   edges:
   - GUID: a036f0bd-ea59-43a6-849e-214a768ed5a4
     owner: {fileID: 11400000}
@@ -76,17 +110,26 @@ MonoBehaviour:
     outputFieldName: sinTime
     inputPortIdentifier: 
     outputPortIdentifier: 
+  - GUID: 0d196eb0-5c4c-4c50-a338-e78cebc405c4
+    owner: {fileID: 11400000}
+    inputNodeGUID: 691aa737-9a89-40dd-b56d-201a248e396d
+    outputNodeGUID: 45b55e43-50ed-49df-b940-105b197c4bb0
+    inputFieldName: outputTextureSettings
+    outputFieldName: output
+    inputPortIdentifier: Main Texture
+    outputPortIdentifier: output
   groups: []
   stackNodes: []
   pinnedElements: []
   exposedParameters: []
-  position: {x: 568, y: 221, z: 0}
+  position: {x: 543, y: 97, z: 0}
   scale: {x: 1.15, y: 1.15, z: 1}
   realtimePreview: 1
   isRealtime: 1
   isParameterViewOpen: 0
   objectReferences:
   - {fileID: -6286007035632309462}
+  - {fileID: -5711246096604925849}
   _mainOutputTexture: {fileID: 6585799614466207341}
   _outputTextures: []
   references:
