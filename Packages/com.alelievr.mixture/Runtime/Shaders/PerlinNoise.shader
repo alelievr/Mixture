@@ -6,7 +6,7 @@
 		[InlineTexture(HideInNodeInspector)] _UV_3D("UVs", 3D) = "white" {}
 		[InlineTexture(HideInNodeInspector)] _UV_Cube("UVs", Cube) = "white" {}
 
-        [KeywordEnum(None, Tiled)] _TilingMode("Tiling Mode", Float) = 0
+        [KeywordEnum(None, Tiled)] _TilingMode("Tiling Mode", Float) = 1
 		[ShowInInspector][MixtureVector2]_OutputRange("Output Range", Vector) = (-1, 1, 0, 0)
 		_Lacunarity("Lacunarity", Float) = 2
 		_Frequency("Frequency", Float) = 5
