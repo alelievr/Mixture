@@ -188,13 +188,15 @@ namespace Mixture
 		{
 			if (!base.ProcessNode(cmd))
 				return false;
+			
+			int safeMaxSplatCount = Mathf.Min(sequence == Sequence.Grid ? Mathf.CeilToInt(gridSize.x * gridSize.y) : int.MaxValue, maxSplatCount);
 
 			SetComputeArgs(cmd);
 			computeShader.GetKernelThreadGroupSizes(generatePointKernel, out uint x, out _, out _);
-			DispatchCompute(cmd, generatePointKernel, maxSplatCount + ((int)x - maxSplatCount % (int)x));
+			DispatchCompute(cmd, generatePointKernel, safeMaxSplatCount + ((int)x - safeMaxSplatCount % (int)x));
 
 			indirectArguments[0] = 6;
-			indirectArguments[1] = Mathf.Max(0, maxSplatCount * 9);
+			indirectArguments[1] = Mathf.Max(0, safeMaxSplatCount * 9);
 			indirectArguments[2] = 0;
 			indirectArguments[3] = 0;
 			indirectArguments[4] = 0;

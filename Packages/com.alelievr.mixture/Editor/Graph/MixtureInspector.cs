@@ -172,7 +172,6 @@ namespace Mixture
 
 		public override VisualElement CreateInspectorGUI()
 		{
-			Debug.Log("GAAAAAAOHGO");
 			if (graph == null)
 				return base.CreateInspectorGUI();
 

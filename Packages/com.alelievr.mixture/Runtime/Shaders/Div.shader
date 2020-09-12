@@ -11,7 +11,7 @@
 		[InlineTexture]_SourceB_3D("Source B", 3D) = "white" {}
 		[InlineTexture]_SourceB_Cube("Source B", Cube) = "white" {}
 
-		[HDR]_Color("Color", Color) = (1, 1, 1, 1)
+		_Value("Value", Vector) = (1, 1, 1, 1)
 	}
 	SubShader
 	{
@@ -32,12 +32,12 @@
 			// This macro will declare a version for each dimention (2D, 3D and Cube)
 			TEXTURE_SAMPLER_X(_SourceA);
 			TEXTURE_SAMPLER_X(_SourceB);
-			float4 _Color;
+			float4 _Value;
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
 				// The SAMPLE_X macro handles sampling for 2D, 3D and cube textures
-				return SAMPLE_X(_SourceA, i.localTexcoord.xyz, i.direction) / SAMPLE_X(_SourceB, i.localTexcoord.xyz, i.direction) / _Color;
+				return SAMPLE_X(_SourceA, i.localTexcoord.xyz, i.direction) / SAMPLE_X(_SourceB, i.localTexcoord.xyz, i.direction) / _Value;
 			}
 			ENDCG
 		}
