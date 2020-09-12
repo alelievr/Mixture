@@ -30,7 +30,7 @@ namespace Mixture
 		public event Action			onTempRenderTextureUpdated;
 
 		public override string		name => "Output Texture Asset";
-		public override Texture 	previewTexture => graph.isRealtime ? graph.mainOutputTexture : outputTextureSettings[0].finalCopyRT;
+		public override Texture 	previewTexture => graph.isRealtime ? graph.mainOutputTexture : outputTextureSettings.Count > 0 ? outputTextureSettings[0].finalCopyRT : null;
 		public override float		nodeWidth => 350;
 
 		// [SerializeField]
@@ -38,7 +38,7 @@ namespace Mixture
 
 
 		// Compression settings
-		// public MixtureCompressionFormat		compressionFormat = MixtureCompressionFormat.DXT5;
+		// public TextureFormat		compressionFormat = TextureFormat.DXT5;
 		// public MixtureCompressionQuality	compressionQuality = MixtureCompressionQuality.Best;
 		// public bool							enableCompression = false;
 		
@@ -78,7 +78,7 @@ namespace Mixture
 
 			// Checks that the output have always at least one element:
 			if (outputTextureSettings.Count == 0)
-				AddTextureOutput();
+				AddTextureOutput(OutputTextureSettings.Preset.Color);
 
 			// SRP mip generation:
 			RenderPipelineManager.beginFrameRendering += BeginFrameRendering;
@@ -89,7 +89,7 @@ namespace Mixture
 
 		// TODO: output texture setting presets when adding a new output
 
-		public OutputTextureSettings AddTextureOutput()
+		public OutputTextureSettings AddTextureOutput(OutputTextureSettings.Preset preset)
 		{
 			var output = new OutputTextureSettings
 			{
@@ -112,11 +112,15 @@ namespace Mixture
 			if (output.finalCopyRT != null)
 				output.finalCopyRT.material = output.finalCopyMaterial;
 
+			// Try to guess the correct setup for the user
+#if UNITY_EDITOR
+			var names = outputTextureSettings.Select(o => o.name).ToArray();
+			output.SetupPreset(preset, (name) => UnityEditor.ObjectNames.GetUniqueName(names, name));
+#endif
+
+			// Output 0 is always Main Texture
 			if (outputTextureSettings.Count == 0)
-			{
-				output.mainAsset = true;
 				output.name = "Main Texture";
-			}
 
 			outputTextureSettings.Add(output);
 
@@ -126,7 +130,6 @@ namespace Mixture
 		public void RemoveTextureOutput(OutputTextureSettings settings)
 		{
 			outputTextureSettings.Remove(settings);
-			Debug.Log("TODO: remove serialized texture");
 		}
 
 		Material CreateFinalCopyMaterial()
@@ -326,7 +329,7 @@ namespace Mixture
 			foreach (var output in outputTextureSettings)
 			{
 				yield return new PortData{
-					displayName = output.name,
+					displayName = "", // display name is handled by the port settings UI element
 					displayType = displayType,
 					identifier = output.name,
 				};
@@ -339,12 +342,11 @@ namespace Mixture
 			foreach (var edge in edges)
 			{
 				// Find the correct output texture:
-				var output = outputTextureSettings.Find(o => o.name == edge.inputPort.portData.displayName);
+				var output = outputTextureSettings.Find(o => o.name == edge.inputPort.portData.identifier);
 
 				if (output != null)
 				{
 					output.inputTexture = edge.passThroughBuffer as Texture;
-					Debug.Log("Assigned " + output.name + " to " + output.inputTexture);
 				}
 			}
 		}

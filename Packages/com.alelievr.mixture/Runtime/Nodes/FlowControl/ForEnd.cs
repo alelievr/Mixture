@@ -175,7 +175,8 @@ namespace Mixture
 					doubleBufferForEnd.Create();
 				}
 
-				cmd.CopyTexture(rt, doubleBufferForEnd);
+				if (rt != doubleBufferForEnd)
+					cmd.CopyTexture(rt, doubleBufferForEnd);
 
 				feedback = doubleBufferForEnd;
 			}

@@ -1,18 +1,19 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <ui:VisualElement name="PortContainer" style="flex-direction: row;">
+    <ui:VisualElement name="PortContainer" style="flex-direction: column;">
         <Style src="OutputTexture.uss" />
-        <ui:VisualElement name="Port" />
-        <ui:VisualElement name="PortDescription" style="flex-grow: 1;">
-            <ui:VisualElement name="PortNameAndSettings" style="flex-direction: row;">
-                <ui:TextField picking-mode="Ignore" value="filler text" text="filler text" name="PortNameField" style="flex-grow: 1;" />
-                <ui:Button display-tooltip-when-elided="True" name="SettingsButton" class="ClearButton" style="padding-left: 0; padding-right: 0; background-image: resource(&apos;Icons/d_Settings&apos;); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); -unity-background-image-tint-color: rgb(255, 255, 255); width: 20px; height: 20px; padding-top: 0; padding-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
+        <ui:Label text="Main Texture" display-tooltip-when-elided="True" name="PortName" style="flex-grow: 1; -unity-text-align: middle-left; margin-left: 24px; position: absolute; height: 21px;" />
+        <ui:VisualElement name="Port" style="width: 30px; position: absolute;" />
+        <ui:VisualElement name="PortDescription" picking-mode="Ignore" style="flex-grow: 1; margin-left: 20px;">
+            <ui:VisualElement name="PortNameAndSettings" picking-mode="Ignore" style="flex-direction: row-reverse; flex-grow: 0; flex-shrink: 1;">
+                <ui:Button display-tooltip-when-elided="True" name="SettingsButton" class="ClearButton" style="padding-left: 0; padding-right: 0; background-image: resource(&apos;Icons/d_Settings&apos;); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); -unity-background-image-tint-color: rgb(255, 255, 255); width: 20px; height: 20px; padding-top: 0; padding-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; position: relative; right: 0;" />
+                <ui:TextField picking-mode="Ignore" value="filler text" text="Main Texture" name="PortNameField" style="flex-grow: 1; display: flex; visibility: visible; position: relative;" />
             </ui:VisualElement>
             <ui:VisualElement name="PortSettings" style="flex-grow: 1;">
                 <ui:VisualElement name="CompressionSettings">
                     <ui:Toggle label="Compression" name="EnableCompression" />
                     <ui:VisualElement name="CompressionFields">
                         <uie:EnumField label="Enum" value="Best" name="CompressionQuality" type="Mixture.MixtureCompressionQuality, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" style="margin-left: 20px; margin-right: 4px;" />
-                        <uie:EnumField label="Format" value="DXT5" type="Mixture.MixtureCompressionFormat, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" name="CompressionFormat" style="margin-left: 20px; margin-right: 4px;" />
+                        <uie:EnumField label="Format" value="DXT5" type="UnityEngine.TextureFormat, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" name="CompressionFormat" style="margin-left: 20px; margin-right: 4px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="MipMapSettings">

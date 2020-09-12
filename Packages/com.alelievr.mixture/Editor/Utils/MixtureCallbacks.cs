@@ -136,13 +136,8 @@ namespace Mixture
 				AssetDatabase.CreateAsset(mixture, pathName);
 
 				// Generate the output texture:
-				mixture.UpdateOutputTextures(false);
-
-				// Then set it as main object
-				AssetDatabase.AddObjectToAsset(mixture.mainOutputTexture, mixture);
-				AssetDatabase.SetMainObject(mixture.mainOutputTexture, pathName);
-				AssetDatabase.SaveAssets();
-				AssetDatabase.Refresh();
+				mixture.UpdateOutputTextures();
+				mixture.FlushTexturesToDisk();
 
 				ProjectWindowUtil.ShowCreatedAsset(mixture.mainOutputTexture);
 				Selection.activeObject = mixture.mainOutputTexture;
@@ -166,9 +161,16 @@ namespace Mixture
 					// Duplicate all the materials from the template
 					if (node is ShaderNode s && s.material != null)
 					{
-						var m = s.material;
 						s.material = new Material(s.material);
 						s.material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+					}
+					else if (node is OutputNode outputNode)
+					{
+						foreach (var outputSettings in outputNode.outputTextureSettings)
+						{
+							outputSettings.finalCopyMaterial = new Material(outputSettings.finalCopyMaterial);
+							outputSettings.finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+						}
 					}
 				}
 

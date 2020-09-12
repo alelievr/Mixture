@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Experimental.Rendering;
 using System;
 using Object = UnityEngine.Object;
-using Unity.Collections;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -42,7 +42,7 @@ namespace Mixture
 		[SerializeField]
 		List< Object >			objectReferences = new List< Object >();
 
-		[SerializeField]
+		[SerializeField, FormerlySerializedAs("_outputTexture")]
 		Texture					_mainOutputTexture;
 		public Texture			mainOutputTexture
 		{
@@ -54,35 +54,37 @@ namespace Mixture
 #endif
 				return _mainOutputTexture;
 			}
-			set => _mainOutputTexture = value;
+			set
+            {
+                outputTextures.Remove(_mainOutputTexture);
+                outputTextures.Add(value);
+                _mainOutputTexture = value;
+            }
 		}
 
         // Important: note that order is not guaranteed 
         [SerializeField]
-        List<Texture>   _outputTextures;
+        List<Texture>   _outputTextures = null;
         public List<Texture>   outputTextures
         {
             get
             {
 #if UNITY_EDITOR
-				if (_outputTextures == null)
-					_outputTextures = AssetDatabase.LoadAllAssetRepresentationsAtPath(mainAssetPath).OfType<Texture>().ToList();
+                if (_outputTextures == null || _outputTextures.Count == 0)
+                    _outputTextures = AssetDatabase.LoadAllAssetsAtPath(mainAssetPath).OfType<Texture>().ToList();
 #endif
+                _outputTextures.RemoveAll(t => t == null);
+
 				return _outputTextures;
 			}
         }
 
-		[System.NonSerialized]
-		string					_mainAssetPath;
 		public string			mainAssetPath
 		{
 			get
 			{
 #if UNITY_EDITOR
-				if (!String.IsNullOrEmpty(_mainAssetPath) && AssetDatabase.IsMainAssetAtPathLoaded(_mainAssetPath))
-					return _mainAssetPath;
-				else
-					return _mainAssetPath = AssetDatabase.GetAssetPath(this);
+                return AssetDatabase.GetAssetPath(this);
 #else
                 return null;
 #endif
@@ -140,71 +142,120 @@ namespace Mixture
 
         public void                 ClearObjectReferences() => objectReferences.Clear();
 
+        Texture FindOutputTexture(string name, bool isMain)
+        {
+            return outputTextures.Find(t => t != null && (isMain ? t.name == mainOutputTexture.name : t.name == name));
+        }
+
+        Texture FindTextureOnDisk(string name, bool isMain)
+        {
+            return AssetDatabase.LoadAllAssetsAtPath(mainAssetPath).FirstOrDefault(o => o is Texture t && (isMain ? t.name == mainOutputTexture.name : t.name == name)) as Texture;
+        }
+
 		/// <summary>
-		/// Warning: this function will create a new output texture from scratch, It means that you will loose all data in the former outputTexture
+		/// Warning: this function will create updated the cached texture and may result in partial writing of texture on the disk (only uncompressed textures will be updated)
 		/// </summary>
-		public void					UpdateOutputTextures(bool updateMainAsset = true)
+		public void					UpdateOutputTextures()
 		{
+            bool isMain = true;
+
             foreach (var output in outputNode.outputTextureSettings)
             {
-                Texture		oldTextureObject = outputTextures.Find(t => t.name == output.name);
+                // Note that the main texture always uses the name of the asset:
+                Texture		oldTextureObject = FindOutputTexture(output.name, isMain);
+                Texture     newTexture;
 
                 if (isRealtime)
                 {
-                    UpdateOutputRealtimeTexture(output);
+                    newTexture = UpdateOutputRealtimeTexture(output, isMain);
                     // We don't ever need to the main asset in realtime if it's already a CRT
-                    if (oldTextureObject is CustomRenderTexture)
-                        updateMainAsset = false;
 #if UNITY_EDITOR
-                    else
+                    if (!(oldTextureObject is CustomRenderTexture))
                         RealtimeMixtureReferences.realtimeMixtureCRTs.Add(mainOutputTexture as CustomRenderTexture);
 #endif
                 }
                 else
-                    UpdateOutputStaticTexture(output);
-
-                // In editor we need to refresh the main asset view
-#if UNITY_EDITOR
-                if (updateMainAsset)
+                    newTexture = UpdateOutputStaticTexture(output, isMain);
+                
+                if (oldTextureObject != newTexture)
                 {
-                    UpdateMainAsset(oldTextureObject);
+                    if (oldTextureObject != null)
+                        outputTextures.Remove(oldTextureObject);
+                    outputTextures.Add(newTexture);
                 }
-#endif
+
+                isMain = false;
             }
 		}
 
 #if UNITY_EDITOR
-        void UpdateMainAsset(Texture oldTextureObject)
+        public void FlushTexturesToDisk()
         {
-            if (oldTextureObject == mainOutputTexture)
+            bool isMain = true;
+
+            List<Texture> assetsToKeep = new List<Texture>();
+            foreach (var output in outputNode.outputTextureSettings)
+            {
+                // Note that the main texture always uses the name of the asset:
+                Texture		newTexture = FindOutputTexture(output.name, isMain);
+                Texture     oldTexture = FindTextureOnDisk(output.name, isMain);
+
+                // Update the asset on disk if they differ
+                UpdateTextureAssetOnDisk(oldTexture, newTexture, isMain);
+                assetsToKeep.Add(newTexture);
+
+                // The main texture is only the first one
+                isMain = false;
+            }
+
+            foreach (var tex in AssetDatabase.LoadAllAssetsAtPath(mainAssetPath).OfType<Texture>())
+            {
+                if (!assetsToKeep.Contains(tex))
+                {
+                    AssetDatabase.RemoveObjectFromAsset(tex);
+                    DestroyImmediate(tex, true);
+                }
+            }
+        }
+
+        void UpdateTextureAssetOnDisk(Texture oldTextureObject, Texture newTexture, bool main = false)
+        {
+            if (oldTextureObject == newTexture || newTexture == null)
                 return;
 
-            if (oldTextureObject != null) // release memory and remove asset
+            // Check that oldTextureObject is saved as an asset:
+            if (outputTextures.Contains(oldTextureObject))
             {
                 AssetDatabase.RemoveObjectFromAsset(oldTextureObject);
                 DestroyImmediate(oldTextureObject, true);
+                outputTextures.Remove(oldTextureObject);
             }
 
-            AssetDatabase.AddObjectToAsset(mainOutputTexture, this);
-            AssetDatabase.SetMainObject(mainOutputTexture, mainAssetPath);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            AssetDatabase.AddObjectToAsset(newTexture, this);
+            if (main)
+            {
+                AssetDatabase.SetMainObject(newTexture, mainAssetPath);
+                mainOutputTexture = newTexture;
+            }
 
             if (Selection.activeObject == oldTextureObject)
-                Selection.activeObject = mainOutputTexture;
-#endif
+                Selection.activeObject = newTexture;
         }
+#endif
 
-		void UpdateOutputRealtimeTexture(OutputTextureSettings outputSettings)
+		Texture UpdateOutputRealtimeTexture(OutputTextureSettings outputSettings, bool isMain)
 		{
 			var s = outputNode.rtSettings;
 
-			if (!(mainOutputTexture is CustomRenderTexture))
+            var oldTexture = FindOutputTexture(outputSettings.name, isMain);
+            Texture newTexture = oldTexture;
+
+			if (!(oldTexture is CustomRenderTexture))
 			{
-				mainOutputTexture = new CustomRenderTexture(s.width, s.height, s.graphicsFormat) { name = "Realtime Final Copy", enableRandomWrite = true };
+				newTexture = new CustomRenderTexture(s.width, s.height, s.graphicsFormat) { name = "Realtime Final Copy", enableRandomWrite = true };
 			}
 
-			var crt = mainOutputTexture as CustomRenderTexture;
+			var crt = newTexture as CustomRenderTexture;
 			bool needsUpdate = crt.width != s.width
 				|| crt.height != s.height
 				|| crt.useMipMap != outputSettings.hasMipMaps
@@ -225,32 +276,69 @@ namespace Mixture
 				crt.volumeDepth = s.sliceCount;
 				crt.Create();
 			}
+
+            newTexture.name = outputSettings.name;
+
+            return newTexture;
 		}
 
-		void UpdateOutputStaticTexture(OutputTextureSettings outputSettings)
+		Texture UpdateOutputStaticTexture(OutputTextureSettings outputSettings, bool isMain)
 		{
 			var s = outputNode.rtSettings;
             var creationFlags = outputSettings.hasMipMaps ? TextureCreationFlags.MipChain : TextureCreationFlags.None;
 
+            // Check if we need to re-create the texture:
+            var currentTexture = FindOutputTexture(outputSettings.name, isMain);
+
+
+            if (currentTexture != null)
+            {
+                bool matchTextureSettings = currentTexture.dimension == (TextureDimension)s.dimension
+                    && currentTexture.width == s.width && currentTexture.height == s.height
+                    && (currentTexture.mipmapCount > 1) == outputSettings.hasMipMaps;
+                
+                // Note that here we don't check the graphic format of the texture, because the current texture
+                // can use a compressed format which will be different compared to the one in the graph.
+                // This can be a problem because we may end up re-creating render targets when we don't need to.
+                if (outputSettings.enableCompression && matchTextureSettings)
+                    return currentTexture;
+                else if (!outputSettings.enableCompression && matchTextureSettings) // Otherwise if the format is not compressed, we want to compare the format because it directly affects the data on disk
+                {
+                    if (currentTexture.graphicsFormat == s.graphicsFormat)
+                        return currentTexture;
+                }
+            }
+
+            Debug.Log(outputTextures.Count);
+
+            outputTextures.RemoveAll(t => t.name == outputSettings.name);
+
+            Texture newTexture = null;
 			// TODO: compression options (TextureCreationFlags.Crunch)
-			switch (outputNode.rtSettings.dimension)
-			{
-				case OutputDimension.Texture2D:
-					mainOutputTexture = new Texture2D(s.width, s.height, (GraphicsFormat)s.graphicsFormat, creationFlags); // By default we compress the texture
-					onOutputTextureUpdated?.Invoke();
-					break;
-				case OutputDimension.Texture3D:
-					mainOutputTexture = new Texture3D(s.width, s.height, s.sliceCount, (GraphicsFormat)s.graphicsFormat, creationFlags);
-					onOutputTextureUpdated?.Invoke();
-					break;
-				case OutputDimension.CubeMap:
-					mainOutputTexture = new Cubemap(s.width, (GraphicsFormat)s.graphicsFormat, creationFlags);
-					onOutputTextureUpdated?.Invoke();
-					break;
-				default:
-					Debug.LogError("Texture format " + s.dimension + " is not supported");
-					return;
-			}
+            switch (s.dimension)
+            {
+                case OutputDimension.Texture2D:
+                    newTexture = new Texture2D(s.width, s.height, (GraphicsFormat)s.graphicsFormat, creationFlags);
+                    onOutputTextureUpdated?.Invoke();
+                    break;
+                case OutputDimension.Texture3D:
+                    newTexture = new Texture3D(s.width, s.height, s.sliceCount, (GraphicsFormat)s.graphicsFormat, creationFlags);
+                    onOutputTextureUpdated?.Invoke();
+                    break;
+                case OutputDimension.CubeMap:
+                    newTexture = new Cubemap(s.width, (GraphicsFormat)s.graphicsFormat, creationFlags);
+                    onOutputTextureUpdated?.Invoke();
+                    break;
+                default:
+                    Debug.LogError("Texture format " + s.dimension + " is not supported");
+                    return null;
+            }
+
+            newTexture.name = outputSettings.name;
+
+            outputTextures.Add(newTexture);
+
+            return newTexture;
 		}
 
 #if UNITY_EDITOR
@@ -407,39 +495,28 @@ namespace Mixture
         }
 
 #if UNITY_EDITOR
-        public void SaveMainTexture()
-        {
-            if (isRealtime)
-                return;
-            
-            // We only need to update the main asset texture because the outputTexture should
-            // always be correctly setup when we arrive here.
-            var currentTexture = AssetDatabase.LoadAssetAtPath<Texture>(mainAssetPath);
-            UpdateMainAsset(currentTexture);
-
-            // The main texture is always the first one
-            var o = outputNode.outputTextureSettings.First();
-            ReadBackTexture(this.outputNode, o.finalCopyRT, o.enableCompression, o.compressionFormat, o.compressionQuality);
-
-            EditorGUIUtility.PingObject(mainOutputTexture);
-        }
-#endif
-
-#if UNITY_EDITOR
         public void SaveAllTextures()
         {
             if (isRealtime)
                 return;
 
+            UpdateOutputTextures();
+
+            bool isMain = true;
             foreach (var output in outputNode.outputTextureSettings)
             {
                 // We only need to update the main asset texture because the outputTexture should
                 // always be correctly setup when we arrive here.
-                var currentTexture = outputTextures.Find(t => t.name == output.name);
+                var currentTexture = FindOutputTexture(output.name, isMain);
 
                 // The main texture is always the first one
-                ReadBackTexture(this.outputNode, output.finalCopyRT, output.enableCompression, output.compressionFormat, output.compressionQuality);
+                ReadBackTexture(this.outputNode, output.finalCopyRT, output.enableCompression, output.compressionFormat, output.compressionQuality, currentTexture);
+                isMain = false;
             }
+
+            FlushTexturesToDisk();
+
+            AssetDatabase.SaveAssets();
 
             EditorGUIUtility.PingObject(mainOutputTexture);
         }
@@ -454,10 +531,11 @@ namespace Mixture
         }
 
         // Write the rendertexture value to the graph main texture asset, or to an external Texture
-        protected void ReadBackTexture(OutputNode node, RenderTexture source, bool enableCompression = false, MixtureCompressionFormat compressionFormat = MixtureCompressionFormat.DXT5, MixtureCompressionQuality compressionQuality = MixtureCompressionQuality.Best, Texture externalTexture = null)
+        protected void ReadBackTexture(OutputNode node, RenderTexture source, bool enableCompression = false, TextureFormat compressionFormat = TextureFormat.DXT5, MixtureCompressionQuality compressionQuality = MixtureCompressionQuality.Best, Texture externalTexture = null)
         {
             var outputFormat = node.rtSettings.GetGraphicsFormat(this);
             var target = externalTexture == null ? mainOutputTexture : externalTexture;
+            string name = target.name;
 
             // When we use Texture2D, we can compress them. In that case we use a temporary target for readback before compressing / converting it.
 #if UNITY_EDITOR
@@ -472,6 +550,7 @@ namespace Mixture
             {
                 var textureFlags = source.useMipMap ? TextureCreationFlags.MipChain : TextureCreationFlags.MipChain;
                 target = new Texture2D(target.width, target.height, outputFormat, textureFlags);
+                target.name = target.name;
             }
 
             var readbackRequests = new List<AsyncGPUReadbackRequest>();
@@ -494,11 +573,25 @@ namespace Mixture
                 readbackRequests.Add(request);
             }
 
+            // TODO: async code
             foreach (var r in readbackRequests)
                 r.WaitForCompletion();
 
             if (useTempTarget)
-                CompressTexture(target, externalTexture == null ? mainOutputTexture : externalTexture, compressionFormat, compressionQuality);
+            {
+                var dst = externalTexture == null ? mainOutputTexture : externalTexture;
+
+                if (enableCompression)
+                    CompressTexture(target, dst, compressionFormat, compressionQuality);
+                else
+                {
+                    Debug.Log(target.graphicsFormat);
+                    Debug.Log(dst.graphicsFormat);
+                    Graphics.ConvertTexture(target, dst);
+                }
+
+                dst.name = name;
+            }
         }
         
         protected void WriteRequestResult(AsyncGPUReadbackRequest request, ReadbackData data)
@@ -549,7 +642,7 @@ namespace Mixture
         /// </summary>
         /// <param name="source"></param>
         /// <param name="destination"></param>
-        void CompressTexture(Texture source, Texture destination, MixtureCompressionFormat format, MixtureCompressionQuality quality)
+        void CompressTexture(Texture source, Texture destination, TextureFormat format, MixtureCompressionQuality quality)
         {
 #if UNITY_EDITOR
             // Copy the readback texture into the compressed one (replace it)

@@ -65,6 +65,9 @@ namespace Mixture
 
         public override float GetPropertyHeight(MaterialProperty prop, string label, MaterialEditor editor)
         {
+            if (!mixtureDrawerInfos.ContainsKey(editor))
+                return base.GetPropertyHeight(prop, label, editor);
+
             return IsVisible(prop, editor, out var _, out var _) ? base.GetPropertyHeight(prop, label, editor) : -EditorGUIUtility.standardVerticalSpacing;
         }
 

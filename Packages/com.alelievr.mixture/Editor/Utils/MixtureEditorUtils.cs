@@ -108,7 +108,8 @@ namespace Mixture
 		{
 			mixture.isRealtime = !mixture.isRealtime;
             AssetDatabase.SaveAssets();
-            mixture.UpdateOutputTextures(true);
+            mixture.UpdateOutputTextures();
+            mixture.FlushTexturesToDisk();
 			AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(mixture), ImportAssetOptions.ForceUpdate | ImportAssetOptions.ImportRecursive | ImportAssetOptions.DontDownloadFromCacheServer);
             AssetDatabase.Refresh();
             MixtureGraphWindow.Open(mixture);

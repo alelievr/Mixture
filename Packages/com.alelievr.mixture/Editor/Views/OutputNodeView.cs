@@ -6,6 +6,7 @@ using GraphProcessor;
 using UnityEngine.Rendering;
 using UnityEditor.Experimental.GraphView;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Mixture
 {
@@ -15,12 +16,7 @@ namespace Mixture
 		protected OutputNode	outputNode;
 		protected MixtureGraph	graph;
 
-		// Debug fields
-		ObjectField		debugCustomRenderTextureField;
-
 		Dictionary<string, OutputTextureView> inputPortElements = new Dictionary<string, OutputTextureView>();
-
-		// bool supportsCustomMipMap => outputNode.hasMips && (TextureDimension)outputNode.rtSettings.dimension == TextureDimension.Tex2D;
 
 		public override void Enable(bool fromInspector)
 		{
@@ -42,7 +38,7 @@ namespace Mixture
 
 			// Clear the input when disconnecting it:
 			onPortDisconnected += port => {
-				var outputSlot = outputNode.outputTextureSettings.Find(o => o.name == port.portData.displayName);
+				var outputSlot = outputNode.outputTextureSettings.Find(o => o.name == port.portData.identifier);
 				if (outputSlot != null)
 					outputSlot.inputTexture = null;
 			};
@@ -61,10 +57,20 @@ namespace Mixture
 
 				if (!inputPortElements.ContainsKey(output.name))
 				{
-					inputPortElements[output.name] = new OutputTextureView();
+					inputPortElements[output.name] = new OutputTextureView(owner, this, output);
 					inputContainer.Add(inputPortElements[output.name]);
 				}
 				inputPortElements[output.name].MovePort(portView);
+			}
+
+			// Remove unused output texture views
+			foreach (var name in inputPortElements.Keys.ToList())
+			{
+				if (!outputNode.outputTextureSettings.Any(o => o.name == name))
+				{
+					inputPortElements[name].RemoveFromHierarchy();
+					inputPortElements.Remove(name);
+				}
 			}
 		}
 
@@ -81,7 +87,7 @@ namespace Mixture
 
 			settingsView.RegisterChangedCallback(() => {
 				// Reflect the changes on the graph output texture but not on the asset to avoid stalls.
-				graph.UpdateOutputTextures(false);
+				graph.UpdateOutputTextures();
 			});
 
 			return sv;
@@ -89,54 +95,32 @@ namespace Mixture
 
         protected virtual void BuildOutputNodeSettings()
         {
-			// if (graph.mainOutputTexture.dimension == TextureDimension.Tex2D)
-				// AddCompressionSettings();
-			
 			controlsContainer.Add(new Button(() => {
-				outputNode.AddTextureOutput();
-				ForceUpdatePorts();
+				var addOutputMenu =  new GenericMenu();
+				addOutputMenu.AddItem(new GUIContent("Color"), false, () => AddOutputPreset(OutputTextureSettings.Preset.Color));
+				addOutputMenu.AddItem(new GUIContent("Normal"), false, () => AddOutputPreset(OutputTextureSettings.Preset.Normal));
+				addOutputMenu.AddItem(new GUIContent("Height"), false, () => AddOutputPreset(OutputTextureSettings.Preset.Height));
+				addOutputMenu.AddItem(new GUIContent("Mask (HDRP)"), false, () => AddOutputPreset(OutputTextureSettings.Preset.MaskHDRP));
+				addOutputMenu.AddItem(new GUIContent("Detail (HDRP)"), false, () => AddOutputPreset(OutputTextureSettings.Preset.DetailHDRP));
+				addOutputMenu.AddItem(new GUIContent("Raw (not compressed)"), false, () => AddOutputPreset(OutputTextureSettings.Preset.Raw));
+				// addOutputMenu.AddItem(new GUIContent("Detail (URP)"), false, () => AddOutputPreset(OutputTextureSettings.Preset.DetailURP));
+				addOutputMenu.ShowAsContext();
+
+				void AddOutputPreset(OutputTextureSettings.Preset preset)
+				{
+					outputNode.AddTextureOutput(preset);
+					ForceUpdatePorts();
+				}
 			}){ text = "Add Output"});
 
             if (!graph.isRealtime)
             {
-				// AddCustomMipMapSettings();
-
-                controlsContainer.Add(new Button(SaveAllMasterTexture)
+                controlsContainer.Add(new Button(graph.SaveAllTextures)
                 {
                     text = "Save All"
                 });
             }
         }
-
-		// void AddCustomMipMapSettings()
-		// {
-		// 	var customMipMapBlock = Resources.Load<VisualTreeAsset>("UI Blocks/CustomMipMap").CloneTree();
-
-		// 	var button = customMipMapBlock.Q("NewMipMapShader") as Button;
-		// 	button.clicked += MixtureAssetCallbacks.CreateCustomMipMapShaderGraph;
-		// 	// TODO: assign the created shader when finished
-
-		// 	var shaderField = customMipMapBlock.Q("ShaderField") as ObjectField;
-		// 	shaderField.objectType = typeof(Shader);
-		// 	shaderField.value = outputNode.customMipMapShader;
-		// 	button.style.display = outputNode.customMipMapShader != null ? DisplayStyle.None : DisplayStyle.Flex;
-		// 	shaderField.RegisterValueChangedCallback(e => {
-		// 		owner.RegisterCompleteObjectUndo("Changed Custom Mip Map Shader");
-		// 		outputNode.customMipMapShader = e.newValue as Shader;
-		// 		button.style.display = e.newValue != null ? DisplayStyle.None : DisplayStyle.Flex;;
-		// 	});
-
-		// 	var mipMapToggle = new Toggle("Has Mip Maps") { value = outputNode.hasMips};
-		// 	customMipMapBlock.style.display = supportsCustomMipMap ? DisplayStyle.Flex : DisplayStyle.None;
-		// 	mipMapToggle.RegisterValueChangedCallback(e => {
-		// 		outputNode.hasMips = e.newValue;
-		// 		customMipMapBlock.style.display = supportsCustomMipMap ? DisplayStyle.Flex : DisplayStyle.None;
-		// 		graph.UpdateOutputTexture(false);
-		// 	});
-
-		// 	controlsContainer.Add(mipMapToggle);
-		// 	controlsContainer.Add(customMipMapBlock);
-		// }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
@@ -149,63 +133,23 @@ namespace Mixture
 
 		void InitializeDebug()
 		{
-			// outputNode.onProcessed += () => {
-			// 	debugCustomRenderTextureField.value = outputNode.tempRenderTexture;
-			// };
+			var crtList = new VisualElement();
 
-			// debugCustomRenderTextureField = new ObjectField("Output")
-			// {
-			// 	value = outputNode.tempRenderTexture
-			// };
+			outputNode.onProcessed += UpdateCRTList;
 
-			Debug.Log("TODO!");
-			
-			debugContainer.Add(debugCustomRenderTextureField);
+			void UpdateCRTList()
+			{
+				crtList.Clear();
+
+				foreach (var output in outputNode.outputTextureSettings)
+				{
+					crtList.Add(new ObjectField(output.name) { value = output.finalCopyRT });
+				}
+			}
+
+			debugContainer.Add(crtList);
 		}
 
-		// void AddCompressionSettings()
-		// {
-		// 	var formatField = new EnumField("Format", outputNode.compressionFormat);
-		// 	formatField.RegisterValueChangedCallback((e) => {
-		// 		owner.RegisterCompleteObjectUndo("Changed Compression Format");
-		// 		outputNode.compressionFormat = (MixtureCompressionFormat)e.newValue;
-		// 		graph.UpdateOutputTexture(false);
-		// 	});
-		// 	var qualityField = new EnumField("Quality", outputNode.compressionQuality);
-		// 	qualityField.RegisterValueChangedCallback((e) => {
-		// 		owner.RegisterCompleteObjectUndo("Changed Compression Quality");
-		// 		outputNode.compressionQuality = (MixtureCompressionQuality)e.newValue;
-		// 		graph.UpdateOutputTexture(false);
-		// 	});
-
-		// 	if (!outputNode.enableCompression)
-		// 	{
-		// 		qualityField.ToggleInClassList("Hidden");
-		// 		formatField.ToggleInClassList("Hidden");
-		// 	}
-			
-		// 	var enabledField = new Toggle("Compression") { value = outputNode.enableCompression };
-		// 	enabledField.RegisterValueChangedCallback((e) => {
-		// 		owner.RegisterCompleteObjectUndo("Toggled Compression");
-		// 		qualityField.ToggleInClassList("Hidden");
-		// 		formatField.ToggleInClassList("Hidden");
-		// 		outputNode.enableCompression = e.newValue;
-		// 		graph.UpdateOutputTexture(false);
-		// 	});
-
-		// 	controlsContainer.Add(enabledField);
-		// 	controlsContainer.Add(formatField);
-		// 	controlsContainer.Add(qualityField);
-		// }
-
 		void UpdatePreviewImage() => CreateTexturePreview(previewContainer, outputNode);
-
-        protected void SaveAllMasterTexture()
-        {
-            graph.SaveMainTexture();
-
-			// TODO: save all sub textures too
-        }
-
 	}
 }

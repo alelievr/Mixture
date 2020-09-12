@@ -133,6 +133,9 @@ namespace Mixture
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
+			if (output == null)
+				return false;
+
 			var outputDimension = rtSettings.GetTextureDimension(graph);
 			MixtureUtils.SetupDimensionKeyword(material, outputDimension);
 			output.material = material;

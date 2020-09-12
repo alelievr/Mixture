@@ -85,7 +85,7 @@ Please re-run the test to ensure the reference image validity.");
                     TargetWidth = destination.width,
                     TargetHeight = destination.height,
                     PerPixelCorrectnessThreshold = 0.001f,
-                    AverageCorrectnessThreshold = 0.005f,
+                    AverageCorrectnessThreshold = 0.01f,
                     UseHDR = false,
                     UseBackBuffer = false,
                 });
@@ -100,7 +100,7 @@ Please re-run the test to ensure the reference image validity.");
             var processor = new MixtureGraphProcessor(graph);
             processor.Run();
 
-            graph.outputNode.enableCompression = false;
+            graph.outputNode.outputTextureSettings.First().enableCompression = false;
             var settings = graph.outputNode.rtSettings;
             Texture2D destination = new Texture2D(
                 settings.GetWidth(graph),

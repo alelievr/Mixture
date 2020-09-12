@@ -13,11 +13,10 @@ namespace Mixture
         public Texture						inputTexture = null;
         public string						name = "Input #";
         public bool							enableCompression = true;
-        public MixtureCompressionFormat		compressionFormat = MixtureCompressionFormat.DXT5;
+        public TextureFormat		        compressionFormat = TextureFormat.DXT5;
         public MixtureCompressionQuality	compressionQuality = MixtureCompressionQuality.Best;
         public bool							hasMipMaps = false;
         public Shader						customMipMapShader = null;
-        public bool							mainAsset = false;
 
         public Material						finalCopyMaterial = null;
         [NonSerialized]
@@ -45,5 +44,50 @@ namespace Mixture
         public CustomRenderTexture			mipmapTempRT = null;
         [NonSerialized]
         public MaterialPropertyBlock		mipMapPropertyBlock = null;
+
+        public enum Preset
+        {
+            Color,
+            Raw,
+            Normal,
+            Height,
+            MaskHDRP,
+            DetailHDRP,
+            DetailURP,
+        }
+
+        public void SetupPreset(Preset preset, Func<string, string> getUniqueName)
+        {
+            switch (preset)
+            {
+                case Preset.Color:
+                    name = getUniqueName("Color");
+                    compressionFormat = TextureFormat.BC7;
+                    break;
+                case Preset.Raw:
+                    name = getUniqueName("Output");
+                    enableCompression = false;
+                    break;
+                case Preset.Normal:
+                    name = getUniqueName("Normal");
+                    compressionFormat = TextureFormat.BC5;
+                    break;
+                case Preset.Height:
+                    name = getUniqueName("Height");
+                    compressionFormat = TextureFormat.BC4;
+                    break;
+                case Preset.MaskHDRP:
+                    name = getUniqueName("Mask (HDRP)");
+                    compressionFormat = TextureFormat.BC7;
+                    break;
+                case Preset.DetailHDRP:
+                    name = getUniqueName("Detail (HDRP)");
+                    compressionFormat = TextureFormat.BC7;
+                    break;
+                case Preset.DetailURP:
+                    // TODO
+                    break;
+            }
+        }
     }
 }
