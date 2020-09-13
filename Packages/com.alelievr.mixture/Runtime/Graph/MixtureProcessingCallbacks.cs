@@ -7,7 +7,6 @@ using System;
 
 namespace Mixture
 {
-	// TODO: move to a dedicated workaround file for realtime processing
 #if UNITY_EDITOR
 	[UnityEditor.InitializeOnLoad]
 #endif
@@ -38,7 +37,6 @@ namespace Mixture
                 graph = UnityEditor.AssetDatabase.LoadAllAssetsAtPath(graphPath).OfType<MixtureGraph>().FirstOrDefault();
             }
 #endif
-
 
 			// If the graph is valid and realtime
 			if (graph != null && graph.isRealtime == true)

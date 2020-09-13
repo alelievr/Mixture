@@ -15,10 +15,15 @@ namespace Mixture
 
 		public override void Enable(bool fromInspector)
         {
+            var stylesheet = Resources.Load<StyleSheet>("ExternalOutputNodeView");
+
+			if(styleSheets != null && !styleSheets.Contains(stylesheet))
+				styleSheets.Add(stylesheet);
+
             base.Enable(fromInspector);
 
             // We can delete external outputs
-            capabilities |= Capabilities.Deletable;
+            capabilities |= Capabilities.Deletable | Capabilities.Renamable;
         }
         
         protected override void BuildOutputNodeSettings()

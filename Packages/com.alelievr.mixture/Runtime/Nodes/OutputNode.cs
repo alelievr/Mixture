@@ -363,7 +363,7 @@ namespace Mixture
 		}
 
 		[CustomPortInput(nameof(outputTextureSettings), typeof(Texture))]
-		void AssignSubTextures(List< SerializableEdge > edges)
+		protected void AssignSubTextures(List< SerializableEdge > edges)
 		{
 			foreach (var edge in edges)
 			{

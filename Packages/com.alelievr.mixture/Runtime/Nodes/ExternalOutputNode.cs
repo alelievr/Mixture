@@ -49,39 +49,12 @@ namespace Mixture
 
         protected override void Enable()
         {
-            // Do NOT Call base.Enable() as it references the node as the main output of the graph.
             base.Enable();
 
             // Sanitize the RT Settings for the output node, they must contains only valid information for the output node
             if (rtSettings.dimension == OutputDimension.SameAsOutput)
                 rtSettings.dimension = OutputDimension.Texture2D;
 
-            // Debug.Log("TODO!");
-
-            // if (graph.isRealtime)
-            // {
-            //     tempRenderTexture = graph.outputTexture as CustomRenderTexture;
-            // }
-            // else
-            // {
-            //     UpdateTempRenderTexture(ref tempRenderTexture);
-            // }
-
-			// if (finalCopyMaterial == null)
-			// {
-			// 	var shader = Shader.Find("Hidden/Mixture/FinalCopy");
-
-			// 	// shader can be null if this function is called during the import of the package
-			// 	if (shader != null)
-			// 	{
-			// 		finalCopyMaterial = new Material(shader);
-			// 		finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
-			// 	}
-			// }
-
-            // tempRenderTexture.material = finalCopyMaterial;
-
-            // TODO: add this for every mixture node
             onSettingsChanged += () => { graph.NotifyNodeChanged(this); };
         }
 

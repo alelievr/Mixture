@@ -361,7 +361,7 @@ namespace Mixture
                 }
                 EditorUtility.DisplayProgressBar("Mixture", "Reading Back Data...", 0.1f);
                 var o = external.outputTextureSettings.First();
-                ReadBackTexture(external, o.finalCopyRT, o.enableCompression, o.compressionFormat, o.compressionQuality, outputTexture);
+                ReadBackTexture(external, o.finalCopyRT, false, o.compressionFormat, o.compressionQuality, outputTexture);
 
                 // Check Output Type
                 string assetPath;
@@ -379,7 +379,7 @@ namespace Mixture
                             extension = "png";
                     }
 
-                    assetPath = EditorUtility.SaveFilePanelInProject("Save Texture", System.IO.Path.GetDirectoryName(AssetDatabase.GetAssetPath(this)) + "/ExternalTexture", extension, "Save Texture");
+                    assetPath = EditorUtility.SaveFilePanelInProject("Save Texture", external.name, extension, "Save Texture");
 
                     if (string.IsNullOrEmpty(assetPath))
                     {
@@ -467,6 +467,13 @@ namespace Mixture
 
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
+
+                if (saveAs)
+                {
+                    var tex = AssetDatabase.LoadAssetAtPath<Texture>(assetPath);
+                    EditorGUIUtility.PingObject(tex);
+                    Selection.activeObject = tex;
+                }
             }
             finally
             {

@@ -114,15 +114,9 @@ MonoBehaviour:
   - type: Mixture.CellularNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     jsonDatas: '{"GUID":"9f3f98b3-ff74-41f4-a2cb-7db36effd2ac","computeOrder":2,"position":{"serializedVersion":"2","x":-10.999982833862305,"y":-36.00006866455078,"width":250.0,"height":645.0},"expanded":true,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":255,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"da55f2393d0f8384db177010fad4c19c","type":3},"material":{"fileID":7412953962164294820,"guid":"491caa3e4fe93d0408347d7640170082","type":2}}'
-  - type: Mixture.RidgedPerlinNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"ee9db6b4-8af6-4db0-8895-b5cfeca82140","computeOrder":3,"position":{"serializedVersion":"2","x":-74.55001831054688,"y":613.10009765625,"width":250.0,"height":584.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"49eed0c8b6dca3949a7864570e424043","type":3},"material":{"fileID":2770006062732836367,"guid":"491caa3e4fe93d0408347d7640170082","type":2}}'
   - type: Mixture.RidgedCellularNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     jsonDatas: '{"GUID":"74113f2a-6f92-46ff-a21b-ad36722f5d9a","computeOrder":0,"position":{"serializedVersion":"2","x":-261.0,"y":-36.000003814697269,"width":250.0,"height":375.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"709dbd2e7ab678c4cb23bcf7fcf6fb2f","type":3},"material":{"fileID":6783865555539827090,"guid":"491caa3e4fe93d0408347d7640170082","type":2}}'
-  - type: Mixture.SplatterNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"f9b00f83-322e-40df-b6ab-b3697ac8d1ef","computeOrder":4,"position":{"serializedVersion":"2","x":511.8075256347656,"y":629.510009765625,"width":100.0,"height":100.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"computeShader":{"fileID":7200000,"guid":"62d0bf62935cbf0478d244cb6687fab6","type":3},"inputTextures":[{"instanceID":0}],"output":{"instanceID":0},"maxSplatCount":187,"sequence":2,"stackPosition":{"x":0.0,"y":0.0,"z":0.0},"gridSize":{"x":8.0,"y":8.0},"gridCram":{"x":0.0,"y":0.0},"gridShift":{"x":0.03999999910593033,"y":0.0},"lambda":0.0,"rotation":0.0,"radius":1.0,"goldenRatio":2.399998903274536,"positionJitter":{"x":0.0,"y":0.0,"z":0.0},"rotationMode":0,"fixedAngles":{"x":0.0,"y":0.0,"z":0.0},"minAngles":{"x":-180.0,"y":-180.0,"z":-180.0},"maxAngles":{"x":180.0,"y":180.0,"z":180.0},"scaleMode":0,"fixedScale":{"x":0.10000000149011612,"y":0.10000000149011612,"z":0.10000000149011612},"minScale":{"x":0.5,"y":0.5,"z":0.5},"maxScale":{"x":1.5,"y":1.5,"z":1.5},"blendOperator":0}'
   edges:
   - GUID: 90f7d099-381c-4d4b-89cd-fa28e4e2e810
     owner: {fileID: 11400000}
@@ -132,25 +126,7 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: Main Texture
     outputPortIdentifier: output
-  - GUID: e1338671-0cf7-405d-b40b-832d50d3e5b5
-    owner: {fileID: 11400000}
-    inputNodeGUID: f9b00f83-322e-40df-b6ab-b3697ac8d1ef
-    outputNodeGUID: ee9db6b4-8af6-4db0-8895-b5cfeca82140
-    inputFieldName: inputTextures
-    outputFieldName: output
-    inputPortIdentifier: inputTextures
-    outputPortIdentifier: output
-  groups:
-  - title: For Loop
-    color: {r: 0, g: 0, b: 0, a: 0.3}
-    position:
-      serializedVersion: 2
-      x: -1522.9144
-      y: 1839.1234
-      width: 600
-      height: 224
-    size: {x: 400, y: 200}
-    innerNodeGUIDs: []
+  groups: []
   stackNodes: []
   pinnedElements:
   - position:
@@ -174,8 +150,8 @@ MonoBehaviour:
       serializedType: Mixture.MixtureParameterView, Unity.ShaderGraph.GraphicsTests,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: 57, y: 173, z: 0}
-  scale: {x: 0.7561437, y: 0.7561437, z: 1}
+  position: {x: 604, y: 160, z: 0}
+  scale: {x: 0.8695652, y: 0.8695652, z: 1}
   realtimePreview: 1
   isRealtime: 0
   isParameterViewOpen: 0
@@ -185,9 +161,9 @@ MonoBehaviour:
   - {fileID: 104215503536926863}
   - {fileID: -7515695781811813903}
   - {fileID: 458437118441847180}
-  - {fileID: 2770006062732836367}
   - {fileID: 6783865555539827090}
   - {fileID: 4269344445788610500}
+  - {fileID: 7493468621230872315}
   _mainOutputTexture: {fileID: -6271889868359918643}
   _outputTextures:
   - {fileID: -6271889868359918643}
@@ -270,48 +246,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors: []
-  m_BuildTextureStacks: []
---- !u!21 &2770006062732836367
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Hidden/Mixture/RidgedPerlinNoise
-  m_Shader: {fileID: 4800000, guid: 49eed0c8b6dca3949a7864570e424043, type: 3}
-  m_ShaderKeywords: CRT_2D _TILINGMODE_NONE
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _UV_2D:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _UV_3D:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _UV_Cube:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _Channels: 4
-    - _Frequency: 5
-    - _Lacunarity: 2
-    - _Octaves: 5
-    - _Persistance: 0.5
-    - _Seed: 0
-    - _TilingMode: 0
-    m_Colors:
-    - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!21 &4269344445788610500
 Material:
@@ -430,10 +364,44 @@ Material:
     - _DistanceMode: 0
     - _Frequency: 2
     - _Lacunarity: 4
-    - _Octaves: 5
+    - _Octaves: 12
     - _Persistance: 0.47
     - _Seed: 42
     - _TilingMode: 1
     m_Colors:
     - _OutputRange: {r: 0.59, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &7493468621230872315
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/FinalCopy
+  m_Shader: {fileID: 4800000, guid: 513c040fbfb854aebb92cf147e30125a, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors: []
   m_BuildTextureStacks: []
