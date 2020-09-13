@@ -28,22 +28,25 @@ namespace Mixture
 
             base.Enable(fromInspector);
 
-			// We don't need the code for removing the material because this node can't be removed
-			foreach (var output in outputNode.outputTextureSettings)
-				if (output.finalCopyMaterial != null && !owner.graph.IsObjectInGraph(output.finalCopyMaterial))
-					owner.graph.AddObjectToGraph(output.finalCopyMaterial);
+			if (!fromInspector)
+			{
+				// We don't need the code for removing the material because this node can't be removed
+				foreach (var output in outputNode.outputTextureSettings)
+					if (output.finalCopyMaterial != null && !owner.graph.IsObjectInGraph(output.finalCopyMaterial))
+						owner.graph.AddObjectToGraph(output.finalCopyMaterial);
 
-			outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
-			graph.onOutputTextureUpdated += UpdatePreviewImage;
+				outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
+				graph.onOutputTextureUpdated += UpdatePreviewImage;
 
-			// Clear the input when disconnecting it:
-			onPortDisconnected += port => {
-				var outputSlot = outputNode.outputTextureSettings.Find(o => o.name == port.portData.identifier);
-				if (outputSlot != null)
-					outputSlot.inputTexture = null;
-			};
+				// Clear the input when disconnecting it:
+				onPortDisconnected += port => {
+					var outputSlot = outputNode.outputTextureSettings.Find(o => o.name == port.portData.identifier);
+					if (outputSlot != null)
+						outputSlot.inputTexture = null;
+				};
 
-			InitializeDebug();
+				InitializeDebug();
+			}
 		}
 
 		void UpdatePortView()
@@ -139,11 +142,14 @@ namespace Mixture
 
 			void UpdateCRTList()
 			{
+				if (crtList.childCount == outputNode.outputTextureSettings.Count)
+					return;
+
 				crtList.Clear();
 
 				foreach (var output in outputNode.outputTextureSettings)
 				{
-					crtList.Add(new ObjectField(output.name) { value = output.finalCopyRT });
+					crtList.Add(new ObjectField(output.name) { objectType = typeof(CustomRenderTexture), value = output.finalCopyRT });
 				}
 			}
 

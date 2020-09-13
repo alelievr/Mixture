@@ -17,6 +17,7 @@ namespace Mixture
         public MixtureCompressionQuality	compressionQuality = MixtureCompressionQuality.Best;
         public bool							hasMipMaps = false;
         public Shader						customMipMapShader = null;
+        public bool                         isMain = false;
 
         public Material						finalCopyMaterial = null;
         [NonSerialized]

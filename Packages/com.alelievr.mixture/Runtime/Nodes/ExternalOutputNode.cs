@@ -50,13 +50,13 @@ namespace Mixture
         protected override void Enable()
         {
             // Do NOT Call base.Enable() as it references the node as the main output of the graph.
-            //base.Enable(fromInspector);
+            base.Enable();
 
             // Sanitize the RT Settings for the output node, they must contains only valid information for the output node
             if (rtSettings.dimension == OutputDimension.SameAsOutput)
                 rtSettings.dimension = OutputDimension.Texture2D;
 
-            Debug.Log("TODO!");
+            // Debug.Log("TODO!");
 
             // if (graph.isRealtime)
             // {
@@ -85,7 +85,7 @@ namespace Mixture
             onSettingsChanged += () => { graph.NotifyNodeChanged(this); };
         }
 
-        protected override void Disable() => CoreUtils.Destroy(outputTextureSettings.First().finalCopyRT);
+        // protected override void Disable() => CoreUtils.Destroy(outputTextureSettings.First().mipmapTempRT);
 
         protected override bool ProcessNode(CommandBuffer cmd)
         {

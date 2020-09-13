@@ -139,6 +139,8 @@ namespace Mixture
 				mixture.UpdateOutputTextures();
 				mixture.FlushTexturesToDisk();
 
+				AssetDatabase.SaveAssets();
+
 				ProjectWindowUtil.ShowCreatedAsset(mixture.mainOutputTexture);
 				Selection.activeObject = mixture.mainOutputTexture;
 			}
@@ -182,26 +184,33 @@ namespace Mixture
 		{
 			public static readonly string template = $"{MixtureEditorUtils.mixtureEditorResourcesPath}Templates/RealtimeMixtureGraphTemplate.asset";
 
-			static MixtureGraph	_realtimeGraph;
-			static MixtureGraph realtimeGraph
-			{
-				get
-				{
-					if (_realtimeGraph == null)
-					{
-						_realtimeGraph = ScriptableObject.CreateInstance< MixtureGraph >();
-						_realtimeGraph.isRealtime = true;
-						_realtimeGraph.realtimePreview = true;
-					}
-					return _realtimeGraph;
-				}
-			}
-
 			public override MixtureGraph CreateMixtureGraphAsset()
-			// We use Instantiate instead of CreateObject because we can use anther mixture graph that
-			// have the parameters setup for realtime mixtures. This avoid the issue to have the ScriptableObject
-			// OnEnable() function called before the isRealtime is assigned
-				=> Object.Instantiate(realtimeGraph);
+			{
+				var g = MixtureEditorUtils.GetGraphAtPath(template);
+				g = ScriptableObject.Instantiate(g) as MixtureGraph;
+
+				g.ClearObjectReferences();
+
+				foreach (var node in g.nodes)
+				{
+					// Duplicate all the materials from the template
+					if (node is ShaderNode s && s.material != null)
+					{
+						s.material = new Material(s.material);
+						s.material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+					}
+					else if (node is OutputNode outputNode)
+					{
+						foreach (var outputSettings in outputNode.outputTextureSettings)
+						{
+							outputSettings.finalCopyMaterial = new Material(outputSettings.finalCopyMaterial);
+							outputSettings.finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+						}
+					}
+				}
+
+				return g;
+			}
 		}
 
 		class CustomTextureShaderAction : EndNameEditAction

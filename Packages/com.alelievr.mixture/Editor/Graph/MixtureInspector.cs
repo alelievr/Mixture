@@ -397,8 +397,12 @@ namespace Mixture
 			base.LoadInspectorFor(typeof(CustomRenderTexture));
 			crt = target as CustomRenderTexture;
 
+			ReloadPreviewInstances();
+
 			isMixture = RealtimeMixtureReferences.realtimeMixtureCRTs.Contains(crt);
 		}
+
+        public override bool RequiresConstantRepaint() => true;
 
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
 		{
@@ -406,15 +410,6 @@ namespace Mixture
 			if (!isMixture)
 				return defaultTextureEditor.RenderStaticPreview(assetPath, subAssets, width, height);
 			return base.RenderStaticPreview(assetPath, subAssets, width, height);
-		}
-
-		// TODO
-		public override void OnInspectorGUI()
-		{
-			if (isMixture)
-				base.OnInspectorGUI();
-			else
-				defaultTextureEditor.OnInspectorGUI();
 		}
 	}
 }

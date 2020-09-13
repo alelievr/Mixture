@@ -97,7 +97,7 @@ namespace Mixture
 			previewMode = defaultPreviewChannels;
 		}
 
-		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false)
+		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false, CustomRenderTextureUpdateMode updateMode = CustomRenderTextureUpdateMode.OnDemand)
 		{
 			if (graph.mainOutputTexture == null)
 				return false;
@@ -175,7 +175,7 @@ namespace Mixture
 			}
 
 			// Patch update mode based on graph type
-			target.updateMode = (graph.isRealtime) ? target.updateMode = CustomRenderTextureUpdateMode.Realtime : CustomRenderTextureUpdateMode.OnDemand;
+			target.updateMode = updateMode;
 
 			return false;
 		}

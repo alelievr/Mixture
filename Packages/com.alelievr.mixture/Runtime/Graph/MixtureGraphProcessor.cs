@@ -14,58 +14,12 @@ namespace Mixture
 		public void Clear() => forLoopLevel.Clear();
 	}
 
-	// TODO: move to a dedicated workaround file for realtime processing
-#if UNITY_EDITPR
-	[UnityEditor.InitializeOnLoad(-10)]
-#endif
-	public static class MixtureProcessingCallbacks
-	{
-		static MixtureProcessingCallbacks() => Load();
-
-		[RuntimeInitializeOnLoadMethod]
-		static void Load()
-		{
-			// TODO: custom CRT sorting in the  CRT manager to manage the case where we have multiple runtime CRTs on the same branch and they need to be updated
-			// in the correct order even if their materials/textures are not referenced into their params (they can be connected to a compute shader node for example).
-			CustomTextureManager.onBeforeCustomTextureUpdated -= BeforeCustomRenderTextureUpdate;
-			CustomTextureManager.onBeforeCustomTextureUpdated += BeforeCustomRenderTextureUpdate;
-		}
-
-		static void BeforeCustomRenderTextureUpdate(CommandBuffer cmd, CustomRenderTexture crt)
-		{
-			// TODO: check with everything we can that the CRT is a potential candidate for being aa graph
-			// var graph = MixtureUtils.GetRealtimeGraphFromCRT(crt);
-
-			// Debug.Log("crt: " + crt + " executed, loading graph " + graph);
-
-			// // If the graph is valid and realtime
-			// if (graph != null && graph.isRealtime == true)
-			// {
-			// 	MixtureGraphProcessor.processorInstances.TryGetValue(graph, out var processorSet);
-			// 	if (processorSet == null)
-			// 	{
-			// 		var processor = new MixtureGraphProcessor(graph);
-			// 		// Relay the event to the processor
-			// 		processor.BeforeCustomRenderTextureUpdate(cmd, crt);
-			// 	}
-			// 	else
-			// 	{
-			// 		foreach (var processor in processorSet)
-			// 		{
-			// 			// Relay the event to the processor
-			// 			processor.BeforeCustomRenderTextureUpdate(cmd, crt);
-			// 		}
-			// 	}
-			// }
-		}
-	}
-
 	public class MixtureGraphProcessor : BaseGraphProcessor
 	{
 		// A Multiton, oh god I never thought i'd be writing one in my life
 		internal static Dictionary<MixtureGraph, HashSet<MixtureGraphProcessor>> processorInstances = new Dictionary<MixtureGraph, HashSet<MixtureGraphProcessor>>();
 
-		new MixtureGraph		graph => base.graph as MixtureGraph;
+		internal new MixtureGraph	graph => base.graph as MixtureGraph;
 		HashSet< BaseNode >		executedNodes = new HashSet<BaseNode>();
 		public ComputeOrderInfo	info { get; private set; } = new ComputeOrderInfo();
 
@@ -95,6 +49,15 @@ namespace Mixture
 			hashset.Add(this);
 		}
 
+		public static MixtureGraphProcessor GetOrCreate(MixtureGraph graph)
+		{
+			MixtureGraphProcessor.processorInstances.TryGetValue(graph, out var processorSet);
+			if (processorSet == null)
+				return new MixtureGraphProcessor(graph);
+			else
+				return processorSet.FirstOrDefault(p => p != null);
+		}
+
 		~MixtureGraphProcessor()
 		{
 			processorInstances.Remove(graph);
@@ -120,7 +83,6 @@ namespace Mixture
 
 		internal void BeforeCustomRenderTextureUpdate(CommandBuffer cmd, CustomRenderTexture crt)
 		{
-			Debug.Log("Before: " + crt);
 			if (isProcessing == 0)
 			{
 				// TODO: cache
@@ -130,7 +92,8 @@ namespace Mixture
 				// node can be null if the CRT doesn't belong to the graph.
 				if (node != null)
 					RunGraphFor(cmd, new List<BaseNode>{ node });
-				Debug.Log("RunGraphFOr: " + node);
+				else // In that case we process the graph output
+					RunGraphFor(cmd, new List<BaseNode>{ graph.outputNode });
 			}
 			else
 			{

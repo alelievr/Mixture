@@ -80,6 +80,13 @@ namespace Mixture
 			if (outputTextureSettings.Count == 0)
 				AddTextureOutput(OutputTextureSettings.Preset.Color);
 
+			// Sanitize main texture value:
+			if (outputTextureSettings.Count((o => o.isMain)) != 1)
+			{
+				outputTextureSettings.ForEach(o => o.isMain = false);
+				outputTextureSettings.First().isMain = true;
+			}
+
 			// SRP mip generation:
 			RenderPipelineManager.beginFrameRendering += BeginFrameRendering;
 		}
@@ -108,6 +115,8 @@ namespace Mixture
 				};
 			}
 
+			//
+
 			// output.finalCopyRT can be null here if the graph haven't been imported yet
 			if (output.finalCopyRT != null)
 				output.finalCopyRT.material = output.finalCopyMaterial;
@@ -120,9 +129,15 @@ namespace Mixture
 
 			// Output 0 is always Main Texture
 			if (outputTextureSettings.Count == 0)
+			{
 				output.name = "Main Texture";
+				output.isMain = true;
+			}
 
 			outputTextureSettings.Add(output);
+
+			if (graph.isRealtime)
+				graph.UpdateRealtimeAssetsOnDisk();
 
 			return output;
 		}
@@ -130,6 +145,10 @@ namespace Mixture
 		public void RemoveTextureOutput(OutputTextureSettings settings)
 		{
 			outputTextureSettings.Remove(settings);
+
+			// When the graph is realtime, we don't have the save all button, so we call is automatically
+			if (graph.isRealtime)
+				graph.UpdateRealtimeAssetsOnDisk();
 		}
 
 		Material CreateFinalCopyMaterial()
@@ -170,10 +189,17 @@ namespace Mixture
 				// Update the renderTexture reference for realtime graph
 				if (graph.isRealtime)
 				{
-					Debug.Log("TODO?");
-					// if (tempRenderTexture != graph.mainOutputTexture)
-					// 	onTempRenderTextureUpdated?.Invoke();
-					// tempRenderTexture = graph.mainOutputTexture as CustomRenderTexture;
+					var finalCopyRT = graph.FindOutputTexture(output.name, output.isMain) as CustomRenderTexture;
+					if (finalCopyRT != null && output.finalCopyRT != finalCopyRT)
+						onTempRenderTextureUpdated?.Invoke();
+					output.finalCopyRT = finalCopyRT;
+
+					// Only the main output CRT is marked as realtime because it's processing will automatically
+					// trigger the processing of it's graph, and thus all the outputs in the graph.
+					if (output.isMain)
+						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.Realtime;
+					else
+						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.OnDemand;
 				}
 				else
 				{

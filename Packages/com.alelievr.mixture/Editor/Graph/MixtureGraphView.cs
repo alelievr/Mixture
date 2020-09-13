@@ -139,7 +139,7 @@ namespace Mixture
 		{
 			RegisterCallback< KeyDownEvent >(KeyCallback);
 
-			processor = new MixtureGraphProcessor(graph);
+			processor = MixtureGraphProcessor.GetOrCreate(graph);
 			computeOrderUpdated += () => {
 				processor.UpdateComputeOrder();
 				UpdateNodeColors();

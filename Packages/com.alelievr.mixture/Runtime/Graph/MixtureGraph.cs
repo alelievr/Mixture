@@ -142,7 +142,7 @@ namespace Mixture
 
         public void                 ClearObjectReferences() => objectReferences.Clear();
 
-        Texture FindOutputTexture(string name, bool isMain)
+        public Texture FindOutputTexture(string name, bool isMain)
         {
             return outputTextures.Find(t => t != null && (isMain ? t.name == mainOutputTexture.name : t.name == name));
         }
@@ -157,17 +157,15 @@ namespace Mixture
 		/// </summary>
 		public void					UpdateOutputTextures()
 		{
-            bool isMain = true;
-
             foreach (var output in outputNode.outputTextureSettings)
             {
                 // Note that the main texture always uses the name of the asset:
-                Texture		oldTextureObject = FindOutputTexture(output.name, isMain);
+                Texture		oldTextureObject = FindOutputTexture(output.name, output.isMain);
                 Texture     newTexture;
 
                 if (isRealtime)
                 {
-                    newTexture = UpdateOutputRealtimeTexture(output, isMain);
+                    newTexture = UpdateOutputRealtimeTexture(output);
                     // We don't ever need to the main asset in realtime if it's already a CRT
 #if UNITY_EDITOR
                     if (!(oldTextureObject is CustomRenderTexture))
@@ -175,7 +173,7 @@ namespace Mixture
 #endif
                 }
                 else
-                    newTexture = UpdateOutputStaticTexture(output, isMain);
+                    newTexture = UpdateOutputStaticTexture(output);
                 
                 if (oldTextureObject != newTexture)
                 {
@@ -183,29 +181,22 @@ namespace Mixture
                         outputTextures.Remove(oldTextureObject);
                     outputTextures.Add(newTexture);
                 }
-
-                isMain = false;
             }
 		}
 
 #if UNITY_EDITOR
         public void FlushTexturesToDisk()
         {
-            bool isMain = true;
-
             List<Texture> assetsToKeep = new List<Texture>();
             foreach (var output in outputNode.outputTextureSettings)
             {
                 // Note that the main texture always uses the name of the asset:
-                Texture		newTexture = FindOutputTexture(output.name, isMain);
-                Texture     oldTexture = FindTextureOnDisk(output.name, isMain);
+                Texture		newTexture = FindOutputTexture(output.name, output.isMain);
+                Texture     oldTexture = FindTextureOnDisk(output.name, output.isMain);
 
                 // Update the asset on disk if they differ
-                UpdateTextureAssetOnDisk(oldTexture, newTexture, isMain);
+                UpdateTextureAssetOnDisk(oldTexture, newTexture, output.isMain);
                 assetsToKeep.Add(newTexture);
-
-                // The main texture is only the first one
-                isMain = false;
             }
 
             foreach (var tex in AssetDatabase.LoadAllAssetsAtPath(mainAssetPath).OfType<Texture>())
@@ -243,11 +234,11 @@ namespace Mixture
         }
 #endif
 
-		Texture UpdateOutputRealtimeTexture(OutputTextureSettings outputSettings, bool isMain)
+		Texture UpdateOutputRealtimeTexture(OutputTextureSettings outputSettings)
 		{
 			var s = outputNode.rtSettings;
 
-            var oldTexture = FindOutputTexture(outputSettings.name, isMain);
+            var oldTexture = FindOutputTexture(outputSettings.name, outputSettings.isMain);
             Texture newTexture = oldTexture;
 
 			if (!(oldTexture is CustomRenderTexture))
@@ -277,19 +268,21 @@ namespace Mixture
 				crt.Create();
 			}
 
+            if (outputSettings.isMain)
+                mainOutputTexture = newTexture;
+
             newTexture.name = outputSettings.name;
 
             return newTexture;
 		}
 
-		Texture UpdateOutputStaticTexture(OutputTextureSettings outputSettings, bool isMain)
+		Texture UpdateOutputStaticTexture(OutputTextureSettings outputSettings)
 		{
 			var s = outputNode.rtSettings;
             var creationFlags = outputSettings.hasMipMaps ? TextureCreationFlags.MipChain : TextureCreationFlags.None;
 
             // Check if we need to re-create the texture:
-            var currentTexture = FindOutputTexture(outputSettings.name, isMain);
-
+            var currentTexture = FindOutputTexture(outputSettings.name, outputSettings.isMain);
 
             if (currentTexture != null)
             {
@@ -502,16 +495,14 @@ namespace Mixture
 
             UpdateOutputTextures();
 
-            bool isMain = true;
             foreach (var output in outputNode.outputTextureSettings)
             {
                 // We only need to update the main asset texture because the outputTexture should
                 // always be correctly setup when we arrive here.
-                var currentTexture = FindOutputTexture(output.name, isMain);
+                var currentTexture = FindOutputTexture(output.name, output.isMain);
 
                 // The main texture is always the first one
                 ReadBackTexture(this.outputNode, output.finalCopyRT, output.enableCompression, output.compressionFormat, output.compressionQuality, currentTexture);
-                isMain = false;
             }
 
             FlushTexturesToDisk();
@@ -519,6 +510,16 @@ namespace Mixture
             AssetDatabase.SaveAssets();
 
             EditorGUIUtility.PingObject(mainOutputTexture);
+        }
+
+        public void UpdateRealtimeAssetsOnDisk()
+        {
+			if (!isRealtime)
+                return;
+
+            UpdateOutputTextures();
+            FlushTexturesToDisk();
+            AssetDatabase.SaveAssets();
         }
 #endif
 
