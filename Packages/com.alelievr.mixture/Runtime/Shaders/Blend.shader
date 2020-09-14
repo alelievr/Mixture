@@ -17,6 +17,8 @@ Shader "Hidden/Mixture/Blend"
 		[InlineTexture]_Target_Cube("Target", Cube) = "white" {}
 		[InlineTexture]_Mask_Cube("Mask", Cube) = "white" {}
 
+		_Opacity("Opacity", Range(0, 1)) = 0.5
+
 		// Common parameters
 		[Enum(Blend, 0, Additive, 1, Multiplicative, 2, Substractive, 3, Min, 4, Max, 5)]_BlendMode("Blend Mode", Float) = 0
 		[Enum(PerChannel, 0, R, 1, G, 2, B, 3, A, 4)]_MaskMode("Mask Mode", Float) = 4
@@ -43,6 +45,8 @@ Shader "Hidden/Mixture/Blend"
 
 			float _BlendMode;
 			float _MaskMode;
+			bool _UseMask;
+			float _Opacity;
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
@@ -58,6 +62,8 @@ Shader "Hidden/Mixture/Blend"
 					case 3 : mask = SAMPLE_X(_Mask, i.localTexcoord.xyz, i.direction).bbbb; break;
 					case 4 : mask = SAMPLE_X(_Mask, i.localTexcoord.xyz, i.direction).aaaa; break;
 				}
+
+				mask *= _Opacity;
 
 				switch ((uint)_BlendMode)
 				{

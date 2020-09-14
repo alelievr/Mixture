@@ -60,13 +60,13 @@
                 float linear01Depth = (linearEyeDepth - n) / (f - n);
                 return 1 - linear01Depth.xxxx;
             case 3: // World Normal
-                return float4(normalData.normalWS, 0) * (depth != 0);
-            case 4: // Tangent Normal
+                return float4(normalData.normalWS, depth != 0);
+            case 4: // Tangent Space Normal
                 float3 unsignedNormal = normalData.normalWS * 0.5 * (depth != 0) + 0.5;
                 float3 tangentSpaceNormal = normalize(float3(unsignedNormal.xz, 1));
-                return float4(tangentSpaceNormal, 0);
+                return float4(tangentSpaceNormal, depth != 0);
             case 5: // World Position
-                return float4(GetAbsolutePositionWS(posInput.positionWS) * (depth != 0), 0);
+                return float4(GetAbsolutePositionWS(posInput.positionWS), depth != 0);
             default: return color;
         }
     }

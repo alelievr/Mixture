@@ -9,7 +9,7 @@ namespace Mixture
 	[Documentation(@"
 Perform an addition with `source A`, `source B` and Color and writes the result to output like so:
 ```
-_Output = _SourceA + _SourceB + _Color;
+_Output = _SourceA + _SourceB + _Value;
 ```
 ")]
 

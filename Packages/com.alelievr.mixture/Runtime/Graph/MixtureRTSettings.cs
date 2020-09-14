@@ -156,7 +156,7 @@ namespace Mixture
 		public TextureDimension GetTextureDimension(MixtureGraph graph)
 		{
 			// if this function is called from the output node and the dimension is default, then we set it to a default value
-			if (graph.outputNode.rtSettings.dimension == OutputDimension.SameAsOutput)
+			if (graph?.outputNode == null || graph.outputNode.rtSettings.dimension == OutputDimension.SameAsOutput)
 				return TextureDimension.Tex2D;
 			else
 				return dimension == OutputDimension.SameAsOutput ? (TextureDimension)graph.outputNode.rtSettings.dimension : (TextureDimension)dimension;

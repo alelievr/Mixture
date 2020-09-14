@@ -29,12 +29,12 @@ Note that this node is currently only available with HDRP.
         public enum OutputMode
         {
             // Keep indices to not break shaders that depend on it
-            Color           = 0,
-            LinearEyeDepth  = 1,
-            Linear01Depth   = 2,
-            WorldNormal     = 3,
-            TangentNormal   = 4,
-            WorldPosition   = 5,
+            Color               = 0,
+            LinearEyeDepth      = 1,
+            Linear01Depth       = 2,
+            WorldSpaceNormal    = 3,
+            TangentSpaceNormal  = 4,
+            WorldPosition       = 5,
         }
 
         [SerializeField, HideInInspector, FormerlySerializedAs("output")]

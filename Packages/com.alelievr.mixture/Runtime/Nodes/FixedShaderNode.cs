@@ -20,13 +20,19 @@ namespace Mixture
 			}
 		}
 
-		protected override void Enable()
+		public override void InitializePorts()
 		{
 			if (shader == null)
 				FindShader();
 
-			base.Enable();
-        }
+			if (material == null)
+			{
+				material = new Material(shader);
+				material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+			}
+
+			base.InitializePorts();
+		}
 
 		void FindShader()
 		{

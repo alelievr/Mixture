@@ -16,7 +16,7 @@ namespace Mixture
 
 		public override bool displayMaterialInspector => true;
 
-		protected override IEnumerable<string> filteredOutProperties => new string[]{"_BlendMode", "_MaskMode"};
+		protected override IEnumerable<string> filteredOutProperties => new string[]{"_BlendMode", "_MaskMode", "_Opacity"};
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{

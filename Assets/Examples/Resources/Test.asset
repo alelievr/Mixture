@@ -36,7 +36,7 @@ CustomRenderTexture:
     m_WrapW: 1
   m_Dimension: 2
   m_VolumeDepth: 1
-  m_Material: {fileID: 7163514207154496063}
+  m_Material: {fileID: 0}
   m_InitSource: 0
   m_InitMaterial: {fileID: 0}
   m_InitColor: {r: 1, g: 1, b: 1, a: 1}
@@ -112,62 +112,9 @@ MonoBehaviour:
   serializedNodes:
   - type: Mixture.OutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"61fe1d02-858b-43e3-9b5f-a89c2fe01057","computeOrder":5,"position":{"serializedVersion":"2","x":-98.0,"y":11.0,"width":350.0,"height":494.0},"expanded":false,"debug":true,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":512,"height":512,"sliceCount":1,"potSize":1024,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"outputChannels":1,"outputPrecision":2,"editFlags":469,"doubleBuffered":false,"wrapMode":0,"filterMode":0,"refreshMode":1,"period":1.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"isPinned":false,"input":{"instanceID":0},"hasMips":false,"customMipMapShader":{"instanceID":0},"currentSlice":0,"finalCopyMaterial":{"fileID":7163514207154496063,"guid":"5be2cbf95a4df304dbaca34bd6110c70","type":2},"compressionFormat":12,"compressionQuality":100,"enableCompression":false}'
-  - type: Mixture.BlendNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"9c9af23e-8cd9-4b42-a44a-0b1011871b03","computeOrder":4,"position":{"serializedVersion":"2","x":-348.0,"y":11.0,"width":250.0,"height":521.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"5d69ff00d9a32944ea012824393d489a","type":3},"material":{"fileID":1601003194309156558,"guid":"5be2cbf95a4df304dbaca34bd6110c70","type":2}}'
-  - type: Mixture.RidgedPerlinNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"f55c4e80-f4ee-4bac-a628-868fe02941e8","computeOrder":3,"position":{"serializedVersion":"2","x":-631.0,"y":135.0,"width":250.0,"height":600.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"49eed0c8b6dca3949a7864570e424043","type":3},"material":{"fileID":716179193015472069,"guid":"5be2cbf95a4df304dbaca34bd6110c70","type":2}}'
-  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"e111f337-d04a-49bd-a781-c6a49aa2dd98","computeOrder":1,"position":{"serializedVersion":"2","x":-755.0,"y":81.0,"width":105.0,"height":39.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"53ff927e-50da-487b-930a-715ca18fd1fc","accessor":0}'
-  - type: Mixture.ColorMatteNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"ed0c6ab2-cc0d-4b0c-a2c0-5c6a175d6bb3","computeOrder":0,"position":{"serializedVersion":"2","x":-631.0,"y":-79.0,"width":250.0,"height":116.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":true,"previewMode":15,"previewMip":0.0,"previewVisible":false,"previewEV100":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"c9fe3de6e0f2f1d4b8d8afc805f4ca22","type":3},"material":{"fileID":-4854862242346741078,"guid":"5be2cbf95a4df304dbaca34bd6110c70","type":2}}'
-  - type: Mixture.ColorMatteNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"7cd087e1-a394-4075-9b20-1f5c4f1d559c","computeOrder":2,"position":{"serializedVersion":"2","x":-631.0,"y":37.0,"width":250.0,"height":98.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":true,"previewMode":15,"previewMip":0.0,"previewVisible":false,"previewEV100":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"c9fe3de6e0f2f1d4b8d8afc805f4ca22","type":3},"material":{"fileID":-3826782437876480863,"guid":"5be2cbf95a4df304dbaca34bd6110c70","type":2}}'
-  edges:
-  - GUID: 6ce72039-b424-4fc0-a54b-2f47f3d5275f
-    owner: {fileID: 11400000}
-    inputNodeGUID: 61fe1d02-858b-43e3-9b5f-a89c2fe01057
-    outputNodeGUID: 9c9af23e-8cd9-4b42-a44a-0b1011871b03
-    inputFieldName: input
-    outputFieldName: output
-    inputPortIdentifier: input
-    outputPortIdentifier: output
-  - GUID: ca9d1afa-8d73-4227-82d2-11988794ee5d
-    owner: {fileID: 11400000}
-    inputNodeGUID: 9c9af23e-8cd9-4b42-a44a-0b1011871b03
-    outputNodeGUID: ed0c6ab2-cc0d-4b0c-a2c0-5c6a175d6bb3
-    inputFieldName: materialInputs
-    outputFieldName: output
-    inputPortIdentifier: _Source_2D
-    outputPortIdentifier: output
-  - GUID: 7f8f4ad6-7b20-41fc-a208-5dcd8311ed36
-    owner: {fileID: 11400000}
-    inputNodeGUID: 9c9af23e-8cd9-4b42-a44a-0b1011871b03
-    outputNodeGUID: 7cd087e1-a394-4075-9b20-1f5c4f1d559c
-    inputFieldName: materialInputs
-    outputFieldName: output
-    inputPortIdentifier: _Target_2D
-    outputPortIdentifier: output
-  - GUID: 1da6c09d-cd81-4f48-9716-b29d9d56c152
-    owner: {fileID: 11400000}
-    inputNodeGUID: 9c9af23e-8cd9-4b42-a44a-0b1011871b03
-    outputNodeGUID: f55c4e80-f4ee-4bac-a628-868fe02941e8
-    inputFieldName: materialInputs
-    outputFieldName: output
-    inputPortIdentifier: _Mask_2D
-    outputPortIdentifier: output
-  - GUID: 53dedc57-614b-4586-b803-e09f06be35ed
-    owner: {fileID: 11400000}
-    inputNodeGUID: 7cd087e1-a394-4075-9b20-1f5c4f1d559c
-    outputNodeGUID: e111f337-d04a-49bd-a781-c6a49aa2dd98
-    inputFieldName: materialInputs
-    outputFieldName: output
-    inputPortIdentifier: _Color
-    outputPortIdentifier: output
+    jsonDatas: '{"GUID":"61fe1d02-858b-43e3-9b5f-a89c2fe01057","computeOrder":0,"position":{"serializedVersion":"2","x":-98.0,"y":11.0,"width":350.0,"height":494.0},"expanded":false,"debug":true,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":512,"height":512,"sliceCount":1,"potSize":1024,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"outputChannels":1,"outputPrecision":2,"editFlags":469,"doubleBuffered":false,"wrapMode":0,"filterMode":0,"refreshMode":1,"period":1.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"outputTextureSettings":[{"inputTexture":{"instanceID":0},"name":"Main
+      Texture","enableCompression":true,"compressionFormat":25,"compressionQuality":100,"hasMipMaps":false,"customMipMapShader":{"instanceID":0},"isMain":true,"finalCopyMaterial":{"instanceID":0}}]}'
+  edges: []
   groups: []
   stackNodes: []
   pinnedElements:
@@ -205,7 +152,10 @@ MonoBehaviour:
   - {fileID: 716179193015472069}
   - {fileID: -4854862242346741078}
   - {fileID: -3826782437876480863}
-  _outputTexture: {fileID: -5957171694750619602}
+  _mainOutputTexture: {fileID: -5957171694750619602}
+  _outputTextures:
+  - {fileID: -5957171694750619602}
+  - {fileID: -5957171694750619602}
   references:
     version: 1
 --- !u!21 &716179193015472069
