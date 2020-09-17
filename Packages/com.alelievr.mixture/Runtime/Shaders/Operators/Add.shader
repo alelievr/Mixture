@@ -11,7 +11,7 @@
 		[Tooltip(Input B)][InlineTexture]_SourceB_3D("Source B", 3D) = "black" {}
 		[Tooltip(Input B)][InlineTexture]_SourceB_Cube("Source B", Cube) = "black" {}
 
-		[Tooltip(Additional Value)]_Value("Value", Vector) = (1, 1, 1, 1)
+		[Tooltip(Additional Value)]_Value("Value", Vector) = (0, 0, 0, 0)
 	}
 	SubShader
 	{

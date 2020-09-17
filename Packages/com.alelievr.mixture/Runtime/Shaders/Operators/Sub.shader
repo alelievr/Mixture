@@ -11,7 +11,7 @@
 		[InlineTexture]_SourceB_3D("Source B", 3D) = "white" {}
 		[InlineTexture]_SourceB_Cube("Source B", Cube) = "white" {}
 
-		_Value("Value", Vector) = (1, 1, 1, 1)
+		_Value("Value", Vector) = (0, 0, 0, 0)
 	}
 	SubShader
 	{
