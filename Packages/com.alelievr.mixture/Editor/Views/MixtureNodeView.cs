@@ -214,6 +214,8 @@ namespace Mixture
 					property.vectorValue = (Vector4)EditorGUI.Vector2Field(r, property.displayName, (Vector2)property.vectorValue);
 				else if (property.name.Contains("Vector3"))
 					property.vectorValue = (Vector4)EditorGUI.Vector3Field(r, property.displayName, (Vector3)property.vectorValue);
+				else if (property.type == MaterialProperty.PropType.Range)
+					property.floatValue = EditorGUI.Slider(r, property.displayName, property.floatValue, property.rangeLimits.x, property.rangeLimits.y);
 				else
 					editor.ShaderProperty(r, property, property.displayName);
 			}
