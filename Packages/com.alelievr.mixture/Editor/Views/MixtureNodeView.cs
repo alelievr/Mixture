@@ -387,6 +387,10 @@ namespace Mixture
 			infoRect.height = 20;
 			previewRect.yMax -= 4;
 
+			// Check if the mouse is in the graph view rect:
+			if (!(EditorWindow.mouseOverWindow is MixtureGraphWindow mixtureWindow && mixtureWindow.GetCurrentGraph() == owner.graph))
+				return;
+
 			// On Hover : Transparent Bar for Preview with information
 			if (previewRect.Contains(Event.current.mousePosition) && !infoRect.Contains(Event.current.mousePosition))
 			{

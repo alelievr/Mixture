@@ -60,5 +60,7 @@ namespace Mixture
 			view?.Dispose();
 			MixtureUpdater.RemoveGraphToProcess(view);
 		}
+
+		public MixtureGraph GetCurrentGraph() => graph as MixtureGraph;
 	}
 }
