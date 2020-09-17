@@ -6,12 +6,12 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Custom/Normal Blend")]
-	public class NormalBlend : FixedShaderNode
+	[System.Serializable, NodeMenuItem("Custom/Normal Rotatation")]
+	public class NormalRotate : FixedShaderNode
 	{
-		public override string name => "Normal Blend";
+		public override string name => "Normal Rotate";
 
-		public override string shaderName => "Hidden/Mixture/NormalBlend";
+		public override string shaderName => "Hidden/Mixture/NormalRotate";
 
 		public override bool displayMaterialInspector => true;
 
@@ -30,6 +30,8 @@ namespace Mixture
 		// Override this if you node is not compatible with all dimensions
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
 			OutputDimension.Texture2D,
+			OutputDimension.Texture3D,
+			OutputDimension.CubeMap,
 		};
 	}
 }
