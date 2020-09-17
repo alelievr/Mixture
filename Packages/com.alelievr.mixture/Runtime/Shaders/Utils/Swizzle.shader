@@ -36,23 +36,6 @@
 			float _AMode;
 			float4 _Custom;
 
-			float Swizzle(float4 sourceValue, uint mode, float custom)
-			{
-				switch (mode)
-				{
-				case 0: return sourceValue.x;
-				case 1: return sourceValue.y;
-				case 2: return sourceValue.z;
-				case 3: return sourceValue.w;
-				default:
-				case 4: return 0.0f;
-				case 5: return 0.5f;
-				case 6: return 1.0f;
-				case 7: return custom;
-				}
-				return 0;
-			}
-
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
 				float4 source = SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
