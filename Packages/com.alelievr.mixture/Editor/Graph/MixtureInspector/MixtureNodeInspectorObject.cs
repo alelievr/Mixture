@@ -12,6 +12,21 @@ namespace Mixture
     [CustomEditor(typeof(MixtureNodeInspectorObject))]
     public class MixtureNodeInspectorObjectEditor : NodeInspectorObjectEditor
     {
+        internal enum CompareMode
+        {
+            SideBySide,
+            OnionSkin,
+            Difference,
+        }
+
+        // TODO
+        // internal enum PreviewMode
+        // {
+        //     Color,
+        //     Normal,
+        //     Height,
+        // }
+
         Event e => Event.current;
 
         internal MixtureNodeInspectorObject mixtureInspector;
@@ -44,14 +59,15 @@ namespace Mixture
         bool lockSecondPreview = false;
         MixtureNode firstLockedPreviewTarget;
         MixtureNode secondLockedPreviewTarget;
-        int compareMode = 0;
         Vector2 shaderPos;
         bool needsRepaint;
 
         // Preview settings
         internal FilterMode filterMode;
         internal float exposure;
-        internal PreviewChannels channels = PreviewChannels.RGBA;
+        internal PreviewChannels channels = PreviewChannels.RGB;
+        internal CompareMode compareMode;
+        internal float mipLevel;
 
         VisualTreeAsset nodeInspectorFoldout;
 
@@ -180,7 +196,7 @@ namespace Mixture
             lockFirstPreview = GUILayout.Toggle(lockFirstPreview, GetLockIcon(lockFirstPreview), EditorStyles.toolbarButton, buttonLayout);
             if (compareEnabled)
             {
-                compareMode = EditorGUILayout.Popup(compareMode, new string[]{"|"}, EditorStyles.toolbarButton, buttonLayout);
+                compareMode = (CompareMode)EditorGUILayout.Popup((int)compareMode, new string[]{"|", "🍕", "-"}, EditorStyles.toolbarButton, buttonLayout);
                 GUILayout.Label(secondLockedPreviewTarget.name, EditorStyles.toolbarButton);
                 lockSecondPreview = GUILayout.Toggle(lockSecondPreview, GetLockIcon(lockSecondPreview), EditorStyles.toolbarButton, buttonLayout);
             }
@@ -229,7 +245,10 @@ namespace Mixture
                     previewMaterial.SetTexture("_MainTex1_Cube", secondLockedPreviewTarget.previewTexture);
                 }
 
-                previewMaterial.SetFloat("_ComparisonSlider", compareEnabled ? compareSlider : 0);
+                previewMaterial.SetFloat("_ComparisonSlider", compareSlider);
+                previewMaterial.SetFloat("_ComparisonEnabled", compareEnabled ? 1 : 0);
+                previewMaterial.SetFloat("_CompareMode", (int)compareMode);
+                previewMaterial.SetFloat("_PreviewMip", mipLevel);
                 previewMaterial.SetFloat("_YRatio", previewRect.height / previewRect.width);
                 previewMaterial.SetFloat("_Zoom", zoom);
                 previewMaterial.SetVector("_Pan", shaderPos / previewRect.size);

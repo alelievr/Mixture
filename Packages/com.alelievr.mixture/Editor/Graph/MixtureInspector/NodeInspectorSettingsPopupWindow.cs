@@ -10,7 +10,7 @@ namespace Mixture
         MixtureNodeInspectorObjectEditor inspector;
 
         public static readonly int width = 220;
-        public static readonly int height = 70;
+        public static readonly int height = 90;
 
         public override Vector2 GetWindowSize()
         {
@@ -40,8 +40,12 @@ namespace Mixture
 					             (b ? PreviewChannels.B : 0) |
 					             (a ? PreviewChannels.A : 0);
             EditorGUILayout.EndHorizontal();
-            // EditorGUIUtility.labelWidth = 0;
-            // inspector.compareSlider = EditorGUILayout.Slider(inspector.compareSlider, 0, 1);
+
+            var previewTexture = inspector.nodeWithPreviews.FirstOrDefault();
+            int maxMip = previewTexture != null ? previewTexture.previewTexture.mipmapCount : 1;
+            EditorGUI.BeginDisabledGroup(maxMip == 1);
+            inspector.mipLevel = EditorGUILayout.Slider("Mip Level", inspector.mipLevel, 0, maxMip - 1);
+            EditorGUI.EndDisabledGroup();
 
             if (EditorGUI.EndChangeCheck())
                 inspector.Repaint();

@@ -33,13 +33,14 @@ Shader "Hidden/MixtureInspectorPreview"
 			#include "Packages/com.alelievr.mixture/Editor/Resources/MixturePreview.hlsl"
 
             float4 _TextureSize;
-            float _ComparisonMode;
             float _ComparisonSlider;
             float _Zoom;
             float4 _Pan;
             float _YRatio;
             float _Exp;
             float _FilterMode;
+            float _CompareMode;
+            float _ComparisonEnabled;
 
             #define MERGE_NAME(x, y) x##y
 
@@ -83,6 +84,23 @@ Shader "Hidden/MixtureInspectorPreview"
             #define SAMPLE_LEVEL(tex, samp, uv, mip) MERGE_NAME(tex,_Cube).SampleLevel(samp, LatlongToDirectionCoordinate(uv.xy), mip)
 #endif
 
+            float4 ApplyComparison(float2 uv, float4 c0, float4 c1)
+            {
+                if (!_ComparisonEnabled)
+                    return c0;
+
+                switch (_CompareMode)
+                {
+                    default:
+                    case 0: // Side By Side
+                        return frac(uv.x) < _ComparisonSlider ? c0 : c1;
+                    case 1: // Onion skin
+                        return lerp(c0, c1, _ComparisonSlider);
+                    case 2: // Difference
+                        return abs(c0 - c1);
+                }
+            }
+
             float4 frag (v2f i) : SV_Target
             {
                 float2 uv = i.uv;
@@ -108,7 +126,7 @@ Shader "Hidden/MixtureInspectorPreview"
                 }
 
                 // TODO: blend the two colors with comparison mode
-                float4 color = frac(uv.x) < _ComparisonSlider ? color0 : color1;
+                float4 color = ApplyComparison(uv, color0, color1);
 
                 // Apply exposure:
                 color.rgb = color.rgb * exp2(_Exp);
