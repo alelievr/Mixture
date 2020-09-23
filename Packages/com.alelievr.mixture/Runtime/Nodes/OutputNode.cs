@@ -4,6 +4,7 @@ using GraphProcessor;
 using System;
 using System.Linq;
 using UnityEngine.Rendering;
+using UnityEngine.Profiling;
 
 namespace Mixture
 {
@@ -46,8 +47,6 @@ namespace Mixture
 		[NonSerialized]
 		protected HashSet< string > uniqueMessages = new HashSet< string >();
 
-		CommandBuffer mipchainCmd = new CommandBuffer();
-
 		protected override MixtureRTSettings defaultRTSettings
         {
             get => new MixtureRTSettings()
@@ -64,6 +63,18 @@ namespace Mixture
                 editFlags = EditFlags.POTSize | EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat
             };
         }
+
+		CustomSampler	_generateMipMapSampler;
+		CustomSampler	generateMipMapSampler
+		{
+			get
+			{
+				if (_generateMipMapSampler == null)
+					_generateMipMapSampler = CustomSampler.Create("Generate Mips", true);
+
+				return _generateMipMapSampler;
+			}
+		}
 
         protected override void Enable()
         {
@@ -86,9 +97,6 @@ namespace Mixture
 				outputTextureSettings.ForEach(o => o.isMain = false);
 				outputTextureSettings.First().isMain = true;
 			}
-
-			// SRP mip generation:
-			RenderPipelineManager.beginFrameRendering += BeginFrameRendering;
 		}
 
 		// Disable reset on output texture settings
@@ -216,7 +224,7 @@ namespace Mixture
 				if (output.customMipMapShader != null && output.hasMipMaps)
 				{
 					UpdateTempRenderTexture(ref output.mipmapTempRT, true, false);
-					GenerateCustomMipMaps(output);
+					GenerateCustomMipMaps(cmd, output);
 				}
 				else if (Camera.main != null)
 				{
@@ -284,19 +292,17 @@ namespace Mixture
 			return true;
 		}
 
-		void GenerateCustomMipMaps(OutputTextureSettings targetOutput)
+		void GenerateCustomMipMaps(CommandBuffer cmd, OutputTextureSettings targetOutput)
 		{
 #if UNITY_EDITOR
 			if (targetOutput.mipmapTempRT == null || targetOutput.finalCopyRT == null)
 				return;
 
-			mipchainCmd.Clear();
-
-			mipchainCmd.name = "Generate Custom MipMaps";
+			cmd.BeginSample(generateMipMapSampler);
 
 			if (targetOutput.mipMapPropertyBlock == null)
 				targetOutput.mipMapPropertyBlock = new MaterialPropertyBlock();
-			
+
 			int slice = 0;
 			// TODO: support 3D textures and Cubemaps
 			// for (int slice = 0; slice < targetOutput.finalCopyRT.volumeDepth; slice++)
@@ -305,7 +311,7 @@ namespace Mixture
 				{
 					int mipLevel = i + 1;
 					targetOutput.mipmapTempRT.name = "Tmp mipmap";
-					mipchainCmd.SetRenderTarget(targetOutput.mipmapTempRT, mipLevel, CubemapFace.Unknown, 0);
+					cmd.SetRenderTarget(targetOutput.mipmapTempRT, mipLevel, CubemapFace.Unknown, 0);
 
 					Vector4 textureSize = new Vector4(targetOutput.finalCopyRT.width, targetOutput.finalCopyRT.height, targetOutput.finalCopyRT.volumeDepth, 0);
 					textureSize /= 1 << (mipLevel);
@@ -320,29 +326,13 @@ namespace Mixture
 					targetOutput.mipMapPropertyBlock.SetFloat("_CurrentSlice", slice / (float)targetOutput.finalCopyRT.width);
 
 					MixtureUtils.SetupDimensionKeyword(targetOutput.customMipMapMaterial, targetOutput.finalCopyRT.dimension);
-					mipchainCmd.DrawProcedural(Matrix4x4.identity, targetOutput.customMipMapMaterial, 0, MeshTopology.Triangles, 3, 1, targetOutput.mipMapPropertyBlock);
+					cmd.DrawProcedural(Matrix4x4.identity, targetOutput.customMipMapMaterial, 0, MeshTopology.Triangles, 3, 1, targetOutput.mipMapPropertyBlock);
 
-					mipchainCmd.CopyTexture(targetOutput.mipmapTempRT, slice, mipLevel, targetOutput.finalCopyRT, slice, mipLevel);
+					cmd.CopyTexture(targetOutput.mipmapTempRT, slice, mipLevel, targetOutput.finalCopyRT, slice, mipLevel);
 				}
 			}
 
-			// Dirty hack to enqueue the command buffer but it's okay because it's the builtin renderer.
-			if (GraphicsSettings.renderPipelineAsset == null && Camera.main != null)
-			{
-				Camera.main.RemoveCommandBuffer(CameraEvent.BeforeDepthTexture, mipchainCmd);
-				Camera.main.AddCommandBuffer(CameraEvent.BeforeDepthTexture, mipchainCmd);
-			}
-#endif
-		}
-
-		void BeginFrameRendering(ScriptableRenderContext renderContext, Camera[] cameras)
-		{
-#if UNITY_EDITOR
-			if (outputTextureSettings.Any(o => o.hasMipMaps))
-			{
-				renderContext.ExecuteCommandBuffer(mipchainCmd);
-				renderContext.Submit();
-			}
+			cmd.EndSample(generateMipMapSampler);
 #endif
 		}
 

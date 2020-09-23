@@ -31,7 +31,10 @@ namespace Mixture
         {
             get
             {
+// In the editor we don't want to cache the wrong output node.
+#if !UNITY_EDITOR
                 if (_outputNode == null)
+#endif
                     _outputNode = nodes.FirstOrDefault(n => n is OutputNode) as OutputNode;
 
                 return _outputNode;
@@ -207,6 +210,8 @@ namespace Mixture
                     DestroyImmediate(tex, true);
                 }
             }
+
+            AssetDatabase.ImportAsset(mainAssetPath);
         }
 
         void UpdateTextureAssetOnDisk(Texture oldTextureObject, Texture newTexture, bool main = false)
@@ -289,6 +294,8 @@ namespace Mixture
                 bool matchTextureSettings = currentTexture.dimension == (TextureDimension)s.dimension
                     && currentTexture.width == s.width && currentTexture.height == s.height
                     && (currentTexture.mipmapCount > 1) == outputSettings.hasMipMaps;
+
+                matchTextureSettings &= outputSettings.enableCompression || (!outputSettings.enableCompression && currentTexture.graphicsFormat == s.graphicsFormat);
                 
                 // Note that here we don't check the graphic format of the texture, because the current texture
                 // can use a compressed format which will be different compared to the one in the graph.
@@ -302,9 +309,7 @@ namespace Mixture
                 }
             }
 
-            Debug.Log(outputTextures.Count);
-
-            outputTextures.RemoveAll(t => t.name == outputSettings.name);
+            outputTextures.RemoveAll(t => t.name == outputSettings.name || (outputSettings.isMain && t.name == mainOutputTexture.name));
 
             Texture newTexture = null;
 			// TODO: compression options (TextureCreationFlags.Crunch)
@@ -327,7 +332,7 @@ namespace Mixture
                     return null;
             }
 
-            newTexture.name = outputSettings.name;
+            newTexture.name = (outputSettings.isMain) ? mainOutputTexture.name : outputSettings.name;
 
             outputTextures.Add(newTexture);
 
@@ -514,7 +519,7 @@ namespace Mixture
 
             FlushTexturesToDisk();
 
-            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
 
             EditorGUIUtility.PingObject(mainOutputTexture);
         }
@@ -592,11 +597,7 @@ namespace Mixture
                 if (enableCompression)
                     CompressTexture(target, dst, compressionFormat, compressionQuality);
                 else
-                {
-                    Debug.Log(target.graphicsFormat);
-                    Debug.Log(dst.graphicsFormat);
                     Graphics.ConvertTexture(target, dst);
-                }
 
                 dst.name = name;
             }
@@ -658,11 +659,6 @@ namespace Mixture
             UnityEngine.Object.DestroyImmediate(source);
 
             EditorUtility.CompressTexture(destination as Texture2D, (TextureFormat)format, (UnityEditor.TextureCompressionQuality)quality);
-
-            // Trick to re-generate the preview and update the texture when the asset was changed
-            AssetDatabase.ImportAsset(this.mainAssetPath);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.ImportAsset(this.mainAssetPath);
 #endif
         }
     }

@@ -99,12 +99,21 @@ namespace Mixture
 
             enableCompression.RegisterValueChangedCallback(enabled => {
                 graphView.RegisterCompleteObjectUndo($"Change {targetSettings.name} compression");
+                var textureDim = node.rtSettings.GetTextureDimension(graphView.graph);
 
-                targetSettings.enableCompression = enabled.newValue;
-                if (enabled.newValue)
-                    compressionFields.style.display = DisplayStyle.Flex;
+                if (textureDim == TextureDimension.Tex2D)
+                {
+                    targetSettings.enableCompression = enabled.newValue;
+                    if (enabled.newValue)
+                        compressionFields.style.display = DisplayStyle.Flex;
+                    else
+                        compressionFields.style.display = DisplayStyle.None;
+                }
                 else
-                    compressionFields.style.display = DisplayStyle.None;
+                {
+                    Debug.LogError("Compression is not yet supported for " + textureDim);
+                    enableCompression.SetValueWithoutNotify(false);
+                }
             });
             enableCompression.value = targetSettings.enableCompression;
 
