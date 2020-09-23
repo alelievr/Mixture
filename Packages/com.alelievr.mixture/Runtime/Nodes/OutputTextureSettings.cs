@@ -75,7 +75,7 @@ namespace Mixture
                     break;
                 case Preset.Height:
                     name = getUniqueName("Height");
-                    compressionFormat = TextureFormat.BC4;
+                    compressionFormat = TextureFormat.RFloat;
                     break;
                 case Preset.MaskHDRP:
                     name = getUniqueName("Mask (HDRP)");
