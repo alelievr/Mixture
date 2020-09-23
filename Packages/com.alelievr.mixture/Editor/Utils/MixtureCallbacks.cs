@@ -136,6 +136,7 @@ namespace Mixture
 				AssetDatabase.CreateAsset(mixture, pathName);
 
 				// Generate the output texture:
+				mixture.outputTextures.Clear();
 				mixture.UpdateOutputTextures();
 				mixture.FlushTexturesToDisk();
 

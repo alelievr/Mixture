@@ -20,7 +20,7 @@ public class MixtureDocumentationWindow : EditorWindow
     static string manualDir => docFxDir + "/manual/nodes/";
 
     // Add menu named "My Window" to the Window menu
-    [MenuItem("Window/Mixture Documentation")]
+    [MenuItem("Window/Mixture DocTool")]
     static void Init()
     {
         // Get existing open window or if none, make a new one:
