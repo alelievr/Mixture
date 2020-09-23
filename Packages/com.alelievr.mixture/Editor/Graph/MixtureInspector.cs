@@ -256,18 +256,19 @@ namespace Mixture
 			if (!assetPath.EndsWith(".asset")) // If the texture is an asset, then it means that it's a mixture
 				return defaultPreview;
 			
-			var icon = new Texture2D(width, height);
-			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
+			// Combine manually on CPU the two textures because it completely broken with GPU :'(
+			Texture2D mixtureIcon = (target is CustomRenderTexture) ? MixtureUtils.realtimeIcon : MixtureUtils.icon;
+			for (int x = 0; x < width / 2.5f; x++)
+			for (int y = 0; y < height / 2.5f; y++)
+			{
+				var iconColor = mixtureIcon.GetPixel((int)(x * 2.5f), (int)(y * 2.5f));
+				var color = Color.Lerp(defaultPreview.GetPixel(x, y), iconColor, iconColor.a);
+				defaultPreview.SetPixel(x, y, color);
+			}
 
-			BlitMixtureIcon(defaultPreview, rt, target is CustomRenderTexture);
+			defaultPreview.Apply();
 
-			RenderTexture.active = rt;
-			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-			icon.Apply();
-			RenderTexture.active = null;
-			rt.Release();
-
-			return icon;
+			return defaultPreview;
 		}
 	}
 
@@ -353,24 +354,9 @@ namespace Mixture
 			MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", volume);
 			EditorGUI.DrawPreviewTexture(r, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial);
 		}
-
-		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
-		{
-			var icon = new Texture2D(width, height);
-			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
-
-			BlitMixtureIcon(target as Texture, rt);
-
-			RenderTexture.active = rt;
-			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-			icon.Apply();
-			RenderTexture.active = null;
-			rt.Release();
-
-			return icon;
-		}
 	}
 
+	[CustomEditor(typeof(Cubemap), false)]
 	class MixtureInspectorTextureCube : MixtureEditor
 	{
 		Cubemap		cubemap;
@@ -378,7 +364,6 @@ namespace Mixture
 
 		protected override void OnEnable()
 		{
-			Debug.Log("CUSTOM INSEPCTOR CUBEMAP !");
 			base.OnEnable();
 			cubemap = target as Cubemap;
 			LoadInspectorFor(typeof(Cubemap));

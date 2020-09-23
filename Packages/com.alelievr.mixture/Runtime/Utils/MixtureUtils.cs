@@ -21,6 +21,7 @@ namespace Mixture
 				{
 					_blitIconMaterial = new Material(Resources.Load< Shader >("MixtureIconBlit"));
 					_blitIconMaterial.SetTexture("_MixtureIcon", icon);
+					_blitIconMaterial.hideFlags = HideFlags.HideAndDontSave;
 				}
 
 				return _blitIconMaterial;
@@ -36,6 +37,7 @@ namespace Mixture
 				{
 					_blitRealtimeIconMaterial = new Material(Resources.Load< Shader >("MixtureIconBlit"));
 					_blitRealtimeIconMaterial.SetTexture("_MixtureIcon", realtimeIcon);
+					_blitRealtimeIconMaterial.hideFlags = HideFlags.HideAndDontSave;
 				}
 
 				return _blitRealtimeIconMaterial;

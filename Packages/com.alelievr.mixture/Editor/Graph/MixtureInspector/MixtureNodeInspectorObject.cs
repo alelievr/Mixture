@@ -82,6 +82,7 @@ namespace Mixture
             mixtureInspector = target as MixtureNodeInspectorObject;
 
             nodeInspectorFoldout = Resources.Load("UI Blocks/InspectorNodeFoldout") as VisualTreeAsset;
+            nodeInspectorFoldout.hideFlags = HideFlags.HideAndDontSave;
 
             base.OnEnable();
 

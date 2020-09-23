@@ -100,6 +100,13 @@ namespace Mixture
 			// Debug option:
 			evt.menu.AppendAction("Help/Show All SubAssets", a => ShowAllSubAssets(), DropdownMenuAction.Status.Normal);
 			evt.menu.AppendAction("Help/Hide All SubAssets", a => HideAllSubAssets(), DropdownMenuAction.Status.Normal);
+			evt.menu.AppendAction("Help/Reimport Main Asset", a => ReimportMainAsset(), DropdownMenuAction.Status.Normal);
+		}
+
+		void ReimportMainAsset()
+		{
+			EditorUtility.SetDirty(AssetDatabase.LoadAssetAtPath<Texture>(graph.mainAssetPath));
+			AssetDatabase.ImportAsset(graph.mainAssetPath, ImportAssetOptions.DontDownloadFromCacheServer | ImportAssetOptions.ForceSynchronousImport | ImportAssetOptions.ForceUpdate);
 		}
 
 		void ShowAllSubAssets()
