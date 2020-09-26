@@ -351,7 +351,7 @@ public static class CustomTextureManager
                             block.SetVectorArray(kUpdateDataSizesAndRotation, zoneSizesAndRotation);
                             block.SetFloatArray(kUpdateDataPrimitiveIDs, zonePrimitiveIDs);
 
-                            cmd.DrawProcedural(Matrix4x4.identity, crt.material, passIndex, MeshTopology.Triangles, 6 * updateZones.Count, 0, block);
+                            cmd.DrawProcedural(Matrix4x4.identity, crt.material, passIndex, MeshTopology.Triangles, 6 * updateZones.Count, 1, block);
 
                             firstUpdate = false;
                         }
