@@ -112,6 +112,12 @@ namespace Mixture
             // + store the Resources path in a string
 			if (isRealtime)
 				RealtimeMixtureReferences.realtimeMixtureCRTs.Add(mainOutputTexture as CustomRenderTexture);
+            
+            // Check that object references are really ours (just in case the asset was duplicated)
+            objectReferences.RemoveAll(obj =>
+            {
+                return AssetDatabase.GetAssetPath(obj) != mainAssetPath;
+            });
 #endif
 		}
 
@@ -130,6 +136,15 @@ namespace Mixture
 		}
 
         public bool                 IsObjectInGraph(Object obj) => objectReferences.Contains(obj);
+
+        public bool                 IsExternalSubAsset(Object obj)
+        {
+#if UNITY_EDITOR
+            return AssetDatabase.GetAssetPath(obj) != mainAssetPath;
+#else
+            return false;
+#endif
+        }
 
 		public void					RemoveObjectFromGraph(Object obj)
 		{

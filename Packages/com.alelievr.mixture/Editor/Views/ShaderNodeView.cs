@@ -30,8 +30,12 @@ namespace Mixture
 
 			if (shaderNode.material != null && !owner.graph.IsObjectInGraph(shaderNode.material))
 			{
-				// AssetDatabase.IsSubAsset();
-				Debug.Log("Added!");
+				// Check if the material we have is ours
+				if (owner.graph.IsExternalSubAsset(shaderNode.material))
+				{
+					shaderNode.material = new Material(shaderNode.material);
+					shaderNode.material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+				}
 				if (shaderNode.material.shader.name != ShaderNode.DefaultShaderName)
 					owner.graph.AddObjectToGraph(shaderNode.material);
 			}

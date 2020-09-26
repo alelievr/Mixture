@@ -27,6 +27,10 @@ Improve Mixture | Utility buttons to send feature requests, issues and access th
 
 In the context menu, you'll find the basic operations to create a node or a group. Note that you can use all the usual graphview shortcuts in Mixture as well (space, f, copy/paste, ect.)
 
+When you select the nodes in your graph, they will appear inside the inspector, you can select multiple nodes at the same time. Some nodes like noises have a lot more parameters inside the inspector, to avoid the node being too heavy visually inside the graph.
+![](Images/2020-09-25-00-52-04.png)
+You can find more information about this in the [Node Inspector Documentation](NodeInspector.md).
+
 ## Baked / Static Mixture 
 
 Static mixtures are assets that are saved on the disk just like regular texture and can be compressed (only for texture 2D).
@@ -74,3 +78,5 @@ Here we use 3 output textures that are directly assigned to an HDRP material: an
 
 In the graph you have a succession of noise node with UV displacement to create a kind of marble texture, that is then used in the normal from height node which transforms the r channel of the marble into a normal map in tangent space.
 For the height texture we simple take the marble albedo and multiply the R channel by 10, the result is saved in a single 32 bit channel.
+
+You can find more mixture examples in the [Example Page](Example.md).

@@ -32,8 +32,19 @@ namespace Mixture
 			{
 				// We don't need the code for removing the material because this node can't be removed
 				foreach (var output in outputNode.outputTextureSettings)
+				{
 					if (output.finalCopyMaterial != null && !owner.graph.IsObjectInGraph(output.finalCopyMaterial))
+					{
+						// Check if the material we have is ours
+						if (owner.graph.IsExternalSubAsset(output.finalCopyMaterial))
+                        {
+                            output.finalCopyMaterial = new Material(output.finalCopyMaterial);
+                            output.finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+                        }
+
 						owner.graph.AddObjectToGraph(output.finalCopyMaterial);
+					}
+				}
 
 				outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
 				graph.onOutputTextureUpdated += UpdatePreviewImage;

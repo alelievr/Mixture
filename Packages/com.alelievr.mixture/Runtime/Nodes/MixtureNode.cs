@@ -242,7 +242,6 @@ namespace Mixture
 
 		protected virtual bool ProcessNode(CommandBuffer cmd) => true;
 
-		protected void AddObjectToGraph(Object obj) => graph.AddObjectToGraph(obj);
 		protected void RemoveObjectFromGraph(Object obj) => graph.RemoveObjectFromGraph(obj);
 
 		protected Type GetPropertyType(Shader shader, int shaderPropertyIndex)

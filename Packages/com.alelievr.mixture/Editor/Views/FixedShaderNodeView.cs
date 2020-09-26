@@ -24,6 +24,11 @@ namespace Mixture
 			{
 				if (fixedShaderNode.material != null && !owner.graph.IsObjectInGraph(fixedShaderNode.material))
 				{
+					if (owner.graph.IsExternalSubAsset(fixedShaderNode.material))
+					{
+						fixedShaderNode.material = new Material(fixedShaderNode.material);
+						fixedShaderNode.material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+					}
 					if (fixedShaderNode.material.shader.name != ShaderNode.DefaultShaderName)
 						owner.graph.AddObjectToGraph(fixedShaderNode.material);
 				}
