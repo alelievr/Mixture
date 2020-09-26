@@ -137,7 +137,7 @@ void RandomBetweenScale(uint id)
 [numthreads(64,1,1)]
 void GenerateSplatPoints(uint id : SV_DispatchThreadID)
 {
-    if (id > _ElementCount)
+    if (id > uint(_ElementCount))
         return;
 
     uint position1D = id;

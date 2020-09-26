@@ -26,7 +26,7 @@ namespace Mixture
             UpdateSceneComponents();
         }
 
-        public virtual void SetOutputSettings(SceneNode.OutputMode mode, Camera targetCamera)
+        public virtual void SetOutputSettings(PrefabCaptureNode.OutputMode mode, Camera targetCamera)
         {
             UpdateSceneComponents();
 

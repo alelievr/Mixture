@@ -11,10 +11,10 @@ namespace Mixture
     {
         Material                outputBufferMaterial;
         MaterialPropertyBlock   properties;
-        SceneNode.OutputMode    mode;
+        PrefabCaptureNode.OutputMode    mode;
         Camera                  targetCamera;
 
-        internal void SetOutputSettings(SceneNode.OutputMode mode, Camera targetCamera)
+        internal void SetOutputSettings(PrefabCaptureNode.OutputMode mode, Camera targetCamera)
         {
             this.mode = mode;
             this.targetCamera = targetCamera;
@@ -26,18 +26,17 @@ namespace Mixture
             properties = new MaterialPropertyBlock();
         }
 
-        protected override void Execute(ScriptableRenderContext renderContext, CommandBuffer cmd, HDCamera hdCamera, CullingResults cullingResult)
+        protected override void Execute(CustomPassContext ctx)
         {
-            if (hdCamera.camera != targetCamera)
+            if (ctx.hdCamera.camera != targetCamera)
                 return;
 
             // For color we don't need to do anything
-            if (mode != SceneNode.OutputMode.Color)
+            if (mode != PrefabCaptureNode.OutputMode.Color)
             {
                 properties.SetFloat("_OutputMode", (int)mode);
-                GetCameraBuffers(out var color, out var depth);
-                CoreUtils.SetRenderTarget(cmd, color, ClearFlag.Color, Color.clear);
-                CoreUtils.DrawFullScreen(cmd, outputBufferMaterial, properties, shaderPassId: 0);
+                CoreUtils.SetRenderTarget(ctx.cmd, ctx.cameraColorBuffer, ClearFlag.Color, Color.clear);
+                CoreUtils.DrawFullScreen(ctx.cmd, outputBufferMaterial, properties, shaderPassId: 0);
             }
         }
 
