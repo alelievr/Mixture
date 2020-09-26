@@ -56,13 +56,13 @@
 
 			float GenerateNoise(v2f_customrendertexture i, int seed)
 			{
-				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), seed);
+				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction).xyz, seed);
 
 #ifdef CRT_2D
-				float4 noise = GenerateCellular2DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rgbr;
+				float4 noise = GenerateCellular2DNoise(uvs.xy, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgbr;
 
 #else
-				float4 noise = GenerateCellular3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity).rgbr;
+				float4 noise = GenerateCellular3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgbr;
 #endif
 
 				switch (_CellsMode)

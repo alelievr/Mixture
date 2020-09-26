@@ -51,7 +51,7 @@ void NoiseHash3D(float3 gridcell,
     highz_hash_2 = frac(P * highz_mod.zzzz);
 }
 
-float3 perlinNoise2D(float2 coordinate)
+float3 perlinNoise2D(float2 coordinate, float seed)
 {
     // establish our grid cell and unit position
     float2 i = floor(coordinate);
@@ -93,7 +93,7 @@ float3 perlinNoise2D(float2 coordinate)
     return results * 1.4142135623730950488016887242097f;  // scale to -1.0 -> 1.0 range  *= 1.0/sqrt(0.5)
 }
 
-float4 perlinNoise3D(float3 coordinate)
+float4 perlinNoise3D(float3 coordinate, float seed)
 {
     // establish our grid cell and unit position
     float3 i = floor(coordinate);
@@ -200,10 +200,11 @@ float3 fade(float3 t) { return (t * t * t) * (t * (t * 6 - 15) + 10); }
 float3 mod(float3 x, float3 y) { return x - y * floor(x / y); }
 float4 mod(float4 x, float4 y) { return x - y * floor(x / y); }
 
-float tiledPerlinNoise2D(float2 coordinate, float2 period)
+float tiledPerlinNoise2D(float2 coordinate, float2 period, float seed)
 {
     float4 Pi = floor(float4(coordinate.x, coordinate.y, coordinate.x, coordinate.y)) + float4(0.0, 0.0, 1.0, 1.0);
     float4 Pf = frac(float4(coordinate.x, coordinate.y, coordinate.x, coordinate.y)) - float4(0.0, 0.0, 1.0, 1.0);
+    Pi += (seed * 97.9568) % 1000;
     Pi = mod(Pi, float4(period.x, period.y, period.x, period.y)); // To create noise with explicit period
     Pi = mod(Pi, 289); // To avoid truncation effects in permutation
     float4 ix = float4(Pi.x, Pi.z, Pi.x, Pi.z);
@@ -240,10 +241,12 @@ float tiledPerlinNoise2D(float2 coordinate, float2 period)
     return float(2.3) * n_xy;
 }
 
-float tiledPerlinNoise3D(float3 coordinate, float3 period)
+float tiledPerlinNoise3D(float3 coordinate, float3 period, float seed)
 {
     float3 Pi0 = mod(floor(coordinate), period); // Integer part, modulo period
     float3 Pi1 = mod(Pi0 + 1, period); // Integer part + 1, mod period
+    Pi0 += seed;
+    Pi1 += seed;
     Pi0 = mod(Pi0, 289);
     Pi1 = mod(Pi1, 289);
     float3 Pf0 = frac(coordinate); // Fractional part for interpolation
@@ -311,17 +314,17 @@ float tiledPerlinNoise3D(float3 coordinate, float3 period)
 
 #ifdef _TILINGMODE_TILED
 
-NOISE_TEMPLATE(Perlin2D, float2, float, tiledPerlinNoise2D(coordinate * frequency, frequency));
-NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D(coordinate * frequency, frequency));
-RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float, tiledPerlinNoise2D(coordinate * frequency, frequency));
-RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D(coordinate * frequency, frequency));
+NOISE_TEMPLATE(Perlin2D, float2, float, tiledPerlinNoise2D(coordinate * frequency, frequency, seed));
+NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D(coordinate * frequency, frequency, seed));
+RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float, tiledPerlinNoise2D(coordinate * frequency, frequency, seed));
+RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D(coordinate * frequency, frequency, seed));
 
 #else
 
-NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D(coordinate * frequency));
-NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D(coordinate * frequency));
-RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D(coordinate * frequency));
-RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D(coordinate * frequency));
+NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D(coordinate * frequency, seed));
+NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D(coordinate * frequency, seed));
+RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D(coordinate * frequency, seed));
+RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D(coordinate * frequency, seed));
 
 #endif
 

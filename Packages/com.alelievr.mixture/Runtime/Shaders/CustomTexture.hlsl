@@ -220,7 +220,7 @@ struct appdata_init_customrendertexture
 struct v2f_init_customrendertexture
 {
     float4 vertex : SV_POSITION;
-    float2 texcoord : TEXCOORD0;
+    float3 texcoord : TEXCOORD0;
     float3 direction : TEXCOORD1;
 };
 

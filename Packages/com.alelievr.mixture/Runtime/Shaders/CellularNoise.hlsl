@@ -60,7 +60,7 @@ float3 modulo(float3 divident, float3 divisor)
     return positiveDivident % divisor;
 }
 
-float3 tiledCellularNoise2D(float2 coordinate, float2 period)
+float3 tiledCellularNoise2D(float2 coordinate, float2 period, float seed)
 {
     float2 baseCell = floor(coordinate);
 
@@ -114,7 +114,7 @@ float3 tiledCellularNoise2D(float2 coordinate, float2 period)
     return float3(pow(abs(minDistToCell), 2.2), random, minEdgeDistance); // Gamma convertion
 }
 
-float3 tiledCellularNoise3D(float3 coordinate, float3 period)
+float3 tiledCellularNoise3D(float3 coordinate, float3 period, float seed)
 {
     float3 baseCell = floor(coordinate);
 
@@ -173,27 +173,27 @@ float3 tiledCellularNoise3D(float3 coordinate, float3 period)
     return float3(pow(minDistToCell, 2.2), random, minEdgeDistance);
 }
 
-float3 GenerateCellularNoise2D(float2 coordinate) { return tiledCellularNoise2D(coordinate, float2(100000, 100000)); }
-float3 GenerateCellularNoise3D(float3 coordinate) { return tiledCellularNoise3D(coordinate, float3(100000, 100000, 100000)); }
-float3 GenerateRidgedCellularNoise2D(float2 coordinate) { return tiledCellularNoise2D(coordinate, float2(100000, 100000)) * 2 - 1; }
-float3 GenerateRidgedCellularNoise3D(float3 coordinate) { return tiledCellularNoise3D(coordinate, float3(100000, 100000, 100000)) * 2 - 1; }
+float3 GenerateCellularNoise2D(float2 coordinate, float seed) { return tiledCellularNoise2D(coordinate, float2(100000, 100000), seed); }
+float3 GenerateCellularNoise3D(float3 coordinate, float seed) { return tiledCellularNoise3D(coordinate, float3(100000, 100000, 100000), seed); }
+float3 GenerateRidgedCellularNoise2D(float2 coordinate, float seed) { return tiledCellularNoise2D(coordinate, float2(100000, 100000), seed) * 2 - 1; }
+float3 GenerateRidgedCellularNoise3D(float3 coordinate, float seed) { return tiledCellularNoise3D(coordinate, float3(100000, 100000, 100000), seed) * 2 - 1; }
 
-float3 ridgedTiledCellularNoise2D(float2 coordinate, float2 period) { return tiledCellularNoise2D(coordinate, period) * 2 - 1; }
-float3 ridgedTiledCellularNoise3D(float3 coordinate, float3 period) { return tiledCellularNoise3D(coordinate, period) * 2 - 1; }
+float3 ridgedTiledCellularNoise2D(float2 coordinate, float2 period, float seed) { return tiledCellularNoise2D(coordinate, period, seed) * 2 - 1; }
+float3 ridgedTiledCellularNoise3D(float3 coordinate, float3 period, float seed) { return tiledCellularNoise3D(coordinate, period, seed) * 2 - 1; }
 
 #ifdef _TILINGMODE_TILED
 
-NOISE_TEMPLATE(Cellular2D, float2, float3, tiledCellularNoise2D(coordinate * frequency, frequency));
-NOISE_TEMPLATE(Cellular3D, float3, float3, tiledCellularNoise3D(coordinate * frequency, frequency));
-RIDGED_NOISE_TEMPLATE(Cellular2D, float2, float3, ridgedTiledCellularNoise2D(coordinate * frequency, frequency));
-RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float3, ridgedTiledCellularNoise3D(coordinate * frequency, frequency));
+NOISE_TEMPLATE(Cellular2D, float2, float3, tiledCellularNoise2D(coordinate * frequency, frequency, seed));
+NOISE_TEMPLATE(Cellular3D, float3, float3, tiledCellularNoise3D(coordinate * frequency, frequency, seed));
+RIDGED_NOISE_TEMPLATE(Cellular2D, float2, float3, ridgedTiledCellularNoise2D(coordinate * frequency, frequency, seed));
+RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float3, ridgedTiledCellularNoise3D(coordinate * frequency, frequency, seed));
 
 #else
 
-NOISE_TEMPLATE(Cellular2D, float2, float3, GenerateCellularNoise2D(coordinate * frequency));
-NOISE_TEMPLATE(Cellular3D, float3, float3, GenerateCellularNoise3D(coordinate * frequency));
-RIDGED_NOISE_TEMPLATE(Cellular2D, float2, float3, GenerateRidgedCellularNoise2D(coordinate * frequency));
-RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float3, GenerateRidgedCellularNoise3D(coordinate * frequency));
+NOISE_TEMPLATE(Cellular2D, float2, float3, GenerateCellularNoise2D(coordinate * frequency, seed));
+NOISE_TEMPLATE(Cellular3D, float3, float3, GenerateCellularNoise3D(coordinate * frequency, seed));
+RIDGED_NOISE_TEMPLATE(Cellular2D, float2, float3, GenerateRidgedCellularNoise2D(coordinate * frequency, seed));
+RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float3, GenerateRidgedCellularNoise3D(coordinate * frequency, seed));
 
 #endif
 

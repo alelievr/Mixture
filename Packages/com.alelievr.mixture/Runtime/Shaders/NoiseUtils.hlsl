@@ -46,7 +46,7 @@ float Distance(float3 p)
 float Distance(float2 p) { return Distance(float3(p, 0)); }
 
 #define NOISE_TEMPLATE(NAME, COORDINATE_TYPE, RETURN_TYPE, FUNC_CALL) \
-RETURN_TYPE Generate##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
+RETURN_TYPE Generate##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, int octaveCount, float persistence, float lacunarity, float seed) \
 { \
     RETURN_TYPE total = 0.0f; \
     if (DISTANCE_ALGORITHM != EUCLIDEAN_DISTANCE) \
@@ -70,7 +70,7 @@ RETURN_TYPE Generate##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, i
 }
 
 #define RIDGED_NOISE_TEMPLATE(NAME, COORDINATE_TYPE, RETURN_TYPE, FUNC_CALL) \
-RETURN_TYPE GenerateRidged##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
+RETURN_TYPE GenerateRidged##NAME##Noise(COORDINATE_TYPE coordinate, float frequency, int octaveCount, float persistence, float lacunarity, float seed) \
 { \
     RETURN_TYPE total = 0.0f; \
     if (DISTANCE_ALGORITHM != EUCLIDEAN_DISTANCE) \
