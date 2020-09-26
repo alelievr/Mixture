@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Custom/Distance")]
+	[System.Serializable, NodeMenuItem("Operators/Distance")]
 	public class Distance : ComputeShaderNode
 	{
 		[Input("Input")]

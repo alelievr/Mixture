@@ -8,7 +8,7 @@ using System;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Rasterize 3D Mesh"), NodeMenuItem("Mesh To Volume")]
+	[System.Serializable, NodeMenuItem("Mesh/Rasterize 3D Mesh"), NodeMenuItem("Mesh/Mesh To Volume")]
 	public class MeshToUDF : ComputeShaderNode
 	{
         public enum Resolution

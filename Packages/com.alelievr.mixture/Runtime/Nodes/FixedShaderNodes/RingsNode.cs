@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Custom/Rings")]
+	[System.Serializable, NodeMenuItem("Procedural/Rings")]
 	public class RingsNode : FixedShaderNode
 	{
 		public override string name => "Rings";

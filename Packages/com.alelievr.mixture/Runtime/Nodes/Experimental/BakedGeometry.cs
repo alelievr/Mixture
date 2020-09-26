@@ -8,7 +8,7 @@ using System;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Baked Geometry")]
+	[System.Serializable, NodeMenuItem("Experimental/Baked Geometry")]
 	public class BakedGeometry : MixtureNode
 	{
 		[Input("Input Meshes")]

@@ -7,7 +7,7 @@ using System;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Mesh")]
+	[System.Serializable, NodeMenuItem("Mesh/Mesh")]
 	public class MeshNode : MixtureNode
 	{
 		[Output("Mesh")]

@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Meshing/IsoSurface (Marching Cubes)")]
+	[System.Serializable, NodeMenuItem("Mesh/IsoSurface (Marching Cubes)")]
 	public class IsoSurface : ComputeShaderNode
 	{
 		[Input("Volume")]

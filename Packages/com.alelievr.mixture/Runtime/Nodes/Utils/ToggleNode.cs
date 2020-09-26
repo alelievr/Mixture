@@ -5,7 +5,7 @@ using GraphProcessor;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Toggle")]
+	[System.Serializable, NodeMenuItem("Constants/Toggle")]
     public class ToggleNode : MixtureNode
     {
 		public override bool hasSettings => false;

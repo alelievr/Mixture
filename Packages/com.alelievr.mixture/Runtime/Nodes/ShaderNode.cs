@@ -10,7 +10,8 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Shader")]
 	public class ShaderNode : MixtureNode, IUseCustomRenderTextureProcessing
 	{
-		public static readonly string	DefaultShaderName = "ShaderNodeDefault";
+		public static readonly string	DefaultShaderResourcePath = "ShaderNodeDefault";
+		public static readonly string	DefaultShaderName = "Shader Graphs/ShaderNodeDefault";
 
 		[Input(name = "In")]
 		public List< object >		materialInputs;
@@ -40,7 +41,7 @@ namespace Mixture
 
 		protected override void Enable()
 		{
-			defaultShader = Resources.Load<Shader>(DefaultShaderName);
+			defaultShader = Resources.Load<Shader>(DefaultShaderResourcePath);
 
 			if (material == null)
 			{

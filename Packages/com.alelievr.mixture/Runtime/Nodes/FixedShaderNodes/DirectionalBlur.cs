@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Custom/Directional Blur")]
+	[System.Serializable, NodeMenuItem("Operators/Directional Blur")]
 	public class DirectionalBlur : FixedShaderNode
 	{
 		public override string name => "DirectionalBlur";

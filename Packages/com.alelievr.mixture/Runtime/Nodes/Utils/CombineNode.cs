@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Custom/Combine")]
+	[System.Serializable, NodeMenuItem("Operators/Combine")]
 	public class CombineNode : FixedShaderNode
 	{
 		public override string name => "CombineNode";

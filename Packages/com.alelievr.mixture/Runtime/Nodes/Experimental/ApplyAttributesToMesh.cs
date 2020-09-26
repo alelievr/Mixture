@@ -10,7 +10,7 @@ using Unity.Collections;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Apply Attributes To Mesh")]
+	[System.Serializable, NodeMenuItem("Experimental/Apply Attributes To Mesh")]
 	public class ApplyAttributesToMesh : MixtureNode
 	{
 		[Input("Mesh")]

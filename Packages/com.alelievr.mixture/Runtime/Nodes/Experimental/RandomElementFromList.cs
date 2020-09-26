@@ -10,7 +10,7 @@ using Random = System.Random;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Get Element From List")]
+	[System.Serializable, NodeMenuItem("Experimental/Get Element From List")]
 	public class RandomElementFromList : MixtureNode
 	{
         [Input("List")]

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Custom/Normal Rotation")]
+	[System.Serializable, NodeMenuItem("Normal/Normal Rotation")]
 	public class NormalRotate : FixedShaderNode
 	{
 		public override string name => "Normal Rotate";

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-    [System.Serializable, NodeMenuItem("Cubemap/Cube to 2D LatLon")]
+    [System.Serializable, NodeMenuItem("Utils/Cube to 2D LatLon")]
     public class CubeTo2DLatLonNode : FixedShaderNode
     {
         public override string name => "Cube to 2D LatLon";

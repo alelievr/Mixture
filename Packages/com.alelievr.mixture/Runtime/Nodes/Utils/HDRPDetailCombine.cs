@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Custom/Detail Combine (HDRP)")]
+	[System.Serializable, NodeMenuItem("Operators/Detail Combine (HDRP)")]
 	public class HDRPDetailCombine : FixedShaderNode
 	{
 		public override string name => "Detail Combine (HDRP)";

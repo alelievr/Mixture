@@ -7,7 +7,7 @@ using System;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("For Start")]
+	[System.Serializable, NodeMenuItem("Flow/For Start")]
 	public class ForStart : MixtureNode, ILoopStart
 	{
 		[Input]

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Custom/Normal Blend")]
+[System.Serializable, NodeMenuItem("Normal/Normal Blend")]
 	public class NormalBlend : FixedShaderNode
 	{
 		public override string name => "Normal Blend";

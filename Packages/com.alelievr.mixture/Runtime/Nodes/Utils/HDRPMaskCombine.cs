@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Custom/Combine Mask (HDRP)")]
+	[System.Serializable, NodeMenuItem("Operators/Combine Mask (HDRP)")]
 	public class HDRPMaskCombine : FixedShaderNode
 	{
 		public override string name => "Combine Mask (HDRP)";

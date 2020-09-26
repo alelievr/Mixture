@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Transform Mesh")]
+	[System.Serializable, NodeMenuItem("Experimental/Transform Mesh")]
 	public class TransformMesh : MixtureNode
 	{
 		[Input("Mesh")]

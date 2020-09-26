@@ -7,7 +7,7 @@ using System;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Switch"), NodeMenuItem("Select")]
+	[System.Serializable, NodeMenuItem("Flow/Switch"), NodeMenuItem("Flow/Select")]
 	public class Switch : MixtureNode
 	{
 		[Input]

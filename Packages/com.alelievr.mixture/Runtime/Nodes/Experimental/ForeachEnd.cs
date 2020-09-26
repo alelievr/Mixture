@@ -8,7 +8,7 @@ using System;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Foreach End")]
+	[System.Serializable, NodeMenuItem("Experimental/Foreach End")]
 	public class ForeachEnd : MixtureNode
 	{
 		public enum AggregationMode

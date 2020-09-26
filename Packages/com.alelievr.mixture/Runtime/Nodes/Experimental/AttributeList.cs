@@ -15,7 +15,7 @@ namespace Mixture
 
     }
 
-	[System.Serializable, NodeMenuItem("Attribute List")]
+	[System.Serializable, NodeMenuItem("Experimental/Attribute List")]
 	public class AttributeList : MixtureNode
 	{
         [Output("Output")]

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
@@ -7,7 +8,7 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Custom/Blur")]
+	[System.Serializable, NodeMenuItem("Operators/Blur")]
 	public class Blur : FixedShaderNode
 	{
 		public override string name => "Blur";

@@ -22,8 +22,8 @@ When you are satisfied with the setup in the prefab, click on 'Save Current View
 Note that this node is currently only available with HDRP.
 ")]
 
-	[System.Serializable, NodeMenuItem("Utils/Scene Capture (HDRP only)")]
-	public class SceneNode : MixtureNode
+	[System.Serializable, NodeMenuItem("Utils/Prefab Capture (HDRP only)")]
+	public class PrefabCaptureNode : MixtureNode
 	{
         [System.Serializable]
         public enum OutputMode
@@ -48,7 +48,7 @@ Note that this node is currently only available with HDRP.
         public OutputMode mode;
 
 		public override bool 	hasSettings => false;
-		public override string	name => "Scene Capture (HDRP only)";
+		public override string	name => "Prefab Capture (HDRP only)";
 		public override float	nodeWidth => 200;
 		public override Texture	previewTexture => prefabOpened ? (Texture)tmpRenderTexture : savedTexture;
 

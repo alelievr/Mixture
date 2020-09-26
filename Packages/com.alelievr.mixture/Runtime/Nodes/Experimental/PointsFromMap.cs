@@ -10,7 +10,7 @@ using Unity.Collections;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Points From Map")]
+	[System.Serializable, NodeMenuItem("Experimental/Points From Map")]
 	public class PointsFromMap : MixtureNode
 	{
 		[Input("Map")]

@@ -8,7 +8,7 @@ using System;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Foreach Start")]
+	[System.Serializable, NodeMenuItem("Experimental/Foreach Start")]
 	public class ForeachStart : MixtureNode
 	{
 		public enum ForeachType

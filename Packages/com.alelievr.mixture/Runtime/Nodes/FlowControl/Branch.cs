@@ -7,7 +7,7 @@ using System;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Branch"), NodeMenuItem("If")]
+	[System.Serializable, NodeMenuItem("Flow/Branch"), NodeMenuItem("Flow/If")]
 	public class Branch : MixtureNode
 	{
         [Input]

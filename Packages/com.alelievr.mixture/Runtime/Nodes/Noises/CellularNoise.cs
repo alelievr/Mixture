@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Noises/Cellular Noise")]
+	[System.Serializable, NodeMenuItem("Noises/Cellular Noise"), NodeMenuItem("Noises/Voronoi Noise")]
 	public class CellularNoise : FixedNoiseNode
 	{
 		public override string name => "Cellular Noise";

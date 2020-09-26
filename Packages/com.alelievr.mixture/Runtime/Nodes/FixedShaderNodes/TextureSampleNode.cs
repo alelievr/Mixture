@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Sample/Texture Sample")]
+	[System.Serializable, NodeMenuItem("Utils/Texture Sample")]
 	public class TextureSampleNode : FixedShaderNode
 	{
 		public override string name => "Texture Sample";
