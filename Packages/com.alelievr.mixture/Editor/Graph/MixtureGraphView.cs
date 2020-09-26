@@ -136,6 +136,8 @@ namespace Mixture
 			{
 				var oldShaderNode = sourceNode as ShaderNode;
 				var duplicatedMaterial = new Material(oldShaderNode.material);
+				duplicatedMaterial.hideFlags = oldShaderNode.material.hideFlags;
+				Debug.Log(duplicatedMaterial.hideFlags);
 
 				s.material = duplicatedMaterial;
 				graph.AddObjectToGraph(duplicatedMaterial);

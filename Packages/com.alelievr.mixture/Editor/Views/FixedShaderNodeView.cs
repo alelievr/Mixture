@@ -23,7 +23,10 @@ namespace Mixture
 			if (!fromInspector)
 			{
 				if (fixedShaderNode.material != null && !owner.graph.IsObjectInGraph(fixedShaderNode.material))
-					owner.graph.AddObjectToGraph(fixedShaderNode.material);
+				{
+					if (fixedShaderNode.material.shader.name != ShaderNode.DefaultShaderName)
+						owner.graph.AddObjectToGraph(fixedShaderNode.material);
+				}
 
 				InitializeDebug();
 

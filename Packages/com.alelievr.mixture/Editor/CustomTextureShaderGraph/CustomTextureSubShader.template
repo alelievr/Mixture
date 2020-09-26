@@ -17,6 +17,9 @@ Pass
 
 	CGPROGRAM
 	#include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
+	// TODO: move this to HLSLPROGRAM
+	#undef SAMPLE_DEPTH_TEXTURE
+	#undef SAMPLE_DEPTH_TEXTURE_LOD
 	#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/CustomTexture.hlsl"
 	#include "Packages/com.alelievr.mixture/Runtime/CustomTextureShaderGraph/CustomTextureGraph.hlsl"

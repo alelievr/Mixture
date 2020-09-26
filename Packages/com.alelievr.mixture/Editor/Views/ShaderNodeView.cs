@@ -29,7 +29,12 @@ namespace Mixture
 			base.Enable(fromInspector);
 
 			if (shaderNode.material != null && !owner.graph.IsObjectInGraph(shaderNode.material))
-				owner.graph.AddObjectToGraph(shaderNode.material);
+			{
+				// AssetDatabase.IsSubAsset();
+				Debug.Log("Added!");
+				if (shaderNode.material.shader.name != ShaderNode.DefaultShaderName)
+					owner.graph.AddObjectToGraph(shaderNode.material);
+			}
 
 			var shaderField = AddControlField(nameof(ShaderNode.shader)) as ObjectField;
 			controlsContainer.Add(shaderField);

@@ -7,10 +7,10 @@ using UnityEditor.SceneManagement;
 
 namespace Mixture
 {
-	[NodeCustomEditor(typeof(SceneNode))]
-	public class SceneNodeView : MixtureNodeView
+	[NodeCustomEditor(typeof(PrefabCaptureNode))]
+	public class PrefabCaptureNodeView : MixtureNodeView
 	{
-		SceneNode		sceneNode => nodeTarget as SceneNode;
+		PrefabCaptureNode		sceneNode => nodeTarget as PrefabCaptureNode;
 
         GameObject  openedPrefabRoot;
         string      openedPrefabPath;
@@ -43,7 +43,7 @@ namespace Mixture
                 PrefabOpened(stage);
 		}
 
-        ~SceneNodeView()
+        ~PrefabCaptureNodeView()
         {
             EditorApplication.update -= RenderPrefabScene;
         }
