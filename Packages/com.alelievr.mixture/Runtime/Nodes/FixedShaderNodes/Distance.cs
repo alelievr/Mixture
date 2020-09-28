@@ -123,7 +123,11 @@ namespace Mixture
 			return true;
 		}
 
-        protected override void Disable() => CoreUtils.Destroy(output);
+        protected override void Disable()
+		{
+			base.Disable();
+			CoreUtils.Destroy(output);
+		}
 
 		public CustomRenderTexture GetCustomRenderTexture() => output;
 	}

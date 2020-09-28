@@ -69,6 +69,7 @@ namespace Mixture
 
         protected override void Disable()
         {
+			base.Disable();
             vertices.Release();
         }
 

@@ -56,7 +56,11 @@ namespace Mixture
             props = new MaterialPropertyBlock();
 		}
 
-        protected override void Disable() => CoreUtils.Destroy(outputVolume);
+        protected override void Disable()
+        {
+            base.Disable();
+            CoreUtils.Destroy(outputVolume);
+        }
 
 		[CustomPortBehavior(nameof(inputMeshes))]
 		public IEnumerable< PortData > InputMeshesDisplayType(List< SerializableEdge > edges)

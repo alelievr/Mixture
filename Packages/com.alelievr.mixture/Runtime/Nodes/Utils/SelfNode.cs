@@ -44,6 +44,7 @@ namespace Mixture
 
         protected override void Disable()
 		{
+			base.Disable();
 			initialization = false;
 			CoreUtils.Destroy(output);
 		}

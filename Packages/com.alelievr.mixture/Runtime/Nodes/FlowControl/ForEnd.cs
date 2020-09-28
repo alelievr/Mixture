@@ -212,6 +212,7 @@ namespace Mixture
 
 		protected override void Disable()
 		{
+			base.Disable();
 			if (doubleBufferForEnd != null)
 				doubleBufferForEnd.Release();
 		}

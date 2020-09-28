@@ -53,7 +53,11 @@ namespace Mixture
 			};
 		}
 
-        protected override void Disable() => CoreUtils.Destroy(preview);
+        protected override void Disable()
+		{
+			base.Disable();
+			CoreUtils.Destroy(preview);
+		}
 
 		// // Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code
 		// [CustomPortBehavior(nameof(materialInputs))]

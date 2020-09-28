@@ -115,6 +115,8 @@ Note that this node is currently only available with HDRP.
 
         protected override void Disable()
         {
+            base.Disable();
+
             if (prefabCamera != null)
                 prefabCamera.targetTexture = null;
 
