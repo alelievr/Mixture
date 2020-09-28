@@ -19,6 +19,9 @@ namespace Mixture
         public Shader						customMipMapShader = null;
         public bool                         isMain = false;
 
+        public bool                         enableConversion = false;
+        public ConversionFormat             conversionFormat;
+
         public Material						finalCopyMaterial = null;
         [NonSerialized]
         public CustomRenderTexture			finalCopyRT = null;
@@ -56,6 +59,12 @@ namespace Mixture
             DetailHDRP,
             DetailURP,
         }
+
+        public bool IsCompressionEnabled()
+            => enableCompression && finalCopyRT.dimension == TextureDimension.Tex2D;
+
+        public bool IsConversionEnabled()
+            => enableConversion && (finalCopyRT.dimension == TextureDimension.Tex3D || finalCopyRT.dimension == TextureDimension.Cube);
 
         public void SetupPreset(Preset preset, Func<string, string> getUniqueName)
         {

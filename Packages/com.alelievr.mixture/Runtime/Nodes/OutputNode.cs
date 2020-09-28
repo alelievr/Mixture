@@ -16,33 +16,12 @@ namespace Mixture
 
 		public OutputTextureSettings mainOutput => outputTextureSettings[0];
 
-		// TODO: custom input and behavior functions
-
-		// [Input(name = "In")]
-		// public Texture			input;
-
-		// public bool				hasMips = false;
-
-		// public Shader			customMipMapShader;
-
-		// We use a temporary renderTexture to display the result of the graph
-		// in the preview so we don't have to readback the memory each time we change something
-
 		public event Action			onTempRenderTextureUpdated;
 
 		public override string		name => "Output Texture Asset";
 		public override Texture 	previewTexture => graph.isRealtime ? graph.mainOutputTexture : outputTextureSettings.Count > 0 ? outputTextureSettings[0].finalCopyRT : null;
 		public override float		nodeWidth => 350;
 
-		// [SerializeField]
-		// internal Material			finalCopyMaterial;
-
-
-		// Compression settings
-		// public TextureFormat		compressionFormat = TextureFormat.DXT5;
-		// public MixtureCompressionQuality	compressionQuality = MixtureCompressionQuality.Best;
-		// public bool							enableCompression = false;
-		
 		// TODO: move this to NodeGraphProcessor
 		[NonSerialized]
 		protected HashSet< string > uniqueMessages = new HashSet< string >();
@@ -174,6 +153,7 @@ namespace Mixture
 
         protected override void Disable()
 		{
+			base.Disable();
 			foreach (var output in outputTextureSettings)
 			{
 				if (!graph.isRealtime)
@@ -275,9 +255,7 @@ namespace Mixture
 				MixtureUtils.SetupDimensionKeyword(targetOutput.finalCopyMaterial, input.dimension);
 
 				if (input.dimension == TextureDimension.Tex2D)
-				{
 					targetOutput.finalCopyMaterial.SetTexture("_Source_2D", input);
-				}
 				else if (input.dimension == TextureDimension.Tex3D)
 					targetOutput.finalCopyMaterial.SetTexture("_Source_3D", input);
 				else

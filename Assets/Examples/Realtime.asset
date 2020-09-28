@@ -1,0 +1,198 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &-2078482552250558461
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/RidgedPerlinNoise
+  m_Shader: {fileID: 4800000, guid: 49eed0c8b6dca3949a7864570e424043, type: 3}
+  m_ShaderKeywords: CRT_2D _TILINGMODE_TILED
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _UV_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Channels: 4
+    - _Frequency: 3
+    - _Lacunarity: 2
+    - _Octaves: 4
+    - _Persistance: 0.59380764
+    - _Seed: 42
+    - _TilingMode: 1
+    m_Colors:
+    - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b113f958e0564f309164e29c24b042d, type: 3}
+  m_Name: Realtime
+  m_EditorClassIdentifier: 
+  serializedNodes:
+  - type: Mixture.OutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"691aa737-9a89-40dd-b56d-201a248e396d","computeOrder":3,"position":{"serializedVersion":"2","x":-44.0,"y":-44.5,"width":320.0,"height":463.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"outputChannels":1,"outputPrecision":4,"editFlags":469,"doubleBuffered":false,"wrapMode":0,"filterMode":0,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"outputTextureSettings":[{"inputTexture":{"instanceID":0},"name":"Main
+      Texture","enableCompression":true,"compressionFormat":12,"compressionQuality":100,"hasMipMaps":false,"customMipMapShader":{"instanceID":0},"isMain":true,"enableConversion":false,"conversionFormat":0,"finalCopyMaterial":{"fileID":5955598688977446854,"guid":"64c601f088c70844493567d2c395cf31","type":2}}]}'
+  - type: Mixture.RidgedPerlinNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"45b55e43-50ed-49df-b940-105b197c4bb0","computeOrder":2,"position":{"serializedVersion":"2","x":-312.0,"y":-44.0,"width":250.0,"height":585.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":255,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"49eed0c8b6dca3949a7864570e424043","type":3},"material":{"fileID":-2078482552250558461,"guid":"64c601f088c70844493567d2c395cf31","type":2}}'
+  - type: Mixture.TimeNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"3fd32b5b-8edd-4948-a1ef-e34f4d5d42dc","computeOrder":0,"position":{"serializedVersion":"2","x":-707.0,"y":4.0,"width":120.0,"height":178.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"time":20364.57421875,"sinTime":0.6965932250022888,"cosTime":0.7174662351608276,"deltaTime":0.02360990084707737,"frameCount":211278.0}'
+  - type: Mixture.VectorRemapNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"0f096cfa-9d5f-4086-9aaa-b326aaf6027b","computeOrder":1,"position":{"serializedVersion":"2","x":-570.0,"y":28.0,"width":250.0,"height":166.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"a":{"x":0.6965932250022888,"y":0.6965932250022888,"z":0.6965932250022888,"w":0.6965932250022888},"o":{"x":0.5938076376914978,"y":0.5938076376914978,"z":0.5938076376914978,"w":0.5938076376914978},"inputMin":-1.0,"inputMax":1.0,"outputMin":0.0,"outputMax":0.699999988079071}'
+  edges:
+  - GUID: a036f0bd-ea59-43a6-849e-214a768ed5a4
+    owner: {fileID: 11400000}
+    inputNodeGUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
+    outputNodeGUID: 3fd32b5b-8edd-4948-a1ef-e34f4d5d42dc
+    inputFieldName: a
+    outputFieldName: sinTime
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 0d196eb0-5c4c-4c50-a338-e78cebc405c4
+    owner: {fileID: 11400000}
+    inputNodeGUID: 691aa737-9a89-40dd-b56d-201a248e396d
+    outputNodeGUID: 45b55e43-50ed-49df-b940-105b197c4bb0
+    inputFieldName: outputTextureSettings
+    outputFieldName: output
+    inputPortIdentifier: Main Texture
+    outputPortIdentifier: output
+  - GUID: cdf4c166-109b-4c40-9fbf-86a300eb0a07
+    owner: {fileID: 11400000}
+    inputNodeGUID: 45b55e43-50ed-49df-b940-105b197c4bb0
+    outputNodeGUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
+    inputFieldName: materialInputs
+    outputFieldName: o
+    inputPortIdentifier: _Persistance
+    outputPortIdentifier: 
+  groups: []
+  stackNodes: []
+  pinnedElements: []
+  exposedParameters: []
+  stickyNotes: []
+  position: {x: 708, y: 256, z: 0}
+  scale: {x: 0.8695652, y: 0.8695652, z: 1}
+  realtimePreview: 1
+  isRealtime: 1
+  isParameterViewOpen: 0
+  objectReferences:
+  - {fileID: 5955598688977446854}
+  - {fileID: -2078482552250558461}
+  _mainOutputTexture: {fileID: 7205199262787290229}
+  _outputTextures:
+  - {fileID: 7205199262787290229}
+  - {fileID: 7205199262787290229}
+  references:
+    version: 1
+--- !u!21 &5955598688977446854
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/FinalCopy
+  m_Shader: {fileID: 4800000, guid: 513c040fbfb854aebb92cf147e30125a, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+--- !u!86 &7205199262787290229
+CustomRenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Realtime
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 3
+  m_Width: 512
+  m_Height: 512
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthFormat: 2
+  m_ColorFormat: 52
+  m_MipMap: 0
+  m_GenerateMips: 0
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_Material: {fileID: 5955598688977446854}
+  m_InitSource: 0
+  m_InitMaterial: {fileID: 0}
+  m_InitColor: {r: 1, g: 1, b: 1, a: 1}
+  m_InitTexture: {fileID: 0}
+  m_UpdateMode: 1
+  m_InitializationMode: 2
+  m_UpdateZoneSpace: 0
+  m_CurrentUpdateZoneSpace: 0
+  m_UpdateZones: []
+  m_UpdatePeriod: 0
+  m_ShaderPass: 0
+  m_CubemapFaceMask: 4294967295
+  m_DoubleBuffered: 0
+  m_WrapUpdateZones: 0

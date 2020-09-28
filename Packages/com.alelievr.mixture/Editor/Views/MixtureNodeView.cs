@@ -426,7 +426,12 @@ namespace Mixture
 				
 				if (node.previewTexture.dimension == TextureDimension.Tex3D)
 				{
+					EditorGUI.BeginChangeCheck();
+					EditorGUIUtility.labelWidth = 70;
 					node.previewSlice = EditorGUILayout.Slider("3D Slice", node.previewSlice, 0, TextureUtils.GetSliceCount(node.previewTexture) - 1);
+					EditorGUIUtility.labelWidth = 0;
+					if (EditorGUI.EndChangeCheck())
+						MarkDirtyRepaint();
 				}
 
 				DrawPreviewCommonSettings(node.previewTexture);

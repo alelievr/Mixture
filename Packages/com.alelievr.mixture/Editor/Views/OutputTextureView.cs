@@ -33,6 +33,10 @@ namespace Mixture
         Button createMipMapShaderButton;
         Label portName;
         Button removeOutputButton;
+        Toggle enableConversion;
+        EnumField conversionFormat;
+        VisualElement conversionSettings;
+        VisualElement mipmapSettings;
 
         // state:
         bool settingsState;
@@ -49,6 +53,7 @@ namespace Mixture
 
             LoadOutputElements();
             InitializeView();
+            RefreshSettings();
         }
 
         void LoadOutputElements()
@@ -68,7 +73,13 @@ namespace Mixture
             createMipMapShaderButton = this.Q("NewMipMapShader") as Button;
             mipmapShaderField = this.Q("ShaderField") as ObjectField;
             removeOutputButton = this.Q("RemoveButton") as Button;
+            conversionSettings = this.Q("ConversionSettings");
+            conversionFormat = this.Q("ConversionFormat") as EnumField;
+            enableConversion = this.Q("EnableConversion") as Toggle;
+            mipmapSettings = this.Q("MipMapSettings");
         }
+
+        bool supportCustomMipMaps => node.rtSettings.GetTextureDimension(graphView.graph) == TextureDimension.Tex2D;
 
         void InitializeView()
         {
@@ -141,7 +152,8 @@ namespace Mixture
 
 			enableMipMap.RegisterValueChangedCallback(e => {
 				targetSettings.hasMipMaps = e.newValue;
-				mipmapFields.style.display = targetSettings.hasMipMaps ? DisplayStyle.Flex : DisplayStyle.None;
+                if (supportCustomMipMaps)
+                    mipmapFields.style.display = targetSettings.hasMipMaps ? DisplayStyle.Flex : DisplayStyle.None;
 			});
             enableMipMap.value = targetSettings.hasMipMaps;
 
@@ -150,13 +162,73 @@ namespace Mixture
                 nodeView.ForceUpdatePorts();
             };
 
+            enableConversion.RegisterValueChangedCallback(e => {
+				graphView.RegisterCompleteObjectUndo("Changed Conversion value");
+                targetSettings.enableConversion = e.newValue;
+                conversionFormat.style.display = e.newValue ? DisplayStyle.Flex : DisplayStyle.None;
+            });
+            enableConversion.value = targetSettings.enableConversion;
+
+            conversionFormat.RegisterValueChangedCallback(e => {
+				graphView.RegisterCompleteObjectUndo("Changed Conversion Format");
+                targetSettings.conversionFormat = (ConversionFormat)e.newValue;
+            });
+            conversionFormat.value = targetSettings.conversionFormat;
+
             // Initial view state
             portSettings.style.display = DisplayStyle.None;
             compressionFields.style.display = targetSettings.enableCompression ? DisplayStyle.Flex : DisplayStyle.None;
 			mipmapFields.style.display = targetSettings.hasMipMaps ? DisplayStyle.Flex : DisplayStyle.None;
             portNameField.style.display = DisplayStyle.None;
+            conversionFormat.style.display = targetSettings.enableConversion ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
+        public void RefreshSettings()
+        {
+            var dimension = node.rtSettings.GetTextureDimension(graphView.graph);
+
+            if (graphView.graph.isRealtime)
+            {
+                // In realtime we don't support compression or conversion
+                compressionFields.style.display = DisplayStyle.None;
+                enableCompression.style.display = DisplayStyle.None;
+                conversionSettings.style.display = DisplayStyle.None;
+                mipmapSettings.style.display = DisplayStyle.Flex;
+
+                mipmapFields.style.display = supportCustomMipMaps ? DisplayStyle.Flex : DisplayStyle.None;
+            }
+            else
+            {
+                switch (dimension)
+                {
+                    case TextureDimension.Tex2D:
+                        // Tex2D supports compression + custom mip maps and we hide conversion settings (compression should be enough)
+                        compressionFields.style.display = DisplayStyle.Flex;
+                        enableCompression.style.display = DisplayStyle.Flex;
+                        conversionSettings.style.display = DisplayStyle.None;
+                        mipmapSettings.style.display = DisplayStyle.Flex;
+                        if (targetSettings.hasMipMaps)
+                            mipmapFields.style.display = DisplayStyle.Flex;
+                        break;
+                    case TextureDimension.Tex3D:
+                        // Tex3D supports conversion but not compression, mipmap but not custom mipmaps.
+                        compressionFields.style.display = DisplayStyle.None;
+                        enableCompression.style.display = DisplayStyle.None;
+                        conversionSettings.style.display = DisplayStyle.Flex;
+                        mipmapSettings.style.display = DisplayStyle.Flex;
+                        mipmapFields.style.display = DisplayStyle.None;
+                        break;
+                    case TextureDimension.Cube:
+                        // Cubemaps supports conversion but not compression, mipmap but not custom mipmaps.
+                        compressionFields.style.display = DisplayStyle.None;
+                        enableCompression.style.display = DisplayStyle.None;
+                        conversionSettings.style.display = DisplayStyle.Flex;
+                        mipmapSettings.style.display = DisplayStyle.Flex;
+                        mipmapFields.style.display = DisplayStyle.None;
+                        break;
+                }
+            }
+        }
 
         public void MovePort(PortView portView)
         {

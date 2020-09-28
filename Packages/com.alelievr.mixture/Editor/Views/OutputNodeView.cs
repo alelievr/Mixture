@@ -46,7 +46,11 @@ namespace Mixture
 					}
 				}
 
-				outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
+				outputNode.onTempRenderTextureUpdated += () => {
+					foreach (var view in inputPortElements.Values)
+						view.RefreshSettings();
+					UpdatePreviewImage();
+				};
 				graph.onOutputTextureUpdated += UpdatePreviewImage;
 
 				// Clear the input when disconnecting it:

@@ -98,8 +98,8 @@ namespace Mixture
 				(OutputChannel.R, OutputPrecision.Half) => GraphicsFormat.R16_SFloat,
 				(OutputChannel.R, OutputPrecision.Full) => GraphicsFormat.R32_SFloat,
 
-				// Convertion not found
-				(var x, var y) => throw new Exception($"Missing GraphicsFormat convertion for {x} {y}"),
+				// Conversion not found
+				(var x, var y) => throw new Exception($"Missing GraphicsFormat conversion for {x} {y}"),
 			};
 		}
 

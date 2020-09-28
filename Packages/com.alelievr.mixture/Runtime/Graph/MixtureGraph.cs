@@ -310,14 +310,15 @@ namespace Mixture
                     && currentTexture.width == s.width && currentTexture.height == s.height
                     && (currentTexture.mipmapCount > 1) == outputSettings.hasMipMaps;
 
-                matchTextureSettings &= outputSettings.enableCompression || (!outputSettings.enableCompression && currentTexture.graphicsFormat == s.graphicsFormat);
-                
+                bool conversionOrCompression = outputSettings.IsCompressionEnabled() || outputSettings.IsConversionEnabled();
+                matchTextureSettings &= conversionOrCompression || (!conversionOrCompression && currentTexture.graphicsFormat == s.graphicsFormat);
+
                 // Note that here we don't check the graphic format of the texture, because the current texture
                 // can use a compressed format which will be different compared to the one in the graph.
                 // This can be a problem because we may end up re-creating render targets when we don't need to.
-                if (outputSettings.enableCompression && matchTextureSettings)
+                if (conversionOrCompression && matchTextureSettings)
                     return currentTexture;
-                else if (!outputSettings.enableCompression && matchTextureSettings) // Otherwise if the format is not compressed, we want to compare the format because it directly affects the data on disk
+                else if (!conversionOrCompression && matchTextureSettings) // Otherwise if the format is not compressed, we want to compare the format because it directly affects the data on disk
                 {
                     if (currentTexture.graphicsFormat == s.graphicsFormat)
                         return currentTexture;
@@ -434,7 +435,7 @@ namespace Mixture
                     {
                         var colors = (outputTexture as Texture2D).GetPixels();
 
-                        // We only do the convertion for whe the graph uses SRGB images
+                        // We only do the conversion for whe the graph uses SRGB images
                         if (external.rtSettings.GetOutputPrecision(this) == OutputPrecision.SRGB)
                         {
                             for (int i = 0; i < colors.Length; i++)
@@ -511,7 +512,7 @@ namespace Mixture
             }
 
             var o = outputNode.outputTextureSettings.First();
-            ReadBackTexture(outputNode, o.finalCopyRT, o.enableCompression, o.compressionFormat, o.compressionQuality, target);
+            ReadBackTexture(outputNode, o.finalCopyRT, o.IsCompressionEnabled(), o.compressionFormat, o.compressionQuality, target);
         }
 
 #if UNITY_EDITOR
@@ -529,7 +530,8 @@ namespace Mixture
                 var currentTexture = FindOutputTexture(output.name, output.isMain);
 
                 // The main texture is always the first one
-                ReadBackTexture(this.outputNode, output.finalCopyRT, output.enableCompression, output.compressionFormat, output.compressionQuality, currentTexture);
+                var format = output.enableConversion ? (TextureFormat)output.conversionFormat : output.compressionFormat;
+                ReadBackTexture(this.outputNode, output.finalCopyRT, output.IsCompressionEnabled() || output.IsConversionEnabled(), format, output.compressionQuality, currentTexture);
             }
 
             FlushTexturesToDisk();
@@ -548,7 +550,24 @@ namespace Mixture
             FlushTexturesToDisk();
             AssetDatabase.SaveAssets();
         }
+
 #endif
+
+        // public void ConvertTextureIfNeeded(OutputNode node, Texture source, OutputTextureSettings settings)
+        // {
+        //     if (!settings.IsConversionEnabled())
+        //         return;
+            
+        //     switch (source)
+        //     {
+        //         case Texture3D volume:
+        //             volume
+        //             volume.format = settings.conversionFormat;
+        //             break;
+        //         case Cubemap cubemap:
+        //             break;
+        //     }
+        // }
 
         public struct ReadbackData
         {
@@ -568,7 +587,6 @@ namespace Mixture
             // When we use Texture2D, we can compress them. In that case we use a temporary target for readback before compressing / converting it.
 #if UNITY_EDITOR
             bool useTempTarget = enableCompression || outputFormat != target.graphicsFormat;
-            useTempTarget &= node.rtSettings.GetTextureDimension(this) == TextureDimension.Tex2D;
 #else
             // We can't compress the texture in real-time
             bool useTempTarget = false;
@@ -577,8 +595,21 @@ namespace Mixture
             if (useTempTarget)
             {
                 var textureFlags = source.useMipMap ? TextureCreationFlags.MipChain : TextureCreationFlags.MipChain;
-                target = new Texture2D(target.width, target.height, outputFormat, textureFlags);
+                Debug.Log(source.dimension);
+                switch (source.dimension)
+                {
+                    case TextureDimension.Tex2D:
+                        target = new Texture2D(target.width, target.height, outputFormat, textureFlags);
+                        break;
+                    case TextureDimension.Tex3D:
+                        target = new Texture3D(target.width, target.height, source.volumeDepth, outputFormat, textureFlags);
+                        break;
+                    case TextureDimension.Cube:
+                        target = new Cubemap(target.width, outputFormat, textureFlags);
+                        break;
+                }
                 target.name = target.name;
+                (target as Texture3D).Apply();
             }
 
             var readbackRequests = new List<AsyncGPUReadbackRequest>();
@@ -609,8 +640,12 @@ namespace Mixture
             {
                 var dst = externalTexture == null ? mainOutputTexture : externalTexture;
 
-                if (enableCompression)
+                bool isCompressedFormat = GraphicsFormatUtility.IsCompressedFormat(GraphicsFormatUtility.GetGraphicsFormat(compressionFormat, false));
+                if (enableCompression && isCompressedFormat)
                     CompressTexture(target, dst, compressionFormat, compressionQuality);
+                // We need a special case for 3D textures because the    function doesn't handle them
+                else if (source.dimension == TextureDimension.Tex3D)
+                    Convert3DTexture(target as Texture3D, dst as Texture3D);
                 else
                     Graphics.ConvertTexture(target, dst);
 
@@ -659,6 +694,20 @@ namespace Mixture
 #if UNITY_EDITOR
             EditorGUIUtility.PingObject(data.targetTexture);
 #endif
+        }
+
+        /// <summary>
+        /// Graphics.ConvertTexture doesn't work with 3D textures :(
+        /// </summary>
+        void Convert3DTexture(Texture3D source, Texture3D destination)
+        {
+            // TODO: alloc RGBA Float buffer, get the pixels, convert them into RGBA Float
+            // TODO: convert the buffer into the dst format and set the pixel data
+            Debug.Log("TODO: " + source.mipmapCount);
+            for (int i = 0; i < source.mipmapCount; i++)
+            {
+                source.GetPixelData<float>(0);
+            }
         }
 
         /// <summary>

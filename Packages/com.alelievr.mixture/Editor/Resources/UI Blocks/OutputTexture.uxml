@@ -16,6 +16,10 @@
                         <uie:EnumField label="Format" value="DXT5" type="UnityEngine.TextureFormat, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" name="CompressionFormat" style="margin-left: 20px; margin-right: 4px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
+                <ui:VisualElement name="ConversionSettings">
+                    <ui:Toggle label="Conversion" name="EnableConversion" />
+                    <uie:EnumField label="Format" value="RGBA32" type="Mixture.ConversionFormat, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" name="ConversionFormat" style="margin-left: 20px; margin-right: 4px;" />
+                </ui:VisualElement>
                 <ui:VisualElement name="MipMapSettings">
                     <ui:Toggle label="Has Mip Maps" name="EnableMipMap" />
                     <ui:VisualElement name="MipMapFields" style="margin-left: 20px; margin-right: 4px;">
