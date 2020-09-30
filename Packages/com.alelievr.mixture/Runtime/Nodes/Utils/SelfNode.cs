@@ -99,11 +99,11 @@ namespace Mixture
 						cmd.SetRenderTarget(output);
 						break;
 					case TextureDimension.Tex2D:
-						cmd.SetComputeTextureParam(computeShader, 0, "_2D", output);
+						cmd.SetComputeTextureParam(computeShader, 0, MixtureUtils.texture2DPrefix, output);
 						DispatchCompute(cmd, 0, output.width, output.height);
 						break;
 					case TextureDimension.Tex3D:
-						cmd.SetComputeTextureParam(computeShader, 0, "_3D", output);
+						cmd.SetComputeTextureParam(computeShader, 0, MixtureUtils.texture3DPrefix, output);
 						DispatchCompute(cmd, 1, output.width, output.height, output.volumeDepth);
 						break;
 				}

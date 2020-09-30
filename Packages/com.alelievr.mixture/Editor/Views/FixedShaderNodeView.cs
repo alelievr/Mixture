@@ -90,7 +90,12 @@ namespace Mixture
 
 			// Update the GUI when shader is modified
 			if (MaterialPropertiesGUI(fixedShaderNode.material, fromInspector))
-				ForceUpdatePorts();
+			{
+				// ForceUpdatePorts might affect the VisualElement hierarchy, thus it can't be called from an ImGUI context
+				schedule.Execute(() => {
+					ForceUpdatePorts();
+				}).ExecuteLater(1);
+			}
 		}
 
 		void ResetMaterialPropertyToDefault(PortView pv)

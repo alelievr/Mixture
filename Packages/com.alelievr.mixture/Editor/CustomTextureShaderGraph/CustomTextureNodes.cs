@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEditor.ShaderGraph;
 using UnityEditor.Graphing;
+using UnityEditor.ShaderGraph.Internal;
 
 namespace Mixture
 {
@@ -158,6 +159,84 @@ namespace Mixture
                 registry.builder.AppendLine("SAMPLER(sampler_SelfTexture3D);");
             }
         }
+    }
+
+    [Title("Custom Texture", "Current Dimension")]
+    class CustomTextureDimension : AbstractMaterialNode, IGeneratesBodyCode 
+    {
+		private const string kOutputSlot2D = "Is 2D";
+		private const string kOutputSlot3D = "Is 3D";
+		private const string kOutputSlotCube = "Is Cube";
+		
+        public const int kOutputSlot2DId = 0;
+        public const int kOutputSlot3DId = 1;
+        public const int kOutputSlotCubeId = 2;
+
+        public CustomTextureDimension()
+        {
+            name = "Custom Texture Dimension";
+            UpdateNodeAfterDeserialization();
+        }
+
+        protected int[] validSlots => new[] { kOutputSlot2DId, kOutputSlot3DId, kOutputSlotCubeId };
+
+        public sealed override void UpdateNodeAfterDeserialization()
+        {
+            AddSlot(new BooleanMaterialSlot(kOutputSlot2DId, kOutputSlot2D, kOutputSlot2D, SlotType.Output, false));
+            AddSlot(new BooleanMaterialSlot(kOutputSlot3DId, kOutputSlot3D, kOutputSlot3D, SlotType.Output, false));
+            AddSlot(new BooleanMaterialSlot(kOutputSlotCubeId, kOutputSlotCube, kOutputSlotCube, SlotType.Output, false));
+            RemoveSlotsNameNotMatching(validSlots);
+        }
+
+        public void GenerateNodeCode(ShaderStringBuilder sb, GenerationMode generationMode)
+        {
+            if (generationMode.IsPreview())
+            {
+                sb.AppendLine(@"bool {0} = false;" , GetVariableNameForSlot(kOutputSlot2DId));
+                sb.AppendLine(@"bool {0} = false;" , GetVariableNameForSlot(kOutputSlot3DId));
+                sb.AppendLine(@"bool {0} = false;" , GetVariableNameForSlot(kOutputSlotCubeId));
+            }
+            else
+            {
+                sb.AppendLine(@"bool {0} = CustomRenderTextureDimension == CRT_DIMENSION_2D;" , GetVariableNameForSlot(kOutputSlot2DId));
+                sb.AppendLine(@"bool {0} = CustomRenderTextureDimension == CRT_DIMENSION_3D;" , GetVariableNameForSlot(kOutputSlot3DId));
+                sb.AppendLine(@"bool {0} = CustomRenderTextureDimension == CRT_DIMENSION_CUBE;" , GetVariableNameForSlot(kOutputSlotCubeId));
+            }
+        }
+    }
+
+    [Title("Custom Texture", "UV/Direction")]
+    class UVOrDirection : AbstractMaterialNode, IGeneratesBodyCode, IMayRequireMeshUV
+    {
+		private const string kOutput = "Uv/Direction";
+
+        public UVOrDirection()
+        {
+            name = "UV/Direction";
+            UpdateNodeAfterDeserialization();
+        }
+
+        public sealed override void UpdateNodeAfterDeserialization()
+        {
+            AddSlot(new Vector3MaterialSlot(0, kOutput, kOutput, SlotType.Output, Vector3.zero));
+        }
+
+        public override bool hasPreview => false; 
+
+        public void GenerateNodeCode(ShaderStringBuilder sb, GenerationMode generationMode)
+        {
+            if (generationMode.IsPreview())
+            {
+                sb.AppendLine(@"$precision3 {0} = 0;" , GetVariableNameForSlot(0));
+            }
+            else
+            {
+                sb.AppendLine(@"$precision3 {0} = CustomRenderTextureDimension == CRT_DIMENSION_CUBE ? IN.direction : IN.uv0.xyz;" , GetVariableNameForSlot(0));
+            }
+        }
+
+        public bool RequiresMeshUV(UVChannel channel, ShaderStageCapability stageCapability = ShaderStageCapability.All)
+            => channel == UVChannel.UV0 && stageCapability == ShaderStageCapability.Fragment;
     }
 }
 #endif

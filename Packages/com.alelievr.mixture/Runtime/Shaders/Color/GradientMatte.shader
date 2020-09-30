@@ -27,7 +27,7 @@
 
 			float4 mixture (v2f_customrendertexture IN) : SV_Target
 			{
-				float2 uv = float2(IN.localTexcoord.x, IN.localTexcoord.y);
+				float3 uv = IN.localTexcoord.xyz;
 				float gradient = 0.0f;
 
 				uint mode = (uint)_Mode;

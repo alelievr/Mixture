@@ -187,10 +187,14 @@ namespace Mixture
 				computeShader.EnableKeyword("CRT_3D");
 		}
 
+		public static readonly string texture2DPrefix = "_2D";
+		public static readonly string texture3DPrefix = "_3D";
+		public static readonly string textureCubePrefix = "_Cube";
+
 		static readonly Dictionary< TextureDimension, string >	shaderPropertiesDimension = new Dictionary<TextureDimension, string>{
-            { TextureDimension.Tex2D, "_2D" },
-            { TextureDimension.Tex3D, "_3D" },
-            { TextureDimension.Cube, "_Cube" },
+            { TextureDimension.Tex2D, texture2DPrefix },
+            { TextureDimension.Tex3D, texture3DPrefix },
+            { TextureDimension.Cube, textureCubePrefix },
         };
 
         static readonly List< TextureDimension > allDimensions = new List<TextureDimension>() {
@@ -221,6 +225,12 @@ namespace Mixture
 
             return dimensions;
         }
+
+		public static void SetTextureWithDimension(Material material, string propertyName, Texture texture)
+		{
+			if (shaderPropertiesDimension.TryGetValue(texture.dimension, out var suffix))
+				material.SetTexture(propertyName + suffix, texture);
+		}
 
         public static void DestroyGameObject(Object obj)
         {

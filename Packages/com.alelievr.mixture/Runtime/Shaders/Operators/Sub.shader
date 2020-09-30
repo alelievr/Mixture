@@ -3,13 +3,13 @@
 	Properties
 	{
 		// By default a shader node is supposed to handle all the input texture dimension, we use a prefix to determine which one is used
-		[InlineTexture]_SourceA_2D("Source A", 2D) = "white" {}
-		[InlineTexture]_SourceA_3D("Source A", 3D) = "white" {}
-		[InlineTexture]_SourceA_Cube("Source A", Cube) = "white" {}
+		[InlineTexture]_SourceA_2D("Source A", 2D) = "black" {}
+		[InlineTexture]_SourceA_3D("Source A", 3D) = "black" {}
+		[InlineTexture]_SourceA_Cube("Source A", Cube) = "black" {}
 
-		[InlineTexture]_SourceB_2D("Source B", 2D) = "white" {}
-		[InlineTexture]_SourceB_3D("Source B", 3D) = "white" {}
-		[InlineTexture]_SourceB_Cube("Source B", Cube) = "white" {}
+		[InlineTexture]_SourceB_2D("Source B", 2D) = "black" {}
+		[InlineTexture]_SourceB_3D("Source B", 3D) = "black" {}
+		[InlineTexture]_SourceB_Cube("Source B", Cube) = "black" {}
 
 		_Value("Value", Vector) = (0, 0, 0, 0)
 	}

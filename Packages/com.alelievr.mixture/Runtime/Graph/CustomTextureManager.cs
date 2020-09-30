@@ -236,8 +236,10 @@ public static class CustomTextureManager
         int depth = crt.dimension == TextureDimension.Cube ? 6 : crt.volumeDepth;
         return new Vector4(
             (crt.updateZoneSpace == CustomRenderTextureUpdateZoneSpace.Pixel) ? 1.0f : 0.0f,
-            (float)sliceIndex / depth,
-            crt.dimension == TextureDimension.Tex3D ? 1.0f : 0.0f,
+            // Important: textureparam.y is used for the z coordinate in the CRT and in case of 2D, we use 0.5 because most of the 3D compatible effects will use a neutral value 0.5
+            crt.dimension == TextureDimension.Tex2D ? 0.5f : (float)sliceIndex / depth,
+            // 0 => 2D, 1 => 3D, 2 => Cube
+            crt.dimension == TextureDimension.Tex3D ? 1.0f : (crt.dimension == TextureDimension.Cube ? 2.0f : 0.0f),
             0.0f
             );
     }

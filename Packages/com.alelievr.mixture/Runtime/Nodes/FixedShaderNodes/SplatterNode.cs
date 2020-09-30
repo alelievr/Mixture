@@ -208,7 +208,7 @@ namespace Mixture
 			// Set input textures:
 			drawIndirectMat.SetInt(_TextureCount, inputTextures.Count);
 			for (int i = 0; i < inputTextures.Count; i++)
-				drawIndirectMat.SetTexture("_Source" + i + "_2D", inputTextures[i]);
+				drawIndirectMat.SetTexture("_Source" + i + MixtureUtils.texture2DPrefix, inputTextures[i]);
 
 			SetBlendSettings(drawIndirectMat);
 

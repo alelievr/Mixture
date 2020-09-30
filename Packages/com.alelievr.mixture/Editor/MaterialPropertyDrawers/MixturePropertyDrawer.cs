@@ -16,7 +16,6 @@ namespace Mixture
         }
 
         static Dictionary<MaterialEditor, MixtureDrawerInfo>    mixtureDrawerInfos = new Dictionary<MaterialEditor, MixtureDrawerInfo>();
-        List<TextureDimension>                                  allowedDimensions = null;
 
         public static void RegisterEditor(MaterialEditor editor, MixtureNodeView nodeView, MixtureGraph graph)
         {
@@ -44,23 +43,10 @@ namespace Mixture
                 return;
             }
 
-            if (IsVisible(prop, editor, out var nodeView, out var graph))
-                DrawerGUI(position, prop, label, editor, graph, nodeView);
-        }
+            var nodeView = GetNodeView(editor);
+            var graph = GetGraph(editor);
 
-        bool IsVisible(MaterialProperty property, MaterialEditor editor, out MixtureNodeView nodeView, out MixtureGraph graph)
-        {
-            nodeView = GetNodeView(editor);
-            graph = GetGraph(editor);
-
-            if (allowedDimensions == null)
-                allowedDimensions = MixtureUtils.GetAllowedDimentions(property.name);
-
-            var node = nodeView.nodeTarget as MixtureNode;
-
-            // Draw only if the drawer support the current dimension of the node
-            var currentDimension = node.rtSettings.GetTextureDimension(graph);
-            return allowedDimensions.Any(dim => (int)dim == (int)currentDimension);
+            DrawerGUI(position, prop, label, editor, graph, nodeView);
         }
 
         public override float GetPropertyHeight(MaterialProperty prop, string label, MaterialEditor editor)
@@ -68,7 +54,7 @@ namespace Mixture
             if (!mixtureDrawerInfos.ContainsKey(editor))
                 return base.GetPropertyHeight(prop, label, editor);
 
-            return IsVisible(prop, editor, out var _, out var _) ? base.GetPropertyHeight(prop, label, editor) : -EditorGUIUtility.standardVerticalSpacing;
+            return base.GetPropertyHeight(prop, label, editor);
         }
 
         protected virtual void DrawerGUI(Rect position, MaterialProperty prop, string label, MaterialEditor editor, MixtureGraph graph, MixtureNodeView nodeView) {}

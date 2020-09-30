@@ -280,6 +280,10 @@ namespace Mixture
 				var type = s.GetPropertyType(i);
 				var tooltip = s.GetPropertyAttributes(i).Where(s => s.Contains("Tooltip")).FirstOrDefault();
 
+				// Inspector only properties aren't available as ports.
+				if (displayName.ToLower().Contains("[inspector]"))
+					continue;
+
 				if (tooltip != null)
 				{
 					// Parse tooltip:
@@ -294,6 +298,25 @@ namespace Mixture
 				
 				if (!PropertySupportsDimension(s.GetPropertyName(i), currentDimension))
 					continue;
+
+				// We don't display textures specific to certain dimensions if the node isn't in this dimension.
+				if (type == ShaderPropertyType.Texture)
+				{
+					bool is2D = displayName.EndsWith(MixtureUtils.texture2DPrefix);
+					bool is3D = displayName.EndsWith(MixtureUtils.texture3DPrefix);
+					bool isCube = displayName.EndsWith(MixtureUtils.textureCubePrefix);
+
+					if (is2D || is3D || isCube)
+					{
+						if (currentDimension == TextureDimension.Tex2D && !is2D)
+							continue;
+						if (currentDimension == TextureDimension.Tex3D && !is3D)
+							continue;
+						if (currentDimension == TextureDimension.Cube && !isCube)
+							continue;
+						displayName = Regex.Replace(displayName, @"_2D|_3D|_Cube", "", RegexOptions.IgnoreCase);
+					}
+				}
 
 				yield return new PortData{
 					identifier = name,

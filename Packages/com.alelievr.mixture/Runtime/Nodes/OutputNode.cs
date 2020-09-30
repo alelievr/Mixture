@@ -102,8 +102,6 @@ namespace Mixture
 				};
 			}
 
-			//
-
 			// output.finalCopyRT can be null here if the graph haven't been imported yet
 			if (output.finalCopyRT != null)
 				output.finalCopyRT.material = output.finalCopyMaterial;

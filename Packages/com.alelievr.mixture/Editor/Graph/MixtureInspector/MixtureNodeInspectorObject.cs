@@ -230,21 +230,8 @@ namespace Mixture
                 MixtureUtils.SetupDimensionKeyword(previewMaterial, firstLockedPreviewTarget.previewTexture.dimension);
 
                 // Set texture property based on the dimension
-                if (firstLockedPreviewTarget.previewTexture.dimension == TextureDimension.Tex2D)
-                {
-                    previewMaterial.SetTexture("_MainTex0_2D", firstLockedPreviewTarget.previewTexture);
-                    previewMaterial.SetTexture("_MainTex1_2D", secondLockedPreviewTarget.previewTexture);
-                }
-                else if (firstLockedPreviewTarget.previewTexture.dimension == TextureDimension.Tex3D)
-                {
-                    previewMaterial.SetTexture("_MainTex0_3D", firstLockedPreviewTarget.previewTexture);
-                    previewMaterial.SetTexture("_MainTex1_3D", secondLockedPreviewTarget.previewTexture);
-                } 
-                else
-                {
-                    previewMaterial.SetTexture("_MainTex0_Cube", firstLockedPreviewTarget.previewTexture);
-                    previewMaterial.SetTexture("_MainTex1_Cube", secondLockedPreviewTarget.previewTexture);
-                }
+                MixtureUtils.SetTextureWithDimension(previewMaterial, "_MainTex0", firstLockedPreviewTarget.previewTexture);
+                MixtureUtils.SetTextureWithDimension(previewMaterial, "_MainTex1", secondLockedPreviewTarget.previewTexture);
 
                 previewMaterial.SetFloat("_ComparisonSlider", compareSlider);
                 previewMaterial.SetFloat("_ComparisonEnabled", compareEnabled ? 1 : 0);

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
@@ -38,11 +39,11 @@ namespace Mixture
                 else
                 {
                     EditorGUI.BeginDisabledGroup(true);
-                    EditorGUILayout.ObjectField("Asset", externalOutputNode.asset, typeof(Texture2D), false);
+                    EditorGUILayout.ObjectField("Asset", externalOutputNode.asset, typeof(Texture), false);
                     EditorGUI.EndDisabledGroup();
                 }
                 EditorGUI.BeginChangeCheck();
-                var outputDimension = EditorGUILayout.EnumPopup("Output Dimension", externalOutputNode.externalOutputDimension);
+                var outputDimension = EditorGUILayout.EnumPopup("Dimension", externalOutputNode.externalOutputDimension);
                 if (EditorGUI.EndChangeCheck())
                 {
                     externalOutputNode.externalOutputDimension = (ExternalOutputNode.ExternalOutputDimension)outputDimension;
@@ -59,12 +60,25 @@ namespace Mixture
                     MarkDirtyRepaint();
                 }
 
-                EditorGUI.BeginChangeCheck();
-                var outputType = EditorGUILayout.EnumPopup("Output Type", externalOutputNode.external2DOoutputType);
-                if(EditorGUI.EndChangeCheck())
+                if (externalOutputNode.externalOutputDimension == ExternalOutputNode.ExternalOutputDimension.Texture2D)
                 {
-                    externalOutputNode.external2DOoutputType = (ExternalOutputNode.External2DOutputType)outputType;
-                    MarkDirtyRepaint();
+                    EditorGUI.BeginChangeCheck();
+                    var outputType = EditorGUILayout.EnumPopup("Type", externalOutputNode.external2DOoutputType);
+                    if(EditorGUI.EndChangeCheck())
+                    {
+                        externalOutputNode.external2DOoutputType = (ExternalOutputNode.External2DOutputType)outputType;
+                        MarkDirtyRepaint();
+                    }
+                }
+                else if (externalOutputNode.externalOutputDimension == ExternalOutputNode.ExternalOutputDimension.Texture3D)
+                {
+                    EditorGUI.BeginChangeCheck();
+                    var format = EditorGUILayout.EnumPopup("Format", externalOutputNode.external3DFormat);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        externalOutputNode.external3DFormat = (ConversionFormat)format;
+                        MarkDirtyRepaint();
+                    }
                 }
                 GUILayout.Space(8);
             }

@@ -143,6 +143,34 @@ namespace Mixture
 
 			var outputDimension = rtSettings.GetTextureDimension(graph);
 			MixtureUtils.SetupDimensionKeyword(material, outputDimension);
+
+			var s = material.shader;
+			for (int i = 0; i < s.GetPropertyCount(); i++)
+			{
+				if (s.GetPropertyType(i) != ShaderPropertyType.Texture)
+					continue;
+
+				int id = s.GetPropertyNameId(i);
+				if (material.GetTexture(id) != null)
+					continue; // Avoid overriding existing textures
+
+				var dim = s.GetPropertyTextureDimension(i);
+				if (dim == TextureDimension.Tex2D)
+					continue; // Texture2D don't need this feature
+
+				// default texture names doesn't work with cubemap and 3D textures so we do it ourselves...
+				switch (s.GetPropertyTextureDefaultName(i))
+				{
+					case "black":
+						material.SetTexture(id, TextureUtils.GetBlackTexture(dim));
+						break;
+					case "white":
+						material.SetTexture(id, TextureUtils.GetWhiteTexture(dim));
+						break;
+					// TODO: grey and bump
+				}
+			}
+
 			output.material = material;
 
 			return true;

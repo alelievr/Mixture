@@ -252,8 +252,8 @@ namespace Mixture
 			}
 
 			var defaultPreview = defaultTextureEditor.RenderStaticPreview(assetPath, subAssets, width, height);
-			
-			if (!assetPath.EndsWith(".asset")) // If the texture is an asset, then it means that it's a mixture
+
+			if (graph == null)
 				return defaultPreview;
 			
 			// Combine manually on CPU the two textures because it completely broken with GPU :'(
@@ -345,10 +345,21 @@ namespace Mixture
 			LoadInspectorFor(typeof(Texture3D));
 		}
 
-		public override bool HasPreviewGUI() => true;
+        public override void OnInspectorGUI()
+        {
+			defaultTextureEditor.OnInspectorGUI();
+        }
+
+		public override bool HasPreviewGUI() => graph != null ? true : base.HasPreviewGUI();
 
         public override void OnPreviewGUI(Rect r, GUIStyle background)
 		{
+			if (graph == null)
+			{
+				base.OnPreviewGUI(r, background);
+				return;
+			}
+
 			float depth = ((float)slice + 0.5f) / (float)volume.depth;
 			MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", depth);
 			MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", volume);
@@ -388,6 +399,11 @@ namespace Mixture
 		}
 
         public override bool RequiresConstantRepaint() => true;
+
+		public override void OnInspectorGUI()
+        {
+			defaultTextureEditor.OnInspectorGUI();
+        }
 
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
 		{

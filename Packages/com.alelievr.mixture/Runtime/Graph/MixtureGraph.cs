@@ -8,6 +8,9 @@ using UnityEngine.Experimental.Rendering;
 using System;
 using Object = UnityEngine.Object;
 using UnityEngine.Serialization;
+using Unity.Collections.LowLevel.Unsafe;
+using Unity.Collections;
+using Unity.Jobs;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -415,8 +418,15 @@ namespace Mixture
                     var volume = AssetDatabase.LoadAssetAtPath<Texture3D>(assetPath);
                     if (volume == null)
                     {
-                        volume = new Texture3D(external.rtSettings.width, external.rtSettings.height, external.rtSettings.sliceCount, format, TextureCreationFlags.MipChain);
+                        volume = new Texture3D(external.rtSettings.width, external.rtSettings.height, external.rtSettings.sliceCount, (TextureFormat)external.external3DFormat, true);
                         AssetDatabase.CreateAsset(volume, assetPath);
+                    }
+                    // TODO: check resolution
+                    if (volume.format != (TextureFormat)external.external3DFormat)
+                    {
+                        var newTexture = new Texture3D(external.rtSettings.width, external.rtSettings.height, external.rtSettings.sliceCount, (TextureFormat)external.external3DFormat, true);
+                        EditorUtility.CopySerialized(newTexture, volume);
+                        Object.DestroyImmediate(newTexture);
                     }
                     volume.SetPixels((outputTexture as Texture3D).GetPixels());
                     volume.Apply();
@@ -594,8 +604,7 @@ namespace Mixture
 
             if (useTempTarget)
             {
-                var textureFlags = source.useMipMap ? TextureCreationFlags.MipChain : TextureCreationFlags.MipChain;
-                Debug.Log(source.dimension);
+                var textureFlags = source.useMipMap ? TextureCreationFlags.MipChain : TextureCreationFlags.None;
                 switch (source.dimension)
                 {
                     case TextureDimension.Tex2D:
@@ -609,7 +618,6 @@ namespace Mixture
                         break;
                 }
                 target.name = target.name;
-                (target as Texture3D).Apply();
             }
 
             var readbackRequests = new List<AsyncGPUReadbackRequest>();
@@ -645,7 +653,7 @@ namespace Mixture
                     CompressTexture(target, dst, compressionFormat, compressionQuality);
                 // We need a special case for 3D textures because the    function doesn't handle them
                 else if (source.dimension == TextureDimension.Tex3D)
-                    Convert3DTexture(target as Texture3D, dst as Texture3D);
+                    ConvertOutput3DTexture(target as Texture3D, dst as Texture3D, compressionFormat);
                 else
                     Graphics.ConvertTexture(target, dst);
 
@@ -699,15 +707,22 @@ namespace Mixture
         /// <summary>
         /// Graphics.ConvertTexture doesn't work with 3D textures :(
         /// </summary>
-        void Convert3DTexture(Texture3D source, Texture3D destination)
+        unsafe void ConvertOutput3DTexture(Texture3D source, Texture3D destination, TextureFormat compressionFormat)
         {
-            // TODO: alloc RGBA Float buffer, get the pixels, convert them into RGBA Float
-            // TODO: convert the buffer into the dst format and set the pixel data
-            Debug.Log("TODO: " + source.mipmapCount);
-            for (int i = 0; i < source.mipmapCount; i++)
+            OutputPrecision inputPrecision = outputNode.rtSettings.outputPrecision;
+            OutputChannel inputChannels = outputNode.rtSettings.outputChannels;
+
+            // We allocate the final texture in the correct format, that we'll they swap with the destination texture.
+            var finalCompressedTexture = new Texture3D(source.width, source.height, source.depth, compressionFormat, destination.mipmapCount);
+            for (int mipLevel = 0; mipLevel < source.mipmapCount; mipLevel++)
             {
-                source.GetPixelData<float>(0);
+                var pixels = source.GetPixels(mipLevel);
+
+                finalCompressedTexture.SetPixels(pixels, mipLevel);
             }
+            EditorUtility.CopySerialized(finalCompressedTexture, destination);
+            Object.DestroyImmediate(finalCompressedTexture);
+            Object.DestroyImmediate(source);
         }
 
         /// <summary>

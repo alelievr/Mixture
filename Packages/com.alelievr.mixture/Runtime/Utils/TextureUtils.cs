@@ -14,6 +14,7 @@ namespace Mixture
     public static class TextureUtils
     {
         static Dictionary< TextureDimension, Texture >  blackTextures = new Dictionary< TextureDimension, Texture >();
+        static Dictionary< TextureDimension, Texture >  whiteTextures = new Dictionary< TextureDimension, Texture >();
 
         public static Texture GetBlackTexture(MixtureRTSettings settings)
         {
@@ -37,18 +38,18 @@ namespace Mixture
                     blackTexture = Texture2D.blackTexture;
                     break ;
                 case TextureDimension.Tex3D:
-                    blackTexture = new Texture3D(1, 1, 1, DefaultFormat.HDR, TextureCreationFlags.None);
-                    (blackTexture as Texture3D).SetPixels(new []{Color.red});
+                    blackTexture = new Texture3D(1, 1, 1, TextureFormat.RGBA32, 0);
+                    (blackTexture as Texture3D).SetPixels(new []{Color.black});
                     (blackTexture as Texture3D).Apply();
                     break ;
                 case TextureDimension.Tex2DArray:
-                    blackTexture = new Texture2DArray(1, 1, sliceCount, DefaultFormat.HDR, TextureCreationFlags.None);
+                    blackTexture = new Texture2DArray(1, 1, sliceCount, TextureFormat.RGBA32, 0, true);
                     for (int i = 0; i < sliceCount; i++)
                         (blackTexture as Texture2DArray).SetPixels(new []{Color.black}, i);
                     (blackTexture as Texture2DArray).Apply();
                     break ;
                 case TextureDimension.Cube:
-                    blackTexture = new Cubemap(1, DefaultFormat.HDR, TextureCreationFlags.None);
+                    blackTexture = new Cubemap(1, TextureFormat.RGBA32, 0);
                     for (int i = 0; i < 6; i++)
                         (blackTexture as Cubemap).SetPixel((CubemapFace)i, 0, 0, Color.black);
                     break ;
@@ -56,9 +57,52 @@ namespace Mixture
                     throw new Exception($"Unable to create black texture for type {dim}");
             }
 
+            blackTexture.name = "Mixture Black";
             blackTextures[dim] = blackTexture;
 
             return blackTexture;
+        }
+
+        public static Texture GetWhiteTexture(TextureDimension dim, int sliceCount = 0)
+        {
+            Texture whiteTexture;
+
+            if (whiteTextures.TryGetValue(dim, out whiteTexture))
+            {
+                // We don't cache texture arrays
+                if (dim != TextureDimension.Tex2DArray && dim != TextureDimension.Tex2DArray)
+                    return whiteTexture;
+            }
+
+            switch (dim)
+            {
+                case TextureDimension.Tex2D:
+                    whiteTexture = Texture2D.whiteTexture;
+                    break ;
+                case TextureDimension.Tex3D:
+                    whiteTexture = new Texture3D(1, 1, 1, TextureFormat.RGBA32, 0);
+                    (whiteTexture as Texture3D).SetPixels(new []{Color.white});
+                    (whiteTexture as Texture3D).Apply();
+                    break ;
+                case TextureDimension.Tex2DArray:
+                    whiteTexture = new Texture2DArray(1, 1, sliceCount, TextureFormat.RGBA32, 0, true);
+                    for (int i = 0; i < sliceCount; i++)
+                        (whiteTexture as Texture2DArray).SetPixels(new []{Color.white}, i);
+                    (whiteTexture as Texture2DArray).Apply();
+                    break ;
+                case TextureDimension.Cube:
+                    whiteTexture = new Cubemap(1, TextureFormat.RGBA32, 0);
+                    for (int i = 0; i < 6; i++)
+                        (whiteTexture as Cubemap).SetPixel((CubemapFace)i, 0, 0, Color.white);
+                    break ;
+                default: // TextureDimension.Any / TextureDimension.Unknown
+                    throw new Exception($"Unable to create white texture for type {dim}");
+            }
+
+            whiteTexture.name = "Mixture white";
+            whiteTextures[dim] = whiteTexture;
+
+            return whiteTexture;
         }
 
         public static int GetSliceCount(Texture tex)

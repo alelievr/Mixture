@@ -11,6 +11,10 @@
 // Keep in sync with CustomRenderTexture.h
 #define kCustomTextureBatchSize 16
 
+#define CRT_DIMENSION_2D    0.0
+#define CRT_DIMENSION_3D    1.0
+#define CRT_DIMENSION_CUBE  2.0
+
 struct appdata_customrendertexture
 {
     uint    vertexID    : SV_VertexID;
@@ -42,7 +46,8 @@ float       CustomRenderTexturePrimitiveIDs[kCustomTextureBatchSize];
 float4      CustomRenderTextureParameters;
 #define     CustomRenderTextureUpdateSpace  CustomRenderTextureParameters.x // Normalized(0)/PixelSpace(1)
 #define     CustomRenderTexture3DTexcoordW  CustomRenderTextureParameters.y
-#define     CustomRenderTextureIs3D         CustomRenderTextureParameters.z
+#define     CustomRenderTextureIs3D         CustomRenderTextureParameters.z == CRT_DIMENSION_3D
+#define     CustomRenderTextureDimension    CustomRenderTextureParameters.z
 
 // User facing uniform variables
 float4      _CustomRenderTextureInfo; // x = width, y = height, z = depth, w = face/3DSlice
@@ -188,7 +193,7 @@ v2f_customrendertexture CustomRenderTextureVertexShader(appdata_customrendertext
     // For 3D texture, cull quads outside of the update zone
     // This is neeeded in additional to the preliminary minSlice/maxSlice done on the CPU because update zones can be disjointed.
     // ie: slices [1..5] and [10..15] for two differents zones so we need to cull out slices 0 and [6..9]
-    if (CustomRenderTextureIs3D > 0.0)
+    if (CustomRenderTextureIs3D)
     {
         int minSlice = (int)(updateZoneCenter.z - updateZoneSize.z * 0.5);
         int maxSlice = minSlice + (int)updateZoneSize.z;

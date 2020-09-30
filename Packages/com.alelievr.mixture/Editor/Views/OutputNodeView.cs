@@ -47,8 +47,7 @@ namespace Mixture
 				}
 
 				outputNode.onTempRenderTextureUpdated += () => {
-					foreach (var view in inputPortElements.Values)
-						view.RefreshSettings();
+					RefreshOutputPortSettings();
 					UpdatePreviewImage();
 				};
 				graph.onOutputTextureUpdated += UpdatePreviewImage;
@@ -62,6 +61,12 @@ namespace Mixture
 
 				InitializeDebug();
 			}
+		}
+
+		void RefreshOutputPortSettings()
+		{
+            foreach (var view in inputPortElements.Values)
+                view.RefreshSettings();
 		}
 
 		void UpdatePortView()
@@ -106,6 +111,7 @@ namespace Mixture
 			settingsView.RegisterChangedCallback(() => {
 				// Reflect the changes on the graph output texture but not on the asset to avoid stalls.
 				graph.UpdateOutputTextures();
+				RefreshOutputPortSettings();
 			});
 
 			return sv;

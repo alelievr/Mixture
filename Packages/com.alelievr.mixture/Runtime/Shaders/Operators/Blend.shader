@@ -3,18 +3,18 @@ Shader "Hidden/Mixture/Blend"
 	Properties
 	{
 		// Parameters for 2D
-		[InlineTexture]_Source_2D("Source", 2D) = "white" {}
-		[InlineTexture]_Target_2D("Target", 2D) = "white" {}
+		[InlineTexture]_Source_2D("Source", 2D) = "black" {}
+		[InlineTexture]_Target_2D("Target", 2D) = "black" {}
 		[InlineTexture]_Mask_2D("Mask", 2D) = "white" {}
 
 		// Parameters for 3D
-		[InlineTexture]_Source_3D("Source", 3D) = "white" {}
-		[InlineTexture]_Target_3D("Target", 3D) = "white" {}
+		[InlineTexture]_Source_3D("Source", 3D) = "black" {}
+		[InlineTexture]_Target_3D("Target", 3D) = "black" {}
 		[InlineTexture]_Mask_3D("Mask", 3D) = "white" {}
 
 		// Parameters for Cubemaps
-		[InlineTexture]_Source_Cube("Source", Cube) = "white" {}
-		[InlineTexture]_Target_Cube("Target", Cube) = "white" {}
+		[InlineTexture]_Source_Cube("Source", Cube) = "black" {}
+		[InlineTexture]_Target_Cube("Target", Cube) = "black" {}
 		[InlineTexture]_Mask_Cube("Mask", Cube) = "white" {}
 
 		_Opacity("Opacity", Range(0, 1)) = 0.5

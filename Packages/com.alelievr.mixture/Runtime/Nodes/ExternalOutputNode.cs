@@ -28,6 +28,8 @@ namespace Mixture
 
         public ExternalOutputDimension externalOutputDimension = ExternalOutputDimension.Texture2D;
         public External2DOutputType external2DOoutputType = External2DOutputType.Color;
+        public ConversionFormat external3DFormat = ConversionFormat.RGBA32;
+		public override Texture previewTexture => outputTextureSettings.Count > 0 ? (Texture)mainOutput.finalCopyRT : Texture2D.blackTexture;
 
         public override bool hasSettings => true;
 
@@ -36,9 +38,7 @@ namespace Mixture
             heightMode = OutputSizeMode.Fixed,
             widthMode = OutputSizeMode.Fixed,
             depthMode = OutputSizeMode.Fixed,
-            height = 512,
-            width = 512,
-            sliceCount = 1,
+            potSize = (rtSettings.GetTextureDimension(graph) == TextureDimension.Tex3D) ? POTSize._32 : POTSize._1024,
             dimension = OutputDimension.SameAsOutput,
             outputChannels = OutputChannel.SameAsOutput,
             outputPrecision = OutputPrecision.SameAsOutput,
@@ -58,10 +58,11 @@ namespace Mixture
             onSettingsChanged += () => { graph.NotifyNodeChanged(this); };
         }
 
-        // protected override void Disable() => CoreUtils.Destroy(outputTextureSettings.First().mipmapTempRT);
-
         protected override bool ProcessNode(CommandBuffer cmd)
         {
+            if (!base.ProcessNode(cmd))
+                return false;
+
             uniqueMessages.Clear();
 
             if(!graph.isRealtime)
@@ -74,7 +75,6 @@ namespace Mixture
                         AddMessage("Using texture cubes with this node is not supported.", NodeMessageType.Warning);
                     return false;
                 }
-
             }
             else
             {

@@ -170,7 +170,7 @@ float3 tiledCellularNoise3D(float3 coordinate, float3 period, float seed)
     }
 
     float random = rand3dTo1d(closestCell);
-    return float3(pow(minDistToCell, 2.2), random, minEdgeDistance);
+    return float3(pow(abs(minDistToCell), 2.2), random, minEdgeDistance);
 }
 
 float3 GenerateCellularNoise2D(float2 coordinate, float seed) { return tiledCellularNoise2D(coordinate, float2(100000, 100000), seed); }

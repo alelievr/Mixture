@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditorInternal;
 using UnityEngine.Rendering;
-using UnityEngine.Experimental.Rendering;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 using GraphProcessor;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Mixture
 {
@@ -207,17 +205,53 @@ namespace Mixture
 				if (portView != null && portView.connected)
 					continue;
 
-				float h = editor.GetPropertyHeight(property, property.displayName);
-				Rect r = EditorGUILayout.GetControlRect(true, h);
+				string displayName = property.displayName;
+				// We don't display textures specific to certain dimensions if the node isn't in this dimension.
+				if (property.type == MaterialProperty.PropType.Texture)
+				{
+					bool is2D = property.name.EndsWith(MixtureUtils.texture2DPrefix);
+					bool is3D = property.name.EndsWith(MixtureUtils.texture3DPrefix);
+					bool isCube = property.name.EndsWith(MixtureUtils.textureCubePrefix);
 
+					if (is2D || is3D || isCube)
+					{
+						var currentDimension = nodeTarget.rtSettings.GetTextureDimension(owner.graph);
+						if (currentDimension == TextureDimension.Tex2D && !is2D)
+							continue;
+						if (currentDimension == TextureDimension.Tex3D && !is3D)
+							continue;
+						if (currentDimension == TextureDimension.Cube && !isCube)
+							continue;
+						displayName = Regex.Replace(displayName, @"_2D|_3D|_Cube", "", RegexOptions.IgnoreCase);
+					}
+				}
+
+				// In ShaderGraph we can put [Inspector] in the name of the property to show it only in the inspector and not in the node
+				if (property.displayName.ToLower().Contains("[inspector]"))
+				{
+					if (fromInspector)
+						displayName = Regex.Replace(property.displayName, @"\[inspector\]\s*", "", RegexOptions.IgnoreCase);
+					else
+						continue;
+				}
+
+				float h = editor.GetPropertyHeight(property, displayName);
+
+				// We always display textures on a single line without scale or offset because they are not supported
+				if (property.type == MaterialProperty.PropType.Texture)
+					h = EditorGUIUtility.singleLineHeight;
+
+				Rect r = EditorGUILayout.GetControlRect(true, h);
 				if (property.name.Contains("Vector2"))
-					property.vectorValue = (Vector4)EditorGUI.Vector2Field(r, property.displayName, (Vector2)property.vectorValue);
+					property.vectorValue = (Vector4)EditorGUI.Vector2Field(r, displayName, (Vector2)property.vectorValue);
 				else if (property.name.Contains("Vector3"))
-					property.vectorValue = (Vector4)EditorGUI.Vector3Field(r, property.displayName, (Vector3)property.vectorValue);
+					property.vectorValue = (Vector4)EditorGUI.Vector3Field(r, displayName, (Vector3)property.vectorValue);
 				else if (property.type == MaterialProperty.PropType.Range)
-					property.floatValue = EditorGUI.Slider(r, property.displayName, property.floatValue, property.rangeLimits.x, property.rangeLimits.y);
+					property.floatValue = EditorGUI.Slider(r, displayName, property.floatValue, property.rangeLimits.x, property.rangeLimits.y);
+				else if (property.type == MaterialProperty.PropType.Texture)
+					property.textureValue = (Texture)EditorGUI.ObjectField(r, displayName, property.textureValue, typeof(Texture), false);
 				else
-					editor.ShaderProperty(r, property, property.displayName);
+					editor.ShaderProperty(r, property, displayName);
 			}
 
 			return propertiesChanged;
