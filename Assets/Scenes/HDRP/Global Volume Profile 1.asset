@@ -24,18 +24,18 @@ MonoBehaviour:
     m_Value: 0
   exposure:
     m_OverrideState: 1
-    m_Value: 9.36
+    m_Value: 10
   multiplier:
     m_OverrideState: 1
     m_Value: 1
     min: 0
   upperHemisphereLuxValue:
     m_OverrideState: 1
-    m_Value: 1.0551766
+    m_Value: 3.5048327
     min: 0
   upperHemisphereLuxColor:
     m_OverrideState: 1
-    m_Value: {x: 0.0001495966, y: 0.5, z: 0.0000027995738}
+    m_Value: {x: 0.437309, y: 0.43157536, z: 0.5}
   desiredLuxValue:
     m_OverrideState: 1
     m_Value: 20000
@@ -51,8 +51,7 @@ MonoBehaviour:
     m_Value: 0
   hdriSky:
     m_OverrideState: 1
-    m_Value: {fileID: 6982677941647048320, guid: c2be6bc90df544afd8928f1b1030b9ee,
-      type: 2}
+    m_Value: {fileID: 8900000, guid: 1b9e10d3bc8aadc4388e9db500cd52ab, type: 3}
   enableDistortion:
     m_OverrideState: 0
     m_Value: 0
@@ -176,10 +175,10 @@ MonoBehaviour:
   m_Name: Fog
   m_EditorClassIdentifier: 
   active: 1
-  m_AdvancedMode: 0
+  m_AdvancedMode: 1
   enabled:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   colorMode:
     m_OverrideState: 1
     m_Value: 1
@@ -214,10 +213,10 @@ MonoBehaviour:
     min: 0
   baseHeight:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: -20
   maximumHeight:
     m_OverrideState: 1
-    m_Value: 50
+    m_Value: 0
   albedo:
     m_OverrideState: 1
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -226,11 +225,11 @@ MonoBehaviour:
     showEyeDropper: 1
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 400
+    m_Value: 200
     min: 1
   enableVolumetricFog:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   anisotropy:
     m_OverrideState: 1
     m_Value: 0
@@ -243,7 +242,7 @@ MonoBehaviour:
     max: 1
   depthExtent:
     m_OverrideState: 1
-    m_Value: 64
+    m_Value: 128
     min: 0.1
   sliceDistributionUniformity:
     m_OverrideState: 1
@@ -257,12 +256,12 @@ MonoBehaviour:
     max: 100
   volumeSliceCount:
     m_OverrideState: 1
-    m_Value: 64
+    m_Value: 256
     min: 1
     max: 1024
   filter:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
 --- !u!114 &7934840048531153910
 MonoBehaviour:
   m_ObjectHideFlags: 3

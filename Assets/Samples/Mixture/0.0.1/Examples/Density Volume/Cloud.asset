@@ -1,0 +1,999 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &-7690023432376492396
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 535eef2511f2f5540b6c9cc7430067f4, type: 3}
+  m_ShaderKeywords: CRT_3D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SourceA_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceA_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceA_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaCutoffEnable: 0
+    - _AlphaDstBlend: 0
+    - _AlphaSrcBlend: 1
+    - _AlphaToMask: 0
+    - _AlphaToMaskInspectorValue: 0
+    - _BlendMode: 0
+    - _CullMode: 2
+    - _CullModeForward: 2
+    - _DepthOffsetEnable: 0
+    - _DoubleSidedEnable: 0
+    - _DoubleSidedNormalMode: 2
+    - _DstBlend: 0
+    - _EnableFogOnTransparent: 1
+    - _OpaqueCullMode: 2
+    - _RenderQueueType: 1
+    - _SrcBlend: 1
+    - _StencilRef: 0
+    - _StencilRefDepth: 0
+    - _StencilRefDistortionVec: 4
+    - _StencilRefGBuffer: 2
+    - _StencilRefMV: 32
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskGBuffer: 14
+    - _StencilWriteMaskMV: 40
+    - _SurfaceType: 0
+    - _TransparentBackfaceEnable: 0
+    - _TransparentCullMode: 2
+    - _TransparentDepthPostpassEnable: 0
+    - _TransparentDepthPrepassEnable: 0
+    - _TransparentSortPriority: 0
+    - _TransparentWritingMotionVec: 0
+    - _TransparentZWrite: 0
+    - _UseShadowThreshold: 0
+    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestGBuffer: 4
+    - _ZTestTransparent: 4
+    - _ZWrite: 1
+    m_Colors:
+    - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Value: {r: 5, g: 5, b: 5, a: 5}
+  m_BuildTextureStacks: []
+--- !u!21 &-3386909747136990459
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 46c02ba1b0b63954bab0afcd9e828ac6, type: 3}
+  m_ShaderKeywords: CRT_3D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaCutoffEnable: 0
+    - _AlphaDstBlend: 0
+    - _AlphaSrcBlend: 1
+    - _AlphaToMask: 0
+    - _AlphaToMaskInspectorValue: 0
+    - _BlendMode: 0
+    - _CullMode: 2
+    - _CullModeForward: 2
+    - _DepthOffsetEnable: 0
+    - _DoubleSidedEnable: 0
+    - _DoubleSidedNormalMode: 2
+    - _DstBlend: 0
+    - _EnableFogOnTransparent: 1
+    - _Mode: 0
+    - _OpaqueCullMode: 2
+    - _RenderQueueType: 1
+    - _SrcBlend: 1
+    - _StencilRef: 0
+    - _StencilRefDepth: 0
+    - _StencilRefDistortionVec: 4
+    - _StencilRefGBuffer: 2
+    - _StencilRefMV: 32
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskGBuffer: 14
+    - _StencilWriteMaskMV: 40
+    - _SurfaceType: 0
+    - _TransparentBackfaceEnable: 0
+    - _TransparentCullMode: 2
+    - _TransparentDepthPostpassEnable: 0
+    - _TransparentDepthPrepassEnable: 0
+    - _TransparentSortPriority: 0
+    - _TransparentWritingMotionVec: 0
+    - _TransparentZWrite: 0
+    - _UseShadowThreshold: 0
+    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestGBuffer: 4
+    - _ZTestTransparent: 4
+    - _ZWrite: 1
+    m_Colors:
+    - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
+    - _Color1: {r: 0, g: 0, b: 0, a: 0}
+    - _Color2: {r: 1, g: 1, b: 1, a: 1}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &-2171827650858329511
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 3ff8d72a4c500ad4093607671bcd9097, type: 3}
+  m_ShaderKeywords: CRT_3D _TILINGMODE_NONE
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _UV_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaCutoffEnable: 0
+    - _AlphaDstBlend: 0
+    - _AlphaSrcBlend: 1
+    - _AlphaToMask: 0
+    - _AlphaToMaskInspectorValue: 0
+    - _BlendMode: 0
+    - _Channels: 0
+    - _CullMode: 2
+    - _CullModeForward: 2
+    - _DepthOffsetEnable: 0
+    - _DoubleSidedEnable: 0
+    - _DoubleSidedNormalMode: 2
+    - _DstBlend: 0
+    - _EnableFogOnTransparent: 1
+    - _Frequency: 0.34
+    - _Lacunarity: 2.12
+    - _Octaves: 8.9
+    - _OpaqueCullMode: 2
+    - _Persistance: 0.7
+    - _RenderQueueType: 1
+    - _Seed: 42
+    - _SrcBlend: 1
+    - _StencilRef: 0
+    - _StencilRefDepth: 0
+    - _StencilRefDistortionVec: 4
+    - _StencilRefGBuffer: 2
+    - _StencilRefMV: 32
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskGBuffer: 14
+    - _StencilWriteMaskMV: 40
+    - _SurfaceType: 0
+    - _TilingMode: 0
+    - _TransparentBackfaceEnable: 0
+    - _TransparentCullMode: 2
+    - _TransparentDepthPostpassEnable: 0
+    - _TransparentDepthPrepassEnable: 0
+    - _TransparentSortPriority: 0
+    - _TransparentWritingMotionVec: 0
+    - _TransparentZWrite: 0
+    - _UseShadowThreshold: 0
+    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestGBuffer: 4
+    - _ZTestTransparent: 4
+    - _ZWrite: 1
+    m_Colors:
+    - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutputRange: {r: -0.9, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &-800710177990080239
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 46c02ba1b0b63954bab0afcd9e828ac6, type: 3}
+  m_ShaderKeywords: CRT_3D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaCutoffEnable: 0
+    - _AlphaDstBlend: 0
+    - _AlphaSrcBlend: 1
+    - _AlphaToMask: 0
+    - _AlphaToMaskInspectorValue: 0
+    - _BlendMode: 0
+    - _CullMode: 2
+    - _CullModeForward: 2
+    - _DepthOffsetEnable: 0
+    - _DoubleSidedEnable: 0
+    - _DoubleSidedNormalMode: 2
+    - _DstBlend: 0
+    - _EnableFogOnTransparent: 1
+    - _Mode: 2
+    - _OpaqueCullMode: 2
+    - _RenderQueueType: 1
+    - _SrcBlend: 1
+    - _StencilRef: 0
+    - _StencilRefDepth: 0
+    - _StencilRefDistortionVec: 4
+    - _StencilRefGBuffer: 2
+    - _StencilRefMV: 32
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskGBuffer: 14
+    - _StencilWriteMaskMV: 40
+    - _SurfaceType: 0
+    - _TransparentBackfaceEnable: 0
+    - _TransparentCullMode: 2
+    - _TransparentDepthPostpassEnable: 0
+    - _TransparentDepthPrepassEnable: 0
+    - _TransparentSortPriority: 0
+    - _TransparentWritingMotionVec: 0
+    - _TransparentZWrite: 0
+    - _UseShadowThreshold: 0
+    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestGBuffer: 4
+    - _ZTestTransparent: 4
+    - _ZWrite: 1
+    m_Colors:
+    - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
+    - _Color1: {r: 0, g: 0, b: 0, a: 0}
+    - _Color2: {r: 2.433572, g: 2.433572, b: 2.433572, a: 1}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &-574094794003562160
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 535eef2511f2f5540b6c9cc7430067f4, type: 3}
+  m_ShaderKeywords: CRT_3D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SourceA_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceA_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceA_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaCutoffEnable: 0
+    - _AlphaDstBlend: 0
+    - _AlphaSrcBlend: 1
+    - _AlphaToMask: 0
+    - _AlphaToMaskInspectorValue: 0
+    - _BlendMode: 0
+    - _CullMode: 2
+    - _CullModeForward: 2
+    - _DepthOffsetEnable: 0
+    - _DoubleSidedEnable: 0
+    - _DoubleSidedNormalMode: 2
+    - _DstBlend: 0
+    - _EnableFogOnTransparent: 1
+    - _OpaqueCullMode: 2
+    - _RenderQueueType: 1
+    - _SrcBlend: 1
+    - _StencilRef: 0
+    - _StencilRefDepth: 0
+    - _StencilRefDistortionVec: 4
+    - _StencilRefGBuffer: 2
+    - _StencilRefMV: 32
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskGBuffer: 14
+    - _StencilWriteMaskMV: 40
+    - _SurfaceType: 0
+    - _TransparentBackfaceEnable: 0
+    - _TransparentCullMode: 2
+    - _TransparentDepthPostpassEnable: 0
+    - _TransparentDepthPrepassEnable: 0
+    - _TransparentSortPriority: 0
+    - _TransparentWritingMotionVec: 0
+    - _TransparentZWrite: 0
+    - _UseShadowThreshold: 0
+    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestGBuffer: 4
+    - _ZTestTransparent: 4
+    - _ZWrite: 1
+    m_Colors:
+    - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Value: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b113f958e0564f309164e29c24b042d, type: 3}
+  m_Name: Fog
+  m_EditorClassIdentifier: 
+  serializedNodes:
+  - type: Mixture.OutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"20aad9a2-f45b-443d-9f30-0287577d108c","computeOrder":7,"position":{"serializedVersion":"2","x":-328.00006103515627,"y":137.0,"width":350.0,"height":547.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":32,"height":32,"sliceCount":32,"potSize":32,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":3,"outputChannels":1,"outputPrecision":4,"editFlags":981,"doubleBuffered":false,"wrapMode":0,"filterMode":0,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":8,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":14.600000381469727,"isPinned":false,"outputTextureSettings":[{"inputTexture":{"instanceID":0},"name":"Main
+      Texture","enableCompression":true,"compressionFormat":1,"compressionQuality":100,"hasMipMaps":false,"customMipMapShader":{"instanceID":0},"isMain":true,"enableConversion":true,"conversionFormat":1,"finalCopyMaterial":{"fileID":7333470367267672487,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}]}'
+  - type: Mixture.PerlinNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"2e7c94ce-dcbb-40db-a0fb-bb49f8f1478e","computeOrder":8,"position":{"serializedVersion":"2","x":-854.0,"y":-40.0,"width":250.0,"height":604.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":8,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"3ff8d72a4c500ad4093607671bcd9097","type":3},"material":{"fileID":3413396727329135104,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
+  - type: Mixture.GradienMattetNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"469cd662-318e-4ea2-8402-b80977c1984e","computeOrder":9,"position":{"serializedVersion":"2","x":-854.0,"y":564.0,"width":250.0,"height":492.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":8,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":22.700000762939454,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"46c02ba1b0b63954bab0afcd9e828ac6","type":3},"material":{"fileID":724760942438323202,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
+  - type: Mixture.MulNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"4601112c-f095-48e1-b672-247c10aa230f","computeOrder":10,"position":{"serializedVersion":"2","x":-578.0,"y":137.0,"width":250.0,"height":479.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":8,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":12.699999809265137,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"535eef2511f2f5540b6c9cc7430067f4","type":3},"material":{"fileID":7509657442752961878,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
+  - type: Mixture.GradienMattetNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"c5c6751d-9552-42a8-a950-2936c9299cd5","computeOrder":1,"position":{"serializedVersion":"2","x":-415.7592468261719,"y":817.5,"width":250.0,"height":477.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":2,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":14.800000190734864,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"46c02ba1b0b63954bab0afcd9e828ac6","type":3},"material":{"fileID":-800710177990080239,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
+  - type: Mixture.WhiteNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"7c2fb114-6e74-4c47-a647-38f2bc5bf26f","computeOrder":2,"position":{"serializedVersion":"2","x":-416.00006103515627,"y":1310.0001220703125,"width":250.0,"height":413.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":31.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"88f45c924e1d2434bb576fea57ed02b0","type":3},"material":{"fileID":2484255948844463516,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
+  - type: Mixture.ThresholdNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"c6e9896e-a143-4215-abe4-726d02da2444","computeOrder":4,"position":{"serializedVersion":"2","x":109.99999237060547,"y":1125.000244140625,"width":250.0,"height":560.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":8,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":16.299999237060548,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"bd0e9b179d9b69e4f9a0f98d347bee62","type":3},"material":{"fileID":7930212193185237559,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
+  - type: Mixture.MulNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"81fa41fb-045d-42ba-8002-60fd0cec5e23","computeOrder":3,"position":{"serializedVersion":"2","x":-140.0,"y":1125.0,"width":250.0,"height":479.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":17.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"535eef2511f2f5540b6c9cc7430067f4","type":3},"material":{"fileID":-574094794003562160,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
+  - type: Mixture.Distance, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"308aeff8-1bdf-4a39-8cb2-b027c1cad852","computeOrder":5,"position":{"serializedVersion":"2","x":360.0,"y":1125.000244140625,"width":250.0,"height":452.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":1,"outputPrecision":4,"editFlags":127,"doubleBuffered":true,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":16.600000381469728,"isPinned":false,"computeShader":{"fileID":7200000,"guid":"f6802a80cf90eea42b28efa42c68eb51","type":3},"input":{"instanceID":0},"output":{"instanceID":0},"threshold":1.0,"distance":16.600000381469728}'
+  - type: Mixture.PerlinNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"ba737bbf-b683-408d-a3e2-ec706793f864","computeOrder":0,"position":{"serializedVersion":"2","x":798.0,"y":1101.0,"width":250.0,"height":604.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"3ff8d72a4c500ad4093607671bcd9097","type":3},"material":{"fileID":-2171827650858329511,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
+  - type: Mixture.MulNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"8b75844a-973d-4fc5-8786-4556cf6ed006","computeOrder":6,"position":{"serializedVersion":"2","x":1071.85009765625,"y":1281.4503173828125,"width":250.0,"height":458.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":8,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":24.100000381469728,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"535eef2511f2f5540b6c9cc7430067f4","type":3},"material":{"fileID":-7690023432376492396,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
+  - type: Mixture.FloatNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"ff6032f0-e0af-40d9-8719-2b7cf4a9dba7","computeOrder":11,"position":{"serializedVersion":"2","x":784.400146484375,"y":1761.6402587890625,"width":150.0,"height":103.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"Float":5.0}'
+  - type: Mixture.GradienMattetNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"c7aed6d1-ce08-41cc-95e6-2d04f7d645e2","computeOrder":12,"position":{"serializedVersion":"2","x":156.0,"y":137.0,"width":250.0,"height":477.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"46c02ba1b0b63954bab0afcd9e828ac6","type":3},"material":{"fileID":-3386909747136990459,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
+  edges:
+  - GUID: e2868ac8-51da-48b9-9978-a66a450ded4b
+    owner: {fileID: 11400000}
+    inputNodeGUID: 308aeff8-1bdf-4a39-8cb2-b027c1cad852
+    outputNodeGUID: c6e9896e-a143-4215-abe4-726d02da2444
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: output
+    outputPortIdentifier: output
+  - GUID: 60469295-d053-4e4a-8a6b-680b1d7275ae
+    owner: {fileID: 11400000}
+    inputNodeGUID: 20aad9a2-f45b-443d-9f30-0287577d108c
+    outputNodeGUID: 8b75844a-973d-4fc5-8786-4556cf6ed006
+    inputFieldName: outputTextureSettings
+    outputFieldName: output
+    inputPortIdentifier: Main Texture
+    outputPortIdentifier: output
+  - GUID: 6dccf02d-5c77-43c1-8043-227d6a26f0fe
+    owner: {fileID: 11400000}
+    inputNodeGUID: c6e9896e-a143-4215-abe4-726d02da2444
+    outputNodeGUID: 81fa41fb-045d-42ba-8002-60fd0cec5e23
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Source_3D
+    outputPortIdentifier: output
+  - GUID: 1006d3cf-fa9c-4ab0-ad94-fb6e0546cb7f
+    owner: {fileID: 11400000}
+    inputNodeGUID: 81fa41fb-045d-42ba-8002-60fd0cec5e23
+    outputNodeGUID: 7c2fb114-6e74-4c47-a647-38f2bc5bf26f
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _SourceB_3D
+    outputPortIdentifier: output
+  - GUID: c864a832-28fd-49c9-a03b-b1412f1547b6
+    owner: {fileID: 11400000}
+    inputNodeGUID: 81fa41fb-045d-42ba-8002-60fd0cec5e23
+    outputNodeGUID: c5c6751d-9552-42a8-a950-2936c9299cd5
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _SourceA_3D
+    outputPortIdentifier: output
+  - GUID: de0e2fc4-0cc0-4fc4-8e40-4dbf4d141ea1
+    owner: {fileID: 11400000}
+    inputNodeGUID: 8b75844a-973d-4fc5-8786-4556cf6ed006
+    outputNodeGUID: 308aeff8-1bdf-4a39-8cb2-b027c1cad852
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _SourceB_3D
+    outputPortIdentifier: output
+  - GUID: 970cd820-9149-4639-8723-ec4e33e1ea4e
+    owner: {fileID: 11400000}
+    inputNodeGUID: 8b75844a-973d-4fc5-8786-4556cf6ed006
+    outputNodeGUID: ba737bbf-b683-408d-a3e2-ec706793f864
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _SourceA_3D
+    outputPortIdentifier: output
+  groups: []
+  stackNodes: []
+  pinnedElements: []
+  exposedParameters: []
+  stickyNotes: []
+  position: {x: 89, y: -300, z: 0}
+  scale: {x: 0.57175326, y: 0.57175326, z: 1}
+  realtimePreview: 1
+  isRealtime: 0
+  isParameterViewOpen: 0
+  objectReferences:
+  - {fileID: 7333470367267672487}
+  - {fileID: 3413396727329135104}
+  - {fileID: 724760942438323202}
+  - {fileID: 7509657442752961878}
+  - {fileID: -800710177990080239}
+  - {fileID: 2484255948844463516}
+  - {fileID: 7930212193185237559}
+  - {fileID: -574094794003562160}
+  - {fileID: -2171827650858329511}
+  - {fileID: -7690023432376492396}
+  - {fileID: -3386909747136990459}
+  _mainOutputTexture: {fileID: 6091485087088655365}
+  _outputTextures:
+  - {fileID: 6091485087088655365}
+  - {fileID: 6091485087088655365}
+  - {fileID: 6091485087088655365}
+  references:
+    version: 1
+--- !u!21 &724760942438323202
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 46c02ba1b0b63954bab0afcd9e828ac6, type: 3}
+  m_ShaderKeywords: CRT_3D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaCutoffEnable: 0
+    - _AlphaDstBlend: 0
+    - _AlphaSrcBlend: 1
+    - _AlphaToMask: 0
+    - _AlphaToMaskInspectorValue: 0
+    - _BlendMode: 0
+    - _CullMode: 2
+    - _CullModeForward: 2
+    - _DepthOffsetEnable: 0
+    - _DoubleSidedEnable: 0
+    - _DoubleSidedNormalMode: 2
+    - _DstBlend: 0
+    - _EnableFogOnTransparent: 1
+    - _Mode: 2
+    - _OpaqueCullMode: 2
+    - _RenderQueueType: 1
+    - _SrcBlend: 1
+    - _StencilRef: 0
+    - _StencilRefDepth: 0
+    - _StencilRefDistortionVec: 4
+    - _StencilRefGBuffer: 2
+    - _StencilRefMV: 32
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskGBuffer: 14
+    - _StencilWriteMaskMV: 40
+    - _SurfaceType: 0
+    - _TransparentBackfaceEnable: 0
+    - _TransparentCullMode: 2
+    - _TransparentDepthPostpassEnable: 0
+    - _TransparentDepthPrepassEnable: 0
+    - _TransparentSortPriority: 0
+    - _TransparentWritingMotionVec: 0
+    - _TransparentZWrite: 0
+    - _UseShadowThreshold: 0
+    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestGBuffer: 4
+    - _ZTestTransparent: 4
+    - _ZWrite: 1
+    m_Colors:
+    - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
+    - _Color1: {r: 1, g: 1, b: 1, a: 0}
+    - _Color2: {r: 0, g: 0, b: 0, a: 0.1764706}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &2484255948844463516
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 88f45c924e1d2434bb576fea57ed02b0, type: 3}
+  m_ShaderKeywords: CRT_3D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaCutoffEnable: 0
+    - _AlphaDstBlend: 0
+    - _AlphaSrcBlend: 1
+    - _AlphaToMask: 0
+    - _AlphaToMaskInspectorValue: 0
+    - _BlendMode: 0
+    - _CullMode: 2
+    - _CullModeForward: 2
+    - _DepthOffsetEnable: 0
+    - _DoubleSidedEnable: 0
+    - _DoubleSidedNormalMode: 2
+    - _DstBlend: 0
+    - _EnableFogOnTransparent: 1
+    - _Mode: 2
+    - _OpaqueCullMode: 2
+    - _RenderQueueType: 1
+    - _SrcBlend: 1
+    - _StencilRef: 0
+    - _StencilRefDepth: 0
+    - _StencilRefDistortionVec: 4
+    - _StencilRefGBuffer: 2
+    - _StencilRefMV: 32
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskGBuffer: 14
+    - _StencilWriteMaskMV: 40
+    - _SurfaceType: 0
+    - _TransparentBackfaceEnable: 0
+    - _TransparentCullMode: 2
+    - _TransparentDepthPostpassEnable: 0
+    - _TransparentDepthPrepassEnable: 0
+    - _TransparentSortPriority: 0
+    - _TransparentWritingMotionVec: 0
+    - _TransparentZWrite: 0
+    - _UseShadowThreshold: 0
+    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestGBuffer: 4
+    - _ZTestTransparent: 4
+    - _ZWrite: 1
+    m_Colors:
+    - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &3413396727329135104
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 3ff8d72a4c500ad4093607671bcd9097, type: 3}
+  m_ShaderKeywords: CRT_3D _TILINGMODE_NONE
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _UV_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaCutoffEnable: 0
+    - _AlphaDstBlend: 0
+    - _AlphaSrcBlend: 1
+    - _AlphaToMask: 0
+    - _AlphaToMaskInspectorValue: 0
+    - _BlendMode: 0
+    - _Channels: 0
+    - _CullMode: 2
+    - _CullModeForward: 2
+    - _DepthOffsetEnable: 0
+    - _DoubleSidedEnable: 0
+    - _DoubleSidedNormalMode: 2
+    - _DstBlend: 0
+    - _EnableFogOnTransparent: 1
+    - _Frequency: 3.82
+    - _Lacunarity: 2.12
+    - _Octaves: 6.3
+    - _OpaqueCullMode: 2
+    - _Persistance: 0.5
+    - _RenderQueueType: 1
+    - _Seed: 42
+    - _SrcBlend: 1
+    - _StencilRef: 0
+    - _StencilRefDepth: 0
+    - _StencilRefDistortionVec: 4
+    - _StencilRefGBuffer: 2
+    - _StencilRefMV: 32
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskGBuffer: 14
+    - _StencilWriteMaskMV: 40
+    - _SurfaceType: 0
+    - _TilingMode: 0
+    - _TransparentBackfaceEnable: 0
+    - _TransparentCullMode: 2
+    - _TransparentDepthPostpassEnable: 0
+    - _TransparentDepthPrepassEnable: 0
+    - _TransparentSortPriority: 0
+    - _TransparentWritingMotionVec: 0
+    - _TransparentZWrite: 0
+    - _UseShadowThreshold: 0
+    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestGBuffer: 4
+    - _ZTestTransparent: 4
+    - _ZWrite: 1
+    m_Colors:
+    - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutputRange: {r: -0.66, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!117 &6091485087088655365
+Texture3D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Cloud
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 3
+  m_ColorSpace: 0
+  m_Format: 54
+  m_Width: 32
+  m_Height: 32
+  m_Depth: 32
+  m_MipCount: 1
+  m_DataSize: 32768
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
+  m_UsageMode: 0
+  m_IsReadable: 1
+  image data: 32768
+  _typelessdata: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010100000000000000000000000000000000000000000000000000000000000001010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000001020100000000000000000000000000000000000000000000010306050201010203020000000000000000000000000000000000000000000000040606040302010201000000000000000000000000000000000000000000000001080706020100000000000000000000000000000000000000000000000000010307070400000000000000000000000000000000000000000000000000000000020302000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000101030200000000000000000000000000000000000000000000000001020201010509090400000000000000000000000000000000000000000001010406040103080d0e0802000000000000000000000000000000000000000000090c0d0704080b0f0e09030000000000000000000000000000000000000003000b130f0c090a0b0a0b06020000000000000000000000000000000000000004030a1a1511090804030403000000000000000000000000000000000000000002080b171610080502010100000000000000000000000000000000000000000001060c0e0d0502010000000000000000000000000000000000000000000000000000030303000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000100020200000000000000000000000000000000000000000000000000000000000106040200000000000000000000000000000000000000000000000000000000010706020000000000000000000000000000000000000000000000000000010006090f0b060100000000000000000000000000000000000000000000000705040711191a0f0600000000000000000000000000000000000000000704010a04080d1b2024180e0200000000000000000000000000000000000003070d100c0f0d141a24221b12040000000000000000000000000000000000000a0d1920121412181a1a1f170a02010000000000000000000000000000000000060915221f140d120e0f100d0502020000000000000000000000000000000000071215201b140e1007040603010101000000000000000000000000000000000006141a19160b060502020100000000000000000000000000000000000000000000040c0c0c0402010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001010000000000000000000000000000000000000000000000000000000000000305040100000000000000000000000000000000000000000000000000000107060a0a060000000000000000000000000000000000000000000000000000000609131009020000000000000000000000000000000000000000010000000000000316160b0400000000000000000000000000000000000000000100000000000006161b140f090000000000000000000000000000000000000101030000070304091c252219150500000000000000000000000000000000000002080c0009050b1028363c301f0b030000000000000000000000000000000000040e140f030f181c2842463224100a050000000000000000000000000000000009122621081818262e3634291d0f0f0802000000000000000000000000000000010b1e271f100b1b1f20221d110d0f08020000000000000000000000000000020b1a16261f1412180d090f0d07080a07010000000000000000000000000000010c1b1c2123110a0d080505040403040300000000000000000000000000000000030e1619160909030101010002020100000000000000000000000000000000000000030403000000000101000102010000000000000000000000000000000000000000000000000000000000010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000306060300000000000000000000000000000000000000000000000000000000020a0d0a0700000000000000000000000000000000000000000000000000000005121b15140500000000000000000000000000000000000000000001000000021019201f170b000000000000000000000000000000000000000206000000070206081d2c1c0c03000000000000000000000000000000000000030500000003020a081a271c1b1503000000000000000000000000000000000004040104020704060e2430272425110300000000000000000000000000000000010300000002091516364e503d2c1610060100000000000000000000000000000003001105000d232e3c666c482b1c1c1207000000000000000000000000000000050015210e161e384c625037282020150a01000000000000000000000000000000101e1f28121d363738342c231e1f170a0200000000000000000000000000070d1d15212125292a1e17211a18111d1608010000000000000000000000000104121e1d24271a1919150b0d12110c120d040000000000000000000000000001020c191f1d150a0c05070809060a0a07040100000000000000000000000000000000040a0d08040202010406070808070301000000000000000000000000000000000001020100000202020305080a0503010000000000000000000000000000000000000000000000010101020304040200000000000000000000000000000000000000000000000000000000020201000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001010000000000000000000000000000000000000000000000000000000004090b0c09030000000000000000000000000000000000000000000000000000000611170f0f0300000000000000000000000000000000000000000000000000000217251f1d10000000000000000000000000000000000000000000040600050a1222262b27190200000000000000000000000000000000000105000304100c0b191b1b2e2f1b080000000000000000000000000000000000030600000b0e06031615182a25251f080000000000000000000000000000000002050000040e08000b1e29302b322d1a0e060000000000000000000000000001000400000005000216274553524032231e15060000000000000000000000000000040000000300092043557d68442729261f13040000000000000000000000000000020001110d16374e677c70382d2927201607000000000000000000000000000203141c1a2f2e414b46524b3131342729180a000000000000000000000002050d142b2b18333d433e302e2e2b261f352118070000000000000000000002060e131b27292a2d21252623261f23251c231909010000000000000000000003090f131621201e170f0e0e171e1e171b19150f04000000000000000000000000070c0d0a1010130b0b0905071111131a19130d04010000000000000000000000000305030a0c0f0905040807020e12151a150a0500000000000000000000000000000000070a0a060401030504050c1419170c050000000000000000000000000000000000040503000000020201040d0e0b040000000000000000000000000000000000000000000000000000000002030200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000103030000000000000000000000000000000000000000000000000001000106080e0e0b070000000000000000000000000000000000000000000000000000000512211411080000000000000000000000000000000000000000000000000000000d1d252218040000000000000000000000000000000000000300090b080b080f12232f3425070000000000000000000000000000000000070800111d1c0c0b202b1b283a260a00000000000000000000000000000000000a0700001d1a06000c181b232f29200a02000000000000000000000000000006070500000f130200071a2a31343b2c1f170c020000000000000000000000000a0e0500000b0900001123434654462d30261b0d030000000000000000000001080f180000010000081846536e512c2534342a1b0d000000000000000000000106080e16001002071a3b55616a6d30343637321e0f010000000000000000000303080d111c1c1b243b474d4a57542e3d443732231201000000000000000001080c131d1a2d3021403d3a3e3f4a3d3d3a32412d1c0c000000000000000000020f152a33272e2f323724272e3f4a353532302a1c090200000000000000000002101c313425292524211d1424373d3927342b2a130c01000000000000000000000b1b26261f1f161e181418161c28241e2b321e160a0200000000000000000000020a1419121d2125170f0917130d1d23252f2d110d0000000000000000000000000004060b1c22180e0b09090f0a0e202935321b11020000000000000000000000000000020c15110c080703060707102020191004000000000000000000000000000000000003040303020000000003090d09030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003050400000000000000000000000000000000000000000000000000000002070c0b0c0800000000000000000000000000000000000000000001020103060b131112130c040000000000000000000000000000000000000000000501020507141f1b1a170d0000000000000000000000000000000000000000000000060000082229302616040000000000000000000000000000000000050007060a0f080d0e2a3f3d341a06000000000000000000000000000000000b0a04131d1a0f12141a23373e2d1704000000000000000000000000000000010d1100001d150700000e202c382a1a09040000000000000000000000000000090c0900000817050005162a363b38241f170e05000000000000000000000002131602000001060007161d413f4e402b3227180f060000000000000000000005171a2016180600000d163c3c4a4c322531352d1c1000000000000000000000071016233a1d1f000a15295054484b38363e3f412410030000000000000000030d12161c2c2823221e232d41414a4a3c4f5c4736251204000000000000000007151f2c3629282e26332c28334e514b4d564d4d3c200c01000000000000000008222d494e3b38322623282a405c564848383d302406040000000000000000000b21325353393039282d272643555f573c4d37291e0d04000000000000000000052031463e312b25312a23292a3544473646442f250f05000000000000000000000b1e2d3224282f2d231c121f24203036333a3d23100300000000000000000000000710151d2933271514131118101a222c3943241a0700000000000000000000000000000c1e251b1316100d0b090e1a2a3525170c01000000000000000000000000000000070e0d0c0907060203020712181408010000000000000000000000000000000000000002030100000000000102010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002040400000000000000000000000000000000000000000000000000000001070f15150c020000000000000000000000000000000000000000000000000007152323271e0b000000000000000000000000000000000000000001020103070d1a212b322a16040000000000000000000000000000000000010404060406080f18262a33342708000000000000000000000000000000000000000300050f0e09172f39433d31110000000000000000000000000000000000000000010a141b11173e52554e3514000000000000000000000000000000010c08090e0e1d1a1f13143243453f7111030503000000000000000000000000020f1207000f120d0900092a413c301d090b09090400000000000000000000000912140900021a05000010252e3c32241b130f0d09030000000000000000000215180d0c0900090002091a293959362c2c24180f0b030000000000000000000a1b171d2a28000000050a2a2b2d4742273530311e10020000000000000000020e131a2e3f2e1200061523434b2a3a42424c45472a130200000000000000000c141724303629212422171d33383a464c5d6950472f1303000000000000000111202e3d4b4230322a1c1e222c50455553535c553c240e0100000000000000021331466363513c3327162b34515e624b3f3639302c0d07000000000000000001172a426d633b263c252d2832435b6e5e4648311e2712070100000000000000000c2a4561492d283646322e3030395255434c3a322c190a01000000000000000003192e383c252a33262e291d1a1f223242464139310f080100000000000000000003131e2325323d371f1a1313190f202532343524200d00000000000000000000000002041521332a1d150f140b0911172b3a29140e04000000000000000000000000000003151c1711100f0c05090608111a1c0c02000000000000000000000000000000000002050809050300000000020503000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040c11120800000000000000000000000000000000000000000000000000000615213234240f000000000000000000000000000000000000000000000000020c2644474c3b24090000000000000000000000000000000000000000010002030a254356594f3113000000000000000000000000000000000001040507050808111d3a4a52543c180000000000000000000000000000000001030305000b0e19152f3e5c5f54421d020000000000000000000000000000010205030301090e231617426b725d4120030604000000000000000000000002060c0c060f0813191d131a42504e4a7b1d101411080100000000000000000003080f100b0e040b0c090012384f403929131819191207000000000000000002050e16171c08080e0000000a262b332c272016141d190b0200000000000000010614191921110c0a0000000c11284f35332f221d1c1d0d0300000000000000020d1a1418241600000000041d141a3c433339343c251709010000000000000007151b2528232004000319202f2e1d304449504c43241705000000000000000013212137303019110d161f1f312a23364f6b66423d2c10020000000000000003172a3e4d563e2f2a240e202030403c464e464f402e230f00000000000000000619345869664c3b302b1e273149514b3f352e2b2b2219080000000000000000041e30496b59412427393326283446584b3a391e23211b0a020000000000000000142f4f5c492c2933523b3529252541493f3120221e231203000000000000000008233b423c20394621242a2310162533394b402c23180f02000000000000000000091c2b2a2a45443e231506111a17232f423c26221d0d00000000000000000000000006091c2c42322e1509180e071014252a23130e0500000000000000000000000000000a2025221d13110d07080a0b121a1b10030000000000000000000000000000000000050b100c0707020201000307040000000000000000000000000000000000000000000102010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010302000000000000000000000000000000000000000000000000000203020d1720221304000000000000000000000000000000000000000000000203050a1c3046443221050000000000000000000000000000000000000000010203040c2d5669644f381900000000000000000000000000000000000000000103040312385b7a766844200200000000000000000000000000000000000303060a0a0716295676706541250400000000000000000000000000000102040504080b0d1a1a25527f766047230600000000000000000000000000030c0b0c040b070708221b1c49886e533e230e151006000000000000000000010d151716090d02070f1811114262544939202529211c0b00000000000000010311151c1a111703041005000d375548412f292e282324160500000000000002081018181d1d1d080d0000000d22292e2e24322c272a28160b00000000000000030e19131d250e0d140000040a0e1d383d3037393437321b0d00000000000000030f1314181011090e00020b1306193f433d3b3d4834261508000000000000010e2423362a1519100a0514171916172649504f3f3422171003000000000000021a2e3c4a312e18140b0e2727281917265175553228201105000000000000000317294b6552362e1d1e1723202926293144484531261909000000000000000004152d547164553e322f2b1f1e2e2e283033272626201c080000000000000000041c35575d58512f1f4c40291b303633292c25121b1a180e02000000000000000015314e4d4f443a354c3f3a1e21242d452f19071c22291503000000000000000009263c4a473153563f20231d061a333b29272820152115020000000000000000000b1e2f2e314b4349291c000b2126232031352918170a000000000000000000000000060c273745362f110c180f0e14161e1a1c160f0300000000000000000000000000000c20262125130d1109080e1012151711040000000000000000000000000000000000080e14120a0603040200020604000000000000000000000000000000000000000000030602000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000202020003070500000000000000000000000000000000000000000000000104090b0a0f1d26271b0a000000000000000000000000000000000000000000020708110c1e334942382c0c00000000000000000000000000000000000000010407081014315878685e41220000000000000000000000000000000000000001060a080d1d43668b826d4d26070000000000000000000000000000000000000207100e0b1f35658c89674229080000000000000000000000000002070b070503090f0f17182151786555422207040200000000000000000000030d1a1f13070a07090a1e1d1a456e534435211d252112030000000000000001061c2c3020150a050c121c120f3653524432253a3f352d1903000000000000050f2027382819150d0e1a0f090f23434c3e2a3b4a4641362a1100000000000007122328272f26201118100701081724323227424d4e443e291702000000000005081b221d24221610160d100c090e193744313b5a4d4844291c03000000000001081316202113170e1504030b09051f4342403a454e4539271301000000000002122729354226221d1a050a15100e132c41574d38332b20190a000000000000051e35545f4b3c261e1e16252d1f1119204965452d241f1a0e0300000000000004192b4a735c432e1f26262a2024191835403f3e291f1509020000000000000004142948696557393233291f142014182827231c1d1d1609000000000000000001132e56544e4b3226433a3319242c1f041c0c0a1b1b170c0100000000000000000f29474f4c423c3c4539351d1524213110000017241e11020000000000000000031c3343483e595f59301c0f00173c2d140e1718131b100100000000000000000005172527374f4a492f160006232d26121016190f1309000000000000000000000000020f2c3640392905090f0b1718140e060e120a0100000000000000000000000000000b1b22171b0f0910090b0e0d08090b09020000000000000000000000000000000000060f0f120a030102010001020100000000000000000000000000000000000000000003040100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003070506030408050000000000000000000000000000000000000000000000050b0e1111111924281c0b000000000000000000000000000000000000000002090d19241924315148362a0c00000000000000000000000000000000000000030f141e282b356272615b42200000000000000000000000000000000000000008161c1a212e42617b77644727090000000000000000000000000000010201000716201819283d628276603f231209000000000000000000000001080e151008040e1a1a1b1b2d445659433524151006000000000000000000010616202b22140a090f0f1d171a2b4c483e2d22272e2a1a0800000000000000030a1f35492e2410080a11121018252e4238262f474e49351d080000000000010b1629445b3f311c0d0e140f0c0c121f37352a46656f5b41341c0000000000010a162b42544534261318160e050011212c36334f7077655840220500000000010911282d473d261a10180c1d04020d272f3b3b42665b5558392607000000000006131c302d2c211b0f0900000603112e37393f3c3f3e4a49371d06000000000008121f3331453b2520200e020f0c10253d3c4c3e373e303222120000000000020a1c314e685c452c2c322b2020150d1c2841453c2f2a1f1d15080000000000020b252f4e77624a342f33282921281a133339333a2016180e06000000000000010a1b2b475b61472b33321f1c1c1e15161f19171b1312110400000000000000000417284549403f353b4a40371b182a1c060a020f161e19080000000000000000010f223445413a4751442c25180d141b20020009141f160b000000000000000000000e2336444153624c32181100122d14010c0f141a160a00000000000000000000000d242e435459412b0d0000152e210f0704101311040000000000000000000000000e2337373e331f000107060e12110304070d0600000000000000000000000000020b14191c120d0502040504070502030302000000000000000000000000000000000304040b0b080601000000000000000000000000000000000000000000000000000000000101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010101000000000000000000000000000000000000000000000000000000020709090d0a05030200000000000000000000000000000000000000000000020b0f0e15181b18201f130400000000000000000000000000000000000000000811142f32272e314844301b0400000000000000000000000000000000000001081e274142433d545650453317050000000000000000000000000000000000021025353d44524a5e57574e3d27170f03000000000000000000000000030402011028352a33374456594e45332929200d00000000000000000000020d1215140d0c1e29272728313d3c3e2e2b353a2c18050000000000000000010615262c2f22130f1c1a1f13191d2e2c282c38423b2f1f0b00000000000000060c18355b3f43190c09100d0814191d2929283e4c564b321e0a0000000000020d16224f786343280d06080607070c112024534b757f623a341c00000000000307152a4e846140271129110c03000a1b232c2f518a916a5e49260700000000030a17283a664c2c1f11160c1001000e2a293436486a75696641290900000000000d1a2d3e3636271c140c000000061d3b3c3b3d3d3e4157614325080000000003111628312936392a291f1c00050d113646423b31363a3641321c0000000000080f1b37434c5d3f3335372c16120c12273b443e352e2929241c0b000000000007112f4254664634302d3329171824191b2b3033331a151a140800000000000005122f3b555047392b2c302b1d202027221f1c161d0d090a0000000000000000031025303f454346393f404c3a222132211f0c0b1511150f0200000000000000000a1b282b3e4c59605a382a2e1209191a2108091413180f0300000000000000000006111f3e5b58504a311e201f000d1b0507080712150e030000000000000000000000143c4f5b5c582b20110000111c160b03050b110700000000000000000000000008273d4d423c2f1a00000000010a0d0404060601000000000000000000000000000e1f211f1e170c0000000000000101010100000000000000000000000000000000060b0c09080502000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002040300000000000000000000000000000000000000000000000000000004090911121008000000000000000000000000000000000000000000000000050e13151d22271b1311070000000000000000000000000000000000000000000d142132373038333230200d00000000000000000000000000000000000000040f202e4d464d4d403b3d32251a13080000000000000000000000000000000005132a2f4d576656583f3936363935241000000000000000000000000003040303192e3e383d48443837332f39484a382509000000000000000000020c1014140d13272f292c272633312924345c6e4f36160000000000000000010515282d2f1a12121f1e191111172019293f686f543b230c00000000000000050b1940553e351a0e0e110e07070e1c21233e5f5e524636210b0000000000020a171d4a6b5b35291203070809110e151c1e524f786f553c351a00000000000407152849755f492713260e0a030508181f232b4e9089634d44200600000000030e192142534540271619130f06070d222a33384e66877e634326090000000002101e2a342f372e1d1f21140d04161939494643404959766947230700000000071d20322d1f2a2d262626280d080915445854443343484c4e351e00000000010f1c234b4a394f34292a252714160b1a36474945312b2e2f2e1e0b00000000010e1e3665605133261f232c26161d23202f2b36332a1b1a1d17080000000000000c254256684b382827242a3135261c372e353420190b08070000000000000000071e2d40424a514a433929453d2f323a30261815140c070200000000000000000213223734496278695728313a150d2420190d0b0e0a0803000000000000000000030f1e2749787d5f4329152a2200060f040b0502060703000000000000000000000002214d6b7878561f1a0e0400100b0b07020203040000000000000000000000000016374a5c4f4634240c0300000005040101010000000000000000000000000000041d2c2528241b1408000000000000000000000000000000000000000000000000040f100e0f0d0a040000000000000000000000000000000000000000000000000000010201010301000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040606000000000000000000000000000000000000000000000000000000040d12181c1409000000000000000000000000000000000000000000000000060f191a2728291b0a040000000000000000000000000000000000000000000010172437373c3730201309040402000000000000000000000000000000000004151b2b4a4649533c2b2520232d23150400000000000000000000000000000006162826464d68573f312b2e3b524e3220040000000000000000000000010101031a2d39423048432e26303345676b4b351700000000000000000001090c14120a0f202f282c261723272c3d578f8e5b41220300000000000000000515252e250f0a131c19140e0a1120264466a0876647270a00000000000000010a19403c2e14180c0f110d08050b21332a598079544538220900000000000106162242553d2221130a100d08151724282739526d5f4b42301900000000000106101a3c4844452c120e1209040811212430364a8671593d3b220500000000010b151a363e44462a1a211f0f090a122c343d4653697b7a5b4324070000000003121a24241f30301b253431250a141c3753515255616b85633c1d0400000000081f2737331a22211b212e371c0c011b3d505c4e464f5f51472c1700000000010f293055513b39251e23222c2c210d1936464e4735343e3b2e1e070000000000112b4a7b6f4833201e1f2d312e2624223c374340292725261a080000000000000d3351687d4e3927151e2b304734192c2e443a271f14120c03000000000000000b263854515355473e29203a42391f332a231b171a0f060000000000000000000418294141516a71674a2328251e12211a110f0b090a010000000000000000000006132126407e95845737242213000808050502010000000000000000000000000000052144728a866225210c0d000906090500000000000000000000000000000000001a415a606251393420120000000502000000000000000000000000000000000009263331302f21281a0700000301000000000000000000000000000000000000000912151314171b0c0100000000000000000000000000000000000000000000000000030403080c08020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040905000000000000000000000000000000000000000000000000000000040c1519201207000000000000000000000000000000000000000000000000040d1b1e242722180800000000000000000000000000000000000000000000000b161a3138372e28180300050a06000000000000000000000000000000000003161c254a403f4539210e1a29342d1d0900000000000000000000000000000005151f263b38474436242137465150392409000000000000000000000000000002141d2a2f2b3633301b2e4850707e5a351b0000000000000000000002080b0a04091c2418181d101c1c315680b09e644123060000000000000000050f1e201b0c06141715131607111e3a517fbb8f69552f0900000000000000010915342422110e091314131210102d45486a8e7f604c311b04000000000000020c1c32402b241910161b18151a293442455063655549392614000000000000030d1b2f35333927151a2219080d1f383d4c424862574d3c2e1d020000000000030e19292d3533221a212b170c091c3f4b4d4d5d6d665a5336210300000000040e15211917242d1d253c34210d0c233a5c625a6f7e787452311701000000000a17253e30172023252634361318171d32526e51525f5c493f2a0e00000000020c1f2a4c5134261d1e283339342524252d52604a3b3e42412b1b0300000000010f3045656f48361f2627334c45302b1a2d34554e31382d2b1b080000000000010b3356666e60443c2c20294454452217213d38392e2a211107000000000000000f2a42625b5a5d452c0e123847351b2b22222222291e1205000000000000000006192c4244556e5f532c212317161f25161312110f11050000000000000000000006131f2841739787443732210609120d0a0604030200000000000000000000000000051c3a6d87805f2f2d1e170005060a030100000000000000000000000000000000163756666c513d342a1e020401060301000000000000000000000000000000000824353b38363739281001080e050100000000000000000000000000000000000007151c131b2624160602020301000000000000000000000000000000000000000000030406111111060101000000000000000000000000000000000000000000000000000001020100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020302000000000000000000000000000000000000000000000000000000020b1211150d0300000000000000000000000000000000000000000000000001081a18151d1812030000000000000000000000000000000000000000000000050a0d222a2a27211000000509060000000000000000000000000000000000010e11142e1d292d32190617252e2a1a08000000000000000000000000000000020a0d0e201722292a1a1936414243351d080000000000000000000000000000010808100d1a1c172212274a536c7f5c2817000000000000000000000002030200041317100a0e0d181b2c4e729e9a6d422405000000000000000001050f0c0a05010c1512121608141f3f5572a490645430090000000000000000030b1a18150c040b1f21182121213b556968876f674a250d0000000000000000040e1f281d1c0b15242827242c3e445b7161665b503d2719070000000000000107122125231f121b2a3134221d385258574f54544f3e32210f00000000000000080f19181d1e1918242f2c1610304f53515175756f4d402a1300000000000108101a13151b2a1d222a27151b181d3451655977917d58422c0f000000000007101d322217242e34262b28111d26212e6a7b5b4e6f544644290800000000010c141b3c42291525242f2d312622393230517b5037332f372d170000000000010d2a2e3f504a342725272e4541392a1c1f39594b3b3c292317070000000000010c2a47514a63565146261b475c4a21151a3344483732281708000000000000000b1f405d535a6f4f35140a2a3a30292a212a3228332c1c0d000000000000000002142138395b7b5e3921171e171231362218121919150802000000000000000000030e1a2d48637751171c2a2405142017130c09090601000000000000000000000000051731506a5b4b2d303b120f160e0b0405010000000000000000000000000000000c243c5c574f46343825060c1409050500000000000000000000000000000000041a2b3734354641330d04151e0c050000000000000000000000000000000000000310181422302b1c0c0509090400000000000000000000000000000000000000000001040c16131509030300000000000000000000000000000000000000000000000000000304020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040808070500000000000000000000000000000000000000000000000000000512100f130e0700000000000000000000000000000000000000000000000002080e161e1e1c1806000002030200000000000000000000000000000000000006080a1311121b220d03101c231c100300000000000000000000000000000000020000081011141b0e11263838342512030000000000000000000000000000000100080412100814101f394b5e5b411f110000000000000000000000000000000105110f08090a16232938577f8056351b02000000000000000000000203020000061211110b0d162e425c708f83593d20040000000000000000000306080603000d232d241b253643657678766554321b02000000000000000001050a0d0b080314243723232e4d566c7a7764524629190c000000000000000002070d0d0c090512253c363f2c626c615d6d5c5555382919040000000000000002050a0a0f12110e212d332c234466514c5b82797e55342306000000000000030c0f0b0f181e1717161b232723223950565a7f9c7a4f4126080000000000020d141d1b1923282e22231d23271f2434656f5751674a443e220400000000000613182829241e3432341c232c263c3c3c5c8655372725342b14000000000000091c242c333e3f2e371e23302d36353a26525655453926191305000000000000081c2c39365753494025192f3a333935233048403d32291a0600000000000000030f24384764705a351a0e0b232d3a2b272e341e25271b1300000000000000000009112135636f4f2d18080e1422323c362a1811161c0c050000000000000000000004132a4350492c050d181e11343420200a0b0d080300000000000000000000000005162839412d310e132f1a31371c13090b05000000000000000000000000000000081c2b383a424b3734261b2223110d0901000000000000000000000000000000000c1b252b394a342b140e1a25160b02000000000000000000000000000000000000050c1b282b26170f0c10110600000000000000000000000000000000000000000000060f16151109050500000000000000000000000000000000000000000000000000000305030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000103020000000000000000000000000000000000000000000000000000000106080a090501000000000000000000000000000000000000000000000000000509090e0c0c0900000000000000000000000000000000000000000000000002050d0c08050c100300070e130e0500000000000000000000000000000000000103050907070b0d030819272a27160800000000000000000000000000000000000006090f0807090c14273440392715060000000000000000000000000000000001070a090e0a141f221f3c605b34210e00000000000000000000000000000000040b130e110d1f363c495d6b603c2510000000000000000000000000000000000a182125161a3a465d61745e4d34220e0000000000000000000000010101000208122b2d342b4b6457647a573e361d15030000000000000000000002020202030a14321c3f36676f595d6c5752533424140000000000000000000102030a0d0703111e213a3444654b46536e727254361d02000000000000010405040d1510120a0a1225241e28424b4758768b754f331b03000000000000050a0f0e151f1823201e1c2a2d1c2d4456595c505b48412d16020000000000010a1218151f3a2e483219242e2b2f483b626d5e482d2732210d000000000000020f181f232c433e5528131f1d294255385c60624a3929141202000000000000020e17242e4a4f414022191d1a1b50473030463e3b372915040000000000000000050c193c5d644833120e0310204635342c2a221d2318150000000000000000000106112d534d371d15000b0e21413e534a210b111c110600000000000000000000000d263c433822071a1c2622483e36340a080b09040000000000000000000000000213262f2d20160d081f23404e281808070800000000000000000000000000000003111a1921262d2c1a262a342517140c03000000000000000000000000000000000208102329321d1819132123190e05000000000000000000000000000000000000000215201619100f1112110600000000000000000000000000000000000000000000020a0b0f0d0806050000000000000000000000000000000000000000000000000000010201000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001020200000000000000000000000000000000000000000000000000000000030303030300000000000000000000000000000000000000000000000000000106060103030300000003040300000000000000000000000000000000000000010306040505030001080f161308010000000000000000000000000000000000000207050504010408111b2521170800000000000000000000000000000000000002080d0f0b0a0f1216263a321d0e040000000000000000000000000000000002071213190f15202b33394238230f0400000000000000000000000000000000040611140e112533383f4d402b201003000000000000000000000000000000010100061b14173440374356402928160c00000000000000000000000000000101030316001a2741453d45554b46452d1b080000000000000000000000010707030004140b202a373e3834455b59584428100000000000000000000101090a070f0000152022262e353d464e59625f3f230e00000000000000000204060d1a1b1510121a20203a3739413b58504c443b1a0b000000000000000206080c153722361f1c1a24221d4038555c5d5736262212050000000000000004090d18283639402b1413150e28413f4d58504e3c2a140900000000000000000207102638474a3824151208043039423b40323534271501000000000000000000030c2b44523f33110c000b1d474c313a28171a221b0e00000000000000000000000a213e3a301f1300080c1d4f4f3f471b05151a11030000000000000000000000051a32382b2011181a27333d404b391303060a02000000000000000000000000000a1b251d120d12111a29433730230d060900000000000000000000000000000000050a08090b101e172629321c16110e04000000000000000000000000000000000000030d12100d11151a1f17100b040000000000000000000000000000000000000000060e090e0e0c0e11090300000000000000000000000000000000000000000000000303080704030100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100010000000000000000000000000000000000000000000000000000000000010101000000000003050300000000000000000000000000000000000000000001010101000001030a0e0c070000000000000000000000000000000000000000050a08080505070b1116130b030000000000000000000000000000000000010410161614090d151e1e1d150d04000000000000000000000000000000000003010d0f0f0e101215232925140b0300000000000000000000000000000000000000000000121b1b2729312b161409020000000000000000000000000000000000000500000c15222627322a2d2b1d0a0000000000000000000000000002010200000e001019192024222b36313429100300000000000000000000000305080f00001018181d201d25353134373e271404000000000000000000000207131a0d00050d1613312a1c27343b372e2f240b030000000000000000000107101f19190b0d07161815272832413e422d1d110600000000000000000000020d212927281e110c100c1e3332363f2f342f1c0e0100000000000000000000031127353d331d0c0402052b3b4e402d1c292a1b0e0000000000000000000000031328333721160d00101e3f4c2b2c1f0617191406000000000000000000000002112426251c0d0407101c494f2628110410110900000000000000000000000000081b211a1412110e1c3238463e2b0d01070300000000000000000000000000000209110d070a0f0e123041212a1e0706080000000000000000000000000000000000020203070c1a1e22262516130e0b010000000000000000000000000000000000000003090a0d0f141e110b07080200000000000000000000000000000000000000000104060708080b0b030100000000000000000000000000000000000000000000000001020200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000104020301000102020302000000000000000000000000000000000000000002080c09090303040706050300000000000000000000000000000000000000010309050d0b050709090c0b030000000000000000000000000000000000000002020a00000c0a0f120e110d05040000000000000000000000000000000000000000000000000409130e0d0b100e07000000000000000000000000000000000100000100060b0912100f0e1017150e030000000000000000000000000102060500000505080e0b0d1018181616180d0400000000000000000000000002080d0c0102070e030e1310141e211c13110a02000000000000000000000002071013150c0302080d151518191c2122180d04000000000000000000000000030f1d1a1f130a050218232d30262119181a0c04000000000000000000000000031120262d15080511182c3739301c1419180a03000000000000000000000000040d1a2118140f0f1a242e3a2f261007140c0700000000000000000000000000030b12120f09070d171636442c19100b0905010000000000000000000000000000070a0b0806080a12203a3d2b17090404000000000000000000000000000000000003030304090b0c1d311f2110030803000000000000000000000000000000000000000105080e13171b15100f0a05000000000000000000000000000000000000000000030507070c100707050300000000000000000000000000000000000000000000000203020204030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000001020005050002020101000000000000000000000000000000000000000000010408020005040403020200000000000000000000000000000000000000000001020600000207040403010000000000000000000000000000000000000000000000000000080606040302020402000000000000000000000000000000000101000002050207030c06090805040300000000000000000000000000000002030402010609000d0b130c0c0e09040200000000000000000000000000000105070a0603070901141f1f150e0d0b07020000000000000000000000000000030a0a0f0a08070d181c28271e0f0d0a0703000000000000000000000000000002090d110b09101a1f23292d20110c0a0802000000000000000000000000000000060809070a0f1826233b30250a0606030000000000000000000000000000000002020402040a0b131f2c30180d060200000000000000000000000000000000000000000001050b11201f1f160803010000000000000000000000000000000000000000000102060a191a150d05050000000000000000000000000000000000000000000001020406090b09050401000000000000000000000000000000000000000000000000000203020302000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010200010301010000000000000000000000000000000000000000000000000001050005020301000000000000000000000000000000000000000000000000000102010302030100000000000000000000000000000000000000000000000000000102010100040100000000000000000000000000000000000000000000000000020605080c0e0603010000000000000000000000000000000000000001010101070702131c1a0d040201000000000000000000000000000000000000010302030915131b221a13060301000000000000000000000000000000000000010201030b141a242224160a020100000000000000000000000000000000000000000002070c1a192b22180902000000000000000000000000000000000000000000000003030e1217221105020000000000000000000000000000000000000000000000010406080e110d03010000000000000000000000000000000000000000000000000104080c0b050200000000000000000000000000000000000000000000000000000001030201000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020303040300000000000000000000000000000000000000000000000000000205050c0908030000000000000000000000000000000000000000000000000003090b14110a060000000000000000000000000000000000000000000000000003081017130d080200000000000000000000000000000000000000000000000002050c0d130e09030000000000000000000000000000000000000000000000000002050909090501000000000000000000000000000000000000000000000000000002040506030000000000000000000000000000000000000000000000000000000001020200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001020100000000000000000000000000000000000000000000000000000000000204020000000000000000000000000000000000000000000000000000000000030403010000000000000000000000000000000000000000000000000000000002030402000000000000000000000000000000000000000000000000000000000001010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
+--- !u!21 &7333470367267672487
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/FinalCopy
+  m_Shader: {fileID: 4800000, guid: 513c040fbfb854aebb92cf147e30125a, type: 3}
+  m_ShaderKeywords: CRT_3D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+--- !u!21 &7509657442752961878
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 535eef2511f2f5540b6c9cc7430067f4, type: 3}
+  m_ShaderKeywords: CRT_3D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SourceA_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceA_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceA_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaCutoffEnable: 0
+    - _AlphaDstBlend: 0
+    - _AlphaSrcBlend: 1
+    - _AlphaToMask: 0
+    - _AlphaToMaskInspectorValue: 0
+    - _BlendMode: 0
+    - _CullMode: 2
+    - _CullModeForward: 2
+    - _DepthOffsetEnable: 0
+    - _DoubleSidedEnable: 0
+    - _DoubleSidedNormalMode: 2
+    - _DstBlend: 0
+    - _EnableFogOnTransparent: 1
+    - _OpaqueCullMode: 2
+    - _RenderQueueType: 1
+    - _SrcBlend: 1
+    - _StencilRef: 0
+    - _StencilRefDepth: 0
+    - _StencilRefDistortionVec: 4
+    - _StencilRefGBuffer: 2
+    - _StencilRefMV: 32
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskGBuffer: 14
+    - _StencilWriteMaskMV: 40
+    - _SurfaceType: 0
+    - _TransparentBackfaceEnable: 0
+    - _TransparentCullMode: 2
+    - _TransparentDepthPostpassEnable: 0
+    - _TransparentDepthPrepassEnable: 0
+    - _TransparentSortPriority: 0
+    - _TransparentWritingMotionVec: 0
+    - _TransparentZWrite: 0
+    - _UseShadowThreshold: 0
+    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestGBuffer: 4
+    - _ZTestTransparent: 4
+    - _ZWrite: 1
+    m_Colors:
+    - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Value: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &7930212193185237559
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: bd0e9b179d9b69e4f9a0f98d347bee62, type: 3}
+  m_ShaderKeywords: CRT_3D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaCutoffEnable: 0
+    - _AlphaDstBlend: 0
+    - _AlphaSrcBlend: 1
+    - _AlphaToMask: 0
+    - _AlphaToMaskInspectorValue: 0
+    - _BlendMode: 0
+    - _Channel: 0
+    - _CullMode: 2
+    - _CullModeForward: 2
+    - _DepthOffsetEnable: 0
+    - _DoubleSidedEnable: 0
+    - _DoubleSidedNormalMode: 2
+    - _DstBlend: 0
+    - _EnableFogOnTransparent: 1
+    - _Feather: 0.06
+    - _Invert: 0
+    - _OpaqueCullMode: 2
+    - _RenderQueueType: 1
+    - _SrcBlend: 1
+    - _StencilRef: 0
+    - _StencilRefDepth: 0
+    - _StencilRefDistortionVec: 4
+    - _StencilRefGBuffer: 2
+    - _StencilRefMV: 32
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskGBuffer: 14
+    - _StencilWriteMaskMV: 40
+    - _SurfaceType: 0
+    - _Threshold: 0.81
+    - _TransparentBackfaceEnable: 0
+    - _TransparentCullMode: 2
+    - _TransparentDepthPostpassEnable: 0
+    - _TransparentDepthPrepassEnable: 0
+    - _TransparentSortPriority: 0
+    - _TransparentWritingMotionVec: 0
+    - _TransparentZWrite: 0
+    - _UseShadowThreshold: 0
+    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestGBuffer: 4
+    - _ZTestTransparent: 4
+    - _ZWrite: 1
+    m_Colors:
+    - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
+    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
