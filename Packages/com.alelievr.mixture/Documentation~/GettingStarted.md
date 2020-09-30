@@ -68,6 +68,30 @@ The first output of the node is always the main texture, and the rest are treate
 
 ![](Images/2020-09-23-19-58-53.png)
 
+## Nodes
+
+In Mixture, you have access to a built-in node library that will allow you to perform basic operations.
+
+For more complex behavior, you can easily create your own nodes, please see [the Shader Node](ShaderNodes.md) documentation page for more information.
+
+Note that all the ports are following this color code for the types:
+
+
+Color | Type
+--- | ---
+<span style="color:#000">White</span> | Texture
+<span style="color:#F71">Dark Orange</span> | Render Texture
+<span style="color:#F91">Orange</span> | Texture 2D 
+<span style="color:#FD6">Yellow</span> | Texture 2D Array 
+<span style="color:#F5C">Pink</span> | Texture 3D 
+<span style="color:#9F1">Lime</span> | Cubemap 
+<span style="color:#DF6">Light Green</span> | Cubemap Array
+<span style="color:#5CF">Light Blue</span> | Color
+<span style="color:#33F">Dark Blue</span> | Single
+<span style="color:#17F">Blue</span> | Vector 4
+<span style="color:#11ff94">Cyan</span> | Compute Buffer
+<span style="color:#14cba8">Dark Cyan</span> | Mesh
+
 ## Example of Mixture with material
 
 Let's take a look at this small example:
@@ -79,4 +103,4 @@ Here we use 3 output textures that are directly assigned to an HDRP material: an
 In the graph you have a succession of noise node with UV displacement to create a kind of marble texture, that is then used in the normal from height node which transforms the r channel of the marble into a normal map in tangent space.
 For the height texture we simple take the marble albedo and multiply the R channel by 10, the result is saved in a single 32 bit channel.
 
-You can find more mixture examples in the [Example Page](Example.md).
+You can find more mixture examples in the [Example Page](Examples.md).

@@ -4,9 +4,7 @@ In Mixture, Shader Nodes are nodes that contains a single shader and a single ou
 
 Note that the shader must be compatible with [Custom Render Texture](https://docs.unity3d.com/Manual/class-CustomRenderTexture.html) to be valid.
 
-## Creating a new Shader node
-
-### Shader Node
+## Create a simple Shader Node 
 
 The Shader node allow you to reference a shader and execute it. By default when creating a "Shader Node", the shader is set to None and do nothing.
 
@@ -23,7 +21,69 @@ Note that all the properties you expose in the ShaderGraph/text shader are direc
 Example with the HSV shader:  
 ![](Images/2020-09-17-23-18-50.png)
 
-### C# Shader Node
+## Shader Advanced Use Cases
+
+When you create your shader for a Shader Node, you have some extra features that you can use to help you creating a good node.
+
+### Expose a property only visible in the inspector
+
+In ShaderGraph, if you prefix a property with `[Inspector]` then you can make this property only show in the inspector instead of in the node GUI. As you can see in this example with the **Rectangles** shader node, in the ShaderGraph, we have Scale and Offset with the inspector tag, and these properties are only displayed in the inspector.  
+![](Images/2020-10-01-00-46-35.png)
+
+This feature also exist in hand-written shader with this syntax:
+```hlsl
+		[ShowInInspector]_Property_("Display Name", Int) = 42
+```
+
+### UV with 2D, 3D and Cube textures
+
+When you create a node compatible with every kind of texture it can be complicated to deal with UVs for 2D, 3D and cubemap textures.
+
+This is why we added the UV/Direction node in ShaderGraph:
+
+![](Images/2020-10-01-00-52-05.png)
+
+It have different behavior based on the dimension of the current custom render texture executed:
+
+Dimension | Return
+--- | ---
+2D | standard fullscreen UV between 0 and 1 in x and y and 0.5 constant in z
+3D | same as 2D for x and y but z contains the current 3D texture slice between 0 and 1
+Cube | contains the direction vector and can be directly used to sample a cubemap
+
+There is not really an equivalent for hand-written shader but there is this function which allows you to sample a texture independently from the dimension:
+```hlsl
+TEXTURE_SAMPLER_X(_Source);
+...
+
+float4 mixture (v2f_customrendertexture i) : SV_Target
+{
+	return SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
+}
+```
+
+This is a valid code that will sample a 2D, 3D or cube texture and write it to the 2D, 3D or cube output render target. Note that you need to include `Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc` to access these macros.
+
+### Expose a Texture with multiple dimensions
+
+In ShaderLab and ShaderGraph, to expose a texture you must specify a Dimension and when you create a shader node compatible with multiple dimension you need to declare each texture one time per supported dimension like this:
+
+```hlsl
+_Source_2D("Source", 2D) = "black" {}
+_Source_3D("Source", 3D) = "black" {}
+_Source_Cube("Source", Cube) = "black" {}
+```
+
+You then obviously don't want to display all those properties on the node, you only want to show the one that are relevant for your current dimension. You can achieve this if you add the dimension as a suffix in the reference name of the property just like above.
+
+In ShaderGraph it's done like this:
+
+![](Images/2020-10-01-01-03-08.png)
+
+And the result is a node that update it's input texture type based on the target dimension: (notice the port color change)
+![](Images/2020-10-01-01-04-46.png)
+
+## C# Shader Node
 
 If you want to create a true node, accessible from the node creation menu that you can reuse very often in any graph you want, then you'll have to create a C# version of the node. To create the C# template file go to "Assets/Create/Mixture/C# Fixed Shader Node"
 
