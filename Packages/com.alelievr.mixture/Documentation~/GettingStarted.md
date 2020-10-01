@@ -15,7 +15,7 @@ Note that the color of the icon will will be purple for **Baked** and lime green
 You can enter the Mixture Editor by double clicking a mixture asset. Here a view of the editor window:
 ![](Images/2020-09-23-23-50-01.png)
 
-In the top bar, you'll find these buttons:
+In the toolbar, you'll find these buttons:
 name | description
 --- | ---
 Show In Project | Focus the mixture asset in the project window
