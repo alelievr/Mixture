@@ -19,7 +19,7 @@ namespace Mixture
 		{
 			base.Enable(fromInspector);
 
-            var openPrefabButton = new Button(OpenPrefab) { text = "Open Scene"};
+            var openPrefabButton = new Button(OpenPrefab) { text = "Open Prefab"};
             controlsContainer.Add(openPrefabButton);
 
             // TODO: dynamically add/remove this button if the scene is opened

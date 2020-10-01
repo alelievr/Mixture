@@ -3,7 +3,7 @@ using GraphProcessor;
 using UnityEngine.Experimental.Rendering;
 using System.IO;
 using UnityEngine.Rendering;
-using System.Diagnostics;
+using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Experimental.SceneManagement;
@@ -41,7 +41,7 @@ Note that this node is currently only available with HDRP.
 		internal Texture2D savedTexture;
 
         [Tooltip("Rendered view from the camera in the prefab")]
-		[Output(name = "Output")]
+		[Output]
         [System.NonSerialized]
         public Texture outputTexture;
 
@@ -112,6 +112,19 @@ Note that this node is currently only available with HDRP.
 #endif
             UpdateRenderTextures();
         }
+
+        [CustomPortBehavior(nameof(outputTexture))]
+		IEnumerable< PortData > OutputTextureType(List< SerializableEdge > edges)
+        {
+            yield return new PortData
+            {
+                displayName = "Output",
+                displayType = typeof(Texture2D),
+                acceptMultipleEdges = true,
+                identifier = "Output"
+            };
+        }
+
 
         protected override void Disable()
         {
