@@ -147,8 +147,13 @@ public static class CustomTextureManager
 
         foreach (var crt in customRenderTextures)
             UpdateComputeOrder(crt, 0);
+        
+        foreach (var crt in customRenderTextures)
+        {
+            if (computeOrder.ContainsKey(crt) && computeOrder[crt] != -1)
+                sortedCustomRenderTextures.Add(crt);
+        }
 
-        sortedCustomRenderTextures = customRenderTextures.Where(c => computeOrder.ContainsKey(c) && computeOrder[c] != -1).ToList();
         sortedCustomRenderTextures.Sort((c1, c2) => {
             if (!computeOrder.TryGetValue(c1, out int i1))
                 i1 = -1;
@@ -175,9 +180,17 @@ public static class CustomTextureManager
         if (!IsValid(crt))
             return -1;
 
-        foreach(var texID in crt.material.GetTexturePropertyNameIDs())
+        var shader = crt.material.shader;
+        int propertyCount = shader.GetPropertyCount();
+        for (int i = 0; i < propertyCount; i++)
+        // foreach(var texID in crt.material.GetTexturePropertyNameIDs())
         {
-            if (crt.material.GetTexture(texID) is CustomRenderTexture dep)
+            if (shader.GetPropertyType(i) != ShaderPropertyType.Texture)
+                continue;
+
+            var texture = crt.material.GetTexture(shader.GetPropertyNameId(i));
+
+            if (texture is CustomRenderTexture dep)
             {
                 int c = UpdateComputeOrder(dep, depth + 1);
 
@@ -209,9 +222,13 @@ public static class CustomTextureManager
 
 #if UNITY_EDITOR
         // If the shader have errors
-        var compilationMessages = UnityEditor.ShaderUtil.GetShaderMessages(crt.material.shader);
-        if (compilationMessages.Any(m => m.severity == UnityEditor.Rendering.ShaderCompilerMessageSeverity.Error))
-            return false;
+        int messageCount = UnityEditor.ShaderUtil.GetShaderMessageCount(crt.material.shader);
+        if (messageCount > 0)
+        {
+            var compilationMessages = UnityEditor.ShaderUtil.GetShaderMessages(crt.material.shader);
+            if (compilationMessages.Any(m => m.severity == UnityEditor.Rendering.ShaderCompilerMessageSeverity.Error))
+                return false;
+        }
 #endif
 
         return true;
@@ -323,6 +340,7 @@ public static class CustomTextureManager
                         if (textureSelfCube != null)
                             block.SetTexture(kSelfCube, textureSelfCube);
 
+                        // TODO: cache everything
                         List<CustomRenderTextureUpdateZone> updateZones = new List<CustomRenderTextureUpdateZone>();
                         crt.GetUpdateZones(updateZones);
 
