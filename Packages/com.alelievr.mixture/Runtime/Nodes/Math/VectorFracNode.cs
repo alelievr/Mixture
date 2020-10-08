@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Vector Frac")]
+	[System.Serializable, NodeMenuItem("Math/Vector Frac")]
 	public class VectorFracNode : MixtureNode
 	{
 		// TODO: multi VectorFrac port

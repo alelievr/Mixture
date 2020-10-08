@@ -53,10 +53,7 @@
 					case 3: uv -= 0.5; gradient = saturate((atan2(uv.y, uv.x) / 6.283185307179586476924) + 0.5); break;
 				}
 
-				if (_Mode == 1)
-				{
-					gradient = pow(abs(gradient), _Falloff);
-				}
+				gradient = pow(abs(gradient), _Falloff);
 
 				return lerp(_Color1, _Color2, saturate(gradient));
 			}

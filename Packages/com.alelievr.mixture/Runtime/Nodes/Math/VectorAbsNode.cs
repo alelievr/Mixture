@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Vector Abs")]
+	[System.Serializable, NodeMenuItem("Math/Vector Abs")]
 	public class VectorAbsNode : MixtureNode
 	{
 		// TODO: multi VectorAbs port

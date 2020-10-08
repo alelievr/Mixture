@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Div")]
+	[System.Serializable, NodeMenuItem("Math/Div")]
 	public class DivNode : FixedShaderNode
 	{
 		public override string name => "Div";

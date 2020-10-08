@@ -30,6 +30,8 @@ Shader "Hidden/Mixture/Splatter"
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/Splatter.hlsl"
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/NoiseUtils.hlsl"
 
+	#line 33
+
 	TEXTURE_X(_Source0);
 	TEXTURE_X(_Source1);
 	TEXTURE_X(_Source2);
@@ -53,6 +55,12 @@ Shader "Hidden/Mixture/Splatter"
 	float _SrcBlend;
 	float _DstBlend;
 	float _BlendOp;
+
+	// Output channels
+	float _ChannelModeR;
+	float _ChannelModeG;
+	float _ChannelModeB;
+	float _ChannelModeA;
 
 	// We only need vertex pos and uv for splat
 	struct VertexInput
@@ -139,10 +147,51 @@ Shader "Hidden/Mixture/Splatter"
 		}
 	}
 
+	float GetRandomFloat(int id)
+	{
+		float p = float(id * 42);
+		// Source: https://www.shadertoy.com/view/4dS3Wd
+		p = frac(p * 0.011); p *= p + 7.5; p *= p + p;
+		return frac(p);
+	}
+
+	float ComputeOutputChannel(float2 uv, float4 value, float channelMode, int instanceID)
+	{
+		switch (channelMode)
+		{
+			default:
+			case 0: // InputR
+				return value.r;
+			case 1: // InputG
+				return value.g;
+			case 2: // InputB
+				return value.b;
+			case 3: // InputA
+				return value.a;
+			case 4: // UV X
+				return uv.x;
+			case 5: // UV Y
+				return uv.y;
+			case 6: // Random Uniform Color
+				return GetRandomFloat(instanceID);
+		}
+	}
+
+	float4 ComputeOutputChannels(float2 uv, float4 value, int instanceID)
+	{
+		return float4(
+			ComputeOutputChannel(uv, value, _ChannelModeR, instanceID),
+			ComputeOutputChannel(uv, value, _ChannelModeG, instanceID),
+			ComputeOutputChannel(uv, value, _ChannelModeB, instanceID),
+			ComputeOutputChannel(uv, value, _ChannelModeA, instanceID)
+		);
+	}
+
 	float4 Fragment(FramegentInput i) : SV_Target
 	{
-		return SampleRandomTexture(i.instanceID, float3(i.uv, 0));
-		return float4(i.uv, 0, 1);
+		float4 value = SampleRandomTexture(i.instanceID, float3(i.uv, 0));
+
+		return ComputeOutputChannels(i.uv.xy, value, i.instanceID);
 	}
 
 	ENDCG

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
@@ -6,12 +6,12 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Procedural/Circles")]
-	public class Circles : FixedShaderNode
+	[System.Serializable, NodeMenuItem("Math/Clamp")]
+	public class ClampNode : FixedShaderNode
 	{
-		public override string name => "Circles";
+		public override string name => "Clamp";
 
-		public override string shaderName => "Hidden/Mixture/Circles";
+		public override string shaderName => "Hidden/Mixture/Clamp";
 
 		public override bool displayMaterialInspector => true;
 

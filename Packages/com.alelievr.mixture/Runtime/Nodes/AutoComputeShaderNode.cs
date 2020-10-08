@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Compute Shader")]
+	[System.Serializable, NodeMenuItem("Utils/Compute Shader")]
 	public class AutoComputeShaderNode : ComputeShaderNode
 	{
 		[Serializable]

@@ -27,11 +27,11 @@
 			#pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 
 			TEXTURE_SAMPLER_X(_Texture);
-			TEXTURE_SAMPLER_X(_UV);
+			TEXTURE_X(_UV);
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				float3 uv = SAMPLE_X(_UV, float3(i.localTexcoord.xy, 0), i.direction).rgb;
+				float3 uv = SAMPLE_X_NEAREST_CLAMP(_UV, i.localTexcoord.xyz, i.direction).rgb;
 				float4 col = SAMPLE_X(_Texture, uv, uv);
 				return col;
 			}

@@ -11,7 +11,7 @@
 		[InlineTexture]_Texture_Cube("Distort Map", Cube) = "black" {}
 		[InlineTexture]_UV_Cube("Direction", Cube) = "black" {}
 
-		[MixtureVector3]_Scale("Distort Scale", Vector) = (1.0,1.0,1.0,0.0)
+		[MixtureVector3]_Scale("Distort Scale", Vector) = (1.0,1.0,0.0,0.0)
 		[MixtureVector3]_Bias("Distort Bias", Vector) = (0.0,0.0,0.0,0.0)
 	}
 	SubShader
@@ -46,7 +46,7 @@
 				// Scale and Bias does not works on cubemap
 				uv += ScaleBias(SAMPLE_X(_Texture, IN.localTexcoord.xyz, IN.direction).rgb, _Scale.xyz, _Bias.xyz);
 
-				return float4(uv.xy, 1, 1);
+				return float4(uv.xyz, 1);
 
 			}
 			ENDCG

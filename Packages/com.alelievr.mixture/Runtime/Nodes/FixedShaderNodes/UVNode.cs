@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Coordinates/UV")]
+	[System.Serializable, NodeMenuItem("Constants/UV")]
 	public class UVNode : FixedShaderNode
 	{
 		public override string name => "UV";

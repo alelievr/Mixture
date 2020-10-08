@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Vector Clamp")]
+	[System.Serializable, NodeMenuItem("Math/Vector Clamp")]
 	public class VectorClampNode : MixtureNode
 	{
 		// TODO: multi VectorClamp port

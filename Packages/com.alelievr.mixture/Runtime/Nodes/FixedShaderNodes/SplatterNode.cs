@@ -7,6 +7,13 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Distribute a set of input textures based on parameter-based patterns.
+Most of the settings of this node are available in the inspector so don't hesitate to pin the node and tweak the parameters until you achieve your goal.
+
+Note that when you connect multiple textures in the ""Splat Textures"" port, they will be randomly selected at each splat operation.
+The limit of different input textures you can connect is 16, after new textures will be ignored.
+")]
 	[System.Serializable, NodeMenuItem("Textures/Splatter"), NodeMenuItem("Textures/Scatter")]
 	public class SplatterNode : ComputeShaderNode
 	{
@@ -29,6 +36,13 @@ namespace Mixture
 		public enum Operator
 		{
 			Blend, PreMultiplied, Additive, SoftAdditive, Substractive, Multiplicative, Max, Min,
+		}
+
+		public enum OutputChannelMode
+		{
+			InputR, InputG, InputB, InputA,
+			UV_X, UV_Y,
+			RandomUniformColor,
 		}
 
 		[Input]
@@ -92,6 +106,17 @@ namespace Mixture
 
 		public Operator blendOperator = Operator.Blend;
 
+		[Header("Output Channels")]
+
+		[ShowInInspector]
+		public OutputChannelMode channelModeR = OutputChannelMode.InputR;
+		[ShowInInspector]
+		public OutputChannelMode channelModeG = OutputChannelMode.InputG;
+		[ShowInInspector]
+		public OutputChannelMode channelModeB = OutputChannelMode.InputB;
+		[ShowInInspector]
+		public OutputChannelMode channelModeA = OutputChannelMode.InputA;
+
 		public override string name => "Splatter";
 		protected override string computeShaderResourcePath => "Mixture/Splatter";
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
@@ -132,6 +157,10 @@ namespace Mixture
 		static readonly int _SrcBlend = Shader.PropertyToID("_SrcBlend");
 		static readonly int _DstBlend = Shader.PropertyToID("_DstBlend");
 		static readonly int _BlendOp = Shader.PropertyToID("_BlendOp");
+		static readonly int _ChannelModeR = Shader.PropertyToID("_ChannelModeR");
+		static readonly int _ChannelModeG = Shader.PropertyToID("_ChannelModeG");
+		static readonly int _ChannelModeB = Shader.PropertyToID("_ChannelModeB");
+		static readonly int _ChannelModeA = Shader.PropertyToID("_ChannelModeA");
 
 		[CustomPortBehavior(nameof(inputTextures))]
 		IEnumerable<PortData> CustomInputTexturePortData(List<SerializableEdge> edges)
@@ -211,6 +240,11 @@ namespace Mixture
 				drawIndirectMat.SetTexture("_Source" + i + MixtureUtils.texture2DPrefix, inputTextures[i]);
 
 			SetBlendSettings(drawIndirectMat);
+
+			drawIndirectMat.SetFloat(_ChannelModeR, (int)channelModeR);
+			drawIndirectMat.SetFloat(_ChannelModeG, (int)channelModeG);
+			drawIndirectMat.SetFloat(_ChannelModeB, (int)channelModeB);
+			drawIndirectMat.SetFloat(_ChannelModeA, (int)channelModeA);
 
 			drawIndirectMat.SetBuffer(_SplatPoints, splatPointsBuffer);
 			cmd.SetRenderTarget(tempRenderTexture);

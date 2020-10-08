@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Vector Mod")]
+	[System.Serializable, NodeMenuItem("Math/Vector Mod")]
 	public class VectorModNode : MixtureNode
 	{
 		// TODO: multi VectorMod port

@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Vector Div")]
+	[System.Serializable, NodeMenuItem("Math/Vector Div")]
 	public class VectorDivNode : MixtureNode
 	{
 		// TODO: multi VectorDiv port

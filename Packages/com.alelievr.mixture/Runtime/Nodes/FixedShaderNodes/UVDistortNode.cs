@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Coordinates/UV Distort")]
+	[System.Serializable, NodeMenuItem("Operators/UV Distort")]
 	public class UVDistortNode : FixedShaderNode
 	{
 		public override string name => "UV Distort";
@@ -17,21 +17,6 @@ namespace Mixture
 		public override bool displayMaterialInspector => true;
 
         public override bool hasSettings => true;
-
-        protected override MixtureRTSettings defaultRTSettings => new MixtureRTSettings()
-        {
-            dimension = OutputDimension.Texture2D,
-            widthMode = OutputSizeMode.Default,
-            heightMode = OutputSizeMode.Default,
-            depthMode = OutputSizeMode.Fixed,
-            sliceCount = 1,
-            outputChannels = OutputChannel.SameAsOutput,
-            outputPrecision = OutputPrecision.SameAsOutput,
-            doubleBuffered = false,
-            filterMode = FilterMode.Bilinear,
-            wrapMode = TextureWrapMode.Repeat,
-            editFlags = EditFlags.WidthMode | EditFlags.HeightMode | EditFlags.Width | EditFlags.Height,
-        };
 
 		protected override bool ProcessNode(CommandBuffer cmd)
         {

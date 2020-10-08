@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Vector Truncate")]
+	[System.Serializable, NodeMenuItem("Math/Vector Truncate")]
 	public class VectorTruncateNode : MixtureNode
 	{
 		// TODO: multi VectorTruncate port

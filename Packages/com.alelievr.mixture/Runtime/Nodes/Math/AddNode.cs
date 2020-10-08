@@ -6,12 +6,19 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Sub")]
-	public class SubNode : FixedShaderNode
-	{
-		public override string name => "Sub";
+	[Documentation(@"
+Perform an addition with `source A`, `source B` and Color and writes the result to output like so:
+```
+_Output = _SourceA + _SourceB + _Value;
+```
+")]
 
-		public override string shaderName => "Hidden/Mixture/Sub";
+	[System.Serializable, NodeMenuItem("Math/Add")]
+	public class AddNode : FixedShaderNode
+	{
+		public override string name => "Add";
+
+		public override string shaderName => "Hidden/Mixture/Add";
 
 		public override bool displayMaterialInspector => true;
 

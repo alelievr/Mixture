@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Vector Add")]
+	[System.Serializable, NodeMenuItem("Math/Vector Add")]
 	public class VectorAddNode : MixtureNode
 	{
 		// TODO: multi Vectoradd port

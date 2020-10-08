@@ -42,7 +42,7 @@
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), _Seed);
+				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction).xyz, _Seed);
 
 #ifdef CRT_2D
 				float4 noise = GeneratePerlin2D_FBM(uvs * _Frequency, _Seed).r;

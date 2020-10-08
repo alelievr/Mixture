@@ -6,12 +6,12 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Mul")]
-	public class MulNode : FixedShaderNode
+	[System.Serializable, NodeMenuItem("Math/Sub")]
+	public class SubNode : FixedShaderNode
 	{
-		public override string name => "Mul";
+		public override string name => "Sub";
 
-		public override string shaderName => "Hidden/Mixture/Mul";
+		public override string shaderName => "Hidden/Mixture/Sub";
 
 		public override bool displayMaterialInspector => true;
 
