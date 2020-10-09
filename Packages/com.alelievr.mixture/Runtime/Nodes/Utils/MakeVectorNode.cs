@@ -10,13 +10,16 @@ namespace Mixture
     [System.Serializable, NodeMenuItem("Utils/Make Vector")]
     public class MakeVectorNode : MixtureNode
     {
-        [Input("X")]
+		public override bool showDefaultInspector => true;
+		public override float nodeWidth => MixtureUtils.smallNodeWidth;
+
+        [Input("X"), ShowAsDrawer]
         public float X;
-        [Input("Y")]
+        [Input("Y"), ShowAsDrawer]
         public float Y;
-        [Input("Z")]
+        [Input("Z"), ShowAsDrawer]
         public float Z;
-        [Input("W")]
+        [Input("W"), ShowAsDrawer]
         public float W;
 
         [Output("Vector")]

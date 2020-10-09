@@ -10,7 +10,7 @@
             "m_Id": "5ed138a11217423c9d9e4aa7b3e7b52d"
         },
         {
-            "m_Id": "04b2d59b9c5b4eac9ea532a7d14609c9"
+            "m_Id": "4155aa44716044db8e92644da17e9e37"
         }
     ],
     "m_Keywords": [],
@@ -28,7 +28,7 @@
             "m_Id": "12439409a6a4467bb5f2d2c6c092a199"
         },
         {
-            "m_Id": "ea49e9798fed48da8a6b969bdf8b1612"
+            "m_Id": "f2d22dbaef7a45028961f32112d9c98c"
         }
     ],
     "m_GroupDatas": [],
@@ -83,7 +83,7 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
-                    "m_Id": "ea49e9798fed48da8a6b969bdf8b1612"
+                    "m_Id": "f2d22dbaef7a45028961f32112d9c98c"
                 },
                 "m_SlotId": 0
             },
@@ -124,27 +124,6 @@
 }
 
 {
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector3ShaderProperty",
-    "m_ObjectId": "04b2d59b9c5b4eac9ea532a7d14609c9",
-    "m_Guid": {
-        "m_GuidSerialized": "66f86f13-41ea-4196-9709-618f71d9395b"
-    },
-    "m_Name": "Radius",
-    "m_DefaultReferenceName": "Vector3_04b2d59b9c5b4eac9ea532a7d14609c9",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_Precision": 0,
-    "m_GPUInstanced": false,
-    "m_Hidden": false,
-    "m_Value": {
-        "x": 0.5,
-        "y": 0.5,
-        "z": 0.5,
-        "w": 0.0
-    }
-}
-
-{
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
     "m_ObjectId": "091c6b186d1144728bd9b29ef7db0099",
     "m_Group": {
@@ -178,6 +157,23 @@
 }
 
 {
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "0ec1eb2ca51f45cba9240b177b50cdf0",
+    "m_Id": 0,
+    "m_DisplayName": "Radius",
+    "m_SlotType": 1,
+    "m_Priority": 2147483647,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": [
+        "X"
+    ]
+}
+
+{
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
     "m_ObjectId": "12439409a6a4467bb5f2d2c6c092a199",
     "m_Group": {
@@ -189,9 +185,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -554.0,
+            "x": -552.0,
             "y": 17.0,
-            "width": 139.0,
+            "width": 137.0,
             "height": 34.0
         }
     },
@@ -232,6 +228,27 @@
 }
 
 {
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "4155aa44716044db8e92644da17e9e37",
+    "m_Guid": {
+        "m_GuidSerialized": "ba1d868f-715f-4e93-a0e4-2275c2b10e2f"
+    },
+    "m_Name": "Radius",
+    "m_DefaultReferenceName": "Vector1_4155aa44716044db8e92644da17e9e37",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_Precision": 0,
+    "m_GPUInstanced": false,
+    "m_Hidden": false,
+    "m_Value": 0.5,
+    "m_FloatType": 0,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
+    }
+}
+
+{
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "57a662c9ce714280b027b0d42d904898",
     "m_Id": 3,
@@ -266,30 +283,6 @@
     "m_RangeValues": {
         "x": 0.0,
         "y": 1.0
-    }
-}
-
-{
-    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
-    "m_ObjectId": "7c7194a4b79847d29fe9ab3cbcf1f362",
-    "m_Id": 1,
-    "m_DisplayName": "Out_Vector4",
-    "m_SlotType": 0,
-    "m_Priority": 2147483647,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "OutVector4",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
     }
 }
 
@@ -346,7 +339,7 @@
     "m_Name": "Output",
     "m_NodeVersion": 0,
     "m_DrawState": {
-        "m_Expanded": true,
+        "m_Expanded": false,
         "m_Position": {
             "serializedVersion": "2",
             "x": -160.0,
@@ -357,7 +350,7 @@
     },
     "m_Slots": [
         {
-            "m_Id": "7c7194a4b79847d29fe9ab3cbcf1f362"
+            "m_Id": "d21029ce5b844532b4a6f557ac497dc6"
         }
     ],
     "m_Precision": 0,
@@ -469,7 +462,24 @@
     "m_SourceType": 1,
     "m_FunctionName": "sdTorus",
     "m_FunctionSource": "",
-    "m_FunctionBody": "float3 p = UV;\nfloat2 q = float2(length(p.xz)- Radius ,Size);\r\nDistance = length(q)-Size;\r\n\n"
+    "m_FunctionBody": "float3 p = UV;\nfloat2 q = float2(length(p.xy)- Radius ,p.z);\r\nDistance = length(q)-Size;\r\n\n"
+}
+
+{
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "d21029ce5b844532b4a6f557ac497dc6",
+    "m_Id": 1,
+    "m_DisplayName": "Distance",
+    "m_SlotType": 0,
+    "m_Priority": 2147483647,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Distance",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": [
+        "X"
+    ]
 }
 
 {
@@ -492,35 +502,8 @@
 }
 
 {
-    "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
-    "m_ObjectId": "d454d8f7424943f6a88afdd174387697",
-    "m_Id": 0,
-    "m_DisplayName": "Radius",
-    "m_SlotType": 1,
-    "m_Priority": 2147483647,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Out",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-    },
-    "m_Labels": [
-        "X",
-        "Y",
-        "Z"
-    ]
-}
-
-{
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
-    "m_ObjectId": "ea49e9798fed48da8a6b969bdf8b1612",
+    "m_ObjectId": "f2d22dbaef7a45028961f32112d9c98c",
     "m_Group": {
         "m_Id": ""
     },
@@ -530,15 +513,15 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -528.0,
+            "x": -526.0,
             "y": 51.0,
-            "width": 113.0,
+            "width": 111.0,
             "height": 34.0
         }
     },
     "m_Slots": [
         {
-            "m_Id": "d454d8f7424943f6a88afdd174387697"
+            "m_Id": "0ec1eb2ca51f45cba9240b177b50cdf0"
         }
     ],
     "m_Precision": 0,
@@ -547,7 +530,7 @@
         "m_SerializableColors": []
     },
     "m_Property": {
-        "m_Id": "04b2d59b9c5b4eac9ea532a7d14609c9"
+        "m_Id": "4155aa44716044db8e92644da17e9e37"
     }
 }
 

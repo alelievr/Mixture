@@ -31,14 +31,14 @@
 			#pragma shader_feature _ USE_CUSTOM_UV
 
 			TEXTURE_SAMPLER_X(_Texture);
-			TEXTURE_SAMPLER_X(_UV);
+			TEXTURE_X(_UV);
 			float4 _Scale;
 			float4 _Bias;
 
 			float4 mixture (v2f_customrendertexture IN) : SV_Target
 			{
 #ifdef USE_CUSTOM_UV
-				float3 uv = SAMPLE_X(_UV, IN.localTexcoord.xyz, IN.direction).rgb;
+				float3 uv = SAMPLE_X_NEAREST_CLAMP(_UV, IN.localTexcoord.xyz, IN.direction).rgb;
 #else
 				float3 uv = GetDefaultUVs(IN);
 #endif
