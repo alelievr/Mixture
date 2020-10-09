@@ -671,11 +671,11 @@ MonoBehaviour:
   m_Version: 2
   parameters:
     albedo: {r: 1, g: 1, b: 1, a: 1}
-    meanFreePath: 1
+    meanFreePath: 0.3
     anisotropy: 0
-    volumeMask: {fileID: 6091485087088655365, guid: b83fe2c028e2778448a94ae5de58f23e,
+    volumeMask: {fileID: -7319763895800012139, guid: 4d86a29e01a382f4985801b8f1adbb7a,
       type: 2}
-    textureScrollingSpeed: {x: 0, y: 0, z: 0}
+    textureScrollingSpeed: {x: 1, y: 0, z: 0}
     textureTiling: {x: 1, y: 1, z: 1}
     positiveFade: {x: 0, y: 0, z: 0}
     negativeFade: {x: 0, y: 0, z: 0}
@@ -697,7 +697,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346362705}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.19, z: 0}
+  m_LocalPosition: {x: 0, y: 5.06, z: 0}
   m_LocalScale: {x: 2.8513, y: 2.8513, z: 2.8513}
   m_Children: []
   m_Father: {fileID: 1153554450}
@@ -1397,7 +1397,7 @@ ReflectionProbe:
   m_Enabled: 1
   serializedVersion: 2
   m_Type: 0
-  m_Mode: 1
+  m_Mode: 2
   m_RefreshMode: 2
   m_TimeSlicingMode: 0
   m_Resolution: 128
