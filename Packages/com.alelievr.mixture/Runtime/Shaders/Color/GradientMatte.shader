@@ -4,7 +4,7 @@
 	{
 		[Enum(Linear, 0, Exponential, 1, Radial, 2 ,Circular, 3)]_Mode("Gradient Type", Float) = 0
 		[VisibleIf(_Mode, 0, 1)][Enum(Up, 0, Down, 1, Right, 2, Left, 3, Forward, 4, Back, 5)]_Direction("Direction", Float) = 0
-		[VisibleIf(_Mode, 1)]_Falloff("Falloff", Float) = 1
+		_Falloff("Falloff", Float) = 1
 		[HDR]_Color1("Color 1", Color) = (0.0,0.0,0.0,0.0)
 		[HDR]_Color2("Color 2", Color) = (1.0,1.0,1.0,1.0)
 	}

@@ -232,6 +232,15 @@ namespace Mixture
 			}
 		}
 
+		static Shader ReimportShaderGraphResource(string resourcePath)
+		{
+			string fullPath = "Packages/com.alelievr.mixture/Editor/Resources/" + resourcePath;
+
+			AssetDatabase.ImportAsset(fullPath, ImportAssetOptions.DontDownloadFromCacheServer | ImportAssetOptions.ForceUpdate | ImportAssetOptions.ForceSynchronousImport);
+
+			return Resources.Load< Shader >(resourcePath);
+		}
+
 		class CustomtextureShaderGraphAction : EndNameEditAction
 		{
 			public static readonly string template = "Templates/CustomTextureGraphTemplate";
@@ -239,6 +248,11 @@ namespace Mixture
 			public override void Action(int instanceId, string pathName, string resourceFile)
 			{
 				var s = Resources.Load(template, typeof(Shader));
+
+				// In case there was a compilation error sg files can be broken so we re-import them
+				if (s == null)
+					s = ReimportShaderGraphResource(template);
+
 				AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(s), pathName);
 				ProjectWindowUtil.ShowCreatedAsset(AssetDatabase.LoadAssetAtPath<Shader>(pathName));
 			}
@@ -251,6 +265,11 @@ namespace Mixture
 			public override void Action(int instanceId, string pathName, string resourceFile)
 			{
 				var s = Resources.Load(template, typeof(Shader));
+
+				// In case there was a compilation error sg files can be broken so we re-import them
+				if (s == null)
+					s = ReimportShaderGraphResource(template);
+
 				AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(s), pathName);
 				ProjectWindowUtil.ShowCreatedAsset(AssetDatabase.LoadAssetAtPath<Shader>(pathName));
 			}
