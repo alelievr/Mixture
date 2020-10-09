@@ -12,11 +12,12 @@ namespace Mixture
 	{
 		// TODO: multi VectorFrac port
 		public override bool hasSettings => false;
+		public override bool showDefaultInspector => true;
 
-		[Input("A")]
+		[Input("A"), ShowAsDrawer]
 		public Vector4	a;
 		
-		[Output("Out")]
+		[Output("Out"), ShowAsDrawer]
 		public Vector4	o;
 
 		public override string name => "Frac";

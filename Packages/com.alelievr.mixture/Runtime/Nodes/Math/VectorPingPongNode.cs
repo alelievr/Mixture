@@ -11,8 +11,9 @@ namespace Mixture
 	public class VectorPingPongNode : MixtureNode
 	{
 		public override bool hasSettings => false;
+		public override bool showDefaultInspector => true;
 
-		[Input("T")]
+		[Input("T"), ShowAsDrawer]
 		public Vector4	t;
 		
 		[Output("Out")]
@@ -21,7 +22,6 @@ namespace Mixture
 		public Vector4	length = Vector4.one;
 
 		public override string name => "Ping Pong";
-		public override bool showDefaultInspector => true;
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{

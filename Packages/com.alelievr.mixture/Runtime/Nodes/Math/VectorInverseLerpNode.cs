@@ -8,8 +8,9 @@ namespace Mixture
 	public class VectorInverseLerpNode : MixtureNode
 	{
 		public override bool hasSettings => false;
-		
-		[Input("A")]
+		public override bool showDefaultInspector => true;
+
+		[Input("A"), ShowAsDrawer]
 		public Vector4	a;
 		
 		[Output("Out")]

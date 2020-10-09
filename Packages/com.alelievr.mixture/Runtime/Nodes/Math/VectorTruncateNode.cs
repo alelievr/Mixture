@@ -13,8 +13,9 @@ namespace Mixture
 	{
 		// TODO: multi VectorTruncate port
 		public override bool hasSettings => false;
+		public override bool showDefaultInspector => true;
 
-		[Input("A")]
+		[Input("A"), ShowAsDrawer]
 		public Vector4	a;
 		
 		[Output("Out")]

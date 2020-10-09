@@ -11,8 +11,9 @@ namespace Mixture
 	public class VectorPowNode : MixtureNode
 	{
 		public override bool hasSettings => false;
+		public override bool showDefaultInspector => true;
 
-		[Input("A")]
+		[Input("A"), ShowAsDrawer]
 		public Vector4	a;
 		
 		[Output("Out")]

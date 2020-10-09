@@ -12,18 +12,18 @@ namespace Mixture
 	{
 		// TODO: multi VectorClamp port
 		public override bool hasSettings => false;
+		public override bool showDefaultInspector => true;
 
-		[Input("A")]
+		[Input("A"), ShowAsDrawer]
 		public Vector4	a;
 		
-		[Output("Out")]
+		[Output("Out"), ShowAsDrawer]
 		public Vector4	o;
 
 		public float	min;
 		public float	max;
 
 		public override string name => "Clamp";
-		public override bool showDefaultInspector => true;
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{

@@ -12,8 +12,9 @@ namespace Mixture
 	{
 		// TODO: multi VectorRemap port
 		public override bool hasSettings => false;
+		public override bool showDefaultInspector => true;
 
-		[Input("A")]
+		[Input("A"), ShowAsDrawer]
 		public Vector4	a;
 		
 		[Output("Out")]
@@ -25,8 +26,6 @@ namespace Mixture
 		public float	outputMax = 1;
 
 		public override string name => "Remap";
-
-		public override bool showDefaultInspector => true;
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
