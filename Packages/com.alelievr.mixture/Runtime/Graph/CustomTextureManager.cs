@@ -145,6 +145,11 @@ public static class CustomTextureManager
         computeOrder.Clear();
         sortedCustomRenderTextures.Clear();
 
+        // Check if the CRTs are valid first:
+        foreach (var crt in customRenderTextures)
+            if (!IsValid(crt))
+                computeOrder[crt] = -1;
+
         foreach (var crt in customRenderTextures)
             UpdateComputeOrder(crt, 0);
         
@@ -176,9 +181,6 @@ public static class CustomTextureManager
 
         if (computeOrder.TryGetValue(crt, out crtComputeOrder))
             return crtComputeOrder;
-
-        if (!IsValid(crt))
-            return -1;
 
         var shader = crt.material.shader;
         int propertyCount = shader.GetPropertyCount();

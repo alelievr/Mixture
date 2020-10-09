@@ -53,6 +53,7 @@ namespace Mixture
             {
                 float t = (float)i / (SIZE - 1);
                 pixels[i] = gradient.Evaluate(t);
+                pixels[i] = pixels[i].linear;
             }
             texture.SetPixels(pixels);
             texture.Apply(false);

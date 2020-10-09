@@ -21,7 +21,8 @@ namespace Mixture
 			gradientNode = nodeTarget as GradientNode;
 
 			var gradientField = new GradientField() {
-                value = gradientNode.gradient
+                value = gradientNode.gradient,
+				colorSpace = ColorSpace.Gamma,
 			};
             gradientField.style.height = 32;
 
