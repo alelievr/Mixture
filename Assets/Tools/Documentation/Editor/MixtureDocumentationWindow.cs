@@ -19,6 +19,8 @@ public class MixtureDocumentationWindow : EditorWindow
     static string nodeIndexFile => "NodeLibraryIndex.md";
     static string manualDir => docFxDir + "/manual/nodes/";
 
+    static readonly int toolbarHeight = 21;
+
     // Add menu named "My Window" to the Window menu
     [MenuItem("Window/Mixture DocTool")]
     static void Init()
@@ -31,7 +33,7 @@ public class MixtureDocumentationWindow : EditorWindow
 
     void OnEnable()
     {
-        EditorApplication.update += Update;
+        EditorApplication.update += EditorUpdate;
     }
 
     void OnGUI()
@@ -40,7 +42,7 @@ public class MixtureDocumentationWindow : EditorWindow
             UpdateNodeDoc();
     }
 
-    void Update()
+    void EditorUpdate()
     {
         if (generateScreenshotsProcess != null)
         {
@@ -65,37 +67,44 @@ public class MixtureDocumentationWindow : EditorWindow
 
         // Setup doc graph properties:
         docGraph.scale = Vector3.one;
-        docGraph.position = new Vector3(0, 21, 0);
+        docGraph.position = new Vector3(0, toolbarHeight, 0);
+        docGraph.nodes.RemoveAll(n => !(n is OutputNode));
 
-        yield return null;
+        // yield return null;
 
         var window = EditorWindow.CreateWindow<MixtureGraphWindow>();
         window.Show();
         window.Focus();
-        window.InitializeGraph(docGraph);
 
         window.minSize = new Vector2(1024, 1024);
-        var graphView = window.view;
+        window.maxSize = new Vector2(1024, 1024);
 
         var nodeViews = new List<BaseNodeView>();
         foreach (var node in NodeProvider.GetNodeMenuEntries())
         {
+            if (node.Key.Contains("Experimental"))
+                continue;
+
             // Skip non-mixture nodes:
             if (!node.Value.FullName.Contains("Mixture"))
                 continue;
 
-            var baseNode = graphView.graph.AddNode(BaseNode.CreateFromType(node.Value, new Vector2(0, 0)));
-            var nodeView = graphView.AddNodeView(baseNode);
-            nodeViews.Add(nodeView);
+            // We'll suport loops after
+            if (node.Value == typeof(ForeachStart) || node.Value == typeof(ForStart))
+                continue;
+
+            window.InitializeGraph(docGraph);
+            var graphView = window.view;
+            var newNode = BaseNode.CreateFromType(node.Value, new Vector2(0, toolbarHeight));
+            var nodeView = graphView.AddNode(newNode);
+            graphView.Add(nodeView);
             SetupNodeIfNeeded(nodeView);
 
-            graphView.graph.UpdateComputeOrder();
+            graphView.MarkDirtyRepaint();
+            graphView.UpdateViewTransform(new Vector3(0, 0, 0), Vector3.one * graphView.scale);
+            graphView.Focus();
 
-            // Wait multiple frame so the node displays in the window
-            yield return null;
-            yield return null;
-            yield return null;
-            yield return null;
+            yield return new WaitForEndOfFrame();
 
             if (window == null)
                 yield break;
@@ -105,9 +114,10 @@ public class MixtureDocumentationWindow : EditorWindow
             GenerateNodeMarkdownDoc(nodeView);
 
             graphView.RemoveNodeView(nodeView);
-            graphView.graph.RemoveNode(baseNode);
-            
-            yield return null;
+            graphView.graph.RemoveNode(nodeView.nodeTarget);
+
+            graphView.MarkDirtyRepaint();
+            yield return new WaitForEndOfFrame();
         }
 
         nodeViews.Sort((n1, n2) => n1.nodeTarget.name.CompareTo(n2.nodeTarget.name));
@@ -123,10 +133,10 @@ public class MixtureDocumentationWindow : EditorWindow
 
     void TakeAndSaveNodeScreenshot(MixtureGraphWindow window, BaseNodeView nodeView)
     {
-        var size = new Vector2(nodeView.style.width.value.value, nodeView.worldBound.height);
+        var size = new Vector2(nodeView.resolvedStyle.width, nodeView.resolvedStyle.height);
         var windowRoot = window.rootVisualElement;
-        var nodePosition = nodeView.worldBound.position;
-        nodePosition += window.position.position;
+        var nodePosition = nodeView.parent.worldBound.position;
+        nodePosition += window.position.position + new Vector2(0, toolbarHeight);
 
         var colors = InternalEditorUtility.ReadScreenPixel(nodePosition, (int)size.x, (int)size.y);
         var result = new Texture2D((int)size.x, (int)size.y);
