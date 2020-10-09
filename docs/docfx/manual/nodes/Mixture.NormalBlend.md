@@ -1,11 +1,11 @@
-# Div
-![Mixture.DivNode](../../images/Mixture.DivNode.png)
+# Normal Blend
+![Mixture.NormalBlend](../../images/Mixture.NormalBlend.png)
 ## Inputs
 Port Name | Description
 --- | ---
-Source A | 
-Source B | 
-Value | 
+Normal A | 
+Normal B | 
+Opacity | 
 
 ## Output
 Port Name | Description

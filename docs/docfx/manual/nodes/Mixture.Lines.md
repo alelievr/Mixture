@@ -1,11 +1,13 @@
-# Div
-![Mixture.DivNode](../../images/Mixture.DivNode.png)
+# Lines
+![Mixture.Lines](../../images/Mixture.Lines.png)
 ## Inputs
 Port Name | Description
 --- | ---
-Source A | 
-Source B | 
-Value | 
+InnerColor | 
+OuterColor | 
+Radius | 
+Scale | 
+Smooth | 
 
 ## Output
 Port Name | Description

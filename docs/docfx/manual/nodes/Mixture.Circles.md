@@ -5,8 +5,8 @@ Port Name | Description
 --- | ---
 SphereColor | 
 OuterColor | 
-SphereCount | 
-Offset | 
+Inner Size | 
+Smooth | 
 
 ## Output
 Port Name | Description

@@ -1,11 +1,9 @@
-# Div
-![Mixture.DivNode](../../images/Mixture.DivNode.png)
+# Self
+![Mixture.SelfNode](../../images/Mixture.SelfNode.png)
 ## Inputs
 Port Name | Description
 --- | ---
-Source A | 
-Source B | 
-Value | 
+initialColor | 
 
 ## Output
 Port Name | Description

@@ -3,9 +3,7 @@
 ## Inputs
 Port Name | Description
 --- | ---
-Source | 
-Threshold | 
-Radius | 
+output | 
 
 ## Output
 Port Name | Description

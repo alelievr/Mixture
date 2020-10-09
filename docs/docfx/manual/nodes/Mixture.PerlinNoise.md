@@ -7,6 +7,7 @@ UVs |
 Lacunarity | 
 Frequency | 
 Persistance | 
+Channels | 
 
 ## Output
 Port Name | Description

@@ -4,11 +4,11 @@
 ## Output
 Port Name | Description
 --- | ---
-Time | 
-Sin Time | 
-Cos Time | 
-Delta Time | 
 Frame Count | 
+Delta Time | 
+Cos Time | 
+Sin Time | 
+Time | 
 
 ## Description
 

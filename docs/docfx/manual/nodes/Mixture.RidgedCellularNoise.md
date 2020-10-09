@@ -4,11 +4,10 @@
 Port Name | Description
 --- | ---
 UVs | 
-Distance Mode | 
-Cells Mode | 
 Lacunarity | 
 Frequency | 
 Persistance | 
+Channels | 
 
 ## Output
 Port Name | Description

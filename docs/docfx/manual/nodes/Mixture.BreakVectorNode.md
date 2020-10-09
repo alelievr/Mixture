@@ -8,10 +8,10 @@ Vector |
 ## Output
 Port Name | Description
 --- | ---
-X | 
-Y | 
-Z | 
 W | 
+Z | 
+Y | 
+X | 
 
 ## Description
 

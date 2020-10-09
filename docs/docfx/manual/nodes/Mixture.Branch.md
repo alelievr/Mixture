@@ -1,16 +1,16 @@
-# Div
-![Mixture.DivNode](../../images/Mixture.DivNode.png)
+# Branch
+![Mixture.Branch](../../images/Mixture.Branch.png)
 ## Inputs
 Port Name | Description
 --- | ---
-Source A | 
-Source B | 
-Value | 
+condition | 
+False | 
+True | 
 
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Result | 
 
 ## Description
 

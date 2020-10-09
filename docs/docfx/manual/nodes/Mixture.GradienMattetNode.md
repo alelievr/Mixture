@@ -3,6 +3,8 @@
 ## Inputs
 Port Name | Description
 --- | ---
+Direction | 
+Falloff | 
 Color 1 | 
 Color 2 | 
 

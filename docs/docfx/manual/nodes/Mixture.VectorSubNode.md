@@ -3,8 +3,8 @@
 ## Inputs
 Port Name | Description
 --- | ---
-A | 
 B | 
+A | 
 
 ## Output
 Port Name | Description

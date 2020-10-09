@@ -1,16 +1,14 @@
-# Div
-![Mixture.DivNode](../../images/Mixture.DivNode.png)
+# Marching Cubes
+![Mixture.IsoSurface](../../images/Mixture.IsoSurface.png)
 ## Inputs
 Port Name | Description
 --- | ---
-Source A | 
-Source B | 
-Value | 
+Volume | 
 
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Mesh | 
 
 ## Description
 

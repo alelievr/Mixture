@@ -3,10 +3,10 @@
 ## Inputs
 Port Name | Description
 --- | ---
-X | 
-Y | 
-Z | 
 W | 
+Z | 
+Y | 
+X | 
 
 ## Output
 Port Name | Description

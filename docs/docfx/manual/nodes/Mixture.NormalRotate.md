@@ -1,11 +1,10 @@
-# Div
-![Mixture.DivNode](../../images/Mixture.DivNode.png)
+# Normal Rotate
+![Mixture.NormalRotate](../../images/Mixture.NormalRotate.png)
 ## Inputs
 Port Name | Description
 --- | ---
-Source A | 
-Source B | 
-Value | 
+Normal Map | 
+Rotation In Degree | 
 
 ## Output
 Port Name | Description

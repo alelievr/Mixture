@@ -1,16 +1,15 @@
-# Div
-![Mixture.DivNode](../../images/Mixture.DivNode.png)
+# Switch
+![Mixture.Switch](../../images/Mixture.Switch.png)
 ## Inputs
 Port Name | Description
 --- | ---
-Source A | 
-Source B | 
-Value | 
+index | 
+Input | 
 
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Output | 
 
 ## Description
 

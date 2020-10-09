@@ -7,6 +7,8 @@ Even Color |
 Odd Color | 
 X Cell Count | 
 Y Cell Count | 
+Z Cell Count | 
+Smooth | 
 
 ## Output
 Port Name | Description

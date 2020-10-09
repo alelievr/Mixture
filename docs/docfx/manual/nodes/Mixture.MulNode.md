@@ -5,7 +5,7 @@ Port Name | Description
 --- | ---
 Source A | 
 Source B | 
-Color | 
+Value | 
 
 ## Output
 Port Name | Description

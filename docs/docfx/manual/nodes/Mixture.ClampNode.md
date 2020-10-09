@@ -1,11 +1,11 @@
-# Div
-![Mixture.DivNode](../../images/Mixture.DivNode.png)
+# Clamp
+![Mixture.ClampNode](../../images/Mixture.ClampNode.png)
 ## Inputs
 Port Name | Description
 --- | ---
-Source A | 
-Source B | 
-Value | 
+Source | 
+Min | 
+Max | 
 
 ## Output
 Port Name | Description

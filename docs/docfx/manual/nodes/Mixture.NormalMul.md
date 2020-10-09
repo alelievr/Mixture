@@ -1,11 +1,11 @@
-# Div
-![Mixture.DivNode](../../images/Mixture.DivNode.png)
+# Normal Mul
+![Mixture.NormalMul](../../images/Mixture.NormalMul.png)
 ## Inputs
 Port Name | Description
 --- | ---
-Source A | 
-Source B | 
-Value | 
+Normal A | 
+Normal B | 
+Constant | 
 
 ## Output
 Port Name | Description

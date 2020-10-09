@@ -3,10 +3,11 @@
 ## Inputs
 Port Name | Description
 --- | ---
+InnerColor | 
+OuterColor | 
 Radius | 
 InnerRadius | 
-Scale | 
-Offset | 
+Smooth | 
 
 ## Output
 Port Name | Description

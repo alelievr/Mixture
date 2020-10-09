@@ -6,8 +6,7 @@ Port Name | Description
 InnerColor | 
 OuterColor | 
 InnerSize | 
-Scale | 
-Offset | 
+Smooth | 
 
 ## Output
 Port Name | Description

@@ -1,11 +1,13 @@
-# Div
-![Mixture.DivNode](../../images/Mixture.DivNode.png)
+# CombineNode
+![Mixture.CombineNode](../../images/Mixture.CombineNode.png)
 ## Inputs
 Port Name | Description
 --- | ---
-Source A | 
+Source R | 
+Source G | 
 Source B | 
-Value | 
+Source A | 
+Custom | 
 
 ## Output
 Port Name | Description

@@ -1,16 +1,14 @@
-# Div
-![Mixture.DivNode](../../images/Mixture.DivNode.png)
+# Points From Map
+![Mixture.PointsFromMap](../../images/Mixture.PointsFromMap.png)
 ## Inputs
 Port Name | Description
 --- | ---
-Source A | 
-Source B | 
-Value | 
+Map | 
 
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Points | 
 
 ## Description
 
