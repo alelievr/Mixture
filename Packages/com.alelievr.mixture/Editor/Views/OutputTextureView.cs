@@ -11,6 +11,8 @@ namespace Mixture
 {
 	public class OutputTextureView : VisualElement
     {
+        internal PortView       portView;
+
         VisualElement           root;
         OutputTextureSettings   targetSettings;
         MixtureGraphView        graphView;
@@ -232,6 +234,7 @@ namespace Mixture
 
         public void MovePort(PortView portView)
         {
+            this.portView = portView;
             var type = portView.Q("type");
             if (type != null)
             {

@@ -2,9 +2,9 @@
 {	
 	Properties
 	{
-		[InlineTexture(HideInNodeInspector)] _UV_2D("UVs", 2D) = "white" {}
-		[InlineTexture(HideInNodeInspector)] _UV_3D("UVs", 3D) = "white" {}
-		[InlineTexture(HideInNodeInspector)] _UV_Cube("UVs", Cube) = "white" {}
+		[InlineTexture(HideInNodeInspector)] _UV_2D("UVs", 2D) = "uv" {}
+		[InlineTexture(HideInNodeInspector)] _UV_3D("UVs", 3D) = "uv" {}
+		[InlineTexture(HideInNodeInspector)] _UV_Cube("UVs", Cube) = "uv" {}
 
 		[MixtureVector2]_OutputRange("Output Range", Vector) = (-1, 1, 0, 0)
 		_Lacunarity("Lacunarity", Float) = 2

@@ -191,7 +191,7 @@ namespace Mixture
 		public static readonly string texture3DPrefix = "_3D";
 		public static readonly string textureCubePrefix = "_Cube";
 
-		static readonly Dictionary< TextureDimension, string >	shaderPropertiesDimension = new Dictionary<TextureDimension, string>{
+		public static readonly Dictionary< TextureDimension, string >	shaderPropertiesDimensionSuffix = new Dictionary<TextureDimension, string>{
             { TextureDimension.Tex2D, texture2DPrefix },
             { TextureDimension.Tex3D, texture3DPrefix },
             { TextureDimension.Cube, textureCubePrefix },
@@ -205,7 +205,7 @@ namespace Mixture
         {
             // if there is no modifier in the name, then it supports all the dimensions
 			bool dimensionSpecific = false;
-			foreach (var dim in shaderPropertiesDimension.Values)
+			foreach (var dim in shaderPropertiesDimensionSuffix.Values)
 			{
 				// if (string.Compare(propertyName, propertyName.Length - dim.Length, dim, 0, dim.Length) == 0)
 				if (propertyName.EndsWith(dim))
@@ -217,7 +217,7 @@ namespace Mixture
 
             List<TextureDimension>  dimensions = new List<TextureDimension>();
 
-            foreach (var kp in shaderPropertiesDimension)
+            foreach (var kp in shaderPropertiesDimensionSuffix)
             {
                 if (propertyName.ToUpper().Contains(kp.Value.ToUpper()))
                     dimensions.Add(kp.Key);
@@ -228,7 +228,7 @@ namespace Mixture
 
 		public static void SetTextureWithDimension(Material material, string propertyName, Texture texture)
 		{
-			if (shaderPropertiesDimension.TryGetValue(texture.dimension, out var suffix))
+			if (shaderPropertiesDimensionSuffix.TryGetValue(texture.dimension, out var suffix))
 				material.SetTexture(propertyName + suffix, texture);
 		}
 

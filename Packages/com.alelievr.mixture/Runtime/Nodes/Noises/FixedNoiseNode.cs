@@ -22,17 +22,9 @@ namespace Mixture
 			if (!base.ProcessNode(cmd))
 				return false;
 
-			// Check if the UVs are connected or not:
-			var port = inputPorts.Find(p => p.portData.identifier.Contains("_UV_"));
-			if (port == null)
-				return false;
-
-			bool customUVs = port.GetEdges().Count != 0;
-
-			if (customUVs)
-				material.EnableKeyword("USE_CUSTOM_UV");
-			else
-				material.DisableKeyword("USE_CUSTOM_UV");
+			// Check if we need to use custom UVs or not 
+            bool useCustomUV = material.HasTextureBound("_UV", rtSettings.GetTextureDimension(graph));
+			material.SetKeywordEnabled("USE_CUSTOM_UV", useCustomUV);
 
 			if (material.IsKeywordEnabled("_TILINGMODE_TILED"))
 			{

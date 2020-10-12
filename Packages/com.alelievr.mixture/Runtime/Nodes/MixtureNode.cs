@@ -107,6 +107,10 @@ namespace Mixture
 			int outputDepth = rtSettings.GetDepth(graph);
 			GraphicsFormat targetFormat = rtSettings.GetGraphicsFormat(graph);
 			TextureDimension dimension = rtSettings.GetTextureDimension(graph);
+
+			outputWidth = Mathf.Max(outputWidth, 1);
+			outputHeight = Mathf.Max(outputHeight, 1);
+			outputDepth = Mathf.Max(outputDepth, 1);
 			
 			if (dimension == TextureDimension.Cube)
 				outputHeight = outputDepth = outputWidth; // we only use the width for cubemaps

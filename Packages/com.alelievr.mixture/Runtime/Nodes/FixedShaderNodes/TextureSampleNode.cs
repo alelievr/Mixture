@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine.Rendering;
 using GraphProcessor;
-using System.Linq;
 
 namespace Mixture
 {
@@ -14,5 +11,15 @@ namespace Mixture
 		public override string shaderName => "Hidden/Mixture/TextureSample";
 
 		public override bool displayMaterialInspector => true;
+
+		protected override bool ProcessNode(CommandBuffer cmd)
+        {
+            if (!base.ProcessNode(cmd))
+                return false;
+
+            bool useCustomUV = material.HasTextureBound("_UV", rtSettings.GetTextureDimension(graph));
+            material.SetKeywordEnabled("USE_CUSTOM_UV", useCustomUV);
+            return true;
+        }
 	}
 }

@@ -491,8 +491,29 @@ namespace Mixture
                 }
                 else if (dimension == OutputDimension.CubeMap)
                 {
-                    throw new System.NotImplementedException(); // Todo : write as 2D Cubemap : Perform LatLon Conversion + Reimport
-                                                                //System.IO.File.WriteAllBytes(assetPath, ImageConversion.EncodeToPNG(outputTexture as Cubemap).);
+                    var cube = AssetDatabase.LoadAssetAtPath<Cubemap>(assetPath);
+                    if (cube == null)
+                    {
+                        cube = new Cubemap(external.rtSettings.width, (TextureFormat)external.external3DFormat, true);
+                        AssetDatabase.CreateAsset(cube, assetPath);
+                    }
+                    // TODO: check resolution
+                    if (cube.format != (TextureFormat)external.external3DFormat)
+                    {
+                        var newTexture = new Cubemap(external.rtSettings.width, (TextureFormat)external.external3DFormat, true);
+                        EditorUtility.CopySerialized(newTexture, cube);
+                        Object.DestroyImmediate(newTexture);
+                    }
+                    for (int i = 0; i < 6; i++)
+                    {
+                        CubemapFace face = (CubemapFace)i;
+                        cube.SetPixels((outputTexture as Cubemap).GetPixels(face), face);
+                    }
+                    cube.Apply();
+                    AssetDatabase.SaveAssets();
+                    AssetDatabase.Refresh();
+
+                    external.asset = cube;
                 }
                 EditorUtility.DisplayProgressBar("Mixture", $"Importing {assetPath}...", 1.0f);
 

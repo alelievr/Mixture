@@ -3,13 +3,13 @@
 	Properties
 	{
 		[InlineTexture] _Texture_2D("Distort Map", 2D) = "black" {}
-		[InlineTexture]_UV_2D("UV", 2D) = "black" {}
+		[InlineTexture]_UV_2D("UV", 2D) = "uv" {}
 
 		[InlineTexture]_Texture_3D("Distort Map", 3D) = "black" {}
-		[InlineTexture]_UV_3D("UV", 3D) = "black" {}
+		[InlineTexture]_UV_3D("UV", 3D) = "uv" {}
 
 		[InlineTexture]_Texture_Cube("Distort Map", Cube) = "black" {}
-		[InlineTexture]_UV_Cube("Direction", Cube) = "black" {}
+		[InlineTexture]_UV_Cube("Direction", Cube) = "uv" {}
 
 		[MixtureVector3]_Scale("Distort Scale", Vector) = (1.0,1.0,0.0,0.0)
 		[MixtureVector3]_Bias("Distort Bias", Vector) = (0.0,0.0,0.0,0.0)

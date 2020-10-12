@@ -16,7 +16,7 @@ namespace Mixture
 		protected OutputNode	outputNode;
 		protected MixtureGraph	graph;
 
-		Dictionary<string, OutputTextureView> inputPortElements = new Dictionary<string, OutputTextureView>();
+		protected Dictionary<string, OutputTextureView> inputPortElements = new Dictionary<string, OutputTextureView>();
 
 		public override void Enable(bool fromInspector)
 		{

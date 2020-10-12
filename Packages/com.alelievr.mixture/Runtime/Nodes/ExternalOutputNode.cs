@@ -12,7 +12,8 @@ namespace Mixture
         public enum ExternalOutputDimension
         {
             Texture2D,
-            Texture3D
+            Texture3D,
+            Cubemap,
         }
         public enum External2DOutputType
         {
@@ -33,19 +34,29 @@ namespace Mixture
 
         public override bool hasSettings => true;
 
-        protected override MixtureRTSettings defaultRTSettings => new MixtureRTSettings
+        protected override MixtureRTSettings defaultRTSettings
         {
-            heightMode = OutputSizeMode.Fixed,
-            widthMode = OutputSizeMode.Fixed,
-            depthMode = OutputSizeMode.Fixed,
-            potSize = (rtSettings.GetTextureDimension(graph) == TextureDimension.Tex3D) ? POTSize._32 : POTSize._1024,
-            dimension = OutputDimension.SameAsOutput,
-            outputChannels = OutputChannel.SameAsOutput,
-            outputPrecision = OutputPrecision.SameAsOutput,
-            editFlags = EditFlags.Height | EditFlags.Width| EditFlags.TargetFormat,
-            wrapMode = TextureWrapMode.Repeat,
-            filterMode = FilterMode.Bilinear,
-        };
+            get
+            {
+                POTSize size = (rtSettings.GetTextureDimension(graph) == TextureDimension.Tex3D) ? POTSize._32 : POTSize._1024;
+                return new MixtureRTSettings
+                {
+                    heightMode = OutputSizeMode.Fixed,
+                    widthMode = OutputSizeMode.Fixed,
+                    depthMode = OutputSizeMode.Fixed,
+                    potSize = size,
+                    height = (int)size,
+                    width = (int)size,
+                    sliceCount = (int)size,
+                    dimension = OutputDimension.SameAsOutput,
+                    outputChannels = OutputChannel.SameAsOutput,
+                    outputPrecision = OutputPrecision.SameAsOutput,
+                    editFlags = EditFlags.Height | EditFlags.Width| EditFlags.TargetFormat,
+                    wrapMode = TextureWrapMode.Repeat,
+                    filterMode = FilterMode.Bilinear,
+                };
+            }
+        }
 
         protected override void Enable()
         {

@@ -1,11 +1,10 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEditor;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 using GraphProcessor;
 using UnityEditor.Experimental.GraphView;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Mixture
 {
@@ -54,6 +53,9 @@ namespace Mixture
                             break;
                         case ExternalOutputNode.ExternalOutputDimension.Texture3D:
                             externalOutputNode.rtSettings.dimension = OutputDimension.Texture3D;
+                            break;
+                        case ExternalOutputNode.ExternalOutputDimension.Cubemap:
+                            externalOutputNode.rtSettings.dimension = OutputDimension.CubeMap;
                             break;
                     }
                     externalOutputNode.OnSettingsChanged();
@@ -150,6 +152,16 @@ namespace Mixture
         {
             graph.SaveExternalTexture(nodeTarget as ExternalOutputNode, false);
             UpdateButtons();
+        }
+
+		public override void OnRemoved()
+        {
+            base.OnRemoved();
+
+            // Manually disconnect the edges because we have a custom port handling in output nodes
+            var inputPort = inputPortElements[outputNode.mainOutput.name];
+            foreach (var i in inputPort.portView.GetEdges().ToList())
+                owner.DisconnectView(i);
         }
     }
 }
