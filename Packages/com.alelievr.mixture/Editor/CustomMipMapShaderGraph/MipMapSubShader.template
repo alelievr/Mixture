@@ -19,6 +19,13 @@ Pass
 
 	#pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 
+    // Pragmas
+    $splice(PassPragmas)
+
+    // Keywords
+    $splice(PassKeywords)
+    $splice(GraphKeywords)
+
 	#include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.cginc"
 

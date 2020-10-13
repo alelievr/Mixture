@@ -10,10 +10,10 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Operators/Distance")]
 	public class Distance : ComputeShaderNode
 	{
-		[Input("Input")]
+		[Input]
 		public Texture input;
 
-		[Output("Output")]
+		[Output]
 		public CustomRenderTexture output;
 
 		public float threshold = 0.5f;
@@ -40,9 +40,9 @@ namespace Mixture
 		protected IEnumerable< PortData > ChangeInputPortType(List< SerializableEdge > edges)
 		{
 			yield return new PortData{
-				displayName = "output",
+				displayName = "Input",
 				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
-				identifier = "output",
+				identifier = "Input",
 				acceptMultipleEdges = true,
 			};
 		}
@@ -51,7 +51,7 @@ namespace Mixture
 		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{
 			yield return new PortData{
-				displayName = "output",
+				displayName = "Output",
 				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
 				identifier = "output",
 				acceptMultipleEdges = true,

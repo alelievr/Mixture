@@ -8,7 +8,7 @@ Shader "Hidden/Mixture/CrossSection"
 		[InlineTexture]_Source_Cube("Source", Cube) = "white" {}
 
 		// Other parameters
-		_Slice("Slice", Range(0, 1)) = 0
+		[ToolTip(Slice of the inptu texture in the Y axis, between 0 and 1)]_Slice("Slice", Range(0, 1)) = 0
 	}
 	SubShader
 	{

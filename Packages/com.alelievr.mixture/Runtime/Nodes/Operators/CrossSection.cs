@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using GraphProcessor;
-using System.Linq;
 using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+The cross section node allow you to generate 2D texture by taking either a slice of a texture 2D or 3D.
+Right now this node is limited to slices on the Y axis. 
+")]
 	[System.Serializable, NodeMenuItem("Custom/Cross Section")]
 	public class CrossSection : FixedShaderNode
 	{
@@ -18,13 +20,6 @@ namespace Mixture
 
 		// Enumerate the list of material properties that you don't want to be turned into a connectable port.
 		protected override IEnumerable<string> filteredOutProperties => new string[]{};
-
-        // Override this if you node is not compatible with all dimensions
-        // public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
-        // 	OutputDimension.Texture2D,
-        // 	OutputDimension.Texture3D,
-        // 	OutputDimension.CubeMap,
-        // };
 
         protected override TextureDimension GetTempTextureDimension() => TextureDimension.Tex2D;
 	}

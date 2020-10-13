@@ -27,6 +27,13 @@ Pass
 	#pragma fragment frag
 	#pragma target 4.5
 
+    // Pragmas
+    $splice(PassPragmas)
+
+    // Keywords
+    $splice(PassKeywords)
+    $splice(GraphKeywords)
+
 	struct SurfaceDescriptionInputs
 	{
 		// update input values
