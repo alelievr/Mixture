@@ -121,8 +121,10 @@ namespace Mixture
 
 			outputTextureSettings.Add(output);
 
+#if UNITY_EDITOR
 			if (graph.isRealtime)
 				graph.UpdateRealtimeAssetsOnDisk();
+#endif
 
 			return output;
 		}
@@ -131,9 +133,11 @@ namespace Mixture
 		{
 			outputTextureSettings.Remove(settings);
 
+#if UNITY_EDITOR
 			// When the graph is realtime, we don't have the save all button, so we call is automatically
 			if (graph.isRealtime)
 				graph.UpdateRealtimeAssetsOnDisk();
+#endif
 		}
 
 		Material CreateFinalCopyMaterial()
@@ -186,6 +190,14 @@ namespace Mixture
 						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.Realtime;
 					else
 						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.OnDemand;
+					
+					if (output.finalCopyRT.dimension != rtSettings.GetTextureDimension(graph))
+					{
+						output.finalCopyRT.Release();
+						output.finalCopyRT.depth = 0;
+						output.finalCopyRT.dimension = rtSettings.GetTextureDimension(graph);
+						output.finalCopyRT.Create();
+					}
 				}
 				else
 				{

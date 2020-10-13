@@ -168,11 +168,6 @@ namespace Mixture
             return outputTextures.Find(t => t != null && (isMain ? t.name == mainOutputTexture.name : t.name == name));
         }
 
-        Texture FindTextureOnDisk(string name, bool isMain)
-        {
-            return AssetDatabase.LoadAllAssetsAtPath(mainAssetPath).FirstOrDefault(o => o is Texture t && (isMain ? t.name == mainOutputTexture.name : t.name == name)) as Texture;
-        }
-
 		/// <summary>
 		/// Warning: this function will create updated the cached texture and may result in partial writing of texture on the disk (only uncompressed textures will be updated)
 		/// </summary>
@@ -206,6 +201,12 @@ namespace Mixture
 		}
 
 #if UNITY_EDITOR
+
+        Texture FindTextureOnDisk(string name, bool isMain)
+        {
+            return AssetDatabase.LoadAllAssetsAtPath(mainAssetPath).FirstOrDefault(o => o is Texture t && (isMain ? t.name == mainOutputTexture.name : t.name == name)) as Texture;
+        }
+
         public void FlushTexturesToDisk()
         {
             List<Texture> assetsToKeep = new List<Texture>();
@@ -730,6 +731,7 @@ namespace Mixture
         /// </summary>
         unsafe void ConvertOutput3DTexture(Texture3D source, Texture3D destination, TextureFormat compressionFormat)
         {
+#if UNITY_EDITOR
             OutputPrecision inputPrecision = outputNode.rtSettings.outputPrecision;
             OutputChannel inputChannels = outputNode.rtSettings.outputChannels;
 
@@ -744,6 +746,7 @@ namespace Mixture
             EditorUtility.CopySerialized(finalCompressedTexture, destination);
             Object.DestroyImmediate(finalCompressedTexture);
             Object.DestroyImmediate(source);
+#endif
         }
 
         /// <summary>
