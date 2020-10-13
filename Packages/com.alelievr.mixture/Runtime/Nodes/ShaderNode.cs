@@ -90,7 +90,7 @@ namespace Mixture
 		{
 			yield return new PortData{
 				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
+				displayType = TextureUtils.GetTypeFromDimension(output.dimension),
 				identifier = "output",
 				acceptMultipleEdges = true,
 			};

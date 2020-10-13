@@ -205,12 +205,12 @@ namespace Mixture
                 {
                     case TextureDimension.Tex2D:
                         // Tex2D supports compression + custom mip maps and we hide conversion settings (compression should be enough)
-                        compressionFields.style.display = DisplayStyle.Flex;
+                        compressionFields.style.display = targetSettings.enableCompression ? DisplayStyle.Flex : DisplayStyle.None;
                         enableCompression.style.display = DisplayStyle.Flex;
                         conversionSettings.style.display = DisplayStyle.None;
                         mipmapSettings.style.display = DisplayStyle.Flex;
                         if (targetSettings.hasMipMaps)
-                            mipmapFields.style.display = DisplayStyle.Flex;
+                            mipmapFields.style.display = targetSettings.hasMipMaps ? DisplayStyle.Flex : DisplayStyle.None;
                         break;
                     case TextureDimension.Tex3D:
                         // Tex3D supports conversion but not compression, mipmap but not custom mipmaps.

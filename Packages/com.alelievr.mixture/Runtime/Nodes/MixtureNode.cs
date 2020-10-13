@@ -106,7 +106,7 @@ namespace Mixture
 			int outputHeight = rtSettings.GetHeight(graph);
 			int outputDepth = rtSettings.GetDepth(graph);
 			GraphicsFormat targetFormat = rtSettings.GetGraphicsFormat(graph);
-			TextureDimension dimension = rtSettings.GetTextureDimension(graph);
+			TextureDimension dimension = GetTempTextureDimension();
 
 			outputWidth = Mathf.Max(outputWidth, 1);
 			outputHeight = Mathf.Max(outputHeight, 1);
@@ -184,6 +184,8 @@ namespace Mixture
 			return false;
 		}
 
+		protected virtual TextureDimension GetTempTextureDimension() => rtSettings.GetTextureDimension(graph);
+
 		float GetUpdatePeriod()
 		{
 			switch (rtSettings.refreshMode)
@@ -233,7 +235,9 @@ namespace Mixture
 			beforeProcessSetup?.Invoke();
 
 			// Avoid adding markers if it's CRT processing (CRT  already have one)
-			if (this is IUseCustomRenderTextureProcessing)
+			// Or loops as it will bloat the debug markers
+			bool loopNode = this is ILoopStart || this is ILoopEnd;
+			if (this is IUseCustomRenderTextureProcessing || loopNode)
 				ProcessNode(cmd);
 			else
 			{
