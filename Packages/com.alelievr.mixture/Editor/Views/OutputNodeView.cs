@@ -112,6 +112,13 @@ namespace Mixture
 				// Reflect the changes on the graph output texture but not on the asset to avoid stalls.
 				graph.UpdateOutputTextures();
 				RefreshOutputPortSettings();
+
+				// We delay the port refresh to let the settings finish it's update 
+				schedule.Execute(() =>{ 
+					// Refresh ports on all the nodes in the graph
+					foreach (var nodeView in owner.nodeViews)
+						nodeView.ForceUpdatePorts();
+				}).ExecuteLater(1);
 			});
 
 			return sv;
