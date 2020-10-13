@@ -185,7 +185,6 @@ public static class CustomTextureManager
         var shader = crt.material.shader;
         int propertyCount = shader.GetPropertyCount();
         for (int i = 0; i < propertyCount; i++)
-        // foreach(var texID in crt.material.GetTexturePropertyNameIDs())
         {
             if (shader.GetPropertyType(i) != ShaderPropertyType.Texture)
                 continue;
