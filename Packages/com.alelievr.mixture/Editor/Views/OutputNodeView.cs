@@ -115,6 +115,7 @@ namespace Mixture
 
 				// We delay the port refresh to let the settings finish it's update 
 				schedule.Execute(() =>{ 
+					owner.ProcessGraph();
 					// Refresh ports on all the nodes in the graph
 					foreach (var nodeView in owner.nodeViews)
 						nodeView.ForceUpdatePorts();

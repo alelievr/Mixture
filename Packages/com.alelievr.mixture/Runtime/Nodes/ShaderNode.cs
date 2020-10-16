@@ -88,7 +88,14 @@ namespace Mixture
 		[CustomPortBehavior(nameof(output))]
 		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{
-			var dim = output != null ? output.dimension : rtSettings.GetTextureDimension(graph);
+			var dim = rtSettings.GetTextureDimension(graph);
+
+			if (output != null)
+			{
+				UpdateTempRenderTexture(ref output);
+				dim = output.dimension;
+			}
+
 			yield return new PortData{
 				displayName = "output",
 				displayType = TextureUtils.GetTypeFromDimension(dim),

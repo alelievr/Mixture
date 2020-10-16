@@ -8,9 +8,6 @@ using UnityEngine.Experimental.Rendering;
 using System;
 using Object = UnityEngine.Object;
 using UnityEngine.Serialization;
-using Unity.Collections.LowLevel.Unsafe;
-using Unity.Collections;
-using Unity.Jobs;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -27,6 +24,11 @@ namespace Mixture
 		public bool				isRealtime;
 
         public bool             isParameterViewOpen;
+
+        /// <summary>
+        /// Add the mixture asset to the built player, note that it only works for static mixtures as realtime ones are always included.
+        /// </summary>
+        public bool             embedInBuild;
 
         [System.NonSerialized]
 		OutputNode		        _outputNode;

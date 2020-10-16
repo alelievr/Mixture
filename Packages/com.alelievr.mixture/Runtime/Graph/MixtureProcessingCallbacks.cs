@@ -36,6 +36,8 @@ namespace Mixture
             {
                 graph = UnityEditor.AssetDatabase.LoadAllAssetsAtPath(graphPath).OfType<MixtureGraph>().FirstOrDefault();
             }
+#else
+			graph = MixtureDatabase.GetGraphFromTexture(crt);
 #endif
 
 			// If the graph is valid and realtime
