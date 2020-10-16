@@ -25,20 +25,7 @@ namespace Mixture
 
 		static void BeforeCustomRenderTextureUpdate(CommandBuffer cmd, CustomRenderTexture crt)
 		{
-            MixtureGraph graph = null;
-
-// Currently we can only check that a CRT is linked to a graph in the editor and not in a player.
-// This limitation will be fixed with the assetbundle system (hopefully).
-#if UNITY_EDITOR
-			string graphPath = UnityEditor.AssetDatabase.GetAssetPath(crt);
-
-            if (!String.IsNullOrEmpty(graphPath))
-            {
-                graph = UnityEditor.AssetDatabase.LoadAllAssetsAtPath(graphPath).OfType<MixtureGraph>().FirstOrDefault();
-            }
-#else
-			graph = MixtureDatabase.GetGraphFromTexture(crt);
-#endif
+            MixtureGraph graph = MixtureDatabase.GetGraphFromTexture(crt);;
 
 			// If the graph is valid and realtime
 			if (graph != null && graph.isRealtime == true)

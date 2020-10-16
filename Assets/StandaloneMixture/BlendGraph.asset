@@ -45,6 +45,40 @@ Material:
     m_Colors:
     - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
+--- !u!21 &-269252523624992435
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/FinalCopy
+  m_Shader: {fileID: 4800000, guid: 513c040fbfb854aebb92cf147e30125a, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -60,34 +94,59 @@ MonoBehaviour:
   serializedNodes:
   - type: Mixture.OutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"20aad9a2-f45b-443d-9f30-0287577d108c","computeOrder":1,"position":{"serializedVersion":"2","x":90.51744079589844,"y":23.000017166137697,"width":350.0,"height":535.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":1024,"height":1024,"sliceCount":1,"potSize":1024,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"outputChannels":1,"outputPrecision":4,"editFlags":981,"doubleBuffered":false,"wrapMode":0,"filterMode":0,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"isPinned":false,"input":{"instanceID":0},"hasMips":false,"customMipMapShader":{"instanceID":0},"currentSlice":0,"finalCopyMaterial":{"instanceID":0},"compressionFormat":12,"compressionQuality":100,"enableCompression":false}'
+    jsonDatas: '{"GUID":"20aad9a2-f45b-443d-9f30-0287577d108c","computeOrder":4,"position":{"serializedVersion":"2","x":90.51744079589844,"y":23.000017166137697,"width":350.0,"height":535.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":1024,"height":1024,"sliceCount":1,"potSize":1024,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"outputChannels":1,"outputPrecision":3,"editFlags":981,"doubleBuffered":false,"wrapMode":0,"filterMode":0,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"outputTextureSettings":[{"inputTexture":{"instanceID":0},"name":"Main
+      Texture","enableCompression":false,"compressionFormat":25,"compressionQuality":100,"hasMipMaps":false,"customMipMapShader":{"instanceID":0},"isMain":true,"enableConversion":false,"conversionFormat":0,"finalCopyMaterial":{"fileID":-269252523624992435,"guid":"9a6a57ed127646243921eab3ec0c9659","type":2}}]}'
   - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"d84496f9-5439-4aa7-89fe-d6243e23248f","computeOrder":2,"position":{"serializedVersion":"2","x":-293.0,"y":10.0,"width":74.0,"height":39.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"86ebc46b-0457-4ce5-aa26-e7f0183c2bb7","accessor":0}'
+    jsonDatas: '{"GUID":"d84496f9-5439-4aa7-89fe-d6243e23248f","computeOrder":0,"position":{"serializedVersion":"2","x":-293.0,"y":10.0,"width":74.0,"height":39.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"86ebc46b-0457-4ce5-aa26-e7f0183c2bb7","accessor":0}'
   - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"293e9d11-cb7a-4c80-aabc-79ef6f548801","computeOrder":3,"position":{"serializedVersion":"2","x":-291.0,"y":78.0,"width":72.0,"height":39.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"1b33b88f-14e8-42ab-99eb-78a3d9d649a2","accessor":0}'
+    jsonDatas: '{"GUID":"293e9d11-cb7a-4c80-aabc-79ef6f548801","computeOrder":1,"position":{"serializedVersion":"2","x":-291.0,"y":78.0,"width":72.0,"height":39.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"1b33b88f-14e8-42ab-99eb-78a3d9d649a2","accessor":0}'
   - type: Mixture.BlendNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"a737bd65-a424-46b2-9e5b-c1bfddce9f2c","computeOrder":0,"position":{"serializedVersion":"2","x":-192.0,"y":23.0,"width":250.0,"height":461.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"5d69ff00d9a32944ea012824393d489a","type":3},"material":{"fileID":2435241420344829220,"guid":"9a6a57ed127646243921eab3ec0c9659","type":2}}'
+    jsonDatas: '{"GUID":"a737bd65-a424-46b2-9e5b-c1bfddce9f2c","computeOrder":3,"position":{"serializedVersion":"2","x":-192.0,"y":23.0,"width":250.0,"height":461.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"5d69ff00d9a32944ea012824393d489a","type":3},"material":{"fileID":2435241420344829220,"guid":"9a6a57ed127646243921eab3ec0c9659","type":2}}'
   - type: Mixture.CellularNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"13700645-2129-43be-bbea-ac7549917b33","computeOrder":4,"position":{"serializedVersion":"2","x":-469.0,"y":129.0,"width":250.0,"height":645.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"da55f2393d0f8384db177010fad4c19c","type":3},"material":{"fileID":-2570751585153170446,"guid":"9a6a57ed127646243921eab3ec0c9659","type":2}}'
+    jsonDatas: '{"GUID":"13700645-2129-43be-bbea-ac7549917b33","computeOrder":2,"position":{"serializedVersion":"2","x":-469.0,"y":129.0,"width":250.0,"height":645.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"da55f2393d0f8384db177010fad4c19c","type":3},"material":{"fileID":-2570751585153170446,"guid":"9a6a57ed127646243921eab3ec0c9659","type":2}}'
   edges:
-  - GUID: e68bb96b-b8ff-4380-af92-da7cd888f909
+  - GUID: f9ddf8f0-0f82-485b-9310-f010adeedcf4
     owner: {fileID: 11400000}
     inputNodeGUID: 20aad9a2-f45b-443d-9f30-0287577d108c
     outputNodeGUID: a737bd65-a424-46b2-9e5b-c1bfddce9f2c
-    inputFieldName: input
+    inputFieldName: outputTextureSettings
     outputFieldName: output
-    inputPortIdentifier: input
+    inputPortIdentifier: Main Texture
+    outputPortIdentifier: output
+  - GUID: d94e1fe5-43ed-4d88-9779-b4b562fa7aa9
+    owner: {fileID: 11400000}
+    inputNodeGUID: a737bd65-a424-46b2-9e5b-c1bfddce9f2c
+    outputNodeGUID: d84496f9-5439-4aa7-89fe-d6243e23248f
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Source_2D
+    outputPortIdentifier: output
+  - GUID: 294810ec-f3eb-44a0-894f-84d2345af1ff
+    owner: {fileID: 11400000}
+    inputNodeGUID: a737bd65-a424-46b2-9e5b-c1bfddce9f2c
+    outputNodeGUID: 293e9d11-cb7a-4c80-aabc-79ef6f548801
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Target_2D
+    outputPortIdentifier: output
+  - GUID: d5667589-eef8-495d-b78f-02208ca29759
+    owner: {fileID: 11400000}
+    inputNodeGUID: a737bd65-a424-46b2-9e5b-c1bfddce9f2c
+    outputNodeGUID: 13700645-2129-43be-bbea-ac7549917b33
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Mask_2D
     outputPortIdentifier: output
   groups: []
   stackNodes: []
   pinnedElements:
   - position:
       serializedVersion: 2
-      x: 2
-      y: 217
+      x: 0
+      y: 32
       width: 202
       height: 240
     opened: 1
@@ -100,10 +159,10 @@ MonoBehaviour:
     type: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedValue:
-      serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      serializedType: UnityEngine.Object, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       serializedName: 
-      serializedValue: '{"value":{"instanceID":22122}}'
+      serializedValue: '{"value":{"instanceID":0}}'
     input: 1
     settings:
       isHidden: 0
@@ -112,22 +171,29 @@ MonoBehaviour:
     type: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedValue:
-      serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      serializedType: UnityEngine.Object, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       serializedName: 
-      serializedValue: '{"value":{"instanceID":22124}}'
+      serializedValue: '{"value":{"instanceID":0}}'
     input: 1
     settings:
       isHidden: 0
-  position: {x: 591, y: 101, z: 0}
-  scale: {x: 0.7561437, y: 0.7561437, z: 1}
+  stickyNotes: []
+  position: {x: 419, y: 181, z: 0}
+  scale: {x: 1, y: 1, z: 1}
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 1
+  embedInBuild: 1
   objectReferences:
   - {fileID: 2435241420344829220}
   - {fileID: -2570751585153170446}
-  _outputTexture: {fileID: 7651682543018878948}
+  - {fileID: -269252523624992435}
+  _mainOutputTexture: {fileID: 7651682543018878948}
+  _outputTextures:
+  - {fileID: 7651682543018878948}
+  - {fileID: 0}
+  - {fileID: 0}
   references:
     version: 1
 --- !u!21 &2435241420344829220
@@ -188,6 +254,7 @@ Material:
     m_Floats:
     - _BlendMode: 0
     - _MaskMode: 4
+    - _Opacity: 1
     m_Colors: []
   m_BuildTextureStacks: []
 --- !u!28 &7651682543018878948

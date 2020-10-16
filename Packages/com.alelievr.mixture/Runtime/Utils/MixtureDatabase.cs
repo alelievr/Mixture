@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace Mixture
 {
@@ -29,9 +31,26 @@ namespace Mixture
                     graphMap[outputTexture] = graph;
             }
         }
+#endif
 
+        /// <summary>
+        /// Get the graph from the mixture
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <returns></returns>
         public static MixtureGraph GetGraphFromTexture(Texture texture)
         {
+// In the editor, we can directly use the AssetDatabase instead of relying on the resources.
+#if UNITY_EDITOR
+			string graphPath = UnityEditor.AssetDatabase.GetAssetPath(texture);
+
+            if (!String.IsNullOrEmpty(graphPath))
+                return UnityEditor.AssetDatabase.LoadAllAssetsAtPath(graphPath).OfType<MixtureGraph>().FirstOrDefault();
+            else
+                return null;
+
+#else
+
             if (instance == null)
             {
                 instance = Resources.Load<MixtureDatabase>(databaseResourcePath);
@@ -44,7 +63,7 @@ namespace Mixture
 
             instance.graphMap.TryGetValue(texture, out var graph);
             return graph;
-        }
 #endif
+        }
     }
 }

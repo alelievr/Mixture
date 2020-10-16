@@ -181,6 +181,7 @@ namespace Mixture
 			UpdateExposedParameters(null);
 			root.Add(parameters);
 			root.Add(CreateTextureSettingsView());
+			root.Add(CreateAdvancedSettingsView());
 
 			return root;
 		}
@@ -240,6 +241,23 @@ namespace Mixture
 			textureSettings.Add(aniso);
 
 			return textureSettings;
+		}
+
+		VisualElement CreateAdvancedSettingsView()
+		{
+			var advanced = new VisualElement();
+
+			if (!graph.isRealtime)
+			{
+				var embed = new Toggle("Embed Graph In Build") { value = graph.embedInBuild };
+				embed.RegisterValueChangedCallback(e => {
+					Undo.RegisterCompleteObjectUndo(graph, "Changed Embed In Build");
+					graph.embedInBuild = e.newValue;
+				});
+				advanced.Add(embed);
+			}
+
+			return advanced;
 		}
 		
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
