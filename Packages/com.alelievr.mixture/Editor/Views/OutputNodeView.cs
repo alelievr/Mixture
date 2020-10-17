@@ -108,18 +108,28 @@ namespace Mixture
 		{
 			var sv = base.CreateSettingsView();
 
+			OutputDimension currentDim = nodeTarget.rtSettings.dimension;
 			settingsView.RegisterChangedCallback(() => {
 				// Reflect the changes on the graph output texture but not on the asset to avoid stalls.
 				graph.UpdateOutputTextures();
 				RefreshOutputPortSettings();
 
-				// We delay the port refresh to let the settings finish it's update 
-				schedule.Execute(() =>{ 
-					owner.ProcessGraph();
-					// Refresh ports on all the nodes in the graph
-					foreach (var nodeView in owner.nodeViews)
-						nodeView.ForceUpdatePorts();
-				}).ExecuteLater(1);
+				// When the dimension is updated, we need to update all the node ports in the graph
+				var newDim = nodeTarget.rtSettings.dimension;
+				if (currentDim != newDim)
+				{
+					// We delay the port refresh to let the settings finish it's update 
+					schedule.Execute(() =>{ 
+						owner.ProcessGraph();
+						// Refresh ports on all the nodes in the graph
+						foreach (var nodeView in owner.nodeViews)
+						{
+							nodeView.nodeTarget.UpdateAllPortsLocal();
+							nodeView.RefreshPorts();
+						}
+					}).ExecuteLater(1);
+					currentDim = newDim;
+				}
 			});
 
 			return sv;

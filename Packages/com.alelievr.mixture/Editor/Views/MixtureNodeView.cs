@@ -45,12 +45,6 @@ namespace Mixture
 			if(!styleSheets.Contains(stylesheet))
 				styleSheets.Add(stylesheet);
 
-			// When we change the output dimension, we want to update the output ports
-			// TODO: there is probably a race condition here between the port that changes type
-			// and the MixtureGraphView callback that run the processor
-			owner.graph.onOutputTextureUpdated += UpdatePorts;
-			nodeTarget.onSettingsChanged += UpdatePorts;
-			nodeTarget.onSettingsChanged += () => owner.processor.Run();
 			nodeTarget.onProcessed += UpdateTexturePreview;
 
 			// Fix the size of the node
