@@ -14,16 +14,14 @@ namespace Mixture
 		public void Clear() => forLoopLevel.Clear();
 	}
 
-	public class MixtureGraphProcessor : BaseGraphProcessor
+	public class MixtureGraphProcessor : BaseGraphProcessor, IDisposable
 	{
-		// A Multiton, oh god I never thought i'd be writing one in my life
+		// A Multiton, oh my god I never thought i'd be writing one in my life
 		internal static Dictionary<MixtureGraph, HashSet<MixtureGraphProcessor>> processorInstances = new Dictionary<MixtureGraph, HashSet<MixtureGraphProcessor>>();
 
 		internal new MixtureGraph	graph => base.graph as MixtureGraph;
 		HashSet< BaseNode >		executedNodes = new HashSet<BaseNode>();
 		public ComputeOrderInfo	info { get; private set; } = new ComputeOrderInfo();
-
-        // Dictionary<BaseNode, List<BaseNode>> mixtureDependencies = new Dictionary<BaseNode, List<BaseNode>>();
 
         struct ProcessingScope : IDisposable
         {
@@ -58,10 +56,17 @@ namespace Mixture
 				return processorSet.FirstOrDefault(p => p != null);
 		}
 
-		~MixtureGraphProcessor()
+		public static void RunOnce(MixtureGraph graph)
 		{
-			processorInstances.Remove(graph);
+			using (var processor = new MixtureGraphProcessor(graph))
+			{
+				processor.Run();
+			}
 		}
+
+		~MixtureGraphProcessor() => Dispose();
+
+		public void Dispose() => processorInstances.Remove(graph);
 
 		public override void UpdateComputeOrder()
 		{

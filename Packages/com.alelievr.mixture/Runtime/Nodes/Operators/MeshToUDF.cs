@@ -47,7 +47,7 @@ namespace Mixture
             base.Enable();
             rtSettings.editFlags = 0;
             rtSettings.sizeMode = OutputSizeMode.Fixed;
-            rtSettings.width = rtSettings.height = rtSettings.sliceCount = (int)resolution;
+            rtSettings.SetPOTSize((int)resolution);
             rtSettings.outputChannels = OutputChannel.RGBA;
             rtSettings.outputPrecision = OutputPrecision.Full;
             rtSettings.filterMode = FilterMode.Point;
@@ -105,7 +105,7 @@ namespace Mixture
                 return false;
 
             // Patch rtsettings with correct resolution input
-            rtSettings.width = rtSettings.height = rtSettings.sliceCount = (int)resolution;
+            rtSettings.SetPOTSize((int)resolution);
             UpdateTempRenderTexture(ref outputVolume);
 
             // Render the input meshes into the 3D volume:

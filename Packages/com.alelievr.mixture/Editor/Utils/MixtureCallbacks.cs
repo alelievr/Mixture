@@ -137,10 +137,15 @@ namespace Mixture
 
 				// Generate the output texture:
 				mixture.outputTextures.Clear();
-				mixture.UpdateOutputTextures();
-				mixture.FlushTexturesToDisk();
-
-				AssetDatabase.SaveAssets();
+				if (mixture.isRealtime)
+				{
+					mixture.UpdateRealtimeAssetsOnDisk();
+				}
+				else
+				{
+					MixtureGraphProcessor.RunOnce(mixture);
+					mixture.SaveAllTextures();
+				}
 
 				ProjectWindowUtil.ShowCreatedAsset(mixture.mainOutputTexture);
 				Selection.activeObject = mixture.mainOutputTexture;

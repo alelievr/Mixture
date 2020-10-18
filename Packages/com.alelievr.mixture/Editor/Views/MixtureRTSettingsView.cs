@@ -279,7 +279,18 @@ namespace Mixture
             };
             outputDimension.RegisterValueChangedCallback(e => {
                 owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
+                // Check if the new texture is not too high res:
                 node.rtSettings.dimension = (OutputDimension)e.newValue;
+                if (node.rtSettings.dimension == OutputDimension.Texture3D)
+                {
+                    long pixelCount = node.rtSettings.GetWidth(graph) * node.rtSettings.GetHeight(graph) * node.rtSettings.GetDepth(graph);
+
+                    // Above 16M pixels in a texture3D, processing can take too long and crash the GPU when a conversion happen
+                    if (pixelCount > 16777216)
+                    {
+                        node.rtSettings.SetPOTSize(64);
+                    }
+                }
                 onChanged?.Invoke();
             });
 

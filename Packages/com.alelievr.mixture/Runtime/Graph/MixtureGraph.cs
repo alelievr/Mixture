@@ -550,7 +550,7 @@ namespace Mixture
         }
 
 #if UNITY_EDITOR
-        public void SaveAllTextures()
+        public void SaveAllTextures(bool pingObject = true)
         {
             if (isRealtime)
                 return;
@@ -572,7 +572,8 @@ namespace Mixture
 
             AssetDatabase.Refresh();
 
-            EditorGUIUtility.PingObject(mainOutputTexture);
+            if (pingObject)
+                EditorGUIUtility.PingObject(mainOutputTexture);
         }
 
         public void UpdateRealtimeAssetsOnDisk()
@@ -722,10 +723,6 @@ namespace Mixture
                     Debug.LogError(data.targetTexture + " is not a supported type for saving");
                     return;
             }
-
-#if UNITY_EDITOR
-            EditorGUIUtility.PingObject(data.targetTexture);
-#endif
         }
 
         /// <summary>

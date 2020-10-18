@@ -170,5 +170,11 @@ namespace Mixture
 				|| filterMode != t.filterMode
 				|| wrapMode != t.wrapMode;
 		}
+
+		public void SetPOTSize(int size)
+		{
+			potSize = (POTSize)Mathf.ClosestPowerOfTwo(size);
+			width = height = sliceCount = (int)potSize;
+		}
 	}
 }

@@ -157,7 +157,7 @@ namespace Mixture
 
             if (!graph.isRealtime)
             {
-                controlsContainer.Add(new Button(graph.SaveAllTextures)
+                controlsContainer.Add(new Button(() => graph.SaveAllTextures())
                 {
                     text = "Save All"
                 });

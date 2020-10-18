@@ -174,9 +174,14 @@ namespace Mixture
 		{
 			if (graph == null)
 				return base.CreateInspectorGUI();
+			
 
 			root = new VisualElement();
 			parameters = new VisualElement();
+
+			var styleSheet = Resources.Load<StyleSheet>("MixtureInspector");
+			if (styleSheet != null)
+				root.styleSheets.Add(styleSheet);
 			
 			UpdateExposedParameters(null);
 			root.Add(parameters);
@@ -191,15 +196,23 @@ namespace Mixture
 		{
 			parameters.Clear();
 
-            if (graph.exposedParameters.Count != 0)
-                parameters.Add(new Label("Exposed Parameters:"));
-
+			bool header = true;
+			bool showUpdateButton = false;
             foreach (var param in graph.exposedParameters)
             {
                 if (param.settings.isHidden)
                     continue;
 
+				if (header)
+				{
+					var headerLabel = new Label("Exposed Parameters");
+					headerLabel.AddToClassList("Header");
+					parameters.Add(headerLabel);
+					header = false;
+					showUpdateButton = true;
+				}
                 VisualElement prop = new VisualElement();
+				prop.AddToClassList("Indent");
                 prop.style.display = DisplayStyle.Flex;
                 Type paramType = Type.GetType(param.type);
                 var field = FieldFactory.CreateField(paramType, param.serializedValue.value, (newValue) => {
@@ -209,6 +222,16 @@ namespace Mixture
                 prop.Add(field);
                 parameters.Add(prop);
             }
+
+			if (showUpdateButton)
+			{
+				var updateButton = new Button(() => {
+					MixtureGraphProcessor.RunOnce(graph);
+					graph.SaveAllTextures(false);
+				}) { text = "Update" };
+				updateButton.AddToClassList("Indent");
+				parameters.Add(updateButton);
+			}
 		}
 
 		VisualElement CreateTextureSettingsView()
@@ -217,35 +240,44 @@ namespace Mixture
 
 			var t = target as Texture;
 
-			textureSettings.Add(new Label("Texture Settings:"));
+			var settingsLabel = new Label("Texture Settings");
+			settingsLabel.AddToClassList("Header");
+			textureSettings.Add(settingsLabel);
+
+			var settings = new VisualElement();
+			settings.AddToClassList("Indent");
+			textureSettings.Add(settings);
 
 			var wrapMode = new EnumField("Wrap Mode", t.wrapMode);
 			wrapMode.RegisterValueChangedCallback(e => {
 				Undo.RegisterCompleteObjectUndo(t, "Changed wrap mode");
 				t.wrapMode = (TextureWrapMode)e.newValue;
 			});
-			textureSettings.Add(wrapMode);
+			settings.Add(wrapMode);
 
 			var filterMode = new EnumField("Filter Mode", t.filterMode);
 			filterMode.RegisterValueChangedCallback(e => {
 				Undo.RegisterCompleteObjectUndo(t, "Changed filter mode");
 				t.filterMode = (FilterMode)e.newValue;
 			});
-			textureSettings.Add(filterMode);
+			settings.Add(filterMode);
 
 			var aniso = new SliderInt("Aniso Level", 1, 9);
 			aniso.RegisterValueChangedCallback(e => {
 				Undo.RegisterCompleteObjectUndo(t, "Changed aniso level");
 				t.anisoLevel = e.newValue;
 			});
-			textureSettings.Add(aniso);
+			settings.Add(aniso);
 
 			return textureSettings;
 		}
 
 		VisualElement CreateAdvancedSettingsView()
 		{
+			bool hasAdvancedSettings = false;
 			var advanced = new VisualElement();
+			var container = new VisualElement();
+			container.AddToClassList("Indent");
 
 			if (!graph.isRealtime)
 			{
@@ -254,8 +286,18 @@ namespace Mixture
 					Undo.RegisterCompleteObjectUndo(graph, "Changed Embed In Build");
 					graph.embedInBuild = e.newValue;
 				});
-				advanced.Add(embed);
+				container.Add(embed);
+				hasAdvancedSettings = true;
 			}
+
+			if (hasAdvancedSettings)
+			{
+				var advancedLabel = new Label("Advanced Settings");
+				advancedLabel.AddToClassList("Header");
+				advanced.Add(advancedLabel);
+			}
+
+			advanced.Add(container);
 
 			return advanced;
 		}
