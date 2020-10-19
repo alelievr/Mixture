@@ -28,7 +28,9 @@ Improve Mixture | Utility buttons to send feature requests, issues and access th
 In the context menu, you'll find the basic operations to create a node or a group. Note that you can use all the usual graphview shortcuts in Mixture as well (space, f, copy/paste, ect.)
 
 When you select the nodes in your graph, they will appear inside the inspector, you can select multiple nodes at the same time. Some nodes like noises have a lot more parameters inside the inspector, to avoid the node being too heavy visually inside the graph.
+
 ![](Images/2020-09-25-00-52-04.png)
+
 You can find more information about this in the [Node Inspector Documentation](NodeInspector.md).
 
 ## Baked / Static Mixture 
@@ -45,13 +47,16 @@ Realtime mixtures are stored as [Custom Render Textures](https://docs.unity3d.co
 ## Graph Settings
 
 You'll find the settings of the graph by clicking on the cog wheel of the output node
+
 ![](Images/2020-09-23-22-50-09.png)
+
 The graph settings will allow you to change the output asset resolution, dimension and precision. Currently Mixture supports 2D, 3D and Cube textures as output.
 Note that when you change the dimension of a texture you'll loose the connection to most of your ports, this is because the node have updated their output dimension as well and the connections may become invalid.
 
 By default all other nodes inherit the output node settings, but for many nodes, you can override these settings in their cog wheel as well.
 
 ![](Images/2020-09-23-22-54-29.png)
+
 For example in this image, the cellular noise by default inherit the width, height, dimension, channels and precision from the output node.
 
 ## Multiple Output Textures

@@ -12,6 +12,7 @@ Tileable marble texture, generated from distorted 2D perlin as a base to get a n
 
 ## Roof tiles from geometry
 
+Okay, this one is really complex
 
 ## HDRP Density Volume Authoring
 
@@ -27,9 +28,11 @@ And here's another example, this time with a cloud:
 
 ![](Images/2020-10-09-01-05-40.png)
 
-And how it renders in the scene view
+This is the result in the scene view:
 
-![](Images/2020-10-09-01-18-25.png)
+![](Images/CloudVolume.gif)
+
+<div style="width:100%;height:0px;position:relative;padding-bottom:67.416%;"><iframe src="https://streamable.com/e/o16q1d" frameborder="0" width="100%" height="100%" allowfullscreen style="width:100%;height:100%;position:absolute;left:0px;top:0px;overflow:hidden;"></iframe></div>
 
 For the cloud, I mainly use the UV distort noise to create the cloud turbulence with a mask I generate from a first Gradient Matte for the spherical mask and a second one for the "bottom" of the cloud. Then I combine the two with a Mul and use a Texture Sample node with the distorted UVs to create the final cloud.
 
