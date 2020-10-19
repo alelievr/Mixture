@@ -32,8 +32,6 @@ This is the result in the scene view:
 
 ![](Images/CloudVolume.gif)
 
-<div style="width:100%;height:0px;position:relative;padding-bottom:67.416%;"><iframe src="https://streamable.com/e/o16q1d" frameborder="0" width="100%" height="100%" allowfullscreen style="width:100%;height:100%;position:absolute;left:0px;top:0px;overflow:hidden;"></iframe></div>
-
 For the cloud, I mainly use the UV distort noise to create the cloud turbulence with a mask I generate from a first Gradient Matte for the spherical mask and a second one for the "bottom" of the cloud. Then I combine the two with a Mul and use a Texture Sample node with the distorted UVs to create the final cloud.
 
 Note that in the scene, I decreased a bit the `Fog Distance` parameter of the density volume to get this nice "opaque" cloud effect.
