@@ -219,8 +219,28 @@ namespace Mixture
                 Texture     oldTexture = FindTextureOnDisk(output.name, output.isMain);
 
                 // Update the asset on disk if they differ
-                UpdateTextureAssetOnDisk(oldTexture, newTexture, output.isMain);
-                assetsToKeep.Add(newTexture);
+                if (oldTexture == null)
+                {
+                    UpdateTextureAssetOnDisk(newTexture, output.isMain);
+                    assetsToKeep.Add(newTexture);
+                }
+                // In case the old texture already exists, we can swap it's internal data with the new texture
+                // which prevent any reference loss that a Destroy would have caused.
+                else if (newTexture != oldTexture)
+                {
+                    EditorUtility.CopySerialized(newTexture, oldTexture);
+                    if (output.isMain)
+                    {
+                        AssetDatabase.SetMainObject(oldTexture, mainAssetPath);
+                        mainOutputTexture = oldTexture;
+                    }
+                    Object.DestroyImmediate(newTexture);
+                    outputTextures.Remove(newTexture);
+                    outputTextures.Add(oldTexture);
+                    assetsToKeep.Add(oldTexture);
+                }
+                else
+                    assetsToKeep.Add(oldTexture);
             }
 
             foreach (var tex in AssetDatabase.LoadAllAssetsAtPath(mainAssetPath).OfType<Texture>())
@@ -235,18 +255,10 @@ namespace Mixture
             AssetDatabase.ImportAsset(mainAssetPath);
         }
 
-        void UpdateTextureAssetOnDisk(Texture oldTextureObject, Texture newTexture, bool main = false)
+        void UpdateTextureAssetOnDisk(Texture newTexture, bool main = false)
         {
-            if (oldTextureObject == newTexture || newTexture == null)
+            if (newTexture == null)
                 return;
-
-            // Check that oldTextureObject is saved as an asset:
-            if (outputTextures.Contains(oldTextureObject))
-            {
-                AssetDatabase.RemoveObjectFromAsset(oldTextureObject);
-                DestroyImmediate(oldTextureObject, true);
-                outputTextures.Remove(oldTextureObject);
-            }
 
             AssetDatabase.AddObjectToAsset(newTexture, this);
             if (main)
@@ -254,9 +266,6 @@ namespace Mixture
                 AssetDatabase.SetMainObject(newTexture, mainAssetPath);
                 mainOutputTexture = newTexture;
             }
-
-            if (Selection.activeObject == oldTextureObject)
-                Selection.activeObject = newTexture;
         }
 #endif
 

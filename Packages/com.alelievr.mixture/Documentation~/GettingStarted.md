@@ -6,7 +6,7 @@ Mixture assets can be created with the context menu from the **Project Window**:
 
 The resulting asset will be saved as a texture with the small mixture icon (Erlenmeyer flask) on the bottom left corner of the asset image to indicate that it's a mixture asset.
 
-Note that the color of the icon will will be purple for **Baked** and lime green for  **Static** Mixtures.
+Note that the color of the icon will will be purple for **Baked** and lime green for  **Realtime** Mixtures.
 
 ![](Images/2020-09-23-19-44-00.png)
 
@@ -37,8 +37,6 @@ You can find more information about this in the [Node Inspector Documentation](N
 
 Static mixtures are assets that are saved on the disk just like regular texture and can be compressed (only for texture 2D).
 To update the texture asset, you need to click on the "Save All" button from the graph output node.
-
-:warning: Note that under some circumstances (change of texture dimension for example) you may loose the references to this texture asset. 
 
 ## Realtime Mixture
 
