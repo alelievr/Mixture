@@ -318,10 +318,12 @@ namespace Mixture
 			
 			// Combine manually on CPU the two textures because it completely broken with GPU :'(
 			Texture2D mixtureIcon = (target is CustomRenderTexture) ? MixtureUtils.realtimeIcon : MixtureUtils.icon;
+
+			float scaleFactor = Mathf.Max(mixtureIcon.width / (float)defaultPreview.width, 1) * 2.5f;
 			for (int x = 0; x < width / 2.5f; x++)
 			for (int y = 0; y < height / 2.5f; y++)
 			{
-				var iconColor = mixtureIcon.GetPixel((int)(x * 2.5f), (int)(y * 2.5f));
+				var iconColor = mixtureIcon.GetPixel((int)(x * scaleFactor), (int)(y * scaleFactor));
 				var color = Color.Lerp(defaultPreview.GetPixel(x, y), iconColor, iconColor.a);
 				defaultPreview.SetPixel(x, y, color);
 			}
