@@ -17,11 +17,11 @@ Shader "Hidden/Mixture/Blend"
 		[InlineTexture]_Target_Cube("Target", Cube) = "black" {}
 		[InlineTexture]_Mask_Cube("Mask", Cube) = "white" {}
 
-		_Opacity("Opacity", Range(0, 1)) = 0.5
+		[Tooltip(Opacity of the Blend, 0 means that only Source is visible and 1 that only Target is visible)]_Opacity("Opacity", Range(0, 1)) = 0.5
 
 		// Common parameters
 		[Enum(Blend, 0, Additive, 1, Multiplicative, 2, Substractive, 3, Min, 4, Max, 5)]_BlendMode("Blend Mode", Float) = 0
-		[Enum(PerChannel, 0, R, 1, G, 2, B, 3, A, 4)]_MaskMode("Mask Mode", Float) = 4
+		[Tooltip(Select which channel is used to sample the mask value)][Enum(PerChannel, 0, R, 1, G, 2, B, 3, A, 4)]_MaskMode("Mask Mode", Float) = 4
 	}
 	SubShader
 	{

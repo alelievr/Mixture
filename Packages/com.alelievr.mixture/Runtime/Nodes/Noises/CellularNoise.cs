@@ -6,6 +6,11 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Voronoi/Cellular Noise generator.
+This node is useful to generate cloud like textures, organic cellular patterns or more exotic patterns with stars using the Minkowski distance mode.
+")]
+
 	[System.Serializable, NodeMenuItem("Noises/Cellular Noise"), NodeMenuItem("Noises/Voronoi Noise")]
 	public class CellularNoise : FixedNoiseNode
 	{

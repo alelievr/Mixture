@@ -2,20 +2,23 @@
 {	
 	Properties
 	{
-		[InlineTexture(HideInNodeInspector)] _UV_2D("UVs", 2D) = "uv" {}
-		[InlineTexture(HideInNodeInspector)] _UV_3D("UVs", 3D) = "uv" {}
-		[InlineTexture(HideInNodeInspector)] _UV_Cube("UVs", Cube) = "uv" {}
+		[Tooltip(Custom Noise UV)][InlineTexture(HideInNodeInspector)] _UV_2D("UVs", 2D) = "uv" {}
+		[Tooltip(Custom Noise UV)][InlineTexture(HideInNodeInspector)] _UV_3D("UVs", 3D) = "uv" {}
+		[Tooltip(Custom Noise UV)][InlineTexture(HideInNodeInspector)] _UV_Cube("UVs", Cube) = "uv" {}
 
         [KeywordEnum(None, Tiled)] _TilingMode("Tiling Mode", Float) = 1
 		[ShowInInspector][Enum(Euclidean, 0, Manhattan, 1, Minkowski, 2)] _DistanceMode("Distance Mode", Float) = 0
 		[ShowInInspector][Enum(Gradient, 0, Cells, 1, Valleys, 2)] _CellsMode("Cells Mode", Float) = 0
 		[ShowInInspector][MixtureVector2]_OutputRange("Output Range", Vector) = (0, 1, 0, 0)
 		_Lacunarity("Lacunarity", Float) = 2
+		
 		_Frequency("Frequency", Float) = 5
 		_Persistance("Persistance", Float) = 0.3
 		[IntRange]_Octaves("Octaves", Range(1, 12)) = 3
-		[ShowInInspector]_CellSize("Cell Size", Float) = 1
+		[Tooltip(Act as a multiplier for the distance function)][ShowInInspector]_CellSize("Cell Size", Float) = 1
 		[ShowInInspector]_Seed("Seed", Int) = 42
+		[Tooltip(Select how many noise to genereate and on which channel. The more different channel you use the more expensive it is (max 4 noise evaluation).)]
+
 		[ShowInInspector][Enum(RRRR, 0, R, 1, RG, 2, RGB, 3, RGBA, 4)]_Channels("Channels", Int) = 0
 	}
 	SubShader

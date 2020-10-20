@@ -241,7 +241,12 @@ namespace Mixture
 				else if (property.name.Contains("Vector3"))
 					property.vectorValue = (Vector4)EditorGUI.Vector3Field(r, displayName, (Vector3)property.vectorValue);
 				else if (property.type == MaterialProperty.PropType.Range)
-					property.floatValue = EditorGUI.Slider(r, displayName, property.floatValue, property.rangeLimits.x, property.rangeLimits.y);
+				{
+					if (material.shader.GetPropertyAttributes(idx).Any(a => a.Contains("IntRange")))
+						property.floatValue = EditorGUI.IntSlider(r, displayName, (int)property.floatValue, (int)property.rangeLimits.x, (int)property.rangeLimits.y);
+					else
+						property.floatValue = EditorGUI.Slider(r, displayName, property.floatValue, property.rangeLimits.x, property.rangeLimits.y);
+				}
 				else if (property.type == MaterialProperty.PropType.Texture)
 					property.textureValue = (Texture)EditorGUI.ObjectField(r, displayName, property.textureValue, typeof(Texture), false);
 				else

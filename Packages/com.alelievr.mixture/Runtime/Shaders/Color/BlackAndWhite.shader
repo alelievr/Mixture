@@ -2,11 +2,12 @@
 {	
 	Properties
 	{
-		[InlineTexture]_Source_2D("Input", 2D) = "white" {}
-		[InlineTexture]_Source_3D("Input", 3D) = "white" {}
-		[InlineTexture]_Source_Cube("Input", Cube) = "white" {}
+		[Tooltip(Source Texture)][InlineTexture]_Source_2D("Input", 2D) = "white" {}
+		[Tooltip(Source Texture)][InlineTexture]_Source_3D("Input", 3D) = "white" {}
+		[Tooltip(Source Texture)][InlineTexture]_Source_Cube("Input", Cube) = "white" {}
 
-		[MixtureVector3]_ColorNorm("Lum Factors",Vector) = (0.299, 0.587, 0.114)
+		[Enum(Perceptual Luminance, 0, D65 Luminance, 1, Custom Luminance, 2, Lightness, 3, Average, 4)]_LuminanceMode("Mode", Float) = 0
+		[ShowInInspector][MixtureVector3]_ColorNorm("Lum Factors",Vector) = (0.299, 0.587, 0.114)
 		_ColorFilter("Color Filter", Color) = (1.0,1.0,1.0,1.0)
 		[Range]_KeepLuminance("Keep Lum", Range(0.0,1.0)) = 1.0
 	}
@@ -30,10 +31,16 @@
 			float4 _ColorNorm;
 			float4 _ColorFilter;
 			float  _KeepLuminance;
+			float  _LuminanceMode;
 
 			float Luminance(float3 source)
 			{
-				return source.r * _ColorNorm.x + source.g * _ColorNorm.g + source.b * _ColorNorm.b;
+				if (_LuminanceMode == 3) // Lightness
+					return (Max3(source.r, source.g, source.b) + Min3(source.r, source.g, source.b)) / 2;
+				else if (_LuminanceMode == 4) // Average
+					return (source.r + source.g + source.b) / 3;
+				else // Luminance
+					return dot(source, _ColorNorm);
 			}
 
 			float4 mixture(v2f_customrendertexture i) : SV_Target

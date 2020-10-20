@@ -7,6 +7,10 @@ using System;
 
 namespace Mixture
 {
+	[Documentation(@"
+Conditionally outputs either the true of false value depending on the condition value.
+")]
+
 	[System.Serializable, NodeMenuItem("Flow/Branch"), NodeMenuItem("Flow/If")]
 	public class Branch : MixtureNode
 	{

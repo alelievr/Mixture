@@ -9,6 +9,11 @@ using System.IO;
 
 namespace Mixture
 {
+	[Documentation(@"
+Compute Shader Node behaves like the Shader Node but with a Compute Shader.
+Note that this node tries to generate input / output based on the declared properties in the compute shader, see the compute shader template for more information.
+")]
+
 	[System.Serializable, NodeMenuItem("Utils/Compute Shader")]
 	public class AutoComputeShaderNode : ComputeShaderNode
 	{
