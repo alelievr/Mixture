@@ -8,6 +8,12 @@ using System;
 
 namespace Mixture
 {
+    [Documentation(@"
+Transform a Mesh into an Unsigned distance field. note that the output 3D texture is unsigned, it means that you can't know if a point is within of outside of the volume, you only know the distance to the closest boundary.
+
+Note that currently, there is no mesh to signed distance field node.
+")]
+
 	[System.Serializable, NodeMenuItem("Mesh/Rasterize 3D Mesh"), NodeMenuItem("Mesh/Mesh To Volume")]
 	public class MeshToUDF : ComputeShaderNode
 	{

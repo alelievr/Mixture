@@ -6,7 +6,11 @@ using System.Linq;
 
 namespace Mixture
 {
-[System.Serializable, NodeMenuItem("Normal/Normal Mul")]
+	[Documentation(@"
+Multiply two normal maps using the surface gradient functions.
+")]
+
+	[System.Serializable, NodeMenuItem("Normal/Normal Mul")]
 	public class NormalMul : FixedShaderNode
 	{
 		public override string name => "Normal Mul";

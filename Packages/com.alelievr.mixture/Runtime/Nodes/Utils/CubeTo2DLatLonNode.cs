@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace Mixture
 {
+    [Documentation(@"
+Transform a cubemap into a 2D texture using the LatLong convertion function.
+")]
+
     [System.Serializable, NodeMenuItem("Utils/Cube to 2D LatLon")]
     public class CubeTo2DLatLonNode : FixedShaderNode
     {

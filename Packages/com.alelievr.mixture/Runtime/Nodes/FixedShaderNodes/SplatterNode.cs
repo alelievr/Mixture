@@ -13,6 +13,8 @@ Most of the settings of this node are available in the inspector so don't hesita
 
 Note that when you connect multiple textures in the ""Splat Textures"" port, they will be randomly selected at each splat operation.
 The limit of different input textures you can connect is 16, after new textures will be ignored.
+
+When you generate the tiles, you can also choose to output the UVs of the tiles using the channel mode in the inspector, this can be useful to generate a noise based on these UVs.
 ")]
 	[System.Serializable, NodeMenuItem("Textures/Splatter"), NodeMenuItem("Textures/Scatter")]
 	public class SplatterNode : ComputeShaderNode

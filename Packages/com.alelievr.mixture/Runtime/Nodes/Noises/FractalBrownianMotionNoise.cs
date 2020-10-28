@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Generate a noise using multiple octaves of perlin noise, combined using the Fractal Brownian motion algorithm.
+")]
+
 	[System.Serializable, NodeMenuItem("Noises/Fractal Brownian Motion")]
 	public class FractalBrownianMotionNoise : FixedNoiseNode
 	{

@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Swizzle the channels of the input texture, you can also choose to put a custom value instead of reusing a channel.
+")]
+
 	[System.Serializable, NodeMenuItem("Channels/Swizzle")]
 	public class SwizzleNode : FixedShaderNode
 	{

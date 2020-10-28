@@ -3,26 +3,26 @@ Shader "Hidden/Mixture/Combine"
 	Properties
 	{
 		// By default a shader node is supposed to handle all the input texture dimension, we use a prefix to determine which one is used
-		[InlineTexture]_SourceR_2D("Source R", 2D) = "black" {}
-		[InlineTexture]_SourceR_3D("Source R", 3D) = "black" {}
-		[InlineTexture]_SourceR_Cube("Source R", Cube) = "black" {}
+		[Tooltip(Source Texture for the R channel)][InlineTexture]_SourceR_2D("Source R", 2D) = "black" {}
+		[Tooltip(Source Texture for the R channel)][InlineTexture]_SourceR_3D("Source R", 3D) = "black" {}
+		[Tooltip(Source Texture for the R channel)][InlineTexture]_SourceR_Cube("Source R", Cube) = "black" {}
 
-		[InlineTexture]_SourceG_2D("Source G", 2D) = "black" {}
-		[InlineTexture]_SourceG_3D("Source G", 3D) = "black" {}
-		[InlineTexture]_SourceG_Cube("Source G", Cube) = "black" {}
+		[Tooltip(Source Texture for the G channel)][InlineTexture]_SourceG_2D("Source G", 2D) = "black" {}
+		[Tooltip(Source Texture for the G channel)][InlineTexture]_SourceG_3D("Source G", 3D) = "black" {}
+		[Tooltip(Source Texture for the G channel)][InlineTexture]_SourceG_Cube("Source G", Cube) = "black" {}
 
-		[InlineTexture]_SourceB_2D("Source B", 2D) = "black" {}
-		[InlineTexture]_SourceB_3D("Source B", 3D) = "black" {}
-		[InlineTexture]_SourceB_Cube("Source B", Cube) = "black" {}
+		[Tooltip(Source Texture for the B channel)][InlineTexture]_SourceB_2D("Source B", 2D) = "black" {}
+		[Tooltip(Source Texture for the B channel)][InlineTexture]_SourceB_3D("Source B", 3D) = "black" {}
+		[Tooltip(Source Texture for the B channel)][InlineTexture]_SourceB_Cube("Source B", Cube) = "black" {}
 
-		[InlineTexture]_SourceA_2D("Source A", 2D) = "black" {}
-		[InlineTexture]_SourceA_3D("Source A", 3D) = "black" {}
-		[InlineTexture]_SourceA_Cube("Source A", Cube) = "black" {}
+		[Tooltip(Source Texture for the A channel)][InlineTexture]_SourceA_2D("Source A", 2D) = "black" {}
+		[Tooltip(Source Texture for the A channel)][InlineTexture]_SourceA_3D("Source A", 3D) = "black" {}
+		[Tooltip(Source Texture for the A channel)][InlineTexture]_SourceA_Cube("Source A", Cube) = "black" {}
 
-		[MixtureSwizzle]_CombineModeR("Output R", Float) = 0
-		[MixtureSwizzle]_CombineModeG("Output G", Float) = 1
-		[MixtureSwizzle]_CombineModeB("Output B", Float) = 2
-		[MixtureSwizzle]_CombineModeA("Output A", Float) = 3
+		[Tooltip(Select which channel from the R input texture to write in the R output channel)][MixtureSwizzle]_CombineModeR("Output R", Float) = 0
+		[Tooltip(Select which channel from the G input texture to write in the G output channel)][MixtureSwizzle]_CombineModeG("Output G", Float) = 1
+		[Tooltip(Select which channel from the B input texture to write in the B output channel)][MixtureSwizzle]_CombineModeB("Output B", Float) = 2
+		[Tooltip(Select which channel from the A input texture to write in the A output channel)][MixtureSwizzle]_CombineModeA("Output A", Float) = 3
 
 		[HDR]_Custom("Custom", Color) = (1.0, 1.0, 1.0, 1.0)
 	}

@@ -9,7 +9,7 @@
 		[MixtureChannel]_Channel("Channel", Float) = 3
 
 		_Threshold("Threshold", Float) = 0.3333
-		[Range]_Feather("Feather", Range(0.0,1.0)) = 0.01
+		[Tooltip(Smooth the treshold step)][Range]_Feather("Feather", Range(0.0,1.0)) = 0.01
 		[MaterialToggle] _Invert("Invert", Float) = 0.0
 	}
 	SubShader

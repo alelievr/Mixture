@@ -7,7 +7,13 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Distance")]
+	[Documentation(@"
+Execute a flood fill operation on all pixels above the specified threshold.
+
+Note that the computational cost of this node only depends on the texture resolution and not the distance parameter.
+")]
+
+	[System.Serializable, NodeMenuItem("Operators/Distance"), NodeMenuItem("Operators/Flood Fill")]
 	public class Distance : ComputeShaderNode
 	{
 		[Input]
@@ -19,7 +25,7 @@ namespace Mixture
 		public float threshold = 0.5f;
 		public float distance = 50;
 
-		public override string name => "Distance";
+		public override string name => "Distance / Flood Fill";
 
 		protected override string computeShaderResourcePath => "Mixture/Distance";
 

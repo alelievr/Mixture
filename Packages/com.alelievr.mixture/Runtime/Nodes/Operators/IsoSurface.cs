@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Transform a 3D texture into a volume using an iso surface algorithm (Marching cubes currently).
+")]
+
 	[System.Serializable, NodeMenuItem("Mesh/IsoSurface (Marching Cubes)")]
 	public class IsoSurface : ComputeShaderNode
 	{
@@ -48,8 +52,6 @@ namespace Mixture
         ComputeBuffer counterReadback;
 
 		int marchingCubes;
-		// int jumpFloodingKernel;
-		// int finalPassKernel;
 
 		protected override void Enable()
 		{
@@ -63,8 +65,6 @@ namespace Mixture
             counterReadback = new ComputeBuffer(1, sizeof(int), ComputeBufferType.Raw);
 
 			marchingCubes = computeShader.FindKernel("MarchingCubes");
-			// jumpFloodingKernel = computeShader.FindKernel("JumpFlooding");
-			// finalPassKernel = computeShader.FindKernel("FinalPass");
 		}
 
         protected override void Disable()

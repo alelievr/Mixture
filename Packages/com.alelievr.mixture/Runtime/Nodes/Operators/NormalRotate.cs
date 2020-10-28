@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Rotate the normal map vector with a certain angle in degree.
+")]
+
 	[System.Serializable, NodeMenuItem("Normal/Normal Rotation")]
 	public class NormalRotate : FixedShaderNode
 	{

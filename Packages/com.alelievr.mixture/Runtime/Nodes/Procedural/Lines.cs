@@ -2,6 +2,10 @@
 using GraphProcessor;
 namespace Mixture
 {
+	[Documentation(@"
+Generates a line pattern. In 3D this node generate cylinders using a signed distance field function.
+")]
+
 	[System.Serializable, NodeMenuItem("Procedural/Lines")]
 	public class Lines : FixedShaderNode
 	{

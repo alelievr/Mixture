@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Generates a ring pattern. In 3D this node generate toruses.
+")]
+
 	[System.Serializable, NodeMenuItem("Procedural/Rings")]
 	public class RingsNode : FixedShaderNode
 	{
@@ -17,12 +21,5 @@ namespace Mixture
 
 		// Enumerate the list of material properties that you don't want to be turned into a connectable port.
 		protected override IEnumerable<string> filteredOutProperties => new string[]{"_Scale", "_Offset"};
-
-		// Override this if you node is not compatible with all dimensions
-		// public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
-		// 	OutputDimension.Texture2D,
-		// 	OutputDimension.Texture3D,
-		// 	OutputDimension.CubeMap,
-		// };
 	}
 }

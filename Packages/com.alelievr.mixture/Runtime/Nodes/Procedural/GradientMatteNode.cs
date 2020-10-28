@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Generates a gradient texture, 4 Modes are available right now:
+")]
+
 	[System.Serializable, NodeMenuItem("Matte/Gradient Matte")]
 	public class GradienMattetNode : FixedShaderNode
 	{

@@ -7,6 +7,12 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+    [Documentation(@"
+Apply a distortion to an UV texture. The distortion map must be encoded as vectors and doesn't have to be normalized.
+
+If fact this node just adds an UV to the distoriton texture value after applying the scale and bias to it.
+")]
+
 	[System.Serializable, NodeMenuItem("Operators/UV Distort")]
 	public class UVDistortNode : FixedShaderNode
 	{

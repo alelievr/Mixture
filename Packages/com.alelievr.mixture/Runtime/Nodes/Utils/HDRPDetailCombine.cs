@@ -6,6 +6,11 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Generates an HDRP detail map by combining the desaturated albedo, normal and smoothness maps.
+See [HDRP Detail Map Documentation](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@latest/index.html?subfolder=/manual/Mask-Map-and-Detail-Map.html for more information)
+")]
+
 	[System.Serializable, NodeMenuItem("Operators/Detail Combine (HDRP)")]
 	public class HDRPDetailCombine : FixedShaderNode
 	{

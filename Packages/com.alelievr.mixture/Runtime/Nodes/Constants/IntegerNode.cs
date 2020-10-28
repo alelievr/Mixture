@@ -6,6 +6,10 @@ using System;
 
 namespace Mixture
 {
+	[Documentation(@"
+An integer constant.
+")]
+
 	[System.Serializable, NodeMenuItem("Constants/Integer")]
 	public class IntegerNode : MixtureNode
 	{

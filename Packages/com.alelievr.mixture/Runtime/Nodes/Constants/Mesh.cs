@@ -7,6 +7,10 @@ using System;
 
 namespace Mixture
 {
+	[Documentation(@"
+Mesh in mixture, it also have transform a so you can apply any kind of transform operation, it will be applied when the node is processed. 
+")]
+
 	[System.Serializable, NodeMenuItem("Mesh/Mesh")]
 	public class MeshNode : MixtureNode
 	{

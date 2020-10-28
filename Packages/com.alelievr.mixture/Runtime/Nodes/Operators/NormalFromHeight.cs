@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Generate a Normal map from an Height map. This node uses the surface gradient technique to perform this operation.
+")]
+
 	[System.Serializable, NodeMenuItem("Normal/Normal From Height"), NodeMenuItem("Normal/Height To Normal")]
 	public class NormalFromHeight : FixedShaderNode
 	{

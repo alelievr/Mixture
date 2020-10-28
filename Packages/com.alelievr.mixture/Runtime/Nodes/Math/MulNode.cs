@@ -6,6 +6,14 @@ using System.Linq;
 
 namespace Mixture
 {
+		[Documentation(@"
+Perform a multiplication with `source A`, `source B` and Vector and writes the result to output like so:
+```
+_Output = _SourceA * _SourceB * _Value;
+```
+")]
+
+
 	[System.Serializable, NodeMenuItem("Math/Mul")]
 	public class MulNode : FixedShaderNode
 	{

@@ -8,7 +8,7 @@
 		[InlineTexture]_Source_Cube("Source", Cube) = "white" {}
 
 		_Step("Step", Range(0.01, 2)) = 1
-		[Enum(Edge, 0, ColorEdge, 1)] _Mode("Mode", Float) = 0
+		[Tooltip(Output color mode, it can either be white and black or input texture coor)][Enum(Edge, 0, ColorEdge, 1)] _Mode("Mode", Float) = 0
 	}
 
 	CGINCLUDE

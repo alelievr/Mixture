@@ -1,12 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using GraphProcessor;
-using System.Linq;
-using UnityEngine.Rendering;
+﻿using GraphProcessor;
 
 namespace Mixture
 {
+	[Documentation(@"
+Detect the edges in the input texture, this node uses a Sobel filter to do so.
+
+You can use the mode to either output the edges in black and white or output the edges multiplied by the input color.
+")]
+
 	[System.Serializable, NodeMenuItem("Color/EdgeDetect")]
 	public class EdgeDetect : FixedShaderNode
 	{

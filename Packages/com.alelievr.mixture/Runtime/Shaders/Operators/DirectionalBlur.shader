@@ -7,8 +7,8 @@
 		[InlineTexture]_Source_3D("Source", 3D) = "white" {}
 		[InlineTexture]_Source_Cube("Source", Cube) = "white" {}
 
-		_Radius("Radius", Float) = 0
-		[MixtureVector2]_Direction("Direction", Vector) = (0.707, 0.707, 0, 0)
+		[Tooltip(Radius of the blur kernel, you have a good quality under 64 pixel of radius)]_Radius("Radius", Float) = 0
+		[Tooltip(Direction vector, note that it does not have to be normalized)][MixtureVector2]_Direction("Direction", Vector) = (0.707, 0.707, 0, 0)
 		// Other parameters
 	}
 	SubShader

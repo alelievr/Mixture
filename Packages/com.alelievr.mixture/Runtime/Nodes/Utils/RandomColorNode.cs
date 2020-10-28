@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Output a random color based on the HSV parameters.
+")]
+
 	[System.Serializable, NodeMenuItem("Utils/Random Color")]
 	public class RandomColorNode : MixtureNode
 	{

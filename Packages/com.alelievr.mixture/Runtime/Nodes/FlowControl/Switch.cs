@@ -7,6 +7,10 @@ using System;
 
 namespace Mixture
 {
+	[Documentation(@"
+Conditionally select the input using the index and output it.
+")]
+
 	[System.Serializable, NodeMenuItem("Flow/Switch"), NodeMenuItem("Flow/Select")]
 	public class Switch : MixtureNode
 	{

@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Abs")]
 	public class VectorAbsNode : MixtureNode
 	{

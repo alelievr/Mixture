@@ -8,6 +8,13 @@ using UnityEngine.Experimental.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+The self node holds a copy of the output node last processing texture.
+When the node is executed for the first time, the initialization color is used instead of the output texture.
+
+Currently only the first output texture of the output node can be retrieved.
+")]
+
 	[System.Serializable, NodeMenuItem("Utils/Self")]
 	public class SelfNode : ComputeShaderNode 
 	{

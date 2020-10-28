@@ -6,7 +6,11 @@ using System.Linq;
 
 namespace Mixture
 {
-[System.Serializable, NodeMenuItem("Normal/Normal Add")]
+	[Documentation(@"
+Add two normal maps using the surface gradient functions.
+")]
+
+	[System.Serializable, NodeMenuItem("Normal/Normal Add")]
 	public class NormalAdd : FixedShaderNode
 	{
 		public override string name => "Normal Add";

@@ -6,6 +6,12 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Blur the input texture using a Gaussian filter in the specified direction.
+
+Note that the kernbel uses a fixed number of 32 samples, for high blur radius you may need to use two directional blur nodes.
+")]
+
 	[System.Serializable, NodeMenuItem("Operators/Directional Blur")]
 	public class DirectionalBlur : FixedShaderNode
 	{

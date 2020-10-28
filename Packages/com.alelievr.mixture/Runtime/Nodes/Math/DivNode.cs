@@ -6,6 +6,13 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Divide one texture by another plus a constant value. The result is computed like this:
+```
+_Output = _SourceA / _SourceB / _Value
+```
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Div")]
 	public class DivNode : FixedShaderNode
 	{

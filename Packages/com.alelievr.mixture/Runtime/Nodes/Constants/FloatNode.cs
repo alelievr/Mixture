@@ -6,6 +6,10 @@ using System;
 
 namespace Mixture
 {
+	[Documentation(@"
+Float constant value.
+")]
+
 	[System.Serializable, NodeMenuItem("Constants/Float")]
 	public class FloatNode : MixtureNode
 	{

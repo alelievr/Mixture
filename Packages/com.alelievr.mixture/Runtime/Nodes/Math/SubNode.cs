@@ -6,6 +6,13 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Perform a substraction with `source A`, `source B` and a value and writes the result to output like so:
+```
+_Output = _SourceA - _SourceB - _Value;
+```
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Sub")]
 	public class SubNode : FixedShaderNode
 	{

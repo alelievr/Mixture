@@ -7,6 +7,12 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Output multiple time related values.
+
+This node can be used in a realtime graph for time based effects.
+")]
+
 	[System.Serializable, NodeMenuItem("Utils/Time")]
 	public class TimeNode : MixtureNode
 	{

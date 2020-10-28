@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Modify the image in the HSV color space.
+")]
+
 	[System.Serializable, NodeMenuItem("Color/Hue Saturation Value")]
 	public class HSVNode : FixedShaderNode
 	{

@@ -18,7 +18,6 @@
 		[Tooltip(Act as a multiplier for the distance function)][ShowInInspector]_CellSize("Cell Size", Float) = 1
 		[ShowInInspector]_Seed("Seed", Int) = 42
 		[Tooltip(Select how many noise to genereate and on which channel. The more different channel you use the more expensive it is (max 4 noise evaluation).)]
-
 		[ShowInInspector][Enum(RRRR, 0, R, 1, RG, 2, RGB, 3, RGBA, 4)]_Channels("Channels", Int) = 0
 	}
 	SubShader

@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Sample a gradient using a float value between 0 and 1.
+")]
+
 	[System.Serializable, NodeMenuItem("Utils/Sample Gradient")]
 	public class SampleGradientNode : MixtureNode
 	{

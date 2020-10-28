@@ -40,6 +40,9 @@ namespace Mixture
         /// <returns></returns>
         public static MixtureGraph GetGraphFromTexture(Texture texture)
         {
+            if (texture == null)
+                return null;
+
 // In the editor, we can directly use the AssetDatabase instead of relying on the resources.
 #if UNITY_EDITOR
 			string graphPath = UnityEditor.AssetDatabase.GetAssetPath(texture);

@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Generate a texture from an HDR color.
+")]
+
 	[System.Serializable, NodeMenuItem("Matte/Color Matte")]
 	public class ColorMatteNode : FixedShaderNode
 	{

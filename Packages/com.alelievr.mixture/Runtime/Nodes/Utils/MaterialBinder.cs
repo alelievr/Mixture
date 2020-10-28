@@ -6,6 +6,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Binds the textures of a material in parameter. This node can be used for pre-viz with a mesh in the scene for faster iterations.
+")]
+
 	[System.Serializable, NodeMenuItem("Utils/Material Binder")]
 	public class MaterialBinder : MixtureNode
 	{

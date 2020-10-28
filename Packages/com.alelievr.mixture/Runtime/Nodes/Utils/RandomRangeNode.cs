@@ -9,6 +9,10 @@ using Random = System.Random;
 
 namespace Mixture
 {
+	[Documentation(@"
+Output a random float between the min and max values.
+")]
+
 	[System.Serializable, NodeMenuItem("Utils/Random Range")]
 	public class RandomRangeNode : MixtureNode
 	{

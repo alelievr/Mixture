@@ -6,6 +6,12 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Combine up to 4 textures into one, allowing you to choose which channel to write in the output texture.
+
+Note that for creating HDRP Mask and Detail maps, there are dedicated nodes.
+")]
+
 	[System.Serializable, NodeMenuItem("Operators/Combine")]
 	public class CombineNode : FixedShaderNode
 	{

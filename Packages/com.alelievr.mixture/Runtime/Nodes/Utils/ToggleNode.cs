@@ -5,6 +5,10 @@ using GraphProcessor;
 
 namespace Mixture
 {
+    [Documentation(@"
+Boolean constant.
+")]
+
 	[System.Serializable, NodeMenuItem("Constants/Toggle")]
     public class ToggleNode : MixtureNode
     {

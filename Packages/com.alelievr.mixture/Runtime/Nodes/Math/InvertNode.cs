@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Allow you to invert an image in the HSV color space.
+")]
+
 	[System.Serializable, NodeMenuItem("Color/Invert")]
 	public class InvertNode : FixedShaderNode
 	{

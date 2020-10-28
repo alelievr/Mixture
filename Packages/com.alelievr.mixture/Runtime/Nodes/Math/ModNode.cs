@@ -6,6 +6,13 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Perform a modulo with `source A` and `source B`and writes the result to output like so:
+```
+_Output = _SourceA % _SourceB;
+```
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Mod")]
 	public class ModNode : FixedShaderNode
 	{

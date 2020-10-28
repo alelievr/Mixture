@@ -8,6 +8,7 @@
 		[InlineTexture]_Source_Cube("Source", Cube) = "white" {}
 
 		// Other parameters
+		[Tooltip(Threshold value used to determine if we flood fill the pixel. The Luminance of the input textureis used to test against this threshold]
 		[Range]_Threshold("Threshold", Range(0, 1)) = 0.5
 		[Range]_Radius("Radius", Range(0, 1)) = 0.2
 	}

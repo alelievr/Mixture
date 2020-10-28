@@ -2,11 +2,11 @@
 {	
 	Properties
 	{
-		[Enum(Linear, 0, Exponential, 1, Radial, 2 ,Circular, 3)]_Mode("Gradient Type", Float) = 0
-		[VisibleIf(_Mode, 0, 1)][Enum(Up, 0, Down, 1, Right, 2, Left, 3, Forward, 4, Back, 5)]_Direction("Direction", Float) = 0
-		_Falloff("Falloff", Float) = 1
-		[HDR]_Color1("Color 1", Color) = (0.0,0.0,0.0,0.0)
-		[HDR]_Color2("Color 2", Color) = (1.0,1.0,1.0,1.0)
+		[Tooltip(Style of the gradient)][Enum(Linear, 0, Exponential, 1, Radial, 2, Circular, 3)]_Mode("Gradient Type", Float) = 0
+		[Tooltip(Direction of the gradient, only visible on the Linear and exponential gradients)][VisibleIf(_Mode, 0, 1)][Enum(Up, 0, Down, 1, Right, 2, Left, 3, Forward, 4, Back, 5)]_Direction("Direction", Float) = 0
+		[Tooltip(Exponential falloff of the gradient)]_Falloff("Falloff", Float) = 1
+		[Tooltip(Outer color)][HDR]_Color1("Color 1", Color) = (0.0,0.0,0.0,0.0)
+		[Tooltip(Inner color)][HDR]_Color2("Color 2", Color) = (1.0,1.0,1.0,1.0)
 	}
 	SubShader
 	{

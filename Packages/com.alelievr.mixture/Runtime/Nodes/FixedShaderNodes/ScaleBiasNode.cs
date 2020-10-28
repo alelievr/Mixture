@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Apply a Scale and Bias on  the input texture.
+")]
+
 	[System.Serializable, NodeMenuItem("Color/Scale & Bias")]
 	public class ScaleBiasNode : FixedShaderNode
 	{

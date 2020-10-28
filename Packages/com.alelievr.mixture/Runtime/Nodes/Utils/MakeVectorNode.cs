@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+    [Documentation(@"
+Combine up to 4 float values into a Vector4.
+")]
+
     [System.Serializable, NodeMenuItem("Utils/Make Vector")]
     public class MakeVectorNode : MixtureNode
     {

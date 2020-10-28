@@ -3,6 +3,10 @@ using GraphProcessor;
 
 namespace Mixture
 {
+	[Documentation(@"
+Sample a texture. Note that you can use a custom UV texture as well.
+")]
+
 	[System.Serializable, NodeMenuItem("Utils/Texture Sample")]
 	public class TextureSampleNode : FixedShaderNode
 	{

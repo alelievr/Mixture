@@ -9,7 +9,7 @@
 		[Range]_Hue("Hue", Range(0.0,1.0)) = 0.5
 		[Range]_Saturation("Saturation", Range(0.0,1.0)) = 0.5
 		[Range]_Value("Value", Range(0.0,1.0)) = 0.5
-		_MaxValue("Max Value", Float) = 1.0
+		[Tooltip(For HDR images, you need to specify the maximum value of your image)]_MaxValue("Max Value", Float) = 1.0
 	}
 	SubShader
 	{

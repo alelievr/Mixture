@@ -195,7 +195,7 @@ namespace Mixture
 				{
 					UpdateShaderCreationUI(shaderCreationUI, shaderField);
 					ForceUpdatePorts();
-				}).ExecuteLater(1);;
+				}).ExecuteLater(1);
 			}
 		}
 
