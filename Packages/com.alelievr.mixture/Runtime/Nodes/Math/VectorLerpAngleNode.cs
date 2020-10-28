@@ -4,6 +4,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Perform an angle lerp between min and max.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Lerp Angle")]
 	public class VectorLerpAngleNode : MixtureNode
 	{

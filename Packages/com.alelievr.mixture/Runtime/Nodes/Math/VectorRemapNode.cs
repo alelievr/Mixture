@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+		[Documentation(@"
+Perform a remap between intput min/max and output min/max values.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Remap")]
 	public class VectorRemapNode : MixtureNode
 	{

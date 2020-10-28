@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Perform a division between a and b vectors.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Div")]
 	public class VectorDivNode : MixtureNode
 	{

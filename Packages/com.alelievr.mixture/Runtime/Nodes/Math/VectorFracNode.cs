@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Extract the fractional part of the input vector.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Frac")]
 	public class VectorFracNode : MixtureNode
 	{

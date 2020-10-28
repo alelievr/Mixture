@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Perform an addition with input vectors a and b.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Add")]
 	public class VectorAddNode : MixtureNode
 	{

@@ -1,11 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using GraphProcessor;
-using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Distort the input texture using a height map.
+Internally this node converts the height map into a normal map and use it to distort the UVs to sample the input texture.
+")]
+
 	[System.Serializable, NodeMenuItem("Custom/Warp")]
 	public class Warp : FixedShaderNode
 	{

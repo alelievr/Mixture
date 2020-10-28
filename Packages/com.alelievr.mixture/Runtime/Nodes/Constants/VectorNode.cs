@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Constant vector value.
+")]
+
 	[System.Serializable, NodeMenuItem("Constants/Vector")]
 	public class VectorNode : MixtureNode
 	{

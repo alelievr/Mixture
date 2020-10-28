@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Perform a substraction between a and b vectors.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Sub")]
 	public class VectorSubNode : MixtureNode
 	{

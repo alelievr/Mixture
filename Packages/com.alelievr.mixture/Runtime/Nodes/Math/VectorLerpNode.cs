@@ -4,6 +4,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+		[Documentation(@"
+Perform a lerp between min and max vectors.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Lerp")]
 	public class VectorLerpNode : MixtureNode
 	{

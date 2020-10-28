@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+		[Documentation(@"
+Swizzle the input vector, you can also choose tou output a custom value instead of a vector component.
+")]
+
 	[System.Serializable, NodeMenuItem("Utils/Vector Swizzle")]
 	public class VectorSwizzle : MixtureNode
 	{

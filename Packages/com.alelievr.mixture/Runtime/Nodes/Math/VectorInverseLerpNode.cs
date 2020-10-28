@@ -4,6 +4,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Perform an inverse lerp operation between min and max of the input vector.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector InverseLerp")]
 	public class VectorInverseLerpNode : MixtureNode
 	{

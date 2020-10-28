@@ -8,6 +8,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Extract the integer part of the vector.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Truncate")]
 	public class VectorTruncateNode : MixtureNode
 	{

@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Generate white noise.
+")]
+
 	[System.Serializable, NodeMenuItem("Noises/White Noise")]
 	public class WhiteNoise : FixedShaderNode
 	{
@@ -17,12 +21,5 @@ namespace Mixture
 
 		// Enumerate the list of material properties that you don't want to be turned into a connectable port.
 		protected override IEnumerable<string> filteredOutProperties => new string[]{};
-
-		// Override this if you node is not compatible with all dimensions
-		// public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
-		// 	OutputDimension.Texture2D,
-		// 	OutputDimension.Texture3D,
-		// 	OutputDimension.CubeMap,
-		// };
 	}
 }

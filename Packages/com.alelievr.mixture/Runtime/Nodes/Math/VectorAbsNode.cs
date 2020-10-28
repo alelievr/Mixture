@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	[Documentation(@"
-
+Perform an absolute value operation to the input vector.
 ")]
 
 	[System.Serializable, NodeMenuItem("Math/Vector Abs")]

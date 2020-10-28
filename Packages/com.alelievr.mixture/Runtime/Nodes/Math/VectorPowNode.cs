@@ -7,6 +7,10 @@ using System.Linq;
 
 namespace Mixture
 {
+		[Documentation(@"
+Perform a power between a and power vectors.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Pow")]
 	public class VectorPowNode : MixtureNode
 	{

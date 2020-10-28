@@ -4,6 +4,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Perform a square root of the input vector.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Sqrt")]
 	public class VectorSqrtNode : MixtureNode
 	{

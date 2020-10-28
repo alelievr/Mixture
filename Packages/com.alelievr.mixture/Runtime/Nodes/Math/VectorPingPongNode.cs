@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Perform a ping pong operation between 0 and length.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Ping Pong")]
 	public class VectorPingPongNode : MixtureNode
 	{

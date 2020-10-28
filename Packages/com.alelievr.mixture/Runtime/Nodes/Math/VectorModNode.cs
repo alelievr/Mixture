@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Perform a modulo between a and b vectors.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Mod")]
 	public class VectorModNode : MixtureNode
 	{

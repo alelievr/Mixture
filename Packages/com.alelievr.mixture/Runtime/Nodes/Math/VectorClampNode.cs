@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Perform a clamp between min and max of the input vector.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Clamp")]
 	public class VectorClampNode : MixtureNode
 	{

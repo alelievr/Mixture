@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Perform a multiplication between a and b vectors.
+")]
+
 	[System.Serializable, NodeMenuItem("Math/Vector Mul")]
 	public class VectorMulNode : MixtureNode
 	{
