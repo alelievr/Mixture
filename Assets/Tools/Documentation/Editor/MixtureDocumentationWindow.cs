@@ -39,7 +39,10 @@ public class MixtureDocumentationWindow : EditorWindow
     void OnGUI()
     {
         if (GUILayout.Button("Update Node Documentation"))
+        {
+            // TODO: remove generated images + md files to cleanup deleted nodes
             UpdateNodeDoc();
+        }
     }
 
     void EditorUpdate()
@@ -210,6 +213,15 @@ public class MixtureDocumentationWindow : EditorWindow
                 }
 
                 sw.WriteLine();
+
+                if (view.nodeTarget is ShaderNode s)
+                {
+                    // In case a node doesn't support all dimensions:
+                    if (s.supportedDimensions.Count != 3)
+                    {
+                        sw.WriteLine("Please note that this node only support " + string.Join(" and ", s.supportedDimensions) + " dimension(s).");
+                    }
+                }
 
                 sw.Flush();
             }
