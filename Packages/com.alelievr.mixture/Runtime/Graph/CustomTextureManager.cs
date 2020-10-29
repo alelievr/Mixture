@@ -52,15 +52,22 @@ public static class CustomTextureManager
         UpdateSRPCustomRenderTextureStatus();
     }
 
+#if UNITY_EDITOR
     static void UpdateCRTsEditor()
     {
         if (!GraphicsSettings.disableBuiltinCustomRenderTextureUpdate)
             return;
 
+        // When run in background is not enabled and unity is in background, we skip the processing
+        if (!Application.runInBackground && !UnityEditorInternal.InternalEditorUtility.isApplicationActive)
+            return;
+
+
         UpdateDependencies();
 
         Graphics.ExecuteCommandBuffer(MakeCRTCommandBuffer());
     }
+#endif
 
     static void UpdateCRTsRuntime(ScriptableRenderContext context, Camera[] cameras)
     {
