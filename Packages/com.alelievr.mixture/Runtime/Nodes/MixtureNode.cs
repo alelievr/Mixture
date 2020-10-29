@@ -97,7 +97,7 @@ namespace Mixture
 			previewMode = defaultPreviewChannels;
 		}
 
-		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false, CustomRenderTextureUpdateMode updateMode = CustomRenderTextureUpdateMode.OnDemand)
+		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false, CustomRenderTextureUpdateMode updateMode = CustomRenderTextureUpdateMode.OnDemand, bool depthBuffer = false)
 		{
 			if (graph.mainOutputTexture == null)
 				return false;
@@ -125,7 +125,7 @@ namespace Mixture
                 target = new CustomRenderTexture(outputWidth, outputHeight, targetFormat)
                 {
                     volumeDepth = Math.Max(1, outputDepth),
-					depth = 0,
+					depth = depthBuffer ? 32 : 0,
                     dimension = dimension,
                     name = $"Mixture Temp {name}",
                     updateMode = CustomRenderTextureUpdateMode.OnDemand,

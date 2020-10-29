@@ -71,11 +71,17 @@ Shader "Hidden/Mixture/Splatter"
 		uint vertexID : SV_VertexID;
 	};
 
-	struct FramegentInput
+	struct FragmentInput
 	{
 		float2 uv : TEXCOORD0;
 		float4 vertex : SV_POSITION;
 		uint instanceID : SV_InstanceID;
+	};
+
+	struct FragmentOutput
+	{
+		float4 color : SV_Target;
+		float depth : SV_Depth;
 	};
 
 	#define QUATERNION_IDENTITY float4(0, 0, 0, 1)
@@ -100,10 +106,10 @@ Shader "Hidden/Mixture/Splatter"
 
 	static float2 uvs[6] = {float2(0, 0), float2(1, 1), float2(0, 1), float2(0, 0), float2(1, 0), float2(1, 1)};
 
-    FramegentInput IndirectVertex(VertexInput i)
+    FragmentInput IndirectVertex(VertexInput i)
     {
 		SplatPoint p = _SplatPoints[i.instanceID];
-		FramegentInput o;
+		FragmentInput o;
 
 		o.uv = uvs[i.vertexID % 6];
 		float3 vertex2d = float3(o.uv * 2 - 1, 0) * p.scale;
@@ -114,7 +120,8 @@ Shader "Hidden/Mixture/Splatter"
 		rotated = rotate_vertex_position(rotated, float3(0, 0, 1), p.rotation.z);
 
 		o.vertex = float4(rotated + p.position, 1);
-		o.instanceID = i.instanceID;
+		o.instanceID = p.id;
+		o.uv.y = 1 - o.uv.y;
 
 		return o;
     }
@@ -149,13 +156,13 @@ Shader "Hidden/Mixture/Splatter"
 
 	float GetRandomFloat(int id)
 	{
-		float p = float(id * 42);
+		float p = float(id * 42 + 69);
 		// Source: https://www.shadertoy.com/view/4dS3Wd
 		p = frac(p * 0.011); p *= p + 7.5; p *= p + p;
 		return frac(p);
 	}
 
-	float ComputeOutputChannel(float2 uv, float4 value, float channelMode, int instanceID)
+	float ComputeOutputChannel(float2 uv, float4 value, float channelMode, int id)
 	{
 		switch (channelMode)
 		{
@@ -169,29 +176,35 @@ Shader "Hidden/Mixture/Splatter"
 			case 3: // InputA
 				return value.a;
 			case 4: // UV X
-				return uv.x;
+				return uv.x * (value.a > 0);
 			case 5: // UV Y
-				return uv.y;
+				return uv.y * (value.a > 0);
 			case 6: // Random Uniform Color
-				return GetRandomFloat(instanceID);
+				return GetRandomFloat(id) * (value.a > 0);
 		}
 	}
 
-	float4 ComputeOutputChannels(float2 uv, float4 value, int instanceID)
+	float4 ComputeOutputChannels(float2 uv, float4 value, int id)
 	{
 		return float4(
-			ComputeOutputChannel(uv, value, _ChannelModeR, instanceID),
-			ComputeOutputChannel(uv, value, _ChannelModeG, instanceID),
-			ComputeOutputChannel(uv, value, _ChannelModeB, instanceID),
-			ComputeOutputChannel(uv, value, _ChannelModeA, instanceID)
+			ComputeOutputChannel(uv, value, _ChannelModeR, id),
+			ComputeOutputChannel(uv, value, _ChannelModeG, id),
+			ComputeOutputChannel(uv, value, _ChannelModeB, id),
+			ComputeOutputChannel(uv, value, _ChannelModeA, id)
 		);
 	}
 
-	float4 Fragment(FramegentInput i) : SV_Target
+	FragmentOutput Fragment(FragmentInput i) 
 	{
+		FragmentOutput output;
+
 		float4 value = SampleRandomTexture(i.instanceID, float3(i.uv, 0));
 
-		return ComputeOutputChannels(i.uv.xy, value, i.instanceID);
+		output.color = ComputeOutputChannels(i.uv.xy, value, i.instanceID);
+		// TODO: fix this
+		output.depth = output.color.a;
+
+		return output;
 	}
 
 	ENDCG
@@ -206,7 +219,7 @@ Shader "Hidden/Mixture/Splatter"
 			Name "Splatter"
 
 			Cull Off
-			ZTest Always
+			ZTest [_ZTest] 
 			ZClip Off
 			Blend [_SrcBlend] [_DstBlend]
 			BlendOp [_BlendOp]

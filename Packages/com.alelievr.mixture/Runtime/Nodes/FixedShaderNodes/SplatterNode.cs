@@ -47,6 +47,12 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 			RandomUniformColor,
 		}
 
+		public enum Mode
+		{
+			Sprites,
+			DepthTile,
+		}
+
 		[Input]
 		public List<Texture> inputTextures = new List<Texture>();
 
@@ -56,6 +62,8 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 		[ShowInInspector, Range(1, 1820)] 
 		public int maxSplatCount = 256;
 
+		public Mode mode;
+
 		public Sequence sequence;
 
 		// Stack
@@ -64,7 +72,7 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 
 		// Grid
 		[VisibleIf(nameof(sequence), Sequence.Grid)]
-		public Vector2 gridSize = new Vector2(8, 8);
+		public Vector2 gridScale = new Vector2(8, 8);
 		[VisibleIf(nameof(sequence), Sequence.Grid)]
 		public Vector2 gridCram = Vector2.zero;
 		[VisibleIf(nameof(sequence), Sequence.Grid)]
@@ -83,6 +91,8 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 		public float goldenRatio = 2.399999f;
 
 		// Other
+		[ShowInInspector]
+		public Vector3 positionOffset = Vector3.zero;
 		[ShowInInspector]
 		public Vector3 positionJitter = Vector3.zero;
 
@@ -106,18 +116,23 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 		[ShowInInspector, VisibleIf(nameof(scaleMode), ScaleMode.RandomBetween)]
 		public Vector3 maxScale = new Vector3(1.5f, 1.5f, 1.5f);
 
+		[VisibleIf(nameof(mode), Mode.Sprites)]
 		public Operator blendOperator = Operator.Blend;
 
 		[Header("Output Channels")]
 
-		[ShowInInspector]
-		public OutputChannelMode channelModeR = OutputChannelMode.InputR;
-		[ShowInInspector]
-		public OutputChannelMode channelModeG = OutputChannelMode.InputG;
-		[ShowInInspector]
-		public OutputChannelMode channelModeB = OutputChannelMode.InputB;
-		[ShowInInspector]
-		public OutputChannelMode channelModeA = OutputChannelMode.InputA;
+		// TODO: custom channel config
+		// [ShowInInspector]
+		// public OutputChannelMode channelModeR = OutputChannelMode.InputR;
+		// [ShowInInspector]
+		// public OutputChannelMode channelModeG = OutputChannelMode.InputG;
+		// [ShowInInspector]
+		// public OutputChannelMode channelModeB = OutputChannelMode.InputB;
+		// [ShowInInspector]
+		// public OutputChannelMode channelModeA = OutputChannelMode.InputA;
+
+		[ShowInInspector, VisibleIf(nameof(mode), Mode.DepthTile)]
+		public CompareFunction depthTest = CompareFunction.LessEqual;
 
 		public override string name => "Splatter";
 		protected override string computeShaderResourcePath => "Mixture/Splatter";
@@ -126,6 +141,7 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 			OutputDimension.Texture2D,
 		};
 		public override bool showDefaultInspector => true;
+        protected override bool tempRenderTextureHasDepthBuffer => true;
 
 		ComputeBuffer			argumentBuffer;
 		ComputeBuffer			splatPointsBuffer;
@@ -153,10 +169,12 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 		static readonly int _MinScale = Shader.PropertyToID("_MinScale");
 		static readonly int _MaxScale = Shader.PropertyToID("_MaxScale");
 		static readonly int _PositionJitter = Shader.PropertyToID("_PositionJitter");
+		static readonly int _PositionOffset = Shader.PropertyToID("_PositionOffset");
 		static readonly int _Time = Shader.PropertyToID("_Time");
 		static readonly int _ElementCount = Shader.PropertyToID("_ElementCount");
 		static readonly int _TextureCount = Shader.PropertyToID("_TextureCount");
 		static readonly int _SrcBlend = Shader.PropertyToID("_SrcBlend");
+		static readonly int _ZTest = Shader.PropertyToID("_ZTest");
 		static readonly int _DstBlend = Shader.PropertyToID("_DstBlend");
 		static readonly int _BlendOp = Shader.PropertyToID("_BlendOp");
 		static readonly int _ChannelModeR = Shader.PropertyToID("_ChannelModeR");
@@ -179,10 +197,10 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 		[CustomPortInput(nameof(inputTextures), typeof(Texture))]
 		void PullInputs(List< SerializableEdge > inputEdges)
 		{
-			// TODO: removing one edge from the list of cusotm port input set the lsit to null ! 
-			// FIXIT: do not reset the value if there is still something connected in the port
-			if (inputTextures == null)
-				inputTextures = new List<Texture>();
+			// // TODO: removing one edge from the list of custom port input set the list to null ! 
+			// // FIXIT: do not reset the value if there is still something connected in the port
+			// if (inputTextures == null)
+			// 	inputTextures = new List<Texture>();
 
 			// Create the list of input textures to splat
 			inputTextures.Clear();
@@ -220,7 +238,9 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 			if (!base.ProcessNode(cmd))
 				return false;
 			
-			int safeMaxSplatCount = Mathf.Min(sequence == Sequence.Grid ? Mathf.CeilToInt(gridSize.x * gridSize.y) : int.MaxValue, maxSplatCount);
+			int safeMaxSplatCount = Mathf.Min(sequence == Sequence.Grid ? Mathf.CeilToInt(gridScale.x * gridScale.y) : int.MaxValue, maxSplatCount);
+			// TODO: remove me
+			safeMaxSplatCount = maxSplatCount;
 
 			SetComputeArgs(cmd);
 			computeShader.GetKernelThreadGroupSizes(generatePointKernel, out uint x, out _, out _);
@@ -241,16 +261,11 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 			for (int i = 0; i < inputTextures.Count; i++)
 				drawIndirectMat.SetTexture("_Source" + i + MixtureUtils.texture2DPrefix, inputTextures[i]);
 
-			SetBlendSettings(drawIndirectMat);
-
-			drawIndirectMat.SetFloat(_ChannelModeR, (int)channelModeR);
-			drawIndirectMat.SetFloat(_ChannelModeG, (int)channelModeG);
-			drawIndirectMat.SetFloat(_ChannelModeB, (int)channelModeB);
-			drawIndirectMat.SetFloat(_ChannelModeA, (int)channelModeA);
+			SetRenderStates(drawIndirectMat);
 
 			drawIndirectMat.SetBuffer(_SplatPoints, splatPointsBuffer);
-			cmd.SetRenderTarget(tempRenderTexture);
-			cmd.ClearRenderTarget(false, true, Color.clear);
+			cmd.SetRenderTarget(tempRenderTexture.colorBuffer, tempRenderTexture.depthBuffer);
+			cmd.ClearRenderTarget(true, true, Color.clear);
 			cmd.DrawProceduralIndirect(Matrix4x4.identity, drawIndirectMat, 0, MeshTopology.Triangles, argumentBuffer, 0);
 
 			output = tempRenderTexture;
@@ -267,7 +282,7 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 			cmd.SetComputeIntParam(computeShader, _RotationMode, (int)rotationMode);
 			cmd.SetComputeIntParam(computeShader, _ScaleMode, (int)scaleMode);
 			cmd.SetComputeVectorParam(computeShader, _StackPosition, stackPosition);
-			cmd.SetComputeVectorParam(computeShader, _GridSize, gridSize);
+			cmd.SetComputeVectorParam(computeShader, _GridSize, gridScale);
 			cmd.SetComputeVectorParam(computeShader, _GridCram, gridCram);
 			cmd.SetComputeVectorParam(computeShader, _GridShift, gridShift);
 			cmd.SetComputeFloatParam(computeShader, _Lambda, lambda);
@@ -281,53 +296,90 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 			cmd.SetComputeVectorParam(computeShader, _MinScale, minScale);
 			cmd.SetComputeVectorParam(computeShader, _MaxScale, maxScale);
 			cmd.SetComputeVectorParam(computeShader, _PositionJitter, positionJitter);
+			cmd.SetComputeVectorParam(computeShader, _PositionOffset, positionOffset);
 		}
 
-		void SetBlendSettings(Material mat)
+		void SetRenderStates(Material mat)
 		{
-			switch (blendOperator)
+			switch (mode)
 			{
 				default:
-				case Operator.Blend:
-					mat.SetFloat(_SrcBlend, (int)BlendMode.SrcAlpha);
-					mat.SetFloat(_DstBlend, (int)BlendMode.OneMinusSrcAlpha);
-					mat.SetFloat(_BlendOp, (int)BlendOp.Add);
+				case Mode.Sprites:
+					SetupBlendMode();
+					SetupColorChannels();
+					mat.SetFloat(_ZTest, (float)CompareFunction.Always);
 					break;
-				case Operator.PreMultiplied:
-					mat.SetFloat(_SrcBlend, (int)BlendMode.One);
-					mat.SetFloat(_DstBlend, (int)BlendMode.OneMinusSrcAlpha);
-					mat.SetFloat(_BlendOp, (int)BlendOp.Add);
+				case Mode.DepthTile:
+					SetupDepthChannels();
+					mat.SetFloat(_SrcBlend, (float)BlendMode.One);
+					mat.SetFloat(_DstBlend, (float)BlendMode.Zero);
+					mat.SetFloat(_BlendOp, (float)BlendOp.Add);
+					mat.SetFloat(_ZTest, (float)depthTest);
 					break;
-				case Operator.Additive:
-					mat.SetFloat(_SrcBlend, (int)BlendMode.One);
-					mat.SetFloat(_DstBlend, (int)BlendMode.One);
-					mat.SetFloat(_BlendOp, (int)BlendOp.Add);
-					break;
-				case Operator.SoftAdditive:
-					mat.SetFloat(_SrcBlend, (int)BlendMode.OneMinusDstColor);
-					mat.SetFloat(_DstBlend, (int)BlendMode.One);
-					mat.SetFloat(_BlendOp, (int)BlendOp.Add);
-					break;
-				case Operator.Substractive:
-					mat.SetFloat(_SrcBlend, (int)BlendMode.One);
-					mat.SetFloat(_DstBlend, (int)BlendMode.One);
-					mat.SetFloat(_BlendOp, (int)BlendOp.Subtract);
-					break;
-				case Operator.Multiplicative:
-					mat.SetFloat(_SrcBlend, (int)BlendMode.DstColor);
-					mat.SetFloat(_DstBlend, (int)BlendMode.Zero);
-					mat.SetFloat(_BlendOp, (int)BlendOp.Add);
-					break;
-				case Operator.Max:
-					mat.SetFloat(_SrcBlend, (int)BlendMode.One);
-					mat.SetFloat(_DstBlend, (int)BlendMode.One);
-					mat.SetFloat(_BlendOp, (int)BlendOp.Max);
-					break;
-				case Operator.Min:
-					mat.SetFloat(_SrcBlend, (int)BlendMode.One);
-					mat.SetFloat(_DstBlend, (int)BlendMode.One);
-					mat.SetFloat(_BlendOp, (int)BlendOp.Min);
-					break;
+			}
+
+			void SetupDepthChannels()
+			{
+				mat.SetFloat(_ChannelModeR, (int)OutputChannelMode.UV_X);
+				mat.SetFloat(_ChannelModeG, (int)OutputChannelMode.UV_Y);
+				mat.SetFloat(_ChannelModeB, (int)OutputChannelMode.RandomUniformColor);
+				mat.SetFloat(_ChannelModeA, (int)OutputChannelMode.InputR);
+			}
+
+			void SetupColorChannels()
+			{
+				mat.SetFloat(_ChannelModeR, (int)OutputChannelMode.InputR);
+				mat.SetFloat(_ChannelModeG, (int)OutputChannelMode.InputG);
+				mat.SetFloat(_ChannelModeB, (int)OutputChannelMode.InputB);
+				mat.SetFloat(_ChannelModeA, (int)OutputChannelMode.InputA);
+			}
+
+			void SetupBlendMode()
+			{
+				switch (blendOperator)
+				{
+					default:
+					case Operator.Blend:
+						mat.SetFloat(_SrcBlend, (int)BlendMode.SrcAlpha);
+						mat.SetFloat(_DstBlend, (int)BlendMode.OneMinusSrcAlpha);
+						mat.SetFloat(_BlendOp, (int)BlendOp.Add);
+						break;
+					case Operator.PreMultiplied:
+						mat.SetFloat(_SrcBlend, (int)BlendMode.One);
+						mat.SetFloat(_DstBlend, (int)BlendMode.OneMinusSrcAlpha);
+						mat.SetFloat(_BlendOp, (int)BlendOp.Add);
+						break;
+					case Operator.Additive:
+						mat.SetFloat(_SrcBlend, (int)BlendMode.One);
+						mat.SetFloat(_DstBlend, (int)BlendMode.One);
+						mat.SetFloat(_BlendOp, (int)BlendOp.Add);
+						break;
+					case Operator.SoftAdditive:
+						mat.SetFloat(_SrcBlend, (int)BlendMode.OneMinusDstColor);
+						mat.SetFloat(_DstBlend, (int)BlendMode.One);
+						mat.SetFloat(_BlendOp, (int)BlendOp.Add);
+						break;
+					case Operator.Substractive:
+						mat.SetFloat(_SrcBlend, (int)BlendMode.One);
+						mat.SetFloat(_DstBlend, (int)BlendMode.One);
+						mat.SetFloat(_BlendOp, (int)BlendOp.Subtract);
+						break;
+					case Operator.Multiplicative:
+						mat.SetFloat(_SrcBlend, (int)BlendMode.DstColor);
+						mat.SetFloat(_DstBlend, (int)BlendMode.Zero);
+						mat.SetFloat(_BlendOp, (int)BlendOp.Add);
+						break;
+					case Operator.Max:
+						mat.SetFloat(_SrcBlend, (int)BlendMode.One);
+						mat.SetFloat(_DstBlend, (int)BlendMode.One);
+						mat.SetFloat(_BlendOp, (int)BlendOp.Max);
+						break;
+					case Operator.Min:
+						mat.SetFloat(_SrcBlend, (int)BlendMode.One);
+						mat.SetFloat(_DstBlend, (int)BlendMode.One);
+						mat.SetFloat(_BlendOp, (int)BlendOp.Min);
+						break;
+				}
 			}
 		}
 

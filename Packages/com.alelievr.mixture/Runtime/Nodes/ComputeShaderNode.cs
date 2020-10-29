@@ -33,12 +33,15 @@ namespace Mixture
 
 		public virtual bool showOpenButton => false;
 
+		protected virtual bool tempRenderTextureHasMipmaps => false;
+		protected virtual bool tempRenderTextureHasDepthBuffer => false;
+
 		protected override void Enable()
 		{
 			if (!String.IsNullOrEmpty(computeShaderResourcePath) && computeShader == null)
 				computeShader = LoadComputeShader(computeShaderResourcePath);
 
-			UpdateTempRenderTexture(ref tempRenderTexture);
+			UpdateTempRenderTexture(ref tempRenderTexture, hasMips: tempRenderTextureHasMipmaps, depthBuffer: tempRenderTextureHasDepthBuffer);
 
 			beforeProcessSetup += UpdateTempRT;
 			afterProcessCleanup += UpdateTempRT;
@@ -68,7 +71,7 @@ namespace Mixture
 		void UpdateTempRT()
 		{
 			// Update the temp RT so users that overrides processNode don't have to do it
-			UpdateTempRenderTexture(ref tempRenderTexture);
+			UpdateTempRenderTexture(ref tempRenderTexture, hasMips: tempRenderTextureHasMipmaps, depthBuffer: tempRenderTextureHasDepthBuffer);
 		}
 
 		public bool ComputeIsValid()

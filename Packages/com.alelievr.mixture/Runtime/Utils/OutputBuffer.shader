@@ -52,13 +52,13 @@
         switch (_OutputMode)
         {
             case 0: // Color
-                return color;
+                return float4(color.rgb, depth != 0);
             case 1: // Eye Depth
-                return linearEyeDepth - n;
+                return float4((linearEyeDepth - n).xxx, depth != 0);
             case 2: // 01 Depth
                 // Convert eye depth into linear (supports orthographic)
                 float linear01Depth = (linearEyeDepth - n) / (f - n);
-                return 1 - linear01Depth.xxxx;
+                return float4(1 - linear01Depth.xxx, depth != 0);
             case 3: // World Normal
                 return float4(normalData.normalWS, depth != 0);
             case 4: // Tangent Space Normal

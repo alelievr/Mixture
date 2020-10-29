@@ -38,6 +38,7 @@ float3 _MaxScale;
 float _Time;
 float _ElementCount;
 float3 _PositionJitter;
+float3 _PositionOffset;
 
 void Stack(uint id, uint position1D)
 {
@@ -46,18 +47,23 @@ void Stack(uint id, uint position1D)
 
 void Grid(uint id, uint position1D)
 {
+    float2 g = _GridSize;
+    _GridSize *= rcp(1 - _GridCram);
     float3 p;
     float x = position1D % floor(_GridSize.x);
     float y = position1D / floor(_GridSize.y);
     float r = floor(_GridSize.x) / floor(_GridSize.y);
+
     p = float3(x, y - x / floor(_GridSize.y), 0);
     p /= float3(_GridSize.x / 2, _GridSize.y / 2 * r, 1);
     p.xy += rcp(_GridSize.xy) - 1;
-    p.xy -= _GridCram * p.xy;
+    // p.xy -= _GridCram * p.xy;
+    // p.xy += p.yx * _GridCram.xy;
     p.xy += p.yx * _GridShift.xy;
 
     _SplatPoints[id].position = frac(p / 2) * 2; // Keep the final position in frame bounds
-    _SplatPoints[id].scale = float3(rcp(_GridSize.x), rcp(_GridSize.y), 1);
+    _SplatPoints[id].scale = float3(rcp(g.x), rcp(g.y), 1);
+
 }
 
 // constants 
@@ -165,8 +171,9 @@ void GenerateSplatPoints(uint id : SV_DispatchThreadID)
             break;
     }
 
-    // Add jitter to initial position:
+    // Add jitter + offset to initial position:
     _SplatPoints[id].position += JitterPosition(id);
+    _SplatPoints[id].position += _PositionOffset;
 
     switch (_RotationMode)
     {
@@ -199,6 +206,8 @@ void GenerateSplatPoints(uint id : SV_DispatchThreadID)
 
     // Add the remaining 8 splats for tiling:
     SplatPoint tiledSplat = _SplatPoints[id];
+    _SplatPoints[id].id = tiledSplat.id = id;
+
     for (int i = 0; i < 8; i++)
     {
         _SplatPoints[id + i + 1] = tiledSplat;
