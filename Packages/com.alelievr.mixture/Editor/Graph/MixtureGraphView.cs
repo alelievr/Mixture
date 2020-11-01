@@ -152,7 +152,7 @@ namespace Mixture
 				processor.UpdateComputeOrder();
 				UpdateNodeColors();
 			};
-			graph.onOutputTextureUpdated += () => processor.Run();
+			graph.onOutputTextureUpdated += () => ProcessGraph();
 			graph.onGraphChanges += _ => {
 				this.schedule.Execute(() => ProcessGraph()).ExecuteLater(10);
 				MarkDirtyRepaint();
@@ -162,7 +162,21 @@ namespace Mixture
 			ProcessGraph();
 		}
 
-		public void ProcessGraph() => processor?.Run();
+		public void ProcessGraph()
+		{
+			processor?.Run();
+
+			// Update the inspector in case a node was selected.
+			if (Selection.activeObject is MixtureNodeInspectorObject)
+			{
+				var windows = Resources.FindObjectsOfTypeAll<EditorWindow>();
+				foreach (var win in windows)
+				{
+					if (win.GetType().Name.Contains("Inspector"))
+						win.Repaint();
+				}
+			}
+		}
 
 		void ReloadGraph()
 		{
