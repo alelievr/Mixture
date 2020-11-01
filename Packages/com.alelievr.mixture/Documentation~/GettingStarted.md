@@ -82,18 +82,18 @@ Note that all the ports are following this color code for the types:
 
 Color | Type
 --- | ---
-<span style="color:#000">White</span> | Texture
-<span style="color:#F71">Dark Orange</span> | Render Texture
-<span style="color:#F91">Orange</span> | Texture 2D 
-<span style="color:#FD6">Yellow</span> | Texture 2D Array 
-<span style="color:#F5C">Pink</span> | Texture 3D 
-<span style="color:#9F1">Lime</span> | Cubemap 
-<span style="color:#DF6">Light Green</span> | Cubemap Array
-<span style="color:#5CF">Light Blue</span> | Color
-<span style="color:#33F">Dark Blue</span> | Single
-<span style="color:#17F">Blue</span> | Vector 4
-<span style="color:#11ff94">Cyan</span> | Compute Buffer
-<span style="color:#14cba8">Dark Cyan</span> | Mesh
+![](https://via.placeholder.com/15/fff/000000?text=+) White | Texture
+![](https://via.placeholder.com/15/F71/000000?text=+) Dark Orange | Render Texture
+![](https://via.placeholder.com/15/F91/000000?text=+) Orange | Texture 2D 
+![](https://via.placeholder.com/15/FD6/000000?text=+) Yellow | Texture 2D Array 
+![](https://via.placeholder.com/15/F5C/000000?text=+) Pink | Texture 3D 
+![](https://via.placeholder.com/15/9F1/000000?text=+) Lime | Cubemap 
+![](https://via.placeholder.com/15/DF6/000000?text=+) Light Green | Cubemap Array
+![](https://via.placeholder.com/15/5CF/000000?text=+) Light Blue | Color
+![](https://via.placeholder.com/15/33F/000000?text=+) Dark Blue | Single
+![](https://via.placeholder.com/15/17F/000000?text=+) Blue | Vector 4
+![](https://via.placeholder.com/15/11ff94/000000?text=+) Cyan | Compute Buffer
+![](https://via.placeholder.com/15/14cba8/000000?text=+) Dark Cyan | Mesh
 
 ## Example of Mixture with material
 

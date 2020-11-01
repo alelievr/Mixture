@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 using GraphProcessor;
 using UnityEditor.Experimental.SceneManagement;
 using UnityEditor.SceneManagement;
@@ -15,32 +16,35 @@ namespace Mixture
         GameObject  openedPrefabRoot;
         string      openedPrefabPath;
 
+
 		public override void Enable(bool fromInspector)
 		{
 			base.Enable(fromInspector);
 
             var openPrefabButton = new Button(OpenPrefab) { text = "Open Prefab"};
             controlsContainer.Add(openPrefabButton);
-
-            // TODO: dynamically add/remove this button if the scene is opened
             controlsContainer.Add(new Button(SaveView) { text = "Save Current View"});
 
-            EditorApplication.update -= RenderPrefabScene;
-            EditorApplication.update += RenderPrefabScene;
+            if (!fromInspector)
+            {
+                EditorApplication.update -= RenderPrefabScene;
+                EditorApplication.update += RenderPrefabScene;
 
-            // TODO: prefab field to put a custom prefab
+                PrefabStage.prefabStageOpened -= PrefabOpened;
+                PrefabStage.prefabStageOpened += PrefabOpened;
+                PrefabStage.prefabStageClosing -= PrefabClosed;
 
-            PrefabStage.prefabStageOpened -= PrefabOpened;
-            PrefabStage.prefabStageOpened += PrefabOpened;
-            PrefabStage.prefabStageClosing -= PrefabClosed;
-            PrefabStage.prefabStageClosing += PrefabClosed;
+                void PrefabOpened(PrefabStage stage) => OnPrefabOpened(stage, openPrefabButton);
+                void PrefabClosed(PrefabStage stage) => OnPrefabClosed(stage, openPrefabButton);
 
-            void PrefabOpened(PrefabStage stage) => OnPrefabOpened(stage, openPrefabButton);
-            void PrefabClosed(PrefabStage stage) => OnPrefabClosed(stage, openPrefabButton);
-
-            var stage = PrefabStageUtility.GetCurrentPrefabStage();
-            if (stage != null && stage.assetPath == AssetDatabase.GetAssetPath(sceneNode.prefab))
-                PrefabOpened(stage);
+                var stage = PrefabStageUtility.GetCurrentPrefabStage();
+                if (stage != null && stage.assetPath == AssetDatabase.GetAssetPath(sceneNode.prefab))
+                    PrefabOpened(stage);
+                
+                ObjectField debugTextureField = new ObjectField("Saved Texture") { value = sceneNode.savedTexture };
+                debugContainer.Add(debugTextureField);
+                nodeTarget.onProcessed += () => debugTextureField.SetValueWithoutNotify(sceneNode.savedTexture);
+            }
 		}
 
         ~PrefabCaptureNodeView()
@@ -97,7 +101,8 @@ namespace Mixture
             }
             else
             {
-                PrefabUtility.SaveAsPrefabAsset(openedPrefabRoot, openedPrefabPath);
+                if (openedPrefabRoot != null)
+                    PrefabUtility.SaveAsPrefabAsset(openedPrefabRoot, openedPrefabPath);
                 StageUtility.GoBackToPreviousStage();
             }
         }

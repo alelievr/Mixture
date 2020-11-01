@@ -343,7 +343,7 @@ namespace Mixture
             outputTextures.RemoveAll(t => t.name == outputSettings.name || (outputSettings.isMain && t.name == mainOutputTexture.name));
 
             Texture newTexture = null;
-			// TODO: compression options (TextureCreationFlags.Crunch)
+
             switch (s.dimension)
             {
                 case OutputDimension.Texture2D:
@@ -767,7 +767,7 @@ namespace Mixture
 #if UNITY_EDITOR
             // Copy the readback texture into the compressed one (replace it)
             EditorUtility.CopySerialized(source, destination);
-            UnityEngine.Object.DestroyImmediate(source);
+            Object.DestroyImmediate(source);
 
             EditorUtility.CompressTexture(destination as Texture2D, (TextureFormat)format, (UnityEditor.TextureCompressionQuality)quality);
 #endif

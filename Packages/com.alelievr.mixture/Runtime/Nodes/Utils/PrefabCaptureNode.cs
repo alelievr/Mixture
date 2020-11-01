@@ -183,8 +183,12 @@ Note that this node is currently only available with HDRP.
             if (savedTexture == null || rtSettings.NeedsUpdate(graph, savedTexture))
             {
                 if (graph.IsObjectInGraph(savedTexture))
+                {
                     graph.RemoveObjectFromGraph(savedTexture);
+                    Object.DestroyImmediate(savedTexture, true);
+                }
                 savedTexture = new Texture2D(rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), rtSettings.GetGraphicsFormat(graph), TextureCreationFlags.None) { name = "SceneNode Rendering"};
+                graph.AddObjectToGraph(savedTexture);
             }
         }
 	}
