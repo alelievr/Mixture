@@ -12,7 +12,24 @@ Tileable marble texture, generated from distorted 2D perlin as a base to get a n
 
 ## Roof tiles from geometry
 
-Okay, this one is really complex
+![](Images/2020-11-01-17-05-01.png)
+In this example, we're using the very interesting prefab capture node. In this example I'm using it to generate the depth map of a wooden roof tile shape which is the base of our texture, note that this node requires HDRP and if you can't afford it, you can still create a texture like this from your preferred texture editing tool.
+
+Here's a view of the prefab used to render the depth of the tile. I simply used a cylinder and a stretched cube to create this tile, then tilted it to have a gradient in the tile.
+![](Images/2020-11-01-17-10-10.png)
+
+The next we have the Splatter node which is configured in **Depth Tile** mode, which means it will output the UVs in the RG channels, a random color in B and the original depth in A which gives us this weird looking tiled texture. Note that in depth tile mode, the node use a depth map to render the different tiles and avoid blending between multiple tiles, the compare function of the depth map can be configures in the editor.
+
+For our roof example, a simple grid patter with some position jitter and random rotation will do:
+![](Images/2020-11-01-17-13-46.png)
+
+Then if we skip the next nodes where we manipulate the UVs, we have the **Perlin Noise** node used to add extra details of the wood to our tiles. The interesting bit here is that we use the blue channel of the UVs to as a seed for the noise, which allows us to generate a different noise per tile instead of having the same noise for each tile.
+
+After this, the rest of the graph is some texture manipulation and transformation to output the height, normal and albedo textures.
+
+Here's the result in the scene view:
+
+![](Images/2020-11-01-17-05-42.png)
 
 ## HDRP Density Volume Authoring
 

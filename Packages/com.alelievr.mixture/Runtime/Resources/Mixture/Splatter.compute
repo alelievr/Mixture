@@ -57,8 +57,6 @@ void Grid(uint id, uint position1D)
     p = float3(x, y - x / floor(_GridSize.y), 0);
     p /= float3(_GridSize.x / 2, _GridSize.y / 2 * r, 1);
     p.xy += rcp(_GridSize.xy) - 1;
-    // p.xy -= _GridCram * p.xy;
-    // p.xy += p.yx * _GridCram.xy;
     p.xy += p.yx * _GridShift.xy;
 
     _SplatPoints[id].position = frac(p / 2) * 2; // Keep the final position in frame bounds
