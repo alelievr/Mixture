@@ -239,8 +239,11 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 				return false;
 			
 			int safeMaxSplatCount = Mathf.Min(sequence == Sequence.Grid ? Mathf.CeilToInt(gridScale.x * gridScale.y) : int.MaxValue, maxSplatCount);
-			// TODO: remove me
-			safeMaxSplatCount = maxSplatCount;
+			if (sequence == Sequence.Grid)
+			{
+				safeMaxSplatCount = Mathf.CeilToInt(safeMaxSplatCount * (1.0f / (1.0f - gridCram.x)));
+				safeMaxSplatCount = Mathf.CeilToInt(safeMaxSplatCount * (1.0f / (1.0f - gridCram.y)));
+			}
 
 			SetComputeArgs(cmd);
 			computeShader.GetKernelThreadGroupSizes(generatePointKernel, out uint x, out _, out _);
