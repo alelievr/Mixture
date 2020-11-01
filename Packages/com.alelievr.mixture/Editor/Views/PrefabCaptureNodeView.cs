@@ -33,6 +33,7 @@ namespace Mixture
                 PrefabStage.prefabStageOpened -= PrefabOpened;
                 PrefabStage.prefabStageOpened += PrefabOpened;
                 PrefabStage.prefabStageClosing -= PrefabClosed;
+                PrefabStage.prefabStageClosing += PrefabClosed;
 
                 void PrefabOpened(PrefabStage stage) => OnPrefabOpened(stage, openPrefabButton);
                 void PrefabClosed(PrefabStage stage) => OnPrefabClosed(stage, openPrefabButton);

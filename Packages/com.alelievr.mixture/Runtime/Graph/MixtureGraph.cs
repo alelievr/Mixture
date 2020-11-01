@@ -245,7 +245,9 @@ namespace Mixture
 
             foreach (var tex in AssetDatabase.LoadAllAssetsAtPath(mainAssetPath).OfType<Texture>())
             {
-                if (!assetsToKeep.Contains(tex))
+                // When a texture contains the not editable hideflag (for example a prefab capture image) we don't remove it
+                // otherwise it would break the graph.
+                if (!assetsToKeep.Contains(tex) && (tex.hideFlags & HideFlags.NotEditable) == 0)
                 {
                     AssetDatabase.RemoveObjectFromAsset(tex);
                     DestroyImmediate(tex, true);

@@ -188,6 +188,7 @@ Note that this node is currently only available with HDRP.
                     Object.DestroyImmediate(savedTexture, true);
                 }
                 savedTexture = new Texture2D(rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), rtSettings.GetGraphicsFormat(graph), TextureCreationFlags.None) { name = "SceneNode Rendering"};
+                savedTexture.hideFlags = HideFlags.NotEditable;
                 graph.AddObjectToGraph(savedTexture);
             }
         }
