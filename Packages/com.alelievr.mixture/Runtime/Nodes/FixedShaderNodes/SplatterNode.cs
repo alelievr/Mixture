@@ -15,6 +15,10 @@ Note that when you connect multiple textures in the ""Splat Textures"" port, the
 The limit of different input textures you can connect is 16, after new textures will be ignored.
 
 When you generate the tiles, you can also choose to output the UVs of the tiles using the channel mode in the inspector, this can be useful to generate a noise based on these UVs.
+
+For combining height based tiles, please use the **Height Tile** mode, this special mode will automatically combine the tiles based on their depth with a Z-Buffer.
+All input height maps must use data > 0, every height value <= 0 will be discarded.
+In **Height Tile** mode, this node will output in RG the UVs of the tiles, in B a random value between 0 and 1 and in A the height of the tile.
 ")]
 	[System.Serializable, NodeMenuItem("Textures/Splatter"), NodeMenuItem("Textures/Scatter")]
 	public class SplatterNode : ComputeShaderNode
@@ -47,10 +51,18 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 			RandomUniformColor,
 		}
 
+		public enum InputDepthChannel
+		{
+			R = OutputChannelMode.InputR,
+			G = OutputChannelMode.InputG,
+			B = OutputChannelMode.InputB,
+			A = OutputChannelMode.InputA,
+		}
+
 		public enum Mode
 		{
 			Sprites,
-			DepthTile,
+			HeightTile,
 		}
 
 		[Input]
@@ -119,6 +131,9 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 		[VisibleIf(nameof(mode), Mode.Sprites)]
 		public Operator blendOperator = Operator.Blend;
 
+		[VisibleIf(nameof(mode), Mode.HeightTile)]
+		public InputDepthChannel inputDepth = InputDepthChannel.R;
+
 		[Header("Output Channels")]
 
 		// TODO: custom channel config
@@ -131,7 +146,7 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 		// [ShowInInspector]
 		// public OutputChannelMode channelModeA = OutputChannelMode.InputA;
 
-		[ShowInInspector, VisibleIf(nameof(mode), Mode.DepthTile)]
+		[ShowInInspector, VisibleIf(nameof(mode), Mode.HeightTile)]
 		public CompareFunction depthTest = CompareFunction.LessEqual;
 
 		public override string name => "Splatter";
@@ -181,6 +196,7 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 		static readonly int _ChannelModeG = Shader.PropertyToID("_ChannelModeG");
 		static readonly int _ChannelModeB = Shader.PropertyToID("_ChannelModeB");
 		static readonly int _ChannelModeA = Shader.PropertyToID("_ChannelModeA");
+		static readonly int _Mode = Shader.PropertyToID("_Mode");
 
 		[CustomPortBehavior(nameof(inputTextures))]
 		IEnumerable<PortData> CustomInputTexturePortData(List<SerializableEdge> edges)
@@ -228,7 +244,7 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 
 			argumentBuffer = new ComputeBuffer(1, sizeof(int) * 5, ComputeBufferType.IndirectArguments);
 			// We have a max of 16k splats, should be enough :) It means a total of 1820 particles max (we divide by 9 for tiling)
-			splatPointsBuffer = new ComputeBuffer(16384, sizeof(float) * 9);
+			splatPointsBuffer = new ComputeBuffer(16384, sizeof(float) * 10);
 
 			generatePointKernel = computeShader.FindKernel("GenerateSplatPoints");
 		}
@@ -245,7 +261,7 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 				safeMaxSplatCount = Mathf.CeilToInt(safeMaxSplatCount * (1.0f / (1.0f - gridCram.y)));
 			}
 
-			SetComputeArgs(cmd);
+			SetComputeArgs(cmd, safeMaxSplatCount);
 			computeShader.GetKernelThreadGroupSizes(generatePointKernel, out uint x, out _, out _);
 			DispatchCompute(cmd, generatePointKernel, safeMaxSplatCount + ((int)x - safeMaxSplatCount % (int)x));
 
@@ -261,6 +277,7 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 
 			// Set input textures:
 			drawIndirectMat.SetInt(_TextureCount, inputTextures.Count);
+			drawIndirectMat.SetFloat(_Mode, (int)mode);
 			for (int i = 0; i < inputTextures.Count; i++)
 				drawIndirectMat.SetTexture("_Source" + i + MixtureUtils.texture2DPrefix, inputTextures[i]);
 
@@ -276,11 +293,11 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 			return true;
 		}
 
-		void SetComputeArgs(CommandBuffer cmd)
+		void SetComputeArgs(CommandBuffer cmd, int safeMaxSplatCount)
 		{
 			cmd.SetComputeBufferParam(computeShader, generatePointKernel, _SplatPoints, splatPointsBuffer);
 			cmd.SetComputeFloatParam(computeShader, _Time, (Application.isPlaying) ? Time.time : Time.realtimeSinceStartup);
-			cmd.SetComputeFloatParam(computeShader, _ElementCount, maxSplatCount);
+			cmd.SetComputeFloatParam(computeShader, _ElementCount, safeMaxSplatCount);
 			cmd.SetComputeIntParam(computeShader, _Sequence, (int)sequence);
 			cmd.SetComputeIntParam(computeShader, _RotationMode, (int)rotationMode);
 			cmd.SetComputeIntParam(computeShader, _ScaleMode, (int)scaleMode);
@@ -312,7 +329,7 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 					SetupColorChannels();
 					mat.SetFloat(_ZTest, (float)CompareFunction.Always);
 					break;
-				case Mode.DepthTile:
+				case Mode.HeightTile:
 					SetupDepthChannels();
 					mat.SetFloat(_SrcBlend, (float)BlendMode.One);
 					mat.SetFloat(_DstBlend, (float)BlendMode.Zero);
@@ -326,7 +343,7 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 				mat.SetFloat(_ChannelModeR, (int)OutputChannelMode.UV_X);
 				mat.SetFloat(_ChannelModeG, (int)OutputChannelMode.UV_Y);
 				mat.SetFloat(_ChannelModeB, (int)OutputChannelMode.RandomUniformColor);
-				mat.SetFloat(_ChannelModeA, (int)OutputChannelMode.InputR);
+				mat.SetFloat(_ChannelModeA, (int)inputDepth);
 			}
 
 			void SetupColorChannels()

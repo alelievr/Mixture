@@ -62,6 +62,9 @@ Shader "Hidden/Mixture/Splatter"
 	float _ChannelModeB;
 	float _ChannelModeA;
 
+	// Mode
+	float _Mode;
+
 	// We only need vertex pos and uv for splat
 	struct VertexInput
 	{
@@ -75,7 +78,7 @@ Shader "Hidden/Mixture/Splatter"
 	{
 		float2 uv : TEXCOORD0;
 		float4 vertex : SV_POSITION;
-		uint instanceID : SV_InstanceID;
+		uint id : SV_InstanceID;
 	};
 
 	struct FragmentOutput
@@ -120,7 +123,7 @@ Shader "Hidden/Mixture/Splatter"
 		rotated = rotate_vertex_position(rotated, float3(0, 0, 1), p.rotation.z);
 
 		o.vertex = float4(rotated + p.position, 1);
-		o.instanceID = p.id;
+		o.id = p.id;
 		o.uv.y = 1 - o.uv.y;
 
 		return o;
@@ -198,11 +201,22 @@ Shader "Hidden/Mixture/Splatter"
 	{
 		FragmentOutput output;
 
-		float4 value = SampleRandomTexture(i.instanceID, float3(i.uv, 0));
+		float4 value = SampleRandomTexture(i.id, float3(i.uv, 0));
+		output.color = ComputeOutputChannels(i.uv.xy, value, i.id);
 
-		output.color = ComputeOutputChannels(i.uv.xy, value, i.instanceID);
-		// TODO: fix this
-		output.depth = output.color.a;
+		if (_Mode == 1) // Depth tile mode is enabled
+		{
+			// In depth tile mode, the depth from the input tile is always stored in the alpha channel.
+			float depth = output.color.a;
+			clip(depth - 0.000000001); // We discard every height <= 0 pixels
+
+			depth = (output.color.a > 0) ? output.color.a + i.vertex.z : -1e10;
+			output.depth = output.color.a = depth;
+		}
+		else
+		{
+			output.depth = 0;
+		}
 
 		return output;
 	}
