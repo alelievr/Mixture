@@ -7,15 +7,15 @@ using System.Linq;
 namespace Mixture
 {
 	[Documentation(@"
-Generate a circle, in 3D this node generate spheres.
+Generate a Disk, in 3D this node generate a solid spheres.
 ")]
 
-	[System.Serializable, NodeMenuItem("Procedural/Circles")]
+	[System.Serializable, NodeMenuItem("Procedural/Disk")]
 	public class Circles : FixedShaderNode
 	{
-		public override string name => "Circles";
+		public override string name => "Disk";
 
-		public override string shaderName => "Hidden/Mixture/Circles";
+		public override string shaderName => "Hidden/Mixture/Disk";
 
 		public override bool displayMaterialInspector => true;
 
