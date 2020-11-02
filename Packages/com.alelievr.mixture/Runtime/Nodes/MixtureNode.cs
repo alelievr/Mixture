@@ -67,7 +67,7 @@ namespace Mixture
 			{
 				if (_sampler == null)
 				{
-					_sampler = CustomSampler.Create(name, true);
+					_sampler = CustomSampler.Create($"{name} - {GetHashCode()}" , true);
 					recorder = sampler.GetRecorder();
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 					recorder.enabled = true;
