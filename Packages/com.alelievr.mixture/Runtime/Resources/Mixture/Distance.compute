@@ -36,11 +36,24 @@ void WriteFinalOutput(uint3 uv, float4 value) { _FinalOutput[uv.xyz] = value; }
 float _Offset;
 float _Threshold;
 float _Distance;
+uint _Mode;
+uint _DistanceMode;
+uint _ThresholdMode;
 sampler s_point_repeat_sampler;
 
-bool PassThreshold(float3 color)
+bool PassThreshold(float4 color)
 {
-    return Luminance(color) > _Threshold;
+    switch (_ThresholdMode)
+    {
+        default:
+        case 0: return Luminance(color.rgb) > _Threshold;
+        case 1: return color.r > _Threshold;
+        case 2: return color.g > _Threshold;
+        case 3: return color.b > _Threshold;
+        case 4: return color.a > _Threshold;
+        case 5: return any(color.rgb > _Threshold);
+        case 6: return any(color.rgba > _Threshold);
+    }
 }
 
 [numthreads(8,8,1)]
@@ -48,7 +61,7 @@ void FillUVMap(uint3 id : SV_DispatchThreadID)
 {
     float4 input = LoadInput(id);
 
-    if (PassThreshold(input.rgb))
+    if (PassThreshold(input))
         WriteOutput(id, float4(id / _Size.x, 1));
     else
         WriteOutput(id, 0); // mark UV as invalid with w = 0
@@ -103,6 +116,20 @@ static float3 offset3D[27] =
     float3( 1,  1,  1),
 };
 
+float Distance(float3 pos)
+{
+    float3 a = abs(pos);
+    switch (_DistanceMode)
+    {
+        default: // Euclidian
+        case 0: return length(pos);
+        case 1: // Manhattan 
+            return a.x + a.y + a.z;
+        case 2: // Chebyshev 
+            return max(max(a.x, a.y), a.z);
+    }
+}
+
 [numthreads(8,8,1)]
 void JumpFlooding(uint3 id : SV_DispatchThreadID)
 {
@@ -132,7 +159,7 @@ void JumpFlooding(uint3 id : SV_DispatchThreadID)
             continue;
 
         float3 uv = id / _Size.x;
-        if (length(uv - n1.xyz) < length(uv - nearest.xyz))
+        if (Distance(uv - n1.xyz) < Distance(uv - nearest.xyz))
             nearest = n1;
     }
 
@@ -148,7 +175,7 @@ void FinalPass(uint3 id : SV_DispatchThreadID)
     float fadeFactor = 1;
     float4 uvValue = LoadOutput(id);
 
-    if (!PassThreshold(input.rgb))
+    if (!PassThreshold(input))
     {
 
         // Only assign UV when they are valid
@@ -156,7 +183,7 @@ void FinalPass(uint3 id : SV_DispatchThreadID)
             uv = uvValue.xyz;
     }
 
-    float dist = length(frac(uv - defaultUV + 0.5) - 0.5);
+    float dist = Distance(frac(uv - defaultUV + 0.5) - 0.5);
 
     if (all(uv == defaultUV))
         dist = 0;
@@ -172,8 +199,22 @@ void FinalPass(uint3 id : SV_DispatchThreadID)
     float4 finalColor = _Input.SampleLevel(s_point_repeat_sampler, uv.xyz, 0);
 #endif
 
-    // merge input alpha and dilated alpha to avoid artifacts:
-    finalColor.a *= max(fadeFactor, input.a);
-
-    WriteFinalOutput(id, finalColor);
+    switch (_Mode)
+    {
+        default:
+        case 0: // Input fade
+            // merge input alpha and dilated alpha to avoid artifacts:
+            finalColor.a *= max(fadeFactor, input.a);
+            WriteFinalOutput(id, finalColor);
+            break;
+        case 1: // Input only (no fade)
+            WriteFinalOutput(id, (dist > _Distance) ? input : finalColor);
+            break;
+        case 2: //  Mask
+            WriteFinalOutput(id, saturate(1 - (dist / max(_Distance, 0.000001))));
+            break;
+        case 3: // UV
+            WriteFinalOutput(id, float4(uv, 1));
+            break;
+    }
 }
