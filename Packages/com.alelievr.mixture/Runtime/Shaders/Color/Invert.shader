@@ -9,6 +9,7 @@
 		[MaterialToggle] _Hue("Hue", Float) = 1.0
 		[MaterialToggle] _Saturation("Saturation", Float) = 1.0
 		[MaterialToggle] _Value("Value", Float) = 1.0
+		[MaterialToggle] _Alpha("Alpha", Float) = 1.0
 	}
 	SubShader
 	{
@@ -30,6 +31,7 @@
 			float _Hue;
 			float _Saturation;
 			float _Value;
+			float _Alpha;
 
 			float4 mixture(v2f_customrendertexture i) : SV_Target
 			{
@@ -51,6 +53,9 @@
 
 					source.xyz = HSVtoRGB(source_hsv);
 				}
+
+				if (_Alpha)
+					source.a = 1.0f - source.a;
 				
 				return source;
 			}

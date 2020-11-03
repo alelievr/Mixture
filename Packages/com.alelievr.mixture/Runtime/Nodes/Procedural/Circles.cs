@@ -15,7 +15,7 @@ Generate a Disk, in 3D this node generate a solid spheres.
 	{
 		public override string name => "Disk";
 
-		public override string shaderName => "Hidden/Mixture/Disk";
+		public override string shaderName => "Hidden/Mixture/Circles";
 
 		public override bool displayMaterialInspector => true;
 
