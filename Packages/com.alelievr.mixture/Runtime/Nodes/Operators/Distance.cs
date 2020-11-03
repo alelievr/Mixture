@@ -11,21 +11,55 @@ namespace Mixture
 Execute a flood fill operation on all pixels above the specified threshold.
 
 Note that the computational cost of this node only depends on the texture resolution and not the distance parameter.
+
+Smooth is only in alpha
 ")]
 
-	[System.Serializable, NodeMenuItem("Operators/Distance"), NodeMenuItem("Operators/Flood Fill")]
+	[System.Serializable, NodeMenuItem("Operators/Distance")]
 	public class Distance : ComputeShaderNode
 	{
+		public enum Mode
+		{
+			InputBlend,
+			InputOnly,
+			Mask,
+			UV,
+		}
+
+		public enum DistanceMode
+		{
+			Euclidian,
+			Manhattan,
+			Chebyshev,
+			// Minkovsky,
+		}
+
+		public enum ThresholdMode
+		{
+			Luminance,
+			R, G, B, A,
+			RGB,
+			RGBA,
+		}
+
 		[Input]
 		public Texture input;
 
 		[Output]
 		public CustomRenderTexture output;
 
-		public float threshold = 0.5f;
+		public Mode mode;
+
+		public float threshold = 0.1f;
+
+		[ShowInInspector]
+		public ThresholdMode thresholdMode;
+
 		public float distance = 50;
 
-		public override string name => "Distance / Flood Fill";
+		public DistanceMode distanceMode;
+
+		public override string name => "Distance";
 
 		protected override string computeShaderResourcePath => "Mixture/Distance";
 

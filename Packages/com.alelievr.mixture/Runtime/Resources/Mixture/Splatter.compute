@@ -172,6 +172,7 @@ void GenerateSplatPoints(uint id : SV_DispatchThreadID)
     // Add jitter + offset to initial position:
     _SplatPoints[id].position += JitterPosition(id);
     _SplatPoints[id].position += _PositionOffset;
+    _SplatPoints[id].position.z = clamp(_SplatPoints[id].position.z, -MAX_DEPTH_VALUE, MAX_DEPTH_VALUE);
 
     switch (_RotationMode)
     {

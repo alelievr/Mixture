@@ -211,7 +211,11 @@ Shader "Hidden/Mixture/Splatter"
 			clip(depth - 0.000000001); // We discard every height <= 0 pixels
 
 			depth = (output.color.a > 0) ? output.color.a + i.vertex.z : -1e10;
-			output.depth = output.color.a = depth;
+			output.color.a = depth;
+
+			// Remap the depth between 0 and 1 to have keep valid z-testing
+			output.depth = (output.color.a + MAX_DEPTH_VALUE) / (2 * MAX_DEPTH_VALUE);
+			// output.depth = output.color.a;
 		}
 		else
 		{

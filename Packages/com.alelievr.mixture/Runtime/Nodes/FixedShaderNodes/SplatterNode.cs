@@ -19,6 +19,7 @@ When you generate the tiles, you can also choose to output the UVs of the tiles 
 For combining height based tiles, please use the **Height Tile** mode, this special mode will automatically combine the tiles based on their depth with a Z-Buffer.
 All input height maps must use data > 0, every height value <= 0 will be discarded.
 In **Height Tile** mode, this node will output in RG the UVs of the tiles, in B a random value between 0 and 1 and in A the height of the tile.
+Note that to keep the depth buffer precision correct, the current max depth of a tile (value in texture + position in  the z axis) is clamped between -10000 and +10000.
 ")]
 	[System.Serializable, NodeMenuItem("Textures/Splatter"), NodeMenuItem("Textures/Scatter")]
 	public class SplatterNode : ComputeShaderNode
