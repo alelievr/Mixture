@@ -12,4 +12,5 @@ Port Name | Description
 Out | 
 
 ## Description
+Perform a substraction between a and b vectors.
 

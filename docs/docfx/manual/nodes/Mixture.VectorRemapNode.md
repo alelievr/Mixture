@@ -11,4 +11,5 @@ Port Name | Description
 Out | 
 
 ## Description
+Perform a remap between intput min/max and output min/max values.
 

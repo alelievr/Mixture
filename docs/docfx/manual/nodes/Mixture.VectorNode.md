@@ -11,4 +11,5 @@ X |
 Vector | 
 
 ## Description
+Constant vector value.
 

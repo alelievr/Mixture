@@ -12,4 +12,5 @@ Port Name | Description
 output | 
 
 ## Description
+Rotate the normal map vector with a certain angle in degree.
 

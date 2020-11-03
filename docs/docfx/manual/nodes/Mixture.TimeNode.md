@@ -11,4 +11,7 @@ Sin Time |
 Time | 
 
 ## Description
+Output multiple time related values.
+
+This node can be used in a realtime graph for time based effects.
 

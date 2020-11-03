@@ -11,4 +11,5 @@ Port Name | Description
 Mesh | 
 
 ## Description
+Transform a 3D texture into a volume using an iso surface algorithm (Marching cubes currently).
 

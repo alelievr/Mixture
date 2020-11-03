@@ -14,4 +14,5 @@ Port Name | Description
 output | 
 
 ## Description
+Make the input texture tile by wrapping and blending the borders of the texture.
 

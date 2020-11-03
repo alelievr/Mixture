@@ -12,4 +12,5 @@ Port Name | Description
 Out | 
 
 ## Description
+Perform a multiplication between a and b vectors.
 

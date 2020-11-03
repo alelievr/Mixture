@@ -13,4 +13,5 @@ Port Name | Description
 Result | 
 
 ## Description
+Conditionally outputs either the true of false value depending on the condition value.
 

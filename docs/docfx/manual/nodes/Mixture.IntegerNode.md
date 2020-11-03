@@ -7,4 +7,5 @@ Port Name | Description
 Integer | 
 
 ## Description
+An integer constant.
 

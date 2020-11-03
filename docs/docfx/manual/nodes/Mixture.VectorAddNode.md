@@ -12,4 +12,5 @@ Port Name | Description
 Out | 
 
 ## Description
+Perform an addition with input vectors a and b.
 

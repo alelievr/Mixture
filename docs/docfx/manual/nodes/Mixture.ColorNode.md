@@ -7,4 +7,5 @@ Port Name | Description
 Color | 
 
 ## Description
+Color constant value.
 

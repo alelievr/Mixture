@@ -11,4 +11,5 @@ Port Name | Description
 Out | 
 
 ## Description
+Perform a lerp between min and max vectors.
 

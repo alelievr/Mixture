@@ -12,4 +12,5 @@ Port Name | Description
 output | 
 
 ## Description
+Sharpen the input image using a very simple 3x3 sharpening kernel.
 

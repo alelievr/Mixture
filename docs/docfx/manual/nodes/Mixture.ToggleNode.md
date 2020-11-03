@@ -7,4 +7,5 @@ Port Name | Description
 Output | 
 
 ## Description
+Boolean constant.
 

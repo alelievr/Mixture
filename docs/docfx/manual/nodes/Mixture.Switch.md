@@ -12,4 +12,5 @@ Port Name | Description
 Output | 
 
 ## Description
+Conditionally select the input using the index and output it.
 

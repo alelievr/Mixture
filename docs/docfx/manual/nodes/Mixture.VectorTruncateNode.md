@@ -11,4 +11,5 @@ Port Name | Description
 Out | 
 
 ## Description
+Extract the integer part of the vector.
 

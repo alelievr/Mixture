@@ -15,4 +15,5 @@ Port Name | Description
 output | 
 
 ## Description
+Generates a line pattern. In 3D this node generate cylinders using a signed distance field function.
 

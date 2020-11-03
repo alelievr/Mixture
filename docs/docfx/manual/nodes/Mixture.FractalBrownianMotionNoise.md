@@ -14,4 +14,5 @@ Port Name | Description
 output | 
 
 ## Description
+Generate a noise using multiple octaves of perlin noise, combined using the Fractal Brownian motion algorithm.
 

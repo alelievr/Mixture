@@ -13,4 +13,6 @@ Port Name | Description
 output | 
 
 ## Description
+Blend two normal maps using the surface gradient functions.
 
+Please note that this node only support Texture2D dimension(s).

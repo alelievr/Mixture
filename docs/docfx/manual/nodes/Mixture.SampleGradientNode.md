@@ -11,4 +11,5 @@ Port Name | Description
 Color | 
 
 ## Description
+Sample a gradient using a float value between 0 and 1.
 

@@ -12,4 +12,5 @@ Port Name | Description
 output | 
 
 ## Description
+Sample a texture. Note that you can use a custom UV texture as well.
 

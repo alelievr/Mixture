@@ -11,4 +11,5 @@ Port Name | Description
 Out | 
 
 ## Description
+Perform a clamp between min and max of the input vector.
 

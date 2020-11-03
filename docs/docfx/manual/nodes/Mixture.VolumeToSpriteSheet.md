@@ -1,9 +1,9 @@
-# Shader
-![Mixture.ShaderNode](../../images/Mixture.ShaderNode.png)
+# Volume To Sprite Sheet
+![Mixture.VolumeToSpriteSheet](../../images/Mixture.VolumeToSpriteSheet.png)
 ## Inputs
 Port Name | Description
 --- | ---
-Color | 
+Volume | 
 
 ## Output
 Port Name | Description

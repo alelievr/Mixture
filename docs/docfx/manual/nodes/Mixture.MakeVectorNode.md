@@ -14,4 +14,5 @@ Port Name | Description
 Vector | 
 
 ## Description
+Combine up to 4 float values into a Vector4.
 

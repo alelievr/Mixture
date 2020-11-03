@@ -11,4 +11,5 @@ Port Name | Description
 Out | 
 
 ## Description
+Extract the fractional part of the input vector.
 

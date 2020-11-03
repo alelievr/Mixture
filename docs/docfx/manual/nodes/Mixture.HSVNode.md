@@ -7,7 +7,7 @@ Input |
 Hue | 
 Saturation | 
 Value | 
-Max Value | 
+Max Value | For HDR images, you need to specify the maximum value of your image
 
 ## Output
 Port Name | Description
@@ -15,4 +15,5 @@ Port Name | Description
 output | 
 
 ## Description
+Modify the image in the HSV color space.
 

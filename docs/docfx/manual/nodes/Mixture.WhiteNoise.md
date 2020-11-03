@@ -11,4 +11,5 @@ Port Name | Description
 output | 
 
 ## Description
+Generate white noise.
 

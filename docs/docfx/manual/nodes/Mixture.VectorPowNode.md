@@ -11,4 +11,5 @@ Port Name | Description
 Out | 
 
 ## Description
+Perform a power between a and power vectors.
 

@@ -11,4 +11,5 @@ Port Name | Description
 Out | 
 
 ## Description
+Perform an angle lerp between min and max.
 

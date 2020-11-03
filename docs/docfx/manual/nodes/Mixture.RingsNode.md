@@ -15,4 +15,5 @@ Port Name | Description
 output | 
 
 ## Description
+Generates a ring pattern. In 3D this node generate toruses.
 

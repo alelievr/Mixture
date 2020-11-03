@@ -13,4 +13,5 @@ Port Name | Description
 Random | 
 
 ## Description
+Output a random float between the min and max values.
 

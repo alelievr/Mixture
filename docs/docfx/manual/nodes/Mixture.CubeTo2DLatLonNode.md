@@ -11,4 +11,5 @@ Port Name | Description
 output | 
 
 ## Description
+Transform a cubemap into a 2D texture using the LatLong convertion function.
 

@@ -11,4 +11,5 @@ Port Name | Description
 Out | 
 
 ## Description
+Perform an inverse lerp operation between min and max of the input vector.
 

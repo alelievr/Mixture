@@ -14,4 +14,5 @@ Port Name | Description
 output | 
 
 ## Description
+Generate a rectangle pattern. In 3D this node generates cuboid shapes.
 

@@ -11,4 +11,5 @@ Port Name | Description
 Out | 
 
 ## Description
+Perform an absolute value operation to the input vector.
 

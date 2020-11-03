@@ -16,4 +16,5 @@ Port Name | Description
 output | 
 
 ## Description
+Generate a checkerboard patter, in 3D this node generates a cubic checkerboard pattern.
 

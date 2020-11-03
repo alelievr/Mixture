@@ -13,4 +13,5 @@ Port Name | Description
 output | 
 
 ## Description
+Apply a Scale and Bias on the input texture color.
 

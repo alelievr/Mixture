@@ -7,4 +7,5 @@ Port Name | Description
 Color | 
 
 ## Description
+Output a random color based on the HSV parameters.
 
