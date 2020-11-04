@@ -406,7 +406,11 @@ namespace Mixture
 		}
 #endif
 
-		public void OnSettingsChanged() => onSettingsChanged?.Invoke();
+		public void OnSettingsChanged()
+		{
+			onSettingsChanged?.Invoke();
+			graph.NotifyNodeChanged(this);
+		}
 
 		Dictionary<Material, Material>		defaultMaterials = new Dictionary<Material, Material>();
 
