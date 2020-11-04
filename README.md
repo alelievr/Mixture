@@ -38,3 +38,9 @@ In case you have any questions about a feature you want to develop of something 
 
 You can open a Mixture graph just by double clicking any texture field in the inspector with a Mixture assigned to it.
 ![](docs/docfx/images/MixtureOpen.gif)
+
+[Surface Gradient](https://blogs.unity3d.com/2019/11/20/normal-map-compositing-using-the-surface-gradient-framework-in-shader-graph/) powered normal map operations.
+![](docs/docfx/images/NormalBlend.gif)
+
+Extract buffers (depth, normal, color or position) from the rendering of a prefab and use it directly in the graph (HDRP Only).
+![](docs/docfx/images/SceneCapture.gif)
