@@ -4,7 +4,7 @@ using GraphProcessor;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Custom/Volume To Sprite Sheet")]
+	[System.Serializable, NodeMenuItem("Utils/Volume To Sprite Sheet")]
 	public class VolumeToSpriteSheet : FixedShaderNode
 	{
 		public override string name => "Volume To Sprite Sheet";

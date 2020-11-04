@@ -9,7 +9,7 @@ namespace Mixture
 The cross section node allow you to generate 2D texture by taking either a slice of a texture 2D or 3D.
 Right now this node is limited to slices on the Y axis. 
 ")]
-	[System.Serializable, NodeMenuItem("Custom/Cross Section")]
+	[System.Serializable, NodeMenuItem("Utils/Cross Section")]
 	public class CrossSection : FixedShaderNode
 	{
 		public override string name => "Cross Section";

@@ -8,7 +8,7 @@ Distort the input texture using a height map.
 Internally this node converts the height map into a normal map and use it to distort the UVs to sample the input texture.
 ")]
 
-	[System.Serializable, NodeMenuItem("Custom/Warp")]
+	[System.Serializable, NodeMenuItem("Operators/Warp")]
 	public class Warp : FixedShaderNode
 	{
 		public override string name => "Warp";
