@@ -130,6 +130,12 @@ namespace Mixture
 					}).ExecuteLater(1);
 					currentDim = newDim;
 				}
+				else
+				{
+					schedule.Execute(() =>{ 
+						owner.ProcessGraph();
+					}).ExecuteLater(1);
+				}
 			});
 
 			return sv;
