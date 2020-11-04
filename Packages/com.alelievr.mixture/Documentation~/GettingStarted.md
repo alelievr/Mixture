@@ -33,6 +33,8 @@ When you select the nodes in your graph, they will appear inside the inspector, 
 
 You can find more information about this in the [Node Inspector Documentation](NodeInspector.md).
 
+Notice that I'm using the **free dark theme** here, because Mixture have been developed mainly with the dark theme in mind, the white theme is not correctly supported. This is why it's recommended to use the now free dark theme with Mixture.
+
 ## Baked / Static Mixture 
 
 Static mixtures are assets that are saved on the disk just like regular texture and can be compressed (only for texture 2D).
