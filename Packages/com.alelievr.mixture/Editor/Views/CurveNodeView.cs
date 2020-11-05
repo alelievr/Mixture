@@ -17,7 +17,7 @@ namespace Mixture
 			base.Enable(fromInspector);
 			curveNode = nodeTarget as CurveNode;
 
-			styleSheets.Add(Resources.Load<StyleSheet>("MixtureCurveColors"));
+			controlsContainer.styleSheets.Add(Resources.Load<StyleSheet>("MixtureCurveColors"));
 
 			var modeField = new EnumField("Mode", curveNode.mode);
 
