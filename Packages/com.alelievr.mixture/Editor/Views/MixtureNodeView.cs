@@ -34,7 +34,26 @@ namespace Mixture
 		{
 			settingsView = new MixtureRTSettingsView(nodeTarget, owner);
             settingsView.AddToClassList("RTSettingsView");
-            settingsView.RegisterChangedCallback(nodeTarget.OnSettingsChanged);
+
+			var currentDim = nodeTarget.rtSettings.dimension;
+            settingsView.RegisterChangedCallback(() => {
+				nodeTarget.OnSettingsChanged();
+
+				// When the dimension is updated, we need to update all the node ports in the graph
+				var newDim = nodeTarget.rtSettings.dimension;
+				if (currentDim != newDim)
+				{
+					// We delay the port refresh to let the settings finish it's update 
+					schedule.Execute(() =>{ 
+						{
+							// Refresh ports on all the nodes in the graph
+							nodeTarget.UpdateAllPortsLocal();
+							RefreshPorts();
+						}
+					}).ExecuteLater(1);
+					currentDim = newDim;
+				}
+			});
 
             return settingsView;
 		}
