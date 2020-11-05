@@ -207,15 +207,14 @@ Shader "Hidden/Mixture/Splatter"
 		if (_Mode == 1) // Depth tile mode is enabled
 		{
 			// In depth tile mode, the depth from the input tile is always stored in the alpha channel.
-			float depth = output.color.a;
+			float depth = output.color.b;
 			clip(depth - 0.000000001); // We discard every height <= 0 pixels
 
-			depth = (output.color.a > 0) ? output.color.a + i.vertex.z : -1e10;
-			output.color.a = depth;
+			depth = (depth > 0) ? depth + i.vertex.z : -1e10;
+			output.color.b = depth;
 
 			// Remap the depth between 0 and 1 to have keep valid z-testing
-			output.depth = (output.color.a + MAX_DEPTH_VALUE) / (2 * MAX_DEPTH_VALUE);
-			// output.depth = output.color.a;
+			output.depth = (output.color.b + MAX_DEPTH_VALUE) / (2 * MAX_DEPTH_VALUE);
 		}
 		else
 		{

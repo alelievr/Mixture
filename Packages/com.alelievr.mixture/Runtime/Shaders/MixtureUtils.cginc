@@ -194,7 +194,7 @@ float3 ScaleBias(float3 uv, float3 scale, float3 bias)
 #endif
 }
 
-float4 ScaleBias(float4 uv, float4 scale, float4 bias) { return float4(ScaleBias(uv.xyz, scale.xyz, bias.xyz), 1); }
+float4 ScaleBias(float4 uv, float4 scale, float4 bias) { return float4(ScaleBias(uv.xyz, scale.xyz, bias.xyz), uv.a); }
 float2 ScaleBias(float2 uv, float2 scale, float2 bias) { return ScaleBias(float3(uv.xy, 0), float3(scale.xy, 0), float3(bias.xy, 0)).xy; }
 
 float Swizzle(float4 sourceValue, uint mode, float custom)

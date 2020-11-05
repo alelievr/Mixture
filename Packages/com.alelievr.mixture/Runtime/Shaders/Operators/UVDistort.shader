@@ -38,15 +38,15 @@
 			float4 mixture (v2f_customrendertexture IN) : SV_Target
 			{
 #ifdef USE_CUSTOM_UV
-				float3 uv = SAMPLE_X_NEAREST_CLAMP(_UV, IN.localTexcoord.xyz, IN.direction).rgb;
+				float4 uv = SAMPLE_X_NEAREST_CLAMP(_UV, IN.localTexcoord.xyz, IN.direction);
 #else
-				float3 uv = GetDefaultUVs(IN);
+				float4 uv = float4(GetDefaultUVs(IN), 1);
 #endif
 
 				// Scale and Bias does not works on cubemap
-				uv += ScaleBias(SAMPLE_X(_Texture, IN.localTexcoord.xyz, IN.direction).rgb, _Scale.xyz, _Bias.xyz);
+				uv.rgb += ScaleBias(SAMPLE_X(_Texture, IN.localTexcoord.xyz, IN.direction).rgb, _Scale.xyz, _Bias.xyz);
 
-				return float4(uv.xyz, 1);
+				return uv; 
 
 			}
 			ENDCG

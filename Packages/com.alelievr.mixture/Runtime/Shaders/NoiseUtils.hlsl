@@ -181,7 +181,7 @@ float3 RandomOffset3(int seed)
     return v;
 }
 
-float3 GetNoiseUVs(v2f_customrendertexture i, float3 customUvs, inout int seed)
+float3 GetNoiseUVs(v2f_customrendertexture i, float4 customUvs, inout int seed)
 {
 #if defined(USE_CUSTOM_UV) && defined(CRT_2D)
     // For 2D custom UVs, we apply another offset based on UV.a.
@@ -192,7 +192,7 @@ float3 GetNoiseUVs(v2f_customrendertexture i, float3 customUvs, inout int seed)
     float3 offset = RandomOffset3(seed);
 
 #ifdef USE_CUSTOM_UV
-    return customUvs + offset;
+    return customUvs.xyz + offset;
 #else
     return GetDefaultUVs(i) + offset;
 #endif
