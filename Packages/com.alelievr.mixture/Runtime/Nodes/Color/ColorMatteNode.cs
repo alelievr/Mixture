@@ -18,5 +18,7 @@ Generate a texture from an HDR color.
 		public override string shaderName => "Hidden/Mixture/ColorMatte";
 
 		public override bool displayMaterialInspector => true;
+
+        public override bool hasPreview => false;
 	}
 }

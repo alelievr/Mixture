@@ -7,7 +7,7 @@
 		[InlineTexture(HideInNodeInspector)] _UV_Cube("UVs", Cube) = "uv" {}
 
 		[MixtureVector2]_OutputRange("Output Range", Vector) = (-1, 1, 0, 0)
-		_Lacunarity("Lacunarity", Float) = 2
+		[ShowInInspector]_Lacunarity("Lacunarity", Float) = 2
 		_Frequency("Frequency", Float) = 5
 		_Persistance("Persistance", Float) = 0.5
 		[IntRange]_Octaves("Octaves", Range(1, 12)) = 5

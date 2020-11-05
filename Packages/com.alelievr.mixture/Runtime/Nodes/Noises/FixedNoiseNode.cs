@@ -15,7 +15,7 @@ namespace Mixture
 		public override PreviewChannels defaultPreviewChannels => PreviewChannels.RGB; // Hide alpha channel for noise preview
 
 		// Enumerate the list of material properties that you don't want to be turned into a connectable port.
-		protected override IEnumerable<string> filteredOutProperties => new string[]{ "_Seed", "_OutputRange", "_TilingMode", "_CellSize", "_Octaves"};
+		protected override IEnumerable<string> filteredOutProperties => new string[]{ "_OutputRange", "_TilingMode", "_CellSize", "_Octaves", "_Channels"};
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{

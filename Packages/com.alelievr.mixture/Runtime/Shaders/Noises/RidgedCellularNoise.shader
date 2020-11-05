@@ -10,12 +10,12 @@
 		[ShowInInspector][Enum(Euclidean, 0, Manhattan, 1, Minkowski, 2)] _DistanceMode("Distance Mode", Float) = 0
 		[ShowInInspector][Enum(Gradient, 0, Cells, 1, Valleys, 2)] _CellsMode("Cells Mode", Float) = 0
 		[ShowInInspector][MixtureVector2]_OutputRange("Output Range", Vector) = (-1, 1, 0, 0)
-		_Lacunarity("Lacunarity", Float) = 1.5
+		[ShowInInspector]_Lacunarity("Lacunarity", Float) = 1.5
 		_Frequency("Frequency", Float) = 4
 		_Persistance("Persistance", Float) = 0.9
 		[IntRange]_Octaves("Octaves", Range(1, 12)) = 5
 		[Tooltip(Act as a multiplier for the distance function)][ShowInInspector]_CellSize("Cell Size", Float) = 1
-		[ShowInInspector]_Seed("Seed", Int) = 42
+		_Seed("Seed", Int) = 42
 		[Tooltip(Select how many noise to genereate and on which channel. The more different channel you use the more expensive it is (max 4 noise evaluation).)]
 		[ShowInInspector][Enum(RRRR, 0, R, 1, RG, 2, RGB, 3, RGBA, 4)]_Channels("Channels", Int) = 0
 	}
