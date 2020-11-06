@@ -238,7 +238,7 @@ Shader "Hidden/Mixture/Splatter"
 			Cull Off
 			ZTest [_ZTest] 
 			ZClip Off
-			Blend [_SrcBlend] [_DstBlend]
+			Blend [_SrcBlend] [_DstBlend], One [_DstBlend] 
 			BlendOp [_BlendOp]
 
 			CGPROGRAM
