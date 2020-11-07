@@ -1,47 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using GraphProcessor;
-using System.Linq;
+using System;
 
 namespace Mixture
 {
 	[NodeCustomEditor(typeof(FixedShaderNode))]
 	public class FixedShaderNodeView : MixtureNodeView
 	{
-		VisualElement	    shaderCreationUI;
-		MaterialEditor	    materialEditor;
 		FixedShaderNode		fixedShaderNode => nodeTarget as FixedShaderNode;
-		int					materialCRC;
+		int					materialHash = -1;
 
 		ObjectField			debugCustomRenderTextureField;
 		ObjectField			debugShaderField;
+		ObjectField			debugMaterialField;
 
-        protected override bool hasPreview { get { return fixedShaderNode.hasPreview; } }
-
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
-			
-			if (fixedShaderNode.material != null && !owner.graph.IsObjectInGraph(fixedShaderNode.material))
-				owner.graph.AddObjectToGraph(fixedShaderNode.material);
+			base.Enable(fromInspector);
 
-			InitializeDebug();
+			if (!fromInspector)
+			{
+				if (fixedShaderNode.material != null && !owner.graph.IsObjectInGraph(fixedShaderNode.material))
+				{
+					if (owner.graph.IsExternalSubAsset(fixedShaderNode.material))
+					{
+						fixedShaderNode.material = new Material(fixedShaderNode.material);
+						fixedShaderNode.material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+					}
+					if (fixedShaderNode.material.shader.name != ShaderNode.DefaultShaderName)
+						owner.graph.AddObjectToGraph(fixedShaderNode.material);
+				}
+
+				InitializeDebug();
+
+				onPortDisconnected += ResetMaterialPropertyToDefault;
+			}
 
 			if (fixedShaderNode.displayMaterialInspector)
 			{
-				var materialIMGUI = new IMGUIContainer(MaterialGUI);
+				Action<bool> safeMaterialGUI = (bool init) => {
+					// Copy fromInspector to avoid having the same value (lambda capture fromInspector pointer)
+					bool f = fromInspector;
+					if (!init)
+						MaterialGUI(f);
+				};
+				safeMaterialGUI(true);
+				var materialIMGUI = new IMGUIContainer(() => safeMaterialGUI(false));
+
 				materialIMGUI.AddToClassList("MaterialInspector");
 
 				controlsContainer.Add(materialIMGUI);
-				materialEditor = Editor.CreateEditor(fixedShaderNode.material) as MaterialEditor;
 			}
-
-			onPortDisconnected += ResetMaterialPropertyToDefault;
 		}
 
 		~FixedShaderNodeView() => onPortDisconnected -= ResetMaterialPropertyToDefault;
@@ -63,22 +74,29 @@ namespace Mixture
 				value = fixedShaderNode.shader,
 				objectType = typeof(Shader)
 			};
-			
+
 			debugContainer.Add(debugCustomRenderTextureField);
 			debugContainer.Add(debugShaderField);
 		}
 
-		void MaterialGUI()
+		void MaterialGUI(bool fromInspector)
 		{
-			if (materialCRC != fixedShaderNode.material.ComputeCRC())
-			{
+			if (fixedShaderNode.material == null)
+				return;
+
+			if (materialHash != -1 && materialHash != GetMaterialHash(fixedShaderNode.material))
 				NotifyNodeChanged();
-				materialCRC = fixedShaderNode.material.ComputeCRC();
-			}
+			materialHash = GetMaterialHash(fixedShaderNode.material);
 
 			// Update the GUI when shader is modified
-			if (MaterialPropertiesGUI(fixedShaderNode.material))
-				ForceUpdatePorts();
+			if (MaterialPropertiesGUI(fixedShaderNode.material, fromInspector))
+			{
+				// ForceUpdatePorts might affect the VisualElement hierarchy, thus it can't be called from an ImGUI context
+				schedule.Execute(() => {
+					fixedShaderNode.ValidateShader();
+					ForceUpdatePorts();
+				}).ExecuteLater(1);
+			}
 		}
 
 		void ResetMaterialPropertyToDefault(PortView pv)

@@ -1,0 +1,13 @@
+﻿#pragma kernel ClearRaw
+
+RWByteAddressBuffer         _Raw;
+int                         _ClearLimit;
+int                         _Offset;
+
+[numthreads(32, 32, 1)]
+void ClearRaw(uint2 id : SV_DispatchThreadID)
+{
+    int index = id.x + _Offset + id.y * 32;
+    if (index <= _ClearLimit)
+        _Raw.Store(index, 0);
+}

@@ -15,9 +15,9 @@ namespace Mixture
 	{
         SampleGradientNode sampleGradientNode;
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 			sampleGradientNode = nodeTarget as SampleGradientNode;
 
 			var gradientField = new GradientField() {

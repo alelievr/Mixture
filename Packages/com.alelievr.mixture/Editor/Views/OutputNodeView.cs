@@ -5,27 +5,20 @@ using UnityEditor.UIElements;
 using GraphProcessor;
 using UnityEngine.Rendering;
 using UnityEditor.Experimental.GraphView;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Mixture
 {
 	[NodeCustomEditor(typeof(OutputNode))]
 	public class OutputNodeView : MixtureNodeView
 	{
-		VisualElement	shaderCreationUI;
-		VisualElement	materialEditorUI;
-		MaterialEditor	materialEditor;
 		protected OutputNode	outputNode;
 		protected MixtureGraph	graph;
 
-		// Debug fields
-		ObjectField		debugCustomRenderTextureField;
+		protected Dictionary<string, OutputTextureView> inputPortElements = new Dictionary<string, OutputTextureView>();
 
-		protected override bool hasPreview => true;
-
-		// For now we only support custom mip maps for texture 2D
-		bool supportsCustomMipMap => outputNode.hasMips && (TextureDimension)outputNode.rtSettings.dimension == TextureDimension.Tex2D;
-
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
 			capabilities &= ~Capabilities.Deletable;
             outputNode = nodeTarget as OutputNode;
@@ -33,24 +26,116 @@ namespace Mixture
 
             BuildOutputNodeSettings();
 
-            base.Enable();
+            base.Enable(fromInspector);
 
-			outputNode.onTempRenderTextureUpdated += UpdatePreviewImage;
-			graph.onOutputTextureUpdated += UpdatePreviewImage;
+			if (!fromInspector)
+			{
+				// We don't need the code for removing the material because this node can't be removed
+				foreach (var output in outputNode.outputTextureSettings)
+				{
+					if (output.finalCopyMaterial != null && !owner.graph.IsObjectInGraph(output.finalCopyMaterial))
+					{
+						// Check if the material we have is ours
+						if (owner.graph.IsExternalSubAsset(output.finalCopyMaterial))
+                        {
+                            output.finalCopyMaterial = new Material(output.finalCopyMaterial);
+                            output.finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+                        }
 
-			// Clear the input when disconnecting it:
-			onPortDisconnected += _ => outputNode.input = null;
+						owner.graph.AddObjectToGraph(output.finalCopyMaterial);
+					}
+				}
 
-			InitializeDebug();
+				outputNode.onTempRenderTextureUpdated += () => {
+					RefreshOutputPortSettings();
+					UpdatePreviewImage();
+				};
+				graph.onOutputTextureUpdated += UpdatePreviewImage;
+
+				// Clear the input when disconnecting it:
+				onPortDisconnected += port => {
+					var outputSlot = outputNode.outputTextureSettings.Find(o => o.name == port.portData.identifier);
+					if (outputSlot != null)
+						outputSlot.inputTexture = null;
+				};
+
+				InitializeDebug();
+			}
+		}
+
+		void RefreshOutputPortSettings()
+		{
+            foreach (var view in inputPortElements.Values)
+                view.RefreshSettings();
+		}
+
+		void UpdatePortView()
+		{
+			foreach (var output in outputNode.outputTextureSettings)
+			{
+				var portView = GetPortViewFromFieldName(nameof(outputNode.outputTextureSettings), output.name);
+
+				if (portView == null)
+					continue;
+
+				if (!inputPortElements.ContainsKey(output.name))
+				{
+					inputPortElements[output.name] = new OutputTextureView(owner, this, output);
+					inputContainer.Add(inputPortElements[output.name]);
+				}
+				inputPortElements[output.name].MovePort(portView);
+			}
+
+			// Remove unused output texture views
+			foreach (var name in inputPortElements.Keys.ToList())
+			{
+				if (!outputNode.outputTextureSettings.Any(o => o.name == name))
+				{
+					inputPortElements[name].RemoveFromHierarchy();
+					inputPortElements.Remove(name);
+				}
+			}
+		}
+
+		public override bool RefreshPorts()
+		{
+			bool result = base.RefreshPorts();
+			UpdatePortView();
+			return result;
 		}
 
 		protected override VisualElement CreateSettingsView()
 		{
 			var sv = base.CreateSettingsView();
 
+			OutputDimension currentDim = nodeTarget.rtSettings.dimension;
 			settingsView.RegisterChangedCallback(() => {
 				// Reflect the changes on the graph output texture but not on the asset to avoid stalls.
-				graph.UpdateOutputTexture(false);
+				graph.UpdateOutputTextures();
+				RefreshOutputPortSettings();
+
+				// When the dimension is updated, we need to update all the node ports in the graph
+				var newDim = nodeTarget.rtSettings.dimension;
+				if (currentDim != newDim)
+				{
+					// We delay the port refresh to let the settings finish it's update 
+					schedule.Execute(() =>{ 
+						owner.ProcessGraph();
+						// Refresh ports on all the nodes in the graph
+						foreach (var nodeView in owner.nodeViews)
+						{
+							nodeView.nodeTarget.UpdateAllPortsLocal();
+							nodeView.RefreshPorts();
+						}
+					}).ExecuteLater(1);
+					currentDim = newDim;
+				}
+				else
+				{
+					schedule.Execute(() =>{ 
+						owner.ProcessGraph();
+					}).ExecuteLater(1);
+				}
 			});
 
 			return sv;
@@ -58,49 +143,32 @@ namespace Mixture
 
         protected virtual void BuildOutputNodeSettings()
         {
-			if (graph.outputTexture.dimension == TextureDimension.Tex2D)
-				AddCompressionSettings();
+			controlsContainer.Add(new Button(() => {
+				var addOutputMenu =  new GenericMenu();
+				addOutputMenu.AddItem(new GUIContent("Color"), false, () => AddOutputPreset(OutputTextureSettings.Preset.Color));
+				addOutputMenu.AddItem(new GUIContent("Normal"), false, () => AddOutputPreset(OutputTextureSettings.Preset.Normal));
+				addOutputMenu.AddItem(new GUIContent("Height"), false, () => AddOutputPreset(OutputTextureSettings.Preset.Height));
+				addOutputMenu.AddItem(new GUIContent("Mask (HDRP)"), false, () => AddOutputPreset(OutputTextureSettings.Preset.MaskHDRP));
+				addOutputMenu.AddItem(new GUIContent("Detail (HDRP)"), false, () => AddOutputPreset(OutputTextureSettings.Preset.DetailHDRP));
+				addOutputMenu.AddItem(new GUIContent("Raw (not compressed)"), false, () => AddOutputPreset(OutputTextureSettings.Preset.Raw));
+				// addOutputMenu.AddItem(new GUIContent("Detail (URP)"), false, () => AddOutputPreset(OutputTextureSettings.Preset.DetailURP));
+				addOutputMenu.ShowAsContext();
+
+				void AddOutputPreset(OutputTextureSettings.Preset preset)
+				{
+					outputNode.AddTextureOutput(preset);
+					ForceUpdatePorts();
+				}
+			}){ text = "Add Output"});
 
             if (!graph.isRealtime)
             {
-				AddCustomMipMapSettings();
-
-                controlsContainer.Add(new Button(SaveMasterTexture)
+                controlsContainer.Add(new Button(() => graph.SaveAllTextures())
                 {
-                    text = "Save"
+                    text = "Save All"
                 });
             }
         }
-
-		void AddCustomMipMapSettings()
-		{
-			var customMipMapBlock = Resources.Load<VisualTreeAsset>("UI Blocks/CustomMipMap").CloneTree();
-
-			var button = customMipMapBlock.Q("NewMipMapShader") as Button;
-			button.clicked += MixtureAssetCallbacks.CreateCustomMipMapShaderGraph;
-			// TODO: assign the created shader when finished
-
-			var shaderField = customMipMapBlock.Q("ShaderField") as ObjectField;
-			shaderField.objectType = typeof(Shader);
-			shaderField.value = outputNode.customMipMapShader;
-			button.style.display = outputNode.customMipMapShader != null ? DisplayStyle.None : DisplayStyle.Flex;
-			shaderField.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Changed Custom Mip Map Shader");
-				outputNode.customMipMapShader = e.newValue as Shader;
-				button.style.display = e.newValue != null ? DisplayStyle.None : DisplayStyle.Flex;;
-			});
-
-			var mipMapToggle = new Toggle("Has Mip Maps") { value = outputNode.hasMips};
-			customMipMapBlock.style.display = supportsCustomMipMap ? DisplayStyle.Flex : DisplayStyle.None;
-			mipMapToggle.RegisterValueChangedCallback(e => {
-				outputNode.hasMips = e.newValue;
-				customMipMapBlock.style.display = supportsCustomMipMap ? DisplayStyle.Flex : DisplayStyle.None;
-				graph.UpdateOutputTexture(false);
-			});
-
-			controlsContainer.Add(mipMapToggle);
-			controlsContainer.Add(customMipMapBlock);
-		}
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
@@ -108,64 +176,31 @@ namespace Mixture
 			
 			string mode = graph.isRealtime ? "Static" : "Realtime";
 			evt.menu.AppendSeparator();
-			evt.menu.AppendAction($"Convert Mixture to {mode}", _ => MixtureEditorUtils.ToggleMode(graph), DropdownMenuAction.AlwaysEnabled);
+			evt.menu.AppendAction($"Convert Mixture to {mode}", _ => MixtureEditorUtils.ToggleMixtureGraphMode(graph), DropdownMenuAction.AlwaysEnabled);
 		}
 
 		void InitializeDebug()
 		{
-			outputNode.onProcessed += () => {
-				debugCustomRenderTextureField.value = outputNode.tempRenderTexture;
-			};
+			var crtList = new VisualElement();
 
-			debugCustomRenderTextureField = new ObjectField("Output")
+			outputNode.onProcessed += UpdateCRTList;
+
+			void UpdateCRTList()
 			{
-				value = outputNode.tempRenderTexture
-			};
-			
-			debugContainer.Add(debugCustomRenderTextureField);
-		}
+				if (crtList.childCount == outputNode.outputTextureSettings.Count)
+					return;
 
-		void AddCompressionSettings()
-		{
-			var formatField = new EnumField("Format", outputNode.compressionFormat);
-			formatField.RegisterValueChangedCallback((e) => {
-				owner.RegisterCompleteObjectUndo("Changed Compression Format");
-				outputNode.compressionFormat = (MixtureCompressionFormat)e.newValue;
-				graph.UpdateOutputTexture(false);
-			});
-			var qualityField = new EnumField("Quality", outputNode.compressionQuality);
-			qualityField.RegisterValueChangedCallback((e) => {
-				owner.RegisterCompleteObjectUndo("Changed Compression Quality");
-				outputNode.compressionQuality = (MixtureCompressionQuality)e.newValue;
-				graph.UpdateOutputTexture(false);
-			});
+				crtList.Clear();
 
-			if (!outputNode.enableCompression)
-			{
-				qualityField.ToggleInClassList("Hidden");
-				formatField.ToggleInClassList("Hidden");
+				foreach (var output in outputNode.outputTextureSettings)
+				{
+					crtList.Add(new ObjectField(output.name) { objectType = typeof(CustomRenderTexture), value = output.finalCopyRT });
+				}
 			}
-			
-			var enabledField = new Toggle("Compression") { value = outputNode.enableCompression };
-			enabledField.RegisterValueChangedCallback((e) => {
-				owner.RegisterCompleteObjectUndo("Toggled Compression");
-				qualityField.ToggleInClassList("Hidden");
-				formatField.ToggleInClassList("Hidden");
-				outputNode.enableCompression = e.newValue;
-				graph.UpdateOutputTexture(false);
-			});
 
-			controlsContainer.Add(enabledField);
-			controlsContainer.Add(formatField);
-			controlsContainer.Add(qualityField);
+			debugContainer.Add(crtList);
 		}
 
-		void UpdatePreviewImage() => CreateTexturePreview(previewContainer, outputNode, outputNode.currentSlice);
-
-        protected void SaveMasterTexture()
-        {
-            graph.SaveMainTexture();
-        }
-
+		void UpdatePreviewImage() => CreateTexturePreview(previewContainer, outputNode);
 	}
 }

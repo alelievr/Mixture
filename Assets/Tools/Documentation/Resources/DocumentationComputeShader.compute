@@ -1,0 +1,50 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+#pragma kernel Preview
+
+RWTexture2D<float4> _Output;
+RWTexture2D<float4> _Preview;
+
+static float2 position = float2(-0.354, -0.5868);
+static float scale = 0.06;
+
+// This will be used for the preview Texture in the node
+float4 _PreviewResolution; // xy is the pixel resolution and zw is 1 / xy
+
+[numthreads(8,8,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    float2 uv = id.xy / _PreviewResolution * 2 - 1;
+    float2 c = uv * scale - position;
+
+    int i;
+    float2 z = c;
+    int iter = 200;
+    float trap = 1e20;
+    for(i=0; i<iter; i++)
+    {
+        // z = z * z + c;
+        float2 t = float2(z.x * z.x - z.y * z.y, z.y * z.x + z.x * z.y) + c;
+
+        if((t.x * t.x + t.y * t.y) > 4.0)
+            break;
+
+        trap = min(trap, abs(-dot(z, t)));
+        trap = min(trap, abs(-dot(z - t, z - t)));
+        z = t;
+    }
+
+    // float3 color = saturate(1 - abs(3 * abs(trap) * 10 - float4(0, 1, 2, 3))).rgb;
+    trap = 1 - trap;
+    float3 color = lerp(1, 0, trap);
+
+    _Output[id.xy] = float4(color, 1);
+    _Preview[id.xy] = _Output[id.xy];
+}
+
+[numthreads(8, 8, 1)]
+void Preview(uint3 id : SV_DispatchThreadID)
+{
+    // You can insert custom preview code here
+    // _Preview[id.xy] = _Output[id.xy];
+}

@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Vector Ping Pong")]
-	public class VectorPingPongNode : MixtureNode, ICPUNode
+	[Documentation(@"
+Perform a ping pong operation between 0 and length.
+")]
+
+	[System.Serializable, NodeMenuItem("Math/Vector Ping Pong")]
+	public class VectorPingPongNode : MixtureNode
 	{
 		public override bool hasSettings => false;
+		public override bool showDefaultInspector => true;
 
-		[Input("T")]
+		[Input("T"), ShowAsDrawer]
 		public Vector4	t;
 		
 		[Output("Out")]
@@ -20,9 +26,8 @@ namespace Mixture
 		public Vector4	length = Vector4.one;
 
 		public override string name => "Ping Pong";
-		public override bool showDefaultInspector => true;
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			o = new Vector4(
 				Mathf.PingPong(t.x, length.x),

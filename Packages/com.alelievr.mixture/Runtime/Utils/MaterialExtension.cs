@@ -12,5 +12,11 @@ namespace Mixture
             else
                 material.DisableKeyword(keyword);
         }
+
+        public static bool HasTextureBound(this Material material, string baseName, TextureDimension dimension)
+        {
+            var texture = material.GetTexture(baseName + MixtureUtils.shaderPropertiesDimensionSuffix[dimension]);
+            return texture != null;
+        }
     }
 }

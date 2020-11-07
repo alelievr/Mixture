@@ -2,11 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.Rendering;
-using UnityEngine.Experimental.Rendering;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 using GraphProcessor;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Mixture
 {
@@ -22,35 +21,49 @@ namespace Mixture
 		Dictionary< Material, MaterialEditor >      materialEditors = new Dictionary<Material, MaterialEditor>();
 
 		protected virtual string header => string.Empty;
-
-		protected virtual bool hasPreview => true;
 		protected override bool hasSettings => nodeTarget.hasSettings;
 
 		protected MixtureRTSettingsView settingsView;
+	
+		Label processTimeLabel;
+		Image pinIcon;
 		
+		const string stylesheetName = "MixtureCommon";
+
 		protected override VisualElement CreateSettingsView()
 		{
 			settingsView = new MixtureRTSettingsView(nodeTarget, owner);
             settingsView.AddToClassList("RTSettingsView");
-            settingsView.RegisterChangedCallback(nodeTarget.OnSettingsChanged);
+
+			var currentDim = nodeTarget.rtSettings.dimension;
+            settingsView.RegisterChangedCallback(() => {
+				nodeTarget.OnSettingsChanged();
+
+				// When the dimension is updated, we need to update all the node ports in the graph
+				var newDim = nodeTarget.rtSettings.dimension;
+				if (currentDim != newDim)
+				{
+					// We delay the port refresh to let the settings finish it's update 
+					schedule.Execute(() =>{ 
+						{
+							// Refresh ports on all the nodes in the graph
+							nodeTarget.UpdateAllPortsLocal();
+							RefreshPorts();
+						}
+					}).ExecuteLater(1);
+					currentDim = newDim;
+				}
+			});
 
             return settingsView;
 		}
 
-		const string stylesheetName = "MixtureCommon";
-
-        public override void Enable()
+        public override void Enable(bool fromInspector)
 		{
 			var stylesheet = Resources.Load<StyleSheet>(stylesheetName);
 			if(!styleSheets.Contains(stylesheet))
 				styleSheets.Add(stylesheet);
 
-			// When we change the output dimension, we want to update the output ports
-			// TODO: there is probably a race condition here between the port that changes type
-			// and the MixtureGraphView callback that run the processor
-			owner.graph.onOutputTextureUpdated += UpdatePorts;
-			nodeTarget.onSettingsChanged += UpdatePorts;
-			nodeTarget.onSettingsChanged += () => owner.processor.Run();
 			nodeTarget.onProcessed += UpdateTexturePreview;
 
 			// Fix the size of the node
@@ -65,27 +78,39 @@ namespace Mixture
 				controlsContainer.Add(title);
 			}
 
-			if (nodeTarget.showDefaultInspector)
+			// No preview in the inspector, we display it in the preview
+			if (!fromInspector)
 			{
-				DrawDefaultInspector();
+				pinIcon = new Image{ image = MixtureEditorUtils.pinIcon, scaleMode = ScaleMode.ScaleToFit };
+				var pinButton = new Button(() => {
+					if (nodeTarget.isPinned)
+						UnpinView();
+					else
+						PinView();
+				});
+				pinButton.Add(pinIcon);
+				if (nodeTarget.isPinned)
+					PinView();
+
+				pinButton.AddToClassList("PinButton");
+				rightTitleContainer.Add(pinButton);
+
+				previewContainer = new VisualElement();
+				previewContainer.AddToClassList("Preview");
+				controlsContainer.Add(previewContainer);
+				UpdateTexturePreview();
 			}
 
-			RegisterCallback< MouseDownEvent >(e => {
-				if (owner.GetPinnedElementStatus< PinnedViewBoard >() == DropdownMenuAction.Status.Normal)
-				{
-					if (e.clickCount == 2)
-						PinView();
-				}
-			});
+			InitProcessingTimeLabel();
 
-			previewContainer = new VisualElement();
-			controlsContainer.Add(previewContainer);
-			UpdateTexturePreview();
+			if (nodeTarget.showDefaultInspector)
+				DrawDefaultInspector(fromInspector);
         }
 
 		~MixtureNodeView()
 		{
 			MixturePropertyDrawer.UnregisterGraph(owner.graph);
+			owner.mixtureNodeInspector.RemovePinnedView(this);
 		}
 
 		void UpdatePorts()
@@ -96,10 +121,10 @@ namespace Mixture
 
 		void UpdateTexturePreview()
 		{
-			if (hasPreview)
+			if (nodeTarget.hasPreview)
 			{
-                if (previewContainer.childCount == 0 || CheckDimensionChanged())
-                    CreateTexturePreview(previewContainer, nodeTarget); // TODO : Add Slice Preview
+                if (previewContainer != null && previewContainer.childCount == 0 || CheckDimensionChanged())
+                    CreateTexturePreview(previewContainer, nodeTarget);
             }
 		}
 
@@ -156,11 +181,11 @@ namespace Mixture
 		}
 
 		// Custom property draw, we don't want things that are connected to an edge or useless like the render queue
-		protected bool MaterialPropertiesGUI(Material material, bool autoLabelWidth = true)
+		protected bool MaterialPropertiesGUI(Material material, bool fromInspector, bool autoLabelWidth = true)
 		{
 			if (material == null || material.shader == null)
 				return false;
-				
+
 			if (autoLabelWidth)
 			{
 				EditorGUIUtility.wideMode = false;
@@ -184,61 +209,139 @@ namespace Mixture
 				if ((property.flags & (MaterialProperty.PropFlags.HideInInspector | MaterialProperty.PropFlags.PerRendererData)) != 0)
 					continue;
 
+				int idx = material.shader.FindPropertyIndex(property.name);
+				if (!fromInspector && material.shader.GetPropertyAttributes(idx).Contains("ShowInInspector"))
+					continue;
+
 				// Retrieve the port view from the property name
 				var portView = portViews?.FirstOrDefault(p => p.portData.identifier == property.name);
 				if (portView != null && portView.connected)
 					continue;
 
-				float h = editor.GetPropertyHeight(property, property.displayName);
-				Rect r = EditorGUILayout.GetControlRect(true, h);
+				string displayName = property.displayName;
+				// We don't display textures specific to certain dimensions if the node isn't in this dimension.
+				if (property.type == MaterialProperty.PropType.Texture)
+				{
+					bool is2D = property.name.EndsWith(MixtureUtils.texture2DPrefix);
+					bool is3D = property.name.EndsWith(MixtureUtils.texture3DPrefix);
+					bool isCube = property.name.EndsWith(MixtureUtils.textureCubePrefix);
 
+					if (is2D || is3D || isCube)
+					{
+						var currentDimension = nodeTarget.rtSettings.GetTextureDimension(owner.graph);
+						if (currentDimension == TextureDimension.Tex2D && !is2D)
+							continue;
+						if (currentDimension == TextureDimension.Tex3D && !is3D)
+							continue;
+						if (currentDimension == TextureDimension.Cube && !isCube)
+							continue;
+						displayName = Regex.Replace(displayName, @"_2D|_3D|_Cube", "", RegexOptions.IgnoreCase);
+					}
+				}
+
+				// In ShaderGraph we can put [Inspector] in the name of the property to show it only in the inspector and not in the node
+				if (property.displayName.ToLower().Contains("[inspector]"))
+				{
+					if (fromInspector)
+						displayName = Regex.Replace(property.displayName, @"\[inspector\]\s*", "", RegexOptions.IgnoreCase);
+					else
+						continue;
+				}
+
+				float h = editor.GetPropertyHeight(property, displayName);
+
+				// We always display textures on a single line without scale or offset because they are not supported
+				if (property.type == MaterialProperty.PropType.Texture)
+					h = EditorGUIUtility.singleLineHeight;
+
+				Rect r = EditorGUILayout.GetControlRect(true, h);
 				if (property.name.Contains("Vector2"))
-					property.vectorValue = (Vector4)EditorGUI.Vector2Field(r, property.displayName, (Vector2)property.vectorValue);
+					property.vectorValue = (Vector4)EditorGUI.Vector2Field(r, displayName, (Vector2)property.vectorValue);
 				else if (property.name.Contains("Vector3"))
-					property.vectorValue = (Vector4)EditorGUI.Vector3Field(r, property.displayName, (Vector3)property.vectorValue);
+					property.vectorValue = (Vector4)EditorGUI.Vector3Field(r, displayName, (Vector3)property.vectorValue);
+				else if (property.type == MaterialProperty.PropType.Range)
+				{
+					if (material.shader.GetPropertyAttributes(idx).Any(a => a.Contains("IntRange")))
+						property.floatValue = EditorGUI.IntSlider(r, displayName, (int)property.floatValue, (int)property.rangeLimits.x, (int)property.rangeLimits.y);
+					else
+						property.floatValue = EditorGUI.Slider(r, displayName, property.floatValue, property.rangeLimits.x, property.rangeLimits.y);
+				}
+				else if (property.type == MaterialProperty.PropType.Texture)
+					property.textureValue = (Texture)EditorGUI.ObjectField(r, displayName, property.textureValue, typeof(Texture), false);
 				else
-					editor.ShaderProperty(r, property, property.displayName);
+					editor.ShaderProperty(r, property, displayName);
 			}
 
 			return propertiesChanged;
 		}
 
-		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+		// Custom property draw, we don't want things that are connected to an edge or useless like the render queue
+		protected int GetMaterialHash(Material material)
 		{
-			evt.menu.AppendAction("Pin View", (a) => {
-				if (a.status == DropdownMenuAction.Status.Checked)
-					UnpinView();
-				else
-					PinView();
-			}, PinStatus);
+			int hash = 0;
 
-			base.BuildContextualMenu(evt);
+			if (material == null || material.shader == null)
+				return hash;
+				
+			MaterialProperty[] properties = MaterialEditor.GetMaterialProperties(new []{material});
+			var portViews = GetPortViewsFromFieldName(nameof(ShaderNode.materialInputs));
+
+			foreach (var property in properties)
+			{
+				if ((property.flags & (MaterialProperty.PropFlags.HideInInspector | MaterialProperty.PropFlags.PerRendererData)) != 0)
+					continue;
+
+				// Retrieve the port view from the property name
+				var portView = portViews?.FirstOrDefault(p => p.portData.identifier == property.name);
+				if (portView != null && portView.connected)
+					continue;
+
+				switch (property.type)
+				{
+					case MaterialProperty.PropType.Float:
+						hash += property.floatValue.GetHashCode();
+						break;
+					case MaterialProperty.PropType.Color:
+						hash += property.colorValue.GetHashCode();
+						break;
+					case MaterialProperty.PropType.Range:
+						hash += property.rangeLimits.GetHashCode();
+						hash += property.floatValue.GetHashCode();
+						break;
+					case MaterialProperty.PropType.Vector:
+						hash += property.vectorValue.GetHashCode();
+						break;
+					case MaterialProperty.PropType.Texture:
+						hash += property.textureValue?.GetHashCode() ?? 0;
+						hash += property.textureScaleAndOffset.GetHashCode();
+						hash += property.textureDimension.GetHashCode();
+						break;
+				}
+			}
+
+			return hash;
 		}
 
 		internal void PinView()
 		{
-			if (!PinnedViewBoard.instance.HasView(controlsContainer))
-				PinnedViewBoard.instance.Add(this, controlsContainer, nodeTarget.name);
+			nodeTarget.isPinned = true;
+			pinIcon.tintColor = new Color32(245, 127, 23, 255);
+			pinIcon.image = MixtureEditorUtils.unpinIcon;
+			schedule.Execute(() => {
+				owner.mixtureNodeInspector.AddPinnedView(this);
+			}).ExecuteLater(1);
 		}
 
 		internal void UnpinView()
 		{
-			PinnedViewBoard.instance.Remove(controlsContainer);
-			mainContainer.Add(controlsContainer);
+			owner.mixtureNodeInspector.RemovePinnedView(this);
+			nodeTarget.isPinned = false;
+			pinIcon.tintColor = Color.white;
+			pinIcon.image = MixtureEditorUtils.pinIcon;
+			pinIcon.transform.rotation = Quaternion.identity;
 		}
 
-		DropdownMenuAction.Status PinStatus(DropdownMenuAction action)
-		{
-			if (owner.GetPinnedElementStatus< PinnedViewBoard >() != DropdownMenuAction.Status.Normal)
-				return DropdownMenuAction.Status.Disabled;
-			
-			if (PinnedViewBoard.instance.HasView(controlsContainer))
-				return DropdownMenuAction.Status.Checked;
-			else
-				return DropdownMenuAction.Status.Normal;
-		}
-
-		protected void CreateTexturePreview(VisualElement previewContainer, MixtureNode node, int currentSlice = 0)
+		protected void CreateTexturePreview(VisualElement previewContainer, MixtureNode node)
 		{
 			previewContainer.Clear();
 
@@ -248,7 +351,7 @@ namespace Mixture
 			VisualElement texturePreview = new VisualElement();
 			previewContainer.Add(texturePreview);
 
-			CreateTexturePreviewImGUI(texturePreview, node, currentSlice);
+			CreateTexturePreviewImGUI(texturePreview, node);
 
             previewContainer.name = node.previewTexture.dimension.ToString();
 
@@ -287,16 +390,6 @@ namespace Mixture
 			float height = Mathf.Min(nodeTarget.nodeWidth, texture.height * scaleFactor);
 			return GUILayoutUtility.GetRect(1, width, 1, height);
 		}
-
-        static Vector4 GetChannelsMask(PreviewChannels channels)
-        {
-            return new Vector4(
-                (channels & PreviewChannels.R) == 0 ? 0 : 1,
-                (channels & PreviewChannels.G) == 0 ? 0 : 1,
-                (channels & PreviewChannels.B) == 0 ? 0 : 1,
-                (channels & PreviewChannels.A) == 0 ? 0 : 1
-                );
-        }
 
 		void DrawPreviewCommonSettings(Texture texture)
 		{
@@ -346,6 +439,10 @@ namespace Mixture
 			infoRect.height = 20;
 			previewRect.yMax -= 4;
 
+			// Check if the mouse is in the graph view rect:
+			if (!(EditorWindow.mouseOverWindow is MixtureGraphWindow mixtureWindow && mixtureWindow.GetCurrentGraph() == owner.graph))
+				return;
+
 			// On Hover : Transparent Bar for Preview with information
 			if (previewRect.Contains(Event.current.mousePosition) && !infoRect.Contains(Event.current.mousePosition))
 			{
@@ -355,71 +452,83 @@ namespace Mixture
 
 				// Shadow
 				GUI.color = Color.white;
-				GUI.Label(infoRect, $"{texture.width}x{texture.height} - {nodeTarget.rtSettings.targetFormat.ToString()}", EditorStyles.boldLabel);
+				int slices = (texture.dimension == TextureDimension.Cube) ? 6 : TextureUtils.GetSliceCount(texture);
+				GUI.Label(infoRect, $"{texture.width}x{texture.height}{(slices > 1 ? "x" + slices.ToString() : "")} - {nodeTarget.rtSettings.GetGraphicsFormat(owner.graph)}", EditorStyles.boldLabel);
 			}
 		}
 
-		void CreateTexturePreviewImGUI(VisualElement previewContainer, MixtureNode node, int currentSlice)
+		void CreateTexturePreviewImGUI(VisualElement previewContainer, MixtureNode node)
 		{
-			// Add slider for texture 3D
-			if (node.previewTexture.dimension == TextureDimension.Tex3D)
+			if (node.showPreviewExposure)
 			{
-				var previewSliceIndex = new SliderInt(0, TextureUtils.GetSliceCount(node.previewTexture) - 1)
+				var previewExposure = new Slider(0, 10)
 				{
-					label = "Slice",
-					value = currentSlice,
+					label = "Preview EV100",
+					value = node.previewEV100,
 				};
-				previewSliceIndex.RegisterValueChangedCallback((ChangeEvent< int > a) => {
-					currentSlice = a.newValue;
+				previewExposure.RegisterValueChangedCallback(e => {
+					node.previewEV100 = e.newValue;
 				});
-				previewContainer.Add(previewSliceIndex);
+				previewContainer.Add(previewExposure);
 			}
 
 			var previewImageSlice = new IMGUIContainer(() => {
 				if (node.previewTexture == null)
 					return;
+				
+				if (node.previewTexture.dimension == TextureDimension.Tex3D)
+				{
+					EditorGUI.BeginChangeCheck();
+					EditorGUIUtility.labelWidth = 70;
+					node.previewSlice = EditorGUILayout.Slider("3D Slice", node.previewSlice, 0, TextureUtils.GetSliceCount(node.previewTexture) - 1);
+					EditorGUIUtility.labelWidth = 0;
+					if (EditorGUI.EndChangeCheck())
+						MarkDirtyRepaint();
+				}
 
 				DrawPreviewCommonSettings(node.previewTexture);
 
 				Rect previewRect = GetPreviewRect(node.previewTexture);
-				DrawImGUIPreview(node, previewRect, currentSlice);
+				DrawImGUIPreview(node, previewRect, node.previewSlice);
 
 				DrawTextureInfoHover(previewRect, node.previewTexture);
             });
 
-			// Force the ImGUI preview to refresh
-			EditorApplication.update -= previewImageSlice.MarkDirtyRepaint;
-			EditorApplication.update += previewImageSlice.MarkDirtyRepaint;
-
 			previewContainer.Add(previewImageSlice);
 		}
 
-		protected virtual void DrawImGUIPreview(MixtureNode node, Rect previewRect, int currentSlice)
+		protected virtual void DrawImGUIPreview(MixtureNode node, Rect previewRect, float currentSlice)
 		{
 			switch (node.previewTexture.dimension)
 			{
 				case TextureDimension.Tex2D:
 					MixtureUtils.texture2DPreviewMaterial.SetTexture("_MainTex", node.previewTexture);
 					MixtureUtils.texture2DPreviewMaterial.SetVector("_Size", new Vector4(node.previewTexture.width,node.previewTexture.height, 1, 1));
-					MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
+					MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(nodeTarget.previewMode));
 					MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
+					MixtureUtils.texture2DPreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
+					MixtureUtils.SetupIsSRGB(MixtureUtils.texture2DPreviewMaterial, nodeTarget, owner.graph);
 
 					if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, node.previewTexture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
 					break;
 				case TextureDimension.Tex3D:
 					MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", node.previewTexture);
-					MixtureUtils.texture3DPreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
+					MixtureUtils.texture3DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(nodeTarget.previewMode));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
-					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", ((float)currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
+					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", (currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
+					MixtureUtils.texture3DPreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
+					MixtureUtils.SetupIsSRGB(MixtureUtils.texture3DPreviewMaterial, nodeTarget, owner.graph);
 
 					if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0, ColorWriteMask.Red);
 					break;
 				case TextureDimension.Cube:
 					MixtureUtils.textureCubePreviewMaterial.SetTexture("_Cubemap", node.previewTexture);
-					MixtureUtils.textureCubePreviewMaterial.SetVector("_Channels", GetChannelsMask(nodeTarget.previewMode));
+					MixtureUtils.textureCubePreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(nodeTarget.previewMode));
 					MixtureUtils.textureCubePreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
+					MixtureUtils.textureCubePreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
+					MixtureUtils.SetupIsSRGB(MixtureUtils.textureCubePreviewMaterial, nodeTarget, owner.graph);
 
 					if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
@@ -428,6 +537,31 @@ namespace Mixture
 					Debug.LogError(node.previewTexture + " is not a supported type for preview");
 					break;
 			}
+		}
+
+		void InitProcessingTimeLabel()
+		{
+			if (processTimeLabel != null)
+				return;
+
+			processTimeLabel = new Label();
+			processTimeLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
+
+			Add(processTimeLabel);
+
+
+			schedule.Execute(() => {
+				// Update processing time every 200 millis
+
+				float time = nodeTarget.processingTimeInMillis;
+				if (time > 0.1f)
+				{
+					processTimeLabel.text = time.ToString("F2") + " ms";
+					// Color range based on the time:
+					float weight = time / 30; // We consider 30 ms as slow
+					processTimeLabel.style.color = new Color(2.0f * weight, 2.0f * (1 - weight), 0);
+				}
+			}).Every(200);
 		}
 	}
 }

@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+    [Documentation(@"
+Make the input texture tile by wrapping and blending the borders of the texture.
+")]
+
 	[System.Serializable, NodeMenuItem("Matte/Tile & Wrap")]
 	public class TileWrapNode : FixedShaderNode
 	{
@@ -16,9 +20,9 @@ namespace Mixture
 
 		public override bool displayMaterialInspector => true;
 
-        protected override bool ProcessNode()
+        protected override bool ProcessNode(CommandBuffer cmd)
         {
-            if (!base.ProcessNode())
+            if (!base.ProcessNode(cmd))
                 return false;
 
             CustomRenderTextureUpdateZone[] updateZones;

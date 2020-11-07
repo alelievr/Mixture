@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -7,7 +8,6 @@ namespace Mixture
 	{
 		public abstract string  shaderName { get; }
 		public abstract bool    displayMaterialInspector { get; }
-        public virtual bool hasPreview => true;
 		public override Texture previewTexture => output;
 
 		protected override MixtureRTSettings defaultRTSettings
@@ -20,28 +20,39 @@ namespace Mixture
 			}
 		}
 
-		protected override void Enable()
+		public override void InitializePorts()
 		{
 			if (shader == null)
 				FindShader();
 
-			base.Enable();
-        }
+			if (material == null)
+			{
+				material = new Material(shader);
+				material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+			}
 
-		void FindShader() => shader = Shader.Find(shaderName);
+			base.InitializePorts();
+		}
 
-		protected override bool ProcessNode()
+		void FindShader()
 		{
-			if (!base.ProcessNode())
-				return false;
+			shader = Shader.Find(shaderName);
+			if (material != null && material.shader != shader)
+				material.shader = shader;
+		}
 
-			if (shader == null)
-				FindShader();
+		public override bool canProcess
+		{
+			get
+			{
+				if (shader == null)
+				{
+					FindShader();
+					material.shader = shader;
+				}
 			
-			if (shader == null)
-				return false;
-			
-			return true;
+				return base.canProcess;
+			}
 		}
 	}
 }

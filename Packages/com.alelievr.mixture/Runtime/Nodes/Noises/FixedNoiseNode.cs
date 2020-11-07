@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -14,24 +15,16 @@ namespace Mixture
 		public override PreviewChannels defaultPreviewChannels => PreviewChannels.RGB; // Hide alpha channel for noise preview
 
 		// Enumerate the list of material properties that you don't want to be turned into a connectable port.
-		protected override IEnumerable<string> filteredOutProperties => new string[]{ "_Seed", "_OutputRange", "_TilingMode", "_CellSize", "_Octaves"};
+		protected override IEnumerable<string> filteredOutProperties => new string[]{ "_OutputRange", "_TilingMode", "_CellSize", "_Octaves", "_Channels"};
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			if (!base.ProcessNode())
+			if (!base.ProcessNode(cmd))
 				return false;
 
-			// Check if the UVs are connected or not:
-			var port = inputPorts.Find(p => p.portData.identifier.Contains("_UV_"));
-			if (port == null)
-				return false;
-
-			bool customUVs = port.GetEdges().Count != 0;
-
-			if (customUVs)
-				material.EnableKeyword("USE_CUSTOM_UV");
-			else
-				material.DisableKeyword("USE_CUSTOM_UV");
+			// Check if we need to use custom UVs or not 
+            bool useCustomUV = material.HasTextureBound("_UV", rtSettings.GetTextureDimension(graph));
+			material.SetKeywordEnabled("USE_CUSTOM_UV", useCustomUV);
 
 			if (material.IsKeywordEnabled("_TILINGMODE_TILED"))
 			{

@@ -1,0 +1,215 @@
+﻿#pragma kernel GenerateSplatPoints
+
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/Splatter.hlsl"
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/NoiseUtils.hlsl"
+
+RWStructuredBuffer<SplatPoint> _SplatPoints;
+int _Sequence;
+int _RotationMode;
+int _ScaleMode;
+
+// Stack
+float3 _StackPosition;
+
+// Grid
+float2 _GridSize;
+float2 _GridCram;
+float2 _GridShift;
+
+// R2
+float _Lambda;
+
+// Fibonacci Spiral
+float _FibonacciRotation;
+float _Radius;
+float _GoldenRatio;
+
+// Rotation
+float3 _FixedAngles;
+float3 _MinAngles;
+float3 _MaxAngles;
+
+// Scale
+float3 _FixedScale;
+float3 _MinScale;
+float3 _MaxScale;
+
+// Other
+float _Time;
+float _ElementCount;
+float3 _PositionJitter;
+float3 _PositionOffset;
+
+void Stack(uint id, uint position1D)
+{
+    _SplatPoints[id].position = _StackPosition;
+}
+
+void Grid(uint id, uint position1D)
+{
+    float2 g = _GridSize;
+    _GridSize *= rcp(1 - _GridCram);
+    float3 p;
+    float x = position1D % floor(_GridSize.x);
+    float y = position1D / floor(_GridSize.y);
+    float r = floor(_GridSize.x) / floor(_GridSize.y);
+
+    p = float3(x, y - x / floor(_GridSize.y), 0);
+    p /= float3(_GridSize.x / 2, _GridSize.y / 2 * r, 1);
+    p.xy += rcp(_GridSize.xy) - 1;
+    p.xy += p.yx * _GridShift.xy;
+
+    _SplatPoints[id].position = frac(p / 2) * 2; // Keep the final position in frame bounds
+    _SplatPoints[id].scale = float3(rcp(g.x), rcp(g.y), 1);
+
+}
+
+// constants 
+static float phi = 1.324717957244746;
+static float pi = 3.14159265359;
+static float delta0 = 0.76;
+static float i0 = 0.700;
+static float2 alpha = float2(1.0/phi, 1.0/phi/phi);
+
+// Floor division modulo
+float2 fmod(float2 x)
+{
+ 	return x - floor(x);   
+}
+
+// See IQ's "Integer Hash - III" shader: https://www.shadertoy.com/view/4tXyWN 
+float hash( float2 x )
+{
+    float2 q = 1103515245U * ( (uint2(x)>>1U) ^ (uint2(x.yx)   ) );
+    uint  n = 1103515245U * ( (uint(q.x)  ) ^ (uint(q.y)>>3U) );
+    return float(n) * (1.0/float(0xffffffffU));
+}
+
+// Source: https://www.shadertoy.com/view/MtVBRw
+void R2(uint id, uint position1D)
+{
+    position1D++;
+
+    float2 u = float2(hash(float2(position1D, 0)), hash(float2(position1D, 1)))-0.5;
+	float2 pos = fmod(alpha * float(position1D) + _Lambda * delta0 * sqrt(pi) / (4.0 * sqrt(float(position1D) - i0)) * u);
+
+    _SplatPoints[id].position = float3(pos * 2 - 1, 0);
+}
+
+void FibonacciSpiral(uint id, uint position1D)
+{
+    float goldenRatio = max(0.0000001, _GoldenRatio);
+    float maxRadius = sqrt(goldenRatio * _ElementCount);
+    float theta = goldenRatio * position1D;
+    float radius = sqrt(theta) * _Radius;
+    float x = cos(theta + _FibonacciRotation) * radius;
+    float y = sin(theta + _FibonacciRotation) * radius;
+
+    _SplatPoints[id].position = float3(x, y, 0) / maxRadius;
+}
+
+float3 WhiteNoise3(uint id)
+{
+    return float3(
+        WhiteNoise(id * 53),
+        WhiteNoise(id * 96 + 420),
+        WhiteNoise(id * 265 + 820)
+    );
+}
+
+float3 JitterPosition(uint id)
+{
+    float3 r = WhiteNoise3(id) * 2 - 1;
+    return r * _PositionJitter * _SplatPoints[id].scale * 0.1;
+}
+
+void RandomBetweenRotation(uint id)
+{
+    _SplatPoints[id].rotation = lerp(_MinAngles, _MaxAngles, WhiteNoise3(id));
+}
+
+void TowardsCenterRotation(uint id)
+{
+    
+}
+
+void RandomBetweenScale(uint id)
+{
+    _SplatPoints[id].scale *= lerp(_MinScale, _MaxScale, WhiteNoise3(id));
+}
+
+[numthreads(64,1,1)]
+void GenerateSplatPoints(uint id : SV_DispatchThreadID)
+{
+    if (id > uint(_ElementCount))
+        return;
+
+    uint position1D = id;
+
+    // Real id due to tiling
+    id *= 9;
+
+    // Reset accumulated values:
+    if (_Sequence != -1)
+        _SplatPoints[id].scale = 1;
+
+    switch (_Sequence)
+    {
+        case 0: // Grid
+            Grid(id, position1D);
+            break;
+        case 1: // Stack
+            Stack(id, position1D);
+            break;
+        case 2: // R2
+            R2(id, position1D);
+            break;
+        case 3: // FibonacciSpiral
+            FibonacciSpiral(id, position1D);
+            break;
+    }
+
+    // Add jitter + offset to initial position:
+    _SplatPoints[id].position += JitterPosition(id);
+    _SplatPoints[id].position += _PositionOffset;
+    _SplatPoints[id].position.z = clamp(_SplatPoints[id].position.z, -MAX_DEPTH_VALUE, MAX_DEPTH_VALUE);
+
+    switch (_RotationMode)
+    {
+        case 0: // Fix
+            _SplatPoints[id].rotation = _FixedAngles;
+            break;
+        case 1: // Random
+            RandomBetweenRotation(id);
+            break;
+        case 2: // Towards Center
+            TowardsCenterRotation(id);
+            break;
+    }
+
+    switch (_ScaleMode)
+    {
+        case 0: // Fix
+            _SplatPoints[id].scale *= _FixedScale;
+            break;
+        case 1: // Random
+            RandomBetweenScale(id);
+            break;
+    }
+
+    static float3 tiledPositions[8] = {
+        float3(-2, 2, 0), float3(0, 2, 0), float3(2, 2, 0),
+        float3(-2, 0, 0),                  float3(2, 0, 0),
+        float3(-2,-2, 0), float3(0,-2, 0), float3(2,-2, 0),
+    };
+
+    // Add the remaining 8 splats for tiling:
+    SplatPoint tiledSplat = _SplatPoints[id];
+    _SplatPoints[id].id = tiledSplat.id = id;
+
+    for (int i = 0; i < 8; i++)
+    {
+        _SplatPoints[id + i + 1] = tiledSplat;
+        _SplatPoints[id + i + 1].position += tiledPositions[i];
+    }
+}

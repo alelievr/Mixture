@@ -17,10 +17,14 @@ namespace Mixture
 		public static readonly string	Extension = "asset";
 		public static readonly string	customTextureShaderTemplate = "Templates/CustomTextureShaderTemplate";
 
-		public static readonly string	mixtureShaderNodeCSharpTemplate = "Templates/FixedShaderNodeTemplate";
-		public static readonly string	mixtureShaderNodeCGTemplate = "Templates/FixedShaderTemplate";
-		public static readonly string	mixtureShaderNodeDefaultName = "MixtureShaderNode.cs";
-		public static readonly string	mixtureShaderName = "MixtureShader.shader";
+		public static readonly string	shaderNodeCSharpTemplate = "Templates/FixedShaderNodeTemplate";
+		public static readonly string	shaderNodeCGTemplate = "Templates/FixedShaderTemplate";
+		public static readonly string	shaderNodeDefaultName = "MixtureShaderNode.cs";
+		public static readonly string	shaderName = "MixtureShader.shader";
+		public static readonly string	csharpComputeShaderNodeTemplate = "Templates/CsharpComputeShaderNodeTemplate";
+		public static readonly string	computeShaderTemplate = "Templates/ComputeShaderTemplate";
+		public static readonly string	computeShaderDefaultName = "MixtureCompute.compute";
+		public static readonly string	computeShaderNodeDefaultName = "MixtureCompute.cs";
 
 		public static readonly string	customMipMapShader = "MixtureShader.shader";
 
@@ -50,7 +54,7 @@ namespace Mixture
                 $"New Custom Texture Graph.{ShaderGraphImporter.Extension}", Resources.Load<Texture2D>("sg_graph_icon@64"), null);
 		}
 
-		[MenuItem("Assets/Create/Mixture/Custom Mip Map", false, 203)]
+		[MenuItem("Assets/Create/Mixture/Custom Mip Map", false, 403)]
 		public static void CreateCustomMipMapShaderGraph()
 		{
 			var graphItem = ScriptableObject.CreateInstance< MipMapShaderGraphAction >();
@@ -62,15 +66,15 @@ namespace Mixture
 		[MenuItem("Assets/Create/Mixture/C# Fixed Shader Node", false, 200)]
 		public static void CreateCSharpFixedShaderNode()
 		{
-			var template = Resources.Load< TextAsset >(mixtureShaderNodeCSharpTemplate);
-			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), mixtureShaderNodeDefaultName);
+			var template = Resources.Load< TextAsset >(shaderNodeCSharpTemplate);
+			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), shaderNodeDefaultName);
 		}
 
 		[MenuItem("Assets/Create/Mixture/Fixed Shader", false, 201)]
 		public static void CreateCGFixedShaderNode()
 		{
-			var template = Resources.Load< TextAsset >(mixtureShaderNodeCGTemplate);
-			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), mixtureShaderName);
+			var template = Resources.Load< TextAsset >(shaderNodeCGTemplate);
+			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), shaderName);
 		}
 
 		[MenuItem("Assets/Create/Shader/Custom Texture", false, 100)]
@@ -85,6 +89,20 @@ namespace Mixture
 			);
 		}
 		
+		[MenuItem("Assets/Create/Mixture/C# Compute Shader Node", false, 300)]
+		public static void CreateCSharpComuteShaderNode()
+		{
+			var template = Resources.Load< TextAsset >(csharpComputeShaderNodeTemplate);
+			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), computeShaderNodeDefaultName);
+		}
+
+		[MenuItem("Assets/Create/Mixture/Compute Shader", false, 301)]
+		public static void CreateComuteShaderFile()
+		{
+			var template = Resources.Load< TextAsset >(computeShaderTemplate);
+			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), computeShaderDefaultName);
+		}
+
 		[OnOpenAsset(0)]
 		public static bool OnBaseGraphOpened(int instanceID, int line)
 		{
@@ -94,7 +112,7 @@ namespace Mixture
 			{
 				// Check if the CustomRenderTexture we're opening is a Mixture graph
 				var path = AssetDatabase.GetAssetPath(EditorUtility.InstanceIDToObject(instanceID));
-				var graph = AssetDatabase.LoadAllAssetsAtPath(path).FirstOrDefault(o => o is MixtureGraph) as MixtureGraph;
+				var graph = MixtureEditorUtils.GetGraphAtPath(path);
 
 				if (graph == null)
 					return false;
@@ -118,16 +136,19 @@ namespace Mixture
 				AssetDatabase.CreateAsset(mixture, pathName);
 
 				// Generate the output texture:
-				mixture.UpdateOutputTexture(false);
+				mixture.outputTextures.Clear();
+				if (mixture.isRealtime)
+				{
+					mixture.UpdateRealtimeAssetsOnDisk();
+				}
+				else
+				{
+					MixtureGraphProcessor.RunOnce(mixture);
+					mixture.SaveAllTextures();
+				}
 
-				// Then set it as main object
-				AssetDatabase.AddObjectToAsset(mixture.outputTexture, mixture);
-				AssetDatabase.SetMainObject(mixture.outputTexture, pathName);
-				AssetDatabase.SaveAssets();
-				AssetDatabase.Refresh();
-
-				ProjectWindowUtil.ShowCreatedAsset(mixture.outputTexture);
-				Selection.activeObject = mixture.outputTexture;
+				ProjectWindowUtil.ShowCreatedAsset(mixture.mainOutputTexture);
+				Selection.activeObject = mixture.mainOutputTexture;
 			}
 		}
 
@@ -138,7 +159,7 @@ namespace Mixture
 			// By default isRealtime is false so we don't need to initialize it like in the realtime mixture create function
 			public override MixtureGraph CreateMixtureGraphAsset()
 			{
-				var g = AssetDatabase.LoadAllAssetsAtPath(template).FirstOrDefault(a => a is MixtureGraph) as MixtureGraph;
+				var g = MixtureEditorUtils.GetGraphAtPath(template);
 				g = ScriptableObject.Instantiate(g) as MixtureGraph;
 
 				g.ClearObjectReferences();
@@ -148,9 +169,16 @@ namespace Mixture
 					// Duplicate all the materials from the template
 					if (node is ShaderNode s && s.material != null)
 					{
-						var m = s.material;
 						s.material = new Material(s.material);
 						s.material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+					}
+					else if (node is OutputNode outputNode)
+					{
+						foreach (var outputSettings in outputNode.outputTextureSettings)
+						{
+							outputSettings.finalCopyMaterial = new Material(outputSettings.finalCopyMaterial);
+							outputSettings.finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+						}
 					}
 				}
 
@@ -162,26 +190,33 @@ namespace Mixture
 		{
 			public static readonly string template = $"{MixtureEditorUtils.mixtureEditorResourcesPath}Templates/RealtimeMixtureGraphTemplate.asset";
 
-			static MixtureGraph	_realtimeGraph;
-			static MixtureGraph realtimeGraph
-			{
-				get
-				{
-					if (_realtimeGraph == null)
-					{
-						_realtimeGraph = ScriptableObject.CreateInstance< MixtureGraph >();
-						_realtimeGraph.isRealtime = true;
-						_realtimeGraph.realtimePreview = true;
-					}
-					return _realtimeGraph;
-				}
-			}
-
 			public override MixtureGraph CreateMixtureGraphAsset()
-			// We use Instantiate instead of CreateObject because we can use anther mixture graph that
-			// have the parameters setup for realtime mixtures. This avoid the issue to have the ScriptableObject
-			// OnEnable() function called before the isRealtime is assigned
-				=> Object.Instantiate(realtimeGraph);
+			{
+				var g = MixtureEditorUtils.GetGraphAtPath(template);
+				g = ScriptableObject.Instantiate(g) as MixtureGraph;
+
+				g.ClearObjectReferences();
+
+				foreach (var node in g.nodes)
+				{
+					// Duplicate all the materials from the template
+					if (node is ShaderNode s && s.material != null)
+					{
+						s.material = new Material(s.material);
+						s.material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+					}
+					else if (node is OutputNode outputNode)
+					{
+						foreach (var outputSettings in outputNode.outputTextureSettings)
+						{
+							outputSettings.finalCopyMaterial = new Material(outputSettings.finalCopyMaterial);
+							outputSettings.finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+						}
+					}
+				}
+
+				return g;
+			}
 		}
 
 		class CustomTextureShaderAction : EndNameEditAction
@@ -202,6 +237,15 @@ namespace Mixture
 			}
 		}
 
+		static Shader ReimportShaderGraphResource(string resourcePath)
+		{
+			string fullPath = "Packages/com.alelievr.mixture/Editor/Resources/" + resourcePath;
+
+			AssetDatabase.ImportAsset(fullPath, ImportAssetOptions.DontDownloadFromCacheServer | ImportAssetOptions.ForceUpdate | ImportAssetOptions.ForceSynchronousImport);
+
+			return Resources.Load< Shader >(resourcePath);
+		}
+
 		class CustomtextureShaderGraphAction : EndNameEditAction
 		{
 			public static readonly string template = "Templates/CustomTextureGraphTemplate";
@@ -209,6 +253,11 @@ namespace Mixture
 			public override void Action(int instanceId, string pathName, string resourceFile)
 			{
 				var s = Resources.Load(template, typeof(Shader));
+
+				// In case there was a compilation error sg files can be broken so we re-import them
+				if (s == null)
+					s = ReimportShaderGraphResource(template);
+
 				AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(s), pathName);
 				ProjectWindowUtil.ShowCreatedAsset(AssetDatabase.LoadAssetAtPath<Shader>(pathName));
 			}
@@ -221,6 +270,11 @@ namespace Mixture
 			public override void Action(int instanceId, string pathName, string resourceFile)
 			{
 				var s = Resources.Load(template, typeof(Shader));
+
+				// In case there was a compilation error sg files can be broken so we re-import them
+				if (s == null)
+					s = ReimportShaderGraphResource(template);
+
 				AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(s), pathName);
 				ProjectWindowUtil.ShowCreatedAsset(AssetDatabase.LoadAssetAtPath<Shader>(pathName));
 			}

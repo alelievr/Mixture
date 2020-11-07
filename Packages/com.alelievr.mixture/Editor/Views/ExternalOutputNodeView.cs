@@ -1,24 +1,29 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 using GraphProcessor;
 using UnityEditor.Experimental.GraphView;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Mixture
 {
     [NodeCustomEditor(typeof(ExternalOutputNode))]
     public class ExternalOutputNodeView : OutputNodeView
     {
-        Button saveButton;
-        Button updateButton;
+        List<(Button save, Button update)> buttons = new List<(Button, Button)>();
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
         {
-            base.Enable();
+            var stylesheet = Resources.Load<StyleSheet>("ExternalOutputNodeView");
+
+			if(styleSheets != null && !styleSheets.Contains(stylesheet))
+				styleSheets.Add(stylesheet);
+
+            base.Enable(fromInspector);
 
             // We can delete external outputs
-            capabilities |= Capabilities.Deletable;
+            capabilities |= Capabilities.Deletable | Capabilities.Renamable;
         }
         
         protected override void BuildOutputNodeSettings()
@@ -33,11 +38,11 @@ namespace Mixture
                 else
                 {
                     EditorGUI.BeginDisabledGroup(true);
-                    EditorGUILayout.ObjectField("Asset", externalOutputNode.asset, typeof(Texture2D), false);
+                    EditorGUILayout.ObjectField("Asset", externalOutputNode.asset, typeof(Texture), false);
                     EditorGUI.EndDisabledGroup();
                 }
                 EditorGUI.BeginChangeCheck();
-                var outputDimension = EditorGUILayout.EnumPopup("Output Dimension", externalOutputNode.externalOutputDimension);
+                var outputDimension = EditorGUILayout.EnumPopup("Dimension", externalOutputNode.externalOutputDimension);
                 if (EditorGUI.EndChangeCheck())
                 {
                     externalOutputNode.externalOutputDimension = (ExternalOutputNode.ExternalOutputDimension)outputDimension;
@@ -49,17 +54,33 @@ namespace Mixture
                         case ExternalOutputNode.ExternalOutputDimension.Texture3D:
                             externalOutputNode.rtSettings.dimension = OutputDimension.Texture3D;
                             break;
+                        case ExternalOutputNode.ExternalOutputDimension.Cubemap:
+                            externalOutputNode.rtSettings.dimension = OutputDimension.CubeMap;
+                            break;
                     }
                     externalOutputNode.OnSettingsChanged();
                     MarkDirtyRepaint();
                 }
 
-                EditorGUI.BeginChangeCheck();
-                var outputType = EditorGUILayout.EnumPopup("Output Type", externalOutputNode.external2DOoutputType);
-                if(EditorGUI.EndChangeCheck())
+                if (externalOutputNode.externalOutputDimension == ExternalOutputNode.ExternalOutputDimension.Texture2D)
                 {
-                    externalOutputNode.external2DOoutputType = (ExternalOutputNode.External2DOutputType)outputType;
-                    MarkDirtyRepaint();
+                    EditorGUI.BeginChangeCheck();
+                    var outputType = EditorGUILayout.EnumPopup("Type", externalOutputNode.external2DOoutputType);
+                    if(EditorGUI.EndChangeCheck())
+                    {
+                        externalOutputNode.external2DOoutputType = (ExternalOutputNode.External2DOutputType)outputType;
+                        MarkDirtyRepaint();
+                    }
+                }
+                else if (externalOutputNode.externalOutputDimension == ExternalOutputNode.ExternalOutputDimension.Texture3D)
+                {
+                    EditorGUI.BeginChangeCheck();
+                    var format = EditorGUILayout.EnumPopup("Format", externalOutputNode.external3DFormat);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        externalOutputNode.external3DFormat = (ConversionFormat)format;
+                        MarkDirtyRepaint();
+                    }
                 }
                 GUILayout.Space(8);
             }
@@ -78,14 +99,16 @@ namespace Mixture
             else
             {
                 // Add Buttons
-                saveButton = new Button(SaveExternal)
+                var saveButton = new Button(SaveExternal)
                 {
                     text = "Save As..."
                 };
-                updateButton = new Button(UpdateExternal)
+                var updateButton = new Button(UpdateExternal)
                 {
                     text = "Update"
                 };
+
+                buttons.Add((saveButton, updateButton));
 
                 var horizontal = new VisualElement();
                 horizontal.style.flexDirection = FlexDirection.Row;
@@ -98,18 +121,24 @@ namespace Mixture
 
         void UpdateButtons()
         {
-            if(graph.isRealtime)
+            foreach (var button in buttons)
             {
-                saveButton.style.display = DisplayStyle.None;
-                updateButton.style.display = DisplayStyle.None;
-            }
-            else
-            {
-                var externalOutputNode = nodeTarget as ExternalOutputNode;
-                // Manage First save or Update
-                saveButton.style.display = DisplayStyle.Flex;
-                updateButton.style.display = DisplayStyle.Flex;
-                updateButton.SetEnabled(externalOutputNode.asset != null);
+                if (button.save == null || button.update == null)
+                    continue;
+
+                if (graph.isRealtime)
+                {
+                    button.save.style.display = DisplayStyle.None;
+                    button.update.style.display = DisplayStyle.None;
+                }
+                else
+                {
+                    var externalOutputNode = nodeTarget as ExternalOutputNode;
+                    // Manage First save or Update
+                    button.save.style.display = DisplayStyle.Flex;
+                    button.update.style.display = DisplayStyle.Flex;
+                    button.update.SetEnabled(externalOutputNode.asset != null);
+                }
             }
         }
 
@@ -123,6 +152,16 @@ namespace Mixture
         {
             graph.SaveExternalTexture(nodeTarget as ExternalOutputNode, false);
             UpdateButtons();
+        }
+
+		public override void OnRemoved()
+        {
+            base.OnRemoved();
+
+            // Manually disconnect the edges because we have a custom port handling in output nodes
+            var inputPort = inputPortElements[outputNode.mainOutput.name];
+            foreach (var i in inputPort.portView.GetEdges().ToList())
+                owner.DisconnectView(i);
         }
     }
 }

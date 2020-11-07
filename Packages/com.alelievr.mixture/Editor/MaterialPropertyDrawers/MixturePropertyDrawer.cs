@@ -11,22 +11,15 @@ namespace Mixture
     {
         class MixtureDrawerInfo
         {
-            public MixtureGraph    graph;
-            public MixtureNodeView nodeView;
+            public MixtureGraph     graph;
+            public MixtureNodeView  nodeView;
         }
 
         static Dictionary<MaterialEditor, MixtureDrawerInfo>    mixtureDrawerInfos = new Dictionary<MaterialEditor, MixtureDrawerInfo>();
-        List<TextureDimension>                                  allowedDimensions = new List<TextureDimension>();
-        
+
         public static void RegisterEditor(MaterialEditor editor, MixtureNodeView nodeView, MixtureGraph graph)
         {
-            if (mixtureDrawerInfos.ContainsKey(editor))
-            {
-                mixtureDrawerInfos[editor].graph = graph;
-                mixtureDrawerInfos[editor].nodeView = nodeView;
-            }
-            else
-                mixtureDrawerInfos[editor] = new MixtureDrawerInfo{ graph = graph, nodeView = nodeView };
+            mixtureDrawerInfos[editor] = new MixtureDrawerInfo{ graph = graph, nodeView = nodeView };
         }
 
         public static void UnregisterGraph(MixtureGraph graph)
@@ -52,32 +45,16 @@ namespace Mixture
 
             var nodeView = GetNodeView(editor);
             var graph = GetGraph(editor);
-            var node = nodeView.nodeTarget as MixtureNode;
 
-            allowedDimensions = MixtureUtils.GetAllowedDimentions(prop.name);
-
-            if (IsVisible(editor))
-                DrawerGUI(position, prop, label, editor, graph, nodeView);
-        }
-
-        bool IsVisible(MaterialEditor editor)
-        {
-            // Always display the drawer when inside the inspector (for debug)
-            if (!mixtureDrawerInfos.ContainsKey(editor))
-                return true;
-
-            var nodeView = GetNodeView(editor);
-            var graph = GetGraph(editor);
-            var node = nodeView.nodeTarget as MixtureNode;
-
-            // Draw only if the drawer support the current dimension of the node
-            var currentDimension = node.rtSettings.GetTextureDimension(graph);
-            return allowedDimensions.Any(dim => (int)dim == (int)currentDimension);
+            DrawerGUI(position, prop, label, editor, graph, nodeView);
         }
 
         public override float GetPropertyHeight(MaterialProperty prop, string label, MaterialEditor editor)
         {
-            return IsVisible(editor) ? base.GetPropertyHeight(prop, label, editor) : -EditorGUIUtility.standardVerticalSpacing;
+            if (!mixtureDrawerInfos.ContainsKey(editor))
+                return base.GetPropertyHeight(prop, label, editor);
+
+            return base.GetPropertyHeight(prop, label, editor);
         }
 
         protected virtual void DrawerGUI(Rect position, MaterialProperty prop, string label, MaterialEditor editor, MixtureGraph graph, MixtureNodeView nodeView) {}

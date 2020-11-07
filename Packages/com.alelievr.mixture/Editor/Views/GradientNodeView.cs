@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEditor.Experimental.GraphView;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.UIElements;
 using GraphProcessor;
-using System.Linq;
 
 namespace Mixture
 {
@@ -15,15 +11,18 @@ namespace Mixture
 	{
 		GradientNode		gradientNode;
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 			gradientNode = nodeTarget as GradientNode;
 
 			var gradientField = new GradientField() {
-                value = gradientNode.gradient
+                value = gradientNode.gradient,
 			};
+			UpdateGradientColorSpace();
             gradientField.style.height = 32;
+
+			owner.graph.outputNode.onTempRenderTextureUpdated += UpdateGradientColorSpace;
 
 			gradientField.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Gradient");
@@ -31,6 +30,14 @@ namespace Mixture
 				NotifyNodeChanged();
                 gradientNode.UpdateTexture();
 			});
+
+			void UpdateGradientColorSpace()
+			{
+				var graphFormat = owner.graph.outputNode.rtSettings.GetGraphicsFormat(owner.graph);
+				gradientField.colorSpace = GraphicsFormatUtility.IsSRGBFormat(graphFormat) ? ColorSpace.Gamma : ColorSpace.Linear;
+				gradientField.MarkDirtyRepaint();
+				gradientField.value = gradientField.value;
+			}
 
 			controlsContainer.Add(gradientField);
 		}

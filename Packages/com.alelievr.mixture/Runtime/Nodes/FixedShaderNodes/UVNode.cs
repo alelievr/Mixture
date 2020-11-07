@@ -6,7 +6,11 @@ using System.Linq;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Coordinates/UV")]
+	[Documentation(@"
+Constant UV. Note that for texture 2D, the z coordinate is set to 0.5.
+")]
+
+	[System.Serializable, NodeMenuItem("Constants/UV")]
 	public class UVNode : FixedShaderNode
 	{
 		public override string name => "UV";

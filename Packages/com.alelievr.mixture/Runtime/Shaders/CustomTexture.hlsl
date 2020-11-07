@@ -8,12 +8,12 @@
 #define UNITY_PI 3.14159265358979323846
 #endif
 
-#undef SAMPLE_DEPTH_TEXTURE
-#undef SAMPLE_DEPTH_TEXTURE_LOD
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-
 // Keep in sync with CustomRenderTexture.h
 #define kCustomTextureBatchSize 16
+
+#define CRT_DIMENSION_2D    0.0
+#define CRT_DIMENSION_3D    1.0
+#define CRT_DIMENSION_CUBE  2.0
 
 struct appdata_customrendertexture
 {
@@ -46,7 +46,8 @@ float       CustomRenderTexturePrimitiveIDs[kCustomTextureBatchSize];
 float4      CustomRenderTextureParameters;
 #define     CustomRenderTextureUpdateSpace  CustomRenderTextureParameters.x // Normalized(0)/PixelSpace(1)
 #define     CustomRenderTexture3DTexcoordW  CustomRenderTextureParameters.y
-#define     CustomRenderTextureIs3D         CustomRenderTextureParameters.z
+#define     CustomRenderTextureIs3D         CustomRenderTextureParameters.z == CRT_DIMENSION_3D
+#define     CustomRenderTextureDimension    CustomRenderTextureParameters.z
 
 // User facing uniform variables
 float4      _CustomRenderTextureInfo; // x = width, y = height, z = depth, w = face/3DSlice
@@ -60,14 +61,14 @@ float4      _CustomRenderTextureInfo; // x = width, y = height, z = depth, w = f
 #define _CustomRenderTextureCubeFace    _CustomRenderTextureInfo.w
 #define _CustomRenderTexture3DSlice     _CustomRenderTextureInfo.w
 
-TEXTURE2D(_SelfTexture2D);
-SAMPLER(sampler_SelfTexture2D);
+Texture2D _SelfTexture2D;
+sampler sampler_SelfTexture2D;
 
-TEXTURECUBE(_SelfTextureCube);
-SAMPLER(sampler_SelfTextureCube);
+TextureCube _SelfTextureCube;
+sampler sampler_SelfTextureCube;
 
-TEXTURE3D(_SelfTexture3D);
-SAMPLER(sampler_SelfTexture3D);
+Texture3D _SelfTexture3D;
+sampler sampler_SelfTexture3D;
 
 float3 CustomRenderTextureComputeCubeDirection(float2 globalTexcoord)
 {
@@ -96,6 +97,10 @@ float3 CustomRenderTextureComputeCubeDirection(float2 globalTexcoord)
     else if(_CustomRenderTextureCubeFace == 5.0)
     {
         direction = normalize(float3(-xy.x, -xy.y, -1.0));
+    }
+    else
+    {
+        direction = float3(0, 0, 0);
     }
 
     return direction;
@@ -188,7 +193,7 @@ v2f_customrendertexture CustomRenderTextureVertexShader(appdata_customrendertext
     // For 3D texture, cull quads outside of the update zone
     // This is neeeded in additional to the preliminary minSlice/maxSlice done on the CPU because update zones can be disjointed.
     // ie: slices [1..5] and [10..15] for two differents zones so we need to cull out slices 0 and [6..9]
-    if (CustomRenderTextureIs3D > 0.0)
+    if (CustomRenderTextureIs3D)
     {
         int minSlice = (int)(updateZoneCenter.z - updateZoneSize.z * 0.5);
         int maxSlice = minSlice + (int)updateZoneSize.z;
@@ -220,7 +225,7 @@ struct appdata_init_customrendertexture
 struct v2f_init_customrendertexture
 {
     float4 vertex : SV_POSITION;
-    float2 texcoord : TEXCOORD0;
+    float3 texcoord : TEXCOORD0;
     float3 direction : TEXCOORD1;
 };
 
@@ -228,7 +233,7 @@ struct v2f_init_customrendertexture
 v2f_init_customrendertexture InitCustomRenderTextureVertexShader (appdata_init_customrendertexture v)
 {
     v2f_init_customrendertexture o;
-    o.vertex = UnityObjectToClipPos(v.vertex);
+    o.vertex = v.vertex;
     o.texcoord = float3(v.texcoord.xy, CustomRenderTexture3DTexcoordW);
     o.direction = CustomRenderTextureComputeCubeDirection(v.texcoord.xy);
     return o;

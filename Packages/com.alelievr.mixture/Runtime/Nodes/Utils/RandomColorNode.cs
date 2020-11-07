@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Output a random color based on the HSV parameters.
+")]
+
 	[System.Serializable, NodeMenuItem("Utils/Random Color")]
-	public class RandomColorNode : MixtureNode, ICPUNode
+	public class RandomColorNode : MixtureNode
 	{
 		public override bool hasSettings => false;
 
@@ -23,7 +28,7 @@ namespace Mixture
 
 		public override string name => "Random Color";
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			r = Random.ColorHSV(minHue, maxHue, minSat, maxSat, minValue, maxValue);
 			return true;

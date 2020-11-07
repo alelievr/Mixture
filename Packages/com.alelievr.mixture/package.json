@@ -2,18 +2,40 @@
   "name": "com.alelievr.mixture",
   "displayName": "Mixture",
   "version": "0.0.1",
-  "unity": "2019.2",
-  "description": "TODO",
+  "unity": "2020.2",
+  "description": "Substance like editor, but in realtime within Unity",
   "keywords": [
     "graph",
     "texture",
-    "unity"
+    "substance",
+    "designer",
+    "procedural",
+    "processing",
+    "GPU",
+    "shader",
+    "compute shader",
+    "unity",
+    "baker"
   ],
   "category": "Unity",
   "type": "tool",
   "dependencies": {
-    "com.alelievr.node-graph-processor": "https://github.com/alelievr/NodeGraphProcessor.git#upm",
-    "com.unity.shadergraph": "6.9.1"
+    "com.alelievr.node-graph-processor": "0.8.0",
+    "com.unity.render-pipelines.core": "10.0.0-preview.27",
+    "com.unity.shadergraph": "10.0.0-preview.27"
   },
-  "hideInEditor": false
+  "hideInEditor": false,
+  "unityRelease": "0a13",
+  "samples": [
+    {
+      "displayName": "Examples",
+      "description": "Several mixture examples and use cases.",
+      "path": "Samples~/Examples"
+    }
+  ],
+  "author":
+  {
+    "name": "Antoine Lelièvre",
+    "url": "https://github.com/alelievr"
+  }
 }

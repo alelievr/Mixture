@@ -1,0 +1,37 @@
+.PinnedView {
+    border-color: rgb(188, 81, 0);
+}
+
+.SelectedNode {
+    border-color: rgb(55, 194, 255);
+}
+
+#Foldout > Toggle {
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 105%;
+    height: 21px;
+    font-size: 14px;
+}
+
+#Foldout > Toggle > VisualElement > #unity-checkmark {
+    align-self: center;
+}
+
+.NodeControls {
+    border-width: 0;
+    margin-top: 0;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+#unity-content {
+    margin-left: 0;
+}
+
+.unity-base-field > .unity-label {
+    min-width: 120px;
+}
+
+.unity-composite-field__field > .unity-label {
+    min-width: 10px;
+}

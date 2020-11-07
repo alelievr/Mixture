@@ -15,26 +15,14 @@ namespace Mixture
 	{
 		TextureNode		textureNode;
 
-        protected override bool hasPreview => true;
-        public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
-			textureNode = nodeTarget as TextureNode;
+			base.Enable(fromInspector);
+            var textureField = this.Q(className: "unity-object-field") as ObjectField;
 
-
-			var textureField = new ObjectField() {
-				label = "Texture",
-				objectType = typeof(Texture2D),
-				value = textureNode.texture
-			};
-			textureField.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Updated Texture " + e.newValue);
-				textureNode.texture = (Texture2D)e.newValue;
-				NotifyNodeChanged();
-			});
-
-			controlsContainer.Add(textureField);
+            textureField.RegisterValueChangedCallback(e => {
+                ForceUpdatePorts();
+            });
 		}
-
 	}
 }

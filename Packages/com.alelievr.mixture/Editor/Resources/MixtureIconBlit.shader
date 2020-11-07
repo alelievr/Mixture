@@ -75,6 +75,7 @@ Shader "Hidden/MixtureIconBlit"
 #elif CRT_CUBE
                 fixed4 t = UNITY_SAMPLE_TEXCUBE(_Cubemap, LatlongToDirectionCoordinate(i.uv));
 #endif
+
                 return lerp(t, iconColor, iconColor.a);
             }
             ENDCG

@@ -1,0 +1,485 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.EditFlags
+  commentId: T:Mixture.EditFlags
+  id: EditFlags
+  parent: Mixture
+  children:
+  - Mixture.EditFlags.All
+  - Mixture.EditFlags.Depth
+  - Mixture.EditFlags.DepthMode
+  - Mixture.EditFlags.Dimension
+  - Mixture.EditFlags.Format
+  - Mixture.EditFlags.Height
+  - Mixture.EditFlags.HeightMode
+  - Mixture.EditFlags.None
+  - Mixture.EditFlags.POTSize
+  - Mixture.EditFlags.Size
+  - Mixture.EditFlags.TargetFormat
+  - Mixture.EditFlags.Width
+  - Mixture.EditFlags.WidthMode
+  langs:
+  - csharp
+  - vb
+  name: EditFlags
+  nameWithType: EditFlags
+  fullName: Mixture.EditFlags
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: EditFlags
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 429
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum EditFlags
+    content.vb: >-
+      <Flags>
+
+      Public Enum EditFlags
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.EditFlags.None
+  commentId: F:Mixture.EditFlags.None
+  id: None
+  parent: Mixture.EditFlags
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: EditFlags.None
+  fullName: Mixture.EditFlags.None
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: None
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 432
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: None = 0
+    return:
+      type: Mixture.EditFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.EditFlags.Width
+  commentId: F:Mixture.EditFlags.Width
+  id: Width
+  parent: Mixture.EditFlags
+  langs:
+  - csharp
+  - vb
+  name: Width
+  nameWithType: EditFlags.Width
+  fullName: Mixture.EditFlags.Width
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Width
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 433
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Width = 1
+    return:
+      type: Mixture.EditFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.EditFlags.WidthMode
+  commentId: F:Mixture.EditFlags.WidthMode
+  id: WidthMode
+  parent: Mixture.EditFlags
+  langs:
+  - csharp
+  - vb
+  name: WidthMode
+  nameWithType: EditFlags.WidthMode
+  fullName: Mixture.EditFlags.WidthMode
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: WidthMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 434
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: WidthMode = 2
+    return:
+      type: Mixture.EditFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.EditFlags.Height
+  commentId: F:Mixture.EditFlags.Height
+  id: Height
+  parent: Mixture.EditFlags
+  langs:
+  - csharp
+  - vb
+  name: Height
+  nameWithType: EditFlags.Height
+  fullName: Mixture.EditFlags.Height
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Height
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 435
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Height = 4
+    return:
+      type: Mixture.EditFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.EditFlags.HeightMode
+  commentId: F:Mixture.EditFlags.HeightMode
+  id: HeightMode
+  parent: Mixture.EditFlags
+  langs:
+  - csharp
+  - vb
+  name: HeightMode
+  nameWithType: EditFlags.HeightMode
+  fullName: Mixture.EditFlags.HeightMode
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: HeightMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 436
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: HeightMode = 8
+    return:
+      type: Mixture.EditFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.EditFlags.Depth
+  commentId: F:Mixture.EditFlags.Depth
+  id: Depth
+  parent: Mixture.EditFlags
+  langs:
+  - csharp
+  - vb
+  name: Depth
+  nameWithType: EditFlags.Depth
+  fullName: Mixture.EditFlags.Depth
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Depth
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 437
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Depth = 16
+    return:
+      type: Mixture.EditFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.EditFlags.DepthMode
+  commentId: F:Mixture.EditFlags.DepthMode
+  id: DepthMode
+  parent: Mixture.EditFlags
+  langs:
+  - csharp
+  - vb
+  name: DepthMode
+  nameWithType: EditFlags.DepthMode
+  fullName: Mixture.EditFlags.DepthMode
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: DepthMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 438
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: DepthMode = 32
+    return:
+      type: Mixture.EditFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.EditFlags.Dimension
+  commentId: F:Mixture.EditFlags.Dimension
+  id: Dimension
+  parent: Mixture.EditFlags
+  langs:
+  - csharp
+  - vb
+  name: Dimension
+  nameWithType: EditFlags.Dimension
+  fullName: Mixture.EditFlags.Dimension
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Dimension
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 439
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Dimension = 64
+    return:
+      type: Mixture.EditFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.EditFlags.TargetFormat
+  commentId: F:Mixture.EditFlags.TargetFormat
+  id: TargetFormat
+  parent: Mixture.EditFlags
+  langs:
+  - csharp
+  - vb
+  name: TargetFormat
+  nameWithType: EditFlags.TargetFormat
+  fullName: Mixture.EditFlags.TargetFormat
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: TargetFormat
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 440
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: TargetFormat = 128
+    return:
+      type: Mixture.EditFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.EditFlags.POTSize
+  commentId: F:Mixture.EditFlags.POTSize
+  id: POTSize
+  parent: Mixture.EditFlags
+  langs:
+  - csharp
+  - vb
+  name: POTSize
+  nameWithType: EditFlags.POTSize
+  fullName: Mixture.EditFlags.POTSize
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: POTSize
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 441
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: POTSize = 256
+    return:
+      type: Mixture.EditFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.EditFlags.Size
+  commentId: F:Mixture.EditFlags.Size
+  id: Size
+  parent: Mixture.EditFlags
+  langs:
+  - csharp
+  - vb
+  name: Size
+  nameWithType: EditFlags.Size
+  fullName: Mixture.EditFlags.Size
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Size
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 444
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Size = 63
+    return:
+      type: Mixture.EditFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.EditFlags.Format
+  commentId: F:Mixture.EditFlags.Format
+  id: Format
+  parent: Mixture.EditFlags
+  langs:
+  - csharp
+  - vb
+  name: Format
+  nameWithType: EditFlags.Format
+  fullName: Mixture.EditFlags.Format
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Format
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 445
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Format = 448
+    return:
+      type: Mixture.EditFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.EditFlags.All
+  commentId: F:Mixture.EditFlags.All
+  id: All
+  parent: Mixture.EditFlags
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: EditFlags.All
+  fullName: Mixture.EditFlags.All
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: All
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 447
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: All = -1
+    return:
+      type: Mixture.EditFlags
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.EditFlags
+  commentId: T:Mixture.EditFlags
+  parent: Mixture
+  name: EditFlags
+  nameWithType: EditFlags
+  fullName: Mixture.EditFlags

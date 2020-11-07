@@ -1,14 +1,20 @@
 ﻿using UnityEngine;
 using GraphProcessor;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Vector InverseLerp")]
-	public class VectorInverseLerpNode : MixtureNode, ICPUNode
+	[Documentation(@"
+Perform an inverse lerp operation between min and max of the input vector.
+")]
+
+	[System.Serializable, NodeMenuItem("Math/Vector InverseLerp")]
+	public class VectorInverseLerpNode : MixtureNode
 	{
 		public override bool hasSettings => false;
-		
-		[Input("A")]
+		public override bool showDefaultInspector => true;
+
+		[Input("A"), ShowAsDrawer]
 		public Vector4	a;
 		
 		[Output("Out")]
@@ -20,7 +26,7 @@ namespace Mixture
 		public override string name => "InverseLerp";
 		public override float nodeWidth => MixtureUtils.operatorNodeWidth;
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			o = new Vector4(
 				Mathf.InverseLerp(min.x, max.x, a.x),

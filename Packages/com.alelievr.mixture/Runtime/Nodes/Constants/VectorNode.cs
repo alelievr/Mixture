@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Constant vector value.
+")]
+
 	[System.Serializable, NodeMenuItem("Constants/Vector")]
 	public class VectorNode : MixtureNode
 	{
 		public override bool hasSettings => false;
+		public override bool hasPreview => false;
 
 		[Output(name = "Vector"), SerializeField]
 		public Vector4 vector = Vector4.one;
@@ -23,11 +29,11 @@ namespace Mixture
 		[Output(name = "W")]
 		public float w = 0;
 
-		public override float nodeWidth => 150.0f;
+		public override float nodeWidth => MixtureUtils.smallNodeWidth;
 
 		public override string	name => "Vector";
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			x = vector.x;
 			y = vector.y;

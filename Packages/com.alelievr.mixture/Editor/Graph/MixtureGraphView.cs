@@ -15,12 +15,15 @@ namespace Mixture
 		public MixtureGraphProcessor	processor { get; private set; }
 		public new MixtureGraph	graph => base.graph as MixtureGraph;
 
+		public MixtureNodeInspectorObject mixtureNodeInspector => nodeInspector as MixtureNodeInspectorObject;
+
 		public MixtureGraphView(EditorWindow window) : base(window)
 		{
 			initialized += Initialize;
 			Undo.undoRedoPerformed += ReloadGraph;
+			nodeDuplicated += OnNodeDuplicated;
 
-			SetupZoom(0.05f, 8f);
+			SetupZoom(0.05f, 32f);
 		}
 
 		public override List< Port > GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -32,6 +35,9 @@ namespace Mixture
 				var portView = p as PortView;
 
 				if (p.direction == startPort.direction)
+					return false;
+
+				if (p.node == startPort.node)
 					return false;
 
 				//Check if there is custom adapters for this assignation
@@ -66,6 +72,15 @@ namespace Mixture
 			return compatiblePorts;
 		}
 
+		protected override NodeInspectorObject CreateNodeInspectorObject()
+		{
+			var inspector = ScriptableObject.CreateInstance<MixtureNodeInspectorObject>();
+			inspector.name = "";
+			inspector.hideFlags = HideFlags.HideAndDontSave ^ HideFlags.NotEditable;
+
+			return inspector;
+		}
+
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			base.BuildContextualMenu(evt);
@@ -85,6 +100,13 @@ namespace Mixture
 			// Debug option:
 			evt.menu.AppendAction("Help/Show All SubAssets", a => ShowAllSubAssets(), DropdownMenuAction.Status.Normal);
 			evt.menu.AppendAction("Help/Hide All SubAssets", a => HideAllSubAssets(), DropdownMenuAction.Status.Normal);
+			evt.menu.AppendAction("Help/Reimport Main Asset", a => ReimportMainAsset(), DropdownMenuAction.Status.Normal);
+		}
+
+		void ReimportMainAsset()
+		{
+			EditorUtility.SetDirty(AssetDatabase.LoadAssetAtPath<Texture>(graph.mainAssetPath));
+			AssetDatabase.ImportAsset(graph.mainAssetPath, ImportAssetOptions.DontDownloadFromCacheServer | ImportAssetOptions.ForceSynchronousImport | ImportAssetOptions.ForceUpdate);
 		}
 
 		void ShowAllSubAssets()
@@ -101,20 +123,36 @@ namespace Mixture
 			AssetDatabase.SaveAssets();
 			foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(graph.mainAssetPath))
 			{
-				if (asset != graph.outputTexture)
+				if (asset != graph.mainOutputTexture)
 					asset.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 			}
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();
 		}
 
+		void OnNodeDuplicated(BaseNode sourceNode, BaseNode newNode)
+		{
+			if (newNode is ShaderNode s)
+			{
+				var oldShaderNode = sourceNode as ShaderNode;
+				var duplicatedMaterial = new Material(oldShaderNode.material);
+				duplicatedMaterial.hideFlags = oldShaderNode.material.hideFlags;
+
+				s.material = duplicatedMaterial;
+				graph.AddObjectToGraph(duplicatedMaterial);
+			}
+		}
+
 		void Initialize()
 		{
 			RegisterCallback< KeyDownEvent >(KeyCallback);
 
-			processor = new MixtureGraphProcessor(graph);
-			computeOrderUpdated += processor.UpdateComputeOrder;
-			graph.onOutputTextureUpdated += () => processor.Run();
+			processor = MixtureGraphProcessor.GetOrCreate(graph);
+			computeOrderUpdated += () => {
+				processor.UpdateComputeOrder();
+				UpdateNodeColors();
+			};
+			graph.onOutputTextureUpdated += () => ProcessGraph();
 			graph.onGraphChanges += _ => {
 				this.schedule.Execute(() => ProcessGraph()).ExecuteLater(10);
 				MarkDirtyRepaint();
@@ -124,14 +162,74 @@ namespace Mixture
 			ProcessGraph();
 		}
 
-		public void ProcessGraph() => processor?.Run();
+		public void ProcessGraph()
+		{
+			processor?.Run();
+
+			// Update the inspector in case a node was selected.
+			if (Selection.activeObject is MixtureNodeInspectorObject)
+			{
+				var windows = Resources.FindObjectsOfTypeAll<EditorWindow>();
+				foreach (var win in windows)
+				{
+					if (win.GetType().Name.Contains("Inspector"))
+						win.Repaint();
+				}
+			}
+		}
 
 		void ReloadGraph()
 		{
 			graph.outputNode = null;
 		}
 
-		void CreateNodeOfType(Type type, Vector2 position)
+		Color[] nestingLevel = new Color[]
+		{
+			new Color(0.06167674f, 0.1060795f, 0.1698113f),
+			new Color(0.1509434f, 0.06763973f, 0.1494819f),
+			new Color(0.05764706f, 0.098f, 0.08358824f),
+		};
+
+		void UpdateNodeColors()
+		{
+			// Get processing info from the processor
+			foreach (var view in nodeViews)
+			{
+				// view.titleContainer.style.color = new StyleColor(StyleKeyword.Initial);
+				if (processor.info.forLoopLevel.TryGetValue(view.nodeTarget, out var level))
+				{
+					if (level > 0)
+					{
+						level = Mathf.Max(level - 1, 0) % nestingLevel.Length;
+						var c = nestingLevel[level];
+						c *= 2;
+						view.titleContainer.style.backgroundColor = c;
+					}
+				}
+			}
+
+			// Update groups too:
+			foreach (var view in groupViews)
+			{
+				var startNodeGUID = view.group.innerNodeGUIDs.FirstOrDefault(guid => graph.nodesPerGUID.ContainsKey(guid) && graph.nodesPerGUID[guid] is ILoopStart);
+				if (startNodeGUID != null)
+				{
+					if (processor.info.forLoopLevel.TryGetValue(graph.nodesPerGUID[startNodeGUID], out var level))
+					{
+						if (level > 0)
+						{
+							level = Mathf.Clamp(level - 1, 0, nestingLevel.Length);
+							if (level >= 1)
+								view.BringToFront();
+							var c = nestingLevel[level];
+							view.UpdateGroupColor(c);
+						}
+					}
+				}
+			}
+		}
+
+		public void CreateNodeOfType(Type type, Vector2 position)
 		{
 			RegisterCompleteObjectUndo("Added " + type + " node");
 			AddNode(BaseNode.CreateFromType(type, position));
@@ -145,16 +243,6 @@ namespace Mixture
 				case KeyCode.P:
 					ProcessGraph();
 					break ;
-			}
-		}
-
-		public override IEnumerable< KeyValuePair< string, Type > > FilterCreateNodeMenuEntries()
-		{
-			foreach (var nodeEntry in base.FilterCreateNodeMenuEntries())
-			{
-				if (graph.isRealtime && typeof(ICPUNode).IsAssignableFrom(nodeEntry.Value))
-					continue;
-				yield return nodeEntry;
 			}
 		}
 	}

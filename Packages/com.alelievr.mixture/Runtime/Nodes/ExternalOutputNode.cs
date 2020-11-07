@@ -1,27 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using GraphProcessor;
-using System.Linq;
-using System.IO;
 using System;
+using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
+    [Documentation(@"
+Export a texture from the graph, the texture can also be exported outside of unity.
+
+Note that for 2D textures, the file is exported either in png or exr depending on the current floating precision.
+For 3D and Cube textures, the file is exported as a .asset and can be use in another Unity project.
+")]
+
     [Serializable, NodeMenuItem("External Output")]
     public class ExternalOutputNode : OutputNode
     {
         public enum ExternalOutputDimension
         {
             Texture2D,
-            Texture3D
+            Texture3D,
+            Cubemap,
         }
         public enum External2DOutputType
         {
             Color,
             Normal,
             Linear,
-            LatLonCubemap
+        LatLonCubemap
         }
 
         public override string name => "External Output";
@@ -30,63 +36,63 @@ namespace Mixture
 
         public ExternalOutputDimension externalOutputDimension = ExternalOutputDimension.Texture2D;
         public External2DOutputType external2DOoutputType = External2DOutputType.Color;
+        public ConversionFormat external3DFormat = ConversionFormat.RGBA32;
+		public override Texture previewTexture => outputTextureSettings.Count > 0 ? (Texture)mainOutput.finalCopyRT : Texture2D.blackTexture;
 
         public override bool hasSettings => true;
 
-        protected override MixtureRTSettings defaultRTSettings => new MixtureRTSettings
+        protected override MixtureRTSettings defaultRTSettings
         {
-            heightMode = OutputSizeMode.Fixed,
-            widthMode = OutputSizeMode.Fixed,
-            depthMode = OutputSizeMode.Fixed,
-            height = 512,
-            width = 512,
-            sliceCount = 1,
-            dimension = OutputDimension.Default,
-            targetFormat = OutputFormat.RGBA_LDR,
-            editFlags = EditFlags.Height | EditFlags.Width| EditFlags.TargetFormat,
-            wrapMode = TextureWrapMode.Repeat,
-            filterMode = FilterMode.Bilinear,
-        };
+            get
+            {
+                POTSize size = (rtSettings.GetTextureDimension(graph) == TextureDimension.Tex3D) ? POTSize._32 : POTSize._1024;
+                return new MixtureRTSettings
+                {
+                    heightMode = OutputSizeMode.Fixed,
+                    widthMode = OutputSizeMode.Fixed,
+                    depthMode = OutputSizeMode.Fixed,
+                    potSize = size,
+                    height = (int)size,
+                    width = (int)size,
+                    sliceCount = (int)size,
+                    dimension = OutputDimension.SameAsOutput,
+                    outputChannels = OutputChannel.SameAsOutput,
+                    outputPrecision = OutputPrecision.SameAsOutput,
+                    editFlags = EditFlags.Height | EditFlags.Width| EditFlags.TargetFormat,
+                    wrapMode = TextureWrapMode.Repeat,
+                    filterMode = FilterMode.Bilinear,
+                };
+            }
+        }
 
         protected override void Enable()
         {
-            // Do NOT Call base.Enable() as it references the node as the main output of the graph.
-            //base.Enable();
+            base.Enable();
 
             // Sanitize the RT Settings for the output node, they must contains only valid information for the output node
-            if (rtSettings.targetFormat == OutputFormat.Default)
-                rtSettings.targetFormat = OutputFormat.RGBA_Float;
-            if (rtSettings.dimension == OutputDimension.Default)
+            if (rtSettings.dimension == OutputDimension.SameAsOutput)
                 rtSettings.dimension = OutputDimension.Texture2D;
 
-            if (graph.isRealtime)
-            {
-                tempRenderTexture = graph.outputTexture as CustomRenderTexture;
-            }
-            else
-            {
-                UpdateTempRenderTexture(ref tempRenderTexture);
-            }
-
-            onSettingsChanged += () => { ProcessNode(); };
-
+            onSettingsChanged += () => { graph.NotifyNodeChanged(this); };
         }
 
-        protected override bool ProcessNode()
+        protected override bool ProcessNode(CommandBuffer cmd)
         {
+            if (!base.ProcessNode(cmd))
+                return false;
+
             uniqueMessages.Clear();
 
             if(!graph.isRealtime)
             {
                 if(rtSettings.dimension != OutputDimension.CubeMap)
-                    return base.ProcessNode();
+                    return base.ProcessNode(cmd);
                 else
                 {
                     if (uniqueMessages.Add("CubemapNotSupported"))
                         AddMessage("Using texture cubes with this node is not supported.", NodeMessageType.Warning);
                     return false;
                 }
-
             }
             else
             {

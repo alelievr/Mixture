@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Coordinates/UV Distort")]
+    [Documentation(@"
+Apply a distortion to an UV texture. The distortion map must be encoded as vectors and doesn't have to be normalized.
+
+If fact this node just adds an UV to the distoriton texture value after applying the scale and bias to it.
+")]
+
+	[System.Serializable, NodeMenuItem("Operators/UV Distort")]
 	public class UVDistortNode : FixedShaderNode
 	{
 		public override string name => "UV Distort";
@@ -17,32 +24,14 @@ namespace Mixture
 
         public override bool hasSettings => true;
 
-        protected override MixtureRTSettings defaultRTSettings => new MixtureRTSettings()
+		protected override bool ProcessNode(CommandBuffer cmd)
         {
-            dimension = OutputDimension.Texture2D,
-            widthMode = OutputSizeMode.Default,
-            heightMode = OutputSizeMode.Default,
-            depthMode = OutputSizeMode.Fixed,
-            sliceCount = 1,
-            targetFormat = OutputFormat.RGBA_Float,
-            doubleBuffered = false,
-            filterMode = FilterMode.Bilinear,
-            wrapMode = TextureWrapMode.Repeat,
-            editFlags = EditFlags.WidthMode | EditFlags.HeightMode | EditFlags.Width | EditFlags.Height,
-        };
+            if (!base.ProcessNode(cmd))
+                return false;
 
-		protected override bool ProcessNode()
-        {
-            if (!base.ProcessNode())
-                return false;
-            
-			var uvPort = inputPorts.Find(p => p.portData.identifier.Contains("_UV_"));
-            if (uvPort == null)
-                return false;
-            
-            material.SetKeywordEnabled("USE_CUSTOM_UV", uvPort.GetEdges().Count != 0);
+            bool useCustomUV = material.HasTextureBound("_UV", rtSettings.GetTextureDimension(graph));
+            material.SetKeywordEnabled("USE_CUSTOM_UV", useCustomUV);
             return true;
         }
-
     }
 }

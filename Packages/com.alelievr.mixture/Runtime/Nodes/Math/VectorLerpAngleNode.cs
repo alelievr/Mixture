@@ -1,14 +1,20 @@
 ﻿using UnityEngine;
 using GraphProcessor;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Vector Lerp Angle")]
-	public class VectorLerpAngleNode : MixtureNode, ICPUNode
+	[Documentation(@"
+Perform an angle lerp between min and max.
+")]
+
+	[System.Serializable, NodeMenuItem("Math/Vector Lerp Angle")]
+	public class VectorLerpAngleNode : MixtureNode
 	{
 		public override bool hasSettings => false;
-		
-		[Input("A")]
+		public override bool showDefaultInspector => true;
+
+		[Input("A"), ShowAsDrawer]
 		public Vector4	a;
 		
 		[Output("Out")]
@@ -20,7 +26,7 @@ namespace Mixture
 		public override string name => "LerpAngle";
 		public override float nodeWidth => MixtureUtils.operatorNodeWidth;
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			o = new Vector4(
 				Mathf.LerpAngle(a.x, min.x, max.x),

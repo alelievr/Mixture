@@ -1,0 +1,1042 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class SplatterNode
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class SplatterNode
+   ">
+    <meta name="generator" content="docfx 2.55.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Mixture.SplatterNode">
+  
+  
+  <h1 id="Mixture_SplatterNode" data-uid="Mixture.SplatterNode" class="text-break">Class SplatterNode
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Mixture.MixtureNode.html">MixtureNode</a></div>
+    <div class="level2"><a class="xref" href="Mixture.ComputeShaderNode.html">ComputeShaderNode</a></div>
+    <div class="level3"><span class="xref">SplatterNode</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_computeShader">ComputeShaderNode.computeShader</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_previewTexture">ComputeShaderNode.previewTexture</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_tempRenderTexture">ComputeShaderNode.tempRenderTexture</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_previewTexturePropertyName">ComputeShaderNode.previewTexturePropertyName</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_showOpenButton">ComputeShaderNode.showOpenButton</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_LoadComputeShader_System_String_">ComputeShaderNode.LoadComputeShader(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_canProcess">ComputeShaderNode.canProcess</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_ComputeIsValid">ComputeShaderNode.ComputeIsValid()</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_DispatchCompute_UnityEngine_Rendering_CommandBuffer_System_Int32_System_Int32_System_Int32_System_Int32_">ComputeShaderNode.DispatchCompute(CommandBuffer, Int32, Int32, Int32, Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_DispatchCompute_UnityEngine_Rendering_CommandBuffer_UnityEngine_ComputeShader_System_Int32_System_Int32_System_Int32_System_Int32_">ComputeShaderNode.DispatchCompute(CommandBuffer, ComputeShader, Int32, Int32, Int32, Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_DispatchComputePreview_UnityEngine_Rendering_CommandBuffer_System_Int32_">ComputeShaderNode.DispatchComputePreview(CommandBuffer, Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_DispatchComputePreview_UnityEngine_Rendering_CommandBuffer_UnityEngine_ComputeShader_System_Int32_">ComputeShaderNode.DispatchComputePreview(CommandBuffer, ComputeShader, Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_ClearBuffer_UnityEngine_Rendering_CommandBuffer_UnityEngine_ComputeBuffer_System_Int32_System_Int32_">ComputeShaderNode.ClearBuffer(CommandBuffer, ComputeBuffer, Int32, Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_graph">MixtureNode.graph</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_rtSettings">MixtureNode.rtSettings</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_defaultRTSettings">MixtureNode.defaultRTSettings</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_nodeWidth">MixtureNode.nodeWidth</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_hasSettings">MixtureNode.hasSettings</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_hasPreview">MixtureNode.hasPreview</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_defaultPreviewChannels">MixtureNode.defaultPreviewChannels</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_showPreviewExposure">MixtureNode.showPreviewExposure</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_isPreviewCollapsed">MixtureNode.isPreviewCollapsed</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_onSettingsChanged">MixtureNode.onSettingsChanged</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_beforeProcessSetup">MixtureNode.beforeProcessSetup</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_afterProcessCleanup">MixtureNode.afterProcessCleanup</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_showControlsOnHover">MixtureNode.showControlsOnHover</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_temporaryMaterials">MixtureNode.temporaryMaterials</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewMode">MixtureNode.previewMode</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewMip">MixtureNode.previewMip</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewVisible">MixtureNode.previewVisible</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewEV100">MixtureNode.previewEV100</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_recorder">MixtureNode.recorder</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnNodeCreated">MixtureNode.OnNodeCreated()</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_UpdateTempRenderTexture_UnityEngine_CustomRenderTexture__System_Boolean_System_Boolean_">MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnProcess_UnityEngine_Rendering_CommandBuffer_">MixtureNode.OnProcess(CommandBuffer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_Process">MixtureNode.Process()</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_AddObjectToGraph_UnityEngine_Object_">MixtureNode.AddObjectToGraph(Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_RemoveObjectFromGraph_UnityEngine_Object_">MixtureNode.RemoveObjectFromGraph(Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetPropertyType_UnityEngine_Shader_System_Int32_">MixtureNode.GetPropertyType(Shader, Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetMaterialPortDatas_UnityEngine_Material_">MixtureNode.GetMaterialPortDatas(Material)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_AssignMaterialPropertiesFromEdges_System_Collections_Generic_List_SerializableEdge__UnityEngine_Material_">MixtureNode.AssignMaterialPropertiesFromEdges(List&lt;SerializableEdge&gt;, Material)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnSettingsChanged">MixtureNode.OnSettingsChanged()</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetDefaultMaterial_UnityEngine_Material_">MixtureNode.GetDefaultMaterial(Material)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_ResetMaterialPropertyToDefault_UnityEngine_Material_System_String_">MixtureNode.ResetMaterialPropertyToDefault(Material, String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetMixtureDependencies">MixtureNode.GetMixtureDependencies()</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetTempMaterial_System_String_">MixtureNode.GetTempMaterial(String)</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Mixture.html">Mixture</a></h6>
+  <h6><strong>Assembly</strong>: Mixture.Runtime.dll</h6>
+  <h5 id="Mixture_SplatterNode_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Serializable]
+public class SplatterNode : ComputeShaderNode</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_blendOperator.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.blendOperator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L80">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_blendOperator" data-uid="Mixture.SplatterNode.blendOperator">blendOperator</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SplatterNode.Operator blendOperator</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.SplatterNode.Operator.html">SplatterNode.Operator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_extent.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.extent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L41">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_extent" data-uid="Mixture.SplatterNode.extent">extent</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector2 extent</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_fixedAngles.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.fixedAngles%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L65">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_fixedAngles" data-uid="Mixture.SplatterNode.fixedAngles">fixedAngles</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector3 fixedAngles</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_fixedScale.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.fixedScale%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L74">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_fixedScale" data-uid="Mixture.SplatterNode.fixedScale">fixedScale</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector3 fixedScale</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_gridCram.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.gridCram%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L53">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_gridCram" data-uid="Mixture.SplatterNode.gridCram">gridCram</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector2 gridCram</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_gridShift.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.gridShift%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L55">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_gridShift" data-uid="Mixture.SplatterNode.gridShift">gridShift</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector2 gridShift</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_gridSize.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.gridSize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L51">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_gridSize" data-uid="Mixture.SplatterNode.gridSize">gridSize</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector2 gridSize</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_inputTextures.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.inputTextures%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L34">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_inputTextures" data-uid="Mixture.SplatterNode.inputTextures">inputTextures</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Texture&gt; inputTextures</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">UnityEngine.Texture</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_maxAngles.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.maxAngles%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L69">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_maxAngles" data-uid="Mixture.SplatterNode.maxAngles">maxAngles</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector3 maxAngles</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_maxScale.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.maxScale%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L78">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_maxScale" data-uid="Mixture.SplatterNode.maxScale">maxScale</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector3 maxScale</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_maxSplatCount.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.maxSplatCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L39">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_maxSplatCount" data-uid="Mixture.SplatterNode.maxSplatCount">maxSplatCount</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int maxSplatCount</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_minAngles.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.minAngles%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L67">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_minAngles" data-uid="Mixture.SplatterNode.minAngles">minAngles</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector3 minAngles</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_minScale.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.minScale%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L76">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_minScale" data-uid="Mixture.SplatterNode.minScale">minScale</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector3 minScale</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_output.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.output%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L37">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_output" data-uid="Mixture.SplatterNode.output">output</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Texture output</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Texture</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_positionJitter.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.positionJitter%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L58">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_positionJitter" data-uid="Mixture.SplatterNode.positionJitter">positionJitter</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector3 positionJitter</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_rotationMode.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.rotationMode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L61">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_rotationMode" data-uid="Mixture.SplatterNode.rotationMode">rotationMode</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SplatterNode.RotationMode rotationMode</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.SplatterNode.RotationMode.html">SplatterNode.RotationMode</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_scaleMode.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.scaleMode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L71">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_scaleMode" data-uid="Mixture.SplatterNode.scaleMode">scaleMode</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SplatterNode.ScaleMode scaleMode</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.SplatterNode.ScaleMode.html">SplatterNode.ScaleMode</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_sequence.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.sequence%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L43">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_sequence" data-uid="Mixture.SplatterNode.sequence">sequence</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SplatterNode.Sequence sequence</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.SplatterNode.Sequence.html">SplatterNode.Sequence</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_stackPosition.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.stackPosition%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L47">View Source</a>
+  </span>
+  <h4 id="Mixture_SplatterNode_stackPosition" data-uid="Mixture.SplatterNode.stackPosition">stackPosition</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector3 stackPosition</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_computeShaderResourcePath.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.computeShaderResourcePath%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L83">View Source</a>
+  </span>
+  <a id="Mixture_SplatterNode_computeShaderResourcePath_" data-uid="Mixture.SplatterNode.computeShaderResourcePath*"></a>
+  <h4 id="Mixture_SplatterNode_computeShaderResourcePath" data-uid="Mixture.SplatterNode.computeShaderResourcePath">computeShaderResourcePath</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override string computeShaderResourcePath { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_computeShaderResourcePath">ComputeShaderNode.computeShaderResourcePath</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_name.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L82">View Source</a>
+  </span>
+  <a id="Mixture_SplatterNode_name_" data-uid="Mixture.SplatterNode.name*"></a>
+  <h4 id="Mixture_SplatterNode_name" data-uid="Mixture.SplatterNode.name">name</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string name { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_name">ComputeShaderNode.name</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_showDefaultInspector.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.showDefaultInspector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L88">View Source</a>
+  </span>
+  <a id="Mixture_SplatterNode_showDefaultInspector_" data-uid="Mixture.SplatterNode.showDefaultInspector*"></a>
+  <h4 id="Mixture_SplatterNode_showDefaultInspector" data-uid="Mixture.SplatterNode.showDefaultInspector">showDefaultInspector</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool showDefaultInspector { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_showDefaultInspector">MixtureNode.showDefaultInspector</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_supportedDimensions.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.supportedDimensions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L84">View Source</a>
+  </span>
+  <a id="Mixture_SplatterNode_supportedDimensions_" data-uid="Mixture.SplatterNode.supportedDimensions*"></a>
+  <h4 id="Mixture_SplatterNode_supportedDimensions" data-uid="Mixture.SplatterNode.supportedDimensions">supportedDimensions</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override List&lt;OutputDimension&gt; supportedDimensions { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="Mixture.OutputDimension.html">OutputDimension</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_supportedDimensions">MixtureNode.supportedDimensions</a></div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_Disable.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.Disable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L266">View Source</a>
+  </span>
+  <a id="Mixture_SplatterNode_Disable_" data-uid="Mixture.SplatterNode.Disable*"></a>
+  <h4 id="Mixture_SplatterNode_Disable" data-uid="Mixture.SplatterNode.Disable">Disable()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void Disable()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_Disable">ComputeShaderNode.Disable()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_Enable.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.Enable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L149">View Source</a>
+  </span>
+  <a id="Mixture_SplatterNode_Enable_" data-uid="Mixture.SplatterNode.Enable*"></a>
+  <h4 id="Mixture_SplatterNode_Enable" data-uid="Mixture.SplatterNode.Enable">Enable()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void Enable()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Mixture.ComputeShaderNode.html#Mixture_ComputeShaderNode_Enable">ComputeShaderNode.Enable()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L160">View Source</a>
+  </span>
+  <a id="Mixture_SplatterNode_ProcessNode_" data-uid="Mixture.SplatterNode.ProcessNode*"></a>
+  <h4 id="Mixture_SplatterNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_" data-uid="Mixture.SplatterNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)">ProcessNode(CommandBuffer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override bool ProcessNode(CommandBuffer cmd)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Rendering.CommandBuffer</span></td>
+        <td><span class="parametername">cmd</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_">MixtureNode.ProcessNode(CommandBuffer)</a></div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_SplatterNode.md&amp;value=---%0Auid%3A%20Mixture.SplatterNode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs/#L10" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

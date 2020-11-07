@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace Mixture
 {
+	[Documentation(@"
+Color constant value.
+")]
+
 	[System.Serializable, NodeMenuItem("Constants/Color")]
 	public class ColorNode : MixtureNode
 	{

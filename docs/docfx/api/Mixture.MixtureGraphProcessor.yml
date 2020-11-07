@@ -1,0 +1,177 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.MixtureGraphProcessor
+  commentId: T:Mixture.MixtureGraphProcessor
+  id: MixtureGraphProcessor
+  parent: Mixture
+  children:
+  - Mixture.MixtureGraphProcessor.#ctor(BaseGraph)
+  - Mixture.MixtureGraphProcessor.Run
+  - Mixture.MixtureGraphProcessor.UpdateComputeOrder
+  langs:
+  - csharp
+  - vb
+  name: MixtureGraphProcessor
+  nameWithType: MixtureGraphProcessor
+  fullName: Mixture.MixtureGraphProcessor
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: MixtureGraphProcessor
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+    startLine: 8
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: 'public class MixtureGraphProcessor : BaseGraphProcessor'
+    content.vb: >-
+      Public Class MixtureGraphProcessor
+          Inherits BaseGraphProcessor
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.MixtureGraphProcessor.#ctor(BaseGraph)
+  commentId: M:Mixture.MixtureGraphProcessor.#ctor(BaseGraph)
+  id: '#ctor(BaseGraph)'
+  parent: Mixture.MixtureGraphProcessor
+  langs:
+  - csharp
+  - vb
+  name: MixtureGraphProcessor(BaseGraph)
+  nameWithType: MixtureGraphProcessor.MixtureGraphProcessor(BaseGraph)
+  fullName: Mixture.MixtureGraphProcessor.MixtureGraphProcessor(BaseGraph)
+  type: Constructor
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: .ctor
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+    startLine: 16
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public MixtureGraphProcessor(BaseGraph graph)
+    parameters:
+    - id: graph
+      type: BaseGraph
+    content.vb: Public Sub New(graph As BaseGraph)
+  overload: Mixture.MixtureGraphProcessor.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureGraphProcessor.UpdateComputeOrder
+  commentId: M:Mixture.MixtureGraphProcessor.UpdateComputeOrder
+  id: UpdateComputeOrder
+  parent: Mixture.MixtureGraphProcessor
+  langs:
+  - csharp
+  - vb
+  name: UpdateComputeOrder()
+  nameWithType: MixtureGraphProcessor.UpdateComputeOrder()
+  fullName: Mixture.MixtureGraphProcessor.UpdateComputeOrder()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: UpdateComputeOrder
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+    startLine: 22
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public override void UpdateComputeOrder()
+    content.vb: Public Overrides Sub UpdateComputeOrder
+  overload: Mixture.MixtureGraphProcessor.UpdateComputeOrder*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: Mixture.MixtureGraphProcessor.Run
+  commentId: M:Mixture.MixtureGraphProcessor.Run
+  id: Run
+  parent: Mixture.MixtureGraphProcessor
+  langs:
+  - csharp
+  - vb
+  name: Run()
+  nameWithType: MixtureGraphProcessor.Run()
+  fullName: Mixture.MixtureGraphProcessor.Run()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Run
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+    startLine: 44
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public override void Run()
+    content.vb: Public Overrides Sub Run
+  overload: Mixture.MixtureGraphProcessor.Run*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mixture.MixtureGraphProcessor.#ctor*
+  commentId: Overload:Mixture.MixtureGraphProcessor.#ctor
+  name: MixtureGraphProcessor
+  nameWithType: MixtureGraphProcessor.MixtureGraphProcessor
+  fullName: Mixture.MixtureGraphProcessor.MixtureGraphProcessor
+- uid: BaseGraph
+  isExternal: true
+  name: BaseGraph
+  nameWithType: BaseGraph
+  fullName: BaseGraph
+- uid: Mixture.MixtureGraphProcessor.UpdateComputeOrder*
+  commentId: Overload:Mixture.MixtureGraphProcessor.UpdateComputeOrder
+  name: UpdateComputeOrder
+  nameWithType: MixtureGraphProcessor.UpdateComputeOrder
+  fullName: Mixture.MixtureGraphProcessor.UpdateComputeOrder
+- uid: Mixture.MixtureGraphProcessor.Run*
+  commentId: Overload:Mixture.MixtureGraphProcessor.Run
+  name: Run
+  nameWithType: MixtureGraphProcessor.Run
+  fullName: Mixture.MixtureGraphProcessor.Run

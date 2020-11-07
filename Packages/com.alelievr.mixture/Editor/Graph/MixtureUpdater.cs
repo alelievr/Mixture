@@ -37,7 +37,7 @@ namespace Mixture
             foreach (var view in views)
             {
                 // TODO: check if view is visible
-                if (view.graph.isRealtime || needsProcess.Contains(view.graph))
+                if (view.graph.isRealtime || view.graph.realtimePreview || needsProcess.Contains(view.graph))
                 {
                     view.processor.Run();
                     view.MarkDirtyRepaint();

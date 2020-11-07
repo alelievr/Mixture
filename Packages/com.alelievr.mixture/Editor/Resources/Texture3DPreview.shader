@@ -6,7 +6,7 @@
         _Depth ("Depth", Float) = 0
 		_Channels ("_Channels", Vector) = (1.0,1.0,1.0,1.0)
 		_PreviewMip("_PreviewMip", Float) = 0.0
-}
+    }
     SubShader
     {
         Tags { "RenderType"="Overlay" }

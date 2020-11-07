@@ -1,14 +1,20 @@
 ﻿using UnityEngine;
 using GraphProcessor;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Operators/Vector Lerp")]
-	public class VectorLerpNode : MixtureNode, ICPUNode
+		[Documentation(@"
+Perform a lerp between min and max vectors.
+")]
+
+	[System.Serializable, NodeMenuItem("Math/Vector Lerp")]
+	public class VectorLerpNode : MixtureNode
 	{
 		public override bool hasSettings => false;
+		public override bool showDefaultInspector => true;
 
-		[Input("A")]
+		[Input("A"), ShowAsDrawer]
 		public Vector4	a;
 		
 		[Output("Out")]
@@ -20,7 +26,7 @@ namespace Mixture
 		public override string name => "Lerp";
 		public override float nodeWidth => MixtureUtils.operatorNodeWidth;
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			o = new Vector4(
 				Mathf.Lerp(min.x, max.x, a.x),

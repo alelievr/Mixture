@@ -1,0 +1,895 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.MixtureAssetCallbacks
+  commentId: T:Mixture.MixtureAssetCallbacks
+  id: MixtureAssetCallbacks
+  parent: Mixture
+  children:
+  - Mixture.MixtureAssetCallbacks.computeShaderDefaultName
+  - Mixture.MixtureAssetCallbacks.computeShaderNodeDefaultName
+  - Mixture.MixtureAssetCallbacks.computeShaderTemplate
+  - Mixture.MixtureAssetCallbacks.CreateCGFixedShaderNode
+  - Mixture.MixtureAssetCallbacks.CreateComuteShaderFile
+  - Mixture.MixtureAssetCallbacks.CreateCSharpComuteShaderNode
+  - Mixture.MixtureAssetCallbacks.CreateCSharpFixedShaderNode
+  - Mixture.MixtureAssetCallbacks.CreateCustomTextureShader
+  - Mixture.MixtureAssetCallbacks.CreateRealtimeMixtureGraph
+  - Mixture.MixtureAssetCallbacks.CreateStaticMixtureGraph
+  - Mixture.MixtureAssetCallbacks.csharpComputeShaderNodeTemplate
+  - Mixture.MixtureAssetCallbacks.customMipMapShader
+  - Mixture.MixtureAssetCallbacks.customTextureShaderTemplate
+  - Mixture.MixtureAssetCallbacks.Extension
+  - Mixture.MixtureAssetCallbacks.OnBaseGraphOpened(System.Int32,System.Int32)
+  - Mixture.MixtureAssetCallbacks.shaderName
+  - Mixture.MixtureAssetCallbacks.shaderNodeCGTemplate
+  - Mixture.MixtureAssetCallbacks.shaderNodeCSharpTemplate
+  - Mixture.MixtureAssetCallbacks.shaderNodeDefaultName
+  langs:
+  - csharp
+  - vb
+  name: MixtureAssetCallbacks
+  nameWithType: MixtureAssetCallbacks
+  fullName: Mixture.MixtureAssetCallbacks
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: MixtureAssetCallbacks
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 14
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public class MixtureAssetCallbacks
+    content.vb: Public Class MixtureAssetCallbacks
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.MixtureAssetCallbacks.Extension
+  commentId: F:Mixture.MixtureAssetCallbacks.Extension
+  id: Extension
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: Extension
+  nameWithType: MixtureAssetCallbacks.Extension
+  fullName: Mixture.MixtureAssetCallbacks.Extension
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Extension
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 16
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static readonly string Extension
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Extension As String
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureAssetCallbacks.customTextureShaderTemplate
+  commentId: F:Mixture.MixtureAssetCallbacks.customTextureShaderTemplate
+  id: customTextureShaderTemplate
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: customTextureShaderTemplate
+  nameWithType: MixtureAssetCallbacks.customTextureShaderTemplate
+  fullName: Mixture.MixtureAssetCallbacks.customTextureShaderTemplate
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: customTextureShaderTemplate
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 17
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static readonly string customTextureShaderTemplate
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly customTextureShaderTemplate As String
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureAssetCallbacks.shaderNodeCSharpTemplate
+  commentId: F:Mixture.MixtureAssetCallbacks.shaderNodeCSharpTemplate
+  id: shaderNodeCSharpTemplate
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: shaderNodeCSharpTemplate
+  nameWithType: MixtureAssetCallbacks.shaderNodeCSharpTemplate
+  fullName: Mixture.MixtureAssetCallbacks.shaderNodeCSharpTemplate
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: shaderNodeCSharpTemplate
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 19
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static readonly string shaderNodeCSharpTemplate
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly shaderNodeCSharpTemplate As String
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureAssetCallbacks.shaderNodeCGTemplate
+  commentId: F:Mixture.MixtureAssetCallbacks.shaderNodeCGTemplate
+  id: shaderNodeCGTemplate
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: shaderNodeCGTemplate
+  nameWithType: MixtureAssetCallbacks.shaderNodeCGTemplate
+  fullName: Mixture.MixtureAssetCallbacks.shaderNodeCGTemplate
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: shaderNodeCGTemplate
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 20
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static readonly string shaderNodeCGTemplate
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly shaderNodeCGTemplate As String
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureAssetCallbacks.shaderNodeDefaultName
+  commentId: F:Mixture.MixtureAssetCallbacks.shaderNodeDefaultName
+  id: shaderNodeDefaultName
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: shaderNodeDefaultName
+  nameWithType: MixtureAssetCallbacks.shaderNodeDefaultName
+  fullName: Mixture.MixtureAssetCallbacks.shaderNodeDefaultName
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: shaderNodeDefaultName
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 21
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static readonly string shaderNodeDefaultName
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly shaderNodeDefaultName As String
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureAssetCallbacks.shaderName
+  commentId: F:Mixture.MixtureAssetCallbacks.shaderName
+  id: shaderName
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: shaderName
+  nameWithType: MixtureAssetCallbacks.shaderName
+  fullName: Mixture.MixtureAssetCallbacks.shaderName
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: shaderName
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 22
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static readonly string shaderName
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly shaderName As String
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureAssetCallbacks.csharpComputeShaderNodeTemplate
+  commentId: F:Mixture.MixtureAssetCallbacks.csharpComputeShaderNodeTemplate
+  id: csharpComputeShaderNodeTemplate
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: csharpComputeShaderNodeTemplate
+  nameWithType: MixtureAssetCallbacks.csharpComputeShaderNodeTemplate
+  fullName: Mixture.MixtureAssetCallbacks.csharpComputeShaderNodeTemplate
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: csharpComputeShaderNodeTemplate
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 23
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static readonly string csharpComputeShaderNodeTemplate
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly csharpComputeShaderNodeTemplate As String
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureAssetCallbacks.computeShaderTemplate
+  commentId: F:Mixture.MixtureAssetCallbacks.computeShaderTemplate
+  id: computeShaderTemplate
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: computeShaderTemplate
+  nameWithType: MixtureAssetCallbacks.computeShaderTemplate
+  fullName: Mixture.MixtureAssetCallbacks.computeShaderTemplate
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: computeShaderTemplate
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 24
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static readonly string computeShaderTemplate
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly computeShaderTemplate As String
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureAssetCallbacks.computeShaderDefaultName
+  commentId: F:Mixture.MixtureAssetCallbacks.computeShaderDefaultName
+  id: computeShaderDefaultName
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: computeShaderDefaultName
+  nameWithType: MixtureAssetCallbacks.computeShaderDefaultName
+  fullName: Mixture.MixtureAssetCallbacks.computeShaderDefaultName
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: computeShaderDefaultName
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 25
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static readonly string computeShaderDefaultName
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly computeShaderDefaultName As String
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureAssetCallbacks.computeShaderNodeDefaultName
+  commentId: F:Mixture.MixtureAssetCallbacks.computeShaderNodeDefaultName
+  id: computeShaderNodeDefaultName
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: computeShaderNodeDefaultName
+  nameWithType: MixtureAssetCallbacks.computeShaderNodeDefaultName
+  fullName: Mixture.MixtureAssetCallbacks.computeShaderNodeDefaultName
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: computeShaderNodeDefaultName
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 26
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static readonly string computeShaderNodeDefaultName
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly computeShaderNodeDefaultName As String
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureAssetCallbacks.customMipMapShader
+  commentId: F:Mixture.MixtureAssetCallbacks.customMipMapShader
+  id: customMipMapShader
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: customMipMapShader
+  nameWithType: MixtureAssetCallbacks.customMipMapShader
+  fullName: Mixture.MixtureAssetCallbacks.customMipMapShader
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: customMipMapShader
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 28
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static readonly string customMipMapShader
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly customMipMapShader As String
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureAssetCallbacks.CreateStaticMixtureGraph
+  commentId: M:Mixture.MixtureAssetCallbacks.CreateStaticMixtureGraph
+  id: CreateStaticMixtureGraph
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: CreateStaticMixtureGraph()
+  nameWithType: MixtureAssetCallbacks.CreateStaticMixtureGraph()
+  fullName: Mixture.MixtureAssetCallbacks.CreateStaticMixtureGraph()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: CreateStaticMixtureGraph
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 30
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: "[MenuItem(\"Assets/Create/\U0001F3A8 Static Mixture Graph\", false, 83)]\npublic static void CreateStaticMixtureGraph()"
+    content.vb: "<MenuItem(\"Assets/Create/\U0001F3A8 Static Mixture Graph\", False, 83)>\nPublic Shared Sub CreateStaticMixtureGraph"
+  overload: Mixture.MixtureAssetCallbacks.CreateStaticMixtureGraph*
+  attributes:
+  - type: UnityEditor.MenuItem
+    ctor: UnityEditor.MenuItem.#ctor(System.String,System.Boolean,System.Int32)
+    arguments:
+    - type: System.String
+      value: "Assets/Create/\U0001F3A8 Static Mixture Graph"
+    - type: System.Boolean
+      value: false
+    - type: System.Int32
+      value: 83
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MixtureAssetCallbacks.CreateRealtimeMixtureGraph
+  commentId: M:Mixture.MixtureAssetCallbacks.CreateRealtimeMixtureGraph
+  id: CreateRealtimeMixtureGraph
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: CreateRealtimeMixtureGraph()
+  nameWithType: MixtureAssetCallbacks.CreateRealtimeMixtureGraph()
+  fullName: Mixture.MixtureAssetCallbacks.CreateRealtimeMixtureGraph()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: CreateRealtimeMixtureGraph
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 38
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: "[MenuItem(\"Assets/Create/\U0001F321️ Realtime Mixture Graph\", false, 83)]\npublic static void CreateRealtimeMixtureGraph()"
+    content.vb: "<MenuItem(\"Assets/Create/\U0001F321️ Realtime Mixture Graph\", False, 83)>\nPublic Shared Sub CreateRealtimeMixtureGraph"
+  overload: Mixture.MixtureAssetCallbacks.CreateRealtimeMixtureGraph*
+  attributes:
+  - type: UnityEditor.MenuItem
+    ctor: UnityEditor.MenuItem.#ctor(System.String,System.Boolean,System.Int32)
+    arguments:
+    - type: System.String
+      value: "Assets/Create/\U0001F321️ Realtime Mixture Graph"
+    - type: System.Boolean
+      value: false
+    - type: System.Int32
+      value: 83
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MixtureAssetCallbacks.CreateCSharpFixedShaderNode
+  commentId: M:Mixture.MixtureAssetCallbacks.CreateCSharpFixedShaderNode
+  id: CreateCSharpFixedShaderNode
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: CreateCSharpFixedShaderNode()
+  nameWithType: MixtureAssetCallbacks.CreateCSharpFixedShaderNode()
+  fullName: Mixture.MixtureAssetCallbacks.CreateCSharpFixedShaderNode()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: CreateCSharpFixedShaderNode
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 65
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: >-
+      [MenuItem("Assets/Create/Mixture/C# Fixed Shader Node", false, 200)]
+
+      public static void CreateCSharpFixedShaderNode()
+    content.vb: >-
+      <MenuItem("Assets/Create/Mixture/C# Fixed Shader Node", False, 200)>
+
+      Public Shared Sub CreateCSharpFixedShaderNode
+  overload: Mixture.MixtureAssetCallbacks.CreateCSharpFixedShaderNode*
+  attributes:
+  - type: UnityEditor.MenuItem
+    ctor: UnityEditor.MenuItem.#ctor(System.String,System.Boolean,System.Int32)
+    arguments:
+    - type: System.String
+      value: Assets/Create/Mixture/C# Fixed Shader Node
+    - type: System.Boolean
+      value: false
+    - type: System.Int32
+      value: 200
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MixtureAssetCallbacks.CreateCGFixedShaderNode
+  commentId: M:Mixture.MixtureAssetCallbacks.CreateCGFixedShaderNode
+  id: CreateCGFixedShaderNode
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: CreateCGFixedShaderNode()
+  nameWithType: MixtureAssetCallbacks.CreateCGFixedShaderNode()
+  fullName: Mixture.MixtureAssetCallbacks.CreateCGFixedShaderNode()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: CreateCGFixedShaderNode
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 72
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: >-
+      [MenuItem("Assets/Create/Mixture/Fixed Shader", false, 201)]
+
+      public static void CreateCGFixedShaderNode()
+    content.vb: >-
+      <MenuItem("Assets/Create/Mixture/Fixed Shader", False, 201)>
+
+      Public Shared Sub CreateCGFixedShaderNode
+  overload: Mixture.MixtureAssetCallbacks.CreateCGFixedShaderNode*
+  attributes:
+  - type: UnityEditor.MenuItem
+    ctor: UnityEditor.MenuItem.#ctor(System.String,System.Boolean,System.Int32)
+    arguments:
+    - type: System.String
+      value: Assets/Create/Mixture/Fixed Shader
+    - type: System.Boolean
+      value: false
+    - type: System.Int32
+      value: 201
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MixtureAssetCallbacks.CreateCustomTextureShader
+  commentId: M:Mixture.MixtureAssetCallbacks.CreateCustomTextureShader
+  id: CreateCustomTextureShader
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: CreateCustomTextureShader()
+  nameWithType: MixtureAssetCallbacks.CreateCustomTextureShader()
+  fullName: Mixture.MixtureAssetCallbacks.CreateCustomTextureShader()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: CreateCustomTextureShader
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 79
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: >-
+      [MenuItem("Assets/Create/Shader/Custom Texture", false, 100)]
+
+      public static void CreateCustomTextureShader()
+    content.vb: >-
+      <MenuItem("Assets/Create/Shader/Custom Texture", False, 100)>
+
+      Public Shared Sub CreateCustomTextureShader
+  overload: Mixture.MixtureAssetCallbacks.CreateCustomTextureShader*
+  attributes:
+  - type: UnityEditor.MenuItem
+    ctor: UnityEditor.MenuItem.#ctor(System.String,System.Boolean,System.Int32)
+    arguments:
+    - type: System.String
+      value: Assets/Create/Shader/Custom Texture
+    - type: System.Boolean
+      value: false
+    - type: System.Int32
+      value: 100
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MixtureAssetCallbacks.CreateCSharpComuteShaderNode
+  commentId: M:Mixture.MixtureAssetCallbacks.CreateCSharpComuteShaderNode
+  id: CreateCSharpComuteShaderNode
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: CreateCSharpComuteShaderNode()
+  nameWithType: MixtureAssetCallbacks.CreateCSharpComuteShaderNode()
+  fullName: Mixture.MixtureAssetCallbacks.CreateCSharpComuteShaderNode()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: CreateCSharpComuteShaderNode
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 91
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: >-
+      [MenuItem("Assets/Create/Mixture/C# Compute Shader Node", false, 300)]
+
+      public static void CreateCSharpComuteShaderNode()
+    content.vb: >-
+      <MenuItem("Assets/Create/Mixture/C# Compute Shader Node", False, 300)>
+
+      Public Shared Sub CreateCSharpComuteShaderNode
+  overload: Mixture.MixtureAssetCallbacks.CreateCSharpComuteShaderNode*
+  attributes:
+  - type: UnityEditor.MenuItem
+    ctor: UnityEditor.MenuItem.#ctor(System.String,System.Boolean,System.Int32)
+    arguments:
+    - type: System.String
+      value: Assets/Create/Mixture/C# Compute Shader Node
+    - type: System.Boolean
+      value: false
+    - type: System.Int32
+      value: 300
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MixtureAssetCallbacks.CreateComuteShaderFile
+  commentId: M:Mixture.MixtureAssetCallbacks.CreateComuteShaderFile
+  id: CreateComuteShaderFile
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: CreateComuteShaderFile()
+  nameWithType: MixtureAssetCallbacks.CreateComuteShaderFile()
+  fullName: Mixture.MixtureAssetCallbacks.CreateComuteShaderFile()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: CreateComuteShaderFile
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 98
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: >-
+      [MenuItem("Assets/Create/Mixture/Compute Shader", false, 301)]
+
+      public static void CreateComuteShaderFile()
+    content.vb: >-
+      <MenuItem("Assets/Create/Mixture/Compute Shader", False, 301)>
+
+      Public Shared Sub CreateComuteShaderFile
+  overload: Mixture.MixtureAssetCallbacks.CreateComuteShaderFile*
+  attributes:
+  - type: UnityEditor.MenuItem
+    ctor: UnityEditor.MenuItem.#ctor(System.String,System.Boolean,System.Int32)
+    arguments:
+    - type: System.String
+      value: Assets/Create/Mixture/Compute Shader
+    - type: System.Boolean
+      value: false
+    - type: System.Int32
+      value: 301
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MixtureAssetCallbacks.OnBaseGraphOpened(System.Int32,System.Int32)
+  commentId: M:Mixture.MixtureAssetCallbacks.OnBaseGraphOpened(System.Int32,System.Int32)
+  id: OnBaseGraphOpened(System.Int32,System.Int32)
+  parent: Mixture.MixtureAssetCallbacks
+  langs:
+  - csharp
+  - vb
+  name: OnBaseGraphOpened(Int32, Int32)
+  nameWithType: MixtureAssetCallbacks.OnBaseGraphOpened(Int32, Int32)
+  fullName: Mixture.MixtureAssetCallbacks.OnBaseGraphOpened(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: OnBaseGraphOpened
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/MixtureCallbacks.cs
+    startLine: 105
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: >-
+      [OnOpenAsset(0)]
+
+      public static bool OnBaseGraphOpened(int instanceID, int line)
+    parameters:
+    - id: instanceID
+      type: System.Int32
+    - id: line
+      type: System.Int32
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <OnOpenAsset(0)>
+
+      Public Shared Function OnBaseGraphOpened(instanceID As Integer, line As Integer) As Boolean
+  overload: Mixture.MixtureAssetCallbacks.OnBaseGraphOpened*
+  attributes:
+  - type: UnityEditor.Callbacks.OnOpenAssetAttribute
+    ctor: UnityEditor.Callbacks.OnOpenAssetAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 0
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: Mixture.MixtureAssetCallbacks.CreateStaticMixtureGraph*
+  commentId: Overload:Mixture.MixtureAssetCallbacks.CreateStaticMixtureGraph
+  name: CreateStaticMixtureGraph
+  nameWithType: MixtureAssetCallbacks.CreateStaticMixtureGraph
+  fullName: Mixture.MixtureAssetCallbacks.CreateStaticMixtureGraph
+- uid: Mixture.MixtureAssetCallbacks.CreateRealtimeMixtureGraph*
+  commentId: Overload:Mixture.MixtureAssetCallbacks.CreateRealtimeMixtureGraph
+  name: CreateRealtimeMixtureGraph
+  nameWithType: MixtureAssetCallbacks.CreateRealtimeMixtureGraph
+  fullName: Mixture.MixtureAssetCallbacks.CreateRealtimeMixtureGraph
+- uid: Mixture.MixtureAssetCallbacks.CreateCSharpFixedShaderNode*
+  commentId: Overload:Mixture.MixtureAssetCallbacks.CreateCSharpFixedShaderNode
+  name: CreateCSharpFixedShaderNode
+  nameWithType: MixtureAssetCallbacks.CreateCSharpFixedShaderNode
+  fullName: Mixture.MixtureAssetCallbacks.CreateCSharpFixedShaderNode
+- uid: Mixture.MixtureAssetCallbacks.CreateCGFixedShaderNode*
+  commentId: Overload:Mixture.MixtureAssetCallbacks.CreateCGFixedShaderNode
+  name: CreateCGFixedShaderNode
+  nameWithType: MixtureAssetCallbacks.CreateCGFixedShaderNode
+  fullName: Mixture.MixtureAssetCallbacks.CreateCGFixedShaderNode
+- uid: Mixture.MixtureAssetCallbacks.CreateCustomTextureShader*
+  commentId: Overload:Mixture.MixtureAssetCallbacks.CreateCustomTextureShader
+  name: CreateCustomTextureShader
+  nameWithType: MixtureAssetCallbacks.CreateCustomTextureShader
+  fullName: Mixture.MixtureAssetCallbacks.CreateCustomTextureShader
+- uid: Mixture.MixtureAssetCallbacks.CreateCSharpComuteShaderNode*
+  commentId: Overload:Mixture.MixtureAssetCallbacks.CreateCSharpComuteShaderNode
+  name: CreateCSharpComuteShaderNode
+  nameWithType: MixtureAssetCallbacks.CreateCSharpComuteShaderNode
+  fullName: Mixture.MixtureAssetCallbacks.CreateCSharpComuteShaderNode
+- uid: Mixture.MixtureAssetCallbacks.CreateComuteShaderFile*
+  commentId: Overload:Mixture.MixtureAssetCallbacks.CreateComuteShaderFile
+  name: CreateComuteShaderFile
+  nameWithType: MixtureAssetCallbacks.CreateComuteShaderFile
+  fullName: Mixture.MixtureAssetCallbacks.CreateComuteShaderFile
+- uid: Mixture.MixtureAssetCallbacks.OnBaseGraphOpened*
+  commentId: Overload:Mixture.MixtureAssetCallbacks.OnBaseGraphOpened
+  name: OnBaseGraphOpened
+  nameWithType: MixtureAssetCallbacks.OnBaseGraphOpened
+  fullName: Mixture.MixtureAssetCallbacks.OnBaseGraphOpened
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

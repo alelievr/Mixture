@@ -2,6 +2,7 @@
 using UnityEngine.Rendering;
 using UnityEditor;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Object = UnityEngine.Object;
 using UnityEngine.UIElements;
@@ -13,7 +14,7 @@ namespace Mixture
 	[InitializeOnLoad]
 	class MixtureSmallIconRenderer
 	{
-		static Dictionary< string, bool >	mixtureAssets = new Dictionary< string, bool >();
+		static Dictionary< string, MixtureGraph >	mixtureAssets = new Dictionary< string, MixtureGraph >();
 
 		static MixtureSmallIconRenderer() => EditorApplication.projectWindowItemOnGUI += DrawMixtureSmallIcon;
 		
@@ -23,10 +24,10 @@ namespace Mixture
 			if (rect.height != 16)
 				return ;
 			
-			bool isRealtime;
-			if (mixtureAssets.TryGetValue(assetGUID, out isRealtime))
+			MixtureGraph graph;
+			if (mixtureAssets.TryGetValue(assetGUID, out graph))
 			{
-				DrawMixtureSmallIcon(rect, isRealtime);
+				DrawMixtureSmallIcon(rect, graph);
 				return ;
 			}
 
@@ -40,25 +41,34 @@ namespace Mixture
 			var texture = AssetDatabase.LoadAssetAtPath< Texture >(assetPath);
 			if (texture == null)
 				return ;
-			
-			isRealtime = texture is CustomRenderTexture;
-			mixtureAssets.Add(assetGUID, isRealtime);
 
-			DrawMixtureSmallIcon(rect, isRealtime);
+			// and then that it have a Mixture Graph as subasset
+			graph = MixtureEditorUtils.GetGraphAtPath(assetPath);
+			if (graph == null)
+				return ;
+
+			mixtureAssets.Add(assetGUID, graph);
+
+			DrawMixtureSmallIcon(rect, graph);
 		}
 
-		static void DrawMixtureSmallIcon(Rect rect, bool realtime)
+		static void DrawMixtureSmallIcon(Rect rect, MixtureGraph graph)
 		{
 			Rect clearRect = new Rect(rect.x, rect.y, 20, 16);
 			Rect iconRect = new Rect(rect.x + 2, rect.y, 16, 16);
 
+			// TODO: find a way to detect the focus of the project window instantaneously
+			bool focused = false;
+
 			// Draw a quad of the color of the background
-			Color backgroundColor = EditorGUIUtility.isProSkin
-				? new Color32(56, 56, 56, 255)
-				: new Color32(194, 194, 194, 255);
+			Color backgroundColor;
+			if (EditorGUIUtility.isProSkin)
+				backgroundColor = focused ? new Color32(44, 93, 135, 255) : new Color32(56, 56, 56, 255);
+			else
+				backgroundColor = new Color32(194, 194, 194, 255);
 
 			EditorGUI.DrawRect(clearRect, backgroundColor);
-			GUI.DrawTexture(iconRect, realtime ? MixtureUtils.realtimeIcon32 : MixtureUtils.icon32);
+			GUI.DrawTexture(iconRect, graph.isRealtime ? MixtureUtils.realtimeIcon32 : MixtureUtils.icon32);
 		}
 	}
 
@@ -72,12 +82,8 @@ namespace Mixture
 		protected virtual void OnEnable()
 		{
 			// Load the mixture graph:
-			var assets = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(target));
+			graph = MixtureEditorUtils.GetGraphAtPath(AssetDatabase.GetAssetPath(target));
 
-			foreach (var asset in assets)
-				if (asset is MixtureGraph mixture)
-					graph = mixture;
-			
 			if (graph != null)
 			{
 				graph.onExposedParameterListChanged += UpdateExposedParameters;
@@ -166,12 +172,21 @@ namespace Mixture
 
 		public override VisualElement CreateInspectorGUI()
 		{
+			if (graph == null)
+				return base.CreateInspectorGUI();
+			
+
 			root = new VisualElement();
 			parameters = new VisualElement();
 
+			var styleSheet = Resources.Load<StyleSheet>("MixtureInspector");
+			if (styleSheet != null)
+				root.styleSheets.Add(styleSheet);
+			
 			UpdateExposedParameters(null);
 			root.Add(parameters);
 			root.Add(CreateTextureSettingsView());
+			root.Add(CreateAdvancedSettingsView());
 
 			return root;
 		}
@@ -181,15 +196,23 @@ namespace Mixture
 		{
 			parameters.Clear();
 
-            if (graph.exposedParameters.Count != 0)
-                parameters.Add(new Label("Exposed Parameters:"));
-
+			bool header = true;
+			bool showUpdateButton = false;
             foreach (var param in graph.exposedParameters)
             {
                 if (param.settings.isHidden)
                     continue;
 
+				if (header)
+				{
+					var headerLabel = new Label("Exposed Parameters");
+					headerLabel.AddToClassList("Header");
+					parameters.Add(headerLabel);
+					header = false;
+					showUpdateButton = true;
+				}
                 VisualElement prop = new VisualElement();
+				prop.AddToClassList("Indent");
                 prop.style.display = DisplayStyle.Flex;
                 Type paramType = Type.GetType(param.type);
                 var field = FieldFactory.CreateField(paramType, param.serializedValue.value, (newValue) => {
@@ -199,6 +222,16 @@ namespace Mixture
                 prop.Add(field);
                 parameters.Add(prop);
             }
+
+			if (showUpdateButton)
+			{
+				var updateButton = new Button(() => {
+					MixtureGraphProcessor.RunOnce(graph);
+					graph.SaveAllTextures(false);
+				}) { text = "Update" };
+				updateButton.AddToClassList("Indent");
+				parameters.Add(updateButton);
+			}
 		}
 
 		VisualElement CreateTextureSettingsView()
@@ -207,30 +240,66 @@ namespace Mixture
 
 			var t = target as Texture;
 
-			textureSettings.Add(new Label("Texture Settings:"));
+			var settingsLabel = new Label("Texture Settings");
+			settingsLabel.AddToClassList("Header");
+			textureSettings.Add(settingsLabel);
+
+			var settings = new VisualElement();
+			settings.AddToClassList("Indent");
+			textureSettings.Add(settings);
 
 			var wrapMode = new EnumField("Wrap Mode", t.wrapMode);
 			wrapMode.RegisterValueChangedCallback(e => {
 				Undo.RegisterCompleteObjectUndo(t, "Changed wrap mode");
 				t.wrapMode = (TextureWrapMode)e.newValue;
 			});
-			textureSettings.Add(wrapMode);
+			settings.Add(wrapMode);
 
 			var filterMode = new EnumField("Filter Mode", t.filterMode);
 			filterMode.RegisterValueChangedCallback(e => {
 				Undo.RegisterCompleteObjectUndo(t, "Changed filter mode");
 				t.filterMode = (FilterMode)e.newValue;
 			});
-			textureSettings.Add(filterMode);
+			settings.Add(filterMode);
 
 			var aniso = new SliderInt("Aniso Level", 1, 9);
 			aniso.RegisterValueChangedCallback(e => {
 				Undo.RegisterCompleteObjectUndo(t, "Changed aniso level");
 				t.anisoLevel = e.newValue;
 			});
-			textureSettings.Add(aniso);
+			settings.Add(aniso);
 
 			return textureSettings;
+		}
+
+		VisualElement CreateAdvancedSettingsView()
+		{
+			bool hasAdvancedSettings = false;
+			var advanced = new VisualElement();
+			var container = new VisualElement();
+			container.AddToClassList("Indent");
+
+			if (!graph.isRealtime)
+			{
+				var embed = new Toggle("Embed Graph In Build") { value = graph.embedInBuild };
+				embed.RegisterValueChangedCallback(e => {
+					Undo.RegisterCompleteObjectUndo(graph, "Changed Embed In Build");
+					graph.embedInBuild = e.newValue;
+				});
+				container.Add(embed);
+				hasAdvancedSettings = true;
+			}
+
+			if (hasAdvancedSettings)
+			{
+				var advancedLabel = new Label("Advanced Settings");
+				advancedLabel.AddToClassList("Header");
+				advanced.Add(advancedLabel);
+			}
+
+			advanced.Add(container);
+
+			return advanced;
 		}
 		
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
@@ -243,22 +312,25 @@ namespace Mixture
 			}
 
 			var defaultPreview = defaultTextureEditor.RenderStaticPreview(assetPath, subAssets, width, height);
-			
-			if (!assetPath.EndsWith(".asset")) // If the texture is an asset, then it means that it's a mixture
+
+			if (graph == null)
 				return defaultPreview;
 			
-			var icon = new Texture2D(width, height);
-			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
+			// Combine manually on CPU the two textures because it completely broken with GPU :'(
+			Texture2D mixtureIcon = (target is CustomRenderTexture) ? MixtureUtils.realtimeIcon : MixtureUtils.icon;
 
-			BlitMixtureIcon(defaultPreview, rt, target is CustomRenderTexture);
+			float scaleFactor = Mathf.Max(mixtureIcon.width / (float)defaultPreview.width, 1) * 2.5f;
+			for (int x = 0; x < width / 2.5f; x++)
+			for (int y = 0; y < height / 2.5f; y++)
+			{
+				var iconColor = mixtureIcon.GetPixel((int)(x * scaleFactor), (int)(y * scaleFactor));
+				var color = Color.Lerp(defaultPreview.GetPixel(x, y), iconColor, iconColor.a);
+				defaultPreview.SetPixel(x, y, color);
+			}
 
-			RenderTexture.active = rt;
-			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-			icon.Apply();
-			RenderTexture.active = null;
-			rt.Release();
+			defaultPreview.Apply();
 
-			return icon;
+			return defaultPreview;
 		}
 	}
 
@@ -326,49 +398,34 @@ namespace Mixture
 	class MixtureInspectorTexture3D : MixtureEditor
 	{
 		Texture3D	volume;
-		int			slice;
+		int			slice = 0;
 
 		protected override void OnEnable()
 		{
 			base.OnEnable();
 			volume = target as Texture3D;
+			LoadInspectorFor(typeof(Texture3D));
 		}
 
-		public override void DrawPreview(Rect previewArea)
-		{
-			OnPreviewGUI(previewArea, GUIStyle.none);
-		}
+        public override void OnInspectorGUI()
+        {
+			defaultTextureEditor.OnInspectorGUI();
+        }
 
-		public override bool HasPreviewGUI() => true;
-
-		public override void OnPreviewSettings()
-		{
-			EditorGUIUtility.labelWidth = 30;
-			slice = EditorGUILayout.IntSlider("Slice", slice, 0, volume.depth - 1);
-		}
+		public override bool HasPreviewGUI() => graph != null ? true : base.HasPreviewGUI();
 
         public override void OnPreviewGUI(Rect r, GUIStyle background)
 		{
+			if (graph == null)
+			{
+				base.OnPreviewGUI(r, background);
+				return;
+			}
+
 			float depth = ((float)slice + 0.5f) / (float)volume.depth;
 			MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", depth);
 			MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", volume);
 			EditorGUI.DrawPreviewTexture(r, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial);
-		}
-
-		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
-		{
-			var icon = new Texture2D(width, height);
-			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
-
-			BlitMixtureIcon(target as Texture, rt);
-
-			RenderTexture.active = rt;
-			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-			icon.Apply();
-			RenderTexture.active = null;
-			rt.Release();
-
-			return icon;
 		}
 	}
 
@@ -398,8 +455,17 @@ namespace Mixture
 			base.LoadInspectorFor(typeof(CustomRenderTexture));
 			crt = target as CustomRenderTexture;
 
+			ReloadPreviewInstances();
+
 			isMixture = RealtimeMixtureReferences.realtimeMixtureCRTs.Contains(crt);
 		}
+
+        public override bool RequiresConstantRepaint() => true;
+
+		public override void OnInspectorGUI()
+        {
+			defaultTextureEditor.OnInspectorGUI();
+        }
 
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
 		{
@@ -407,15 +473,6 @@ namespace Mixture
 			if (!isMixture)
 				return defaultTextureEditor.RenderStaticPreview(assetPath, subAssets, width, height);
 			return base.RenderStaticPreview(assetPath, subAssets, width, height);
-		}
-
-		// TODO
-		public override void OnInspectorGUI()
-		{
-			if (isMixture)
-				base.OnInspectorGUI();
-			else
-				defaultTextureEditor.OnInspectorGUI();
 		}
 	}
 }

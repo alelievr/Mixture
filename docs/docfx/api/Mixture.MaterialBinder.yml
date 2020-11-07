@@ -1,0 +1,1397 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.MaterialBinder
+  commentId: T:Mixture.MaterialBinder
+  id: MaterialBinder
+  parent: Mixture
+  children:
+  - Mixture.MaterialBinder.exposedProperties
+  - Mixture.MaterialBinder.GetMaterialInputs(System.Collections.Generic.List{SerializableEdge})
+  - Mixture.MaterialBinder.ListMaterialBindings(System.Collections.Generic.List{SerializableEdge})
+  - Mixture.MaterialBinder.name
+  - Mixture.MaterialBinder.showDefaultInspector
+  - Mixture.MaterialBinder.targetMaterial
+  langs:
+  - csharp
+  - vb
+  name: MaterialBinder
+  nameWithType: MaterialBinder
+  fullName: Mixture.MaterialBinder
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: MaterialBinder
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
+    startLine: 8
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Serializable]
+
+      public class MaterialBinder : MixtureNode
+    content.vb: >-
+      <Serializable>
+
+      Public Class MaterialBinder
+          Inherits MixtureNode
+  inheritance:
+  - System.Object
+  - Mixture.MixtureNode
+  inheritedMembers:
+  - Mixture.MixtureNode.graph
+  - Mixture.MixtureNode.rtSettings
+  - Mixture.MixtureNode.defaultRTSettings
+  - Mixture.MixtureNode.nodeWidth
+  - Mixture.MixtureNode.previewTexture
+  - Mixture.MixtureNode.hasSettings
+  - Mixture.MixtureNode.hasPreview
+  - Mixture.MixtureNode.supportedDimensions
+  - Mixture.MixtureNode.defaultPreviewChannels
+  - Mixture.MixtureNode.showPreviewExposure
+  - Mixture.MixtureNode.isPreviewCollapsed
+  - Mixture.MixtureNode.onSettingsChanged
+  - Mixture.MixtureNode.beforeProcessSetup
+  - Mixture.MixtureNode.afterProcessCleanup
+  - Mixture.MixtureNode.showControlsOnHover
+  - Mixture.MixtureNode.temporaryMaterials
+  - Mixture.MixtureNode.previewMode
+  - Mixture.MixtureNode.previewMip
+  - Mixture.MixtureNode.previewVisible
+  - Mixture.MixtureNode.previewEV100
+  - Mixture.MixtureNode.recorder
+  - Mixture.MixtureNode.OnNodeCreated
+  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
+  - Mixture.MixtureNode.Process
+  - Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  - Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
+  - Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
+  - Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
+  - Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
+  - Mixture.MixtureNode.AssignMaterialPropertiesFromEdges(System.Collections.Generic.List{SerializableEdge},UnityEngine.Material)
+  - Mixture.MixtureNode.OnSettingsChanged
+  - Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
+  - Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
+  - Mixture.MixtureNode.GetMixtureDependencies
+  - Mixture.MixtureNode.GetTempMaterial(System.String)
+  - Mixture.MixtureNode.Disable
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.MaterialBinder.exposedProperties
+  commentId: F:Mixture.MaterialBinder.exposedProperties
+  id: exposedProperties
+  parent: Mixture.MaterialBinder
+  langs:
+  - csharp
+  - vb
+  name: exposedProperties
+  nameWithType: MaterialBinder.exposedProperties
+  fullName: Mixture.MaterialBinder.exposedProperties
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: exposedProperties
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
+    startLine: 12
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public List<object> exposedProperties
+    return:
+      type: System.Collections.Generic.List{System.Object}
+    content.vb: Public exposedProperties As List(Of Object)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MaterialBinder.targetMaterial
+  commentId: F:Mixture.MaterialBinder.targetMaterial
+  id: targetMaterial
+  parent: Mixture.MaterialBinder
+  langs:
+  - csharp
+  - vb
+  name: targetMaterial
+  nameWithType: MaterialBinder.targetMaterial
+  fullName: Mixture.MaterialBinder.targetMaterial
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: targetMaterial
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
+    startLine: 14
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public Material targetMaterial
+    return:
+      type: UnityEngine.Material
+    content.vb: Public targetMaterial As Material
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MaterialBinder.name
+  commentId: P:Mixture.MaterialBinder.name
+  id: name
+  parent: Mixture.MaterialBinder
+  langs:
+  - csharp
+  - vb
+  name: name
+  nameWithType: MaterialBinder.name
+  fullName: Mixture.MaterialBinder.name
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: name
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
+    startLine: 16
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public override string name { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Overrides ReadOnly Property name As String
+  overload: Mixture.MaterialBinder.name*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: Mixture.MaterialBinder.showDefaultInspector
+  commentId: P:Mixture.MaterialBinder.showDefaultInspector
+  id: showDefaultInspector
+  parent: Mixture.MaterialBinder
+  langs:
+  - csharp
+  - vb
+  name: showDefaultInspector
+  nameWithType: MaterialBinder.showDefaultInspector
+  fullName: Mixture.MaterialBinder.showDefaultInspector
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: showDefaultInspector
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
+    startLine: 18
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public override bool showDefaultInspector { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides ReadOnly Property showDefaultInspector As Boolean
+  overridden: Mixture.MixtureNode.showDefaultInspector
+  overload: Mixture.MaterialBinder.showDefaultInspector*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: Mixture.MaterialBinder.ListMaterialBindings(System.Collections.Generic.List{SerializableEdge})
+  commentId: M:Mixture.MaterialBinder.ListMaterialBindings(System.Collections.Generic.List{SerializableEdge})
+  id: ListMaterialBindings(System.Collections.Generic.List{SerializableEdge})
+  parent: Mixture.MaterialBinder
+  langs:
+  - csharp
+  - vb
+  name: ListMaterialBindings(List<SerializableEdge>)
+  nameWithType: MaterialBinder.ListMaterialBindings(List<SerializableEdge>)
+  fullName: Mixture.MaterialBinder.ListMaterialBindings(System.Collections.Generic.List<SerializableEdge>)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ListMaterialBindings
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
+    startLine: 20
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public IEnumerable<PortData> ListMaterialBindings(List<SerializableEdge> edges)
+    parameters:
+    - id: edges
+      type: System.Collections.Generic.List{SerializableEdge}
+    return:
+      type: System.Collections.Generic.IEnumerable{PortData}
+    content.vb: Public Function ListMaterialBindings(edges As List(Of SerializableEdge)) As IEnumerable(Of PortData)
+  overload: Mixture.MaterialBinder.ListMaterialBindings*
+  nameWithType.vb: MaterialBinder.ListMaterialBindings(List(Of SerializableEdge))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: Mixture.MaterialBinder.ListMaterialBindings(System.Collections.Generic.List(Of SerializableEdge))
+  name.vb: ListMaterialBindings(List(Of SerializableEdge))
+- uid: Mixture.MaterialBinder.GetMaterialInputs(System.Collections.Generic.List{SerializableEdge})
+  commentId: M:Mixture.MaterialBinder.GetMaterialInputs(System.Collections.Generic.List{SerializableEdge})
+  id: GetMaterialInputs(System.Collections.Generic.List{SerializableEdge})
+  parent: Mixture.MaterialBinder
+  langs:
+  - csharp
+  - vb
+  name: GetMaterialInputs(List<SerializableEdge>)
+  nameWithType: MaterialBinder.GetMaterialInputs(List<SerializableEdge>)
+  fullName: Mixture.MaterialBinder.GetMaterialInputs(System.Collections.Generic.List<SerializableEdge>)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetMaterialInputs
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
+    startLine: 45
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected void GetMaterialInputs(List<SerializableEdge> edges)
+    parameters:
+    - id: edges
+      type: System.Collections.Generic.List{SerializableEdge}
+    content.vb: Protected Sub GetMaterialInputs(edges As List(Of SerializableEdge))
+  overload: Mixture.MaterialBinder.GetMaterialInputs*
+  nameWithType.vb: MaterialBinder.GetMaterialInputs(List(Of SerializableEdge))
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+  fullName.vb: Mixture.MaterialBinder.GetMaterialInputs(System.Collections.Generic.List(Of SerializableEdge))
+  name.vb: GetMaterialInputs(List(Of SerializableEdge))
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: Mixture.MixtureNode
+  commentId: T:Mixture.MixtureNode
+  parent: Mixture
+  name: MixtureNode
+  nameWithType: MixtureNode
+  fullName: Mixture.MixtureNode
+- uid: Mixture.MixtureNode.graph
+  commentId: P:Mixture.MixtureNode.graph
+  parent: Mixture.MixtureNode
+  name: graph
+  nameWithType: MixtureNode.graph
+  fullName: Mixture.MixtureNode.graph
+- uid: Mixture.MixtureNode.rtSettings
+  commentId: F:Mixture.MixtureNode.rtSettings
+  parent: Mixture.MixtureNode
+  name: rtSettings
+  nameWithType: MixtureNode.rtSettings
+  fullName: Mixture.MixtureNode.rtSettings
+- uid: Mixture.MixtureNode.defaultRTSettings
+  commentId: P:Mixture.MixtureNode.defaultRTSettings
+  parent: Mixture.MixtureNode
+  name: defaultRTSettings
+  nameWithType: MixtureNode.defaultRTSettings
+  fullName: Mixture.MixtureNode.defaultRTSettings
+- uid: Mixture.MixtureNode.nodeWidth
+  commentId: P:Mixture.MixtureNode.nodeWidth
+  parent: Mixture.MixtureNode
+  name: nodeWidth
+  nameWithType: MixtureNode.nodeWidth
+  fullName: Mixture.MixtureNode.nodeWidth
+- uid: Mixture.MixtureNode.previewTexture
+  commentId: P:Mixture.MixtureNode.previewTexture
+  parent: Mixture.MixtureNode
+  name: previewTexture
+  nameWithType: MixtureNode.previewTexture
+  fullName: Mixture.MixtureNode.previewTexture
+- uid: Mixture.MixtureNode.hasSettings
+  commentId: P:Mixture.MixtureNode.hasSettings
+  parent: Mixture.MixtureNode
+  name: hasSettings
+  nameWithType: MixtureNode.hasSettings
+  fullName: Mixture.MixtureNode.hasSettings
+- uid: Mixture.MixtureNode.hasPreview
+  commentId: P:Mixture.MixtureNode.hasPreview
+  parent: Mixture.MixtureNode
+  name: hasPreview
+  nameWithType: MixtureNode.hasPreview
+  fullName: Mixture.MixtureNode.hasPreview
+- uid: Mixture.MixtureNode.supportedDimensions
+  commentId: P:Mixture.MixtureNode.supportedDimensions
+  parent: Mixture.MixtureNode
+  name: supportedDimensions
+  nameWithType: MixtureNode.supportedDimensions
+  fullName: Mixture.MixtureNode.supportedDimensions
+- uid: Mixture.MixtureNode.defaultPreviewChannels
+  commentId: P:Mixture.MixtureNode.defaultPreviewChannels
+  parent: Mixture.MixtureNode
+  name: defaultPreviewChannels
+  nameWithType: MixtureNode.defaultPreviewChannels
+  fullName: Mixture.MixtureNode.defaultPreviewChannels
+- uid: Mixture.MixtureNode.showPreviewExposure
+  commentId: P:Mixture.MixtureNode.showPreviewExposure
+  parent: Mixture.MixtureNode
+  name: showPreviewExposure
+  nameWithType: MixtureNode.showPreviewExposure
+  fullName: Mixture.MixtureNode.showPreviewExposure
+- uid: Mixture.MixtureNode.isPreviewCollapsed
+  commentId: F:Mixture.MixtureNode.isPreviewCollapsed
+  parent: Mixture.MixtureNode
+  name: isPreviewCollapsed
+  nameWithType: MixtureNode.isPreviewCollapsed
+  fullName: Mixture.MixtureNode.isPreviewCollapsed
+- uid: Mixture.MixtureNode.onSettingsChanged
+  commentId: E:Mixture.MixtureNode.onSettingsChanged
+  parent: Mixture.MixtureNode
+  name: onSettingsChanged
+  nameWithType: MixtureNode.onSettingsChanged
+  fullName: Mixture.MixtureNode.onSettingsChanged
+- uid: Mixture.MixtureNode.beforeProcessSetup
+  commentId: E:Mixture.MixtureNode.beforeProcessSetup
+  parent: Mixture.MixtureNode
+  name: beforeProcessSetup
+  nameWithType: MixtureNode.beforeProcessSetup
+  fullName: Mixture.MixtureNode.beforeProcessSetup
+- uid: Mixture.MixtureNode.afterProcessCleanup
+  commentId: E:Mixture.MixtureNode.afterProcessCleanup
+  parent: Mixture.MixtureNode
+  name: afterProcessCleanup
+  nameWithType: MixtureNode.afterProcessCleanup
+  fullName: Mixture.MixtureNode.afterProcessCleanup
+- uid: Mixture.MixtureNode.showControlsOnHover
+  commentId: P:Mixture.MixtureNode.showControlsOnHover
+  parent: Mixture.MixtureNode
+  name: showControlsOnHover
+  nameWithType: MixtureNode.showControlsOnHover
+  fullName: Mixture.MixtureNode.showControlsOnHover
+- uid: Mixture.MixtureNode.temporaryMaterials
+  commentId: F:Mixture.MixtureNode.temporaryMaterials
+  parent: Mixture.MixtureNode
+  name: temporaryMaterials
+  nameWithType: MixtureNode.temporaryMaterials
+  fullName: Mixture.MixtureNode.temporaryMaterials
+- uid: Mixture.MixtureNode.previewMode
+  commentId: F:Mixture.MixtureNode.previewMode
+  parent: Mixture.MixtureNode
+  name: previewMode
+  nameWithType: MixtureNode.previewMode
+  fullName: Mixture.MixtureNode.previewMode
+- uid: Mixture.MixtureNode.previewMip
+  commentId: F:Mixture.MixtureNode.previewMip
+  parent: Mixture.MixtureNode
+  name: previewMip
+  nameWithType: MixtureNode.previewMip
+  fullName: Mixture.MixtureNode.previewMip
+- uid: Mixture.MixtureNode.previewVisible
+  commentId: F:Mixture.MixtureNode.previewVisible
+  parent: Mixture.MixtureNode
+  name: previewVisible
+  nameWithType: MixtureNode.previewVisible
+  fullName: Mixture.MixtureNode.previewVisible
+- uid: Mixture.MixtureNode.previewEV100
+  commentId: F:Mixture.MixtureNode.previewEV100
+  parent: Mixture.MixtureNode
+  name: previewEV100
+  nameWithType: MixtureNode.previewEV100
+  fullName: Mixture.MixtureNode.previewEV100
+- uid: Mixture.MixtureNode.recorder
+  commentId: P:Mixture.MixtureNode.recorder
+  parent: Mixture.MixtureNode
+  name: recorder
+  nameWithType: MixtureNode.recorder
+  fullName: Mixture.MixtureNode.recorder
+- uid: Mixture.MixtureNode.OnNodeCreated
+  commentId: M:Mixture.MixtureNode.OnNodeCreated
+  parent: Mixture.MixtureNode
+  name: OnNodeCreated()
+  nameWithType: MixtureNode.OnNodeCreated()
+  fullName: Mixture.MixtureNode.OnNodeCreated()
+  spec.csharp:
+  - uid: Mixture.MixtureNode.OnNodeCreated
+    name: OnNodeCreated
+    nameWithType: MixtureNode.OnNodeCreated
+    fullName: Mixture.MixtureNode.OnNodeCreated
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.OnNodeCreated
+    name: OnNodeCreated
+    nameWithType: MixtureNode.OnNodeCreated
+    fullName: Mixture.MixtureNode.OnNodeCreated
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  parent: Mixture.MixtureNode
+  isExternal: true
+  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
+  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
+  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean)
+  spec.csharp:
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+    name: UpdateTempRenderTexture
+    nameWithType: MixtureNode.UpdateTempRenderTexture
+    fullName: Mixture.MixtureNode.UpdateTempRenderTexture
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.CustomRenderTexture
+    name: CustomRenderTexture
+    nameWithType: CustomRenderTexture
+    fullName: UnityEngine.CustomRenderTexture
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+    name: UpdateTempRenderTexture
+    nameWithType: MixtureNode.UpdateTempRenderTexture
+    fullName: Mixture.MixtureNode.UpdateTempRenderTexture
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.CustomRenderTexture
+    name: CustomRenderTexture
+    nameWithType: CustomRenderTexture
+    fullName: UnityEngine.CustomRenderTexture
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
+  commentId: M:Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
+  parent: Mixture.MixtureNode
+  isExternal: true
+  name: OnProcess(CommandBuffer)
+  nameWithType: MixtureNode.OnProcess(CommandBuffer)
+  fullName: Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
+  spec.csharp:
+  - uid: Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
+    name: OnProcess
+    nameWithType: MixtureNode.OnProcess
+    fullName: Mixture.MixtureNode.OnProcess
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rendering.CommandBuffer
+    name: CommandBuffer
+    nameWithType: CommandBuffer
+    fullName: UnityEngine.Rendering.CommandBuffer
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
+    name: OnProcess
+    nameWithType: MixtureNode.OnProcess
+    fullName: Mixture.MixtureNode.OnProcess
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rendering.CommandBuffer
+    name: CommandBuffer
+    nameWithType: CommandBuffer
+    fullName: UnityEngine.Rendering.CommandBuffer
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.Process
+  commentId: M:Mixture.MixtureNode.Process
+  parent: Mixture.MixtureNode
+  name: Process()
+  nameWithType: MixtureNode.Process()
+  fullName: Mixture.MixtureNode.Process()
+  spec.csharp:
+  - uid: Mixture.MixtureNode.Process
+    name: Process
+    nameWithType: MixtureNode.Process
+    fullName: Mixture.MixtureNode.Process
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.Process
+    name: Process
+    nameWithType: MixtureNode.Process
+    fullName: Mixture.MixtureNode.Process
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  commentId: M:Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  parent: Mixture.MixtureNode
+  isExternal: true
+  name: ProcessNode(CommandBuffer)
+  nameWithType: MixtureNode.ProcessNode(CommandBuffer)
+  fullName: Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  spec.csharp:
+  - uid: Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+    name: ProcessNode
+    nameWithType: MixtureNode.ProcessNode
+    fullName: Mixture.MixtureNode.ProcessNode
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rendering.CommandBuffer
+    name: CommandBuffer
+    nameWithType: CommandBuffer
+    fullName: UnityEngine.Rendering.CommandBuffer
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+    name: ProcessNode
+    nameWithType: MixtureNode.ProcessNode
+    fullName: Mixture.MixtureNode.ProcessNode
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rendering.CommandBuffer
+    name: CommandBuffer
+    nameWithType: CommandBuffer
+    fullName: UnityEngine.Rendering.CommandBuffer
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
+  commentId: M:Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
+  parent: Mixture.MixtureNode
+  isExternal: true
+  name: AddObjectToGraph(Object)
+  nameWithType: MixtureNode.AddObjectToGraph(Object)
+  fullName: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
+  spec.csharp:
+  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
+    name: AddObjectToGraph
+    nameWithType: MixtureNode.AddObjectToGraph
+    fullName: Mixture.MixtureNode.AddObjectToGraph
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
+    name: AddObjectToGraph
+    nameWithType: MixtureNode.AddObjectToGraph
+    fullName: Mixture.MixtureNode.AddObjectToGraph
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
+  commentId: M:Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
+  parent: Mixture.MixtureNode
+  isExternal: true
+  name: RemoveObjectFromGraph(Object)
+  nameWithType: MixtureNode.RemoveObjectFromGraph(Object)
+  fullName: Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
+  spec.csharp:
+  - uid: Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
+    name: RemoveObjectFromGraph
+    nameWithType: MixtureNode.RemoveObjectFromGraph
+    fullName: Mixture.MixtureNode.RemoveObjectFromGraph
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
+    name: RemoveObjectFromGraph
+    nameWithType: MixtureNode.RemoveObjectFromGraph
+    fullName: Mixture.MixtureNode.RemoveObjectFromGraph
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
+  commentId: M:Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
+  parent: Mixture.MixtureNode
+  isExternal: true
+  name: GetPropertyType(Shader, Int32)
+  nameWithType: MixtureNode.GetPropertyType(Shader, Int32)
+  fullName: Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader, System.Int32)
+  spec.csharp:
+  - uid: Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
+    name: GetPropertyType
+    nameWithType: MixtureNode.GetPropertyType
+    fullName: Mixture.MixtureNode.GetPropertyType
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Shader
+    name: Shader
+    nameWithType: Shader
+    fullName: UnityEngine.Shader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
+    name: GetPropertyType
+    nameWithType: MixtureNode.GetPropertyType
+    fullName: Mixture.MixtureNode.GetPropertyType
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Shader
+    name: Shader
+    nameWithType: Shader
+    fullName: UnityEngine.Shader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
+  commentId: M:Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
+  parent: Mixture.MixtureNode
+  isExternal: true
+  name: GetMaterialPortDatas(Material)
+  nameWithType: MixtureNode.GetMaterialPortDatas(Material)
+  fullName: Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
+  spec.csharp:
+  - uid: Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
+    name: GetMaterialPortDatas
+    nameWithType: MixtureNode.GetMaterialPortDatas
+    fullName: Mixture.MixtureNode.GetMaterialPortDatas
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Material
+    name: Material
+    nameWithType: Material
+    fullName: UnityEngine.Material
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
+    name: GetMaterialPortDatas
+    nameWithType: MixtureNode.GetMaterialPortDatas
+    fullName: Mixture.MixtureNode.GetMaterialPortDatas
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Material
+    name: Material
+    nameWithType: Material
+    fullName: UnityEngine.Material
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.AssignMaterialPropertiesFromEdges(System.Collections.Generic.List{SerializableEdge},UnityEngine.Material)
+  commentId: M:Mixture.MixtureNode.AssignMaterialPropertiesFromEdges(System.Collections.Generic.List{SerializableEdge},UnityEngine.Material)
+  parent: Mixture.MixtureNode
+  isExternal: true
+  name: AssignMaterialPropertiesFromEdges(List<SerializableEdge>, Material)
+  nameWithType: MixtureNode.AssignMaterialPropertiesFromEdges(List<SerializableEdge>, Material)
+  fullName: Mixture.MixtureNode.AssignMaterialPropertiesFromEdges(System.Collections.Generic.List<SerializableEdge>, UnityEngine.Material)
+  nameWithType.vb: MixtureNode.AssignMaterialPropertiesFromEdges(List(Of SerializableEdge), Material)
+  fullName.vb: Mixture.MixtureNode.AssignMaterialPropertiesFromEdges(System.Collections.Generic.List(Of SerializableEdge), UnityEngine.Material)
+  name.vb: AssignMaterialPropertiesFromEdges(List(Of SerializableEdge), Material)
+  spec.csharp:
+  - uid: Mixture.MixtureNode.AssignMaterialPropertiesFromEdges(System.Collections.Generic.List{SerializableEdge},UnityEngine.Material)
+    name: AssignMaterialPropertiesFromEdges
+    nameWithType: MixtureNode.AssignMaterialPropertiesFromEdges
+    fullName: Mixture.MixtureNode.AssignMaterialPropertiesFromEdges
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: SerializableEdge
+    name: SerializableEdge
+    nameWithType: SerializableEdge
+    fullName: SerializableEdge
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Material
+    name: Material
+    nameWithType: Material
+    fullName: UnityEngine.Material
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.AssignMaterialPropertiesFromEdges(System.Collections.Generic.List{SerializableEdge},UnityEngine.Material)
+    name: AssignMaterialPropertiesFromEdges
+    nameWithType: MixtureNode.AssignMaterialPropertiesFromEdges
+    fullName: Mixture.MixtureNode.AssignMaterialPropertiesFromEdges
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: SerializableEdge
+    name: SerializableEdge
+    nameWithType: SerializableEdge
+    fullName: SerializableEdge
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Material
+    name: Material
+    nameWithType: Material
+    fullName: UnityEngine.Material
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.OnSettingsChanged
+  commentId: M:Mixture.MixtureNode.OnSettingsChanged
+  parent: Mixture.MixtureNode
+  name: OnSettingsChanged()
+  nameWithType: MixtureNode.OnSettingsChanged()
+  fullName: Mixture.MixtureNode.OnSettingsChanged()
+  spec.csharp:
+  - uid: Mixture.MixtureNode.OnSettingsChanged
+    name: OnSettingsChanged
+    nameWithType: MixtureNode.OnSettingsChanged
+    fullName: Mixture.MixtureNode.OnSettingsChanged
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.OnSettingsChanged
+    name: OnSettingsChanged
+    nameWithType: MixtureNode.OnSettingsChanged
+    fullName: Mixture.MixtureNode.OnSettingsChanged
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
+  commentId: M:Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
+  parent: Mixture.MixtureNode
+  isExternal: true
+  name: GetDefaultMaterial(Material)
+  nameWithType: MixtureNode.GetDefaultMaterial(Material)
+  fullName: Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
+  spec.csharp:
+  - uid: Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
+    name: GetDefaultMaterial
+    nameWithType: MixtureNode.GetDefaultMaterial
+    fullName: Mixture.MixtureNode.GetDefaultMaterial
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Material
+    name: Material
+    nameWithType: Material
+    fullName: UnityEngine.Material
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
+    name: GetDefaultMaterial
+    nameWithType: MixtureNode.GetDefaultMaterial
+    fullName: Mixture.MixtureNode.GetDefaultMaterial
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Material
+    name: Material
+    nameWithType: Material
+    fullName: UnityEngine.Material
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
+  commentId: M:Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
+  parent: Mixture.MixtureNode
+  isExternal: true
+  name: ResetMaterialPropertyToDefault(Material, String)
+  nameWithType: MixtureNode.ResetMaterialPropertyToDefault(Material, String)
+  fullName: Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material, System.String)
+  spec.csharp:
+  - uid: Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
+    name: ResetMaterialPropertyToDefault
+    nameWithType: MixtureNode.ResetMaterialPropertyToDefault
+    fullName: Mixture.MixtureNode.ResetMaterialPropertyToDefault
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Material
+    name: Material
+    nameWithType: Material
+    fullName: UnityEngine.Material
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
+    name: ResetMaterialPropertyToDefault
+    nameWithType: MixtureNode.ResetMaterialPropertyToDefault
+    fullName: Mixture.MixtureNode.ResetMaterialPropertyToDefault
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Material
+    name: Material
+    nameWithType: Material
+    fullName: UnityEngine.Material
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.GetMixtureDependencies
+  commentId: M:Mixture.MixtureNode.GetMixtureDependencies
+  parent: Mixture.MixtureNode
+  name: GetMixtureDependencies()
+  nameWithType: MixtureNode.GetMixtureDependencies()
+  fullName: Mixture.MixtureNode.GetMixtureDependencies()
+  spec.csharp:
+  - uid: Mixture.MixtureNode.GetMixtureDependencies
+    name: GetMixtureDependencies
+    nameWithType: MixtureNode.GetMixtureDependencies
+    fullName: Mixture.MixtureNode.GetMixtureDependencies
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.GetMixtureDependencies
+    name: GetMixtureDependencies
+    nameWithType: MixtureNode.GetMixtureDependencies
+    fullName: Mixture.MixtureNode.GetMixtureDependencies
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.GetTempMaterial(System.String)
+  commentId: M:Mixture.MixtureNode.GetTempMaterial(System.String)
+  parent: Mixture.MixtureNode
+  isExternal: true
+  name: GetTempMaterial(String)
+  nameWithType: MixtureNode.GetTempMaterial(String)
+  fullName: Mixture.MixtureNode.GetTempMaterial(System.String)
+  spec.csharp:
+  - uid: Mixture.MixtureNode.GetTempMaterial(System.String)
+    name: GetTempMaterial
+    nameWithType: MixtureNode.GetTempMaterial
+    fullName: Mixture.MixtureNode.GetTempMaterial
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.GetTempMaterial(System.String)
+    name: GetTempMaterial
+    nameWithType: MixtureNode.GetTempMaterial
+    fullName: Mixture.MixtureNode.GetTempMaterial
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.Disable
+  commentId: M:Mixture.MixtureNode.Disable
+  parent: Mixture.MixtureNode
+  name: Disable()
+  nameWithType: MixtureNode.Disable()
+  fullName: Mixture.MixtureNode.Disable()
+  spec.csharp:
+  - uid: Mixture.MixtureNode.Disable
+    name: Disable
+    nameWithType: MixtureNode.Disable
+    fullName: Mixture.MixtureNode.Disable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.Disable
+    name: Disable
+    nameWithType: MixtureNode.Disable
+    fullName: Mixture.MixtureNode.Disable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.List{System.Object}
+  commentId: T:System.Collections.Generic.List{System.Object}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<Object>
+  nameWithType: List<Object>
+  fullName: System.Collections.Generic.List<System.Object>
+  nameWithType.vb: List(Of Object)
+  fullName.vb: System.Collections.Generic.List(Of System.Object)
+  name.vb: List(Of Object)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: UnityEngine.Material
+  commentId: T:UnityEngine.Material
+  parent: UnityEngine
+  isExternal: true
+  name: Material
+  nameWithType: Material
+  fullName: UnityEngine.Material
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: Mixture.MaterialBinder.name*
+  commentId: Overload:Mixture.MaterialBinder.name
+  name: name
+  nameWithType: MaterialBinder.name
+  fullName: Mixture.MaterialBinder.name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: Mixture.MixtureNode.showDefaultInspector
+  commentId: P:Mixture.MixtureNode.showDefaultInspector
+  parent: Mixture.MixtureNode
+  name: showDefaultInspector
+  nameWithType: MixtureNode.showDefaultInspector
+  fullName: Mixture.MixtureNode.showDefaultInspector
+- uid: Mixture.MaterialBinder.showDefaultInspector*
+  commentId: Overload:Mixture.MaterialBinder.showDefaultInspector
+  name: showDefaultInspector
+  nameWithType: MaterialBinder.showDefaultInspector
+  fullName: Mixture.MaterialBinder.showDefaultInspector
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: Mixture.MaterialBinder.ListMaterialBindings*
+  commentId: Overload:Mixture.MaterialBinder.ListMaterialBindings
+  name: ListMaterialBindings
+  nameWithType: MaterialBinder.ListMaterialBindings
+  fullName: Mixture.MaterialBinder.ListMaterialBindings
+- uid: System.Collections.Generic.List{SerializableEdge}
+  commentId: T:System.Collections.Generic.List{SerializableEdge}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<SerializableEdge>
+  nameWithType: List<SerializableEdge>
+  fullName: System.Collections.Generic.List<SerializableEdge>
+  nameWithType.vb: List(Of SerializableEdge)
+  fullName.vb: System.Collections.Generic.List(Of SerializableEdge)
+  name.vb: List(Of SerializableEdge)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: SerializableEdge
+    name: SerializableEdge
+    nameWithType: SerializableEdge
+    fullName: SerializableEdge
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: SerializableEdge
+    name: SerializableEdge
+    nameWithType: SerializableEdge
+    fullName: SerializableEdge
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{PortData}
+  commentId: T:System.Collections.Generic.IEnumerable{PortData}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<PortData>
+  nameWithType: IEnumerable<PortData>
+  fullName: System.Collections.Generic.IEnumerable<PortData>
+  nameWithType.vb: IEnumerable(Of PortData)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of PortData)
+  name.vb: IEnumerable(Of PortData)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PortData
+    name: PortData
+    nameWithType: PortData
+    fullName: PortData
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PortData
+    name: PortData
+    nameWithType: PortData
+    fullName: PortData
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MaterialBinder.GetMaterialInputs*
+  commentId: Overload:Mixture.MaterialBinder.GetMaterialInputs
+  name: GetMaterialInputs
+  nameWithType: MaterialBinder.GetMaterialInputs
+  fullName: Mixture.MaterialBinder.GetMaterialInputs

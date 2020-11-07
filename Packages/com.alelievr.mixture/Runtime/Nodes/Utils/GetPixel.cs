@@ -9,7 +9,7 @@ using UnityEngine.Rendering;
 namespace Mixture
 {
 	// [System.Serializable, NodeMenuItem("Utils/Get Pixel")]
-	public class GetPixel : MixtureNode, ICPUNode
+	public class GetPixel : MixtureNode
 	{
 		[Input("Texture")]
 		public Texture	texture;
@@ -27,7 +27,7 @@ namespace Mixture
 			OutputDimension.Texture2D,
 		};
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			if (texture == null)
 				return false;

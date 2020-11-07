@@ -1,0 +1,254 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.SceneNode.OutputMode
+  commentId: T:Mixture.SceneNode.OutputMode
+  id: SceneNode.OutputMode
+  parent: Mixture
+  children:
+  - Mixture.SceneNode.OutputMode.Color
+  - Mixture.SceneNode.OutputMode.Linear01Depth
+  - Mixture.SceneNode.OutputMode.LinearEyeDepth
+  - Mixture.SceneNode.OutputMode.TangentNormal
+  - Mixture.SceneNode.OutputMode.WorldNormal
+  - Mixture.SceneNode.OutputMode.WorldPosition
+  langs:
+  - csharp
+  - vb
+  name: SceneNode.OutputMode
+  nameWithType: SceneNode.OutputMode
+  fullName: Mixture.SceneNode.OutputMode
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/SceneNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: OutputMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/SceneNode.cs
+    startLine: 27
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Serializable]
+
+      public enum OutputMode
+    content.vb: >-
+      <Serializable>
+
+      Public Enum OutputMode
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.SceneNode.OutputMode.Color
+  commentId: F:Mixture.SceneNode.OutputMode.Color
+  id: Color
+  parent: Mixture.SceneNode.OutputMode
+  langs:
+  - csharp
+  - vb
+  name: Color
+  nameWithType: SceneNode.OutputMode.Color
+  fullName: Mixture.SceneNode.OutputMode.Color
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/SceneNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Color
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/SceneNode.cs
+    startLine: 31
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Color = 0
+    return:
+      type: Mixture.SceneNode.OutputMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SceneNode.OutputMode.LinearEyeDepth
+  commentId: F:Mixture.SceneNode.OutputMode.LinearEyeDepth
+  id: LinearEyeDepth
+  parent: Mixture.SceneNode.OutputMode
+  langs:
+  - csharp
+  - vb
+  name: LinearEyeDepth
+  nameWithType: SceneNode.OutputMode.LinearEyeDepth
+  fullName: Mixture.SceneNode.OutputMode.LinearEyeDepth
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/SceneNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: LinearEyeDepth
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/SceneNode.cs
+    startLine: 32
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: LinearEyeDepth = 1
+    return:
+      type: Mixture.SceneNode.OutputMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SceneNode.OutputMode.Linear01Depth
+  commentId: F:Mixture.SceneNode.OutputMode.Linear01Depth
+  id: Linear01Depth
+  parent: Mixture.SceneNode.OutputMode
+  langs:
+  - csharp
+  - vb
+  name: Linear01Depth
+  nameWithType: SceneNode.OutputMode.Linear01Depth
+  fullName: Mixture.SceneNode.OutputMode.Linear01Depth
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/SceneNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Linear01Depth
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/SceneNode.cs
+    startLine: 33
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Linear01Depth = 2
+    return:
+      type: Mixture.SceneNode.OutputMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SceneNode.OutputMode.WorldNormal
+  commentId: F:Mixture.SceneNode.OutputMode.WorldNormal
+  id: WorldNormal
+  parent: Mixture.SceneNode.OutputMode
+  langs:
+  - csharp
+  - vb
+  name: WorldNormal
+  nameWithType: SceneNode.OutputMode.WorldNormal
+  fullName: Mixture.SceneNode.OutputMode.WorldNormal
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/SceneNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: WorldNormal
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/SceneNode.cs
+    startLine: 34
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: WorldNormal = 3
+    return:
+      type: Mixture.SceneNode.OutputMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SceneNode.OutputMode.TangentNormal
+  commentId: F:Mixture.SceneNode.OutputMode.TangentNormal
+  id: TangentNormal
+  parent: Mixture.SceneNode.OutputMode
+  langs:
+  - csharp
+  - vb
+  name: TangentNormal
+  nameWithType: SceneNode.OutputMode.TangentNormal
+  fullName: Mixture.SceneNode.OutputMode.TangentNormal
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/SceneNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: TangentNormal
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/SceneNode.cs
+    startLine: 35
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: TangentNormal = 4
+    return:
+      type: Mixture.SceneNode.OutputMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SceneNode.OutputMode.WorldPosition
+  commentId: F:Mixture.SceneNode.OutputMode.WorldPosition
+  id: WorldPosition
+  parent: Mixture.SceneNode.OutputMode
+  langs:
+  - csharp
+  - vb
+  name: WorldPosition
+  nameWithType: SceneNode.OutputMode.WorldPosition
+  fullName: Mixture.SceneNode.OutputMode.WorldPosition
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/SceneNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: WorldPosition
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/SceneNode.cs
+    startLine: 36
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: WorldPosition = 5
+    return:
+      type: Mixture.SceneNode.OutputMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.SceneNode.OutputMode
+  commentId: T:Mixture.SceneNode.OutputMode
+  parent: Mixture
+  name: SceneNode.OutputMode
+  nameWithType: SceneNode.OutputMode
+  fullName: Mixture.SceneNode.OutputMode

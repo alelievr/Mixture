@@ -17,6 +17,18 @@ public class MixtureConversions : ITypeAdapter
     public static Color ConvertVector3ToColor(Vector3 from) => new Color(from.x, from.y, from.z, 1.0f);
     public static Vector3 ConvertColorToVector3(Color from) => new Vector3(from.r, from.g, from.b);
 
+    // Float to int:
+    public static int ConvertFloatToInt(float from) => Mathf.RoundToInt(from);
+    public static float ConvertIntToFloat(int from) => (float)from;
+
+    // Int to vector
+    public static Vector4 ConvertIntToVector4(int from) => new Vector4(from, from, from, from);
+    public static int ConvertVector4ToInt(Vector4 from) => (int)from.x;
+    public static Vector3 ConvertIntToVector3(int from) => new Vector3(from, from, from);
+    public static int ConvertVector3ToInt(Vector3 from) => (int)from.x;
+    public static Vector2 ConvertIntToVector2(int from) => new Vector2(from, from);
+    public static int ConvertVector2ToInt(Vector2 from) => (int)from.x;
+
     // Utils function for the custom material property assignation (AssignMaterialPropertiesFromEdges)
     public static Vector4 ConvertObjectToVector4(object o)
     {
@@ -30,4 +42,17 @@ public class MixtureConversions : ITypeAdapter
     }
 
     public static object ConvertVector4ToObject(Vector4 v) => v;
+
+    public static Color ConvertObjectToColor(object o)
+    {
+        switch (o)
+        {
+            case Vector3 v: return ConvertVector3ToColor(v);
+            case Vector4 v: return ConvertVector4ToColor(v);
+            case Color c: return c;
+            default: return Color.black;
+        }
+    }
+
+    public static object ConvertColorToObject(Color c) => c;
 }

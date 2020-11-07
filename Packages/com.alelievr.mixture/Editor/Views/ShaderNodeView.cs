@@ -5,58 +5,100 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using GraphProcessor;
 using System.Collections.Generic;
+using System.IO;
+using System;
 
 namespace Mixture
 {
 	[NodeCustomEditor(typeof(ShaderNode))]
 	public class ShaderNodeView : MixtureNodeView
 	{
-		VisualElement	shaderCreationUI;
 		VisualElement	materialEditorUI;
-		MaterialEditor	materialEditor;
 		ShaderNode		shaderNode => nodeTarget as ShaderNode;
 
 		ObjectField		debugCustomRenderTextureField;
-		ObjectField		shaderField;
 
-		int				materialCRC;
+		int				materialHash;
+		DateTime		lastModified;
+		string			shaderPath;
 
 		protected override string header => "Shader Properties";
 
-		public override void Enable()
+		public override void Enable(bool fromInspector)
 		{
-			base.Enable();
+			base.Enable(fromInspector);
 
 			if (shaderNode.material != null && !owner.graph.IsObjectInGraph(shaderNode.material))
-				owner.graph.AddObjectToGraph(shaderNode.material);
-
-			shaderField = new ObjectField
 			{
-				value = shaderNode.shader,
-				objectType = typeof(Shader),
-			};
+				// Check if the material we have is ours
+				if (owner.graph.IsExternalSubAsset(shaderNode.material))
+				{
+					shaderNode.material = new Material(shaderNode.material);
+					shaderNode.material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+				}
+				owner.graph.AddObjectToGraph(shaderNode.material);
+			}
 
-			shaderField.RegisterValueChangedCallback((v) => {
-				SetShader((Shader)v.newValue);
-			});
-			
-			InitializeDebug();
-
+			var shaderField = AddControlField(nameof(ShaderNode.shader)) as ObjectField;
 			controlsContainer.Add(shaderField);
 
-			shaderCreationUI = new VisualElement();
+			var shaderCreationUI = new VisualElement();
 			controlsContainer.Add(shaderCreationUI);
-			UpdateShaderCreationUI();
+			UpdateShaderCreationUI(shaderCreationUI, shaderField);
 
-			controlsContainer.Add(new IMGUIContainer(MaterialGUI));
-			materialEditor = Editor.CreateEditor(shaderNode.material) as MaterialEditor;
+			shaderField.RegisterValueChangedCallback((v) => {
+				SetShader((Shader)v.newValue, shaderCreationUI, shaderField);
+			});
 
-			onPortDisconnected += ResetMaterialPropertyToDefault;
+			if (!fromInspector)
+			{
+				if (shaderNode.shader != null)
+					shaderPath = AssetDatabase.GetAssetPath(shaderNode.shader);
+				if (!String.IsNullOrEmpty(shaderPath))
+					lastModified = File.GetLastWriteTime(shaderPath);
+
+				var lastWriteDetector = schedule.Execute(DetectShaderChanges);
+				lastWriteDetector.Every(200);
+				InitializeDebug();
+
+				onPortDisconnected += ResetMaterialPropertyToDefault;
+			}
+
+			var materialIMGUI = new IMGUIContainer(() => MaterialGUI(fromInspector, shaderCreationUI, shaderField));
+			controlsContainer.Add(materialIMGUI);
+			materialIMGUI.AddToClassList("MaterialInspector");
 		}
 
 		~ShaderNodeView()
 		{
 			onPortDisconnected -= ResetMaterialPropertyToDefault;
+		}
+
+		void DetectShaderChanges()
+		{
+			if (shaderNode.shader == null)
+				return;
+
+			if (shaderPath == null)
+				shaderPath = AssetDatabase.GetAssetPath(shaderNode.shader);
+			
+			var modificationDate = File.GetLastWriteTime(shaderPath);
+
+			if (lastModified != modificationDate)
+			{
+				schedule.Execute(() => {
+					// Reimport the compute shader:
+					AssetDatabase.ImportAsset(shaderPath);
+
+					shaderNode.ValidateShader();
+
+					NotifyNodeChanged();
+
+					if (shaderNode.shader?.name != null)
+						title = shaderNode.shader.name;
+				}).ExecuteLater(100);
+			}
+			lastModified = modificationDate;
 		}
 
 		void InitializeDebug()
@@ -69,11 +111,11 @@ namespace Mixture
 			{
 				value = shaderNode.output
 			};
-			
+
 			debugContainer.Add(debugCustomRenderTextureField);
 		}
 
-		void UpdateShaderCreationUI()
+		void UpdateShaderCreationUI(VisualElement shaderCreationUI, ObjectField shaderField)
 		{
 			shaderCreationUI.Clear();
 
@@ -98,10 +140,10 @@ namespace Mixture
 
 #if MIXTURE_SHADERGRAPH
 				GUIContent shaderGraphContent = EditorGUIUtility.TrTextContentWithIcon("Graph", Resources.Load<Texture2D>("sg_graph_icon@64"));
-				menu.AddItem(shaderGraphContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderGraph(title, dim)));
+				menu.AddItem(shaderGraphContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderGraph(owner.graph, title, dim), shaderCreationUI, shaderField));
 #endif
 				GUIContent shaderTextContent = EditorGUIUtility.TrTextContentWithIcon("Text", "Shader Icon");
-				menu.AddItem(shaderTextContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderText(title, dim)));
+				menu.AddItem(shaderTextContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderText(owner.graph, title, dim), shaderCreationUI, shaderField));
 				menu.ShowAsContext();
 			}
 
@@ -120,32 +162,39 @@ namespace Mixture
 			}
 		}
 
-		void SetShader(Shader newShader)
+		void SetShader(Shader newShader, VisualElement shaderCreationUI, ObjectField shaderField)
 		{
 			owner.RegisterCompleteObjectUndo("Updated Shader of ShaderNode");
 			shaderNode.shader = newShader;
 			shaderField.value = newShader;
 			shaderNode.material.shader = newShader;
-			UpdateShaderCreationUI();
+			UpdateShaderCreationUI(shaderCreationUI, shaderField);
+
+			title = newShader?.name ?? "New Shader";
 
 			// We fore the update of node ports
 			ForceUpdatePorts();
+
+			shaderNode.ValidateShader();
 		}
 
-		void MaterialGUI()
+		void MaterialGUI(bool fromInspector, VisualElement shaderCreationUI, ObjectField shaderField)
 		{
-			if (shaderNode.material.ComputeCRC() != materialCRC)
+			if (GetMaterialHash(shaderNode.material) != materialHash)
 			{
 				NotifyNodeChanged();
-				materialCRC = shaderNode.material.ComputeCRC();
+				materialHash = GetMaterialHash(shaderNode.material);
 			}
 
 			// Update the GUI when shader is modified
-			if (MaterialPropertiesGUI(shaderNode.material))
+			if (MaterialPropertiesGUI(shaderNode.material, fromInspector))
 			{
-				UpdateShaderCreationUI();
-				// We fore the update of node ports
-				ForceUpdatePorts();
+				// Delay execution to sync with UIElement layout
+				schedule.Execute(() => 
+				{
+					UpdateShaderCreationUI(shaderCreationUI, shaderField);
+					ForceUpdatePorts();
+				}).ExecuteLater(1);
 			}
 		}
 

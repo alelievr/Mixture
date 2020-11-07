@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
+		[Documentation(@"
+Swizzle the input vector, you can also choose tou output a custom value instead of a vector component.
+")]
+
 	[System.Serializable, NodeMenuItem("Utils/Vector Swizzle")]
-	public class VectorSwizzle : MixtureNode, ICPUNode
+	public class VectorSwizzle : MixtureNode
 	{
 		[Input("Input")]
 		public Vector4	input;
@@ -55,7 +60,7 @@ namespace Mixture
 			}
 		}
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			output.x = Swizzle(compX, input);
 			output.y = Swizzle(compY, input);

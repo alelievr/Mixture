@@ -1,34 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using GraphProcessor;
-using System.Linq;
+using System;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	[Documentation(@"
+Output multiple time related values.
+
+This node can be used in a realtime graph for time based effects.
+")]
+
 	[System.Serializable, NodeMenuItem("Utils/Time")]
-	public class TimeNode : MixtureNode, ICPUNode
+	public class TimeNode : MixtureNode
 	{
-		[Output(name = "Time")]
+		[Output(name = "Time"), NonSerialized]
 		public float				time;
 
-		[Output(name = "Sin Time")]
+		[Output(name = "Sin Time"), NonSerialized]
 		public float				sinTime;
 
-		[Output(name = "Cos Time")]
+		[Output(name = "Cos Time"), NonSerialized]
 		public float				cosTime;
 
-		[Output(name = "Delta Time")]
+		[Output(name = "Delta Time"), NonSerialized]
 		public float				deltaTime;
 
-		[Output(name = "Frame Count")]
+		[Output(name = "Frame Count"), NonSerialized]
 		public float				frameCount;
 
 		public override bool 		hasSettings => false;
 		public override float		nodeWidth => 120;
 		public override string		name => "Time";
 
-		protected override bool ProcessNode()
+		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			time = Time.time;
 			sinTime = Mathf.Sin(Time.time);
