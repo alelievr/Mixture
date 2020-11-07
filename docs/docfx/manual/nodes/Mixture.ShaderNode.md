@@ -3,7 +3,7 @@
 ## Inputs
 Port Name | Description
 --- | ---
-Color | 
+Source | 
 
 ## Output
 Port Name | Description

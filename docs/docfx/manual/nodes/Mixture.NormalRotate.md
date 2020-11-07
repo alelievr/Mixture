@@ -4,6 +4,7 @@
 Port Name | Description
 --- | ---
 Normal Map | 
+Rotation Map | 
 Rotation In Degree | 
 
 ## Output

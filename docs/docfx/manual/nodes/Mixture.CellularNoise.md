@@ -7,7 +7,7 @@ UVs | Custom Noise UV
 Lacunarity | 
 Frequency | 
 Persistance | 
-Channels | Select how many noise to genereate and on which channel. The more different channel you use the more expensive it is (max 4 noise evaluation).
+Seed | 
 
 ## Output
 Port Name | Description

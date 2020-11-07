@@ -100,6 +100,7 @@ public class MixtureDocumentationWindow : EditorWindow
             var graphView = window.view;
             var newNode = BaseNode.CreateFromType(node.Value, new Vector2(0, toolbarHeight));
             var nodeView = graphView.AddNode(newNode);
+            nodeViews.Add(nodeView);
             graphView.Add(nodeView);
             SetupNodeIfNeeded(nodeView);
 
@@ -240,9 +241,15 @@ public class MixtureDocumentationWindow : EditorWindow
             {
                 foreach (var nodeView in nodeViews)
                 {
-                    sw.WriteLine($"[{nodeView.nodeTarget.name}]({nodeView.nodeTarget.GetType()}.md)  ");
+                    string name = nodeView.nodeTarget.name;
+
+                    // Special case for the compute shader node as the name of the node is inherited from the compute shader.
+                    name = name == "DocumentationComputeShader" ? "Compute Shader" : name;
+
+                    sw.WriteLine($"[{name}]({nodeView.nodeTarget.GetType()}.md)  ");
                     sw.WriteLine();
                 }
+                sw.Flush();
             }
         }
     }
