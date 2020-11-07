@@ -20,8 +20,16 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 	[System.Serializable, NodeMenuItem("Shader")]
 	public class ShaderNode : MixtureNode, IUseCustomRenderTextureProcessing
 	{
-		public static readonly string	DefaultShaderResourcePath = "ShaderNodeDefault";
-		public static readonly string	DefaultShaderName = "Shader Graphs/ShaderNodeDefault";
+		[Serializable]
+		public struct ShaderProperty
+		{
+			public string			displayName;
+			public string			referenceName;
+			public string			tooltip;
+			public SerializableType	type;
+		}
+
+		public static readonly string	DefaultShaderName = "Hidden/Mixture/ShaderNodeDefault";
 
 		[Input(name = "In")]
 		public List< object >		materialInputs;
@@ -32,6 +40,14 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 		public Shader			shader;
 		public override string	name => (shader != null) ? shader.name.Split('/')?.Last() : "Shader";
 		public Material			material;
+
+		// We keep internally a list of ports generated from the material exposed properties so when
+		// there is an error in the shader or we can't import it, the connections still remains on the node.
+		[SerializeField]
+		List<ShaderProperty>	exposedProperties = new List<ShaderProperty>();
+		// We also keep the GUID of the shader, in case of the script is imported before the shader so we can load it afterwards.
+		[SerializeField]
+		string					shaderGUID;
 
         protected virtual IEnumerable<string> filteredOutProperties => Enumerable.Empty<string>();
 		public override Texture previewTexture => output;
@@ -51,11 +67,11 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 
 		protected override void Enable()
 		{
-			defaultShader = Resources.Load<Shader>(DefaultShaderResourcePath);
+			defaultShader = Shader.Find(DefaultShaderName);
 
 			if (material == null)
 			{
-				material = new Material(shader ?? defaultShader);
+				material = new Material(shader != null ? shader : defaultShader);
 				material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 			}
 
@@ -81,18 +97,33 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 		[CustomPortBehavior(nameof(materialInputs))]
 		public IEnumerable< PortData > ListMaterialProperties(List< SerializableEdge > edges)
 		{
-			foreach (var p in GetMaterialPortDatas(material))
+			if (exposedProperties.Count == 0)
 			{
-				if (filteredOutProperties.Contains(p.identifier))
+				UpdateShader();
+				ValidateShader();
+			}
+
+			foreach (var p in exposedProperties)
+			{
+				if (filteredOutProperties.Contains(p.referenceName))
 					continue;
-				yield return p;
+				yield return new PortData{
+					displayName = p.displayName,
+					identifier = p.referenceName,
+					tooltip = p.tooltip,
+					displayType = p.type.type,
+				};
 			}
 		}
 
 		[CustomPortInput(nameof(materialInputs), typeof(object))]
 		protected void GetMaterialInputs(List< SerializableEdge > edges)
 		{
-			AssignMaterialPropertiesFromEdges(edges, material);
+			if (material.shader == null)
+				UpdateShader();
+
+			if (material.shader != null)
+				AssignMaterialPropertiesFromEdges(edges, material);
 		}
 
 		[CustomPortBehavior(nameof(output))]
@@ -117,8 +148,23 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 		void UpdateShader()
 		{
 #if UNITY_EDITOR
+			bool updateGUID = false;
+
+			if (shader == null && !String.IsNullOrEmpty(shaderGUID))
+			{
+				var path = UnityEditor.AssetDatabase.GUIDToAssetPath(shaderGUID);
+				if (!String.IsNullOrEmpty(path))
+					shader = UnityEditor.AssetDatabase.LoadAssetAtPath<Shader>(path);
+			}
+
 			if (shader != null && material.shader != shader)
+			{
 				material.shader = shader;
+				updateGUID = true;
+			}
+
+			if (shader != null && (updateGUID || String.IsNullOrEmpty(shaderGUID)))
+				UnityEditor.AssetDatabase.TryGetGUIDAndLocalFileIdentifier(shader, out shaderGUID, out long _);
 #endif
 		}
 
@@ -128,9 +174,9 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 			UpdateTempRenderTexture(ref output);
 		}
 
-		public override bool canProcess => IsShaderValid();
+		public override bool canProcess => ValidateShader();
 
-		internal bool IsShaderValid()
+		internal bool ValidateShader()
 		{
 			ClearMessages();
 
@@ -139,6 +185,19 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 				AddMessage("missing material/shader", NodeMessageType.Error);
 				return false;
 			}
+
+			exposedProperties.Clear();
+			var ports = GetMaterialPortDatas(material);
+			foreach (var port in ports)
+			{
+				exposedProperties.Add(new ShaderProperty{
+					displayName = port.displayName,
+					referenceName = port.identifier,
+					type = new SerializableType(port.displayType),
+					tooltip = port.tooltip,
+				});
+			}
+
 #if UNITY_EDITOR // IsShaderCompiled is editor only
 			if (!IsShaderCompiled(material.shader))
 			{

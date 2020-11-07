@@ -36,8 +36,7 @@ namespace Mixture
 					shaderNode.material = new Material(shaderNode.material);
 					shaderNode.material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 				}
-				if (shaderNode.material.shader.name != ShaderNode.DefaultShaderName)
-					owner.graph.AddObjectToGraph(shaderNode.material);
+				owner.graph.AddObjectToGraph(shaderNode.material);
 			}
 
 			var shaderField = AddControlField(nameof(ShaderNode.shader)) as ObjectField;
@@ -91,9 +90,9 @@ namespace Mixture
 					// Reimport the compute shader:
 					AssetDatabase.ImportAsset(shaderPath);
 
-					NotifyNodeChanged();
+					shaderNode.ValidateShader();
 
-					shaderNode.IsShaderValid();
+					NotifyNodeChanged();
 
 					if (shaderNode.shader?.name != null)
 						title = shaderNode.shader.name;
@@ -176,7 +175,7 @@ namespace Mixture
 			// We fore the update of node ports
 			ForceUpdatePorts();
 
-			shaderNode.IsShaderValid();
+			shaderNode.ValidateShader();
 		}
 
 		void MaterialGUI(bool fromInspector, VisualElement shaderCreationUI, ObjectField shaderField)

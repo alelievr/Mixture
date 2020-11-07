@@ -93,6 +93,7 @@ namespace Mixture
 			{
 				// ForceUpdatePorts might affect the VisualElement hierarchy, thus it can't be called from an ImGUI context
 				schedule.Execute(() => {
+					fixedShaderNode.ValidateShader();
 					ForceUpdatePorts();
 				}).ExecuteLater(1);
 			}

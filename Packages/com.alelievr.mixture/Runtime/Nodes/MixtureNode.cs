@@ -354,6 +354,9 @@ namespace Mixture
 				string propName = edge.inputPort.portData.identifier;
 				int propertyIndex = material.shader.FindPropertyIndex(propName);
 
+				if (propertyIndex == -1)
+					continue;
+
 				switch (material.shader.GetPropertyType(propertyIndex))
 				{
 					case ShaderPropertyType.Color:
