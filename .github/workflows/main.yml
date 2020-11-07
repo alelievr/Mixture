@@ -10,7 +10,22 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     # TODO: copy documentation package files to docfx folder
+      
     - uses: nikeee/docfx-action@v1.0.0
       name: Build Documentation
       with:
         args: docs/docfx/docfx.json
+    
+    # Publish generated site using GitHub Pages
+    - uses: maxheld83/ghpages@master
+      name: Publish Documentation on GitHub Pages
+      env:
+        BUILD_DIR: _site # docfx's default output directory is _site
+        GH_PAT: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+  
+    # Copy package documentation content to github wiki
+    - uses: SwiftDocOrg/github-wiki-publish-action@1.0.0
+      with:
+        path: "Packages/com.alelievr.mixture/Documentation~"
+      env:
+        GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
