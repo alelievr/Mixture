@@ -1,4 +1,4 @@
-name: Publish Package
+name: Publish Documentaion
 on:
   push:
     branches:
@@ -9,7 +9,10 @@ jobs:
     name: Update Mixture documentation with DocFX
     steps:
       - uses: actions/checkout@v2
-      # TODO: copy documentation package files to docfx folder
+
+      - name: Copy documentation package files to docfx folder
+        run: cp Packages/com.alelievr.mixture/Documentation~/ docs/docfx/manual/
+        shell: bash
 
     # Generate documentation website with docfx
       - uses: nikeee/docfx-action@v1.0.0
