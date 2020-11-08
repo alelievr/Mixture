@@ -110,10 +110,12 @@ void FibonacciSpiral(uint id, uint position1D)
 
 float3 WhiteNoise3(uint id)
 {
+    float3 f = float3(float(id) * 3.56687, 0, 0);
+
     return float3(
-        WhiteNoise(id * 53),
-        WhiteNoise(id * 96 + 420),
-        WhiteNoise(id * 265 + 820)
+        WhiteNoise(f + float3(0, 0, 0)),
+        WhiteNoise(f + float3(0, 1, 0)),
+        WhiteNoise(f + float3(0, 2, 0))
     );
 }
 
@@ -125,7 +127,7 @@ float3 JitterPosition(uint id)
 
 void RandomBetweenRotation(uint id)
 {
-    _SplatPoints[id].rotation = lerp(_MinAngles, _MaxAngles, WhiteNoise3(id));
+    _SplatPoints[id].rotation = lerp(_MinAngles, _MaxAngles, WhiteNoise3(id + 100));
 }
 
 void TowardsCenterRotation(uint id)
@@ -135,7 +137,7 @@ void TowardsCenterRotation(uint id)
 
 void RandomBetweenScale(uint id)
 {
-    _SplatPoints[id].scale *= lerp(_MinScale, _MaxScale, WhiteNoise3(id));
+    _SplatPoints[id].scale *= lerp(_MinScale, _MaxScale, WhiteNoise3(id + 200));
 }
 
 [numthreads(64,1,1)]
