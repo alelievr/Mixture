@@ -1,0 +1,838 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.MixtureBlendDrawer.Blend
+  commentId: T:Mixture.MixtureBlendDrawer.Blend
+  id: MixtureBlendDrawer.Blend
+  parent: Mixture
+  children:
+  - Mixture.MixtureBlendDrawer.Blend.Burn
+  - Mixture.MixtureBlendDrawer.Blend.Darken
+  - Mixture.MixtureBlendDrawer.Blend.Difference
+  - Mixture.MixtureBlendDrawer.Blend.Divide
+  - Mixture.MixtureBlendDrawer.Blend.Dodge
+  - Mixture.MixtureBlendDrawer.Blend.Exclusion
+  - Mixture.MixtureBlendDrawer.Blend.HardLight
+  - Mixture.MixtureBlendDrawer.Blend.HardMix
+  - Mixture.MixtureBlendDrawer.Blend.Lighten
+  - Mixture.MixtureBlendDrawer.Blend.LinearBurn
+  - Mixture.MixtureBlendDrawer.Blend.LinearDodge
+  - Mixture.MixtureBlendDrawer.Blend.LinearLight
+  - Mixture.MixtureBlendDrawer.Blend.LinearLightAddSub
+  - Mixture.MixtureBlendDrawer.Blend.Max
+  - Mixture.MixtureBlendDrawer.Blend.Min
+  - Mixture.MixtureBlendDrawer.Blend.Multiply
+  - Mixture.MixtureBlendDrawer.Blend.Negation
+  - Mixture.MixtureBlendDrawer.Blend.Normal
+  - Mixture.MixtureBlendDrawer.Blend.Overlay
+  - Mixture.MixtureBlendDrawer.Blend.PinLight
+  - Mixture.MixtureBlendDrawer.Blend.Screen
+  - Mixture.MixtureBlendDrawer.Blend.SoftLight
+  - Mixture.MixtureBlendDrawer.Blend.Subtract
+  - Mixture.MixtureBlendDrawer.Blend.VividLight
+  langs:
+  - csharp
+  - vb
+  name: MixtureBlendDrawer.Blend
+  nameWithType: MixtureBlendDrawer.Blend
+  fullName: Mixture.MixtureBlendDrawer.Blend
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Blend
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 7
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public enum Blend
+    content.vb: Public Enum Blend
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.MixtureBlendDrawer.Blend.Normal
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Normal
+  id: Normal
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Normal
+  nameWithType: MixtureBlendDrawer.Blend.Normal
+  fullName: Mixture.MixtureBlendDrawer.Blend.Normal
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Normal
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 9
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Normal = 0
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.Min
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Min
+  id: Min
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Min
+  nameWithType: MixtureBlendDrawer.Blend.Min
+  fullName: Mixture.MixtureBlendDrawer.Blend.Min
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Min
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 9
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Min = 1
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.Max
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Max
+  id: Max
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Max
+  nameWithType: MixtureBlendDrawer.Blend.Max
+  fullName: Mixture.MixtureBlendDrawer.Blend.Max
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Max
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 9
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Max = 2
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.Burn
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Burn
+  id: Burn
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Burn
+  nameWithType: MixtureBlendDrawer.Blend.Burn
+  fullName: Mixture.MixtureBlendDrawer.Blend.Burn
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Burn
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 9
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Burn = 3
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.Darken
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Darken
+  id: Darken
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Darken
+  nameWithType: MixtureBlendDrawer.Blend.Darken
+  fullName: Mixture.MixtureBlendDrawer.Blend.Darken
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Darken
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 9
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Darken = 4
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.Difference
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Difference
+  id: Difference
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Difference
+  nameWithType: MixtureBlendDrawer.Blend.Difference
+  fullName: Mixture.MixtureBlendDrawer.Blend.Difference
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Difference
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 9
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Difference = 5
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.Dodge
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Dodge
+  id: Dodge
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Dodge
+  nameWithType: MixtureBlendDrawer.Blend.Dodge
+  fullName: Mixture.MixtureBlendDrawer.Blend.Dodge
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Dodge
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 9
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Dodge = 6
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.Divide
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Divide
+  id: Divide
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Divide
+  nameWithType: MixtureBlendDrawer.Blend.Divide
+  fullName: Mixture.MixtureBlendDrawer.Blend.Divide
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Divide
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 9
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Divide = 7
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.Exclusion
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Exclusion
+  id: Exclusion
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Exclusion
+  nameWithType: MixtureBlendDrawer.Blend.Exclusion
+  fullName: Mixture.MixtureBlendDrawer.Blend.Exclusion
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Exclusion
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 9
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Exclusion = 8
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.HardLight
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.HardLight
+  id: HardLight
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: HardLight
+  nameWithType: MixtureBlendDrawer.Blend.HardLight
+  fullName: Mixture.MixtureBlendDrawer.Blend.HardLight
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: HardLight
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 9
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: HardLight = 9
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.HardMix
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.HardMix
+  id: HardMix
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: HardMix
+  nameWithType: MixtureBlendDrawer.Blend.HardMix
+  fullName: Mixture.MixtureBlendDrawer.Blend.HardMix
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: HardMix
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 9
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: HardMix = 10
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.Lighten
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Lighten
+  id: Lighten
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Lighten
+  nameWithType: MixtureBlendDrawer.Blend.Lighten
+  fullName: Mixture.MixtureBlendDrawer.Blend.Lighten
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Lighten
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 10
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Lighten = 11
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.LinearBurn
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.LinearBurn
+  id: LinearBurn
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: LinearBurn
+  nameWithType: MixtureBlendDrawer.Blend.LinearBurn
+  fullName: Mixture.MixtureBlendDrawer.Blend.LinearBurn
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: LinearBurn
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 10
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: LinearBurn = 12
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.LinearDodge
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.LinearDodge
+  id: LinearDodge
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: LinearDodge
+  nameWithType: MixtureBlendDrawer.Blend.LinearDodge
+  fullName: Mixture.MixtureBlendDrawer.Blend.LinearDodge
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: LinearDodge
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 10
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: LinearDodge = 13
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.LinearLight
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.LinearLight
+  id: LinearLight
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: LinearLight
+  nameWithType: MixtureBlendDrawer.Blend.LinearLight
+  fullName: Mixture.MixtureBlendDrawer.Blend.LinearLight
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: LinearLight
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 10
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: LinearLight = 14
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.LinearLightAddSub
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.LinearLightAddSub
+  id: LinearLightAddSub
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: LinearLightAddSub
+  nameWithType: MixtureBlendDrawer.Blend.LinearLightAddSub
+  fullName: Mixture.MixtureBlendDrawer.Blend.LinearLightAddSub
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: LinearLightAddSub
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 10
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: LinearLightAddSub = 15
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.Multiply
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Multiply
+  id: Multiply
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Multiply
+  nameWithType: MixtureBlendDrawer.Blend.Multiply
+  fullName: Mixture.MixtureBlendDrawer.Blend.Multiply
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Multiply
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 10
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Multiply = 16
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.Negation
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Negation
+  id: Negation
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Negation
+  nameWithType: MixtureBlendDrawer.Blend.Negation
+  fullName: Mixture.MixtureBlendDrawer.Blend.Negation
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Negation
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 11
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Negation = 17
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.Overlay
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Overlay
+  id: Overlay
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Overlay
+  nameWithType: MixtureBlendDrawer.Blend.Overlay
+  fullName: Mixture.MixtureBlendDrawer.Blend.Overlay
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Overlay
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 11
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Overlay = 18
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.PinLight
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.PinLight
+  id: PinLight
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: PinLight
+  nameWithType: MixtureBlendDrawer.Blend.PinLight
+  fullName: Mixture.MixtureBlendDrawer.Blend.PinLight
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: PinLight
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 11
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: PinLight = 19
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.Screen
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Screen
+  id: Screen
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Screen
+  nameWithType: MixtureBlendDrawer.Blend.Screen
+  fullName: Mixture.MixtureBlendDrawer.Blend.Screen
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Screen
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 11
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Screen = 20
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.SoftLight
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.SoftLight
+  id: SoftLight
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: SoftLight
+  nameWithType: MixtureBlendDrawer.Blend.SoftLight
+  fullName: Mixture.MixtureBlendDrawer.Blend.SoftLight
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: SoftLight
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 11
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: SoftLight = 21
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.Subtract
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.Subtract
+  id: Subtract
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: Subtract
+  nameWithType: MixtureBlendDrawer.Blend.Subtract
+  fullName: Mixture.MixtureBlendDrawer.Blend.Subtract
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Subtract
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 11
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: Subtract = 22
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureBlendDrawer.Blend.VividLight
+  commentId: F:Mixture.MixtureBlendDrawer.Blend.VividLight
+  id: VividLight
+  parent: Mixture.MixtureBlendDrawer.Blend
+  langs:
+  - csharp
+  - vb
+  name: VividLight
+  nameWithType: MixtureBlendDrawer.Blend.VividLight
+  fullName: Mixture.MixtureBlendDrawer.Blend.VividLight
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: VividLight
+    path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixtureBlendDrawer.cs
+    startLine: 11
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: VividLight = 23
+    return:
+      type: Mixture.MixtureBlendDrawer.Blend
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.MixtureBlendDrawer.Blend
+  commentId: T:Mixture.MixtureBlendDrawer.Blend
+  parent: Mixture
+  name: MixtureBlendDrawer.Blend
+  nameWithType: MixtureBlendDrawer.Blend
+  fullName: Mixture.MixtureBlendDrawer.Blend

@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class EdgeDetect
    ">
-    <meta name="generator" content="docfx 2.55.0.0">
+    <meta name="generator" content="docfx 2.56.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -96,7 +96,7 @@
       <a class="xref" href="Mixture.FixedShaderNode.html#Mixture_FixedShaderNode_defaultRTSettings">FixedShaderNode.defaultRTSettings</a>
     </div>
     <div>
-      <a class="xref" href="Mixture.FixedShaderNode.html#Mixture_FixedShaderNode_Enable">FixedShaderNode.Enable()</a>
+      <a class="xref" href="Mixture.FixedShaderNode.html#Mixture_FixedShaderNode_InitializePorts">FixedShaderNode.InitializePorts()</a>
     </div>
     <div>
       <a class="xref" href="Mixture.FixedShaderNode.html#Mixture_FixedShaderNode_canProcess">FixedShaderNode.canProcess</a>
@@ -120,6 +120,9 @@
       <a class="xref" href="Mixture.ShaderNode.html#Mixture_ShaderNode_filteredOutProperties">ShaderNode.filteredOutProperties</a>
     </div>
     <div>
+      <a class="xref" href="Mixture.ShaderNode.html#Mixture_ShaderNode_Enable">ShaderNode.Enable()</a>
+    </div>
+    <div>
       <a class="xref" href="Mixture.ShaderNode.html#Mixture_ShaderNode_Disable">ShaderNode.Disable()</a>
     </div>
     <div>
@@ -135,7 +138,7 @@
       <a class="xref" href="Mixture.ShaderNode.html#Mixture_ShaderNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_">ShaderNode.ProcessNode(CommandBuffer)</a>
     </div>
     <div>
-      <a class="xref" href="Mixture.ShaderNode.html#Mixture_ShaderNode_GetCustomRenderTexture">ShaderNode.GetCustomRenderTexture()</a>
+      <a class="xref" href="Mixture.ShaderNode.html#Mixture_ShaderNode_GetCustomRenderTextures">ShaderNode.GetCustomRenderTextures()</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_graph">MixtureNode.graph</a>
@@ -180,6 +183,9 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_showControlsOnHover">MixtureNode.showControlsOnHover</a>
     </div>
     <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_needsInspector">MixtureNode.needsInspector</a>
+    </div>
+    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_temporaryMaterials">MixtureNode.temporaryMaterials</a>
     </div>
     <div>
@@ -195,22 +201,28 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewEV100">MixtureNode.previewEV100</a>
     </div>
     <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewSlice">MixtureNode.previewSlice</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_isPinned">MixtureNode.isPinned</a>
+    </div>
+    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_recorder">MixtureNode.recorder</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnNodeCreated">MixtureNode.OnNodeCreated()</a>
     </div>
     <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_UpdateTempRenderTexture_UnityEngine_CustomRenderTexture__System_Boolean_System_Boolean_">MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)</a>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_UpdateTempRenderTexture_UnityEngine_CustomRenderTexture__System_Boolean_System_Boolean_UnityEngine_CustomRenderTextureUpdateMode_System_Boolean_">MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetTempTextureDimension">MixtureNode.GetTempTextureDimension()</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnProcess_UnityEngine_Rendering_CommandBuffer_">MixtureNode.OnProcess(CommandBuffer)</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_Process">MixtureNode.Process()</a>
-    </div>
-    <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_AddObjectToGraph_UnityEngine_Object_">MixtureNode.AddObjectToGraph(Object)</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_RemoveObjectFromGraph_UnityEngine_Object_">MixtureNode.RemoveObjectFromGraph(Object)</a>
@@ -234,9 +246,6 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_ResetMaterialPropertyToDefault_UnityEngine_Material_System_String_">MixtureNode.ResetMaterialPropertyToDefault(Material, String)</a>
     </div>
     <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetMixtureDependencies">MixtureNode.GetMixtureDependencies()</a>
-    </div>
-    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetTempMaterial_System_String_">MixtureNode.GetTempMaterial(String)</a>
     </div>
   </div>
@@ -244,17 +253,18 @@
   <h6><strong>Assembly</strong>: Mixture.Runtime.dll</h6>
   <h5 id="Mixture_EdgeDetect_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Serializable]
+    <pre><code class="lang-csharp hljs">[Documentation(&quot;\r\nDetect the edges in the input texture, this node uses a Sobel filter to do so.\r\n\r\nYou can use the mode to either output the edges in black and white or output the edges multiplied by the input color.\r\n&quot;)]
+[Serializable]
 public class EdgeDetect : FixedShaderNode, IUseCustomRenderTextureProcessing</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_EdgeDetect_displayMaterialInspector.md&amp;value=---%0Auid%3A%20Mixture.EdgeDetect.displayMaterialInspector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_EdgeDetect_displayMaterialInspector.md&amp;value=---%0Auid%3A%20Mixture.EdgeDetect.displayMaterialInspector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/EdgeDetect.cs/#L17">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Operators/EdgeDetect.cs/#L18">View Source</a>
   </span>
   <a id="Mixture_EdgeDetect_displayMaterialInspector_" data-uid="Mixture.EdgeDetect.displayMaterialInspector*"></a>
   <h4 id="Mixture_EdgeDetect_displayMaterialInspector" data-uid="Mixture.EdgeDetect.displayMaterialInspector">displayMaterialInspector</h4>
@@ -283,10 +293,10 @@ public class EdgeDetect : FixedShaderNode, IUseCustomRenderTextureProcessing</co
   <div><a class="xref" href="Mixture.FixedShaderNode.html#Mixture_FixedShaderNode_displayMaterialInspector">FixedShaderNode.displayMaterialInspector</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_EdgeDetect_name.md&amp;value=---%0Auid%3A%20Mixture.EdgeDetect.name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_EdgeDetect_name.md&amp;value=---%0Auid%3A%20Mixture.EdgeDetect.name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/EdgeDetect.cs/#L13">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Operators/EdgeDetect.cs/#L14">View Source</a>
   </span>
   <a id="Mixture_EdgeDetect_name_" data-uid="Mixture.EdgeDetect.name*"></a>
   <h4 id="Mixture_EdgeDetect_name" data-uid="Mixture.EdgeDetect.name">name</h4>
@@ -315,10 +325,10 @@ public class EdgeDetect : FixedShaderNode, IUseCustomRenderTextureProcessing</co
   <div><a class="xref" href="Mixture.ShaderNode.html#Mixture_ShaderNode_name">ShaderNode.name</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_EdgeDetect_shaderName.md&amp;value=---%0Auid%3A%20Mixture.EdgeDetect.shaderName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_EdgeDetect_shaderName.md&amp;value=---%0Auid%3A%20Mixture.EdgeDetect.shaderName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/EdgeDetect.cs/#L15">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Operators/EdgeDetect.cs/#L16">View Source</a>
   </span>
   <a id="Mixture_EdgeDetect_shaderName_" data-uid="Mixture.EdgeDetect.shaderName*"></a>
   <h4 id="Mixture_EdgeDetect_shaderName" data-uid="Mixture.EdgeDetect.shaderName">shaderName</h4>
@@ -357,10 +367,10 @@ public class EdgeDetect : FixedShaderNode, IUseCustomRenderTextureProcessing</co
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_EdgeDetect.md&amp;value=---%0Auid%3A%20Mixture.EdgeDetect%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_EdgeDetect.md&amp;value=---%0Auid%3A%20Mixture.EdgeDetect%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/EdgeDetect.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Operators/EdgeDetect.cs/#L5" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

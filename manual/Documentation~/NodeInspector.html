@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Node Inspector </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Node Inspector ">
+    <meta name="generator" content="docfx 2.45.1.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="node-inspector">Node Inspector</h1>
+
+<p>The node inspector is a powerful tool that allow you to compare previews between two selected nodes, access advanced node features and more!</p>
+<p><img src="Images/2020-09-25-00-56-38.png" alt=""></p>
+<h2 id="selection-and-pinned-nodes">Selection and Pinned nodes</h2>
+<p>When you select nodes in the graph, they will appear in the node inspector. You can also pin nodes using the small <strong>Needle Note</strong> icon on top of the node. When you pin a node, it will stay in the inspector no matter what you select.</p>
+<p><img src="Images/2020-09-25-00-57-52.png" alt=""></p>
+<p>The selection is based on a stack system, selected items are placed on top of the stack (i.e. on top of the inspector) and pined items are at the bottom. This allows you to easily access a node without settings without scrolling to find it in the inspector.</p>
+<h2 id="preview-and-comparison">Preview and Comparison</h2>
+<p><img src="Images/2020-09-25-01-00-06.png" alt=""></p>
+<p>The preview uses the first (or two first in comparison mode) previews of the nodes in the inspector stack. In the image above, the first two selected nodes are being compared side by side.</p>
+<p>You can use these controls in the preview area</p>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>left/middle click drag</td>
+<td>pan the preview texture</td>
+</tr>
+<tr>
+<td>mouse wheel</td>
+<td>zoom in the texture</td>
+</tr>
+<tr>
+<td>right click drag</td>
+<td>in comparison mode, changes the comparison slider value</td>
+</tr>
+</tbody>
+</table>
+<p>In the preview header bar, you'll find a button to center the preview, as well as the selected preview name and a button to clock it. When you lock a preview, the preview will stay no matter what node you select / un-select. Then you have the icon to enable the comparison mode and finally the settings.</p>
+<p>When comparing two images, you can click on the <strong>|</strong> symbol to change the comparison mode, by default it uses side by side comparison but you have onion skin and diff modes as well.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/alelievr/Mixture/blob/master/docs/docfx/manual/Documentation~/NodeInspector.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

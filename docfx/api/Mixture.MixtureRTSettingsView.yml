@@ -5,7 +5,7 @@ items:
   id: MixtureRTSettingsView
   parent: Mixture
   children:
-  - Mixture.MixtureRTSettingsView.#ctor(MixtureNode,Mixture.MixtureGraphView)
+  - Mixture.MixtureRTSettingsView.#ctor(Mixture.MixtureNode,Mixture.MixtureGraphView)
   - Mixture.MixtureRTSettingsView.headerStyleClass
   - Mixture.MixtureRTSettingsView.RegisterChangedCallback(System.Action)
   langs:
@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/Views/MixtureRTSettingsView.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: MixtureRTSettingsView
     path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureRTSettingsView.cs
@@ -145,6 +145,7 @@ items:
   - UnityEngine.UIElements.VisualElement.UnityEngine#UIElements#IResolvedStyle#alignItems
   - UnityEngine.UIElements.VisualElement.UnityEngine#UIElements#IResolvedStyle#alignSelf
   - UnityEngine.UIElements.VisualElement.UnityEngine#UIElements#IResolvedStyle#backgroundColor
+  - UnityEngine.UIElements.VisualElement.UnityEngine#UIElements#IResolvedStyle#backgroundImage
   - UnityEngine.UIElements.VisualElement.UnityEngine#UIElements#IResolvedStyle#borderBottomColor
   - UnityEngine.UIElements.VisualElement.UnityEngine#UIElements#IResolvedStyle#borderBottomLeftRadius
   - UnityEngine.UIElements.VisualElement.UnityEngine#UIElements#IResolvedStyle#borderBottomRightRadius
@@ -231,7 +232,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/Views/MixtureRTSettingsView.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: headerStyleClass
     path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureRTSettingsView.cs
@@ -250,25 +251,25 @@ items:
   modifiers.vb:
   - Public
   - Const
-- uid: Mixture.MixtureRTSettingsView.#ctor(MixtureNode,Mixture.MixtureGraphView)
-  commentId: M:Mixture.MixtureRTSettingsView.#ctor(MixtureNode,Mixture.MixtureGraphView)
-  id: '#ctor(MixtureNode,Mixture.MixtureGraphView)'
+- uid: Mixture.MixtureRTSettingsView.#ctor(Mixture.MixtureNode,Mixture.MixtureGraphView)
+  commentId: M:Mixture.MixtureRTSettingsView.#ctor(Mixture.MixtureNode,Mixture.MixtureGraphView)
+  id: '#ctor(Mixture.MixtureNode,Mixture.MixtureGraphView)'
   parent: Mixture.MixtureRTSettingsView
   langs:
   - csharp
   - vb
   name: MixtureRTSettingsView(MixtureNode, MixtureGraphView)
   nameWithType: MixtureRTSettingsView.MixtureRTSettingsView(MixtureNode, MixtureGraphView)
-  fullName: Mixture.MixtureRTSettingsView.MixtureRTSettingsView(MixtureNode, Mixture.MixtureGraphView)
+  fullName: Mixture.MixtureRTSettingsView.MixtureRTSettingsView(Mixture.MixtureNode, Mixture.MixtureGraphView)
   type: Constructor
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/Views/MixtureRTSettingsView.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: .ctor
     path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureRTSettingsView.cs
-    startLine: 44
+    startLine: 56
   assemblies:
   - Unity.ShaderGraph.GraphicsTests
   namespace: Mixture
@@ -276,7 +277,7 @@ items:
     content: public MixtureRTSettingsView(MixtureNode node, MixtureGraphView owner)
     parameters:
     - id: node
-      type: MixtureNode
+      type: Mixture.MixtureNode
     - id: owner
       type: Mixture.MixtureGraphView
     content.vb: Public Sub New(node As MixtureNode, owner As MixtureGraphView)
@@ -299,11 +300,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/Views/MixtureRTSettingsView.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: RegisterChangedCallback
     path: ../../Packages/com.alelievr.mixture/Editor/Views/MixtureRTSettingsView.cs
-    startLine: 333
+    startLine: 397
   assemblies:
   - Unity.ShaderGraph.GraphicsTests
   namespace: Mixture
@@ -4585,6 +4586,15 @@ references:
   fullName: UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.backgroundColor
   nameWithType.vb: VisualElement.UnityEngine.UIElements.IResolvedStyle.backgroundColor
   name.vb: UnityEngine.UIElements.IResolvedStyle.backgroundColor
+- uid: UnityEngine.UIElements.VisualElement.UnityEngine#UIElements#IResolvedStyle#backgroundImage
+  commentId: P:UnityEngine.UIElements.VisualElement.UnityEngine#UIElements#IResolvedStyle#backgroundImage
+  parent: UnityEngine.UIElements.VisualElement
+  isExternal: true
+  name: IResolvedStyle.backgroundImage
+  nameWithType: VisualElement.IResolvedStyle.backgroundImage
+  fullName: UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.backgroundImage
+  nameWithType.vb: VisualElement.UnityEngine.UIElements.IResolvedStyle.backgroundImage
+  name.vb: UnityEngine.UIElements.IResolvedStyle.backgroundImage
 - uid: UnityEngine.UIElements.VisualElement.UnityEngine#UIElements#IResolvedStyle#borderBottomColor
   commentId: P:UnityEngine.UIElements.VisualElement.UnityEngine#UIElements#IResolvedStyle#borderBottomColor
   parent: UnityEngine.UIElements.VisualElement
@@ -5989,11 +5999,12 @@ references:
   name: MixtureRTSettingsView
   nameWithType: MixtureRTSettingsView.MixtureRTSettingsView
   fullName: Mixture.MixtureRTSettingsView.MixtureRTSettingsView
-- uid: MixtureNode
-  isExternal: true
+- uid: Mixture.MixtureNode
+  commentId: T:Mixture.MixtureNode
+  parent: Mixture
   name: MixtureNode
   nameWithType: MixtureNode
-  fullName: MixtureNode
+  fullName: Mixture.MixtureNode
 - uid: Mixture.MixtureGraphView
   commentId: T:Mixture.MixtureGraphView
   parent: Mixture

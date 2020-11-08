@@ -10,6 +10,7 @@ items:
   - Mixture.TextureUtils.GetDimensionFromType(System.Type)
   - Mixture.TextureUtils.GetSliceCount(UnityEngine.Texture)
   - Mixture.TextureUtils.GetTypeFromDimension(UnityEngine.Rendering.TextureDimension)
+  - Mixture.TextureUtils.GetWhiteTexture(UnityEngine.Rendering.TextureDimension,System.Int32)
   langs:
   - csharp
   - vb
@@ -20,7 +21,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: TextureUtils
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
@@ -54,11 +55,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetBlackTexture
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
-    startLine: 17
+    startLine: 18
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -91,11 +92,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetBlackTexture
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
-    startLine: 22
+    startLine: 23
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -116,6 +117,45 @@ items:
   modifiers.vb:
   - Public
   - Shared
+- uid: Mixture.TextureUtils.GetWhiteTexture(UnityEngine.Rendering.TextureDimension,System.Int32)
+  commentId: M:Mixture.TextureUtils.GetWhiteTexture(UnityEngine.Rendering.TextureDimension,System.Int32)
+  id: GetWhiteTexture(UnityEngine.Rendering.TextureDimension,System.Int32)
+  parent: Mixture.TextureUtils
+  langs:
+  - csharp
+  - vb
+  name: GetWhiteTexture(TextureDimension, Int32)
+  nameWithType: TextureUtils.GetWhiteTexture(TextureDimension, Int32)
+  fullName: Mixture.TextureUtils.GetWhiteTexture(UnityEngine.Rendering.TextureDimension, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetWhiteTexture
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
+    startLine: 65
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static Texture GetWhiteTexture(TextureDimension dim, int sliceCount = 0)
+    parameters:
+    - id: dim
+      type: UnityEngine.Rendering.TextureDimension
+    - id: sliceCount
+      type: System.Int32
+    return:
+      type: UnityEngine.Texture
+    content.vb: Public Shared Function GetWhiteTexture(dim As TextureDimension, sliceCount As Integer = 0) As Texture
+  overload: Mixture.TextureUtils.GetWhiteTexture*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
 - uid: Mixture.TextureUtils.GetSliceCount(UnityEngine.Texture)
   commentId: M:Mixture.TextureUtils.GetSliceCount(UnityEngine.Texture)
   id: GetSliceCount(UnityEngine.Texture)
@@ -130,11 +170,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetSliceCount
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
-    startLine: 63
+    startLine: 107
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -167,11 +207,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetTypeFromDimension
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
-    startLine: 87
+    startLine: 136
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -204,11 +244,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetDimensionFromType
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
-    startLine: 106
+    startLine: 155
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -290,6 +330,11 @@ references:
   name: UnityEngine.Rendering
   nameWithType: UnityEngine.Rendering
   fullName: UnityEngine.Rendering
+- uid: Mixture.TextureUtils.GetWhiteTexture*
+  commentId: Overload:Mixture.TextureUtils.GetWhiteTexture
+  name: GetWhiteTexture
+  nameWithType: TextureUtils.GetWhiteTexture
+  fullName: Mixture.TextureUtils.GetWhiteTexture
 - uid: Mixture.TextureUtils.GetSliceCount*
   commentId: Overload:Mixture.TextureUtils.GetSliceCount
   name: GetSliceCount

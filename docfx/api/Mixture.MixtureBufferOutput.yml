@@ -5,7 +5,7 @@ items:
   id: MixtureBufferOutput
   parent: Mixture
   children:
-  - Mixture.MixtureBufferOutput.SetOutputSettings(Mixture.SceneNode.OutputMode,UnityEngine.Camera)
+  - Mixture.MixtureBufferOutput.SetOutputSettings(Mixture.PrefabCaptureNode.OutputMode,UnityEngine.Camera)
   langs:
   - csharp
   - vb
@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureBufferOutput.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: MixtureBufferOutput
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureBufferOutput.cs
@@ -146,21 +146,21 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: Mixture.MixtureBufferOutput.SetOutputSettings(Mixture.SceneNode.OutputMode,UnityEngine.Camera)
-  commentId: M:Mixture.MixtureBufferOutput.SetOutputSettings(Mixture.SceneNode.OutputMode,UnityEngine.Camera)
-  id: SetOutputSettings(Mixture.SceneNode.OutputMode,UnityEngine.Camera)
+- uid: Mixture.MixtureBufferOutput.SetOutputSettings(Mixture.PrefabCaptureNode.OutputMode,UnityEngine.Camera)
+  commentId: M:Mixture.MixtureBufferOutput.SetOutputSettings(Mixture.PrefabCaptureNode.OutputMode,UnityEngine.Camera)
+  id: SetOutputSettings(Mixture.PrefabCaptureNode.OutputMode,UnityEngine.Camera)
   parent: Mixture.MixtureBufferOutput
   langs:
   - csharp
   - vb
-  name: SetOutputSettings(SceneNode.OutputMode, Camera)
-  nameWithType: MixtureBufferOutput.SetOutputSettings(SceneNode.OutputMode, Camera)
-  fullName: Mixture.MixtureBufferOutput.SetOutputSettings(Mixture.SceneNode.OutputMode, UnityEngine.Camera)
+  name: SetOutputSettings(PrefabCaptureNode.OutputMode, Camera)
+  nameWithType: MixtureBufferOutput.SetOutputSettings(PrefabCaptureNode.OutputMode, Camera)
+  fullName: Mixture.MixtureBufferOutput.SetOutputSettings(Mixture.PrefabCaptureNode.OutputMode, UnityEngine.Camera)
   type: Method
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureBufferOutput.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: SetOutputSettings
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureBufferOutput.cs
@@ -169,13 +169,13 @@ items:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
-    content: public virtual void SetOutputSettings(SceneNode.OutputMode mode, Camera targetCamera)
+    content: public virtual void SetOutputSettings(PrefabCaptureNode.OutputMode mode, Camera targetCamera)
     parameters:
     - id: mode
-      type: Mixture.SceneNode.OutputMode
+      type: Mixture.PrefabCaptureNode.OutputMode
     - id: targetCamera
       type: UnityEngine.Camera
-    content.vb: Public Overridable Sub SetOutputSettings(mode As SceneNode.OutputMode, targetCamera As Camera)
+    content.vb: Public Overridable Sub SetOutputSettings(mode As PrefabCaptureNode.OutputMode, targetCamera As Camera)
   overload: Mixture.MixtureBufferOutput.SetOutputSettings*
   modifiers.csharp:
   - public
@@ -5174,12 +5174,12 @@ references:
   name: SetOutputSettings
   nameWithType: MixtureBufferOutput.SetOutputSettings
   fullName: Mixture.MixtureBufferOutput.SetOutputSettings
-- uid: Mixture.SceneNode.OutputMode
-  commentId: T:Mixture.SceneNode.OutputMode
+- uid: Mixture.PrefabCaptureNode.OutputMode
+  commentId: T:Mixture.PrefabCaptureNode.OutputMode
   parent: Mixture
-  name: SceneNode.OutputMode
-  nameWithType: SceneNode.OutputMode
-  fullName: Mixture.SceneNode.OutputMode
+  name: PrefabCaptureNode.OutputMode
+  nameWithType: PrefabCaptureNode.OutputMode
+  fullName: Mixture.PrefabCaptureNode.OutputMode
 - uid: UnityEngine.Camera
   commentId: T:UnityEngine.Camera
   parent: UnityEngine

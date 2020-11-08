@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Mixture in HDRP and URP </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Mixture in HDRP and URP ">
+    <meta name="generator" content="docfx 2.45.1.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="mixture-in-hdrp-and-urp">Mixture in HDRP and URP</h1>
+
+<p>Mixture is compatible with built-in render pipeline but also HDRP and URP and add a couple of feature related to these pipelines which makes easier to work with certain features.</p>
+<h2 id="hdrp">HDRP</h2>
+<p>For HDRP, you can use these 3 nodes:</p>
+<p><img src="Images/2020-09-26-02-12-05.png" alt=""></p>
+<p>The two first allow you to create a <a href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@latest/index.html?subfolder=/manual/Mask-Map-and-Detail-Map.html">Mask Map and a Detail Map for HDRP materials</a>.</p>
+<p>The Prefab Capture node is much more interesting: it allows you to take an image from a camera in a prefab, you can extract different buffers from the camera like in this example where the world position is captured. Please refer to the documentation for more in-depth explanation.</p>
+<p><img src="Images/SceneNode.gif" alt=""></p>
+<p>You also have HDRP Mask and Detail map presets in the output texture asset node.</p>
+<p><img src="Images/2020-09-26-02-12-28.png" alt=""></p>
+<p>I've been thinking about adding a Mixture <a href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@latest/index.html?subfolder=/manual/Custom-Pass.html">Custom Pass</a> to allow you to create complex multi-pass effects without writing a single line of code. If you're interested you can vote on the <a href="https://trello.com/c/h6j8yn7O/160-mixture-support-in-hdrp-custom-pass">trello card task</a>.</p>
+<h2 id="urp">URP</h2>
+<p>There is not much to say about the support of URP, but I've been thinking to add a mixture scriptable render pass in URP that would allow you to create multi-pass effects with mixture in realtime. You can vote on the <a href="https://trello.com/c/X0LnzMOL/172-mixture-support-in-urp-scriptable-render-pass">trello card task</a> if you're interested.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/alelievr/Mixture/blob/master/docs/docfx/manual/Documentation~/RenderPipelines.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

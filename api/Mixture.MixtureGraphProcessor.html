@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class MixtureGraphProcessor
    ">
-    <meta name="generator" content="docfx 2.55.0.0">
+    <meta name="generator" content="docfx 2.56.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -80,20 +80,24 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">MixtureGraphProcessor</span></div>
   </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Mixture.html">Mixture</a></h6>
   <h6><strong>Assembly</strong>: Mixture.Runtime.dll</h6>
   <h5 id="Mixture_MixtureGraphProcessor_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class MixtureGraphProcessor : BaseGraphProcessor</code></pre>
+    <pre><code class="lang-csharp hljs">public class MixtureGraphProcessor : BaseGraphProcessor, IDisposable</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_MixtureGraphProcessor__ctor_BaseGraph_.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor.%23ctor(BaseGraph)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_MixtureGraphProcessor__ctor_BaseGraph_.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor.%23ctor(BaseGraph)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L17">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L41">View Source</a>
   </span>
   <a id="Mixture_MixtureGraphProcessor__ctor_" data-uid="Mixture.MixtureGraphProcessor.#ctor*"></a>
   <h4 id="Mixture_MixtureGraphProcessor__ctor_BaseGraph_" data-uid="Mixture.MixtureGraphProcessor.#ctor(BaseGraph)">MixtureGraphProcessor(BaseGraph)</h4>
@@ -120,14 +124,202 @@
       </tr>
     </tbody>
   </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_MixtureGraphProcessor_info.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor.info%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L24">View Source</a>
+  </span>
+  <a id="Mixture_MixtureGraphProcessor_info_" data-uid="Mixture.MixtureGraphProcessor.info*"></a>
+  <h4 id="Mixture_MixtureGraphProcessor_info" data-uid="Mixture.MixtureGraphProcessor.info">info</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ComputeOrderInfo info { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.ComputeOrderInfo.html">ComputeOrderInfo</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_MixtureGraphProcessor_Run.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor.Run%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_MixtureGraphProcessor_AddGPUAndCPUBarrier_UnityEngine_Rendering_CommandBuffer_.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor.AddGPUAndCPUBarrier(UnityEngine.Rendering.CommandBuffer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L45">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L109">View Source</a>
+  </span>
+  <a id="Mixture_MixtureGraphProcessor_AddGPUAndCPUBarrier_" data-uid="Mixture.MixtureGraphProcessor.AddGPUAndCPUBarrier*"></a>
+  <h4 id="Mixture_MixtureGraphProcessor_AddGPUAndCPUBarrier_UnityEngine_Rendering_CommandBuffer_" data-uid="Mixture.MixtureGraphProcessor.AddGPUAndCPUBarrier(UnityEngine.Rendering.CommandBuffer)">AddGPUAndCPUBarrier(CommandBuffer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void AddGPUAndCPUBarrier(CommandBuffer currentCmd)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Rendering.CommandBuffer</span></td>
+        <td><span class="parametername">currentCmd</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_MixtureGraphProcessor_Dispose.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L69">View Source</a>
+  </span>
+  <a id="Mixture_MixtureGraphProcessor_Dispose_" data-uid="Mixture.MixtureGraphProcessor.Dispose*"></a>
+  <h4 id="Mixture_MixtureGraphProcessor_Dispose" data-uid="Mixture.MixtureGraphProcessor.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_MixtureGraphProcessor_Finalize.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor.Finalize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L67">View Source</a>
+  </span>
+  <a id="Mixture_MixtureGraphProcessor_Finalize_" data-uid="Mixture.MixtureGraphProcessor.Finalize*"></a>
+  <h4 id="Mixture_MixtureGraphProcessor_Finalize" data-uid="Mixture.MixtureGraphProcessor.Finalize">Finalize()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void Finalize()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_MixtureGraphProcessor_GetNodeDependencies_BaseNode_.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor.GetNodeDependencies(BaseNode)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L135">View Source</a>
+  </span>
+  <a id="Mixture_MixtureGraphProcessor_GetNodeDependencies_" data-uid="Mixture.MixtureGraphProcessor.GetNodeDependencies*"></a>
+  <h4 id="Mixture_MixtureGraphProcessor_GetNodeDependencies_BaseNode_" data-uid="Mixture.MixtureGraphProcessor.GetNodeDependencies(BaseNode)">GetNodeDependencies(BaseNode)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;BaseNode&gt; GetNodeDependencies(BaseNode node)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">BaseNode</span></td>
+        <td><span class="parametername">node</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">BaseNode</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_MixtureGraphProcessor_GetOrCreate_Mixture_MixtureGraph_.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor.GetOrCreate(Mixture.MixtureGraph)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L50">View Source</a>
+  </span>
+  <a id="Mixture_MixtureGraphProcessor_GetOrCreate_" data-uid="Mixture.MixtureGraphProcessor.GetOrCreate*"></a>
+  <h4 id="Mixture_MixtureGraphProcessor_GetOrCreate_Mixture_MixtureGraph_" data-uid="Mixture.MixtureGraphProcessor.GetOrCreate(Mixture.MixtureGraph)">GetOrCreate(MixtureGraph)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static MixtureGraphProcessor GetOrCreate(MixtureGraph graph)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.MixtureGraph.html">MixtureGraph</a></td>
+        <td><span class="parametername">graph</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.MixtureGraphProcessor.html">MixtureGraphProcessor</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_MixtureGraphProcessor_Run.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor.Run%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L248">View Source</a>
   </span>
   <a id="Mixture_MixtureGraphProcessor_Run_" data-uid="Mixture.MixtureGraphProcessor.Run*"></a>
   <h4 id="Mixture_MixtureGraphProcessor_Run" data-uid="Mixture.MixtureGraphProcessor.Run">Run()</h4>
@@ -139,10 +331,42 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_MixtureGraphProcessor_UpdateComputeOrder.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor.UpdateComputeOrder%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_MixtureGraphProcessor_RunOnce_Mixture_MixtureGraph_.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor.RunOnce(Mixture.MixtureGraph)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L23">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L59">View Source</a>
+  </span>
+  <a id="Mixture_MixtureGraphProcessor_RunOnce_" data-uid="Mixture.MixtureGraphProcessor.RunOnce*"></a>
+  <h4 id="Mixture_MixtureGraphProcessor_RunOnce_Mixture_MixtureGraph_" data-uid="Mixture.MixtureGraphProcessor.RunOnce(Mixture.MixtureGraph)">RunOnce(MixtureGraph)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void RunOnce(MixtureGraph graph)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.MixtureGraph.html">MixtureGraph</a></td>
+        <td><span class="parametername">graph</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_MixtureGraphProcessor_UpdateComputeOrder.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor.UpdateComputeOrder%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L71">View Source</a>
   </span>
   <a id="Mixture_MixtureGraphProcessor_UpdateComputeOrder_" data-uid="Mixture.MixtureGraphProcessor.UpdateComputeOrder*"></a>
   <h4 id="Mixture_MixtureGraphProcessor_UpdateComputeOrder" data-uid="Mixture.MixtureGraphProcessor.UpdateComputeOrder">UpdateComputeOrder()</h4>
@@ -152,6 +376,10 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public override void UpdateComputeOrder()</code></pre>
   </div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
 </article>
           </div>
           
@@ -160,10 +388,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_MixtureGraphProcessor.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_MixtureGraphProcessor.md&amp;value=---%0Auid%3A%20Mixture.MixtureGraphProcessor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs/#L17" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

@@ -1,0 +1,253 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences
+  commentId: T:Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences
+  id: RealtimeMixtureAssetMap.RuntimeMixtureReferences
+  parent: Mixture
+  children:
+  - Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences.asset
+  - Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences.graph
+  langs:
+  - csharp
+  - vb
+  name: RealtimeMixtureAssetMap.RuntimeMixtureReferences
+  nameWithType: RealtimeMixtureAssetMap.RuntimeMixtureReferences
+  fullName: Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences
+  type: Struct
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/RealtimeMixtureAssetMap.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RuntimeMixtureReferences
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/RealtimeMixtureAssetMap.cs
+    startLine: 14
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Serializable]
+
+      public struct RuntimeMixtureReferences
+    content.vb: >-
+      <Serializable>
+
+      Public Structure RuntimeMixtureReferences
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - struct
+  modifiers.vb:
+  - Public
+  - Structure
+- uid: Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences.asset
+  commentId: F:Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences.asset
+  id: asset
+  parent: Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences
+  langs:
+  - csharp
+  - vb
+  name: asset
+  nameWithType: RealtimeMixtureAssetMap.RuntimeMixtureReferences.asset
+  fullName: Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences.asset
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/RealtimeMixtureAssetMap.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: asset
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/RealtimeMixtureAssetMap.cs
+    startLine: 17
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public CustomRenderTexture asset
+    return:
+      type: UnityEngine.CustomRenderTexture
+    content.vb: Public asset As CustomRenderTexture
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences.graph
+  commentId: F:Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences.graph
+  id: graph
+  parent: Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences
+  langs:
+  - csharp
+  - vb
+  name: graph
+  nameWithType: RealtimeMixtureAssetMap.RuntimeMixtureReferences.graph
+  fullName: Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences.graph
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/RealtimeMixtureAssetMap.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: graph
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/RealtimeMixtureAssetMap.cs
+    startLine: 18
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public MixtureGraph graph
+    return:
+      type: Mixture.MixtureGraph
+    content.vb: Public graph As MixtureGraph
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: ValueType.Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEngine.CustomRenderTexture
+  commentId: T:UnityEngine.CustomRenderTexture
+  parent: UnityEngine
+  isExternal: true
+  name: CustomRenderTexture
+  nameWithType: CustomRenderTexture
+  fullName: UnityEngine.CustomRenderTexture
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: Mixture.MixtureGraph
+  commentId: T:Mixture.MixtureGraph
+  parent: Mixture
+  name: MixtureGraph
+  nameWithType: MixtureGraph
+  fullName: Mixture.MixtureGraph

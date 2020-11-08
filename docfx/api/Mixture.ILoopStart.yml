@@ -1,0 +1,119 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.ILoopStart
+  commentId: T:Mixture.ILoopStart
+  id: ILoopStart
+  parent: Mixture
+  children:
+  - Mixture.ILoopStart.IsLastIteration
+  - Mixture.ILoopStart.PrepareLoopStart
+  langs:
+  - csharp
+  - vb
+  name: ILoopStart
+  nameWithType: ILoopStart
+  fullName: Mixture.ILoopStart
+  type: Interface
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: ILoopStart
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+    startLine: 2
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public interface ILoopStart
+    content.vb: Public Interface ILoopStart
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: Mixture.ILoopStart.PrepareLoopStart
+  commentId: M:Mixture.ILoopStart.PrepareLoopStart
+  id: PrepareLoopStart
+  parent: Mixture.ILoopStart
+  langs:
+  - csharp
+  - vb
+  name: PrepareLoopStart()
+  nameWithType: ILoopStart.PrepareLoopStart()
+  fullName: Mixture.ILoopStart.PrepareLoopStart()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: PrepareLoopStart
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+    startLine: 4
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: void PrepareLoopStart()
+    content.vb: Sub PrepareLoopStart
+  overload: Mixture.ILoopStart.PrepareLoopStart*
+- uid: Mixture.ILoopStart.IsLastIteration
+  commentId: M:Mixture.ILoopStart.IsLastIteration
+  id: IsLastIteration
+  parent: Mixture.ILoopStart
+  langs:
+  - csharp
+  - vb
+  name: IsLastIteration()
+  nameWithType: ILoopStart.IsLastIteration()
+  fullName: Mixture.ILoopStart.IsLastIteration()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: IsLastIteration
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+    startLine: 5
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: bool IsLastIteration()
+    return:
+      type: System.Boolean
+    content.vb: Function IsLastIteration As Boolean
+  overload: Mixture.ILoopStart.IsLastIteration*
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.ILoopStart.PrepareLoopStart*
+  commentId: Overload:Mixture.ILoopStart.PrepareLoopStart
+  name: PrepareLoopStart
+  nameWithType: ILoopStart.PrepareLoopStart
+  fullName: Mixture.ILoopStart.PrepareLoopStart
+- uid: Mixture.ILoopStart.IsLastIteration*
+  commentId: Overload:Mixture.ILoopStart.IsLastIteration
+  name: IsLastIteration
+  nameWithType: ILoopStart.IsLastIteration
+  fullName: Mixture.ILoopStart.IsLastIteration
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

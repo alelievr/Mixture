@@ -1,0 +1,609 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.ConversionFormat
+  commentId: T:Mixture.ConversionFormat
+  id: ConversionFormat
+  parent: Mixture
+  children:
+  - Mixture.ConversionFormat.Alpha8
+  - Mixture.ConversionFormat.ARGB32
+  - Mixture.ConversionFormat.ARGB4444
+  - Mixture.ConversionFormat.BGRA32
+  - Mixture.ConversionFormat.R16
+  - Mixture.ConversionFormat.R8
+  - Mixture.ConversionFormat.RFloat
+  - Mixture.ConversionFormat.RG16
+  - Mixture.ConversionFormat.RGB24
+  - Mixture.ConversionFormat.RGB565
+  - Mixture.ConversionFormat.RGBA32
+  - Mixture.ConversionFormat.RGBA4444
+  - Mixture.ConversionFormat.RGBAFloat
+  - Mixture.ConversionFormat.RGBAHalf
+  - Mixture.ConversionFormat.RGFloat
+  - Mixture.ConversionFormat.RGHalf
+  - Mixture.ConversionFormat.RHalf
+  langs:
+  - csharp
+  - vb
+  name: ConversionFormat
+  nameWithType: ConversionFormat
+  fullName: Mixture.ConversionFormat
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: ConversionFormat
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 7
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  summary: "\nList all the TextureFormat that can be used in a Graphics.ConvertTexture operation\n"
+  example: []
+  syntax:
+    content: public enum ConversionFormat
+    content.vb: Public Enum ConversionFormat
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.ConversionFormat.Alpha8
+  commentId: F:Mixture.ConversionFormat.Alpha8
+  id: Alpha8
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: Alpha8
+  nameWithType: ConversionFormat.Alpha8
+  fullName: Mixture.ConversionFormat.Alpha8
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Alpha8
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 9
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Alpha8 = 1
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.ARGB4444
+  commentId: F:Mixture.ConversionFormat.ARGB4444
+  id: ARGB4444
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: ARGB4444
+  nameWithType: ConversionFormat.ARGB4444
+  fullName: Mixture.ConversionFormat.ARGB4444
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: ARGB4444
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 10
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ARGB4444 = 2
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.RGB24
+  commentId: F:Mixture.ConversionFormat.RGB24
+  id: RGB24
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: RGB24
+  nameWithType: ConversionFormat.RGB24
+  fullName: Mixture.ConversionFormat.RGB24
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RGB24
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 11
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: RGB24 = 3
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.RGBA32
+  commentId: F:Mixture.ConversionFormat.RGBA32
+  id: RGBA32
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: RGBA32
+  nameWithType: ConversionFormat.RGBA32
+  fullName: Mixture.ConversionFormat.RGBA32
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RGBA32
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 12
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: RGBA32 = 4
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.ARGB32
+  commentId: F:Mixture.ConversionFormat.ARGB32
+  id: ARGB32
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: ARGB32
+  nameWithType: ConversionFormat.ARGB32
+  fullName: Mixture.ConversionFormat.ARGB32
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: ARGB32
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 13
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ARGB32 = 5
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.RGB565
+  commentId: F:Mixture.ConversionFormat.RGB565
+  id: RGB565
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: RGB565
+  nameWithType: ConversionFormat.RGB565
+  fullName: Mixture.ConversionFormat.RGB565
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RGB565
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 14
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: RGB565 = 7
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.R16
+  commentId: F:Mixture.ConversionFormat.R16
+  id: R16
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: R16
+  nameWithType: ConversionFormat.R16
+  fullName: Mixture.ConversionFormat.R16
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: R16
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 15
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: R16 = 9
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.RGBA4444
+  commentId: F:Mixture.ConversionFormat.RGBA4444
+  id: RGBA4444
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: RGBA4444
+  nameWithType: ConversionFormat.RGBA4444
+  fullName: Mixture.ConversionFormat.RGBA4444
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RGBA4444
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 16
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: RGBA4444 = 13
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.BGRA32
+  commentId: F:Mixture.ConversionFormat.BGRA32
+  id: BGRA32
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: BGRA32
+  nameWithType: ConversionFormat.BGRA32
+  fullName: Mixture.ConversionFormat.BGRA32
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: BGRA32
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 17
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: BGRA32 = 14
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.RHalf
+  commentId: F:Mixture.ConversionFormat.RHalf
+  id: RHalf
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: RHalf
+  nameWithType: ConversionFormat.RHalf
+  fullName: Mixture.ConversionFormat.RHalf
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RHalf
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 18
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: RHalf = 15
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.RGHalf
+  commentId: F:Mixture.ConversionFormat.RGHalf
+  id: RGHalf
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: RGHalf
+  nameWithType: ConversionFormat.RGHalf
+  fullName: Mixture.ConversionFormat.RGHalf
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RGHalf
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 19
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: RGHalf = 16
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.RGBAHalf
+  commentId: F:Mixture.ConversionFormat.RGBAHalf
+  id: RGBAHalf
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: RGBAHalf
+  nameWithType: ConversionFormat.RGBAHalf
+  fullName: Mixture.ConversionFormat.RGBAHalf
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RGBAHalf
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 20
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: RGBAHalf = 17
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.RFloat
+  commentId: F:Mixture.ConversionFormat.RFloat
+  id: RFloat
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: RFloat
+  nameWithType: ConversionFormat.RFloat
+  fullName: Mixture.ConversionFormat.RFloat
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RFloat
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 21
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: RFloat = 18
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.RGFloat
+  commentId: F:Mixture.ConversionFormat.RGFloat
+  id: RGFloat
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: RGFloat
+  nameWithType: ConversionFormat.RGFloat
+  fullName: Mixture.ConversionFormat.RGFloat
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RGFloat
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 22
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: RGFloat = 19
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.RGBAFloat
+  commentId: F:Mixture.ConversionFormat.RGBAFloat
+  id: RGBAFloat
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: RGBAFloat
+  nameWithType: ConversionFormat.RGBAFloat
+  fullName: Mixture.ConversionFormat.RGBAFloat
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RGBAFloat
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 23
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: RGBAFloat = 20
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.RG16
+  commentId: F:Mixture.ConversionFormat.RG16
+  id: RG16
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: RG16
+  nameWithType: ConversionFormat.RG16
+  fullName: Mixture.ConversionFormat.RG16
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RG16
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 24
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: RG16 = 62
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ConversionFormat.R8
+  commentId: F:Mixture.ConversionFormat.R8
+  id: R8
+  parent: Mixture.ConversionFormat
+  langs:
+  - csharp
+  - vb
+  name: R8
+  nameWithType: ConversionFormat.R8
+  fullName: Mixture.ConversionFormat.R8
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: R8
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/ConversionFormat.cs
+    startLine: 25
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: R8 = 63
+    return:
+      type: Mixture.ConversionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.ConversionFormat
+  commentId: T:Mixture.ConversionFormat
+  parent: Mixture
+  name: ConversionFormat
+  nameWithType: ConversionFormat
+  fullName: Mixture.ConversionFormat

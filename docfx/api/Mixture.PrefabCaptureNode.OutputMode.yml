@@ -1,0 +1,254 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.PrefabCaptureNode.OutputMode
+  commentId: T:Mixture.PrefabCaptureNode.OutputMode
+  id: PrefabCaptureNode.OutputMode
+  parent: Mixture
+  children:
+  - Mixture.PrefabCaptureNode.OutputMode.Color
+  - Mixture.PrefabCaptureNode.OutputMode.Linear01Depth
+  - Mixture.PrefabCaptureNode.OutputMode.LinearEyeDepth
+  - Mixture.PrefabCaptureNode.OutputMode.TangentSpaceNormal
+  - Mixture.PrefabCaptureNode.OutputMode.WorldPosition
+  - Mixture.PrefabCaptureNode.OutputMode.WorldSpaceNormal
+  langs:
+  - csharp
+  - vb
+  name: PrefabCaptureNode.OutputMode
+  nameWithType: PrefabCaptureNode.OutputMode
+  fullName: Mixture.PrefabCaptureNode.OutputMode
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/PrefabCaptureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: OutputMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/PrefabCaptureNode.cs
+    startLine: 28
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Serializable]
+
+      public enum OutputMode
+    content.vb: >-
+      <Serializable>
+
+      Public Enum OutputMode
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.PrefabCaptureNode.OutputMode.Color
+  commentId: F:Mixture.PrefabCaptureNode.OutputMode.Color
+  id: Color
+  parent: Mixture.PrefabCaptureNode.OutputMode
+  langs:
+  - csharp
+  - vb
+  name: Color
+  nameWithType: PrefabCaptureNode.OutputMode.Color
+  fullName: Mixture.PrefabCaptureNode.OutputMode.Color
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/PrefabCaptureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Color
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/PrefabCaptureNode.cs
+    startLine: 32
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Color = 0
+    return:
+      type: Mixture.PrefabCaptureNode.OutputMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.PrefabCaptureNode.OutputMode.LinearEyeDepth
+  commentId: F:Mixture.PrefabCaptureNode.OutputMode.LinearEyeDepth
+  id: LinearEyeDepth
+  parent: Mixture.PrefabCaptureNode.OutputMode
+  langs:
+  - csharp
+  - vb
+  name: LinearEyeDepth
+  nameWithType: PrefabCaptureNode.OutputMode.LinearEyeDepth
+  fullName: Mixture.PrefabCaptureNode.OutputMode.LinearEyeDepth
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/PrefabCaptureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: LinearEyeDepth
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/PrefabCaptureNode.cs
+    startLine: 33
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: LinearEyeDepth = 1
+    return:
+      type: Mixture.PrefabCaptureNode.OutputMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.PrefabCaptureNode.OutputMode.Linear01Depth
+  commentId: F:Mixture.PrefabCaptureNode.OutputMode.Linear01Depth
+  id: Linear01Depth
+  parent: Mixture.PrefabCaptureNode.OutputMode
+  langs:
+  - csharp
+  - vb
+  name: Linear01Depth
+  nameWithType: PrefabCaptureNode.OutputMode.Linear01Depth
+  fullName: Mixture.PrefabCaptureNode.OutputMode.Linear01Depth
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/PrefabCaptureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Linear01Depth
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/PrefabCaptureNode.cs
+    startLine: 34
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Linear01Depth = 2
+    return:
+      type: Mixture.PrefabCaptureNode.OutputMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.PrefabCaptureNode.OutputMode.WorldSpaceNormal
+  commentId: F:Mixture.PrefabCaptureNode.OutputMode.WorldSpaceNormal
+  id: WorldSpaceNormal
+  parent: Mixture.PrefabCaptureNode.OutputMode
+  langs:
+  - csharp
+  - vb
+  name: WorldSpaceNormal
+  nameWithType: PrefabCaptureNode.OutputMode.WorldSpaceNormal
+  fullName: Mixture.PrefabCaptureNode.OutputMode.WorldSpaceNormal
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/PrefabCaptureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: WorldSpaceNormal
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/PrefabCaptureNode.cs
+    startLine: 35
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: WorldSpaceNormal = 3
+    return:
+      type: Mixture.PrefabCaptureNode.OutputMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.PrefabCaptureNode.OutputMode.TangentSpaceNormal
+  commentId: F:Mixture.PrefabCaptureNode.OutputMode.TangentSpaceNormal
+  id: TangentSpaceNormal
+  parent: Mixture.PrefabCaptureNode.OutputMode
+  langs:
+  - csharp
+  - vb
+  name: TangentSpaceNormal
+  nameWithType: PrefabCaptureNode.OutputMode.TangentSpaceNormal
+  fullName: Mixture.PrefabCaptureNode.OutputMode.TangentSpaceNormal
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/PrefabCaptureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: TangentSpaceNormal
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/PrefabCaptureNode.cs
+    startLine: 36
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: TangentSpaceNormal = 4
+    return:
+      type: Mixture.PrefabCaptureNode.OutputMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.PrefabCaptureNode.OutputMode.WorldPosition
+  commentId: F:Mixture.PrefabCaptureNode.OutputMode.WorldPosition
+  id: WorldPosition
+  parent: Mixture.PrefabCaptureNode.OutputMode
+  langs:
+  - csharp
+  - vb
+  name: WorldPosition
+  nameWithType: PrefabCaptureNode.OutputMode.WorldPosition
+  fullName: Mixture.PrefabCaptureNode.OutputMode.WorldPosition
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/PrefabCaptureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: WorldPosition
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/PrefabCaptureNode.cs
+    startLine: 37
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: WorldPosition = 5
+    return:
+      type: Mixture.PrefabCaptureNode.OutputMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.PrefabCaptureNode.OutputMode
+  commentId: T:Mixture.PrefabCaptureNode.OutputMode
+  parent: Mixture
+  name: PrefabCaptureNode.OutputMode
+  nameWithType: PrefabCaptureNode.OutputMode
+  fullName: Mixture.PrefabCaptureNode.OutputMode

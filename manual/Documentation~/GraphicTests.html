@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Graphic Tests </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Graphic Tests ">
+    <meta name="generator" content="docfx 2.45.1.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="graphic-tests">Graphic Tests</h1>
+
+<p>You can find the graphic tests for mixture in the <a href="https://docs.unity3d.com/2017.4/Documentation/Manual/testing-editortestsrunner.html">Test Runner Window</a> under the <strong>PlayMode</strong> tab.</p>
+<p><img src="https://user-images.githubusercontent.com/6877923/91179929-74d26200-e6e7-11ea-84a4-e307a9fa714b.png" alt="image"></p>
+<p>It's a good practice to run these tests and ensure they are green before submitting a code modification. When adding a new node, it's also recommended to add a new test in the correct category to ensure your work won't break when someone else modify the code.</p>
+<p>⚠️ note that currently the tests can only run inside the editor and thus the <strong>Run all in player</strong> button doesn't work.</p>
+<h2 id="adding-a-new-test">Adding a new test</h2>
+<p>To add a new graphic test you must have cloned this repository and then follow these steps:</p>
+<ul>
+<li>Create a new <code>🎨 Static Mixture Graph</code> in one of the folder in <code>Assets/GraphicTests/Mixtures/</code> depending on the type of test you want to add. For example a noise test will go inside the <code>00_Simple</code> folder and will be named <code>00xx_TestName</code> (replace x by the highest test number in the folder + 1).</li>
+<li>Make the test graph you need (don't forget to lower the output resolution to LDR and enable compression to avoid pushing big images).</li>
+<li>Then you need to refresh the list of tests in the <code>Test Runner Window</code>, you can do so by entering and exiting play mode.</li>
+<li>At this step you should be able to see your new test in the list. Double click on your test to run it.</li>
+<li>Once your test is finished, it should have failed with this kind of error message:</li>
+</ul>
+<pre><code>No reference image found for x (Mixture.MixtureGraph), Creating one at ...
+Please re-run the test to ensure the reference image validity.
+</code></pre>
+<ul>
+<li>As stated above, the graphic test runner automatically took the result image of your graph (located in the <code>ActualImages</code> folder of the project) and copied it to the <code>ReferenceImages</code> folder. Now all you have to do is re-run the test one more time.</li>
+<li>The test should now be green and you can push it :)</li>
+</ul>
+<h2 id="updating-a-reference-image">Updating a reference image</h2>
+<p>In case you changed the code of a node and result in an expected failure of the graphic tests, you'll need to update the reference images. Here's how to do it:</p>
+<ul>
+<li>First run your test in the graphic test window.</li>
+<li>Then go to the <code>Assets/ActualImages/WindowsEditor/Direct3D11/None/</code> folder (on mac the path is different) and refresh the <code>Project Window</code> view (ctrl-R or right click -&gt; refresh) to show the result images.</li>
+<li>Pick the correct image which should be called <code>MixtureTests(00xx_TestName).png</code> and move it to the <code>Asset/GraphicTests/ReferenceImages/</code> folder.</li>
+<li>Finally rename the image with the name of the test which means replacing the old image by the new one.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/alelievr/Mixture/blob/master/docs/docfx/manual/Documentation~/GraphicTests.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

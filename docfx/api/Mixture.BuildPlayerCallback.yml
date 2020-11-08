@@ -1,0 +1,158 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.BuildPlayerCallback
+  commentId: T:Mixture.BuildPlayerCallback
+  id: BuildPlayerCallback
+  parent: Mixture
+  children:
+  - Mixture.BuildPlayerCallback.BuildMixtureAssetBundle(UnityEditor.BuildTarget)
+  - Mixture.BuildPlayerCallback.RegisterMixtureBuildCallbacks
+  langs:
+  - csharp
+  - vb
+  name: BuildPlayerCallback
+  nameWithType: BuildPlayerCallback
+  fullName: Mixture.BuildPlayerCallback
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/BuildPlayerCallback.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: BuildPlayerCallback
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/BuildPlayerCallback.cs
+    startLine: 7
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static class BuildPlayerCallback
+    content.vb: Public Module BuildPlayerCallback
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - static
+  - class
+  modifiers.vb:
+  - Public
+  - Module
+- uid: Mixture.BuildPlayerCallback.RegisterMixtureBuildCallbacks
+  commentId: M:Mixture.BuildPlayerCallback.RegisterMixtureBuildCallbacks
+  id: RegisterMixtureBuildCallbacks
+  parent: Mixture.BuildPlayerCallback
+  langs:
+  - csharp
+  - vb
+  name: RegisterMixtureBuildCallbacks()
+  nameWithType: BuildPlayerCallback.RegisterMixtureBuildCallbacks()
+  fullName: Mixture.BuildPlayerCallback.RegisterMixtureBuildCallbacks()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/BuildPlayerCallback.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RegisterMixtureBuildCallbacks
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/BuildPlayerCallback.cs
+    startLine: 9
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: >-
+      [InitializeOnLoadMethod]
+
+      public static void RegisterMixtureBuildCallbacks()
+    content.vb: >-
+      <InitializeOnLoadMethod>
+
+      Public Shared Sub RegisterMixtureBuildCallbacks
+  overload: Mixture.BuildPlayerCallback.RegisterMixtureBuildCallbacks*
+  attributes:
+  - type: UnityEditor.InitializeOnLoadMethodAttribute
+    ctor: UnityEditor.InitializeOnLoadMethodAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.BuildPlayerCallback.BuildMixtureAssetBundle(UnityEditor.BuildTarget)
+  commentId: M:Mixture.BuildPlayerCallback.BuildMixtureAssetBundle(UnityEditor.BuildTarget)
+  id: BuildMixtureAssetBundle(UnityEditor.BuildTarget)
+  parent: Mixture.BuildPlayerCallback
+  langs:
+  - csharp
+  - vb
+  name: BuildMixtureAssetBundle(BuildTarget)
+  nameWithType: BuildPlayerCallback.BuildMixtureAssetBundle(BuildTarget)
+  fullName: Mixture.BuildPlayerCallback.BuildMixtureAssetBundle(UnityEditor.BuildTarget)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Utils/BuildPlayerCallback.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: BuildMixtureAssetBundle
+    path: ../../Packages/com.alelievr.mixture/Editor/Utils/BuildPlayerCallback.cs
+    startLine: 22
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static void BuildMixtureAssetBundle(BuildTarget buildTarget)
+    parameters:
+    - id: buildTarget
+      type: UnityEditor.BuildTarget
+    content.vb: Public Shared Sub BuildMixtureAssetBundle(buildTarget As BuildTarget)
+  overload: Mixture.BuildPlayerCallback.BuildMixtureAssetBundle*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mixture.BuildPlayerCallback.RegisterMixtureBuildCallbacks*
+  commentId: Overload:Mixture.BuildPlayerCallback.RegisterMixtureBuildCallbacks
+  name: RegisterMixtureBuildCallbacks
+  nameWithType: BuildPlayerCallback.RegisterMixtureBuildCallbacks
+  fullName: Mixture.BuildPlayerCallback.RegisterMixtureBuildCallbacks
+- uid: Mixture.BuildPlayerCallback.BuildMixtureAssetBundle*
+  commentId: Overload:Mixture.BuildPlayerCallback.BuildMixtureAssetBundle
+  name: BuildMixtureAssetBundle
+  nameWithType: BuildPlayerCallback.BuildMixtureAssetBundle
+  fullName: Mixture.BuildPlayerCallback.BuildMixtureAssetBundle
+- uid: UnityEditor.BuildTarget
+  commentId: T:UnityEditor.BuildTarget
+  parent: UnityEditor
+  isExternal: true
+  name: BuildTarget
+  nameWithType: BuildTarget
+  fullName: UnityEditor.BuildTarget
+- uid: UnityEditor
+  commentId: N:UnityEditor
+  isExternal: true
+  name: UnityEditor
+  nameWithType: UnityEditor
+  fullName: UnityEditor

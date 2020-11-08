@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Examples </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Examples ">
+    <meta name="generator" content="docfx 2.45.1.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="examples">Examples</h1>
+
+<p>You can find all those examples in the samples of the Mixture package. To import them in your project, open the package manager, find the mixture package and import the sample named &quot;Examples&quot;.</p>
+<p><img src="Images/2020-10-02-00-01-01.png" alt=""></p>
+<h2 id="procedural-marble-texture">Procedural Marble Texture</h2>
+<p>Tileable marble texture, generated from distorted 2D perlin as a base to get a nice marble pattern, then we generate a &quot;crack&quot; pattern from a Ridged cellular noise and blend the two.</p>
+<p><img src="Images/2020-09-26-19-49-36.png" alt=""></p>
+<h2 id="roof-tiles-from-geometry">Roof tiles from geometry</h2>
+<p><img src="Images/2020-11-01-17-05-01.png" alt="">
+In this example, we're using the very interesting prefab capture node. In this example I'm using it to generate the depth map of a wooden roof tile shape which is the base of our texture, note that this node requires HDRP and if you can't afford it, you can still create a texture like this from your preferred texture editing tool.</p>
+<p>Here's a view of the prefab used to render the depth of the tile. I simply used a cylinder and a stretched cube to create this tile, then tilted it to have a gradient in the tile.
+<img src="Images/2020-11-01-17-10-10.png" alt=""></p>
+<p>The next we have the Splatter node which is configured in <strong>Depth Tile</strong> mode, which means it will output the UVs in the RG channels, a random color in B and the original depth in A which gives us this weird looking tiled texture. Note that in depth tile mode, the node use a depth map to render the different tiles and avoid blending between multiple tiles, the compare function of the depth map can be configures in the editor.</p>
+<p>For our roof example, a simple grid patter with some position jitter and random rotation will do:
+<img src="Images/2020-11-01-17-13-46.png" alt=""></p>
+<p>Then if we skip the next nodes where we manipulate the UVs, we have the <strong>Perlin Noise</strong> node used to add extra details of the wood to our tiles. The interesting bit here is that we use the blue channel of the UVs to as a seed for the noise, which allows us to generate a different noise per tile instead of having the same noise for each tile.</p>
+<p>After this, the rest of the graph is some texture manipulation and transformation to output the height, normal and albedo textures.</p>
+<p>Here's the result in the scene view:</p>
+<p><img src="Images/2020-11-01-17-05-42.png" alt=""></p>
+<h2 id="hdrp-density-volume-authoring">HDRP Density Volume Authoring</h2>
+<p>Ground for example generated by simply multiplying a 3D gradient with a 3D tileable perlin noise:</p>
+<p><img src="Images/2020-10-01-23-51-55.png" alt=""></p>
+<p>Here's the result with a <a href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@latest/index.html?subfolder=/manual/Density-Volume.html">Density Volume</a>.</p>
+<p><img src="Images/GroundFog.gif" alt=""></p>
+<p>And here's another example, this time with a cloud:</p>
+<p><img src="Images/2020-10-09-01-05-40.png" alt=""></p>
+<p>This is the result in the scene view:</p>
+<p><img src="Images/CloudVolume.gif" alt=""></p>
+<p>For the cloud, I mainly use the UV distort noise to create the cloud turbulence with a mask I generate from a first Gradient Matte for the spherical mask and a second one for the &quot;bottom&quot; of the cloud. Then I combine the two with a Mul and use a Texture Sample node with the distorted UVs to create the final cloud.</p>
+<p>Note that in the scene, I decreased a bit the <code>Fog Distance</code> parameter of the density volume to get this nice &quot;opaque&quot; cloud effect.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/alelievr/Mixture/blob/master/docs/docfx/manual/Documentation~/Examples.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

@@ -12,23 +12,34 @@ items:
   - Mixture.BlackAndWhiteNode
   - Mixture.BlendNode
   - Mixture.Blur
+  - Mixture.Branch
   - Mixture.BreakVectorNode
+  - Mixture.BuildPlayerCallback
   - Mixture.CellularNoise
   - Mixture.CheckerBoard
   - Mixture.Circles
+  - Mixture.ClampNode
   - Mixture.ColorMatteNode
   - Mixture.ColorNode
   - Mixture.ColorNodeView
+  - Mixture.CombineNode
+  - Mixture.ComputeOrderInfo
   - Mixture.ComputeShaderNode
   - Mixture.ComputeShaderNodeView
+  - Mixture.ConversionFormat
+  - Mixture.CrossSection
   - Mixture.CubeTo2DLatLonNode
   - Mixture.CurveNode
+  - Mixture.CurveNode.CurveOutputMode
   - Mixture.CurveNodeView
   - Mixture.CustomTextureNode
   - Mixture.CustomTextureNodeView
   - Mixture.DebugLogNode
   - Mixture.DirectionalBlur
   - Mixture.Distance
+  - Mixture.Distance.DistanceMode
+  - Mixture.Distance.Mode
+  - Mixture.Distance.ThresholdMode
   - Mixture.DivNode
   - Mixture.DocumentationAttribute
   - Mixture.EdgeDetect
@@ -42,26 +53,43 @@ items:
   - Mixture.FixedShaderNodeView
   - Mixture.FloatNode
   - Mixture.FloatNodeView
+  - Mixture.ForEnd
+  - Mixture.ForEnd.AggregationMode
+  - Mixture.ForStart
+  - Mixture.ForStartView
   - Mixture.FractalBrownianMotionNoise
   - Mixture.GetPixel
   - Mixture.GradienMattetNode
   - Mixture.GradientNode
   - Mixture.GradientNodeView
-  - Mixture.HeightToNormalNode
+  - Mixture.HDRPDetailCombine
+  - Mixture.HDRPMaskCombine
   - Mixture.HSVNode
+  - Mixture.ILoopEnd
+  - Mixture.ILoopStart
+  - Mixture.INeedLoopReset
   - Mixture.InlineTextureDrawer
+  - Mixture.IntegerNode
   - Mixture.InvertNode
+  - Mixture.IsoSurface
   - Mixture.IUseCustomRenderTextureProcessing
+  - Mixture.Lines
   - Mixture.MakeVectorNode
   - Mixture.MaskNode
   - Mixture.MaterialBinder
   - Mixture.MaterialBinderView
   - Mixture.MaterialExtension
+  - Mixture.MeshNode
+  - Mixture.MeshToUDF
+  - Mixture.MeshToUDF.Resolution
   - Mixture.MixtureAssetCallbacks
+  - Mixture.MixtureBlendDrawer
+  - Mixture.MixtureBlendDrawer.Blend
   - Mixture.MixtureBufferOutput
   - Mixture.MixtureChannelDrawer
-  - Mixture.MixtureCompressionFormat
   - Mixture.MixtureCompressionQuality
+  - Mixture.MixtureDatabase
+  - Mixture.MixtureDebugPanel
   - Mixture.MixtureDebugWindow
   - Mixture.MixtureEditorUtils
   - Mixture.MixtureGraph
@@ -69,35 +97,55 @@ items:
   - Mixture.MixtureGraphProcessor
   - Mixture.MixtureGraphView
   - Mixture.MixtureGraphWindow
+  - Mixture.MixtureMesh
   - Mixture.MixtureNode
+  - Mixture.MixtureNodeInspectorObject
+  - Mixture.MixtureNodeInspectorObjectEditor
   - Mixture.MixtureNodeView
   - Mixture.MixtureParameterView
+  - Mixture.MixtureProcessingCallbacks
   - Mixture.MixturePropertyDrawer
   - Mixture.MixtureRTSettings
   - Mixture.MixtureRTSettingsView
   - Mixture.MixtureSwizzleDrawer
   - Mixture.MixtureToolbar
+  - Mixture.MixtureToolbar.ImproveMixturePopupWindow
   - Mixture.MixtureUtils
   - Mixture.MixtureVector2Drawer
   - Mixture.MixtureVector3Drawer
   - Mixture.ModNode
   - Mixture.MulNode
+  - Mixture.NodeInspectorSettingsPopupWindow
+  - Mixture.NodeTexturePreview
+  - Mixture.NormalAdd
+  - Mixture.NormalBlend
+  - Mixture.NormalFromHeight
+  - Mixture.NormalMul
+  - Mixture.NormalRotate
+  - Mixture.OutputChannel
   - Mixture.OutputDimension
-  - Mixture.OutputFormat
   - Mixture.OutputNode
   - Mixture.OutputNodeView
+  - Mixture.OutputPrecision
   - Mixture.OutputSizeMode
+  - Mixture.OutputTextureSettings
+  - Mixture.OutputTextureSettings.Preset
+  - Mixture.OutputTextureView
   - Mixture.PerlinNoise
-  - Mixture.PinnedViewBoard
   - Mixture.POTSize
+  - Mixture.PrefabCaptureNode
+  - Mixture.PrefabCaptureNode.OutputMode
+  - Mixture.PrefabCaptureNodeView
   - Mixture.PreviewChannels
   - Mixture.RandomColorNode
   - Mixture.RandomColorNodeView
   - Mixture.RandomRangeNode
-  - Mixture.RandomRangeNodeView
   - Mixture.RangeDrawer
+  - Mixture.RealtimeMixtureAssetMap
+  - Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences
   - Mixture.RealtimeMixtureReferences
   - Mixture.RectanglesNode
+  - Mixture.RefreshMode
   - Mixture.RemapNode
   - Mixture.RidgedCellularNoise
   - Mixture.RidgedPerlinNoise
@@ -105,19 +153,25 @@ items:
   - Mixture.SampleGradientNode
   - Mixture.SampleGradientNodeView
   - Mixture.ScaleBiasNode
-  - Mixture.SceneNode
-  - Mixture.SceneNode.OutputMode
-  - Mixture.SceneNodeView
+  - Mixture.SelfNode
+  - Mixture.SelfNodeView
   - Mixture.ShaderNode
+  - Mixture.ShaderNode.ShaderProperty
   - Mixture.ShaderNodeView
   - Mixture.Sharpen
+  - Mixture.ShowInInspectorDecorator
   - Mixture.SplatterNode
+  - Mixture.SplatterNode.InputDepthChannel
+  - Mixture.SplatterNode.Mode
   - Mixture.SplatterNode.Operator
+  - Mixture.SplatterNode.OutputChannelMode
   - Mixture.SplatterNode.RotationMode
   - Mixture.SplatterNode.ScaleMode
   - Mixture.SplatterNode.Sequence
   - Mixture.SplatterNodeView
+  - Mixture.SpriteSheetToVolume
   - Mixture.SubNode
+  - Mixture.Switch
   - Mixture.SwizzleNode
   - Mixture.TextureMatteNode
   - Mixture.TextureNode
@@ -127,6 +181,8 @@ items:
   - Mixture.ThresholdNode
   - Mixture.TileWrapNode
   - Mixture.TimeNode
+  - Mixture.ToggleNode
+  - Mixture.ToggleNodeView
   - Mixture.TooltipDrawerDecorator
   - Mixture.UVDistortNode
   - Mixture.UVNode
@@ -150,6 +206,8 @@ items:
   - Mixture.VectorSwizzle
   - Mixture.VectorSwizzle.Component
   - Mixture.VectorTruncateNode
+  - Mixture.VolumeToSpriteSheet
+  - Mixture.Warp
   - Mixture.WhiteNoise
   langs:
   - csharp
@@ -159,8 +217,866 @@ items:
   fullName: Mixture
   type: Namespace
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - Mixture.Runtime
 references:
+- uid: Mixture.SplatterNode
+  commentId: T:Mixture.SplatterNode
+  parent: Mixture
+  name: SplatterNode
+  nameWithType: SplatterNode
+  fullName: Mixture.SplatterNode
+- uid: Mixture.SplatterNode.Sequence
+  commentId: T:Mixture.SplatterNode.Sequence
+  parent: Mixture
+  name: SplatterNode.Sequence
+  nameWithType: SplatterNode.Sequence
+  fullName: Mixture.SplatterNode.Sequence
+- uid: Mixture.SplatterNode.RotationMode
+  commentId: T:Mixture.SplatterNode.RotationMode
+  parent: Mixture
+  name: SplatterNode.RotationMode
+  nameWithType: SplatterNode.RotationMode
+  fullName: Mixture.SplatterNode.RotationMode
+- uid: Mixture.SplatterNode.ScaleMode
+  commentId: T:Mixture.SplatterNode.ScaleMode
+  parent: Mixture
+  name: SplatterNode.ScaleMode
+  nameWithType: SplatterNode.ScaleMode
+  fullName: Mixture.SplatterNode.ScaleMode
+- uid: Mixture.SplatterNode.Operator
+  commentId: T:Mixture.SplatterNode.Operator
+  parent: Mixture
+  name: SplatterNode.Operator
+  nameWithType: SplatterNode.Operator
+  fullName: Mixture.SplatterNode.Operator
+- uid: Mixture.SplatterNode.OutputChannelMode
+  commentId: T:Mixture.SplatterNode.OutputChannelMode
+  parent: Mixture
+  name: SplatterNode.OutputChannelMode
+  nameWithType: SplatterNode.OutputChannelMode
+  fullName: Mixture.SplatterNode.OutputChannelMode
+- uid: Mixture.SplatterNode.InputDepthChannel
+  commentId: T:Mixture.SplatterNode.InputDepthChannel
+  parent: Mixture
+  name: SplatterNode.InputDepthChannel
+  nameWithType: SplatterNode.InputDepthChannel
+  fullName: Mixture.SplatterNode.InputDepthChannel
+- uid: Mixture.SplatterNode.Mode
+  commentId: T:Mixture.SplatterNode.Mode
+  parent: Mixture
+  name: SplatterNode.Mode
+  nameWithType: SplatterNode.Mode
+  fullName: Mixture.SplatterNode.Mode
+- uid: Mixture.VectorRemapNode
+  commentId: T:Mixture.VectorRemapNode
+  name: VectorRemapNode
+  nameWithType: VectorRemapNode
+  fullName: Mixture.VectorRemapNode
+- uid: Mixture.HDRPDetailCombine
+  commentId: T:Mixture.HDRPDetailCombine
+  name: HDRPDetailCombine
+  nameWithType: HDRPDetailCombine
+  fullName: Mixture.HDRPDetailCombine
+- uid: Mixture.VectorLerpNode
+  commentId: T:Mixture.VectorLerpNode
+  name: VectorLerpNode
+  nameWithType: VectorLerpNode
+  fullName: Mixture.VectorLerpNode
+- uid: Mixture.Switch
+  commentId: T:Mixture.Switch
+  name: Switch
+  nameWithType: Switch
+  fullName: Mixture.Switch
+- uid: Mixture.MaterialExtension
+  commentId: T:Mixture.MaterialExtension
+  name: MaterialExtension
+  nameWithType: MaterialExtension
+  fullName: Mixture.MaterialExtension
+- uid: Mixture.AutoComputeShaderNode
+  commentId: T:Mixture.AutoComputeShaderNode
+  name: AutoComputeShaderNode
+  nameWithType: AutoComputeShaderNode
+  fullName: Mixture.AutoComputeShaderNode
+- uid: Mixture.AutoComputeShaderNode.ComputeParameter
+  commentId: T:Mixture.AutoComputeShaderNode.ComputeParameter
+  name: AutoComputeShaderNode.ComputeParameter
+  nameWithType: AutoComputeShaderNode.ComputeParameter
+  fullName: Mixture.AutoComputeShaderNode.ComputeParameter
+- uid: Mixture.AutoComputeShaderNode.TextureAllocMode
+  commentId: T:Mixture.AutoComputeShaderNode.TextureAllocMode
+  parent: Mixture
+  name: AutoComputeShaderNode.TextureAllocMode
+  nameWithType: AutoComputeShaderNode.TextureAllocMode
+  fullName: Mixture.AutoComputeShaderNode.TextureAllocMode
+- uid: Mixture.AutoComputeShaderNode.ResourceDescriptor
+  commentId: T:Mixture.AutoComputeShaderNode.ResourceDescriptor
+  parent: Mixture
+  name: AutoComputeShaderNode.ResourceDescriptor
+  nameWithType: AutoComputeShaderNode.ResourceDescriptor
+  fullName: Mixture.AutoComputeShaderNode.ResourceDescriptor
+- uid: Mixture.IUseCustomRenderTextureProcessing
+  commentId: T:Mixture.IUseCustomRenderTextureProcessing
+  parent: Mixture
+  name: IUseCustomRenderTextureProcessing
+  nameWithType: IUseCustomRenderTextureProcessing
+  fullName: Mixture.IUseCustomRenderTextureProcessing
+- uid: Mixture.SpriteSheetToVolume
+  commentId: T:Mixture.SpriteSheetToVolume
+  name: SpriteSheetToVolume
+  nameWithType: SpriteSheetToVolume
+  fullName: Mixture.SpriteSheetToVolume
+- uid: Mixture.VectorPingPongNode
+  commentId: T:Mixture.VectorPingPongNode
+  name: VectorPingPongNode
+  nameWithType: VectorPingPongNode
+  fullName: Mixture.VectorPingPongNode
+- uid: Mixture.Warp
+  commentId: T:Mixture.Warp
+  name: Warp
+  nameWithType: Warp
+  fullName: Mixture.Warp
+- uid: Mixture.VectorLerpAngleNode
+  commentId: T:Mixture.VectorLerpAngleNode
+  name: VectorLerpAngleNode
+  nameWithType: VectorLerpAngleNode
+  fullName: Mixture.VectorLerpAngleNode
+- uid: Mixture.ForStart
+  commentId: T:Mixture.ForStart
+  parent: Mixture
+  name: ForStart
+  nameWithType: ForStart
+  fullName: Mixture.ForStart
+- uid: Mixture.DivNode
+  commentId: T:Mixture.DivNode
+  name: DivNode
+  nameWithType: DivNode
+  fullName: Mixture.DivNode
+- uid: Mixture.EdgeDetect
+  commentId: T:Mixture.EdgeDetect
+  name: EdgeDetect
+  nameWithType: EdgeDetect
+  fullName: Mixture.EdgeDetect
+- uid: Mixture.MixtureProcessingCallbacks
+  commentId: T:Mixture.MixtureProcessingCallbacks
+  name: MixtureProcessingCallbacks
+  nameWithType: MixtureProcessingCallbacks
+  fullName: Mixture.MixtureProcessingCallbacks
+- uid: Mixture.DebugLogNode
+  commentId: T:Mixture.DebugLogNode
+  name: DebugLogNode
+  nameWithType: DebugLogNode
+  fullName: Mixture.DebugLogNode
+- uid: Mixture.TileWrapNode
+  commentId: T:Mixture.TileWrapNode
+  name: TileWrapNode
+  nameWithType: TileWrapNode
+  fullName: Mixture.TileWrapNode
+- uid: Mixture.TimeNode
+  commentId: T:Mixture.TimeNode
+  name: TimeNode
+  nameWithType: TimeNode
+  fullName: Mixture.TimeNode
+- uid: Mixture.FixedShaderNode
+  commentId: T:Mixture.FixedShaderNode
+  parent: Mixture
+  name: FixedShaderNode
+  nameWithType: FixedShaderNode
+  fullName: Mixture.FixedShaderNode
+- uid: Mixture.MixtureUtils
+  commentId: T:Mixture.MixtureUtils
+  name: MixtureUtils
+  nameWithType: MixtureUtils
+  fullName: Mixture.MixtureUtils
+- uid: Mixture.Branch
+  commentId: T:Mixture.Branch
+  name: Branch
+  nameWithType: Branch
+  fullName: Mixture.Branch
+- uid: Mixture.MixtureBufferOutput
+  commentId: T:Mixture.MixtureBufferOutput
+  name: MixtureBufferOutput
+  nameWithType: MixtureBufferOutput
+  fullName: Mixture.MixtureBufferOutput
+- uid: Mixture.RidgedCellularNoise
+  commentId: T:Mixture.RidgedCellularNoise
+  name: RidgedCellularNoise
+  nameWithType: RidgedCellularNoise
+  fullName: Mixture.RidgedCellularNoise
+- uid: Mixture.VectorSwizzle
+  commentId: T:Mixture.VectorSwizzle
+  name: VectorSwizzle
+  nameWithType: VectorSwizzle
+  fullName: Mixture.VectorSwizzle
+- uid: Mixture.VectorSwizzle.Component
+  commentId: T:Mixture.VectorSwizzle.Component
+  parent: Mixture
+  name: VectorSwizzle.Component
+  nameWithType: VectorSwizzle.Component
+  fullName: Mixture.VectorSwizzle.Component
+- uid: Mixture.BlendNode
+  commentId: T:Mixture.BlendNode
+  name: BlendNode
+  nameWithType: BlendNode
+  fullName: Mixture.BlendNode
+- uid: Mixture.GetPixel
+  commentId: T:Mixture.GetPixel
+  name: GetPixel
+  nameWithType: GetPixel
+  fullName: Mixture.GetPixel
+- uid: Mixture.ModNode
+  commentId: T:Mixture.ModNode
+  name: ModNode
+  nameWithType: ModNode
+  fullName: Mixture.ModNode
+- uid: Mixture.SelfNode
+  commentId: T:Mixture.SelfNode
+  parent: Mixture
+  name: SelfNode
+  nameWithType: SelfNode
+  fullName: Mixture.SelfNode
+- uid: Mixture.MixtureDebugPanel
+  commentId: T:Mixture.MixtureDebugPanel
+  name: MixtureDebugPanel
+  nameWithType: MixtureDebugPanel
+  fullName: Mixture.MixtureDebugPanel
+- uid: Mixture.ConversionFormat
+  commentId: T:Mixture.ConversionFormat
+  parent: Mixture
+  name: ConversionFormat
+  nameWithType: ConversionFormat
+  fullName: Mixture.ConversionFormat
+- uid: Mixture.ColorNode
+  commentId: T:Mixture.ColorNode
+  parent: Mixture
+  name: ColorNode
+  nameWithType: ColorNode
+  fullName: Mixture.ColorNode
+- uid: Mixture.TextureNode
+  commentId: T:Mixture.TextureNode
+  parent: Mixture
+  name: TextureNode
+  nameWithType: TextureNode
+  fullName: Mixture.TextureNode
+- uid: Mixture.CubeTo2DLatLonNode
+  commentId: T:Mixture.CubeTo2DLatLonNode
+  name: CubeTo2DLatLonNode
+  nameWithType: CubeTo2DLatLonNode
+  fullName: Mixture.CubeTo2DLatLonNode
+- uid: Mixture.VectorPowNode
+  commentId: T:Mixture.VectorPowNode
+  name: VectorPowNode
+  nameWithType: VectorPowNode
+  fullName: Mixture.VectorPowNode
+- uid: Mixture.VectorNode
+  commentId: T:Mixture.VectorNode
+  parent: Mixture
+  name: VectorNode
+  nameWithType: VectorNode
+  fullName: Mixture.VectorNode
+- uid: Mixture.ColorMatteNode
+  commentId: T:Mixture.ColorMatteNode
+  name: ColorMatteNode
+  nameWithType: ColorMatteNode
+  fullName: Mixture.ColorMatteNode
+- uid: Mixture.CheckerBoard
+  commentId: T:Mixture.CheckerBoard
+  name: CheckerBoard
+  nameWithType: CheckerBoard
+  fullName: Mixture.CheckerBoard
+- uid: Mixture.FloatNode
+  commentId: T:Mixture.FloatNode
+  parent: Mixture
+  name: FloatNode
+  nameWithType: FloatNode
+  fullName: Mixture.FloatNode
+- uid: Mixture.PerlinNoise
+  commentId: T:Mixture.PerlinNoise
+  name: PerlinNoise
+  nameWithType: PerlinNoise
+  fullName: Mixture.PerlinNoise
+- uid: Mixture.AddNode
+  commentId: T:Mixture.AddNode
+  name: AddNode
+  nameWithType: AddNode
+  fullName: Mixture.AddNode
+- uid: Mixture.RandomColorNode
+  commentId: T:Mixture.RandomColorNode
+  parent: Mixture
+  name: RandomColorNode
+  nameWithType: RandomColorNode
+  fullName: Mixture.RandomColorNode
+- uid: Mixture.NormalFromHeight
+  commentId: T:Mixture.NormalFromHeight
+  name: NormalFromHeight
+  nameWithType: NormalFromHeight
+  fullName: Mixture.NormalFromHeight
+- uid: Mixture.VectorModNode
+  commentId: T:Mixture.VectorModNode
+  name: VectorModNode
+  nameWithType: VectorModNode
+  fullName: Mixture.VectorModNode
+- uid: Mixture.CombineNode
+  commentId: T:Mixture.CombineNode
+  name: CombineNode
+  nameWithType: CombineNode
+  fullName: Mixture.CombineNode
+- uid: Mixture.OutputNode
+  commentId: T:Mixture.OutputNode
+  parent: Mixture
+  name: OutputNode
+  nameWithType: OutputNode
+  fullName: Mixture.OutputNode
+- uid: Mixture.ComputeShaderNode
+  commentId: T:Mixture.ComputeShaderNode
+  parent: Mixture
+  name: ComputeShaderNode
+  nameWithType: ComputeShaderNode
+  fullName: Mixture.ComputeShaderNode
+- uid: Mixture.GradientNode
+  commentId: T:Mixture.GradientNode
+  parent: Mixture
+  name: GradientNode
+  nameWithType: GradientNode
+  fullName: Mixture.GradientNode
+- uid: Mixture.RealtimeMixtureReferences
+  commentId: T:Mixture.RealtimeMixtureReferences
+  name: RealtimeMixtureReferences
+  nameWithType: RealtimeMixtureReferences
+  fullName: Mixture.RealtimeMixtureReferences
+- uid: Mixture.CustomTextureNode
+  commentId: T:Mixture.CustomTextureNode
+  parent: Mixture
+  name: CustomTextureNode
+  nameWithType: CustomTextureNode
+  fullName: Mixture.CustomTextureNode
+- uid: Mixture.ILoopStart
+  commentId: T:Mixture.ILoopStart
+  parent: Mixture
+  name: ILoopStart
+  nameWithType: ILoopStart
+  fullName: Mixture.ILoopStart
+- uid: Mixture.ILoopEnd
+  commentId: T:Mixture.ILoopEnd
+  parent: Mixture
+  name: ILoopEnd
+  nameWithType: ILoopEnd
+  fullName: Mixture.ILoopEnd
+- uid: Mixture.INeedLoopReset
+  commentId: T:Mixture.INeedLoopReset
+  name: INeedLoopReset
+  nameWithType: INeedLoopReset
+  fullName: Mixture.INeedLoopReset
+- uid: Mixture.Blur
+  commentId: T:Mixture.Blur
+  name: Blur
+  nameWithType: Blur
+  fullName: Mixture.Blur
+- uid: Mixture.MaskNode
+  commentId: T:Mixture.MaskNode
+  name: MaskNode
+  nameWithType: MaskNode
+  fullName: Mixture.MaskNode
+- uid: Mixture.VectorDivNode
+  commentId: T:Mixture.VectorDivNode
+  name: VectorDivNode
+  nameWithType: VectorDivNode
+  fullName: Mixture.VectorDivNode
+- uid: Mixture.MixtureRTSettings
+  commentId: T:Mixture.MixtureRTSettings
+  parent: Mixture
+  name: MixtureRTSettings
+  nameWithType: MixtureRTSettings
+  fullName: Mixture.MixtureRTSettings
+- uid: Mixture.Distance
+  commentId: T:Mixture.Distance
+  name: Distance
+  nameWithType: Distance
+  fullName: Mixture.Distance
+- uid: Mixture.Distance.Mode
+  commentId: T:Mixture.Distance.Mode
+  parent: Mixture
+  name: Distance.Mode
+  nameWithType: Distance.Mode
+  fullName: Mixture.Distance.Mode
+- uid: Mixture.Distance.DistanceMode
+  commentId: T:Mixture.Distance.DistanceMode
+  parent: Mixture
+  name: Distance.DistanceMode
+  nameWithType: Distance.DistanceMode
+  fullName: Mixture.Distance.DistanceMode
+- uid: Mixture.Distance.ThresholdMode
+  commentId: T:Mixture.Distance.ThresholdMode
+  parent: Mixture
+  name: Distance.ThresholdMode
+  nameWithType: Distance.ThresholdMode
+  fullName: Mixture.Distance.ThresholdMode
+- uid: Mixture.ThresholdNode
+  commentId: T:Mixture.ThresholdNode
+  name: ThresholdNode
+  nameWithType: ThresholdNode
+  fullName: Mixture.ThresholdNode
+- uid: Mixture.VectorFracNode
+  commentId: T:Mixture.VectorFracNode
+  name: VectorFracNode
+  nameWithType: VectorFracNode
+  fullName: Mixture.VectorFracNode
+- uid: Mixture.CellularNoise
+  commentId: T:Mixture.CellularNoise
+  name: CellularNoise
+  nameWithType: CellularNoise
+  fullName: Mixture.CellularNoise
+- uid: Mixture.TextureSampleNode
+  commentId: T:Mixture.TextureSampleNode
+  name: TextureSampleNode
+  nameWithType: TextureSampleNode
+  fullName: Mixture.TextureSampleNode
+- uid: Mixture.FixedNoiseNode
+  commentId: T:Mixture.FixedNoiseNode
+  parent: Mixture
+  name: FixedNoiseNode
+  nameWithType: FixedNoiseNode
+  fullName: Mixture.FixedNoiseNode
+- uid: Mixture.ClampNode
+  commentId: T:Mixture.ClampNode
+  name: ClampNode
+  nameWithType: ClampNode
+  fullName: Mixture.ClampNode
+- uid: Mixture.RandomRangeNode
+  commentId: T:Mixture.RandomRangeNode
+  name: RandomRangeNode
+  nameWithType: RandomRangeNode
+  fullName: Mixture.RandomRangeNode
+- uid: Mixture.SampleGradientNode
+  commentId: T:Mixture.SampleGradientNode
+  parent: Mixture
+  name: SampleGradientNode
+  nameWithType: SampleGradientNode
+  fullName: Mixture.SampleGradientNode
+- uid: Mixture.CurveNode
+  commentId: T:Mixture.CurveNode
+  parent: Mixture
+  name: CurveNode
+  nameWithType: CurveNode
+  fullName: Mixture.CurveNode
+- uid: Mixture.CurveNode.CurveOutputMode
+  commentId: T:Mixture.CurveNode.CurveOutputMode
+  parent: Mixture
+  name: CurveNode.CurveOutputMode
+  nameWithType: CurveNode.CurveOutputMode
+  fullName: Mixture.CurveNode.CurveOutputMode
+- uid: Mixture.RectanglesNode
+  commentId: T:Mixture.RectanglesNode
+  name: RectanglesNode
+  nameWithType: RectanglesNode
+  fullName: Mixture.RectanglesNode
+- uid: Mixture.MixtureNode
+  commentId: T:Mixture.MixtureNode
+  parent: Mixture
+  name: MixtureNode
+  nameWithType: MixtureNode
+  fullName: Mixture.MixtureNode
+- uid: Mixture.EditFlags
+  commentId: T:Mixture.EditFlags
+  parent: Mixture
+  name: EditFlags
+  nameWithType: EditFlags
+  fullName: Mixture.EditFlags
+- uid: Mixture.POTSize
+  commentId: T:Mixture.POTSize
+  parent: Mixture
+  name: POTSize
+  nameWithType: POTSize
+  fullName: Mixture.POTSize
+- uid: Mixture.OutputSizeMode
+  commentId: T:Mixture.OutputSizeMode
+  parent: Mixture
+  name: OutputSizeMode
+  nameWithType: OutputSizeMode
+  fullName: Mixture.OutputSizeMode
+- uid: Mixture.OutputDimension
+  commentId: T:Mixture.OutputDimension
+  parent: Mixture
+  name: OutputDimension
+  nameWithType: OutputDimension
+  fullName: Mixture.OutputDimension
+- uid: Mixture.OutputPrecision
+  commentId: T:Mixture.OutputPrecision
+  parent: Mixture
+  name: OutputPrecision
+  nameWithType: OutputPrecision
+  fullName: Mixture.OutputPrecision
+- uid: Mixture.OutputChannel
+  commentId: T:Mixture.OutputChannel
+  parent: Mixture
+  name: OutputChannel
+  nameWithType: OutputChannel
+  fullName: Mixture.OutputChannel
+- uid: Mixture.PreviewChannels
+  commentId: T:Mixture.PreviewChannels
+  parent: Mixture
+  name: PreviewChannels
+  nameWithType: PreviewChannels
+  fullName: Mixture.PreviewChannels
+- uid: Mixture.MixtureCompressionQuality
+  commentId: T:Mixture.MixtureCompressionQuality
+  parent: Mixture
+  name: MixtureCompressionQuality
+  nameWithType: MixtureCompressionQuality
+  fullName: Mixture.MixtureCompressionQuality
+- uid: Mixture.RefreshMode
+  commentId: T:Mixture.RefreshMode
+  parent: Mixture
+  name: RefreshMode
+  nameWithType: RefreshMode
+  fullName: Mixture.RefreshMode
+- uid: Mixture.VolumeToSpriteSheet
+  commentId: T:Mixture.VolumeToSpriteSheet
+  name: VolumeToSpriteSheet
+  nameWithType: VolumeToSpriteSheet
+  fullName: Mixture.VolumeToSpriteSheet
+- uid: Mixture.PrefabCaptureNode
+  commentId: T:Mixture.PrefabCaptureNode
+  parent: Mixture
+  name: PrefabCaptureNode
+  nameWithType: PrefabCaptureNode
+  fullName: Mixture.PrefabCaptureNode
+- uid: Mixture.PrefabCaptureNode.OutputMode
+  commentId: T:Mixture.PrefabCaptureNode.OutputMode
+  parent: Mixture
+  name: PrefabCaptureNode.OutputMode
+  nameWithType: PrefabCaptureNode.OutputMode
+  fullName: Mixture.PrefabCaptureNode.OutputMode
+- uid: Mixture.VectorSubNode
+  commentId: T:Mixture.VectorSubNode
+  name: VectorSubNode
+  nameWithType: VectorSubNode
+  fullName: Mixture.VectorSubNode
+- uid: Mixture.FractalBrownianMotionNoise
+  commentId: T:Mixture.FractalBrownianMotionNoise
+  name: FractalBrownianMotionNoise
+  nameWithType: FractalBrownianMotionNoise
+  fullName: Mixture.FractalBrownianMotionNoise
+- uid: Mixture.NormalAdd
+  commentId: T:Mixture.NormalAdd
+  name: NormalAdd
+  nameWithType: NormalAdd
+  fullName: Mixture.NormalAdd
+- uid: Mixture.ForEnd
+  commentId: T:Mixture.ForEnd
+  name: ForEnd
+  nameWithType: ForEnd
+  fullName: Mixture.ForEnd
+- uid: Mixture.ForEnd.AggregationMode
+  commentId: T:Mixture.ForEnd.AggregationMode
+  parent: Mixture
+  name: ForEnd.AggregationMode
+  nameWithType: ForEnd.AggregationMode
+  fullName: Mixture.ForEnd.AggregationMode
+- uid: Mixture.BlackAndWhiteNode
+  commentId: T:Mixture.BlackAndWhiteNode
+  name: BlackAndWhiteNode
+  nameWithType: BlackAndWhiteNode
+  fullName: Mixture.BlackAndWhiteNode
+- uid: Mixture.SwizzleNode
+  commentId: T:Mixture.SwizzleNode
+  name: SwizzleNode
+  nameWithType: SwizzleNode
+  fullName: Mixture.SwizzleNode
+- uid: Mixture.UVDistortNode
+  commentId: T:Mixture.UVDistortNode
+  name: UVDistortNode
+  nameWithType: UVDistortNode
+  fullName: Mixture.UVDistortNode
+- uid: Mixture.MeshToUDF
+  commentId: T:Mixture.MeshToUDF
+  name: MeshToUDF
+  nameWithType: MeshToUDF
+  fullName: Mixture.MeshToUDF
+- uid: Mixture.MeshToUDF.Resolution
+  commentId: T:Mixture.MeshToUDF.Resolution
+  parent: Mixture
+  name: MeshToUDF.Resolution
+  nameWithType: MeshToUDF.Resolution
+  fullName: Mixture.MeshToUDF.Resolution
+- uid: Mixture.WhiteNoise
+  commentId: T:Mixture.WhiteNoise
+  name: WhiteNoise
+  nameWithType: WhiteNoise
+  fullName: Mixture.WhiteNoise
+- uid: Mixture.GradienMattetNode
+  commentId: T:Mixture.GradienMattetNode
+  name: GradienMattetNode
+  nameWithType: GradienMattetNode
+  fullName: Mixture.GradienMattetNode
+- uid: Mixture.VectorMulNode
+  commentId: T:Mixture.VectorMulNode
+  name: VectorMulNode
+  nameWithType: VectorMulNode
+  fullName: Mixture.VectorMulNode
+- uid: Mixture.SubNode
+  commentId: T:Mixture.SubNode
+  name: SubNode
+  nameWithType: SubNode
+  fullName: Mixture.SubNode
+- uid: Mixture.DirectionalBlur
+  commentId: T:Mixture.DirectionalBlur
+  name: DirectionalBlur
+  nameWithType: DirectionalBlur
+  fullName: Mixture.DirectionalBlur
+- uid: Mixture.MaterialBinder
+  commentId: T:Mixture.MaterialBinder
+  parent: Mixture
+  name: MaterialBinder
+  nameWithType: MaterialBinder
+  fullName: Mixture.MaterialBinder
+- uid: Mixture.Lines
+  commentId: T:Mixture.Lines
+  name: Lines
+  nameWithType: Lines
+  fullName: Mixture.Lines
+- uid: Mixture.TextureUtils
+  commentId: T:Mixture.TextureUtils
+  name: TextureUtils
+  nameWithType: TextureUtils
+  fullName: Mixture.TextureUtils
+- uid: Mixture.VectorSqrtNode
+  commentId: T:Mixture.VectorSqrtNode
+  name: VectorSqrtNode
+  nameWithType: VectorSqrtNode
+  fullName: Mixture.VectorSqrtNode
+- uid: Mixture.VectorInverseLerpNode
+  commentId: T:Mixture.VectorInverseLerpNode
+  name: VectorInverseLerpNode
+  nameWithType: VectorInverseLerpNode
+  fullName: Mixture.VectorInverseLerpNode
+- uid: Mixture.MixtureGraph
+  commentId: T:Mixture.MixtureGraph
+  parent: Mixture
+  name: MixtureGraph
+  nameWithType: MixtureGraph
+  fullName: Mixture.MixtureGraph
+- uid: Mixture.MixtureGraph.ReadbackData
+  commentId: T:Mixture.MixtureGraph.ReadbackData
+  parent: Mixture
+  name: MixtureGraph.ReadbackData
+  nameWithType: MixtureGraph.ReadbackData
+  fullName: Mixture.MixtureGraph.ReadbackData
+- uid: Mixture.IsoSurface
+  commentId: T:Mixture.IsoSurface
+  name: IsoSurface
+  nameWithType: IsoSurface
+  fullName: Mixture.IsoSurface
+- uid: Mixture.NormalMul
+  commentId: T:Mixture.NormalMul
+  name: NormalMul
+  nameWithType: NormalMul
+  fullName: Mixture.NormalMul
+- uid: Mixture.UVNode
+  commentId: T:Mixture.UVNode
+  name: UVNode
+  nameWithType: UVNode
+  fullName: Mixture.UVNode
+- uid: Mixture.MixtureDatabase
+  commentId: T:Mixture.MixtureDatabase
+  name: MixtureDatabase
+  nameWithType: MixtureDatabase
+  fullName: Mixture.MixtureDatabase
+- uid: Mixture.MakeVectorNode
+  commentId: T:Mixture.MakeVectorNode
+  name: MakeVectorNode
+  nameWithType: MakeVectorNode
+  fullName: Mixture.MakeVectorNode
+- uid: Mixture.IntegerNode
+  commentId: T:Mixture.IntegerNode
+  name: IntegerNode
+  nameWithType: IntegerNode
+  fullName: Mixture.IntegerNode
+- uid: Mixture.NormalBlend
+  commentId: T:Mixture.NormalBlend
+  name: NormalBlend
+  nameWithType: NormalBlend
+  fullName: Mixture.NormalBlend
+- uid: Mixture.BreakVectorNode
+  commentId: T:Mixture.BreakVectorNode
+  name: BreakVectorNode
+  nameWithType: BreakVectorNode
+  fullName: Mixture.BreakVectorNode
+- uid: Mixture.MixtureMesh
+  commentId: T:Mixture.MixtureMesh
+  parent: Mixture
+  name: MixtureMesh
+  nameWithType: MixtureMesh
+  fullName: Mixture.MixtureMesh
+- uid: Mixture.MulNode
+  commentId: T:Mixture.MulNode
+  name: MulNode
+  nameWithType: MulNode
+  fullName: Mixture.MulNode
+- uid: Mixture.InvertNode
+  commentId: T:Mixture.InvertNode
+  name: InvertNode
+  nameWithType: InvertNode
+  fullName: Mixture.InvertNode
+- uid: Mixture.ToggleNode
+  commentId: T:Mixture.ToggleNode
+  parent: Mixture
+  name: ToggleNode
+  nameWithType: ToggleNode
+  fullName: Mixture.ToggleNode
+- uid: Mixture.RingsNode
+  commentId: T:Mixture.RingsNode
+  name: RingsNode
+  nameWithType: RingsNode
+  fullName: Mixture.RingsNode
+- uid: Mixture.ExternalOutputNode
+  commentId: T:Mixture.ExternalOutputNode
+  parent: Mixture
+  name: ExternalOutputNode
+  nameWithType: ExternalOutputNode
+  fullName: Mixture.ExternalOutputNode
+- uid: Mixture.ExternalOutputNode.ExternalOutputDimension
+  commentId: T:Mixture.ExternalOutputNode.ExternalOutputDimension
+  parent: Mixture
+  name: ExternalOutputNode.ExternalOutputDimension
+  nameWithType: ExternalOutputNode.ExternalOutputDimension
+  fullName: Mixture.ExternalOutputNode.ExternalOutputDimension
+- uid: Mixture.ExternalOutputNode.External2DOutputType
+  commentId: T:Mixture.ExternalOutputNode.External2DOutputType
+  parent: Mixture
+  name: ExternalOutputNode.External2DOutputType
+  nameWithType: ExternalOutputNode.External2DOutputType
+  fullName: Mixture.ExternalOutputNode.External2DOutputType
+- uid: Mixture.VectorClampNode
+  commentId: T:Mixture.VectorClampNode
+  name: VectorClampNode
+  nameWithType: VectorClampNode
+  fullName: Mixture.VectorClampNode
+- uid: Mixture.ShaderNode
+  commentId: T:Mixture.ShaderNode
+  parent: Mixture
+  name: ShaderNode
+  nameWithType: ShaderNode
+  fullName: Mixture.ShaderNode
+- uid: Mixture.ShaderNode.ShaderProperty
+  commentId: T:Mixture.ShaderNode.ShaderProperty
+  name: ShaderNode.ShaderProperty
+  nameWithType: ShaderNode.ShaderProperty
+  fullName: Mixture.ShaderNode.ShaderProperty
+- uid: Mixture.VectorAbsNode
+  commentId: T:Mixture.VectorAbsNode
+  name: VectorAbsNode
+  nameWithType: VectorAbsNode
+  fullName: Mixture.VectorAbsNode
+- uid: Mixture.Sharpen
+  commentId: T:Mixture.Sharpen
+  name: Sharpen
+  nameWithType: Sharpen
+  fullName: Mixture.Sharpen
+- uid: Mixture.VectorTruncateNode
+  commentId: T:Mixture.VectorTruncateNode
+  name: VectorTruncateNode
+  nameWithType: VectorTruncateNode
+  fullName: Mixture.VectorTruncateNode
+- uid: Mixture.HSVNode
+  commentId: T:Mixture.HSVNode
+  name: HSVNode
+  nameWithType: HSVNode
+  fullName: Mixture.HSVNode
+- uid: Mixture.ScaleBiasNode
+  commentId: T:Mixture.ScaleBiasNode
+  name: ScaleBiasNode
+  nameWithType: ScaleBiasNode
+  fullName: Mixture.ScaleBiasNode
+- uid: Mixture.RidgedPerlinNoise
+  commentId: T:Mixture.RidgedPerlinNoise
+  name: RidgedPerlinNoise
+  nameWithType: RidgedPerlinNoise
+  fullName: Mixture.RidgedPerlinNoise
+- uid: Mixture.HDRPMaskCombine
+  commentId: T:Mixture.HDRPMaskCombine
+  name: HDRPMaskCombine
+  nameWithType: HDRPMaskCombine
+  fullName: Mixture.HDRPMaskCombine
+- uid: Mixture.NormalRotate
+  commentId: T:Mixture.NormalRotate
+  name: NormalRotate
+  nameWithType: NormalRotate
+  fullName: Mixture.NormalRotate
+- uid: Mixture.OutputTextureSettings
+  commentId: T:Mixture.OutputTextureSettings
+  parent: Mixture
+  name: OutputTextureSettings
+  nameWithType: OutputTextureSettings
+  fullName: Mixture.OutputTextureSettings
+- uid: Mixture.OutputTextureSettings.Preset
+  commentId: T:Mixture.OutputTextureSettings.Preset
+  parent: Mixture
+  name: OutputTextureSettings.Preset
+  nameWithType: OutputTextureSettings.Preset
+  fullName: Mixture.OutputTextureSettings.Preset
+- uid: Mixture.ComputeOrderInfo
+  commentId: T:Mixture.ComputeOrderInfo
+  parent: Mixture
+  name: ComputeOrderInfo
+  nameWithType: ComputeOrderInfo
+  fullName: Mixture.ComputeOrderInfo
+- uid: Mixture.MixtureGraphProcessor
+  commentId: T:Mixture.MixtureGraphProcessor
+  parent: Mixture
+  name: MixtureGraphProcessor
+  nameWithType: MixtureGraphProcessor
+  fullName: Mixture.MixtureGraphProcessor
+- uid: Mixture.RealtimeMixtureAssetMap
+  commentId: T:Mixture.RealtimeMixtureAssetMap
+  name: RealtimeMixtureAssetMap
+  nameWithType: RealtimeMixtureAssetMap
+  fullName: Mixture.RealtimeMixtureAssetMap
+- uid: Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences
+  commentId: T:Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences
+  name: RealtimeMixtureAssetMap.RuntimeMixtureReferences
+  nameWithType: RealtimeMixtureAssetMap.RuntimeMixtureReferences
+  fullName: Mixture.RealtimeMixtureAssetMap.RuntimeMixtureReferences
+- uid: Mixture.VectorAddNode
+  commentId: T:Mixture.VectorAddNode
+  name: VectorAddNode
+  nameWithType: VectorAddNode
+  fullName: Mixture.VectorAddNode
+- uid: Mixture.CrossSection
+  commentId: T:Mixture.CrossSection
+  name: CrossSection
+  nameWithType: CrossSection
+  fullName: Mixture.CrossSection
+- uid: Mixture.DocumentationAttribute
+  commentId: T:Mixture.DocumentationAttribute
+  parent: Mixture
+  name: DocumentationAttribute
+  nameWithType: DocumentationAttribute
+  fullName: Mixture.DocumentationAttribute
+- uid: Mixture.RemapNode
+  commentId: T:Mixture.RemapNode
+  name: RemapNode
+  nameWithType: RemapNode
+  fullName: Mixture.RemapNode
+- uid: Mixture.Circles
+  commentId: T:Mixture.Circles
+  name: Circles
+  nameWithType: Circles
+  fullName: Mixture.Circles
+- uid: Mixture.MeshNode
+  commentId: T:Mixture.MeshNode
+  name: MeshNode
+  nameWithType: MeshNode
+  fullName: Mixture.MeshNode
+- uid: Mixture.TextureMatteNode
+  commentId: T:Mixture.TextureMatteNode
+  name: TextureMatteNode
+  nameWithType: TextureMatteNode
+  fullName: Mixture.TextureMatteNode
+- uid: Mixture.SelfNodeView
+  commentId: T:Mixture.SelfNodeView
+  name: SelfNodeView
+  nameWithType: SelfNodeView
+  fullName: Mixture.SelfNodeView
 - uid: Mixture.MixturePropertyDrawer
   commentId: T:Mixture.MixturePropertyDrawer
   parent: Mixture
@@ -178,6 +1094,11 @@ references:
   name: MixtureRTSettingsView
   nameWithType: MixtureRTSettingsView
   fullName: Mixture.MixtureRTSettingsView
+- uid: Mixture.ToggleNodeView
+  commentId: T:Mixture.ToggleNodeView
+  name: ToggleNodeView
+  nameWithType: ToggleNodeView
+  fullName: Mixture.ToggleNodeView
 - uid: Mixture.RandomColorNodeView
   commentId: T:Mixture.RandomColorNodeView
   name: RandomColorNodeView
@@ -193,21 +1114,31 @@ references:
   name: MixtureVector2Drawer
   nameWithType: MixtureVector2Drawer
   fullName: Mixture.MixtureVector2Drawer
+- uid: Mixture.NodeTexturePreview
+  commentId: T:Mixture.NodeTexturePreview
+  name: NodeTexturePreview
+  nameWithType: NodeTexturePreview
+  fullName: Mixture.NodeTexturePreview
 - uid: Mixture.MixtureEditorUtils
   commentId: T:Mixture.MixtureEditorUtils
   name: MixtureEditorUtils
   nameWithType: MixtureEditorUtils
   fullName: Mixture.MixtureEditorUtils
+- uid: Mixture.BuildPlayerCallback
+  commentId: T:Mixture.BuildPlayerCallback
+  name: BuildPlayerCallback
+  nameWithType: BuildPlayerCallback
+  fullName: Mixture.BuildPlayerCallback
+- uid: Mixture.TextureNodeView
+  commentId: T:Mixture.TextureNodeView
+  name: TextureNodeView
+  nameWithType: TextureNodeView
+  fullName: Mixture.TextureNodeView
 - uid: Mixture.CurveNodeView
   commentId: T:Mixture.CurveNodeView
   name: CurveNodeView
   nameWithType: CurveNodeView
   fullName: Mixture.CurveNodeView
-- uid: Mixture.SceneNodeView
-  commentId: T:Mixture.SceneNodeView
-  name: SceneNodeView
-  nameWithType: SceneNodeView
-  fullName: Mixture.SceneNodeView
 - uid: Mixture.ComputeShaderNodeView
   commentId: T:Mixture.ComputeShaderNodeView
   parent: Mixture
@@ -224,12 +1155,6 @@ references:
   name: RangeDrawer
   nameWithType: RangeDrawer
   fullName: Mixture.RangeDrawer
-- uid: Mixture.PinnedViewBoard
-  commentId: T:Mixture.PinnedViewBoard
-  parent: Mixture
-  name: PinnedViewBoard
-  nameWithType: PinnedViewBoard
-  fullName: Mixture.PinnedViewBoard
 - uid: Mixture.MixtureChannelDrawer
   commentId: T:Mixture.MixtureChannelDrawer
   name: MixtureChannelDrawer
@@ -272,11 +1197,28 @@ references:
   name: MaterialBinderView
   nameWithType: MaterialBinderView
   fullName: Mixture.MaterialBinderView
+- uid: Mixture.MixtureNodeInspectorObjectEditor
+  commentId: T:Mixture.MixtureNodeInspectorObjectEditor
+  parent: Mixture
+  name: MixtureNodeInspectorObjectEditor
+  nameWithType: MixtureNodeInspectorObjectEditor
+  fullName: Mixture.MixtureNodeInspectorObjectEditor
+- uid: Mixture.MixtureNodeInspectorObject
+  commentId: T:Mixture.MixtureNodeInspectorObject
+  parent: Mixture
+  name: MixtureNodeInspectorObject
+  nameWithType: MixtureNodeInspectorObject
+  fullName: Mixture.MixtureNodeInspectorObject
 - uid: Mixture.FixedShaderNodeView
   commentId: T:Mixture.FixedShaderNodeView
   name: FixedShaderNodeView
   nameWithType: FixedShaderNodeView
   fullName: Mixture.FixedShaderNodeView
+- uid: Mixture.OutputTextureView
+  commentId: T:Mixture.OutputTextureView
+  name: OutputTextureView
+  nameWithType: OutputTextureView
+  fullName: Mixture.OutputTextureView
 - uid: Mixture.GradientNodeView
   commentId: T:Mixture.GradientNodeView
   name: GradientNodeView
@@ -287,6 +1229,16 @@ references:
   name: MixtureToolbar
   nameWithType: MixtureToolbar
   fullName: Mixture.MixtureToolbar
+- uid: Mixture.MixtureToolbar.ImproveMixturePopupWindow
+  commentId: T:Mixture.MixtureToolbar.ImproveMixturePopupWindow
+  name: MixtureToolbar.ImproveMixturePopupWindow
+  nameWithType: MixtureToolbar.ImproveMixturePopupWindow
+  fullName: Mixture.MixtureToolbar.ImproveMixturePopupWindow
+- uid: Mixture.PrefabCaptureNodeView
+  commentId: T:Mixture.PrefabCaptureNodeView
+  name: PrefabCaptureNodeView
+  nameWithType: PrefabCaptureNodeView
+  fullName: Mixture.PrefabCaptureNodeView
 - uid: Mixture.MixtureDebugWindow
   commentId: T:Mixture.MixtureDebugWindow
   name: MixtureDebugWindow
@@ -297,6 +1249,11 @@ references:
   name: FloatNodeView
   nameWithType: FloatNodeView
   fullName: Mixture.FloatNodeView
+- uid: Mixture.NodeInspectorSettingsPopupWindow
+  commentId: T:Mixture.NodeInspectorSettingsPopupWindow
+  name: NodeInspectorSettingsPopupWindow
+  nameWithType: NodeInspectorSettingsPopupWindow
+  fullName: Mixture.NodeInspectorSettingsPopupWindow
 - uid: Mixture.MixtureGraphView
   commentId: T:Mixture.MixtureGraphView
   parent: Mixture
@@ -308,6 +1265,11 @@ references:
   name: TooltipDrawerDecorator
   nameWithType: TooltipDrawerDecorator
   fullName: Mixture.TooltipDrawerDecorator
+- uid: Mixture.ShowInInspectorDecorator
+  commentId: T:Mixture.ShowInInspectorDecorator
+  name: ShowInInspectorDecorator
+  nameWithType: ShowInInspectorDecorator
+  fullName: Mixture.ShowInInspectorDecorator
 - uid: Mixture.VectorNodeView
   commentId: T:Mixture.VectorNodeView
   name: VectorNodeView
@@ -324,16 +1286,16 @@ references:
   name: OutputNodeView
   nameWithType: OutputNodeView
   fullName: Mixture.OutputNodeView
-- uid: Mixture.TextureNodeView
-  commentId: T:Mixture.TextureNodeView
-  name: TextureNodeView
-  nameWithType: TextureNodeView
-  fullName: Mixture.TextureNodeView
 - uid: Mixture.MixtureParameterView
   commentId: T:Mixture.MixtureParameterView
   name: MixtureParameterView
   nameWithType: MixtureParameterView
   fullName: Mixture.MixtureParameterView
+- uid: Mixture.ForStartView
+  commentId: T:Mixture.ForStartView
+  name: ForStartView
+  nameWithType: ForStartView
+  fullName: Mixture.ForStartView
 - uid: Mixture.CustomTextureNodeView
   commentId: T:Mixture.CustomTextureNodeView
   name: CustomTextureNodeView
@@ -344,595 +1306,17 @@ references:
   name: InlineTextureDrawer
   nameWithType: InlineTextureDrawer
   fullName: Mixture.InlineTextureDrawer
-- uid: Mixture.RandomRangeNodeView
-  commentId: T:Mixture.RandomRangeNodeView
-  name: RandomRangeNodeView
-  nameWithType: RandomRangeNodeView
-  fullName: Mixture.RandomRangeNodeView
-- uid: Mixture.SplatterNode
-  commentId: T:Mixture.SplatterNode
-  name: SplatterNode
-  nameWithType: SplatterNode
-  fullName: Mixture.SplatterNode
-- uid: Mixture.SplatterNode.Sequence
-  commentId: T:Mixture.SplatterNode.Sequence
+- uid: Mixture.MixtureBlendDrawer
+  commentId: T:Mixture.MixtureBlendDrawer
+  name: MixtureBlendDrawer
+  nameWithType: MixtureBlendDrawer
+  fullName: Mixture.MixtureBlendDrawer
+- uid: Mixture.MixtureBlendDrawer.Blend
+  commentId: T:Mixture.MixtureBlendDrawer.Blend
   parent: Mixture
-  name: SplatterNode.Sequence
-  nameWithType: SplatterNode.Sequence
-  fullName: Mixture.SplatterNode.Sequence
-- uid: Mixture.SplatterNode.RotationMode
-  commentId: T:Mixture.SplatterNode.RotationMode
-  parent: Mixture
-  name: SplatterNode.RotationMode
-  nameWithType: SplatterNode.RotationMode
-  fullName: Mixture.SplatterNode.RotationMode
-- uid: Mixture.SplatterNode.ScaleMode
-  commentId: T:Mixture.SplatterNode.ScaleMode
-  parent: Mixture
-  name: SplatterNode.ScaleMode
-  nameWithType: SplatterNode.ScaleMode
-  fullName: Mixture.SplatterNode.ScaleMode
-- uid: Mixture.SplatterNode.Operator
-  commentId: T:Mixture.SplatterNode.Operator
-  parent: Mixture
-  name: SplatterNode.Operator
-  nameWithType: SplatterNode.Operator
-  fullName: Mixture.SplatterNode.Operator
-- uid: Mixture.VectorRemapNode
-  commentId: T:Mixture.VectorRemapNode
-  name: VectorRemapNode
-  nameWithType: VectorRemapNode
-  fullName: Mixture.VectorRemapNode
-- uid: Mixture.VectorLerpNode
-  commentId: T:Mixture.VectorLerpNode
-  name: VectorLerpNode
-  nameWithType: VectorLerpNode
-  fullName: Mixture.VectorLerpNode
-- uid: Mixture.MaterialExtension
-  commentId: T:Mixture.MaterialExtension
-  name: MaterialExtension
-  nameWithType: MaterialExtension
-  fullName: Mixture.MaterialExtension
-- uid: Mixture.AutoComputeShaderNode
-  commentId: T:Mixture.AutoComputeShaderNode
-  name: AutoComputeShaderNode
-  nameWithType: AutoComputeShaderNode
-  fullName: Mixture.AutoComputeShaderNode
-- uid: Mixture.AutoComputeShaderNode.ComputeParameter
-  commentId: T:Mixture.AutoComputeShaderNode.ComputeParameter
-  name: AutoComputeShaderNode.ComputeParameter
-  nameWithType: AutoComputeShaderNode.ComputeParameter
-  fullName: Mixture.AutoComputeShaderNode.ComputeParameter
-- uid: Mixture.AutoComputeShaderNode.TextureAllocMode
-  commentId: T:Mixture.AutoComputeShaderNode.TextureAllocMode
-  parent: Mixture
-  name: AutoComputeShaderNode.TextureAllocMode
-  nameWithType: AutoComputeShaderNode.TextureAllocMode
-  fullName: Mixture.AutoComputeShaderNode.TextureAllocMode
-- uid: Mixture.AutoComputeShaderNode.ResourceDescriptor
-  commentId: T:Mixture.AutoComputeShaderNode.ResourceDescriptor
-  parent: Mixture
-  name: AutoComputeShaderNode.ResourceDescriptor
-  nameWithType: AutoComputeShaderNode.ResourceDescriptor
-  fullName: Mixture.AutoComputeShaderNode.ResourceDescriptor
-- uid: Mixture.IUseCustomRenderTextureProcessing
-  commentId: T:Mixture.IUseCustomRenderTextureProcessing
-  parent: Mixture
-  name: IUseCustomRenderTextureProcessing
-  nameWithType: IUseCustomRenderTextureProcessing
-  fullName: Mixture.IUseCustomRenderTextureProcessing
-- uid: Mixture.VectorPingPongNode
-  commentId: T:Mixture.VectorPingPongNode
-  name: VectorPingPongNode
-  nameWithType: VectorPingPongNode
-  fullName: Mixture.VectorPingPongNode
-- uid: Mixture.VectorLerpAngleNode
-  commentId: T:Mixture.VectorLerpAngleNode
-  name: VectorLerpAngleNode
-  nameWithType: VectorLerpAngleNode
-  fullName: Mixture.VectorLerpAngleNode
-- uid: Mixture.DivNode
-  commentId: T:Mixture.DivNode
-  name: DivNode
-  nameWithType: DivNode
-  fullName: Mixture.DivNode
-- uid: Mixture.EdgeDetect
-  commentId: T:Mixture.EdgeDetect
-  name: EdgeDetect
-  nameWithType: EdgeDetect
-  fullName: Mixture.EdgeDetect
-- uid: Mixture.DebugLogNode
-  commentId: T:Mixture.DebugLogNode
-  name: DebugLogNode
-  nameWithType: DebugLogNode
-  fullName: Mixture.DebugLogNode
-- uid: Mixture.TileWrapNode
-  commentId: T:Mixture.TileWrapNode
-  name: TileWrapNode
-  nameWithType: TileWrapNode
-  fullName: Mixture.TileWrapNode
-- uid: Mixture.TimeNode
-  commentId: T:Mixture.TimeNode
-  name: TimeNode
-  nameWithType: TimeNode
-  fullName: Mixture.TimeNode
-- uid: Mixture.FixedShaderNode
-  commentId: T:Mixture.FixedShaderNode
-  parent: Mixture
-  name: FixedShaderNode
-  nameWithType: FixedShaderNode
-  fullName: Mixture.FixedShaderNode
-- uid: Mixture.MixtureUtils
-  commentId: T:Mixture.MixtureUtils
-  name: MixtureUtils
-  nameWithType: MixtureUtils
-  fullName: Mixture.MixtureUtils
-- uid: Mixture.MixtureBufferOutput
-  commentId: T:Mixture.MixtureBufferOutput
-  name: MixtureBufferOutput
-  nameWithType: MixtureBufferOutput
-  fullName: Mixture.MixtureBufferOutput
-- uid: Mixture.RidgedCellularNoise
-  commentId: T:Mixture.RidgedCellularNoise
-  name: RidgedCellularNoise
-  nameWithType: RidgedCellularNoise
-  fullName: Mixture.RidgedCellularNoise
-- uid: Mixture.VectorSwizzle
-  commentId: T:Mixture.VectorSwizzle
-  name: VectorSwizzle
-  nameWithType: VectorSwizzle
-  fullName: Mixture.VectorSwizzle
-- uid: Mixture.VectorSwizzle.Component
-  commentId: T:Mixture.VectorSwizzle.Component
-  parent: Mixture
-  name: VectorSwizzle.Component
-  nameWithType: VectorSwizzle.Component
-  fullName: Mixture.VectorSwizzle.Component
-- uid: Mixture.BlendNode
-  commentId: T:Mixture.BlendNode
-  name: BlendNode
-  nameWithType: BlendNode
-  fullName: Mixture.BlendNode
-- uid: Mixture.MixtureCompressionFormat
-  commentId: T:Mixture.MixtureCompressionFormat
-  parent: Mixture
-  name: MixtureCompressionFormat
-  nameWithType: MixtureCompressionFormat
-  fullName: Mixture.MixtureCompressionFormat
-- uid: Mixture.GetPixel
-  commentId: T:Mixture.GetPixel
-  name: GetPixel
-  nameWithType: GetPixel
-  fullName: Mixture.GetPixel
-- uid: Mixture.ModNode
-  commentId: T:Mixture.ModNode
-  name: ModNode
-  nameWithType: ModNode
-  fullName: Mixture.ModNode
-- uid: Mixture.ColorNode
-  commentId: T:Mixture.ColorNode
-  name: ColorNode
-  nameWithType: ColorNode
-  fullName: Mixture.ColorNode
-- uid: Mixture.TextureNode
-  commentId: T:Mixture.TextureNode
-  name: TextureNode
-  nameWithType: TextureNode
-  fullName: Mixture.TextureNode
-- uid: Mixture.CubeTo2DLatLonNode
-  commentId: T:Mixture.CubeTo2DLatLonNode
-  name: CubeTo2DLatLonNode
-  nameWithType: CubeTo2DLatLonNode
-  fullName: Mixture.CubeTo2DLatLonNode
-- uid: Mixture.VectorPowNode
-  commentId: T:Mixture.VectorPowNode
-  name: VectorPowNode
-  nameWithType: VectorPowNode
-  fullName: Mixture.VectorPowNode
-- uid: Mixture.VectorNode
-  commentId: T:Mixture.VectorNode
-  name: VectorNode
-  nameWithType: VectorNode
-  fullName: Mixture.VectorNode
-- uid: Mixture.ColorMatteNode
-  commentId: T:Mixture.ColorMatteNode
-  name: ColorMatteNode
-  nameWithType: ColorMatteNode
-  fullName: Mixture.ColorMatteNode
-- uid: Mixture.CheckerBoard
-  commentId: T:Mixture.CheckerBoard
-  name: CheckerBoard
-  nameWithType: CheckerBoard
-  fullName: Mixture.CheckerBoard
-- uid: Mixture.FloatNode
-  commentId: T:Mixture.FloatNode
-  name: FloatNode
-  nameWithType: FloatNode
-  fullName: Mixture.FloatNode
-- uid: Mixture.PerlinNoise
-  commentId: T:Mixture.PerlinNoise
-  name: PerlinNoise
-  nameWithType: PerlinNoise
-  fullName: Mixture.PerlinNoise
-- uid: Mixture.AddNode
-  commentId: T:Mixture.AddNode
-  name: AddNode
-  nameWithType: AddNode
-  fullName: Mixture.AddNode
-- uid: Mixture.RandomColorNode
-  commentId: T:Mixture.RandomColorNode
-  name: RandomColorNode
-  nameWithType: RandomColorNode
-  fullName: Mixture.RandomColorNode
-- uid: Mixture.VectorModNode
-  commentId: T:Mixture.VectorModNode
-  name: VectorModNode
-  nameWithType: VectorModNode
-  fullName: Mixture.VectorModNode
-- uid: Mixture.OutputNode
-  commentId: T:Mixture.OutputNode
-  parent: Mixture
-  name: OutputNode
-  nameWithType: OutputNode
-  fullName: Mixture.OutputNode
-- uid: Mixture.ComputeShaderNode
-  commentId: T:Mixture.ComputeShaderNode
-  parent: Mixture
-  name: ComputeShaderNode
-  nameWithType: ComputeShaderNode
-  fullName: Mixture.ComputeShaderNode
-- uid: Mixture.GradientNode
-  commentId: T:Mixture.GradientNode
-  name: GradientNode
-  nameWithType: GradientNode
-  fullName: Mixture.GradientNode
-- uid: Mixture.RealtimeMixtureReferences
-  commentId: T:Mixture.RealtimeMixtureReferences
-  name: RealtimeMixtureReferences
-  nameWithType: RealtimeMixtureReferences
-  fullName: Mixture.RealtimeMixtureReferences
-- uid: Mixture.CustomTextureNode
-  commentId: T:Mixture.CustomTextureNode
-  name: CustomTextureNode
-  nameWithType: CustomTextureNode
-  fullName: Mixture.CustomTextureNode
-- uid: Mixture.Blur
-  commentId: T:Mixture.Blur
-  name: Blur
-  nameWithType: Blur
-  fullName: Mixture.Blur
-- uid: Mixture.MaskNode
-  commentId: T:Mixture.MaskNode
-  name: MaskNode
-  nameWithType: MaskNode
-  fullName: Mixture.MaskNode
-- uid: Mixture.VectorDivNode
-  commentId: T:Mixture.VectorDivNode
-  name: VectorDivNode
-  nameWithType: VectorDivNode
-  fullName: Mixture.VectorDivNode
-- uid: Mixture.MixtureRTSettings
-  commentId: T:Mixture.MixtureRTSettings
-  parent: Mixture
-  name: MixtureRTSettings
-  nameWithType: MixtureRTSettings
-  fullName: Mixture.MixtureRTSettings
-- uid: Mixture.Distance
-  commentId: T:Mixture.Distance
-  name: Distance
-  nameWithType: Distance
-  fullName: Mixture.Distance
-- uid: Mixture.ThresholdNode
-  commentId: T:Mixture.ThresholdNode
-  name: ThresholdNode
-  nameWithType: ThresholdNode
-  fullName: Mixture.ThresholdNode
-- uid: Mixture.VectorFracNode
-  commentId: T:Mixture.VectorFracNode
-  name: VectorFracNode
-  nameWithType: VectorFracNode
-  fullName: Mixture.VectorFracNode
-- uid: Mixture.CellularNoise
-  commentId: T:Mixture.CellularNoise
-  name: CellularNoise
-  nameWithType: CellularNoise
-  fullName: Mixture.CellularNoise
-- uid: Mixture.HeightToNormalNode
-  commentId: T:Mixture.HeightToNormalNode
-  name: HeightToNormalNode
-  nameWithType: HeightToNormalNode
-  fullName: Mixture.HeightToNormalNode
-- uid: Mixture.TextureSampleNode
-  commentId: T:Mixture.TextureSampleNode
-  name: TextureSampleNode
-  nameWithType: TextureSampleNode
-  fullName: Mixture.TextureSampleNode
-- uid: Mixture.FixedNoiseNode
-  commentId: T:Mixture.FixedNoiseNode
-  parent: Mixture
-  name: FixedNoiseNode
-  nameWithType: FixedNoiseNode
-  fullName: Mixture.FixedNoiseNode
-- uid: Mixture.RandomRangeNode
-  commentId: T:Mixture.RandomRangeNode
-  name: RandomRangeNode
-  nameWithType: RandomRangeNode
-  fullName: Mixture.RandomRangeNode
-- uid: Mixture.SampleGradientNode
-  commentId: T:Mixture.SampleGradientNode
-  name: SampleGradientNode
-  nameWithType: SampleGradientNode
-  fullName: Mixture.SampleGradientNode
-- uid: Mixture.CurveNode
-  commentId: T:Mixture.CurveNode
-  name: CurveNode
-  nameWithType: CurveNode
-  fullName: Mixture.CurveNode
-- uid: Mixture.RectanglesNode
-  commentId: T:Mixture.RectanglesNode
-  name: RectanglesNode
-  nameWithType: RectanglesNode
-  fullName: Mixture.RectanglesNode
-- uid: Mixture.MixtureNode
-  commentId: T:Mixture.MixtureNode
-  parent: Mixture
-  name: MixtureNode
-  nameWithType: MixtureNode
-  fullName: Mixture.MixtureNode
-- uid: Mixture.EditFlags
-  commentId: T:Mixture.EditFlags
-  parent: Mixture
-  name: EditFlags
-  nameWithType: EditFlags
-  fullName: Mixture.EditFlags
-- uid: Mixture.POTSize
-  commentId: T:Mixture.POTSize
-  parent: Mixture
-  name: POTSize
-  nameWithType: POTSize
-  fullName: Mixture.POTSize
-- uid: Mixture.OutputSizeMode
-  commentId: T:Mixture.OutputSizeMode
-  parent: Mixture
-  name: OutputSizeMode
-  nameWithType: OutputSizeMode
-  fullName: Mixture.OutputSizeMode
-- uid: Mixture.OutputDimension
-  commentId: T:Mixture.OutputDimension
-  parent: Mixture
-  name: OutputDimension
-  nameWithType: OutputDimension
-  fullName: Mixture.OutputDimension
-- uid: Mixture.OutputFormat
-  commentId: T:Mixture.OutputFormat
-  parent: Mixture
-  name: OutputFormat
-  nameWithType: OutputFormat
-  fullName: Mixture.OutputFormat
-- uid: Mixture.PreviewChannels
-  commentId: T:Mixture.PreviewChannels
-  parent: Mixture
-  name: PreviewChannels
-  nameWithType: PreviewChannels
-  fullName: Mixture.PreviewChannels
-- uid: Mixture.MixtureCompressionQuality
-  commentId: T:Mixture.MixtureCompressionQuality
-  parent: Mixture
-  name: MixtureCompressionQuality
-  nameWithType: MixtureCompressionQuality
-  fullName: Mixture.MixtureCompressionQuality
-- uid: Mixture.SceneNode
-  commentId: T:Mixture.SceneNode
-  name: SceneNode
-  nameWithType: SceneNode
-  fullName: Mixture.SceneNode
-- uid: Mixture.SceneNode.OutputMode
-  commentId: T:Mixture.SceneNode.OutputMode
-  parent: Mixture
-  name: SceneNode.OutputMode
-  nameWithType: SceneNode.OutputMode
-  fullName: Mixture.SceneNode.OutputMode
-- uid: Mixture.VectorSubNode
-  commentId: T:Mixture.VectorSubNode
-  name: VectorSubNode
-  nameWithType: VectorSubNode
-  fullName: Mixture.VectorSubNode
-- uid: Mixture.FractalBrownianMotionNoise
-  commentId: T:Mixture.FractalBrownianMotionNoise
-  name: FractalBrownianMotionNoise
-  nameWithType: FractalBrownianMotionNoise
-  fullName: Mixture.FractalBrownianMotionNoise
-- uid: Mixture.SwizzleNode
-  commentId: T:Mixture.SwizzleNode
-  name: SwizzleNode
-  nameWithType: SwizzleNode
-  fullName: Mixture.SwizzleNode
-- uid: Mixture.BlackAndWhiteNode
-  commentId: T:Mixture.BlackAndWhiteNode
-  name: BlackAndWhiteNode
-  nameWithType: BlackAndWhiteNode
-  fullName: Mixture.BlackAndWhiteNode
-- uid: Mixture.UVDistortNode
-  commentId: T:Mixture.UVDistortNode
-  name: UVDistortNode
-  nameWithType: UVDistortNode
-  fullName: Mixture.UVDistortNode
-- uid: Mixture.WhiteNoise
-  commentId: T:Mixture.WhiteNoise
-  name: WhiteNoise
-  nameWithType: WhiteNoise
-  fullName: Mixture.WhiteNoise
-- uid: Mixture.GradienMattetNode
-  commentId: T:Mixture.GradienMattetNode
-  name: GradienMattetNode
-  nameWithType: GradienMattetNode
-  fullName: Mixture.GradienMattetNode
-- uid: Mixture.VectorMulNode
-  commentId: T:Mixture.VectorMulNode
-  name: VectorMulNode
-  nameWithType: VectorMulNode
-  fullName: Mixture.VectorMulNode
-- uid: Mixture.SubNode
-  commentId: T:Mixture.SubNode
-  name: SubNode
-  nameWithType: SubNode
-  fullName: Mixture.SubNode
-- uid: Mixture.MaterialBinder
-  commentId: T:Mixture.MaterialBinder
-  name: MaterialBinder
-  nameWithType: MaterialBinder
-  fullName: Mixture.MaterialBinder
-- uid: Mixture.DirectionalBlur
-  commentId: T:Mixture.DirectionalBlur
-  name: DirectionalBlur
-  nameWithType: DirectionalBlur
-  fullName: Mixture.DirectionalBlur
-- uid: Mixture.TextureUtils
-  commentId: T:Mixture.TextureUtils
-  name: TextureUtils
-  nameWithType: TextureUtils
-  fullName: Mixture.TextureUtils
-- uid: Mixture.VectorSqrtNode
-  commentId: T:Mixture.VectorSqrtNode
-  name: VectorSqrtNode
-  nameWithType: VectorSqrtNode
-  fullName: Mixture.VectorSqrtNode
-- uid: Mixture.VectorInverseLerpNode
-  commentId: T:Mixture.VectorInverseLerpNode
-  name: VectorInverseLerpNode
-  nameWithType: VectorInverseLerpNode
-  fullName: Mixture.VectorInverseLerpNode
-- uid: Mixture.MixtureGraph
-  commentId: T:Mixture.MixtureGraph
-  parent: Mixture
-  name: MixtureGraph
-  nameWithType: MixtureGraph
-  fullName: Mixture.MixtureGraph
-- uid: Mixture.MixtureGraph.ReadbackData
-  commentId: T:Mixture.MixtureGraph.ReadbackData
-  parent: Mixture
-  name: MixtureGraph.ReadbackData
-  nameWithType: MixtureGraph.ReadbackData
-  fullName: Mixture.MixtureGraph.ReadbackData
-- uid: Mixture.UVNode
-  commentId: T:Mixture.UVNode
-  name: UVNode
-  nameWithType: UVNode
-  fullName: Mixture.UVNode
-- uid: Mixture.MakeVectorNode
-  commentId: T:Mixture.MakeVectorNode
-  name: MakeVectorNode
-  nameWithType: MakeVectorNode
-  fullName: Mixture.MakeVectorNode
-- uid: Mixture.BreakVectorNode
-  commentId: T:Mixture.BreakVectorNode
-  name: BreakVectorNode
-  nameWithType: BreakVectorNode
-  fullName: Mixture.BreakVectorNode
-- uid: Mixture.MulNode
-  commentId: T:Mixture.MulNode
-  name: MulNode
-  nameWithType: MulNode
-  fullName: Mixture.MulNode
-- uid: Mixture.InvertNode
-  commentId: T:Mixture.InvertNode
-  name: InvertNode
-  nameWithType: InvertNode
-  fullName: Mixture.InvertNode
-- uid: Mixture.RingsNode
-  commentId: T:Mixture.RingsNode
-  name: RingsNode
-  nameWithType: RingsNode
-  fullName: Mixture.RingsNode
-- uid: Mixture.ExternalOutputNode
-  commentId: T:Mixture.ExternalOutputNode
-  name: ExternalOutputNode
-  nameWithType: ExternalOutputNode
-  fullName: Mixture.ExternalOutputNode
-- uid: Mixture.ExternalOutputNode.ExternalOutputDimension
-  commentId: T:Mixture.ExternalOutputNode.ExternalOutputDimension
-  parent: Mixture
-  name: ExternalOutputNode.ExternalOutputDimension
-  nameWithType: ExternalOutputNode.ExternalOutputDimension
-  fullName: Mixture.ExternalOutputNode.ExternalOutputDimension
-- uid: Mixture.ExternalOutputNode.External2DOutputType
-  commentId: T:Mixture.ExternalOutputNode.External2DOutputType
-  parent: Mixture
-  name: ExternalOutputNode.External2DOutputType
-  nameWithType: ExternalOutputNode.External2DOutputType
-  fullName: Mixture.ExternalOutputNode.External2DOutputType
-- uid: Mixture.VectorClampNode
-  commentId: T:Mixture.VectorClampNode
-  name: VectorClampNode
-  nameWithType: VectorClampNode
-  fullName: Mixture.VectorClampNode
-- uid: Mixture.ShaderNode
-  commentId: T:Mixture.ShaderNode
-  parent: Mixture
-  name: ShaderNode
-  nameWithType: ShaderNode
-  fullName: Mixture.ShaderNode
-- uid: Mixture.VectorAbsNode
-  commentId: T:Mixture.VectorAbsNode
-  name: VectorAbsNode
-  nameWithType: VectorAbsNode
-  fullName: Mixture.VectorAbsNode
-- uid: Mixture.Sharpen
-  commentId: T:Mixture.Sharpen
-  name: Sharpen
-  nameWithType: Sharpen
-  fullName: Mixture.Sharpen
-- uid: Mixture.VectorTruncateNode
-  commentId: T:Mixture.VectorTruncateNode
-  name: VectorTruncateNode
-  nameWithType: VectorTruncateNode
-  fullName: Mixture.VectorTruncateNode
-- uid: Mixture.HSVNode
-  commentId: T:Mixture.HSVNode
-  name: HSVNode
-  nameWithType: HSVNode
-  fullName: Mixture.HSVNode
-- uid: Mixture.ScaleBiasNode
-  commentId: T:Mixture.ScaleBiasNode
-  name: ScaleBiasNode
-  nameWithType: ScaleBiasNode
-  fullName: Mixture.ScaleBiasNode
-- uid: Mixture.RidgedPerlinNoise
-  commentId: T:Mixture.RidgedPerlinNoise
-  name: RidgedPerlinNoise
-  nameWithType: RidgedPerlinNoise
-  fullName: Mixture.RidgedPerlinNoise
-- uid: Mixture.MixtureGraphProcessor
-  commentId: T:Mixture.MixtureGraphProcessor
-  name: MixtureGraphProcessor
-  nameWithType: MixtureGraphProcessor
-  fullName: Mixture.MixtureGraphProcessor
-- uid: Mixture.VectorAddNode
-  commentId: T:Mixture.VectorAddNode
-  name: VectorAddNode
-  nameWithType: VectorAddNode
-  fullName: Mixture.VectorAddNode
-- uid: Mixture.DocumentationAttribute
-  commentId: T:Mixture.DocumentationAttribute
-  parent: Mixture
-  name: DocumentationAttribute
-  nameWithType: DocumentationAttribute
-  fullName: Mixture.DocumentationAttribute
-- uid: Mixture.RemapNode
-  commentId: T:Mixture.RemapNode
-  name: RemapNode
-  nameWithType: RemapNode
-  fullName: Mixture.RemapNode
-- uid: Mixture.Circles
-  commentId: T:Mixture.Circles
-  name: Circles
-  nameWithType: Circles
-  fullName: Mixture.Circles
-- uid: Mixture.TextureMatteNode
-  commentId: T:Mixture.TextureMatteNode
-  name: TextureMatteNode
-  nameWithType: TextureMatteNode
-  fullName: Mixture.TextureMatteNode
+  name: MixtureBlendDrawer.Blend
+  nameWithType: MixtureBlendDrawer.Blend
+  fullName: Mixture.MixtureBlendDrawer.Blend
 - uid: Mixture
   commentId: N:Mixture
   name: Mixture

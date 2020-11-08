@@ -1,0 +1,240 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.ComputeOrderInfo
+  commentId: T:Mixture.ComputeOrderInfo
+  id: ComputeOrderInfo
+  parent: Mixture
+  children:
+  - Mixture.ComputeOrderInfo.Clear
+  - Mixture.ComputeOrderInfo.forLoopLevel
+  langs:
+  - csharp
+  - vb
+  name: ComputeOrderInfo
+  nameWithType: ComputeOrderInfo
+  fullName: Mixture.ComputeOrderInfo
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: ComputeOrderInfo
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+    startLine: 9
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public class ComputeOrderInfo
+    content.vb: Public Class ComputeOrderInfo
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.ComputeOrderInfo.forLoopLevel
+  commentId: F:Mixture.ComputeOrderInfo.forLoopLevel
+  id: forLoopLevel
+  parent: Mixture.ComputeOrderInfo
+  langs:
+  - csharp
+  - vb
+  name: forLoopLevel
+  nameWithType: ComputeOrderInfo.forLoopLevel
+  fullName: Mixture.ComputeOrderInfo.forLoopLevel
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: forLoopLevel
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+    startLine: 11
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public Dictionary<BaseNode, int> forLoopLevel
+    return:
+      type: System.Collections.Generic.Dictionary{BaseNode,System.Int32}
+    content.vb: Public forLoopLevel As Dictionary(Of BaseNode, Integer)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.ComputeOrderInfo.Clear
+  commentId: M:Mixture.ComputeOrderInfo.Clear
+  id: Clear
+  parent: Mixture.ComputeOrderInfo
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ComputeOrderInfo.Clear()
+  fullName: Mixture.ComputeOrderInfo.Clear()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Clear
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+    startLine: 13
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear
+  overload: Mixture.ComputeOrderInfo.Clear*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.Dictionary{BaseNode,System.Int32}
+  commentId: T:System.Collections.Generic.Dictionary{BaseNode,System.Int32}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  name: Dictionary<BaseNode, Int32>
+  nameWithType: Dictionary<BaseNode, Int32>
+  fullName: System.Collections.Generic.Dictionary<BaseNode, System.Int32>
+  nameWithType.vb: Dictionary(Of BaseNode, Int32)
+  fullName.vb: System.Collections.Generic.Dictionary(Of BaseNode, System.Int32)
+  name.vb: Dictionary(Of BaseNode, Int32)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: BaseNode
+    name: BaseNode
+    nameWithType: BaseNode
+    fullName: BaseNode
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: BaseNode
+    name: BaseNode
+    nameWithType: BaseNode
+    fullName: BaseNode
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: Mixture.ComputeOrderInfo.Clear*
+  commentId: Overload:Mixture.ComputeOrderInfo.Clear
+  name: Clear
+  nameWithType: ComputeOrderInfo.Clear
+  fullName: Mixture.ComputeOrderInfo.Clear

@@ -6,7 +6,14 @@ items:
   parent: Mixture
   children:
   - Mixture.MixtureGraphProcessor.#ctor(BaseGraph)
+  - Mixture.MixtureGraphProcessor.AddGPUAndCPUBarrier(UnityEngine.Rendering.CommandBuffer)
+  - Mixture.MixtureGraphProcessor.Dispose
+  - Mixture.MixtureGraphProcessor.Finalize
+  - Mixture.MixtureGraphProcessor.GetNodeDependencies(BaseNode)
+  - Mixture.MixtureGraphProcessor.GetOrCreate(Mixture.MixtureGraph)
+  - Mixture.MixtureGraphProcessor.info
   - Mixture.MixtureGraphProcessor.Run
+  - Mixture.MixtureGraphProcessor.RunOnce(Mixture.MixtureGraph)
   - Mixture.MixtureGraphProcessor.UpdateComputeOrder
   langs:
   - csharp
@@ -18,27 +25,65 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: MixtureGraphProcessor
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
-    startLine: 8
+    startLine: 16
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
-    content: 'public class MixtureGraphProcessor : BaseGraphProcessor'
+    content: 'public class MixtureGraphProcessor : BaseGraphProcessor, IDisposable'
     content.vb: >-
       Public Class MixtureGraphProcessor
           Inherits BaseGraphProcessor
+          Implements IDisposable
   inheritance:
   - System.Object
+  implements:
+  - System.IDisposable
   modifiers.csharp:
   - public
   - class
   modifiers.vb:
   - Public
   - Class
+- uid: Mixture.MixtureGraphProcessor.info
+  commentId: P:Mixture.MixtureGraphProcessor.info
+  id: info
+  parent: Mixture.MixtureGraphProcessor
+  langs:
+  - csharp
+  - vb
+  name: info
+  nameWithType: MixtureGraphProcessor.info
+  fullName: Mixture.MixtureGraphProcessor.info
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: info
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+    startLine: 23
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public ComputeOrderInfo info { get; }
+    parameters: []
+    return:
+      type: Mixture.ComputeOrderInfo
+    content.vb: Public ReadOnly Property info As ComputeOrderInfo
+  overload: Mixture.MixtureGraphProcessor.info*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: Mixture.MixtureGraphProcessor.#ctor(BaseGraph)
   commentId: M:Mixture.MixtureGraphProcessor.#ctor(BaseGraph)
   id: '#ctor(BaseGraph)'
@@ -53,11 +98,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: .ctor
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
-    startLine: 16
+    startLine: 40
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -68,6 +113,140 @@ items:
       type: BaseGraph
     content.vb: Public Sub New(graph As BaseGraph)
   overload: Mixture.MixtureGraphProcessor.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureGraphProcessor.GetOrCreate(Mixture.MixtureGraph)
+  commentId: M:Mixture.MixtureGraphProcessor.GetOrCreate(Mixture.MixtureGraph)
+  id: GetOrCreate(Mixture.MixtureGraph)
+  parent: Mixture.MixtureGraphProcessor
+  langs:
+  - csharp
+  - vb
+  name: GetOrCreate(MixtureGraph)
+  nameWithType: MixtureGraphProcessor.GetOrCreate(MixtureGraph)
+  fullName: Mixture.MixtureGraphProcessor.GetOrCreate(Mixture.MixtureGraph)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetOrCreate
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+    startLine: 49
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static MixtureGraphProcessor GetOrCreate(MixtureGraph graph)
+    parameters:
+    - id: graph
+      type: Mixture.MixtureGraph
+    return:
+      type: Mixture.MixtureGraphProcessor
+    content.vb: Public Shared Function GetOrCreate(graph As MixtureGraph) As MixtureGraphProcessor
+  overload: Mixture.MixtureGraphProcessor.GetOrCreate*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MixtureGraphProcessor.RunOnce(Mixture.MixtureGraph)
+  commentId: M:Mixture.MixtureGraphProcessor.RunOnce(Mixture.MixtureGraph)
+  id: RunOnce(Mixture.MixtureGraph)
+  parent: Mixture.MixtureGraphProcessor
+  langs:
+  - csharp
+  - vb
+  name: RunOnce(MixtureGraph)
+  nameWithType: MixtureGraphProcessor.RunOnce(MixtureGraph)
+  fullName: Mixture.MixtureGraphProcessor.RunOnce(Mixture.MixtureGraph)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RunOnce
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+    startLine: 58
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static void RunOnce(MixtureGraph graph)
+    parameters:
+    - id: graph
+      type: Mixture.MixtureGraph
+    content.vb: Public Shared Sub RunOnce(graph As MixtureGraph)
+  overload: Mixture.MixtureGraphProcessor.RunOnce*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MixtureGraphProcessor.Finalize
+  commentId: M:Mixture.MixtureGraphProcessor.Finalize
+  id: Finalize
+  parent: Mixture.MixtureGraphProcessor
+  langs:
+  - csharp
+  - vb
+  name: Finalize()
+  nameWithType: MixtureGraphProcessor.Finalize()
+  fullName: Mixture.MixtureGraphProcessor.Finalize()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Finalize
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+    startLine: 66
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected void Finalize()
+    content.vb: Protected Sub Finalize
+  overload: Mixture.MixtureGraphProcessor.Finalize*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: Mixture.MixtureGraphProcessor.Dispose
+  commentId: M:Mixture.MixtureGraphProcessor.Dispose
+  id: Dispose
+  parent: Mixture.MixtureGraphProcessor
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: MixtureGraphProcessor.Dispose()
+  fullName: Mixture.MixtureGraphProcessor.Dispose()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Dispose
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+    startLine: 68
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose
+  overload: Mixture.MixtureGraphProcessor.Dispose*
+  implements:
+  - System.IDisposable.Dispose
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -86,11 +265,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: UpdateComputeOrder
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
-    startLine: 22
+    startLine: 70
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -104,6 +283,76 @@ items:
   modifiers.vb:
   - Public
   - Overrides
+- uid: Mixture.MixtureGraphProcessor.AddGPUAndCPUBarrier(UnityEngine.Rendering.CommandBuffer)
+  commentId: M:Mixture.MixtureGraphProcessor.AddGPUAndCPUBarrier(UnityEngine.Rendering.CommandBuffer)
+  id: AddGPUAndCPUBarrier(UnityEngine.Rendering.CommandBuffer)
+  parent: Mixture.MixtureGraphProcessor
+  langs:
+  - csharp
+  - vb
+  name: AddGPUAndCPUBarrier(CommandBuffer)
+  nameWithType: MixtureGraphProcessor.AddGPUAndCPUBarrier(CommandBuffer)
+  fullName: Mixture.MixtureGraphProcessor.AddGPUAndCPUBarrier(UnityEngine.Rendering.CommandBuffer)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: AddGPUAndCPUBarrier
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+    startLine: 108
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static void AddGPUAndCPUBarrier(CommandBuffer currentCmd)
+    parameters:
+    - id: currentCmd
+      type: UnityEngine.Rendering.CommandBuffer
+    content.vb: Public Shared Sub AddGPUAndCPUBarrier(currentCmd As CommandBuffer)
+  overload: Mixture.MixtureGraphProcessor.AddGPUAndCPUBarrier*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MixtureGraphProcessor.GetNodeDependencies(BaseNode)
+  commentId: M:Mixture.MixtureGraphProcessor.GetNodeDependencies(BaseNode)
+  id: GetNodeDependencies(BaseNode)
+  parent: Mixture.MixtureGraphProcessor
+  langs:
+  - csharp
+  - vb
+  name: GetNodeDependencies(BaseNode)
+  nameWithType: MixtureGraphProcessor.GetNodeDependencies(BaseNode)
+  fullName: Mixture.MixtureGraphProcessor.GetNodeDependencies(BaseNode)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetNodeDependencies
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
+    startLine: 134
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public List<BaseNode> GetNodeDependencies(BaseNode node)
+    parameters:
+    - id: node
+      type: BaseNode
+    return:
+      type: System.Collections.Generic.List{BaseNode}
+    content.vb: Public Function GetNodeDependencies(node As BaseNode) As List(Of BaseNode)
+  overload: Mixture.MixtureGraphProcessor.GetNodeDependencies*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 - uid: Mixture.MixtureGraphProcessor.Run
   commentId: M:Mixture.MixtureGraphProcessor.Run
   id: Run
@@ -118,11 +367,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: Run
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraphProcessor.cs
-    startLine: 44
+    startLine: 247
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -149,27 +398,226 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
 - uid: System
   commentId: N:System
   isExternal: true
   name: System
   nameWithType: System
   fullName: System
+- uid: Mixture.MixtureGraphProcessor.info*
+  commentId: Overload:Mixture.MixtureGraphProcessor.info
+  name: info
+  nameWithType: MixtureGraphProcessor.info
+  fullName: Mixture.MixtureGraphProcessor.info
+- uid: Mixture.ComputeOrderInfo
+  commentId: T:Mixture.ComputeOrderInfo
+  parent: Mixture
+  name: ComputeOrderInfo
+  nameWithType: ComputeOrderInfo
+  fullName: Mixture.ComputeOrderInfo
 - uid: Mixture.MixtureGraphProcessor.#ctor*
   commentId: Overload:Mixture.MixtureGraphProcessor.#ctor
   name: MixtureGraphProcessor
   nameWithType: MixtureGraphProcessor.MixtureGraphProcessor
   fullName: Mixture.MixtureGraphProcessor.MixtureGraphProcessor
 - uid: BaseGraph
+  commentId: '!:BaseGraph'
   isExternal: true
   name: BaseGraph
   nameWithType: BaseGraph
   fullName: BaseGraph
+- uid: Mixture.MixtureGraphProcessor.GetOrCreate*
+  commentId: Overload:Mixture.MixtureGraphProcessor.GetOrCreate
+  name: GetOrCreate
+  nameWithType: MixtureGraphProcessor.GetOrCreate
+  fullName: Mixture.MixtureGraphProcessor.GetOrCreate
+- uid: Mixture.MixtureGraph
+  commentId: T:Mixture.MixtureGraph
+  parent: Mixture
+  name: MixtureGraph
+  nameWithType: MixtureGraph
+  fullName: Mixture.MixtureGraph
+- uid: Mixture.MixtureGraphProcessor
+  commentId: T:Mixture.MixtureGraphProcessor
+  parent: Mixture
+  name: MixtureGraphProcessor
+  nameWithType: MixtureGraphProcessor
+  fullName: Mixture.MixtureGraphProcessor
+- uid: Mixture.MixtureGraphProcessor.RunOnce*
+  commentId: Overload:Mixture.MixtureGraphProcessor.RunOnce
+  name: RunOnce
+  nameWithType: MixtureGraphProcessor.RunOnce
+  fullName: Mixture.MixtureGraphProcessor.RunOnce
+- uid: Mixture.MixtureGraphProcessor.Finalize*
+  commentId: Overload:Mixture.MixtureGraphProcessor.Finalize
+  name: Finalize
+  nameWithType: MixtureGraphProcessor.Finalize
+  fullName: Mixture.MixtureGraphProcessor.Finalize
+- uid: Mixture.MixtureGraphProcessor.Dispose*
+  commentId: Overload:Mixture.MixtureGraphProcessor.Dispose
+  name: Dispose
+  nameWithType: MixtureGraphProcessor.Dispose
+  fullName: Mixture.MixtureGraphProcessor.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: Mixture.MixtureGraphProcessor.UpdateComputeOrder*
   commentId: Overload:Mixture.MixtureGraphProcessor.UpdateComputeOrder
   name: UpdateComputeOrder
   nameWithType: MixtureGraphProcessor.UpdateComputeOrder
   fullName: Mixture.MixtureGraphProcessor.UpdateComputeOrder
+- uid: Mixture.MixtureGraphProcessor.AddGPUAndCPUBarrier*
+  commentId: Overload:Mixture.MixtureGraphProcessor.AddGPUAndCPUBarrier
+  name: AddGPUAndCPUBarrier
+  nameWithType: MixtureGraphProcessor.AddGPUAndCPUBarrier
+  fullName: Mixture.MixtureGraphProcessor.AddGPUAndCPUBarrier
+- uid: UnityEngine.Rendering.CommandBuffer
+  commentId: T:UnityEngine.Rendering.CommandBuffer
+  parent: UnityEngine.Rendering
+  isExternal: true
+  name: CommandBuffer
+  nameWithType: CommandBuffer
+  fullName: UnityEngine.Rendering.CommandBuffer
+- uid: UnityEngine.Rendering
+  commentId: N:UnityEngine.Rendering
+  isExternal: true
+  name: UnityEngine.Rendering
+  nameWithType: UnityEngine.Rendering
+  fullName: UnityEngine.Rendering
+- uid: Mixture.MixtureGraphProcessor.GetNodeDependencies*
+  commentId: Overload:Mixture.MixtureGraphProcessor.GetNodeDependencies
+  name: GetNodeDependencies
+  nameWithType: MixtureGraphProcessor.GetNodeDependencies
+  fullName: Mixture.MixtureGraphProcessor.GetNodeDependencies
+- uid: BaseNode
+  isExternal: true
+  name: BaseNode
+  nameWithType: BaseNode
+  fullName: BaseNode
+- uid: System.Collections.Generic.List{BaseNode}
+  commentId: T:System.Collections.Generic.List{BaseNode}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<BaseNode>
+  nameWithType: List<BaseNode>
+  fullName: System.Collections.Generic.List<BaseNode>
+  nameWithType.vb: List(Of BaseNode)
+  fullName.vb: System.Collections.Generic.List(Of BaseNode)
+  name.vb: List(Of BaseNode)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: BaseNode
+    name: BaseNode
+    nameWithType: BaseNode
+    fullName: BaseNode
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: BaseNode
+    name: BaseNode
+    nameWithType: BaseNode
+    fullName: BaseNode
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: Mixture.MixtureGraphProcessor.Run*
   commentId: Overload:Mixture.MixtureGraphProcessor.Run
   name: Run

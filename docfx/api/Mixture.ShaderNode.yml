@@ -11,7 +11,7 @@ items:
   - Mixture.ShaderNode.Disable
   - Mixture.ShaderNode.Enable
   - Mixture.ShaderNode.filteredOutProperties
-  - Mixture.ShaderNode.GetCustomRenderTexture
+  - Mixture.ShaderNode.GetCustomRenderTextures
   - Mixture.ShaderNode.GetMaterialInputs(System.Collections.Generic.List{SerializableEdge})
   - Mixture.ShaderNode.ListMaterialProperties(System.Collections.Generic.List{SerializableEdge})
   - Mixture.ShaderNode.material
@@ -31,7 +31,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ShaderNode
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
@@ -41,10 +41,14 @@ items:
   namespace: Mixture
   syntax:
     content: >-
+      [Documentation("\r\nThis node is the base node of all shader operations, it allows you to create a node with a custom behavior by putting a shader in the Shader field.\r\nNote that the shader must be compatible with Custom Render Textures, otherwise it won't work. If you have a doubt you can create a new shader by pressing the button \"New Shader\".\r\n\r\nThe node will automatically reflect the shader properties as inputs that you'll be able to connect to other nodes.\r\nThis can be especially useful to prototype a new node or just add something that wasn't in the node Library.\r\n\r\nFor more information, you can check the [Shader Nodes](../ShaderNodes.md) documentation page.\r\n")]
+
       [Serializable]
 
       public class ShaderNode : MixtureNode, IUseCustomRenderTextureProcessing
     content.vb: >-
+      <Documentation(vbCrLf & "This node is the base node of all shader operations, it allows you to create a node with a custom behavior by putting a shader in the Shader field." & vbCrLf & "Note that the shader must be compatible with Custom Render Textures, otherwise it won't work. If you have a doubt you can create a new shader by pressing the button ""New Shader""." & vbCrLf & vbCrLf & "The node will automatically reflect the shader properties as inputs that you'll be able to connect to other nodes." & vbCrLf & "This can be especially useful to prototype a new node or just add something that wasn't in the node Library." & vbCrLf & vbCrLf & "For more information, you can check the [Shader Nodes](../ShaderNodes.md) documentation page." & vbCrLf)>
+
       <Serializable>
 
       Public Class ShaderNode
@@ -73,17 +77,20 @@ items:
   - Mixture.MixtureNode.beforeProcessSetup
   - Mixture.MixtureNode.afterProcessCleanup
   - Mixture.MixtureNode.showControlsOnHover
+  - Mixture.MixtureNode.needsInspector
   - Mixture.MixtureNode.temporaryMaterials
   - Mixture.MixtureNode.previewMode
   - Mixture.MixtureNode.previewMip
   - Mixture.MixtureNode.previewVisible
   - Mixture.MixtureNode.previewEV100
+  - Mixture.MixtureNode.previewSlice
+  - Mixture.MixtureNode.isPinned
   - Mixture.MixtureNode.recorder
   - Mixture.MixtureNode.OnNodeCreated
-  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  - Mixture.MixtureNode.GetTempTextureDimension
   - Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
   - Mixture.MixtureNode.Process
-  - Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
   - Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
   - Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
   - Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
@@ -91,9 +98,13 @@ items:
   - Mixture.MixtureNode.OnSettingsChanged
   - Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
   - Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
-  - Mixture.MixtureNode.GetMixtureDependencies
   - Mixture.MixtureNode.GetTempMaterial(System.String)
   attributes:
+  - type: Mixture.DocumentationAttribute
+    ctor: Mixture.DocumentationAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: "\r\nThis node is the base node of all shader operations, it allows you to create a node with a custom behavior by putting a shader in the Shader field.\r\nNote that the shader must be compatible with Custom Render Textures, otherwise it won't work. If you have a doubt you can create a new shader by pressing the button \"New Shader\".\r\n\r\nThe node will automatically reflect the shader properties as inputs that you'll be able to connect to other nodes.\r\nThis can be especially useful to prototype a new node or just add something that wasn't in the node Library.\r\n\r\nFor more information, you can check the [Shader Nodes](../ShaderNodes.md) documentation page.\r\n"
   - type: System.SerializableAttribute
     ctor: System.SerializableAttribute.#ctor
     arguments: []
@@ -117,11 +128,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: DefaultShaderName
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 12
+    startLine: 31
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -152,11 +163,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: materialInputs
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 15
+    startLine: 34
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -183,11 +194,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: output
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 18
+    startLine: 37
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -226,11 +237,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: shader
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 20
+    startLine: 39
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -257,11 +268,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: name
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 21
+    startLine: 40
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -294,11 +305,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: material
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 22
+    startLine: 41
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -325,11 +336,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: filteredOutProperties
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 24
+    startLine: 51
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -362,11 +373,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: previewTexture
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 25
+    startLine: 52
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -400,11 +411,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: Enable
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 40
+    startLine: 67
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -432,11 +443,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: Disable
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 62
+    startLine: 89
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -465,11 +476,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ListMaterialProperties
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 65
+    startLine: 96
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -503,11 +514,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetMaterialInputs
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 76
+    startLine: 118
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -539,11 +550,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ChangeOutputPortType
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 82
+    startLine: 128
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -577,11 +588,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: canProcess
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 107
+    startLine: 176
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -614,11 +625,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ProcessNode
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 133
+    startLine: 215
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -638,36 +649,36 @@ items:
   modifiers.vb:
   - Protected
   - Overrides
-- uid: Mixture.ShaderNode.GetCustomRenderTexture
-  commentId: M:Mixture.ShaderNode.GetCustomRenderTexture
-  id: GetCustomRenderTexture
+- uid: Mixture.ShaderNode.GetCustomRenderTextures
+  commentId: M:Mixture.ShaderNode.GetCustomRenderTextures
+  id: GetCustomRenderTextures
   parent: Mixture.ShaderNode
   langs:
   - csharp
   - vb
-  name: GetCustomRenderTexture()
-  nameWithType: ShaderNode.GetCustomRenderTexture()
-  fullName: Mixture.ShaderNode.GetCustomRenderTexture()
+  name: GetCustomRenderTextures()
+  nameWithType: ShaderNode.GetCustomRenderTextures()
+  fullName: Mixture.ShaderNode.GetCustomRenderTextures()
   type: Method
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
-    id: GetCustomRenderTexture
+    id: GetCustomRenderTextures
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
-    startLine: 142
+    startLine: 255
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
-    content: public CustomRenderTexture GetCustomRenderTexture()
+    content: public IEnumerable<CustomRenderTexture> GetCustomRenderTextures()
     return:
-      type: UnityEngine.CustomRenderTexture
-    content.vb: Public Function GetCustomRenderTexture As CustomRenderTexture
-  overload: Mixture.ShaderNode.GetCustomRenderTexture*
+      type: System.Collections.Generic.IEnumerable{UnityEngine.CustomRenderTexture}
+    content.vb: Public Function GetCustomRenderTextures As IEnumerable(Of CustomRenderTexture)
+  overload: Mixture.ShaderNode.GetCustomRenderTextures*
   implements:
-  - Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture
+  - Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTextures
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -787,6 +798,12 @@ references:
   name: showControlsOnHover
   nameWithType: MixtureNode.showControlsOnHover
   fullName: Mixture.MixtureNode.showControlsOnHover
+- uid: Mixture.MixtureNode.needsInspector
+  commentId: P:Mixture.MixtureNode.needsInspector
+  parent: Mixture.MixtureNode
+  name: needsInspector
+  nameWithType: MixtureNode.needsInspector
+  fullName: Mixture.MixtureNode.needsInspector
 - uid: Mixture.MixtureNode.temporaryMaterials
   commentId: F:Mixture.MixtureNode.temporaryMaterials
   parent: Mixture.MixtureNode
@@ -817,6 +834,18 @@ references:
   name: previewEV100
   nameWithType: MixtureNode.previewEV100
   fullName: Mixture.MixtureNode.previewEV100
+- uid: Mixture.MixtureNode.previewSlice
+  commentId: F:Mixture.MixtureNode.previewSlice
+  parent: Mixture.MixtureNode
+  name: previewSlice
+  nameWithType: MixtureNode.previewSlice
+  fullName: Mixture.MixtureNode.previewSlice
+- uid: Mixture.MixtureNode.isPinned
+  commentId: F:Mixture.MixtureNode.isPinned
+  parent: Mixture.MixtureNode
+  name: isPinned
+  nameWithType: MixtureNode.isPinned
+  fullName: Mixture.MixtureNode.isPinned
 - uid: Mixture.MixtureNode.recorder
   commentId: P:Mixture.MixtureNode.recorder
   parent: Mixture.MixtureNode
@@ -851,15 +880,15 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
-  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
   parent: Mixture.MixtureNode
   isExternal: true
-  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
-  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
-  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean)
+  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean, UnityEngine.CustomRenderTextureUpdateMode, System.Boolean)
   spec.csharp:
-  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
     name: UpdateTempRenderTexture
     nameWithType: MixtureNode.UpdateTempRenderTexture
     fullName: Mixture.MixtureNode.UpdateTempRenderTexture
@@ -878,6 +907,22 @@ references:
     name: Boolean
     nameWithType: Boolean
     fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.CustomRenderTextureUpdateMode
+    name: CustomRenderTextureUpdateMode
+    nameWithType: CustomRenderTextureUpdateMode
+    fullName: UnityEngine.CustomRenderTextureUpdateMode
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -891,7 +936,7 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
     name: UpdateTempRenderTexture
     nameWithType: MixtureNode.UpdateTempRenderTexture
     fullName: Mixture.MixtureNode.UpdateTempRenderTexture
@@ -919,6 +964,50 @@ references:
     nameWithType: Boolean
     fullName: System.Boolean
     isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.CustomRenderTextureUpdateMode
+    name: CustomRenderTextureUpdateMode
+    nameWithType: CustomRenderTextureUpdateMode
+    fullName: UnityEngine.CustomRenderTextureUpdateMode
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.GetTempTextureDimension
+  commentId: M:Mixture.MixtureNode.GetTempTextureDimension
+  parent: Mixture.MixtureNode
+  name: GetTempTextureDimension()
+  nameWithType: MixtureNode.GetTempTextureDimension()
+  fullName: Mixture.MixtureNode.GetTempTextureDimension()
+  spec.csharp:
+  - uid: Mixture.MixtureNode.GetTempTextureDimension
+    name: GetTempTextureDimension
+    nameWithType: MixtureNode.GetTempTextureDimension
+    fullName: Mixture.MixtureNode.GetTempTextureDimension
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.GetTempTextureDimension
+    name: GetTempTextureDimension
+    nameWithType: MixtureNode.GetTempTextureDimension
+    fullName: Mixture.MixtureNode.GetTempTextureDimension
+  - name: (
+    nameWithType: (
+    fullName: (
   - name: )
     nameWithType: )
     fullName: )
@@ -986,45 +1075,6 @@ references:
   - name: (
     nameWithType: (
     fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  commentId: M:Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  parent: Mixture.MixtureNode
-  isExternal: true
-  name: AddObjectToGraph(Object)
-  nameWithType: MixtureNode.AddObjectToGraph(Object)
-  fullName: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  spec.csharp:
-  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-    name: AddObjectToGraph
-    nameWithType: MixtureNode.AddObjectToGraph
-    fullName: Mixture.MixtureNode.AddObjectToGraph
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Object
-    name: Object
-    nameWithType: Object
-    fullName: UnityEngine.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-    name: AddObjectToGraph
-    nameWithType: MixtureNode.AddObjectToGraph
-    fullName: Mixture.MixtureNode.AddObjectToGraph
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Object
-    name: Object
-    nameWithType: Object
-    fullName: UnityEngine.Object
-    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
@@ -1360,34 +1410,6 @@ references:
     nameWithType: String
     fullName: System.String
     isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: Mixture.MixtureNode.GetMixtureDependencies
-  commentId: M:Mixture.MixtureNode.GetMixtureDependencies
-  parent: Mixture.MixtureNode
-  name: GetMixtureDependencies()
-  nameWithType: MixtureNode.GetMixtureDependencies()
-  fullName: Mixture.MixtureNode.GetMixtureDependencies()
-  spec.csharp:
-  - uid: Mixture.MixtureNode.GetMixtureDependencies
-    name: GetMixtureDependencies
-    nameWithType: MixtureNode.GetMixtureDependencies
-    fullName: Mixture.MixtureNode.GetMixtureDependencies
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.MixtureNode.GetMixtureDependencies
-    name: GetMixtureDependencies
-    nameWithType: MixtureNode.GetMixtureDependencies
-    fullName: Mixture.MixtureNode.GetMixtureDependencies
-  - name: (
-    nameWithType: (
-    fullName: (
   - name: )
     nameWithType: )
     fullName: )
@@ -1880,22 +1902,22 @@ references:
   name: UnityEngine.Rendering
   nameWithType: UnityEngine.Rendering
   fullName: UnityEngine.Rendering
-- uid: Mixture.ShaderNode.GetCustomRenderTexture*
-  commentId: Overload:Mixture.ShaderNode.GetCustomRenderTexture
-  name: GetCustomRenderTexture
-  nameWithType: ShaderNode.GetCustomRenderTexture
-  fullName: Mixture.ShaderNode.GetCustomRenderTexture
-- uid: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture
-  commentId: M:Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture
+- uid: Mixture.ShaderNode.GetCustomRenderTextures*
+  commentId: Overload:Mixture.ShaderNode.GetCustomRenderTextures
+  name: GetCustomRenderTextures
+  nameWithType: ShaderNode.GetCustomRenderTextures
+  fullName: Mixture.ShaderNode.GetCustomRenderTextures
+- uid: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTextures
+  commentId: M:Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTextures
   parent: Mixture.IUseCustomRenderTextureProcessing
-  name: GetCustomRenderTexture()
-  nameWithType: IUseCustomRenderTextureProcessing.GetCustomRenderTexture()
-  fullName: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture()
+  name: GetCustomRenderTextures()
+  nameWithType: IUseCustomRenderTextureProcessing.GetCustomRenderTextures()
+  fullName: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTextures()
   spec.csharp:
-  - uid: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture
-    name: GetCustomRenderTexture
-    nameWithType: IUseCustomRenderTextureProcessing.GetCustomRenderTexture
-    fullName: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture
+  - uid: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTextures
+    name: GetCustomRenderTextures
+    nameWithType: IUseCustomRenderTextureProcessing.GetCustomRenderTextures
+    fullName: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTextures
   - name: (
     nameWithType: (
     fullName: (
@@ -1903,13 +1925,57 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture
-    name: GetCustomRenderTexture
-    nameWithType: IUseCustomRenderTextureProcessing.GetCustomRenderTexture
-    fullName: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTexture
+  - uid: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTextures
+    name: GetCustomRenderTextures
+    nameWithType: IUseCustomRenderTextureProcessing.GetCustomRenderTextures
+    fullName: Mixture.IUseCustomRenderTextureProcessing.GetCustomRenderTextures
   - name: (
     nameWithType: (
     fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{UnityEngine.CustomRenderTexture}
+  commentId: T:System.Collections.Generic.IEnumerable{UnityEngine.CustomRenderTexture}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<CustomRenderTexture>
+  nameWithType: IEnumerable<CustomRenderTexture>
+  fullName: System.Collections.Generic.IEnumerable<UnityEngine.CustomRenderTexture>
+  nameWithType.vb: IEnumerable(Of CustomRenderTexture)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of UnityEngine.CustomRenderTexture)
+  name.vb: IEnumerable(Of CustomRenderTexture)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: UnityEngine.CustomRenderTexture
+    name: CustomRenderTexture
+    nameWithType: CustomRenderTexture
+    fullName: UnityEngine.CustomRenderTexture
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: UnityEngine.CustomRenderTexture
+    name: CustomRenderTexture
+    nameWithType: CustomRenderTexture
+    fullName: UnityEngine.CustomRenderTexture
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )

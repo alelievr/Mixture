@@ -1,0 +1,895 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.OutputTextureSettings
+  commentId: T:Mixture.OutputTextureSettings
+  id: OutputTextureSettings
+  parent: Mixture
+  children:
+  - Mixture.OutputTextureSettings.compressionFormat
+  - Mixture.OutputTextureSettings.compressionQuality
+  - Mixture.OutputTextureSettings.conversionFormat
+  - Mixture.OutputTextureSettings.customMipMapMaterial
+  - Mixture.OutputTextureSettings.customMipMapShader
+  - Mixture.OutputTextureSettings.enableCompression
+  - Mixture.OutputTextureSettings.enableConversion
+  - Mixture.OutputTextureSettings.finalCopyMaterial
+  - Mixture.OutputTextureSettings.finalCopyRT
+  - Mixture.OutputTextureSettings.hasMipMaps
+  - Mixture.OutputTextureSettings.inputTexture
+  - Mixture.OutputTextureSettings.IsCompressionEnabled
+  - Mixture.OutputTextureSettings.IsConversionEnabled
+  - Mixture.OutputTextureSettings.isMain
+  - Mixture.OutputTextureSettings.mipMapPropertyBlock
+  - Mixture.OutputTextureSettings.mipmapTempRT
+  - Mixture.OutputTextureSettings.name
+  - Mixture.OutputTextureSettings.SetupPreset(Mixture.OutputTextureSettings.Preset,System.Func{System.String,System.String})
+  langs:
+  - csharp
+  - vb
+  name: OutputTextureSettings
+  nameWithType: OutputTextureSettings
+  fullName: Mixture.OutputTextureSettings
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: OutputTextureSettings
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 9
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Serializable]
+
+      public class OutputTextureSettings
+    content.vb: >-
+      <Serializable>
+
+      Public Class OutputTextureSettings
+  inheritance:
+  - System.Object
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.OutputTextureSettings.inputTexture
+  commentId: F:Mixture.OutputTextureSettings.inputTexture
+  id: inputTexture
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: inputTexture
+  nameWithType: OutputTextureSettings.inputTexture
+  fullName: Mixture.OutputTextureSettings.inputTexture
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: inputTexture
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 12
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public Texture inputTexture
+    return:
+      type: UnityEngine.Texture
+    content.vb: Public inputTexture As Texture
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.name
+  commentId: F:Mixture.OutputTextureSettings.name
+  id: name
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: name
+  nameWithType: OutputTextureSettings.name
+  fullName: Mixture.OutputTextureSettings.name
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: name
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 13
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public string name
+    return:
+      type: System.String
+    content.vb: Public name As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.enableCompression
+  commentId: F:Mixture.OutputTextureSettings.enableCompression
+  id: enableCompression
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: enableCompression
+  nameWithType: OutputTextureSettings.enableCompression
+  fullName: Mixture.OutputTextureSettings.enableCompression
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: enableCompression
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 14
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public bool enableCompression
+    return:
+      type: System.Boolean
+    content.vb: Public enableCompression As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.compressionFormat
+  commentId: F:Mixture.OutputTextureSettings.compressionFormat
+  id: compressionFormat
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: compressionFormat
+  nameWithType: OutputTextureSettings.compressionFormat
+  fullName: Mixture.OutputTextureSettings.compressionFormat
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: compressionFormat
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 15
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public TextureFormat compressionFormat
+    return:
+      type: UnityEngine.TextureFormat
+    content.vb: Public compressionFormat As TextureFormat
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.compressionQuality
+  commentId: F:Mixture.OutputTextureSettings.compressionQuality
+  id: compressionQuality
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: compressionQuality
+  nameWithType: OutputTextureSettings.compressionQuality
+  fullName: Mixture.OutputTextureSettings.compressionQuality
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: compressionQuality
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 16
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public MixtureCompressionQuality compressionQuality
+    return:
+      type: Mixture.MixtureCompressionQuality
+    content.vb: Public compressionQuality As MixtureCompressionQuality
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.hasMipMaps
+  commentId: F:Mixture.OutputTextureSettings.hasMipMaps
+  id: hasMipMaps
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: hasMipMaps
+  nameWithType: OutputTextureSettings.hasMipMaps
+  fullName: Mixture.OutputTextureSettings.hasMipMaps
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: hasMipMaps
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 17
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public bool hasMipMaps
+    return:
+      type: System.Boolean
+    content.vb: Public hasMipMaps As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.customMipMapShader
+  commentId: F:Mixture.OutputTextureSettings.customMipMapShader
+  id: customMipMapShader
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: customMipMapShader
+  nameWithType: OutputTextureSettings.customMipMapShader
+  fullName: Mixture.OutputTextureSettings.customMipMapShader
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: customMipMapShader
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 18
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public Shader customMipMapShader
+    return:
+      type: UnityEngine.Shader
+    content.vb: Public customMipMapShader As Shader
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.isMain
+  commentId: F:Mixture.OutputTextureSettings.isMain
+  id: isMain
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: isMain
+  nameWithType: OutputTextureSettings.isMain
+  fullName: Mixture.OutputTextureSettings.isMain
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: isMain
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 19
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public bool isMain
+    return:
+      type: System.Boolean
+    content.vb: Public isMain As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.enableConversion
+  commentId: F:Mixture.OutputTextureSettings.enableConversion
+  id: enableConversion
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: enableConversion
+  nameWithType: OutputTextureSettings.enableConversion
+  fullName: Mixture.OutputTextureSettings.enableConversion
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: enableConversion
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 21
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public bool enableConversion
+    return:
+      type: System.Boolean
+    content.vb: Public enableConversion As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.conversionFormat
+  commentId: F:Mixture.OutputTextureSettings.conversionFormat
+  id: conversionFormat
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: conversionFormat
+  nameWithType: OutputTextureSettings.conversionFormat
+  fullName: Mixture.OutputTextureSettings.conversionFormat
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: conversionFormat
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 22
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public ConversionFormat conversionFormat
+    return:
+      type: Mixture.ConversionFormat
+    content.vb: Public conversionFormat As ConversionFormat
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.finalCopyMaterial
+  commentId: F:Mixture.OutputTextureSettings.finalCopyMaterial
+  id: finalCopyMaterial
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: finalCopyMaterial
+  nameWithType: OutputTextureSettings.finalCopyMaterial
+  fullName: Mixture.OutputTextureSettings.finalCopyMaterial
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: finalCopyMaterial
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 24
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public Material finalCopyMaterial
+    return:
+      type: UnityEngine.Material
+    content.vb: Public finalCopyMaterial As Material
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.finalCopyRT
+  commentId: F:Mixture.OutputTextureSettings.finalCopyRT
+  id: finalCopyRT
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: finalCopyRT
+  nameWithType: OutputTextureSettings.finalCopyRT
+  fullName: Mixture.OutputTextureSettings.finalCopyRT
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: finalCopyRT
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 26
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [NonSerialized]
+
+      public CustomRenderTexture finalCopyRT
+    return:
+      type: UnityEngine.CustomRenderTexture
+    content.vb: >-
+      <NonSerialized>
+
+      Public finalCopyRT As CustomRenderTexture
+  attributes:
+  - type: System.NonSerializedAttribute
+    ctor: System.NonSerializedAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.customMipMapMaterial
+  commentId: P:Mixture.OutputTextureSettings.customMipMapMaterial
+  id: customMipMapMaterial
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: customMipMapMaterial
+  nameWithType: OutputTextureSettings.customMipMapMaterial
+  fullName: Mixture.OutputTextureSettings.customMipMapMaterial
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: customMipMapMaterial
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 30
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public Material customMipMapMaterial { get; }
+    parameters: []
+    return:
+      type: UnityEngine.Material
+    content.vb: Public ReadOnly Property customMipMapMaterial As Material
+  overload: Mixture.OutputTextureSettings.customMipMapMaterial*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: Mixture.OutputTextureSettings.mipmapTempRT
+  commentId: F:Mixture.OutputTextureSettings.mipmapTempRT
+  id: mipmapTempRT
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: mipmapTempRT
+  nameWithType: OutputTextureSettings.mipmapTempRT
+  fullName: Mixture.OutputTextureSettings.mipmapTempRT
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: mipmapTempRT
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 47
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [NonSerialized]
+
+      public CustomRenderTexture mipmapTempRT
+    return:
+      type: UnityEngine.CustomRenderTexture
+    content.vb: >-
+      <NonSerialized>
+
+      Public mipmapTempRT As CustomRenderTexture
+  attributes:
+  - type: System.NonSerializedAttribute
+    ctor: System.NonSerializedAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.mipMapPropertyBlock
+  commentId: F:Mixture.OutputTextureSettings.mipMapPropertyBlock
+  id: mipMapPropertyBlock
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: mipMapPropertyBlock
+  nameWithType: OutputTextureSettings.mipMapPropertyBlock
+  fullName: Mixture.OutputTextureSettings.mipMapPropertyBlock
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: mipMapPropertyBlock
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 49
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [NonSerialized]
+
+      public MaterialPropertyBlock mipMapPropertyBlock
+    return:
+      type: UnityEngine.MaterialPropertyBlock
+    content.vb: >-
+      <NonSerialized>
+
+      Public mipMapPropertyBlock As MaterialPropertyBlock
+  attributes:
+  - type: System.NonSerializedAttribute
+    ctor: System.NonSerializedAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.IsCompressionEnabled
+  commentId: M:Mixture.OutputTextureSettings.IsCompressionEnabled
+  id: IsCompressionEnabled
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: IsCompressionEnabled()
+  nameWithType: OutputTextureSettings.IsCompressionEnabled()
+  fullName: Mixture.OutputTextureSettings.IsCompressionEnabled()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: IsCompressionEnabled
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 62
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public bool IsCompressionEnabled()
+    return:
+      type: System.Boolean
+    content.vb: Public Function IsCompressionEnabled As Boolean
+  overload: Mixture.OutputTextureSettings.IsCompressionEnabled*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.IsConversionEnabled
+  commentId: M:Mixture.OutputTextureSettings.IsConversionEnabled
+  id: IsConversionEnabled
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: IsConversionEnabled()
+  nameWithType: OutputTextureSettings.IsConversionEnabled()
+  fullName: Mixture.OutputTextureSettings.IsConversionEnabled()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: IsConversionEnabled
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 65
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public bool IsConversionEnabled()
+    return:
+      type: System.Boolean
+    content.vb: Public Function IsConversionEnabled As Boolean
+  overload: Mixture.OutputTextureSettings.IsConversionEnabled*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.OutputTextureSettings.SetupPreset(Mixture.OutputTextureSettings.Preset,System.Func{System.String,System.String})
+  commentId: M:Mixture.OutputTextureSettings.SetupPreset(Mixture.OutputTextureSettings.Preset,System.Func{System.String,System.String})
+  id: SetupPreset(Mixture.OutputTextureSettings.Preset,System.Func{System.String,System.String})
+  parent: Mixture.OutputTextureSettings
+  langs:
+  - csharp
+  - vb
+  name: SetupPreset(OutputTextureSettings.Preset, Func<String, String>)
+  nameWithType: OutputTextureSettings.SetupPreset(OutputTextureSettings.Preset, Func<String, String>)
+  fullName: Mixture.OutputTextureSettings.SetupPreset(Mixture.OutputTextureSettings.Preset, System.Func<System.String, System.String>)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: SetupPreset
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/OutputTextureSettings.cs
+    startLine: 68
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public void SetupPreset(OutputTextureSettings.Preset preset, Func<string, string> getUniqueName)
+    parameters:
+    - id: preset
+      type: Mixture.OutputTextureSettings.Preset
+    - id: getUniqueName
+      type: System.Func{System.String,System.String}
+    content.vb: Public Sub SetupPreset(preset As OutputTextureSettings.Preset, getUniqueName As Func(Of String, String))
+  overload: Mixture.OutputTextureSettings.SetupPreset*
+  nameWithType.vb: OutputTextureSettings.SetupPreset(OutputTextureSettings.Preset, Func(Of String, String))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: Mixture.OutputTextureSettings.SetupPreset(Mixture.OutputTextureSettings.Preset, System.Func(Of System.String, System.String))
+  name.vb: SetupPreset(OutputTextureSettings.Preset, Func(Of String, String))
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEngine.Texture
+  commentId: T:UnityEngine.Texture
+  parent: UnityEngine
+  isExternal: true
+  name: Texture
+  nameWithType: Texture
+  fullName: UnityEngine.Texture
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: UnityEngine.TextureFormat
+  commentId: T:UnityEngine.TextureFormat
+  parent: UnityEngine
+  isExternal: true
+  name: TextureFormat
+  nameWithType: TextureFormat
+  fullName: UnityEngine.TextureFormat
+- uid: Mixture.MixtureCompressionQuality
+  commentId: T:Mixture.MixtureCompressionQuality
+  parent: Mixture
+  name: MixtureCompressionQuality
+  nameWithType: MixtureCompressionQuality
+  fullName: Mixture.MixtureCompressionQuality
+- uid: UnityEngine.Shader
+  commentId: T:UnityEngine.Shader
+  parent: UnityEngine
+  isExternal: true
+  name: Shader
+  nameWithType: Shader
+  fullName: UnityEngine.Shader
+- uid: Mixture.ConversionFormat
+  commentId: T:Mixture.ConversionFormat
+  parent: Mixture
+  name: ConversionFormat
+  nameWithType: ConversionFormat
+  fullName: Mixture.ConversionFormat
+- uid: UnityEngine.Material
+  commentId: T:UnityEngine.Material
+  parent: UnityEngine
+  isExternal: true
+  name: Material
+  nameWithType: Material
+  fullName: UnityEngine.Material
+- uid: UnityEngine.CustomRenderTexture
+  commentId: T:UnityEngine.CustomRenderTexture
+  parent: UnityEngine
+  isExternal: true
+  name: CustomRenderTexture
+  nameWithType: CustomRenderTexture
+  fullName: UnityEngine.CustomRenderTexture
+- uid: Mixture.OutputTextureSettings.customMipMapMaterial*
+  commentId: Overload:Mixture.OutputTextureSettings.customMipMapMaterial
+  name: customMipMapMaterial
+  nameWithType: OutputTextureSettings.customMipMapMaterial
+  fullName: Mixture.OutputTextureSettings.customMipMapMaterial
+- uid: UnityEngine.MaterialPropertyBlock
+  commentId: T:UnityEngine.MaterialPropertyBlock
+  parent: UnityEngine
+  isExternal: true
+  name: MaterialPropertyBlock
+  nameWithType: MaterialPropertyBlock
+  fullName: UnityEngine.MaterialPropertyBlock
+- uid: Mixture.OutputTextureSettings.IsCompressionEnabled*
+  commentId: Overload:Mixture.OutputTextureSettings.IsCompressionEnabled
+  name: IsCompressionEnabled
+  nameWithType: OutputTextureSettings.IsCompressionEnabled
+  fullName: Mixture.OutputTextureSettings.IsCompressionEnabled
+- uid: Mixture.OutputTextureSettings.IsConversionEnabled*
+  commentId: Overload:Mixture.OutputTextureSettings.IsConversionEnabled
+  name: IsConversionEnabled
+  nameWithType: OutputTextureSettings.IsConversionEnabled
+  fullName: Mixture.OutputTextureSettings.IsConversionEnabled
+- uid: Mixture.OutputTextureSettings.SetupPreset*
+  commentId: Overload:Mixture.OutputTextureSettings.SetupPreset
+  name: SetupPreset
+  nameWithType: OutputTextureSettings.SetupPreset
+  fullName: Mixture.OutputTextureSettings.SetupPreset
+- uid: Mixture.OutputTextureSettings.Preset
+  commentId: T:Mixture.OutputTextureSettings.Preset
+  parent: Mixture
+  name: OutputTextureSettings.Preset
+  nameWithType: OutputTextureSettings.Preset
+  fullName: Mixture.OutputTextureSettings.Preset
+- uid: System.Func{System.String,System.String}
+  commentId: T:System.Func{System.String,System.String}
+  parent: System
+  definition: System.Func`2
+  name: Func<String, String>
+  nameWithType: Func<String, String>
+  fullName: System.Func<System.String, System.String>
+  nameWithType.vb: Func(Of String, String)
+  fullName.vb: System.Func(Of System.String, System.String)
+  name.vb: Func(Of String, String)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: )
+    nameWithType: )
+    fullName: )

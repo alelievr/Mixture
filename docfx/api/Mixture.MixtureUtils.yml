@@ -7,7 +7,6 @@ items:
   children:
   - Mixture.MixtureUtils.blitIconMaterial
   - Mixture.MixtureUtils.blitRealtimeIconMaterial
-  - Mixture.MixtureUtils.bugIcon
   - Mixture.MixtureUtils.ClearBuffer(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeBuffer,System.Int32,System.Int32)
   - Mixture.MixtureUtils.clearCompute
   - Mixture.MixtureUtils.defaultNodeWidth
@@ -19,11 +18,20 @@ items:
   - Mixture.MixtureUtils.operatorNodeWidth
   - Mixture.MixtureUtils.realtimeIcon
   - Mixture.MixtureUtils.realtimeIcon32
+  - Mixture.MixtureUtils.SetTextureWithDimension(UnityEngine.Material,System.String,UnityEngine.Texture)
+  - Mixture.MixtureUtils.SetupComputeDimensionKeyword(UnityEngine.ComputeShader,UnityEngine.Rendering.TextureDimension)
   - Mixture.MixtureUtils.SetupDimensionKeyword(UnityEngine.Material,UnityEngine.Rendering.TextureDimension)
+  - Mixture.MixtureUtils.SetupIsSRGB(UnityEngine.Material,Mixture.MixtureNode,Mixture.MixtureGraph)
+  - Mixture.MixtureUtils.shaderPropertiesDimensionSuffix
+  - Mixture.MixtureUtils.smallNodeWidth
+  - Mixture.MixtureUtils.texture2DPrefix
   - Mixture.MixtureUtils.texture2DPreviewMaterial
+  - Mixture.MixtureUtils.texture3DPrefix
   - Mixture.MixtureUtils.texture3DPreviewMaterial
   - Mixture.MixtureUtils.textureArrayPreviewMaterial
+  - Mixture.MixtureUtils.textureCubePrefix
   - Mixture.MixtureUtils.textureCubePreviewMaterial
+  - Mixture.MixtureUtils.UpdateInputPortType(SerializableType@,System.String,System.Collections.Generic.List{SerializableEdge})
   - Mixture.MixtureUtils.windowIcon
   langs:
   - csharp
@@ -35,11 +43,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: MixtureUtils
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 7
+    startLine: 8
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -69,11 +77,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: defaultNodeWidth
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 9
+    startLine: 10
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -104,11 +112,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: operatorNodeWidth
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 10
+    startLine: 11
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -117,6 +125,41 @@ items:
     return:
       type: System.Single
     content.vb: Public Shared ReadOnly operatorNodeWidth As Single
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureUtils.smallNodeWidth
+  commentId: F:Mixture.MixtureUtils.smallNodeWidth
+  id: smallNodeWidth
+  parent: Mixture.MixtureUtils
+  langs:
+  - csharp
+  - vb
+  name: smallNodeWidth
+  nameWithType: MixtureUtils.smallNodeWidth
+  fullName: Mixture.MixtureUtils.smallNodeWidth
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: smallNodeWidth
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+    startLine: 12
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static readonly float smallNodeWidth
+    return:
+      type: System.Single
+    content.vb: Public Shared ReadOnly smallNodeWidth As Single
   modifiers.csharp:
   - public
   - static
@@ -139,11 +182,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: blitIconMaterial
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 13
+    startLine: 15
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -176,11 +219,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: blitRealtimeIconMaterial
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 28
+    startLine: 31
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -213,11 +256,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: textureArrayPreviewMaterial
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 43
+    startLine: 47
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -250,11 +293,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: texture2DPreviewMaterial
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 57
+    startLine: 61
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -287,11 +330,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: texture3DPreviewMaterial
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 71
+    startLine: 75
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -324,11 +367,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: textureCubePreviewMaterial
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 85
+    startLine: 89
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -361,11 +404,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: dummyCustomRenderTextureMaterial
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 99
+    startLine: 103
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -398,11 +441,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: windowIcon
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 113
+    startLine: 121
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -435,11 +478,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: icon
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 118
+    startLine: 126
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -472,11 +515,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: icon32
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 124
+    startLine: 132
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -509,11 +552,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: realtimeIcon
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 130
+    startLine: 138
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -546,11 +589,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: realtimeIcon32
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 136
+    startLine: 144
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -561,43 +604,6 @@ items:
       type: UnityEngine.Texture2D
     content.vb: Public Shared ReadOnly Property realtimeIcon32 As Texture2D
   overload: Mixture.MixtureUtils.realtimeIcon32*
-  modifiers.csharp:
-  - public
-  - static
-  - get
-  modifiers.vb:
-  - Public
-  - Shared
-  - ReadOnly
-- uid: Mixture.MixtureUtils.bugIcon
-  commentId: P:Mixture.MixtureUtils.bugIcon
-  id: bugIcon
-  parent: Mixture.MixtureUtils
-  langs:
-  - csharp
-  - vb
-  name: bugIcon
-  nameWithType: MixtureUtils.bugIcon
-  fullName: Mixture.MixtureUtils.bugIcon
-  type: Property
-  source:
-    remote:
-      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
-      repo: git@github.com:alelievr/Mixture.git
-    id: bugIcon
-    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 142
-  assemblies:
-  - Mixture.Runtime
-  namespace: Mixture
-  syntax:
-    content: public static Texture2D bugIcon { get; }
-    parameters: []
-    return:
-      type: UnityEngine.Texture2D
-    content.vb: Public Shared ReadOnly Property bugIcon As Texture2D
-  overload: Mixture.MixtureUtils.bugIcon*
   modifiers.csharp:
   - public
   - static
@@ -620,11 +626,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: clearCompute
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 148
+    startLine: 150
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -657,11 +663,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: SetupDimensionKeyword
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 153
+    startLine: 155
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -680,6 +686,183 @@ items:
   modifiers.vb:
   - Public
   - Shared
+- uid: Mixture.MixtureUtils.SetupComputeDimensionKeyword(UnityEngine.ComputeShader,UnityEngine.Rendering.TextureDimension)
+  commentId: M:Mixture.MixtureUtils.SetupComputeDimensionKeyword(UnityEngine.ComputeShader,UnityEngine.Rendering.TextureDimension)
+  id: SetupComputeDimensionKeyword(UnityEngine.ComputeShader,UnityEngine.Rendering.TextureDimension)
+  parent: Mixture.MixtureUtils
+  langs:
+  - csharp
+  - vb
+  name: SetupComputeDimensionKeyword(ComputeShader, TextureDimension)
+  nameWithType: MixtureUtils.SetupComputeDimensionKeyword(ComputeShader, TextureDimension)
+  fullName: Mixture.MixtureUtils.SetupComputeDimensionKeyword(UnityEngine.ComputeShader, UnityEngine.Rendering.TextureDimension)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: SetupComputeDimensionKeyword
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+    startLine: 179
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static void SetupComputeDimensionKeyword(ComputeShader computeShader, TextureDimension dimension)
+    parameters:
+    - id: computeShader
+      type: UnityEngine.ComputeShader
+    - id: dimension
+      type: UnityEngine.Rendering.TextureDimension
+    content.vb: Public Shared Sub SetupComputeDimensionKeyword(computeShader As ComputeShader, dimension As TextureDimension)
+  overload: Mixture.MixtureUtils.SetupComputeDimensionKeyword*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MixtureUtils.texture2DPrefix
+  commentId: F:Mixture.MixtureUtils.texture2DPrefix
+  id: texture2DPrefix
+  parent: Mixture.MixtureUtils
+  langs:
+  - csharp
+  - vb
+  name: texture2DPrefix
+  nameWithType: MixtureUtils.texture2DPrefix
+  fullName: Mixture.MixtureUtils.texture2DPrefix
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: texture2DPrefix
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+    startLine: 189
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static readonly string texture2DPrefix
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly texture2DPrefix As String
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureUtils.texture3DPrefix
+  commentId: F:Mixture.MixtureUtils.texture3DPrefix
+  id: texture3DPrefix
+  parent: Mixture.MixtureUtils
+  langs:
+  - csharp
+  - vb
+  name: texture3DPrefix
+  nameWithType: MixtureUtils.texture3DPrefix
+  fullName: Mixture.MixtureUtils.texture3DPrefix
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: texture3DPrefix
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+    startLine: 190
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static readonly string texture3DPrefix
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly texture3DPrefix As String
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureUtils.textureCubePrefix
+  commentId: F:Mixture.MixtureUtils.textureCubePrefix
+  id: textureCubePrefix
+  parent: Mixture.MixtureUtils
+  langs:
+  - csharp
+  - vb
+  name: textureCubePrefix
+  nameWithType: MixtureUtils.textureCubePrefix
+  fullName: Mixture.MixtureUtils.textureCubePrefix
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: textureCubePrefix
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+    startLine: 191
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static readonly string textureCubePrefix
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly textureCubePrefix As String
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.MixtureUtils.shaderPropertiesDimensionSuffix
+  commentId: F:Mixture.MixtureUtils.shaderPropertiesDimensionSuffix
+  id: shaderPropertiesDimensionSuffix
+  parent: Mixture.MixtureUtils
+  langs:
+  - csharp
+  - vb
+  name: shaderPropertiesDimensionSuffix
+  nameWithType: MixtureUtils.shaderPropertiesDimensionSuffix
+  fullName: Mixture.MixtureUtils.shaderPropertiesDimensionSuffix
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: shaderPropertiesDimensionSuffix
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+    startLine: 193
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static readonly Dictionary<TextureDimension, string> shaderPropertiesDimensionSuffix
+    return:
+      type: System.Collections.Generic.Dictionary{UnityEngine.Rendering.TextureDimension,System.String}
+    content.vb: Public Shared ReadOnly shaderPropertiesDimensionSuffix As Dictionary(Of TextureDimension, String)
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
 - uid: Mixture.MixtureUtils.GetAllowedDimentions(System.String)
   commentId: M:Mixture.MixtureUtils.GetAllowedDimentions(System.String)
   id: GetAllowedDimentions(System.String)
@@ -694,11 +877,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetAllowedDimentions
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 187
+    startLine: 203
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -711,6 +894,45 @@ items:
       type: System.Collections.Generic.List{UnityEngine.Rendering.TextureDimension}
     content.vb: Public Shared Function GetAllowedDimentions(propertyName As String) As List(Of TextureDimension)
   overload: Mixture.MixtureUtils.GetAllowedDimentions*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MixtureUtils.SetTextureWithDimension(UnityEngine.Material,System.String,UnityEngine.Texture)
+  commentId: M:Mixture.MixtureUtils.SetTextureWithDimension(UnityEngine.Material,System.String,UnityEngine.Texture)
+  id: SetTextureWithDimension(UnityEngine.Material,System.String,UnityEngine.Texture)
+  parent: Mixture.MixtureUtils
+  langs:
+  - csharp
+  - vb
+  name: SetTextureWithDimension(Material, String, Texture)
+  nameWithType: MixtureUtils.SetTextureWithDimension(Material, String, Texture)
+  fullName: Mixture.MixtureUtils.SetTextureWithDimension(UnityEngine.Material, System.String, UnityEngine.Texture)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: SetTextureWithDimension
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+    startLine: 228
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static void SetTextureWithDimension(Material material, string propertyName, Texture texture)
+    parameters:
+    - id: material
+      type: UnityEngine.Material
+    - id: propertyName
+      type: System.String
+    - id: texture
+      type: UnityEngine.Texture
+    content.vb: Public Shared Sub SetTextureWithDimension(material As Material, propertyName As String, texture As Texture)
+  overload: Mixture.MixtureUtils.SetTextureWithDimension*
   modifiers.csharp:
   - public
   - static
@@ -731,11 +953,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: DestroyGameObject
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 212
+    startLine: 234
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -766,11 +988,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ClearBuffer
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
-    startLine: 234
+    startLine: 256
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -789,6 +1011,89 @@ items:
       type: System.Int32
     content.vb: Public Shared Sub ClearBuffer(cmd As CommandBuffer, buffer As ComputeBuffer, size As Integer = -1, offset As Integer = 0)
   overload: Mixture.MixtureUtils.ClearBuffer*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MixtureUtils.UpdateInputPortType(SerializableType@,System.String,System.Collections.Generic.List{SerializableEdge})
+  commentId: M:Mixture.MixtureUtils.UpdateInputPortType(SerializableType@,System.String,System.Collections.Generic.List{SerializableEdge})
+  id: UpdateInputPortType(SerializableType@,System.String,System.Collections.Generic.List{SerializableEdge})
+  parent: Mixture.MixtureUtils
+  langs:
+  - csharp
+  - vb
+  name: UpdateInputPortType(ref SerializableType, String, List<SerializableEdge>)
+  nameWithType: MixtureUtils.UpdateInputPortType(ref SerializableType, String, List<SerializableEdge>)
+  fullName: Mixture.MixtureUtils.UpdateInputPortType(ref SerializableType, System.String, System.Collections.Generic.List<SerializableEdge>)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: UpdateInputPortType
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+    startLine: 269
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static PortData UpdateInputPortType(ref SerializableType type, string displayName, List<SerializableEdge> edges)
+    parameters:
+    - id: type
+      type: SerializableType
+    - id: displayName
+      type: System.String
+    - id: edges
+      type: System.Collections.Generic.List{SerializableEdge}
+    return:
+      type: PortData
+    content.vb: Public Shared Function UpdateInputPortType(ByRef type As SerializableType, displayName As String, edges As List(Of SerializableEdge)) As PortData
+  overload: Mixture.MixtureUtils.UpdateInputPortType*
+  nameWithType.vb: MixtureUtils.UpdateInputPortType(ByRef SerializableType, String, List(Of SerializableEdge))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: Mixture.MixtureUtils.UpdateInputPortType(ByRef SerializableType, System.String, System.Collections.Generic.List(Of SerializableEdge))
+  name.vb: UpdateInputPortType(ByRef SerializableType, String, List(Of SerializableEdge))
+- uid: Mixture.MixtureUtils.SetupIsSRGB(UnityEngine.Material,Mixture.MixtureNode,Mixture.MixtureGraph)
+  commentId: M:Mixture.MixtureUtils.SetupIsSRGB(UnityEngine.Material,Mixture.MixtureNode,Mixture.MixtureGraph)
+  id: SetupIsSRGB(UnityEngine.Material,Mixture.MixtureNode,Mixture.MixtureGraph)
+  parent: Mixture.MixtureUtils
+  langs:
+  - csharp
+  - vb
+  name: SetupIsSRGB(Material, MixtureNode, MixtureGraph)
+  nameWithType: MixtureUtils.SetupIsSRGB(Material, MixtureNode, MixtureGraph)
+  fullName: Mixture.MixtureUtils.SetupIsSRGB(UnityEngine.Material, Mixture.MixtureNode, Mixture.MixtureGraph)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: SetupIsSRGB
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureUtils.cs
+    startLine: 285
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static void SetupIsSRGB(Material material, MixtureNode node, MixtureGraph graph)
+    parameters:
+    - id: material
+      type: UnityEngine.Material
+    - id: node
+      type: Mixture.MixtureNode
+    - id: graph
+      type: Mixture.MixtureGraph
+    content.vb: Public Shared Sub SetupIsSRGB(material As Material, node As MixtureNode, graph As MixtureGraph)
+  overload: Mixture.MixtureUtils.SetupIsSRGB*
   modifiers.csharp:
   - public
   - static
@@ -901,11 +1206,6 @@ references:
   name: realtimeIcon32
   nameWithType: MixtureUtils.realtimeIcon32
   fullName: Mixture.MixtureUtils.realtimeIcon32
-- uid: Mixture.MixtureUtils.bugIcon*
-  commentId: Overload:Mixture.MixtureUtils.bugIcon
-  name: bugIcon
-  nameWithType: MixtureUtils.bugIcon
-  fullName: Mixture.MixtureUtils.bugIcon
 - uid: Mixture.MixtureUtils.clearCompute*
   commentId: Overload:Mixture.MixtureUtils.clearCompute
   name: clearCompute
@@ -936,11 +1236,11 @@ references:
   name: UnityEngine.Rendering
   nameWithType: UnityEngine.Rendering
   fullName: UnityEngine.Rendering
-- uid: Mixture.MixtureUtils.GetAllowedDimentions*
-  commentId: Overload:Mixture.MixtureUtils.GetAllowedDimentions
-  name: GetAllowedDimentions
-  nameWithType: MixtureUtils.GetAllowedDimentions
-  fullName: Mixture.MixtureUtils.GetAllowedDimentions
+- uid: Mixture.MixtureUtils.SetupComputeDimensionKeyword*
+  commentId: Overload:Mixture.MixtureUtils.SetupComputeDimensionKeyword
+  name: SetupComputeDimensionKeyword
+  nameWithType: MixtureUtils.SetupComputeDimensionKeyword
+  fullName: Mixture.MixtureUtils.SetupComputeDimensionKeyword
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -948,6 +1248,128 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Collections.Generic.Dictionary{UnityEngine.Rendering.TextureDimension,System.String}
+  commentId: T:System.Collections.Generic.Dictionary{UnityEngine.Rendering.TextureDimension,System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  name: Dictionary<TextureDimension, String>
+  nameWithType: Dictionary<TextureDimension, String>
+  fullName: System.Collections.Generic.Dictionary<UnityEngine.Rendering.TextureDimension, System.String>
+  nameWithType.vb: Dictionary(Of TextureDimension, String)
+  fullName.vb: System.Collections.Generic.Dictionary(Of UnityEngine.Rendering.TextureDimension, System.String)
+  name.vb: Dictionary(Of TextureDimension, String)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: UnityEngine.Rendering.TextureDimension
+    name: TextureDimension
+    nameWithType: TextureDimension
+    fullName: UnityEngine.Rendering.TextureDimension
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: UnityEngine.Rendering.TextureDimension
+    name: TextureDimension
+    nameWithType: TextureDimension
+    fullName: UnityEngine.Rendering.TextureDimension
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: Mixture.MixtureUtils.GetAllowedDimentions*
+  commentId: Overload:Mixture.MixtureUtils.GetAllowedDimentions
+  name: GetAllowedDimentions
+  nameWithType: MixtureUtils.GetAllowedDimentions
+  fullName: Mixture.MixtureUtils.GetAllowedDimentions
 - uid: System.Collections.Generic.List{UnityEngine.Rendering.TextureDimension}
   commentId: T:System.Collections.Generic.List{UnityEngine.Rendering.TextureDimension}
   parent: System.Collections.Generic
@@ -1031,12 +1453,18 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
+- uid: Mixture.MixtureUtils.SetTextureWithDimension*
+  commentId: Overload:Mixture.MixtureUtils.SetTextureWithDimension
+  name: SetTextureWithDimension
+  nameWithType: MixtureUtils.SetTextureWithDimension
+  fullName: Mixture.MixtureUtils.SetTextureWithDimension
+- uid: UnityEngine.Texture
+  commentId: T:UnityEngine.Texture
+  parent: UnityEngine
   isExternal: true
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
+  name: Texture
+  nameWithType: Texture
+  fullName: UnityEngine.Texture
 - uid: Mixture.MixtureUtils.DestroyGameObject*
   commentId: Overload:Mixture.MixtureUtils.DestroyGameObject
   name: DestroyGameObject
@@ -1075,3 +1503,80 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: Mixture.MixtureUtils.UpdateInputPortType*
+  commentId: Overload:Mixture.MixtureUtils.UpdateInputPortType
+  name: UpdateInputPortType
+  nameWithType: MixtureUtils.UpdateInputPortType
+  fullName: Mixture.MixtureUtils.UpdateInputPortType
+- uid: SerializableType
+  isExternal: true
+  name: SerializableType
+  nameWithType: SerializableType
+  fullName: SerializableType
+- uid: System.Collections.Generic.List{SerializableEdge}
+  commentId: T:System.Collections.Generic.List{SerializableEdge}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<SerializableEdge>
+  nameWithType: List<SerializableEdge>
+  fullName: System.Collections.Generic.List<SerializableEdge>
+  nameWithType.vb: List(Of SerializableEdge)
+  fullName.vb: System.Collections.Generic.List(Of SerializableEdge)
+  name.vb: List(Of SerializableEdge)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: SerializableEdge
+    name: SerializableEdge
+    nameWithType: SerializableEdge
+    fullName: SerializableEdge
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: SerializableEdge
+    name: SerializableEdge
+    nameWithType: SerializableEdge
+    fullName: SerializableEdge
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PortData
+  commentId: '!:PortData'
+  isExternal: true
+  name: PortData
+  nameWithType: PortData
+  fullName: PortData
+- uid: Mixture.MixtureUtils.SetupIsSRGB*
+  commentId: Overload:Mixture.MixtureUtils.SetupIsSRGB
+  name: SetupIsSRGB
+  nameWithType: MixtureUtils.SetupIsSRGB
+  fullName: Mixture.MixtureUtils.SetupIsSRGB
+- uid: Mixture.MixtureNode
+  commentId: T:Mixture.MixtureNode
+  parent: Mixture
+  name: MixtureNode
+  nameWithType: MixtureNode
+  fullName: Mixture.MixtureNode
+- uid: Mixture.MixtureGraph
+  commentId: T:Mixture.MixtureGraph
+  parent: Mixture
+  name: MixtureGraph
+  nameWithType: MixtureGraph
+  fullName: Mixture.MixtureGraph

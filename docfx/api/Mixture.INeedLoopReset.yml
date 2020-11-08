@@ -1,0 +1,72 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.INeedLoopReset
+  commentId: T:Mixture.INeedLoopReset
+  id: INeedLoopReset
+  parent: Mixture
+  children:
+  - Mixture.INeedLoopReset.PrepareNewIteration
+  langs:
+  - csharp
+  - vb
+  name: INeedLoopReset
+  nameWithType: INeedLoopReset
+  fullName: Mixture.INeedLoopReset
+  type: Interface
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: INeedLoopReset
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+    startLine: 18
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public interface INeedLoopReset
+    content.vb: Public Interface INeedLoopReset
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: Mixture.INeedLoopReset.PrepareNewIteration
+  commentId: M:Mixture.INeedLoopReset.PrepareNewIteration
+  id: PrepareNewIteration
+  parent: Mixture.INeedLoopReset
+  langs:
+  - csharp
+  - vb
+  name: PrepareNewIteration()
+  nameWithType: INeedLoopReset.PrepareNewIteration()
+  fullName: Mixture.INeedLoopReset.PrepareNewIteration()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: PrepareNewIteration
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+    startLine: 20
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: void PrepareNewIteration()
+    content.vb: Sub PrepareNewIteration
+  overload: Mixture.INeedLoopReset.PrepareNewIteration*
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.INeedLoopReset.PrepareNewIteration*
+  commentId: Overload:Mixture.INeedLoopReset.PrepareNewIteration
+  name: PrepareNewIteration
+  nameWithType: INeedLoopReset.PrepareNewIteration
+  fullName: Mixture.INeedLoopReset.PrepareNewIteration

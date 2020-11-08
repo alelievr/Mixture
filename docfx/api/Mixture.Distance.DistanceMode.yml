@@ -1,0 +1,145 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.Distance.DistanceMode
+  commentId: T:Mixture.Distance.DistanceMode
+  id: Distance.DistanceMode
+  parent: Mixture
+  children:
+  - Mixture.Distance.DistanceMode.Chebyshev
+  - Mixture.Distance.DistanceMode.Euclidian
+  - Mixture.Distance.DistanceMode.Manhattan
+  langs:
+  - csharp
+  - vb
+  name: Distance.DistanceMode
+  nameWithType: Distance.DistanceMode
+  fullName: Mixture.Distance.DistanceMode
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: DistanceMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 28
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public enum DistanceMode
+    content.vb: Public Enum DistanceMode
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.Distance.DistanceMode.Euclidian
+  commentId: F:Mixture.Distance.DistanceMode.Euclidian
+  id: Euclidian
+  parent: Mixture.Distance.DistanceMode
+  langs:
+  - csharp
+  - vb
+  name: Euclidian
+  nameWithType: Distance.DistanceMode.Euclidian
+  fullName: Mixture.Distance.DistanceMode.Euclidian
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Euclidian
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 30
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Euclidian = 0
+    return:
+      type: Mixture.Distance.DistanceMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.Distance.DistanceMode.Manhattan
+  commentId: F:Mixture.Distance.DistanceMode.Manhattan
+  id: Manhattan
+  parent: Mixture.Distance.DistanceMode
+  langs:
+  - csharp
+  - vb
+  name: Manhattan
+  nameWithType: Distance.DistanceMode.Manhattan
+  fullName: Mixture.Distance.DistanceMode.Manhattan
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Manhattan
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 31
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Manhattan = 1
+    return:
+      type: Mixture.Distance.DistanceMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.Distance.DistanceMode.Chebyshev
+  commentId: F:Mixture.Distance.DistanceMode.Chebyshev
+  id: Chebyshev
+  parent: Mixture.Distance.DistanceMode
+  langs:
+  - csharp
+  - vb
+  name: Chebyshev
+  nameWithType: Distance.DistanceMode.Chebyshev
+  fullName: Mixture.Distance.DistanceMode.Chebyshev
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Chebyshev
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 32
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Chebyshev = 2
+    return:
+      type: Mixture.Distance.DistanceMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.Distance.DistanceMode
+  commentId: T:Mixture.Distance.DistanceMode
+  parent: Mixture
+  name: Distance.DistanceMode
+  nameWithType: Distance.DistanceMode
+  fullName: Mixture.Distance.DistanceMode

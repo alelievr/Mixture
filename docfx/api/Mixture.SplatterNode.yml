@@ -6,31 +6,40 @@ items:
   parent: Mixture
   children:
   - Mixture.SplatterNode.blendOperator
+  - Mixture.SplatterNode.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
   - Mixture.SplatterNode.computeShaderResourcePath
+  - Mixture.SplatterNode.depthTest
   - Mixture.SplatterNode.Disable
   - Mixture.SplatterNode.Enable
-  - Mixture.SplatterNode.extent
   - Mixture.SplatterNode.fixedAngles
   - Mixture.SplatterNode.fixedScale
+  - Mixture.SplatterNode.goldenRatio
   - Mixture.SplatterNode.gridCram
+  - Mixture.SplatterNode.gridScale
   - Mixture.SplatterNode.gridShift
-  - Mixture.SplatterNode.gridSize
+  - Mixture.SplatterNode.inputDepth
   - Mixture.SplatterNode.inputTextures
+  - Mixture.SplatterNode.lambda
   - Mixture.SplatterNode.maxAngles
   - Mixture.SplatterNode.maxScale
   - Mixture.SplatterNode.maxSplatCount
   - Mixture.SplatterNode.minAngles
   - Mixture.SplatterNode.minScale
+  - Mixture.SplatterNode.mode
   - Mixture.SplatterNode.name
   - Mixture.SplatterNode.output
   - Mixture.SplatterNode.positionJitter
+  - Mixture.SplatterNode.positionOffset
   - Mixture.SplatterNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  - Mixture.SplatterNode.radius
+  - Mixture.SplatterNode.rotation
   - Mixture.SplatterNode.rotationMode
   - Mixture.SplatterNode.scaleMode
   - Mixture.SplatterNode.sequence
   - Mixture.SplatterNode.showDefaultInspector
   - Mixture.SplatterNode.stackPosition
   - Mixture.SplatterNode.supportedDimensions
+  - Mixture.SplatterNode.tempRenderTextureHasDepthBuffer
   langs:
   - csharp
   - vb
@@ -41,7 +50,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: SplatterNode
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
@@ -51,10 +60,14 @@ items:
   namespace: Mixture
   syntax:
     content: >-
+      [Documentation("\r\nDistribute a set of input textures based on parameter-based patterns.\r\nMost of the settings of this node are available in the inspector so don't hesitate to pin the node and tweak the parameters until you achieve your goal.\r\n\r\nNote that when you connect multiple textures in the \"Splat Textures\" port, they will be randomly selected at each splat operation.\r\nThe limit of different input textures you can connect is 16, after new textures will be ignored.\r\n\r\nWhen you generate the tiles, you can also choose to output the UVs of the tiles using the channel mode in the inspector, this can be useful to generate a noise based on these UVs.\r\n\r\nFor combining height based tiles, please use the **Height Tile** mode, this special mode will automatically combine the tiles based on their depth with a Z-Buffer.\r\nAll input height maps must use data > 0, every height value <= 0 will be discarded.\r\nIn **Height Tile** mode, this node will output in RG the UVs of the tiles, in B the height of the tile and in A a random value between 0 and 1.\r\nNote that to keep the depth buffer precision correct, the current max depth of a tile (value in texture + position in  the z axis) is clamped between -10000 and +10000.\r\n")]
+
       [Serializable]
 
       public class SplatterNode : ComputeShaderNode
     content.vb: >-
+      <Documentation(vbCrLf & "Distribute a set of input textures based on parameter-based patterns." & vbCrLf & "Most of the settings of this node are available in the inspector so don't hesitate to pin the node and tweak the parameters until you achieve your goal." & vbCrLf & vbCrLf & "Note that when you connect multiple textures in the ""Splat Textures"" port, they will be randomly selected at each splat operation." & vbCrLf & "The limit of different input textures you can connect is 16, after new textures will be ignored." & vbCrLf & vbCrLf & "When you generate the tiles, you can also choose to output the UVs of the tiles using the channel mode in the inspector, this can be useful to generate a noise based on these UVs." & vbCrLf & vbCrLf & "For combining height based tiles, please use the **Height Tile** mode, this special mode will automatically combine the tiles based on their depth with a Z-Buffer." & vbCrLf & "All input height maps must use data > 0, every height value <= 0 will be discarded." & vbCrLf & "In **Height Tile** mode, this node will output in RG the UVs of the tiles, in B the height of the tile and in A a random value between 0 and 1." & vbCrLf & "Note that to keep the depth buffer precision correct, the current max depth of a tile (value in texture + position in  the z axis) is clamped between -10000 and +10000." & vbCrLf)>
+
       <Serializable>
 
       Public Class SplatterNode
@@ -69,6 +82,7 @@ items:
   - Mixture.ComputeShaderNode.tempRenderTexture
   - Mixture.ComputeShaderNode.previewTexturePropertyName
   - Mixture.ComputeShaderNode.showOpenButton
+  - Mixture.ComputeShaderNode.tempRenderTextureHasMipmaps
   - Mixture.ComputeShaderNode.LoadComputeShader(System.String)
   - Mixture.ComputeShaderNode.canProcess
   - Mixture.ComputeShaderNode.ComputeIsValid
@@ -90,17 +104,20 @@ items:
   - Mixture.MixtureNode.beforeProcessSetup
   - Mixture.MixtureNode.afterProcessCleanup
   - Mixture.MixtureNode.showControlsOnHover
+  - Mixture.MixtureNode.needsInspector
   - Mixture.MixtureNode.temporaryMaterials
   - Mixture.MixtureNode.previewMode
   - Mixture.MixtureNode.previewMip
   - Mixture.MixtureNode.previewVisible
   - Mixture.MixtureNode.previewEV100
+  - Mixture.MixtureNode.previewSlice
+  - Mixture.MixtureNode.isPinned
   - Mixture.MixtureNode.recorder
   - Mixture.MixtureNode.OnNodeCreated
-  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  - Mixture.MixtureNode.GetTempTextureDimension
   - Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
   - Mixture.MixtureNode.Process
-  - Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
   - Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
   - Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
   - Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
@@ -108,9 +125,13 @@ items:
   - Mixture.MixtureNode.OnSettingsChanged
   - Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
   - Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
-  - Mixture.MixtureNode.GetMixtureDependencies
   - Mixture.MixtureNode.GetTempMaterial(System.String)
   attributes:
+  - type: Mixture.DocumentationAttribute
+    ctor: Mixture.DocumentationAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: "\r\nDistribute a set of input textures based on parameter-based patterns.\r\nMost of the settings of this node are available in the inspector so don't hesitate to pin the node and tweak the parameters until you achieve your goal.\r\n\r\nNote that when you connect multiple textures in the \"Splat Textures\" port, they will be randomly selected at each splat operation.\r\nThe limit of different input textures you can connect is 16, after new textures will be ignored.\r\n\r\nWhen you generate the tiles, you can also choose to output the UVs of the tiles using the channel mode in the inspector, this can be useful to generate a noise based on these UVs.\r\n\r\nFor combining height based tiles, please use the **Height Tile** mode, this special mode will automatically combine the tiles based on their depth with a Z-Buffer.\r\nAll input height maps must use data > 0, every height value <= 0 will be discarded.\r\nIn **Height Tile** mode, this node will output in RG the UVs of the tiles, in B the height of the tile and in A a random value between 0 and 1.\r\nNote that to keep the depth buffer precision correct, the current max depth of a tile (value in texture + position in  the z axis) is clamped between -10000 and +10000.\r\n"
   - type: System.SerializableAttribute
     ctor: System.SerializableAttribute.#ctor
     arguments: []
@@ -134,11 +155,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: inputTextures
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 33
+    startLine: 69
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -165,11 +186,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: output
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 36
+    startLine: 72
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -196,50 +217,64 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: maxSplatCount
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 38
+    startLine: 75
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
-    content: public int maxSplatCount
+    content: >-
+      [Range(1F, 1820F)]
+
+      public int maxSplatCount
     return:
       type: System.Int32
-    content.vb: Public maxSplatCount As Integer
+    content.vb: >-
+      <Range(1F, 1820F)>
+
+      Public maxSplatCount As Integer
+  attributes:
+  - type: UnityEngine.RangeAttribute
+    ctor: UnityEngine.RangeAttribute.#ctor(System.Single,System.Single)
+    arguments:
+    - type: System.Single
+      value: 1
+    - type: System.Single
+      value: 1820
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-- uid: Mixture.SplatterNode.extent
-  commentId: F:Mixture.SplatterNode.extent
-  id: extent
+- uid: Mixture.SplatterNode.mode
+  commentId: F:Mixture.SplatterNode.mode
+  id: mode
   parent: Mixture.SplatterNode
   langs:
   - csharp
   - vb
-  name: extent
-  nameWithType: SplatterNode.extent
-  fullName: Mixture.SplatterNode.extent
+  name: mode
+  nameWithType: SplatterNode.mode
+  fullName: Mixture.SplatterNode.mode
   type: Field
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
-    id: extent
+    id: mode
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 40
+    startLine: 77
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
-    content: public Vector2 extent
+    content: public SplatterNode.Mode mode
     return:
-      type: UnityEngine.Vector2
-    content.vb: Public extent As Vector2
+      type: Mixture.SplatterNode.Mode
+    content.vb: Public mode As SplatterNode.Mode
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -258,11 +293,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: sequence
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 42
+    startLine: 79
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -289,11 +324,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: stackPosition
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 46
+    startLine: 83
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -306,33 +341,33 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: Mixture.SplatterNode.gridSize
-  commentId: F:Mixture.SplatterNode.gridSize
-  id: gridSize
+- uid: Mixture.SplatterNode.gridScale
+  commentId: F:Mixture.SplatterNode.gridScale
+  id: gridScale
   parent: Mixture.SplatterNode
   langs:
   - csharp
   - vb
-  name: gridSize
-  nameWithType: SplatterNode.gridSize
-  fullName: Mixture.SplatterNode.gridSize
+  name: gridScale
+  nameWithType: SplatterNode.gridScale
+  fullName: Mixture.SplatterNode.gridScale
   type: Field
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
-    id: gridSize
+    id: gridScale
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 50
+    startLine: 87
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
-    content: public Vector2 gridSize
+    content: public Vector2 gridScale
     return:
       type: UnityEngine.Vector2
-    content.vb: Public gridSize As Vector2
+    content.vb: Public gridScale As Vector2
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -351,11 +386,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: gridCram
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 52
+    startLine: 89
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -382,11 +417,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: gridShift
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 54
+    startLine: 91
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -395,6 +430,175 @@ items:
     return:
       type: UnityEngine.Vector2
     content.vb: Public gridShift As Vector2
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.SplatterNode.lambda
+  commentId: F:Mixture.SplatterNode.lambda
+  id: lambda
+  parent: Mixture.SplatterNode
+  langs:
+  - csharp
+  - vb
+  name: lambda
+  nameWithType: SplatterNode.lambda
+  fullName: Mixture.SplatterNode.lambda
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: lambda
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 95
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Range(0F, 1F)]
+
+      public float lambda
+    return:
+      type: System.Single
+    content.vb: >-
+      <Range(0F, 1F)>
+
+      Public lambda As Single
+  attributes:
+  - type: UnityEngine.RangeAttribute
+    ctor: UnityEngine.RangeAttribute.#ctor(System.Single,System.Single)
+    arguments:
+    - type: System.Single
+      value: 0
+    - type: System.Single
+      value: 1
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.SplatterNode.rotation
+  commentId: F:Mixture.SplatterNode.rotation
+  id: rotation
+  parent: Mixture.SplatterNode
+  langs:
+  - csharp
+  - vb
+  name: rotation
+  nameWithType: SplatterNode.rotation
+  fullName: Mixture.SplatterNode.rotation
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: rotation
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 99
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public float rotation
+    return:
+      type: System.Single
+    content.vb: Public rotation As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.SplatterNode.radius
+  commentId: F:Mixture.SplatterNode.radius
+  id: radius
+  parent: Mixture.SplatterNode
+  langs:
+  - csharp
+  - vb
+  name: radius
+  nameWithType: SplatterNode.radius
+  fullName: Mixture.SplatterNode.radius
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: radius
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 101
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public float radius
+    return:
+      type: System.Single
+    content.vb: Public radius As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.SplatterNode.goldenRatio
+  commentId: F:Mixture.SplatterNode.goldenRatio
+  id: goldenRatio
+  parent: Mixture.SplatterNode
+  langs:
+  - csharp
+  - vb
+  name: goldenRatio
+  nameWithType: SplatterNode.goldenRatio
+  fullName: Mixture.SplatterNode.goldenRatio
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: goldenRatio
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 103
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public float goldenRatio
+    return:
+      type: System.Single
+    content.vb: Public goldenRatio As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.SplatterNode.positionOffset
+  commentId: F:Mixture.SplatterNode.positionOffset
+  id: positionOffset
+  parent: Mixture.SplatterNode
+  langs:
+  - csharp
+  - vb
+  name: positionOffset
+  nameWithType: SplatterNode.positionOffset
+  fullName: Mixture.SplatterNode.positionOffset
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: positionOffset
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 107
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public Vector3 positionOffset
+    return:
+      type: UnityEngine.Vector3
+    content.vb: Public positionOffset As Vector3
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -413,11 +617,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: positionJitter
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 57
+    startLine: 109
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -444,11 +648,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: rotationMode
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 60
+    startLine: 113
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -475,11 +679,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: fixedAngles
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 64
+    startLine: 115
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -506,11 +710,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: minAngles
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 66
+    startLine: 117
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -537,11 +741,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: maxAngles
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 68
+    startLine: 119
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -568,11 +772,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: scaleMode
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 70
+    startLine: 122
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -599,11 +803,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: fixedScale
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 73
+    startLine: 125
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -630,11 +834,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: minScale
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 75
+    startLine: 127
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -661,11 +865,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: maxScale
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 77
+    startLine: 129
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -692,11 +896,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: blendOperator
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 79
+    startLine: 132
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -705,6 +909,80 @@ items:
     return:
       type: Mixture.SplatterNode.Operator
     content.vb: Public blendOperator As SplatterNode.Operator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.SplatterNode.inputDepth
+  commentId: F:Mixture.SplatterNode.inputDepth
+  id: inputDepth
+  parent: Mixture.SplatterNode
+  langs:
+  - csharp
+  - vb
+  name: inputDepth
+  nameWithType: SplatterNode.inputDepth
+  fullName: Mixture.SplatterNode.inputDepth
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: inputDepth
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 135
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public SplatterNode.InputDepthChannel inputDepth
+    return:
+      type: Mixture.SplatterNode.InputDepthChannel
+    content.vb: Public inputDepth As SplatterNode.InputDepthChannel
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.SplatterNode.depthTest
+  commentId: F:Mixture.SplatterNode.depthTest
+  id: depthTest
+  parent: Mixture.SplatterNode
+  langs:
+  - csharp
+  - vb
+  name: depthTest
+  nameWithType: SplatterNode.depthTest
+  fullName: Mixture.SplatterNode.depthTest
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: depthTest
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 150
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Header("Output Channels")]
+
+      public CompareFunction depthTest
+    return:
+      type: UnityEngine.Rendering.CompareFunction
+    content.vb: >-
+      <Header("Output Channels")>
+
+      Public depthTest As CompareFunction
+  attributes:
+  - type: UnityEngine.HeaderAttribute
+    ctor: UnityEngine.HeaderAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Output Channels
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -723,11 +1001,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: name
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 81
+    startLine: 152
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -761,11 +1039,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: computeShaderResourcePath
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 82
+    startLine: 153
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -799,11 +1077,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: supportedDimensions
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 83
+    startLine: 154
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -837,11 +1115,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: showDefaultInspector
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 87
+    startLine: 158
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -861,6 +1139,82 @@ items:
   - Public
   - Overrides
   - ReadOnly
+- uid: Mixture.SplatterNode.tempRenderTextureHasDepthBuffer
+  commentId: P:Mixture.SplatterNode.tempRenderTextureHasDepthBuffer
+  id: tempRenderTextureHasDepthBuffer
+  parent: Mixture.SplatterNode
+  langs:
+  - csharp
+  - vb
+  name: tempRenderTextureHasDepthBuffer
+  nameWithType: SplatterNode.tempRenderTextureHasDepthBuffer
+  fullName: Mixture.SplatterNode.tempRenderTextureHasDepthBuffer
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: tempRenderTextureHasDepthBuffer
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 159
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected override bool tempRenderTextureHasDepthBuffer { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Protected Overrides ReadOnly Property tempRenderTextureHasDepthBuffer As Boolean
+  overridden: Mixture.ComputeShaderNode.tempRenderTextureHasDepthBuffer
+  overload: Mixture.SplatterNode.tempRenderTextureHasDepthBuffer*
+  modifiers.csharp:
+  - protected
+  - override
+  - get
+  modifiers.vb:
+  - Protected
+  - Overrides
+  - ReadOnly
+- uid: Mixture.SplatterNode.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
+  commentId: M:Mixture.SplatterNode.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
+  id: ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
+  parent: Mixture.SplatterNode
+  langs:
+  - csharp
+  - vb
+  name: ChangeOutputPortType(List<SerializableEdge>)
+  nameWithType: SplatterNode.ChangeOutputPortType(List<SerializableEdge>)
+  fullName: Mixture.SplatterNode.ChangeOutputPortType(System.Collections.Generic.List<SerializableEdge>)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: ChangeOutputPortType
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 230
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected IEnumerable<PortData> ChangeOutputPortType(List<SerializableEdge> edges)
+    parameters:
+    - id: edges
+      type: System.Collections.Generic.List{SerializableEdge}
+    return:
+      type: System.Collections.Generic.IEnumerable{PortData}
+    content.vb: Protected Function ChangeOutputPortType(edges As List(Of SerializableEdge)) As IEnumerable(Of PortData)
+  overload: Mixture.SplatterNode.ChangeOutputPortType*
+  nameWithType.vb: SplatterNode.ChangeOutputPortType(List(Of SerializableEdge))
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+  fullName.vb: Mixture.SplatterNode.ChangeOutputPortType(System.Collections.Generic.List(Of SerializableEdge))
+  name.vb: ChangeOutputPortType(List(Of SerializableEdge))
 - uid: Mixture.SplatterNode.Enable
   commentId: M:Mixture.SplatterNode.Enable
   id: Enable
@@ -875,11 +1229,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: Enable
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 148
+    startLine: 241
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -908,11 +1262,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ProcessNode
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 159
+    startLine: 252
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -946,11 +1300,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: Disable
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
-    startLine: 265
+    startLine: 406
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -1020,6 +1374,12 @@ references:
   name: showOpenButton
   nameWithType: ComputeShaderNode.showOpenButton
   fullName: Mixture.ComputeShaderNode.showOpenButton
+- uid: Mixture.ComputeShaderNode.tempRenderTextureHasMipmaps
+  commentId: P:Mixture.ComputeShaderNode.tempRenderTextureHasMipmaps
+  parent: Mixture.ComputeShaderNode
+  name: tempRenderTextureHasMipmaps
+  nameWithType: ComputeShaderNode.tempRenderTextureHasMipmaps
+  fullName: Mixture.ComputeShaderNode.tempRenderTextureHasMipmaps
 - uid: Mixture.ComputeShaderNode.LoadComputeShader(System.String)
   commentId: M:Mixture.ComputeShaderNode.LoadComputeShader(System.String)
   parent: Mixture.ComputeShaderNode
@@ -1606,6 +1966,12 @@ references:
   name: showControlsOnHover
   nameWithType: MixtureNode.showControlsOnHover
   fullName: Mixture.MixtureNode.showControlsOnHover
+- uid: Mixture.MixtureNode.needsInspector
+  commentId: P:Mixture.MixtureNode.needsInspector
+  parent: Mixture.MixtureNode
+  name: needsInspector
+  nameWithType: MixtureNode.needsInspector
+  fullName: Mixture.MixtureNode.needsInspector
 - uid: Mixture.MixtureNode.temporaryMaterials
   commentId: F:Mixture.MixtureNode.temporaryMaterials
   parent: Mixture.MixtureNode
@@ -1636,6 +2002,18 @@ references:
   name: previewEV100
   nameWithType: MixtureNode.previewEV100
   fullName: Mixture.MixtureNode.previewEV100
+- uid: Mixture.MixtureNode.previewSlice
+  commentId: F:Mixture.MixtureNode.previewSlice
+  parent: Mixture.MixtureNode
+  name: previewSlice
+  nameWithType: MixtureNode.previewSlice
+  fullName: Mixture.MixtureNode.previewSlice
+- uid: Mixture.MixtureNode.isPinned
+  commentId: F:Mixture.MixtureNode.isPinned
+  parent: Mixture.MixtureNode
+  name: isPinned
+  nameWithType: MixtureNode.isPinned
+  fullName: Mixture.MixtureNode.isPinned
 - uid: Mixture.MixtureNode.recorder
   commentId: P:Mixture.MixtureNode.recorder
   parent: Mixture.MixtureNode
@@ -1670,15 +2048,15 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
-  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
   parent: Mixture.MixtureNode
   isExternal: true
-  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
-  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
-  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean)
+  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean, UnityEngine.CustomRenderTextureUpdateMode, System.Boolean)
   spec.csharp:
-  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
     name: UpdateTempRenderTexture
     nameWithType: MixtureNode.UpdateTempRenderTexture
     fullName: Mixture.MixtureNode.UpdateTempRenderTexture
@@ -1697,6 +2075,22 @@ references:
     name: Boolean
     nameWithType: Boolean
     fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.CustomRenderTextureUpdateMode
+    name: CustomRenderTextureUpdateMode
+    nameWithType: CustomRenderTextureUpdateMode
+    fullName: UnityEngine.CustomRenderTextureUpdateMode
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -1710,7 +2104,7 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
     name: UpdateTempRenderTexture
     nameWithType: MixtureNode.UpdateTempRenderTexture
     fullName: Mixture.MixtureNode.UpdateTempRenderTexture
@@ -1738,6 +2132,50 @@ references:
     nameWithType: Boolean
     fullName: System.Boolean
     isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.CustomRenderTextureUpdateMode
+    name: CustomRenderTextureUpdateMode
+    nameWithType: CustomRenderTextureUpdateMode
+    fullName: UnityEngine.CustomRenderTextureUpdateMode
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.GetTempTextureDimension
+  commentId: M:Mixture.MixtureNode.GetTempTextureDimension
+  parent: Mixture.MixtureNode
+  name: GetTempTextureDimension()
+  nameWithType: MixtureNode.GetTempTextureDimension()
+  fullName: Mixture.MixtureNode.GetTempTextureDimension()
+  spec.csharp:
+  - uid: Mixture.MixtureNode.GetTempTextureDimension
+    name: GetTempTextureDimension
+    nameWithType: MixtureNode.GetTempTextureDimension
+    fullName: Mixture.MixtureNode.GetTempTextureDimension
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.GetTempTextureDimension
+    name: GetTempTextureDimension
+    nameWithType: MixtureNode.GetTempTextureDimension
+    fullName: Mixture.MixtureNode.GetTempTextureDimension
+  - name: (
+    nameWithType: (
+    fullName: (
   - name: )
     nameWithType: )
     fullName: )
@@ -1805,45 +2243,6 @@ references:
   - name: (
     nameWithType: (
     fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  commentId: M:Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  parent: Mixture.MixtureNode
-  isExternal: true
-  name: AddObjectToGraph(Object)
-  nameWithType: MixtureNode.AddObjectToGraph(Object)
-  fullName: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  spec.csharp:
-  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-    name: AddObjectToGraph
-    nameWithType: MixtureNode.AddObjectToGraph
-    fullName: Mixture.MixtureNode.AddObjectToGraph
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Object
-    name: Object
-    nameWithType: Object
-    fullName: UnityEngine.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-    name: AddObjectToGraph
-    nameWithType: MixtureNode.AddObjectToGraph
-    fullName: Mixture.MixtureNode.AddObjectToGraph
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Object
-    name: Object
-    nameWithType: Object
-    fullName: UnityEngine.Object
-    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
@@ -2182,34 +2581,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.MixtureNode.GetMixtureDependencies
-  commentId: M:Mixture.MixtureNode.GetMixtureDependencies
-  parent: Mixture.MixtureNode
-  name: GetMixtureDependencies()
-  nameWithType: MixtureNode.GetMixtureDependencies()
-  fullName: Mixture.MixtureNode.GetMixtureDependencies()
-  spec.csharp:
-  - uid: Mixture.MixtureNode.GetMixtureDependencies
-    name: GetMixtureDependencies
-    nameWithType: MixtureNode.GetMixtureDependencies
-    fullName: Mixture.MixtureNode.GetMixtureDependencies
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.MixtureNode.GetMixtureDependencies
-    name: GetMixtureDependencies
-    nameWithType: MixtureNode.GetMixtureDependencies
-    fullName: Mixture.MixtureNode.GetMixtureDependencies
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: Mixture.MixtureNode.GetTempMaterial(System.String)
   commentId: M:Mixture.MixtureNode.GetTempMaterial(System.String)
   parent: Mixture.MixtureNode
@@ -2364,13 +2735,12 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
-- uid: UnityEngine.Vector2
-  commentId: T:UnityEngine.Vector2
-  parent: UnityEngine
-  isExternal: true
-  name: Vector2
-  nameWithType: Vector2
-  fullName: UnityEngine.Vector2
+- uid: Mixture.SplatterNode.Mode
+  commentId: T:Mixture.SplatterNode.Mode
+  parent: Mixture
+  name: SplatterNode.Mode
+  nameWithType: SplatterNode.Mode
+  fullName: Mixture.SplatterNode.Mode
 - uid: Mixture.SplatterNode.Sequence
   commentId: T:Mixture.SplatterNode.Sequence
   parent: Mixture
@@ -2384,6 +2754,20 @@ references:
   name: Vector3
   nameWithType: Vector3
   fullName: UnityEngine.Vector3
+- uid: UnityEngine.Vector2
+  commentId: T:UnityEngine.Vector2
+  parent: UnityEngine
+  isExternal: true
+  name: Vector2
+  nameWithType: Vector2
+  fullName: UnityEngine.Vector2
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
 - uid: Mixture.SplatterNode.RotationMode
   commentId: T:Mixture.SplatterNode.RotationMode
   parent: Mixture
@@ -2402,6 +2786,25 @@ references:
   name: SplatterNode.Operator
   nameWithType: SplatterNode.Operator
   fullName: Mixture.SplatterNode.Operator
+- uid: Mixture.SplatterNode.InputDepthChannel
+  commentId: T:Mixture.SplatterNode.InputDepthChannel
+  parent: Mixture
+  name: SplatterNode.InputDepthChannel
+  nameWithType: SplatterNode.InputDepthChannel
+  fullName: Mixture.SplatterNode.InputDepthChannel
+- uid: UnityEngine.Rendering.CompareFunction
+  commentId: T:UnityEngine.Rendering.CompareFunction
+  parent: UnityEngine.Rendering
+  isExternal: true
+  name: CompareFunction
+  nameWithType: CompareFunction
+  fullName: UnityEngine.Rendering.CompareFunction
+- uid: UnityEngine.Rendering
+  commentId: N:UnityEngine.Rendering
+  isExternal: true
+  name: UnityEngine.Rendering
+  nameWithType: UnityEngine.Rendering
+  fullName: UnityEngine.Rendering
 - uid: Mixture.ComputeShaderNode.name
   commentId: P:Mixture.ComputeShaderNode.name
   parent: Mixture.ComputeShaderNode
@@ -2502,6 +2905,149 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: Mixture.ComputeShaderNode.tempRenderTextureHasDepthBuffer
+  commentId: P:Mixture.ComputeShaderNode.tempRenderTextureHasDepthBuffer
+  parent: Mixture.ComputeShaderNode
+  name: tempRenderTextureHasDepthBuffer
+  nameWithType: ComputeShaderNode.tempRenderTextureHasDepthBuffer
+  fullName: Mixture.ComputeShaderNode.tempRenderTextureHasDepthBuffer
+- uid: Mixture.SplatterNode.tempRenderTextureHasDepthBuffer*
+  commentId: Overload:Mixture.SplatterNode.tempRenderTextureHasDepthBuffer
+  name: tempRenderTextureHasDepthBuffer
+  nameWithType: SplatterNode.tempRenderTextureHasDepthBuffer
+  fullName: Mixture.SplatterNode.tempRenderTextureHasDepthBuffer
+- uid: Mixture.SplatterNode.ChangeOutputPortType*
+  commentId: Overload:Mixture.SplatterNode.ChangeOutputPortType
+  name: ChangeOutputPortType
+  nameWithType: SplatterNode.ChangeOutputPortType
+  fullName: Mixture.SplatterNode.ChangeOutputPortType
+- uid: System.Collections.Generic.List{SerializableEdge}
+  commentId: T:System.Collections.Generic.List{SerializableEdge}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<SerializableEdge>
+  nameWithType: List<SerializableEdge>
+  fullName: System.Collections.Generic.List<SerializableEdge>
+  nameWithType.vb: List(Of SerializableEdge)
+  fullName.vb: System.Collections.Generic.List(Of SerializableEdge)
+  name.vb: List(Of SerializableEdge)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: SerializableEdge
+    name: SerializableEdge
+    nameWithType: SerializableEdge
+    fullName: SerializableEdge
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: SerializableEdge
+    name: SerializableEdge
+    nameWithType: SerializableEdge
+    fullName: SerializableEdge
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{PortData}
+  commentId: T:System.Collections.Generic.IEnumerable{PortData}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<PortData>
+  nameWithType: IEnumerable<PortData>
+  fullName: System.Collections.Generic.IEnumerable<PortData>
+  nameWithType.vb: IEnumerable(Of PortData)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of PortData)
+  name.vb: IEnumerable(Of PortData)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PortData
+    name: PortData
+    nameWithType: PortData
+    fullName: PortData
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PortData
+    name: PortData
+    nameWithType: PortData
+    fullName: PortData
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: Mixture.ComputeShaderNode.Enable
   commentId: M:Mixture.ComputeShaderNode.Enable
   parent: Mixture.ComputeShaderNode
@@ -2586,12 +3132,6 @@ references:
   name: CommandBuffer
   nameWithType: CommandBuffer
   fullName: UnityEngine.Rendering.CommandBuffer
-- uid: UnityEngine.Rendering
-  commentId: N:UnityEngine.Rendering
-  isExternal: true
-  name: UnityEngine.Rendering
-  nameWithType: UnityEngine.Rendering
-  fullName: UnityEngine.Rendering
 - uid: Mixture.ComputeShaderNode.Disable
   commentId: M:Mixture.ComputeShaderNode.Disable
   parent: Mixture.ComputeShaderNode

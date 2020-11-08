@@ -1,0 +1,271 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Shader Nodes </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Shader Nodes ">
+    <meta name="generator" content="docfx 2.45.1.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="shader-nodes">Shader Nodes</h1>
+
+<p>In Mixture, Shader Nodes are nodes that contains a single shader and a single output texture. Their behavior is really simple: they execute the shader on a quad with the current resolution of the node.</p>
+<p>Note that the shader must be compatible with <a href="https://docs.unity3d.com/Manual/class-CustomRenderTexture.html">Custom Render Texture</a> to be valid.</p>
+<h2 id="create-a-simple-shader-node">Create a simple Shader Node</h2>
+<p>The Shader node allow you to reference a shader and execute it. By default when creating a &quot;Shader Node&quot;, the shader is set to None and do nothing.</p>
+<p><img src="Images/2020-09-17-23-08-21.png" alt=""></p>
+<p>Click the &quot;New Shader&quot; button to create either a new ShaderGraph or text shader compatible with this node.</p>
+<p>Alternatively you can create the shader in the context menu with &quot;Assets/Create/Mixture/Fixed Shader&quot; or &quot;Fixed Shader Graph&quot; for the graph variant.</p>
+<p>This node is perfect to prototype something or if you need a node that you'll only use in a single graph.</p>
+<p>Note that all the properties you expose in the ShaderGraph/text shader are directly reflected to this node, so it's easy to integrate in the graph.</p>
+<p>Example with the HSV shader:<br>
+<img src="Images/2020-09-17-23-18-50.png" alt=""></p>
+<h2 id="shader-advanced-use-cases">Shader Advanced Use Cases</h2>
+<p>When you create your shader for a Shader Node, you have some extra features that you can use to help you creating a good node.</p>
+<h3 id="expose-a-property-only-visible-in-the-inspector">Expose a property only visible in the inspector</h3>
+<p>In ShaderGraph, if you prefix a property with <code>[Inspector]</code> then you can make this property only show in the inspector instead of in the node GUI. As you can see in this example with the <strong>Rectangles</strong> shader node, in the ShaderGraph, we have Scale and Offset with the inspector tag, and these properties are only displayed in the inspector.<br>
+<img src="Images/2020-10-01-00-46-35.png" alt=""></p>
+<p>This feature also exist in hand-written shader with this syntax:</p>
+<pre><code class="lang-hlsl">		[ShowInInspector]_Property_(&quot;Display Name&quot;, Int) = 42
+</code></pre>
+<h3 id="uv-with-2d-3d-and-cube-textures">UV with 2D, 3D and Cube textures</h3>
+<p>When you create a node compatible with every kind of texture it can be complicated to deal with UVs for 2D, 3D and cubemap textures.</p>
+<p>This is why we added the UV/Direction node in ShaderGraph:</p>
+<p><img src="Images/2020-10-01-00-52-05.png" alt=""></p>
+<p>It have different behavior based on the dimension of the current custom render texture executed:</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2D</td>
+<td>standard fullscreen UV between 0 and 1 in x and y and 0.5 constant in z</td>
+</tr>
+<tr>
+<td>3D</td>
+<td>same as 2D for x and y but z contains the current 3D texture slice between 0 and 1</td>
+</tr>
+<tr>
+<td>Cube</td>
+<td>contains the direction vector and can be directly used to sample a cubemap</td>
+</tr>
+</tbody>
+</table>
+<p>There is not really an equivalent for hand-written shader but there is this function which allows you to sample a texture independently from the dimension:</p>
+<pre><code class="lang-hlsl">TEXTURE_SAMPLER_X(_Source);
+...
+
+float4 mixture (v2f_customrendertexture i) : SV_Target
+{
+	return SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
+}
+</code></pre>
+<p>This is a valid code that will sample a 2D, 3D or cube texture and write it to the 2D, 3D or cube output render target. Note that you need to include <code>Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc</code> to access these macros.</p>
+<h3 id="expose-a-texture-with-multiple-dimensions">Expose a Texture with multiple dimensions</h3>
+<p>In ShaderLab and ShaderGraph, to expose a texture you must specify a Dimension and when you create a shader node compatible with multiple dimension you need to declare each texture one time per supported dimension like this:</p>
+<pre><code class="lang-hlsl">_Source_2D(&quot;Source&quot;, 2D) = &quot;black&quot; {}
+_Source_3D(&quot;Source&quot;, 3D) = &quot;black&quot; {}
+_Source_Cube(&quot;Source&quot;, Cube) = &quot;black&quot; {}
+</code></pre>
+<p>You then obviously don't want to display all those properties on the node, you only want to show the one that are relevant for your current dimension. You can achieve this if you add the dimension as a suffix in the reference name of the property just like above.</p>
+<p>In ShaderGraph it's done like this:</p>
+<p><img src="Images/2020-10-01-01-03-08.png" alt=""></p>
+<p>And the result is a node that update it's input texture type based on the target dimension: (notice the port color change)
+<img src="Images/2020-10-01-01-04-46.png" alt=""></p>
+<h2 id="c-shader-node">C# Shader Node</h2>
+<p>If you want to create a true node, accessible from the node creation menu that you can reuse very often in any graph you want, then you'll have to create a C# version of the node. To create the C# template file go to &quot;Assets/Create/Mixture/C# Fixed Shader Node&quot;</p>
+<p><img src="Images/2020-09-17-23-06-04.png" alt=""></p>
+<p>The file created will look like this</p>
+<pre><code class="lang-CSharp">using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using GraphProcessor;
+using System.Linq;
+
+namespace Mixture
+{
+	[System.Serializable, NodeMenuItem(&quot;Custom/MyNode&quot;)]
+	public class MyNode : FixedShaderNode
+	{
+		public override string name =&gt; &quot;MyNode&quot;;
+
+		public override string shaderName =&gt; &quot;Hidden/Mixture/MyNode&quot;;
+
+		public override bool displayMaterialInspector =&gt; true;
+
+		// Enumerate the list of material properties that you don't want to be turned into a connectable port.
+		protected override IEnumerable&lt;string&gt; filteredOutProperties =&gt; new string[]{};
+
+		// Override this if you node is not compatible with all dimensions
+		// public override List&lt;OutputDimension&gt; supportedDimensions =&gt; new List&lt;OutputDimension&gt;() {
+		// 	OutputDimension.Texture2D,
+		// 	OutputDimension.Texture3D,
+		// 	OutputDimension.CubeMap,
+		// };
+	}
+}
+</code></pre>
+<p>Technically you only have to change the <code>shaderName</code> property to the name of your shader (for ShaderGraph it's <code>Shader Graphs/name of your graph</code> by default) to get your node working. But there are probably a couple of other things you'll need to change, so here's the list of properties you can change and how it will affect the node:</p>
+<table>
+<thead>
+<tr>
+<th>property</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NodeMenuItem(&quot;Custom/MyNode&quot;)</td>
+<td>The path of your node in the create menu</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name of the shader in the graph</td>
+</tr>
+<tr>
+<td>displayMaterialInspector</td>
+<td>Do you use the default material inspector (if you don't have a custom node view, leave true)</td>
+</tr>
+<tr>
+<td>filteredOutProperties</td>
+<td>List of the shader properties that you don't want to show as ports (by default all shader properties are available as a node port, even enums)</td>
+</tr>
+<tr>
+<td>supportedDimensions</td>
+<td>List of the supported dimensions by your node.</td>
+</tr>
+<tr>
+<td>defaultRTSettings</td>
+<td>override the default settings of the node.</td>
+</tr>
+</tbody>
+</table>
+<p>Note that if you node only support 2D, you'll need to add this bit of code:</p>
+<pre><code class="lang-CSharp">protected override MixtureRTSettings defaultRTSettings
+{
+    get {
+        var rts = MixtureRTSettings.defaultValue;
+        rts.dimension = OutputDimension.Texture2D;
+        return rts;
+    }
+}
+</code></pre>
+<p>It prevents the node to take the current graph texture dimension as output (i.e if you are editing a cubemap graph but want to use a normal rotate node (only compatible with 2D) without this code, the node will be executed on a cubemap instead of a texture 2D).</p>
+<h2 id="node-documentation">Node Documentation</h2>
+<p>A node can be documented at different levels:</p>
+<p>The first is shader documentation, add a tooltip drawer on your shader properties like this <code>[Tooltip(This input does something)]</code>. Note that the same attribute exists in C# too.
+The second is C# documentation, it's done with a <code>[Documentation]</code> attribute that supports markdown, example:</p>
+<pre><code class="lang-CSharp">	[Documentation(@&quot;
+Perform an addition with `source A`, `source B` and Color and writes the result to output like so:
+``
+_Output = _SourceA + _SourceB + _Value;
+``
+&quot;)]
+</code></pre>
+<p>You can place this attribute directly on the node class.</p>
+<p>That's all! A script that generates the documentation from the tooltips and Documentation attribute will update the doc website automatically.</p>
+<h2 id="contributing">Contributing</h2>
+<p>If you think your node could have it's place in the Mixture package, then let us know! <a href="https://github.com/alelievr/Mixture/pulls">create a pull request</a> and we'll review your work, but don't forget the documentation :)</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/alelievr/Mixture/blob/master/docs/docfx/manual/Documentation~/ShaderNodes.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>
