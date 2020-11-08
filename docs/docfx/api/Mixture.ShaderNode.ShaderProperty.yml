@@ -1,0 +1,310 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.ShaderNode.ShaderProperty
+  commentId: T:Mixture.ShaderNode.ShaderProperty
+  id: ShaderNode.ShaderProperty
+  parent: Mixture
+  children:
+  - Mixture.ShaderNode.ShaderProperty.displayName
+  - Mixture.ShaderNode.ShaderProperty.referenceName
+  - Mixture.ShaderNode.ShaderProperty.tooltip
+  - Mixture.ShaderNode.ShaderProperty.type
+  langs:
+  - csharp
+  - vb
+  name: ShaderNode.ShaderProperty
+  nameWithType: ShaderNode.ShaderProperty
+  fullName: Mixture.ShaderNode.ShaderProperty
+  type: Struct
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: ShaderProperty
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
+    startLine: 22
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Serializable]
+
+      public struct ShaderProperty
+    content.vb: >-
+      <Serializable>
+
+      Public Structure ShaderProperty
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - struct
+  modifiers.vb:
+  - Public
+  - Structure
+- uid: Mixture.ShaderNode.ShaderProperty.displayName
+  commentId: F:Mixture.ShaderNode.ShaderProperty.displayName
+  id: displayName
+  parent: Mixture.ShaderNode.ShaderProperty
+  langs:
+  - csharp
+  - vb
+  name: displayName
+  nameWithType: ShaderNode.ShaderProperty.displayName
+  fullName: Mixture.ShaderNode.ShaderProperty.displayName
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: displayName
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
+    startLine: 25
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public string displayName
+    return:
+      type: System.String
+    content.vb: Public displayName As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.ShaderNode.ShaderProperty.referenceName
+  commentId: F:Mixture.ShaderNode.ShaderProperty.referenceName
+  id: referenceName
+  parent: Mixture.ShaderNode.ShaderProperty
+  langs:
+  - csharp
+  - vb
+  name: referenceName
+  nameWithType: ShaderNode.ShaderProperty.referenceName
+  fullName: Mixture.ShaderNode.ShaderProperty.referenceName
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: referenceName
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
+    startLine: 26
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public string referenceName
+    return:
+      type: System.String
+    content.vb: Public referenceName As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.ShaderNode.ShaderProperty.tooltip
+  commentId: F:Mixture.ShaderNode.ShaderProperty.tooltip
+  id: tooltip
+  parent: Mixture.ShaderNode.ShaderProperty
+  langs:
+  - csharp
+  - vb
+  name: tooltip
+  nameWithType: ShaderNode.ShaderProperty.tooltip
+  fullName: Mixture.ShaderNode.ShaderProperty.tooltip
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: tooltip
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
+    startLine: 27
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public string tooltip
+    return:
+      type: System.String
+    content.vb: Public tooltip As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.ShaderNode.ShaderProperty.type
+  commentId: F:Mixture.ShaderNode.ShaderProperty.type
+  id: type
+  parent: Mixture.ShaderNode.ShaderProperty
+  langs:
+  - csharp
+  - vb
+  name: type
+  nameWithType: ShaderNode.ShaderProperty.type
+  fullName: Mixture.ShaderNode.ShaderProperty.type
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: type
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs
+    startLine: 28
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public SerializableType type
+    return:
+      type: SerializableType
+    content.vb: Public type As SerializableType
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: ValueType.Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: SerializableType
+  isExternal: true
+  name: SerializableType
+  nameWithType: SerializableType
+  fullName: SerializableType

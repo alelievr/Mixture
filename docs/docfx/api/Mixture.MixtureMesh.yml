@@ -1,0 +1,183 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.MixtureMesh
+  commentId: T:Mixture.MixtureMesh
+  id: MixtureMesh
+  parent: Mixture
+  children:
+  - Mixture.MixtureMesh.Clone
+  - Mixture.MixtureMesh.localToWorld
+  - Mixture.MixtureMesh.mesh
+  langs:
+  - csharp
+  - vb
+  name: MixtureMesh
+  nameWithType: MixtureMesh
+  fullName: Mixture.MixtureMesh
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureMesh.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: MixtureMesh
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureMesh.cs
+    startLine: 6
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public class MixtureMesh
+    content.vb: Public Class MixtureMesh
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.MixtureMesh.mesh
+  commentId: F:Mixture.MixtureMesh.mesh
+  id: mesh
+  parent: Mixture.MixtureMesh
+  langs:
+  - csharp
+  - vb
+  name: mesh
+  nameWithType: MixtureMesh.mesh
+  fullName: Mixture.MixtureMesh.mesh
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureMesh.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: mesh
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureMesh.cs
+    startLine: 8
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public Mesh mesh
+    return:
+      type: UnityEngine.Mesh
+    content.vb: Public mesh As Mesh
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureMesh.localToWorld
+  commentId: F:Mixture.MixtureMesh.localToWorld
+  id: localToWorld
+  parent: Mixture.MixtureMesh
+  langs:
+  - csharp
+  - vb
+  name: localToWorld
+  nameWithType: MixtureMesh.localToWorld
+  fullName: Mixture.MixtureMesh.localToWorld
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureMesh.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: localToWorld
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureMesh.cs
+    startLine: 9
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public Matrix4x4 localToWorld
+    return:
+      type: UnityEngine.Matrix4x4
+    content.vb: Public localToWorld As Matrix4x4
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureMesh.Clone
+  commentId: M:Mixture.MixtureMesh.Clone
+  id: Clone
+  parent: Mixture.MixtureMesh
+  langs:
+  - csharp
+  - vb
+  name: Clone()
+  nameWithType: MixtureMesh.Clone()
+  fullName: Mixture.MixtureMesh.Clone()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureMesh.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Clone
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureMesh.cs
+    startLine: 11
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public MixtureMesh Clone()
+    return:
+      type: Mixture.MixtureMesh
+    content.vb: Public Function Clone As MixtureMesh
+  overload: Mixture.MixtureMesh.Clone*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEngine.Mesh
+  commentId: T:UnityEngine.Mesh
+  parent: UnityEngine
+  isExternal: true
+  name: Mesh
+  nameWithType: Mesh
+  fullName: UnityEngine.Mesh
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: UnityEngine.Matrix4x4
+  commentId: T:UnityEngine.Matrix4x4
+  parent: UnityEngine
+  isExternal: true
+  name: Matrix4x4
+  nameWithType: Matrix4x4
+  fullName: UnityEngine.Matrix4x4
+- uid: Mixture.MixtureMesh.Clone*
+  commentId: Overload:Mixture.MixtureMesh.Clone
+  name: Clone
+  nameWithType: MixtureMesh.Clone
+  fullName: Mixture.MixtureMesh.Clone
+- uid: Mixture.MixtureMesh
+  commentId: T:Mixture.MixtureMesh
+  parent: Mixture
+  name: MixtureMesh
+  nameWithType: MixtureMesh
+  fullName: Mixture.MixtureMesh

@@ -1,0 +1,443 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.NodeInspectorSettingsPopupWindow
+  commentId: T:Mixture.NodeInspectorSettingsPopupWindow
+  id: NodeInspectorSettingsPopupWindow
+  parent: Mixture
+  children:
+  - Mixture.NodeInspectorSettingsPopupWindow.#ctor(Mixture.MixtureNodeInspectorObjectEditor)
+  - Mixture.NodeInspectorSettingsPopupWindow.GetWindowSize
+  - Mixture.NodeInspectorSettingsPopupWindow.height
+  - Mixture.NodeInspectorSettingsPopupWindow.OnGUI(UnityEngine.Rect)
+  - Mixture.NodeInspectorSettingsPopupWindow.width
+  langs:
+  - csharp
+  - vb
+  name: NodeInspectorSettingsPopupWindow
+  nameWithType: NodeInspectorSettingsPopupWindow
+  fullName: Mixture.NodeInspectorSettingsPopupWindow
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/NodeInspectorSettingsPopupWindow.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: NodeInspectorSettingsPopupWindow
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/NodeInspectorSettingsPopupWindow.cs
+    startLine: 7
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: 'public class NodeInspectorSettingsPopupWindow : PopupWindowContent'
+    content.vb: >-
+      Public Class NodeInspectorSettingsPopupWindow
+          Inherits PopupWindowContent
+  inheritance:
+  - System.Object
+  - UnityEditor.PopupWindowContent
+  inheritedMembers:
+  - UnityEditor.PopupWindowContent.OnOpen
+  - UnityEditor.PopupWindowContent.OnClose
+  - UnityEditor.PopupWindowContent.editorWindow
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.NodeInspectorSettingsPopupWindow.width
+  commentId: F:Mixture.NodeInspectorSettingsPopupWindow.width
+  id: width
+  parent: Mixture.NodeInspectorSettingsPopupWindow
+  langs:
+  - csharp
+  - vb
+  name: width
+  nameWithType: NodeInspectorSettingsPopupWindow.width
+  fullName: Mixture.NodeInspectorSettingsPopupWindow.width
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/NodeInspectorSettingsPopupWindow.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: width
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/NodeInspectorSettingsPopupWindow.cs
+    startLine: 11
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static readonly int width
+    return:
+      type: System.Int32
+    content.vb: Public Shared ReadOnly width As Integer
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.NodeInspectorSettingsPopupWindow.height
+  commentId: F:Mixture.NodeInspectorSettingsPopupWindow.height
+  id: height
+  parent: Mixture.NodeInspectorSettingsPopupWindow
+  langs:
+  - csharp
+  - vb
+  name: height
+  nameWithType: NodeInspectorSettingsPopupWindow.height
+  fullName: Mixture.NodeInspectorSettingsPopupWindow.height
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/NodeInspectorSettingsPopupWindow.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: height
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/NodeInspectorSettingsPopupWindow.cs
+    startLine: 12
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static readonly int height
+    return:
+      type: System.Int32
+    content.vb: Public Shared ReadOnly height As Integer
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: Mixture.NodeInspectorSettingsPopupWindow.GetWindowSize
+  commentId: M:Mixture.NodeInspectorSettingsPopupWindow.GetWindowSize
+  id: GetWindowSize
+  parent: Mixture.NodeInspectorSettingsPopupWindow
+  langs:
+  - csharp
+  - vb
+  name: GetWindowSize()
+  nameWithType: NodeInspectorSettingsPopupWindow.GetWindowSize()
+  fullName: Mixture.NodeInspectorSettingsPopupWindow.GetWindowSize()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/NodeInspectorSettingsPopupWindow.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetWindowSize
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/NodeInspectorSettingsPopupWindow.cs
+    startLine: 14
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public override Vector2 GetWindowSize()
+    return:
+      type: UnityEngine.Vector2
+    content.vb: Public Overrides Function GetWindowSize As Vector2
+  overridden: UnityEditor.PopupWindowContent.GetWindowSize
+  overload: Mixture.NodeInspectorSettingsPopupWindow.GetWindowSize*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: Mixture.NodeInspectorSettingsPopupWindow.#ctor(Mixture.MixtureNodeInspectorObjectEditor)
+  commentId: M:Mixture.NodeInspectorSettingsPopupWindow.#ctor(Mixture.MixtureNodeInspectorObjectEditor)
+  id: '#ctor(Mixture.MixtureNodeInspectorObjectEditor)'
+  parent: Mixture.NodeInspectorSettingsPopupWindow
+  langs:
+  - csharp
+  - vb
+  name: NodeInspectorSettingsPopupWindow(MixtureNodeInspectorObjectEditor)
+  nameWithType: NodeInspectorSettingsPopupWindow.NodeInspectorSettingsPopupWindow(MixtureNodeInspectorObjectEditor)
+  fullName: Mixture.NodeInspectorSettingsPopupWindow.NodeInspectorSettingsPopupWindow(Mixture.MixtureNodeInspectorObjectEditor)
+  type: Constructor
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/NodeInspectorSettingsPopupWindow.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: .ctor
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/NodeInspectorSettingsPopupWindow.cs
+    startLine: 19
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public NodeInspectorSettingsPopupWindow(MixtureNodeInspectorObjectEditor inspector)
+    parameters:
+    - id: inspector
+      type: Mixture.MixtureNodeInspectorObjectEditor
+    content.vb: Public Sub New(inspector As MixtureNodeInspectorObjectEditor)
+  overload: Mixture.NodeInspectorSettingsPopupWindow.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.NodeInspectorSettingsPopupWindow.OnGUI(UnityEngine.Rect)
+  commentId: M:Mixture.NodeInspectorSettingsPopupWindow.OnGUI(UnityEngine.Rect)
+  id: OnGUI(UnityEngine.Rect)
+  parent: Mixture.NodeInspectorSettingsPopupWindow
+  langs:
+  - csharp
+  - vb
+  name: OnGUI(Rect)
+  nameWithType: NodeInspectorSettingsPopupWindow.OnGUI(Rect)
+  fullName: Mixture.NodeInspectorSettingsPopupWindow.OnGUI(UnityEngine.Rect)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/NodeInspectorSettingsPopupWindow.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: OnGUI
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/NodeInspectorSettingsPopupWindow.cs
+    startLine: 24
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public override void OnGUI(Rect rect)
+    parameters:
+    - id: rect
+      type: UnityEngine.Rect
+    content.vb: Public Overrides Sub OnGUI(rect As Rect)
+  overridden: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  overload: Mixture.NodeInspectorSettingsPopupWindow.OnGUI*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: UnityEditor.PopupWindowContent
+  commentId: T:UnityEditor.PopupWindowContent
+  parent: UnityEditor
+  isExternal: true
+  name: PopupWindowContent
+  nameWithType: PopupWindowContent
+  fullName: UnityEditor.PopupWindowContent
+- uid: UnityEditor.PopupWindowContent.OnOpen
+  commentId: M:UnityEditor.PopupWindowContent.OnOpen
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: OnOpen()
+  nameWithType: PopupWindowContent.OnOpen()
+  fullName: UnityEditor.PopupWindowContent.OnOpen()
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.OnOpen
+    name: OnOpen
+    nameWithType: PopupWindowContent.OnOpen
+    fullName: UnityEditor.PopupWindowContent.OnOpen
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.OnOpen
+    name: OnOpen
+    nameWithType: PopupWindowContent.OnOpen
+    fullName: UnityEditor.PopupWindowContent.OnOpen
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.PopupWindowContent.OnClose
+  commentId: M:UnityEditor.PopupWindowContent.OnClose
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: OnClose()
+  nameWithType: PopupWindowContent.OnClose()
+  fullName: UnityEditor.PopupWindowContent.OnClose()
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.OnClose
+    name: OnClose
+    nameWithType: PopupWindowContent.OnClose
+    fullName: UnityEditor.PopupWindowContent.OnClose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.OnClose
+    name: OnClose
+    nameWithType: PopupWindowContent.OnClose
+    fullName: UnityEditor.PopupWindowContent.OnClose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.PopupWindowContent.editorWindow
+  commentId: P:UnityEditor.PopupWindowContent.editorWindow
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: editorWindow
+  nameWithType: PopupWindowContent.editorWindow
+  fullName: UnityEditor.PopupWindowContent.editorWindow
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEditor
+  commentId: N:UnityEditor
+  isExternal: true
+  name: UnityEditor
+  nameWithType: UnityEditor
+  fullName: UnityEditor
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: UnityEditor.PopupWindowContent.GetWindowSize
+  commentId: M:UnityEditor.PopupWindowContent.GetWindowSize
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: GetWindowSize()
+  nameWithType: PopupWindowContent.GetWindowSize()
+  fullName: UnityEditor.PopupWindowContent.GetWindowSize()
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.GetWindowSize
+    name: GetWindowSize
+    nameWithType: PopupWindowContent.GetWindowSize
+    fullName: UnityEditor.PopupWindowContent.GetWindowSize
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.GetWindowSize
+    name: GetWindowSize
+    nameWithType: PopupWindowContent.GetWindowSize
+    fullName: UnityEditor.PopupWindowContent.GetWindowSize
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.NodeInspectorSettingsPopupWindow.GetWindowSize*
+  commentId: Overload:Mixture.NodeInspectorSettingsPopupWindow.GetWindowSize
+  name: GetWindowSize
+  nameWithType: NodeInspectorSettingsPopupWindow.GetWindowSize
+  fullName: Mixture.NodeInspectorSettingsPopupWindow.GetWindowSize
+- uid: UnityEngine.Vector2
+  commentId: T:UnityEngine.Vector2
+  parent: UnityEngine
+  isExternal: true
+  name: Vector2
+  nameWithType: Vector2
+  fullName: UnityEngine.Vector2
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: Mixture.NodeInspectorSettingsPopupWindow.#ctor*
+  commentId: Overload:Mixture.NodeInspectorSettingsPopupWindow.#ctor
+  name: NodeInspectorSettingsPopupWindow
+  nameWithType: NodeInspectorSettingsPopupWindow.NodeInspectorSettingsPopupWindow
+  fullName: Mixture.NodeInspectorSettingsPopupWindow.NodeInspectorSettingsPopupWindow
+- uid: Mixture.MixtureNodeInspectorObjectEditor
+  commentId: T:Mixture.MixtureNodeInspectorObjectEditor
+  parent: Mixture
+  name: MixtureNodeInspectorObjectEditor
+  nameWithType: MixtureNodeInspectorObjectEditor
+  fullName: Mixture.MixtureNodeInspectorObjectEditor
+- uid: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  commentId: M:UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: OnGUI(Rect)
+  nameWithType: PopupWindowContent.OnGUI(Rect)
+  fullName: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+    name: OnGUI
+    nameWithType: PopupWindowContent.OnGUI
+    fullName: UnityEditor.PopupWindowContent.OnGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+    name: OnGUI
+    nameWithType: PopupWindowContent.OnGUI
+    fullName: UnityEditor.PopupWindowContent.OnGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.NodeInspectorSettingsPopupWindow.OnGUI*
+  commentId: Overload:Mixture.NodeInspectorSettingsPopupWindow.OnGUI
+  name: OnGUI
+  nameWithType: NodeInspectorSettingsPopupWindow.OnGUI
+  fullName: Mixture.NodeInspectorSettingsPopupWindow.OnGUI
+- uid: UnityEngine.Rect
+  commentId: T:UnityEngine.Rect
+  parent: UnityEngine
+  isExternal: true
+  name: Rect
+  nameWithType: Rect
+  fullName: UnityEngine.Rect

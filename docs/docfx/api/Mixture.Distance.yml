@@ -5,12 +5,24 @@ items:
   id: Distance
   parent: Mixture
   children:
-  - Mixture.Distance.displayMaterialInspector
-  - Mixture.Distance.filteredOutProperties
+  - Mixture.Distance.ChangeInputPortType(System.Collections.Generic.List{SerializableEdge})
+  - Mixture.Distance.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
+  - Mixture.Distance.computeShaderResourcePath
+  - Mixture.Distance.Disable
+  - Mixture.Distance.distance
+  - Mixture.Distance.distanceMode
+  - Mixture.Distance.Enable
+  - Mixture.Distance.GetCustomRenderTexture
+  - Mixture.Distance.input
+  - Mixture.Distance.mode
   - Mixture.Distance.name
+  - Mixture.Distance.output
+  - Mixture.Distance.previewTexture
   - Mixture.Distance.ProcessNode(UnityEngine.Rendering.CommandBuffer)
-  - Mixture.Distance.shaderName
+  - Mixture.Distance.showDefaultInspector
   - Mixture.Distance.supportedDimensions
+  - Mixture.Distance.threshold
+  - Mixture.Distance.thresholdMode
   langs:
   - csharp
   - vb
@@ -20,72 +32,75 @@ items:
   type: Class
   source:
     remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/Distance.cs
-      branch: new-custom-texture-api
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: Distance
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/Distance.cs
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
     startLine: 9
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
     content: >-
+      [Documentation("\r\nExecute a flood fill operation on all pixels above the specified threshold.\r\n\r\nNote that the computational cost of this node only depends on the texture resolution and not the distance parameter.\r\n\r\nSmooth is only in alpha\r\n")]
+
       [Serializable]
 
-      public class Distance : FixedShaderNode, IUseCustomRenderTextureProcessing
+      public class Distance : ComputeShaderNode
     content.vb: >-
+      <Documentation(vbCrLf & "Execute a flood fill operation on all pixels above the specified threshold." & vbCrLf & vbCrLf & "Note that the computational cost of this node only depends on the texture resolution and not the distance parameter." & vbCrLf & vbCrLf & "Smooth is only in alpha" & vbCrLf)>
+
       <Serializable>
 
       Public Class Distance
-          Inherits FixedShaderNode
-          Implements IUseCustomRenderTextureProcessing
+          Inherits ComputeShaderNode
   inheritance:
   - System.Object
   - Mixture.MixtureNode
-  - Mixture.ShaderNode
-  - Mixture.FixedShaderNode
-  implements:
-  - Mixture.IUseCustomRenderTextureProcessing
+  - Mixture.ComputeShaderNode
   inheritedMembers:
-  - Mixture.FixedShaderNode.previewTexture
-  - Mixture.FixedShaderNode.defaultRTSettings
-  - Mixture.FixedShaderNode.Enable
-  - Mixture.FixedShaderNode.canProcess
-  - Mixture.ShaderNode.DefaultShaderName
-  - Mixture.ShaderNode.materialInputs
-  - Mixture.ShaderNode.output
-  - Mixture.ShaderNode.shader
-  - Mixture.ShaderNode.material
-  - Mixture.ShaderNode.Disable
-  - Mixture.ShaderNode.ListMaterialProperties(System.Collections.Generic.List{SerializableEdge})
-  - Mixture.ShaderNode.GetMaterialInputs(System.Collections.Generic.List{SerializableEdge})
-  - Mixture.ShaderNode.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
-  - Mixture.ShaderNode.GetCustomRenderTexture
+  - Mixture.ComputeShaderNode.computeShader
+  - Mixture.ComputeShaderNode.tempRenderTexture
+  - Mixture.ComputeShaderNode.previewTexturePropertyName
+  - Mixture.ComputeShaderNode.showOpenButton
+  - Mixture.ComputeShaderNode.tempRenderTextureHasMipmaps
+  - Mixture.ComputeShaderNode.tempRenderTextureHasDepthBuffer
+  - Mixture.ComputeShaderNode.LoadComputeShader(System.String)
+  - Mixture.ComputeShaderNode.canProcess
+  - Mixture.ComputeShaderNode.ComputeIsValid
+  - Mixture.ComputeShaderNode.DispatchCompute(UnityEngine.Rendering.CommandBuffer,System.Int32,System.Int32,System.Int32,System.Int32)
+  - Mixture.ComputeShaderNode.DispatchCompute(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeShader,System.Int32,System.Int32,System.Int32,System.Int32)
+  - Mixture.ComputeShaderNode.DispatchComputePreview(UnityEngine.Rendering.CommandBuffer,System.Int32)
+  - Mixture.ComputeShaderNode.DispatchComputePreview(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeShader,System.Int32)
+  - Mixture.ComputeShaderNode.ClearBuffer(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeBuffer,System.Int32,System.Int32)
   - Mixture.MixtureNode.graph
   - Mixture.MixtureNode.rtSettings
+  - Mixture.MixtureNode.defaultRTSettings
   - Mixture.MixtureNode.nodeWidth
   - Mixture.MixtureNode.hasSettings
   - Mixture.MixtureNode.hasPreview
   - Mixture.MixtureNode.defaultPreviewChannels
-  - Mixture.MixtureNode.showDefaultInspector
   - Mixture.MixtureNode.showPreviewExposure
   - Mixture.MixtureNode.isPreviewCollapsed
   - Mixture.MixtureNode.onSettingsChanged
   - Mixture.MixtureNode.beforeProcessSetup
   - Mixture.MixtureNode.afterProcessCleanup
   - Mixture.MixtureNode.showControlsOnHover
+  - Mixture.MixtureNode.needsInspector
   - Mixture.MixtureNode.temporaryMaterials
   - Mixture.MixtureNode.previewMode
   - Mixture.MixtureNode.previewMip
   - Mixture.MixtureNode.previewVisible
   - Mixture.MixtureNode.previewEV100
+  - Mixture.MixtureNode.previewSlice
+  - Mixture.MixtureNode.isPinned
   - Mixture.MixtureNode.recorder
   - Mixture.MixtureNode.OnNodeCreated
-  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  - Mixture.MixtureNode.GetTempTextureDimension
   - Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
   - Mixture.MixtureNode.Process
-  - Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
   - Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
   - Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
   - Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
@@ -93,9 +108,13 @@ items:
   - Mixture.MixtureNode.OnSettingsChanged
   - Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
   - Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
-  - Mixture.MixtureNode.GetMixtureDependencies
   - Mixture.MixtureNode.GetTempMaterial(System.String)
   attributes:
+  - type: Mixture.DocumentationAttribute
+    ctor: Mixture.DocumentationAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: "\r\nExecute a flood fill operation on all pixels above the specified threshold.\r\n\r\nNote that the computational cost of this node only depends on the texture resolution and not the distance parameter.\r\n\r\nSmooth is only in alpha\r\n"
   - type: System.SerializableAttribute
     ctor: System.SerializableAttribute.#ctor
     arguments: []
@@ -105,6 +124,283 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: Mixture.Distance.input
+  commentId: F:Mixture.Distance.input
+  id: input
+  parent: Mixture.Distance
+  langs:
+  - csharp
+  - vb
+  name: input
+  nameWithType: Distance.input
+  fullName: Mixture.Distance.input
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: input
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 45
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public Texture input
+    return:
+      type: UnityEngine.Texture
+    content.vb: Public input As Texture
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.Distance.output
+  commentId: F:Mixture.Distance.output
+  id: output
+  parent: Mixture.Distance
+  langs:
+  - csharp
+  - vb
+  name: output
+  nameWithType: Distance.output
+  fullName: Mixture.Distance.output
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: output
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 48
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public CustomRenderTexture output
+    return:
+      type: UnityEngine.CustomRenderTexture
+    content.vb: Public output As CustomRenderTexture
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.Distance.mode
+  commentId: F:Mixture.Distance.mode
+  id: mode
+  parent: Mixture.Distance
+  langs:
+  - csharp
+  - vb
+  name: mode
+  nameWithType: Distance.mode
+  fullName: Mixture.Distance.mode
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: mode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 51
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Tooltip("Output mode of the distance, by default a blend with the distance is performed")]
+
+      public Distance.Mode mode
+    return:
+      type: Mixture.Distance.Mode
+    content.vb: >-
+      <Tooltip("Output mode of the distance, by default a blend with the distance is performed")>
+
+      Public mode As Distance.Mode
+  attributes:
+  - type: UnityEngine.TooltipAttribute
+    ctor: UnityEngine.TooltipAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Output mode of the distance, by default a blend with the distance is performed
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.Distance.threshold
+  commentId: F:Mixture.Distance.threshold
+  id: threshold
+  parent: Mixture.Distance
+  langs:
+  - csharp
+  - vb
+  name: threshold
+  nameWithType: Distance.threshold
+  fullName: Mixture.Distance.threshold
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: threshold
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 54
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Tooltip("Threshold value to select pixels to dilate. Any value above this threshold will be selected")]
+
+      public float threshold
+    return:
+      type: System.Single
+    content.vb: >-
+      <Tooltip("Threshold value to select pixels to dilate. Any value above this threshold will be selected")>
+
+      Public threshold As Single
+  attributes:
+  - type: UnityEngine.TooltipAttribute
+    ctor: UnityEngine.TooltipAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Threshold value to select pixels to dilate. Any value above this threshold will be selected
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.Distance.thresholdMode
+  commentId: F:Mixture.Distance.thresholdMode
+  id: thresholdMode
+  parent: Mixture.Distance
+  langs:
+  - csharp
+  - vb
+  name: thresholdMode
+  nameWithType: Distance.thresholdMode
+  fullName: Mixture.Distance.thresholdMode
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: thresholdMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 57
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Tooltip("Select which value to compare against the threshold")]
+
+      public Distance.ThresholdMode thresholdMode
+    return:
+      type: Mixture.Distance.ThresholdMode
+    content.vb: >-
+      <Tooltip("Select which value to compare against the threshold")>
+
+      Public thresholdMode As Distance.ThresholdMode
+  attributes:
+  - type: UnityEngine.TooltipAttribute
+    ctor: UnityEngine.TooltipAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Select which value to compare against the threshold
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.Distance.distance
+  commentId: F:Mixture.Distance.distance
+  id: distance
+  parent: Mixture.Distance
+  langs:
+  - csharp
+  - vb
+  name: distance
+  nameWithType: Distance.distance
+  fullName: Mixture.Distance.distance
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: distance
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 60
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Tooltip("Distance value in percent of the texture size")]
+
+      public float distance
+    return:
+      type: System.Single
+    content.vb: >-
+      <Tooltip("Distance value in percent of the texture size")>
+
+      Public distance As Single
+  attributes:
+  - type: UnityEngine.TooltipAttribute
+    ctor: UnityEngine.TooltipAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Distance value in percent of the texture size
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.Distance.distanceMode
+  commentId: F:Mixture.Distance.distanceMode
+  id: distanceMode
+  parent: Mixture.Distance
+  langs:
+  - csharp
+  - vb
+  name: distanceMode
+  nameWithType: Distance.distanceMode
+  fullName: Mixture.Distance.distanceMode
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: distanceMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 63
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Tooltip("How the distance is calculated")]
+
+      public Distance.DistanceMode distanceMode
+    return:
+      type: Mixture.Distance.DistanceMode
+    content.vb: >-
+      <Tooltip("How the distance is calculated")>
+
+      Public distanceMode As Distance.DistanceMode
+  attributes:
+  - type: UnityEngine.TooltipAttribute
+    ctor: UnityEngine.TooltipAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: How the distance is calculated
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 - uid: Mixture.Distance.name
   commentId: P:Mixture.Distance.name
   id: name
@@ -118,12 +414,12 @@ items:
   type: Property
   source:
     remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/Distance.cs
-      branch: new-custom-texture-api
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: name
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/Distance.cs
-    startLine: 12
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 65
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -133,7 +429,7 @@ items:
     return:
       type: System.String
     content.vb: Public Overrides ReadOnly Property name As String
-  overridden: Mixture.ShaderNode.name
+  overridden: Mixture.ComputeShaderNode.name
   overload: Mixture.Distance.name*
   modifiers.csharp:
   - public
@@ -143,118 +439,118 @@ items:
   - Public
   - Overrides
   - ReadOnly
-- uid: Mixture.Distance.shaderName
-  commentId: P:Mixture.Distance.shaderName
-  id: shaderName
+- uid: Mixture.Distance.computeShaderResourcePath
+  commentId: P:Mixture.Distance.computeShaderResourcePath
+  id: computeShaderResourcePath
   parent: Mixture.Distance
   langs:
   - csharp
   - vb
-  name: shaderName
-  nameWithType: Distance.shaderName
-  fullName: Mixture.Distance.shaderName
+  name: computeShaderResourcePath
+  nameWithType: Distance.computeShaderResourcePath
+  fullName: Mixture.Distance.computeShaderResourcePath
   type: Property
   source:
     remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/Distance.cs
-      branch: new-custom-texture-api
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
-    id: shaderName
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/Distance.cs
-    startLine: 14
+    id: computeShaderResourcePath
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 67
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
-    content: public override string shaderName { get; }
+    content: protected override string computeShaderResourcePath { get; }
     parameters: []
     return:
       type: System.String
-    content.vb: Public Overrides ReadOnly Property shaderName As String
-  overridden: Mixture.FixedShaderNode.shaderName
-  overload: Mixture.Distance.shaderName*
-  modifiers.csharp:
-  - public
-  - override
-  - get
-  modifiers.vb:
-  - Public
-  - Overrides
-  - ReadOnly
-- uid: Mixture.Distance.displayMaterialInspector
-  commentId: P:Mixture.Distance.displayMaterialInspector
-  id: displayMaterialInspector
-  parent: Mixture.Distance
-  langs:
-  - csharp
-  - vb
-  name: displayMaterialInspector
-  nameWithType: Distance.displayMaterialInspector
-  fullName: Mixture.Distance.displayMaterialInspector
-  type: Property
-  source:
-    remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/Distance.cs
-      branch: new-custom-texture-api
-      repo: git@github.com:alelievr/Mixture.git
-    id: displayMaterialInspector
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/Distance.cs
-    startLine: 16
-  assemblies:
-  - Mixture.Runtime
-  namespace: Mixture
-  syntax:
-    content: public override bool displayMaterialInspector { get; }
-    parameters: []
-    return:
-      type: System.Boolean
-    content.vb: Public Overrides ReadOnly Property displayMaterialInspector As Boolean
-  overridden: Mixture.FixedShaderNode.displayMaterialInspector
-  overload: Mixture.Distance.displayMaterialInspector*
-  modifiers.csharp:
-  - public
-  - override
-  - get
-  modifiers.vb:
-  - Public
-  - Overrides
-  - ReadOnly
-- uid: Mixture.Distance.filteredOutProperties
-  commentId: P:Mixture.Distance.filteredOutProperties
-  id: filteredOutProperties
-  parent: Mixture.Distance
-  langs:
-  - csharp
-  - vb
-  name: filteredOutProperties
-  nameWithType: Distance.filteredOutProperties
-  fullName: Mixture.Distance.filteredOutProperties
-  type: Property
-  source:
-    remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/Distance.cs
-      branch: new-custom-texture-api
-      repo: git@github.com:alelievr/Mixture.git
-    id: filteredOutProperties
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/Distance.cs
-    startLine: 19
-  assemblies:
-  - Mixture.Runtime
-  namespace: Mixture
-  syntax:
-    content: protected override IEnumerable<string> filteredOutProperties { get; }
-    parameters: []
-    return:
-      type: System.Collections.Generic.IEnumerable{System.String}
-    content.vb: Protected Overrides ReadOnly Property filteredOutProperties As IEnumerable(Of String)
-  overridden: Mixture.ShaderNode.filteredOutProperties
-  overload: Mixture.Distance.filteredOutProperties*
+    content.vb: Protected Overrides ReadOnly Property computeShaderResourcePath As String
+  overridden: Mixture.ComputeShaderNode.computeShaderResourcePath
+  overload: Mixture.Distance.computeShaderResourcePath*
   modifiers.csharp:
   - protected
   - override
   - get
   modifiers.vb:
   - Protected
+  - Overrides
+  - ReadOnly
+- uid: Mixture.Distance.showDefaultInspector
+  commentId: P:Mixture.Distance.showDefaultInspector
+  id: showDefaultInspector
+  parent: Mixture.Distance
+  langs:
+  - csharp
+  - vb
+  name: showDefaultInspector
+  nameWithType: Distance.showDefaultInspector
+  fullName: Mixture.Distance.showDefaultInspector
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: showDefaultInspector
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 69
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public override bool showDefaultInspector { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides ReadOnly Property showDefaultInspector As Boolean
+  overridden: Mixture.MixtureNode.showDefaultInspector
+  overload: Mixture.Distance.showDefaultInspector*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: Mixture.Distance.previewTexture
+  commentId: P:Mixture.Distance.previewTexture
+  id: previewTexture
+  parent: Mixture.Distance
+  langs:
+  - csharp
+  - vb
+  name: previewTexture
+  nameWithType: Distance.previewTexture
+  fullName: Mixture.Distance.previewTexture
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: previewTexture
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 71
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public override Texture previewTexture { get; }
+    parameters: []
+    return:
+      type: UnityEngine.Texture
+    content.vb: Public Overrides ReadOnly Property previewTexture As Texture
+  overridden: Mixture.ComputeShaderNode.previewTexture
+  overload: Mixture.Distance.previewTexture*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
   - Overrides
   - ReadOnly
 - uid: Mixture.Distance.supportedDimensions
@@ -270,12 +566,12 @@ items:
   type: Property
   source:
     remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/Distance.cs
-      branch: new-custom-texture-api
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: supportedDimensions
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/Distance.cs
-    startLine: 21
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 73
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -295,6 +591,115 @@ items:
   - Public
   - Overrides
   - ReadOnly
+- uid: Mixture.Distance.ChangeInputPortType(System.Collections.Generic.List{SerializableEdge})
+  commentId: M:Mixture.Distance.ChangeInputPortType(System.Collections.Generic.List{SerializableEdge})
+  id: ChangeInputPortType(System.Collections.Generic.List{SerializableEdge})
+  parent: Mixture.Distance
+  langs:
+  - csharp
+  - vb
+  name: ChangeInputPortType(List<SerializableEdge>)
+  nameWithType: Distance.ChangeInputPortType(List<SerializableEdge>)
+  fullName: Mixture.Distance.ChangeInputPortType(System.Collections.Generic.List<SerializableEdge>)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: ChangeInputPortType
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 82
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected IEnumerable<PortData> ChangeInputPortType(List<SerializableEdge> edges)
+    parameters:
+    - id: edges
+      type: System.Collections.Generic.List{SerializableEdge}
+    return:
+      type: System.Collections.Generic.IEnumerable{PortData}
+    content.vb: Protected Function ChangeInputPortType(edges As List(Of SerializableEdge)) As IEnumerable(Of PortData)
+  overload: Mixture.Distance.ChangeInputPortType*
+  nameWithType.vb: Distance.ChangeInputPortType(List(Of SerializableEdge))
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+  fullName.vb: Mixture.Distance.ChangeInputPortType(System.Collections.Generic.List(Of SerializableEdge))
+  name.vb: ChangeInputPortType(List(Of SerializableEdge))
+- uid: Mixture.Distance.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
+  commentId: M:Mixture.Distance.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
+  id: ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
+  parent: Mixture.Distance
+  langs:
+  - csharp
+  - vb
+  name: ChangeOutputPortType(List<SerializableEdge>)
+  nameWithType: Distance.ChangeOutputPortType(List<SerializableEdge>)
+  fullName: Mixture.Distance.ChangeOutputPortType(System.Collections.Generic.List<SerializableEdge>)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: ChangeOutputPortType
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 93
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected IEnumerable<PortData> ChangeOutputPortType(List<SerializableEdge> edges)
+    parameters:
+    - id: edges
+      type: System.Collections.Generic.List{SerializableEdge}
+    return:
+      type: System.Collections.Generic.IEnumerable{PortData}
+    content.vb: Protected Function ChangeOutputPortType(edges As List(Of SerializableEdge)) As IEnumerable(Of PortData)
+  overload: Mixture.Distance.ChangeOutputPortType*
+  nameWithType.vb: Distance.ChangeOutputPortType(List(Of SerializableEdge))
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+  fullName.vb: Mixture.Distance.ChangeOutputPortType(System.Collections.Generic.List(Of SerializableEdge))
+  name.vb: ChangeOutputPortType(List(Of SerializableEdge))
+- uid: Mixture.Distance.Enable
+  commentId: M:Mixture.Distance.Enable
+  id: Enable
+  parent: Mixture.Distance
+  langs:
+  - csharp
+  - vb
+  name: Enable()
+  nameWithType: Distance.Enable()
+  fullName: Mixture.Distance.Enable()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Enable
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 104
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected override void Enable()
+    content.vb: Protected Overrides Sub Enable
+  overridden: Mixture.ComputeShaderNode.Enable
+  overload: Mixture.Distance.Enable*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
 - uid: Mixture.Distance.ProcessNode(UnityEngine.Rendering.CommandBuffer)
   commentId: M:Mixture.Distance.ProcessNode(UnityEngine.Rendering.CommandBuffer)
   id: ProcessNode(UnityEngine.Rendering.CommandBuffer)
@@ -308,12 +713,12 @@ items:
   type: Method
   source:
     remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/Distance.cs
-      branch: new-custom-texture-api
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ProcessNode
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/Distance.cs
-    startLine: 25
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 119
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -325,7 +730,7 @@ items:
     return:
       type: System.Boolean
     content.vb: Protected Overrides Function ProcessNode(cmd As CommandBuffer) As Boolean
-  overridden: Mixture.ShaderNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  overridden: Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
   overload: Mixture.Distance.ProcessNode*
   modifiers.csharp:
   - protected
@@ -333,6 +738,71 @@ items:
   modifiers.vb:
   - Protected
   - Overrides
+- uid: Mixture.Distance.Disable
+  commentId: M:Mixture.Distance.Disable
+  id: Disable
+  parent: Mixture.Distance
+  langs:
+  - csharp
+  - vb
+  name: Disable()
+  nameWithType: Distance.Disable()
+  fullName: Mixture.Distance.Disable()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Disable
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 175
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected override void Disable()
+    content.vb: Protected Overrides Sub Disable
+  overridden: Mixture.ComputeShaderNode.Disable
+  overload: Mixture.Distance.Disable*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
+- uid: Mixture.Distance.GetCustomRenderTexture
+  commentId: M:Mixture.Distance.GetCustomRenderTexture
+  id: GetCustomRenderTexture
+  parent: Mixture.Distance
+  langs:
+  - csharp
+  - vb
+  name: GetCustomRenderTexture()
+  nameWithType: Distance.GetCustomRenderTexture()
+  fullName: Mixture.Distance.GetCustomRenderTexture()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetCustomRenderTexture
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/Distance.cs
+    startLine: 181
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public CustomRenderTexture GetCustomRenderTexture()
+    return:
+      type: UnityEngine.CustomRenderTexture
+    content.vb: Public Function GetCustomRenderTexture As CustomRenderTexture
+  overload: Mixture.Distance.GetCustomRenderTexture*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 references:
 - uid: Mixture
   commentId: N:Mixture
@@ -352,111 +822,104 @@ references:
   name: MixtureNode
   nameWithType: MixtureNode
   fullName: Mixture.MixtureNode
-- uid: Mixture.ShaderNode
-  commentId: T:Mixture.ShaderNode
+- uid: Mixture.ComputeShaderNode
+  commentId: T:Mixture.ComputeShaderNode
   parent: Mixture
-  name: ShaderNode
-  nameWithType: ShaderNode
-  fullName: Mixture.ShaderNode
-- uid: Mixture.FixedShaderNode
-  commentId: T:Mixture.FixedShaderNode
-  parent: Mixture
-  name: FixedShaderNode
-  nameWithType: FixedShaderNode
-  fullName: Mixture.FixedShaderNode
-- uid: Mixture.IUseCustomRenderTextureProcessing
-  commentId: T:Mixture.IUseCustomRenderTextureProcessing
-  parent: Mixture
-  name: IUseCustomRenderTextureProcessing
-  nameWithType: IUseCustomRenderTextureProcessing
-  fullName: Mixture.IUseCustomRenderTextureProcessing
-- uid: Mixture.FixedShaderNode.previewTexture
-  commentId: P:Mixture.FixedShaderNode.previewTexture
-  parent: Mixture.FixedShaderNode
-  name: previewTexture
-  nameWithType: FixedShaderNode.previewTexture
-  fullName: Mixture.FixedShaderNode.previewTexture
-- uid: Mixture.FixedShaderNode.defaultRTSettings
-  commentId: P:Mixture.FixedShaderNode.defaultRTSettings
-  parent: Mixture.FixedShaderNode
-  name: defaultRTSettings
-  nameWithType: FixedShaderNode.defaultRTSettings
-  fullName: Mixture.FixedShaderNode.defaultRTSettings
-- uid: Mixture.FixedShaderNode.Enable
-  commentId: M:Mixture.FixedShaderNode.Enable
-  parent: Mixture.FixedShaderNode
-  name: Enable()
-  nameWithType: FixedShaderNode.Enable()
-  fullName: Mixture.FixedShaderNode.Enable()
+  name: ComputeShaderNode
+  nameWithType: ComputeShaderNode
+  fullName: Mixture.ComputeShaderNode
+- uid: Mixture.ComputeShaderNode.computeShader
+  commentId: F:Mixture.ComputeShaderNode.computeShader
+  parent: Mixture.ComputeShaderNode
+  name: computeShader
+  nameWithType: ComputeShaderNode.computeShader
+  fullName: Mixture.ComputeShaderNode.computeShader
+- uid: Mixture.ComputeShaderNode.tempRenderTexture
+  commentId: F:Mixture.ComputeShaderNode.tempRenderTexture
+  parent: Mixture.ComputeShaderNode
+  name: tempRenderTexture
+  nameWithType: ComputeShaderNode.tempRenderTexture
+  fullName: Mixture.ComputeShaderNode.tempRenderTexture
+- uid: Mixture.ComputeShaderNode.previewTexturePropertyName
+  commentId: P:Mixture.ComputeShaderNode.previewTexturePropertyName
+  parent: Mixture.ComputeShaderNode
+  name: previewTexturePropertyName
+  nameWithType: ComputeShaderNode.previewTexturePropertyName
+  fullName: Mixture.ComputeShaderNode.previewTexturePropertyName
+- uid: Mixture.ComputeShaderNode.showOpenButton
+  commentId: P:Mixture.ComputeShaderNode.showOpenButton
+  parent: Mixture.ComputeShaderNode
+  name: showOpenButton
+  nameWithType: ComputeShaderNode.showOpenButton
+  fullName: Mixture.ComputeShaderNode.showOpenButton
+- uid: Mixture.ComputeShaderNode.tempRenderTextureHasMipmaps
+  commentId: P:Mixture.ComputeShaderNode.tempRenderTextureHasMipmaps
+  parent: Mixture.ComputeShaderNode
+  name: tempRenderTextureHasMipmaps
+  nameWithType: ComputeShaderNode.tempRenderTextureHasMipmaps
+  fullName: Mixture.ComputeShaderNode.tempRenderTextureHasMipmaps
+- uid: Mixture.ComputeShaderNode.tempRenderTextureHasDepthBuffer
+  commentId: P:Mixture.ComputeShaderNode.tempRenderTextureHasDepthBuffer
+  parent: Mixture.ComputeShaderNode
+  name: tempRenderTextureHasDepthBuffer
+  nameWithType: ComputeShaderNode.tempRenderTextureHasDepthBuffer
+  fullName: Mixture.ComputeShaderNode.tempRenderTextureHasDepthBuffer
+- uid: Mixture.ComputeShaderNode.LoadComputeShader(System.String)
+  commentId: M:Mixture.ComputeShaderNode.LoadComputeShader(System.String)
+  parent: Mixture.ComputeShaderNode
+  isExternal: true
+  name: LoadComputeShader(String)
+  nameWithType: ComputeShaderNode.LoadComputeShader(String)
+  fullName: Mixture.ComputeShaderNode.LoadComputeShader(System.String)
   spec.csharp:
-  - uid: Mixture.FixedShaderNode.Enable
-    name: Enable
-    nameWithType: FixedShaderNode.Enable
-    fullName: Mixture.FixedShaderNode.Enable
+  - uid: Mixture.ComputeShaderNode.LoadComputeShader(System.String)
+    name: LoadComputeShader
+    nameWithType: ComputeShaderNode.LoadComputeShader
+    fullName: Mixture.ComputeShaderNode.LoadComputeShader
   - name: (
     nameWithType: (
     fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.FixedShaderNode.Enable
-    name: Enable
-    nameWithType: FixedShaderNode.Enable
-    fullName: Mixture.FixedShaderNode.Enable
+  - uid: Mixture.ComputeShaderNode.LoadComputeShader(System.String)
+    name: LoadComputeShader
+    nameWithType: ComputeShaderNode.LoadComputeShader
+    fullName: Mixture.ComputeShaderNode.LoadComputeShader
   - name: (
     nameWithType: (
     fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.FixedShaderNode.canProcess
-  commentId: P:Mixture.FixedShaderNode.canProcess
-  parent: Mixture.FixedShaderNode
+- uid: Mixture.ComputeShaderNode.canProcess
+  commentId: P:Mixture.ComputeShaderNode.canProcess
+  parent: Mixture.ComputeShaderNode
   name: canProcess
-  nameWithType: FixedShaderNode.canProcess
-  fullName: Mixture.FixedShaderNode.canProcess
-- uid: Mixture.ShaderNode.DefaultShaderName
-  commentId: F:Mixture.ShaderNode.DefaultShaderName
-  parent: Mixture.ShaderNode
-  name: DefaultShaderName
-  nameWithType: ShaderNode.DefaultShaderName
-  fullName: Mixture.ShaderNode.DefaultShaderName
-- uid: Mixture.ShaderNode.materialInputs
-  commentId: F:Mixture.ShaderNode.materialInputs
-  parent: Mixture.ShaderNode
-  name: materialInputs
-  nameWithType: ShaderNode.materialInputs
-  fullName: Mixture.ShaderNode.materialInputs
-- uid: Mixture.ShaderNode.output
-  commentId: F:Mixture.ShaderNode.output
-  parent: Mixture.ShaderNode
-  name: output
-  nameWithType: ShaderNode.output
-  fullName: Mixture.ShaderNode.output
-- uid: Mixture.ShaderNode.shader
-  commentId: F:Mixture.ShaderNode.shader
-  parent: Mixture.ShaderNode
-  name: shader
-  nameWithType: ShaderNode.shader
-  fullName: Mixture.ShaderNode.shader
-- uid: Mixture.ShaderNode.material
-  commentId: F:Mixture.ShaderNode.material
-  parent: Mixture.ShaderNode
-  name: material
-  nameWithType: ShaderNode.material
-  fullName: Mixture.ShaderNode.material
-- uid: Mixture.ShaderNode.Disable
-  commentId: M:Mixture.ShaderNode.Disable
-  parent: Mixture.ShaderNode
-  name: Disable()
-  nameWithType: ShaderNode.Disable()
-  fullName: Mixture.ShaderNode.Disable()
+  nameWithType: ComputeShaderNode.canProcess
+  fullName: Mixture.ComputeShaderNode.canProcess
+- uid: Mixture.ComputeShaderNode.ComputeIsValid
+  commentId: M:Mixture.ComputeShaderNode.ComputeIsValid
+  parent: Mixture.ComputeShaderNode
+  name: ComputeIsValid()
+  nameWithType: ComputeShaderNode.ComputeIsValid()
+  fullName: Mixture.ComputeShaderNode.ComputeIsValid()
   spec.csharp:
-  - uid: Mixture.ShaderNode.Disable
-    name: Disable
-    nameWithType: ShaderNode.Disable
-    fullName: Mixture.ShaderNode.Disable
+  - uid: Mixture.ComputeShaderNode.ComputeIsValid
+    name: ComputeIsValid
+    nameWithType: ComputeShaderNode.ComputeIsValid
+    fullName: Mixture.ComputeShaderNode.ComputeIsValid
   - name: (
     nameWithType: (
     fullName: (
@@ -464,233 +927,448 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.ShaderNode.Disable
-    name: Disable
-    nameWithType: ShaderNode.Disable
-    fullName: Mixture.ShaderNode.Disable
+  - uid: Mixture.ComputeShaderNode.ComputeIsValid
+    name: ComputeIsValid
+    nameWithType: ComputeShaderNode.ComputeIsValid
+    fullName: Mixture.ComputeShaderNode.ComputeIsValid
   - name: (
     nameWithType: (
     fullName: (
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.ShaderNode.ListMaterialProperties(System.Collections.Generic.List{SerializableEdge})
-  commentId: M:Mixture.ShaderNode.ListMaterialProperties(System.Collections.Generic.List{SerializableEdge})
-  parent: Mixture.ShaderNode
+- uid: Mixture.ComputeShaderNode.DispatchCompute(UnityEngine.Rendering.CommandBuffer,System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:Mixture.ComputeShaderNode.DispatchCompute(UnityEngine.Rendering.CommandBuffer,System.Int32,System.Int32,System.Int32,System.Int32)
+  parent: Mixture.ComputeShaderNode
   isExternal: true
-  name: ListMaterialProperties(List<SerializableEdge>)
-  nameWithType: ShaderNode.ListMaterialProperties(List<SerializableEdge>)
-  fullName: Mixture.ShaderNode.ListMaterialProperties(System.Collections.Generic.List<SerializableEdge>)
-  nameWithType.vb: ShaderNode.ListMaterialProperties(List(Of SerializableEdge))
-  fullName.vb: Mixture.ShaderNode.ListMaterialProperties(System.Collections.Generic.List(Of SerializableEdge))
-  name.vb: ListMaterialProperties(List(Of SerializableEdge))
+  name: DispatchCompute(CommandBuffer, Int32, Int32, Int32, Int32)
+  nameWithType: ComputeShaderNode.DispatchCompute(CommandBuffer, Int32, Int32, Int32, Int32)
+  fullName: Mixture.ComputeShaderNode.DispatchCompute(UnityEngine.Rendering.CommandBuffer, System.Int32, System.Int32, System.Int32, System.Int32)
   spec.csharp:
-  - uid: Mixture.ShaderNode.ListMaterialProperties(System.Collections.Generic.List{SerializableEdge})
-    name: ListMaterialProperties
-    nameWithType: ShaderNode.ListMaterialProperties
-    fullName: Mixture.ShaderNode.ListMaterialProperties
+  - uid: Mixture.ComputeShaderNode.DispatchCompute(UnityEngine.Rendering.CommandBuffer,System.Int32,System.Int32,System.Int32,System.Int32)
+    name: DispatchCompute
+    nameWithType: ComputeShaderNode.DispatchCompute
+    fullName: Mixture.ComputeShaderNode.DispatchCompute
   - name: (
     nameWithType: (
     fullName: (
-  - uid: System.Collections.Generic.List`1
-    name: List
-    nameWithType: List
-    fullName: System.Collections.Generic.List
+  - uid: UnityEngine.Rendering.CommandBuffer
+    name: CommandBuffer
+    nameWithType: CommandBuffer
+    fullName: UnityEngine.Rendering.CommandBuffer
     isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: SerializableEdge
-    name: SerializableEdge
-    nameWithType: SerializableEdge
-    fullName: SerializableEdge
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
     isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.ShaderNode.ListMaterialProperties(System.Collections.Generic.List{SerializableEdge})
-    name: ListMaterialProperties
-    nameWithType: ShaderNode.ListMaterialProperties
-    fullName: Mixture.ShaderNode.ListMaterialProperties
+  - uid: Mixture.ComputeShaderNode.DispatchCompute(UnityEngine.Rendering.CommandBuffer,System.Int32,System.Int32,System.Int32,System.Int32)
+    name: DispatchCompute
+    nameWithType: ComputeShaderNode.DispatchCompute
+    fullName: Mixture.ComputeShaderNode.DispatchCompute
   - name: (
     nameWithType: (
     fullName: (
-  - uid: System.Collections.Generic.List`1
-    name: List
-    nameWithType: List
-    fullName: System.Collections.Generic.List
+  - uid: UnityEngine.Rendering.CommandBuffer
+    name: CommandBuffer
+    nameWithType: CommandBuffer
+    fullName: UnityEngine.Rendering.CommandBuffer
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: SerializableEdge
-    name: SerializableEdge
-    nameWithType: SerializableEdge
-    fullName: SerializableEdge
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
     isExternal: true
   - name: )
     nameWithType: )
     fullName: )
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: Mixture.ShaderNode.GetMaterialInputs(System.Collections.Generic.List{SerializableEdge})
-  commentId: M:Mixture.ShaderNode.GetMaterialInputs(System.Collections.Generic.List{SerializableEdge})
-  parent: Mixture.ShaderNode
+- uid: Mixture.ComputeShaderNode.DispatchCompute(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeShader,System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:Mixture.ComputeShaderNode.DispatchCompute(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeShader,System.Int32,System.Int32,System.Int32,System.Int32)
+  parent: Mixture.ComputeShaderNode
   isExternal: true
-  name: GetMaterialInputs(List<SerializableEdge>)
-  nameWithType: ShaderNode.GetMaterialInputs(List<SerializableEdge>)
-  fullName: Mixture.ShaderNode.GetMaterialInputs(System.Collections.Generic.List<SerializableEdge>)
-  nameWithType.vb: ShaderNode.GetMaterialInputs(List(Of SerializableEdge))
-  fullName.vb: Mixture.ShaderNode.GetMaterialInputs(System.Collections.Generic.List(Of SerializableEdge))
-  name.vb: GetMaterialInputs(List(Of SerializableEdge))
+  name: DispatchCompute(CommandBuffer, ComputeShader, Int32, Int32, Int32, Int32)
+  nameWithType: ComputeShaderNode.DispatchCompute(CommandBuffer, ComputeShader, Int32, Int32, Int32, Int32)
+  fullName: Mixture.ComputeShaderNode.DispatchCompute(UnityEngine.Rendering.CommandBuffer, UnityEngine.ComputeShader, System.Int32, System.Int32, System.Int32, System.Int32)
   spec.csharp:
-  - uid: Mixture.ShaderNode.GetMaterialInputs(System.Collections.Generic.List{SerializableEdge})
-    name: GetMaterialInputs
-    nameWithType: ShaderNode.GetMaterialInputs
-    fullName: Mixture.ShaderNode.GetMaterialInputs
+  - uid: Mixture.ComputeShaderNode.DispatchCompute(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeShader,System.Int32,System.Int32,System.Int32,System.Int32)
+    name: DispatchCompute
+    nameWithType: ComputeShaderNode.DispatchCompute
+    fullName: Mixture.ComputeShaderNode.DispatchCompute
   - name: (
     nameWithType: (
     fullName: (
-  - uid: System.Collections.Generic.List`1
-    name: List
-    nameWithType: List
-    fullName: System.Collections.Generic.List
+  - uid: UnityEngine.Rendering.CommandBuffer
+    name: CommandBuffer
+    nameWithType: CommandBuffer
+    fullName: UnityEngine.Rendering.CommandBuffer
     isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: SerializableEdge
-    name: SerializableEdge
-    nameWithType: SerializableEdge
-    fullName: SerializableEdge
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.ComputeShader
+    name: ComputeShader
+    nameWithType: ComputeShader
+    fullName: UnityEngine.ComputeShader
     isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.ShaderNode.GetMaterialInputs(System.Collections.Generic.List{SerializableEdge})
-    name: GetMaterialInputs
-    nameWithType: ShaderNode.GetMaterialInputs
-    fullName: Mixture.ShaderNode.GetMaterialInputs
+  - uid: Mixture.ComputeShaderNode.DispatchCompute(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeShader,System.Int32,System.Int32,System.Int32,System.Int32)
+    name: DispatchCompute
+    nameWithType: ComputeShaderNode.DispatchCompute
+    fullName: Mixture.ComputeShaderNode.DispatchCompute
   - name: (
     nameWithType: (
     fullName: (
-  - uid: System.Collections.Generic.List`1
-    name: List
-    nameWithType: List
-    fullName: System.Collections.Generic.List
+  - uid: UnityEngine.Rendering.CommandBuffer
+    name: CommandBuffer
+    nameWithType: CommandBuffer
+    fullName: UnityEngine.Rendering.CommandBuffer
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: SerializableEdge
-    name: SerializableEdge
-    nameWithType: SerializableEdge
-    fullName: SerializableEdge
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.ComputeShader
+    name: ComputeShader
+    nameWithType: ComputeShader
+    fullName: UnityEngine.ComputeShader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
     isExternal: true
   - name: )
     nameWithType: )
     fullName: )
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: Mixture.ShaderNode.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
-  commentId: M:Mixture.ShaderNode.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
-  parent: Mixture.ShaderNode
+- uid: Mixture.ComputeShaderNode.DispatchComputePreview(UnityEngine.Rendering.CommandBuffer,System.Int32)
+  commentId: M:Mixture.ComputeShaderNode.DispatchComputePreview(UnityEngine.Rendering.CommandBuffer,System.Int32)
+  parent: Mixture.ComputeShaderNode
   isExternal: true
-  name: ChangeOutputPortType(List<SerializableEdge>)
-  nameWithType: ShaderNode.ChangeOutputPortType(List<SerializableEdge>)
-  fullName: Mixture.ShaderNode.ChangeOutputPortType(System.Collections.Generic.List<SerializableEdge>)
-  nameWithType.vb: ShaderNode.ChangeOutputPortType(List(Of SerializableEdge))
-  fullName.vb: Mixture.ShaderNode.ChangeOutputPortType(System.Collections.Generic.List(Of SerializableEdge))
-  name.vb: ChangeOutputPortType(List(Of SerializableEdge))
+  name: DispatchComputePreview(CommandBuffer, Int32)
+  nameWithType: ComputeShaderNode.DispatchComputePreview(CommandBuffer, Int32)
+  fullName: Mixture.ComputeShaderNode.DispatchComputePreview(UnityEngine.Rendering.CommandBuffer, System.Int32)
   spec.csharp:
-  - uid: Mixture.ShaderNode.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
-    name: ChangeOutputPortType
-    nameWithType: ShaderNode.ChangeOutputPortType
-    fullName: Mixture.ShaderNode.ChangeOutputPortType
+  - uid: Mixture.ComputeShaderNode.DispatchComputePreview(UnityEngine.Rendering.CommandBuffer,System.Int32)
+    name: DispatchComputePreview
+    nameWithType: ComputeShaderNode.DispatchComputePreview
+    fullName: Mixture.ComputeShaderNode.DispatchComputePreview
   - name: (
     nameWithType: (
     fullName: (
-  - uid: System.Collections.Generic.List`1
-    name: List
-    nameWithType: List
-    fullName: System.Collections.Generic.List
+  - uid: UnityEngine.Rendering.CommandBuffer
+    name: CommandBuffer
+    nameWithType: CommandBuffer
+    fullName: UnityEngine.Rendering.CommandBuffer
     isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: SerializableEdge
-    name: SerializableEdge
-    nameWithType: SerializableEdge
-    fullName: SerializableEdge
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
     isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.ShaderNode.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
-    name: ChangeOutputPortType
-    nameWithType: ShaderNode.ChangeOutputPortType
-    fullName: Mixture.ShaderNode.ChangeOutputPortType
+  - uid: Mixture.ComputeShaderNode.DispatchComputePreview(UnityEngine.Rendering.CommandBuffer,System.Int32)
+    name: DispatchComputePreview
+    nameWithType: ComputeShaderNode.DispatchComputePreview
+    fullName: Mixture.ComputeShaderNode.DispatchComputePreview
   - name: (
     nameWithType: (
     fullName: (
-  - uid: System.Collections.Generic.List`1
-    name: List
-    nameWithType: List
-    fullName: System.Collections.Generic.List
+  - uid: UnityEngine.Rendering.CommandBuffer
+    name: CommandBuffer
+    nameWithType: CommandBuffer
+    fullName: UnityEngine.Rendering.CommandBuffer
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: SerializableEdge
-    name: SerializableEdge
-    nameWithType: SerializableEdge
-    fullName: SerializableEdge
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
     isExternal: true
   - name: )
     nameWithType: )
     fullName: )
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: Mixture.ShaderNode.GetCustomRenderTexture
-  commentId: M:Mixture.ShaderNode.GetCustomRenderTexture
-  parent: Mixture.ShaderNode
-  name: GetCustomRenderTexture()
-  nameWithType: ShaderNode.GetCustomRenderTexture()
-  fullName: Mixture.ShaderNode.GetCustomRenderTexture()
+- uid: Mixture.ComputeShaderNode.DispatchComputePreview(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeShader,System.Int32)
+  commentId: M:Mixture.ComputeShaderNode.DispatchComputePreview(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeShader,System.Int32)
+  parent: Mixture.ComputeShaderNode
+  isExternal: true
+  name: DispatchComputePreview(CommandBuffer, ComputeShader, Int32)
+  nameWithType: ComputeShaderNode.DispatchComputePreview(CommandBuffer, ComputeShader, Int32)
+  fullName: Mixture.ComputeShaderNode.DispatchComputePreview(UnityEngine.Rendering.CommandBuffer, UnityEngine.ComputeShader, System.Int32)
   spec.csharp:
-  - uid: Mixture.ShaderNode.GetCustomRenderTexture
-    name: GetCustomRenderTexture
-    nameWithType: ShaderNode.GetCustomRenderTexture
-    fullName: Mixture.ShaderNode.GetCustomRenderTexture
+  - uid: Mixture.ComputeShaderNode.DispatchComputePreview(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeShader,System.Int32)
+    name: DispatchComputePreview
+    nameWithType: ComputeShaderNode.DispatchComputePreview
+    fullName: Mixture.ComputeShaderNode.DispatchComputePreview
   - name: (
     nameWithType: (
     fullName: (
+  - uid: UnityEngine.Rendering.CommandBuffer
+    name: CommandBuffer
+    nameWithType: CommandBuffer
+    fullName: UnityEngine.Rendering.CommandBuffer
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.ComputeShader
+    name: ComputeShader
+    nameWithType: ComputeShader
+    fullName: UnityEngine.ComputeShader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.ShaderNode.GetCustomRenderTexture
-    name: GetCustomRenderTexture
-    nameWithType: ShaderNode.GetCustomRenderTexture
-    fullName: Mixture.ShaderNode.GetCustomRenderTexture
+  - uid: Mixture.ComputeShaderNode.DispatchComputePreview(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeShader,System.Int32)
+    name: DispatchComputePreview
+    nameWithType: ComputeShaderNode.DispatchComputePreview
+    fullName: Mixture.ComputeShaderNode.DispatchComputePreview
   - name: (
     nameWithType: (
     fullName: (
+  - uid: UnityEngine.Rendering.CommandBuffer
+    name: CommandBuffer
+    nameWithType: CommandBuffer
+    fullName: UnityEngine.Rendering.CommandBuffer
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.ComputeShader
+    name: ComputeShader
+    nameWithType: ComputeShader
+    fullName: UnityEngine.ComputeShader
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.ComputeShaderNode.ClearBuffer(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeBuffer,System.Int32,System.Int32)
+  commentId: M:Mixture.ComputeShaderNode.ClearBuffer(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeBuffer,System.Int32,System.Int32)
+  parent: Mixture.ComputeShaderNode
+  isExternal: true
+  name: ClearBuffer(CommandBuffer, ComputeBuffer, Int32, Int32)
+  nameWithType: ComputeShaderNode.ClearBuffer(CommandBuffer, ComputeBuffer, Int32, Int32)
+  fullName: Mixture.ComputeShaderNode.ClearBuffer(UnityEngine.Rendering.CommandBuffer, UnityEngine.ComputeBuffer, System.Int32, System.Int32)
+  spec.csharp:
+  - uid: Mixture.ComputeShaderNode.ClearBuffer(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeBuffer,System.Int32,System.Int32)
+    name: ClearBuffer
+    nameWithType: ComputeShaderNode.ClearBuffer
+    fullName: Mixture.ComputeShaderNode.ClearBuffer
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rendering.CommandBuffer
+    name: CommandBuffer
+    nameWithType: CommandBuffer
+    fullName: UnityEngine.Rendering.CommandBuffer
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.ComputeBuffer
+    name: ComputeBuffer
+    nameWithType: ComputeBuffer
+    fullName: UnityEngine.ComputeBuffer
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.ComputeShaderNode.ClearBuffer(UnityEngine.Rendering.CommandBuffer,UnityEngine.ComputeBuffer,System.Int32,System.Int32)
+    name: ClearBuffer
+    nameWithType: ComputeShaderNode.ClearBuffer
+    fullName: Mixture.ComputeShaderNode.ClearBuffer
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rendering.CommandBuffer
+    name: CommandBuffer
+    nameWithType: CommandBuffer
+    fullName: UnityEngine.Rendering.CommandBuffer
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.ComputeBuffer
+    name: ComputeBuffer
+    nameWithType: ComputeBuffer
+    fullName: UnityEngine.ComputeBuffer
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
@@ -706,6 +1384,12 @@ references:
   name: rtSettings
   nameWithType: MixtureNode.rtSettings
   fullName: Mixture.MixtureNode.rtSettings
+- uid: Mixture.MixtureNode.defaultRTSettings
+  commentId: P:Mixture.MixtureNode.defaultRTSettings
+  parent: Mixture.MixtureNode
+  name: defaultRTSettings
+  nameWithType: MixtureNode.defaultRTSettings
+  fullName: Mixture.MixtureNode.defaultRTSettings
 - uid: Mixture.MixtureNode.nodeWidth
   commentId: P:Mixture.MixtureNode.nodeWidth
   parent: Mixture.MixtureNode
@@ -730,12 +1414,6 @@ references:
   name: defaultPreviewChannels
   nameWithType: MixtureNode.defaultPreviewChannels
   fullName: Mixture.MixtureNode.defaultPreviewChannels
-- uid: Mixture.MixtureNode.showDefaultInspector
-  commentId: P:Mixture.MixtureNode.showDefaultInspector
-  parent: Mixture.MixtureNode
-  name: showDefaultInspector
-  nameWithType: MixtureNode.showDefaultInspector
-  fullName: Mixture.MixtureNode.showDefaultInspector
 - uid: Mixture.MixtureNode.showPreviewExposure
   commentId: P:Mixture.MixtureNode.showPreviewExposure
   parent: Mixture.MixtureNode
@@ -772,6 +1450,12 @@ references:
   name: showControlsOnHover
   nameWithType: MixtureNode.showControlsOnHover
   fullName: Mixture.MixtureNode.showControlsOnHover
+- uid: Mixture.MixtureNode.needsInspector
+  commentId: P:Mixture.MixtureNode.needsInspector
+  parent: Mixture.MixtureNode
+  name: needsInspector
+  nameWithType: MixtureNode.needsInspector
+  fullName: Mixture.MixtureNode.needsInspector
 - uid: Mixture.MixtureNode.temporaryMaterials
   commentId: F:Mixture.MixtureNode.temporaryMaterials
   parent: Mixture.MixtureNode
@@ -802,6 +1486,18 @@ references:
   name: previewEV100
   nameWithType: MixtureNode.previewEV100
   fullName: Mixture.MixtureNode.previewEV100
+- uid: Mixture.MixtureNode.previewSlice
+  commentId: F:Mixture.MixtureNode.previewSlice
+  parent: Mixture.MixtureNode
+  name: previewSlice
+  nameWithType: MixtureNode.previewSlice
+  fullName: Mixture.MixtureNode.previewSlice
+- uid: Mixture.MixtureNode.isPinned
+  commentId: F:Mixture.MixtureNode.isPinned
+  parent: Mixture.MixtureNode
+  name: isPinned
+  nameWithType: MixtureNode.isPinned
+  fullName: Mixture.MixtureNode.isPinned
 - uid: Mixture.MixtureNode.recorder
   commentId: P:Mixture.MixtureNode.recorder
   parent: Mixture.MixtureNode
@@ -836,15 +1532,15 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
-  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
   parent: Mixture.MixtureNode
   isExternal: true
-  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
-  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
-  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean)
+  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean, UnityEngine.CustomRenderTextureUpdateMode, System.Boolean)
   spec.csharp:
-  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
     name: UpdateTempRenderTexture
     nameWithType: MixtureNode.UpdateTempRenderTexture
     fullName: Mixture.MixtureNode.UpdateTempRenderTexture
@@ -863,6 +1559,22 @@ references:
     name: Boolean
     nameWithType: Boolean
     fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.CustomRenderTextureUpdateMode
+    name: CustomRenderTextureUpdateMode
+    nameWithType: CustomRenderTextureUpdateMode
+    fullName: UnityEngine.CustomRenderTextureUpdateMode
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -876,7 +1588,7 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
     name: UpdateTempRenderTexture
     nameWithType: MixtureNode.UpdateTempRenderTexture
     fullName: Mixture.MixtureNode.UpdateTempRenderTexture
@@ -904,6 +1616,50 @@ references:
     nameWithType: Boolean
     fullName: System.Boolean
     isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.CustomRenderTextureUpdateMode
+    name: CustomRenderTextureUpdateMode
+    nameWithType: CustomRenderTextureUpdateMode
+    fullName: UnityEngine.CustomRenderTextureUpdateMode
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.GetTempTextureDimension
+  commentId: M:Mixture.MixtureNode.GetTempTextureDimension
+  parent: Mixture.MixtureNode
+  name: GetTempTextureDimension()
+  nameWithType: MixtureNode.GetTempTextureDimension()
+  fullName: Mixture.MixtureNode.GetTempTextureDimension()
+  spec.csharp:
+  - uid: Mixture.MixtureNode.GetTempTextureDimension
+    name: GetTempTextureDimension
+    nameWithType: MixtureNode.GetTempTextureDimension
+    fullName: Mixture.MixtureNode.GetTempTextureDimension
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.GetTempTextureDimension
+    name: GetTempTextureDimension
+    nameWithType: MixtureNode.GetTempTextureDimension
+    fullName: Mixture.MixtureNode.GetTempTextureDimension
+  - name: (
+    nameWithType: (
+    fullName: (
   - name: )
     nameWithType: )
     fullName: )
@@ -971,45 +1727,6 @@ references:
   - name: (
     nameWithType: (
     fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  commentId: M:Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  parent: Mixture.MixtureNode
-  isExternal: true
-  name: AddObjectToGraph(Object)
-  nameWithType: MixtureNode.AddObjectToGraph(Object)
-  fullName: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  spec.csharp:
-  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-    name: AddObjectToGraph
-    nameWithType: MixtureNode.AddObjectToGraph
-    fullName: Mixture.MixtureNode.AddObjectToGraph
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Object
-    name: Object
-    nameWithType: Object
-    fullName: UnityEngine.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-    name: AddObjectToGraph
-    nameWithType: MixtureNode.AddObjectToGraph
-    fullName: Mixture.MixtureNode.AddObjectToGraph
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Object
-    name: Object
-    nameWithType: Object
-    fullName: UnityEngine.Object
-    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
@@ -1348,34 +2065,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.MixtureNode.GetMixtureDependencies
-  commentId: M:Mixture.MixtureNode.GetMixtureDependencies
-  parent: Mixture.MixtureNode
-  name: GetMixtureDependencies()
-  nameWithType: MixtureNode.GetMixtureDependencies()
-  fullName: Mixture.MixtureNode.GetMixtureDependencies()
-  spec.csharp:
-  - uid: Mixture.MixtureNode.GetMixtureDependencies
-    name: GetMixtureDependencies
-    nameWithType: MixtureNode.GetMixtureDependencies
-    fullName: Mixture.MixtureNode.GetMixtureDependencies
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.MixtureNode.GetMixtureDependencies
-    name: GetMixtureDependencies
-    nameWithType: MixtureNode.GetMixtureDependencies
-    fullName: Mixture.MixtureNode.GetMixtureDependencies
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: Mixture.MixtureNode.GetTempMaterial(System.String)
   commentId: M:Mixture.MixtureNode.GetTempMaterial(System.String)
   parent: Mixture.MixtureNode
@@ -1421,12 +2110,57 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: Mixture.ShaderNode.name
-  commentId: P:Mixture.ShaderNode.name
-  parent: Mixture.ShaderNode
+- uid: UnityEngine.Texture
+  commentId: T:UnityEngine.Texture
+  parent: UnityEngine
+  isExternal: true
+  name: Texture
+  nameWithType: Texture
+  fullName: UnityEngine.Texture
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: UnityEngine.CustomRenderTexture
+  commentId: T:UnityEngine.CustomRenderTexture
+  parent: UnityEngine
+  isExternal: true
+  name: CustomRenderTexture
+  nameWithType: CustomRenderTexture
+  fullName: UnityEngine.CustomRenderTexture
+- uid: Mixture.Distance.Mode
+  commentId: T:Mixture.Distance.Mode
+  parent: Mixture
+  name: Distance.Mode
+  nameWithType: Distance.Mode
+  fullName: Mixture.Distance.Mode
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: Mixture.Distance.ThresholdMode
+  commentId: T:Mixture.Distance.ThresholdMode
+  parent: Mixture
+  name: Distance.ThresholdMode
+  nameWithType: Distance.ThresholdMode
+  fullName: Mixture.Distance.ThresholdMode
+- uid: Mixture.Distance.DistanceMode
+  commentId: T:Mixture.Distance.DistanceMode
+  parent: Mixture
+  name: Distance.DistanceMode
+  nameWithType: Distance.DistanceMode
+  fullName: Mixture.Distance.DistanceMode
+- uid: Mixture.ComputeShaderNode.name
+  commentId: P:Mixture.ComputeShaderNode.name
+  parent: Mixture.ComputeShaderNode
   name: name
-  nameWithType: ShaderNode.name
-  fullName: Mixture.ShaderNode.name
+  nameWithType: ComputeShaderNode.name
+  fullName: Mixture.ComputeShaderNode.name
 - uid: Mixture.Distance.name*
   commentId: Overload:Mixture.Distance.name
   name: name
@@ -1439,28 +2173,28 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: Mixture.FixedShaderNode.shaderName
-  commentId: P:Mixture.FixedShaderNode.shaderName
-  parent: Mixture.FixedShaderNode
-  name: shaderName
-  nameWithType: FixedShaderNode.shaderName
-  fullName: Mixture.FixedShaderNode.shaderName
-- uid: Mixture.Distance.shaderName*
-  commentId: Overload:Mixture.Distance.shaderName
-  name: shaderName
-  nameWithType: Distance.shaderName
-  fullName: Mixture.Distance.shaderName
-- uid: Mixture.FixedShaderNode.displayMaterialInspector
-  commentId: P:Mixture.FixedShaderNode.displayMaterialInspector
-  parent: Mixture.FixedShaderNode
-  name: displayMaterialInspector
-  nameWithType: FixedShaderNode.displayMaterialInspector
-  fullName: Mixture.FixedShaderNode.displayMaterialInspector
-- uid: Mixture.Distance.displayMaterialInspector*
-  commentId: Overload:Mixture.Distance.displayMaterialInspector
-  name: displayMaterialInspector
-  nameWithType: Distance.displayMaterialInspector
-  fullName: Mixture.Distance.displayMaterialInspector
+- uid: Mixture.ComputeShaderNode.computeShaderResourcePath
+  commentId: P:Mixture.ComputeShaderNode.computeShaderResourcePath
+  parent: Mixture.ComputeShaderNode
+  name: computeShaderResourcePath
+  nameWithType: ComputeShaderNode.computeShaderResourcePath
+  fullName: Mixture.ComputeShaderNode.computeShaderResourcePath
+- uid: Mixture.Distance.computeShaderResourcePath*
+  commentId: Overload:Mixture.Distance.computeShaderResourcePath
+  name: computeShaderResourcePath
+  nameWithType: Distance.computeShaderResourcePath
+  fullName: Mixture.Distance.computeShaderResourcePath
+- uid: Mixture.MixtureNode.showDefaultInspector
+  commentId: P:Mixture.MixtureNode.showDefaultInspector
+  parent: Mixture.MixtureNode
+  name: showDefaultInspector
+  nameWithType: MixtureNode.showDefaultInspector
+  fullName: Mixture.MixtureNode.showDefaultInspector
+- uid: Mixture.Distance.showDefaultInspector*
+  commentId: Overload:Mixture.Distance.showDefaultInspector
+  name: showDefaultInspector
+  nameWithType: Distance.showDefaultInspector
+  fullName: Mixture.Distance.showDefaultInspector
 - uid: System.Boolean
   commentId: T:System.Boolean
   parent: System
@@ -1468,106 +2202,17 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
-- uid: Mixture.ShaderNode.filteredOutProperties
-  commentId: P:Mixture.ShaderNode.filteredOutProperties
-  parent: Mixture.ShaderNode
-  name: filteredOutProperties
-  nameWithType: ShaderNode.filteredOutProperties
-  fullName: Mixture.ShaderNode.filteredOutProperties
-- uid: Mixture.Distance.filteredOutProperties*
-  commentId: Overload:Mixture.Distance.filteredOutProperties
-  name: filteredOutProperties
-  nameWithType: Distance.filteredOutProperties
-  fullName: Mixture.Distance.filteredOutProperties
-- uid: System.Collections.Generic.IEnumerable{System.String}
-  commentId: T:System.Collections.Generic.IEnumerable{System.String}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.IEnumerable`1
-  name: IEnumerable<String>
-  nameWithType: IEnumerable<String>
-  fullName: System.Collections.Generic.IEnumerable<System.String>
-  nameWithType.vb: IEnumerable(Of String)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of System.String)
-  name.vb: IEnumerable(Of String)
-  spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Collections.Generic.IEnumerable`1
-  commentId: T:System.Collections.Generic.IEnumerable`1
-  isExternal: true
-  name: IEnumerable<T>
-  nameWithType: IEnumerable<T>
-  fullName: System.Collections.Generic.IEnumerable<T>
-  nameWithType.vb: IEnumerable(Of T)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
-  name.vb: IEnumerable(Of T)
-  spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
+- uid: Mixture.ComputeShaderNode.previewTexture
+  commentId: P:Mixture.ComputeShaderNode.previewTexture
+  parent: Mixture.ComputeShaderNode
+  name: previewTexture
+  nameWithType: ComputeShaderNode.previewTexture
+  fullName: Mixture.ComputeShaderNode.previewTexture
+- uid: Mixture.Distance.previewTexture*
+  commentId: Overload:Mixture.Distance.previewTexture
+  name: previewTexture
+  nameWithType: Distance.previewTexture
+  fullName: Mixture.Distance.previewTexture
 - uid: Mixture.MixtureNode.supportedDimensions
   commentId: P:Mixture.MixtureNode.supportedDimensions
   parent: Mixture.MixtureNode
@@ -1660,18 +2305,194 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.ShaderNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
-  commentId: M:Mixture.ShaderNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
-  parent: Mixture.ShaderNode
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: Mixture.Distance.ChangeInputPortType*
+  commentId: Overload:Mixture.Distance.ChangeInputPortType
+  name: ChangeInputPortType
+  nameWithType: Distance.ChangeInputPortType
+  fullName: Mixture.Distance.ChangeInputPortType
+- uid: System.Collections.Generic.List{SerializableEdge}
+  commentId: T:System.Collections.Generic.List{SerializableEdge}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<SerializableEdge>
+  nameWithType: List<SerializableEdge>
+  fullName: System.Collections.Generic.List<SerializableEdge>
+  nameWithType.vb: List(Of SerializableEdge)
+  fullName.vb: System.Collections.Generic.List(Of SerializableEdge)
+  name.vb: List(Of SerializableEdge)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: SerializableEdge
+    name: SerializableEdge
+    nameWithType: SerializableEdge
+    fullName: SerializableEdge
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: SerializableEdge
+    name: SerializableEdge
+    nameWithType: SerializableEdge
+    fullName: SerializableEdge
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{PortData}
+  commentId: T:System.Collections.Generic.IEnumerable{PortData}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<PortData>
+  nameWithType: IEnumerable<PortData>
+  fullName: System.Collections.Generic.IEnumerable<PortData>
+  nameWithType.vb: IEnumerable(Of PortData)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of PortData)
+  name.vb: IEnumerable(Of PortData)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PortData
+    name: PortData
+    nameWithType: PortData
+    fullName: PortData
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PortData
+    name: PortData
+    nameWithType: PortData
+    fullName: PortData
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.Distance.ChangeOutputPortType*
+  commentId: Overload:Mixture.Distance.ChangeOutputPortType
+  name: ChangeOutputPortType
+  nameWithType: Distance.ChangeOutputPortType
+  fullName: Mixture.Distance.ChangeOutputPortType
+- uid: Mixture.ComputeShaderNode.Enable
+  commentId: M:Mixture.ComputeShaderNode.Enable
+  parent: Mixture.ComputeShaderNode
+  name: Enable()
+  nameWithType: ComputeShaderNode.Enable()
+  fullName: Mixture.ComputeShaderNode.Enable()
+  spec.csharp:
+  - uid: Mixture.ComputeShaderNode.Enable
+    name: Enable
+    nameWithType: ComputeShaderNode.Enable
+    fullName: Mixture.ComputeShaderNode.Enable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.ComputeShaderNode.Enable
+    name: Enable
+    nameWithType: ComputeShaderNode.Enable
+    fullName: Mixture.ComputeShaderNode.Enable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.Distance.Enable*
+  commentId: Overload:Mixture.Distance.Enable
+  name: Enable
+  nameWithType: Distance.Enable
+  fullName: Mixture.Distance.Enable
+- uid: Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  commentId: M:Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  parent: Mixture.MixtureNode
   isExternal: true
   name: ProcessNode(CommandBuffer)
-  nameWithType: ShaderNode.ProcessNode(CommandBuffer)
-  fullName: Mixture.ShaderNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  nameWithType: MixtureNode.ProcessNode(CommandBuffer)
+  fullName: Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
   spec.csharp:
-  - uid: Mixture.ShaderNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  - uid: Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
     name: ProcessNode
-    nameWithType: ShaderNode.ProcessNode
-    fullName: Mixture.ShaderNode.ProcessNode
+    nameWithType: MixtureNode.ProcessNode
+    fullName: Mixture.MixtureNode.ProcessNode
   - name: (
     nameWithType: (
     fullName: (
@@ -1684,10 +2505,10 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.ShaderNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
+  - uid: Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
     name: ProcessNode
-    nameWithType: ShaderNode.ProcessNode
-    fullName: Mixture.ShaderNode.ProcessNode
+    nameWithType: MixtureNode.ProcessNode
+    fullName: Mixture.MixtureNode.ProcessNode
   - name: (
     nameWithType: (
     fullName: (
@@ -1717,3 +2538,41 @@ references:
   name: UnityEngine.Rendering
   nameWithType: UnityEngine.Rendering
   fullName: UnityEngine.Rendering
+- uid: Mixture.ComputeShaderNode.Disable
+  commentId: M:Mixture.ComputeShaderNode.Disable
+  parent: Mixture.ComputeShaderNode
+  name: Disable()
+  nameWithType: ComputeShaderNode.Disable()
+  fullName: Mixture.ComputeShaderNode.Disable()
+  spec.csharp:
+  - uid: Mixture.ComputeShaderNode.Disable
+    name: Disable
+    nameWithType: ComputeShaderNode.Disable
+    fullName: Mixture.ComputeShaderNode.Disable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.ComputeShaderNode.Disable
+    name: Disable
+    nameWithType: ComputeShaderNode.Disable
+    fullName: Mixture.ComputeShaderNode.Disable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.Distance.Disable*
+  commentId: Overload:Mixture.Distance.Disable
+  name: Disable
+  nameWithType: Distance.Disable
+  fullName: Mixture.Distance.Disable
+- uid: Mixture.Distance.GetCustomRenderTexture*
+  commentId: Overload:Mixture.Distance.GetCustomRenderTexture
+  name: GetCustomRenderTexture
+  nameWithType: Distance.GetCustomRenderTexture
+  fullName: Mixture.Distance.GetCustomRenderTexture

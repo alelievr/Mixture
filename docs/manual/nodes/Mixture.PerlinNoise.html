@@ -8,7 +8,7 @@
     <title>Perlin Noise </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Perlin Noise ">
-    <meta name="generator" content="docfx 2.55.0.0">
+    <meta name="generator" content="docfx 2.56.4.0">
     
     <link rel="shortcut icon" href="../../favicon.ico">
     <link rel="stylesheet" href="../../styles/docfx.vendor.css">
@@ -95,6 +95,10 @@
 <td>Persistance</td>
 <td></td>
 </tr>
+<tr>
+<td>Seed</td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <h2 id="output">Output</h2>
@@ -113,6 +117,10 @@
 </tbody>
 </table>
 <h2 id="description">Description</h2>
+<p>Perlin Noise generator.</p>
+<p>Note that for Texture 2D, the z coordinate is used as a seed offset.
+This allows you to generate multiple noises with the same UV.
+Be careful with because if you use a UV with a distorted z value, you'll get a weird looking noise instead of the normal one.</p>
 </article>
           </div>
           
@@ -121,7 +129,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/docs/docfx/manual/nodes/Mixture.PerlinNoise.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/alelievr/Mixture/blob/master/docs/docfx/manual/nodes/Mixture.PerlinNoise.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

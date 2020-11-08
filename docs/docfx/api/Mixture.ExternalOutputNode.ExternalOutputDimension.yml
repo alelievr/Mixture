@@ -5,6 +5,7 @@ items:
   id: ExternalOutputNode.ExternalOutputDimension
   parent: Mixture
   children:
+  - Mixture.ExternalOutputNode.ExternalOutputDimension.Cubemap
   - Mixture.ExternalOutputNode.ExternalOutputDimension.Texture2D
   - Mixture.ExternalOutputNode.ExternalOutputDimension.Texture3D
   langs:
@@ -17,11 +18,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ExternalOutputDimension
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-    startLine: 10
+    startLine: 18
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -48,11 +49,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: Texture2D
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-    startLine: 12
+    startLine: 20
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -80,16 +81,48 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: Texture3D
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-    startLine: 13
+    startLine: 21
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
     content: Texture3D = 1
+    return:
+      type: Mixture.ExternalOutputNode.ExternalOutputDimension
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ExternalOutputNode.ExternalOutputDimension.Cubemap
+  commentId: F:Mixture.ExternalOutputNode.ExternalOutputDimension.Cubemap
+  id: Cubemap
+  parent: Mixture.ExternalOutputNode.ExternalOutputDimension
+  langs:
+  - csharp
+  - vb
+  name: Cubemap
+  nameWithType: ExternalOutputNode.ExternalOutputDimension.Cubemap
+  fullName: Mixture.ExternalOutputNode.ExternalOutputDimension.Cubemap
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Cubemap
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
+    startLine: 22
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Cubemap = 2
     return:
       type: Mixture.ExternalOutputNode.ExternalOutputDimension
   modifiers.csharp:

@@ -5,6 +5,7 @@ items:
   id: MaterialExtension
   parent: Mixture
   children:
+  - Mixture.MaterialExtension.HasTextureBound(UnityEngine.Material,System.String,UnityEngine.Rendering.TextureDimension)
   - Mixture.MaterialExtension.SetKeywordEnabled(UnityEngine.Material,System.String,System.Boolean)
   langs:
   - csharp
@@ -16,7 +17,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MaterialExtension.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: MaterialExtension
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MaterialExtension.cs
@@ -51,7 +52,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Utils/MaterialExtension.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: SetKeywordEnabled
     path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MaterialExtension.cs
@@ -73,6 +74,51 @@ items:
 
       Public Shared Sub SetKeywordEnabled(material As Material, keyword As String, enabled As Boolean)
   overload: Mixture.MaterialExtension.SetKeywordEnabled*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.MaterialExtension.HasTextureBound(UnityEngine.Material,System.String,UnityEngine.Rendering.TextureDimension)
+  commentId: M:Mixture.MaterialExtension.HasTextureBound(UnityEngine.Material,System.String,UnityEngine.Rendering.TextureDimension)
+  id: HasTextureBound(UnityEngine.Material,System.String,UnityEngine.Rendering.TextureDimension)
+  isExtensionMethod: true
+  parent: Mixture.MaterialExtension
+  langs:
+  - csharp
+  - vb
+  name: HasTextureBound(Material, String, TextureDimension)
+  nameWithType: MaterialExtension.HasTextureBound(Material, String, TextureDimension)
+  fullName: Mixture.MaterialExtension.HasTextureBound(UnityEngine.Material, System.String, UnityEngine.Rendering.TextureDimension)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MaterialExtension.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: HasTextureBound
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MaterialExtension.cs
+    startLine: 15
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static bool HasTextureBound(this Material material, string baseName, TextureDimension dimension)
+    parameters:
+    - id: material
+      type: UnityEngine.Material
+    - id: baseName
+      type: System.String
+    - id: dimension
+      type: UnityEngine.Rendering.TextureDimension
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Function HasTextureBound(material As Material, baseName As String, dimension As TextureDimension) As Boolean
+  overload: Mixture.MaterialExtension.HasTextureBound*
   modifiers.csharp:
   - public
   - static
@@ -130,3 +176,21 @@ references:
   name: UnityEngine
   nameWithType: UnityEngine
   fullName: UnityEngine
+- uid: Mixture.MaterialExtension.HasTextureBound*
+  commentId: Overload:Mixture.MaterialExtension.HasTextureBound
+  name: HasTextureBound
+  nameWithType: MaterialExtension.HasTextureBound
+  fullName: Mixture.MaterialExtension.HasTextureBound
+- uid: UnityEngine.Rendering.TextureDimension
+  commentId: T:UnityEngine.Rendering.TextureDimension
+  parent: UnityEngine.Rendering
+  isExternal: true
+  name: TextureDimension
+  nameWithType: TextureDimension
+  fullName: UnityEngine.Rendering.TextureDimension
+- uid: UnityEngine.Rendering
+  commentId: N:UnityEngine.Rendering
+  isExternal: true
+  name: UnityEngine.Rendering
+  nameWithType: UnityEngine.Rendering
+  fullName: UnityEngine.Rendering

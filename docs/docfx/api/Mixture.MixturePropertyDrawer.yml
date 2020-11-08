@@ -5,13 +5,13 @@ items:
   id: MixturePropertyDrawer
   parent: Mixture
   children:
-  - Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+  - Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,Mixture.MixtureGraph,Mixture.MixtureNodeView)
   - Mixture.MixturePropertyDrawer.GetGraph(UnityEditor.MaterialEditor)
   - Mixture.MixturePropertyDrawer.GetNodeView(UnityEditor.MaterialEditor)
   - Mixture.MixturePropertyDrawer.GetPropertyHeight(UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
   - Mixture.MixturePropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
-  - Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,MixtureGraph)
-  - Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
+  - Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,Mixture.MixtureGraph)
+  - Mixture.MixturePropertyDrawer.UnregisterGraph(Mixture.MixtureGraph)
   langs:
   - csharp
   - vb
@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: MixturePropertyDrawer
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
@@ -40,11 +40,13 @@ items:
   - UnityEditor.MaterialPropertyDrawer
   derivedClasses:
   - Mixture.InlineTextureDrawer
+  - Mixture.MixtureBlendDrawer
   - Mixture.MixtureChannelDrawer
   - Mixture.MixtureSwizzleDrawer
   - Mixture.MixtureVector2Drawer
   - Mixture.MixtureVector3Drawer
   - Mixture.RangeDrawer
+  - Mixture.ShowInInspectorDecorator
   - Mixture.TooltipDrawerDecorator
   inheritedMembers:
   - UnityEditor.MaterialPropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,UnityEngine.GUIContent,UnityEditor.MaterialEditor)
@@ -55,25 +57,25 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,MixtureGraph)
-  commentId: M:Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,MixtureGraph)
-  id: RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,MixtureGraph)
+- uid: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,Mixture.MixtureGraph)
+  commentId: M:Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,Mixture.MixtureGraph)
+  id: RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,Mixture.MixtureGraph)
   parent: Mixture.MixturePropertyDrawer
   langs:
   - csharp
   - vb
   name: RegisterEditor(MaterialEditor, MixtureNodeView, MixtureGraph)
   nameWithType: MixturePropertyDrawer.RegisterEditor(MaterialEditor, MixtureNodeView, MixtureGraph)
-  fullName: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor, Mixture.MixtureNodeView, MixtureGraph)
+  fullName: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor, Mixture.MixtureNodeView, Mixture.MixtureGraph)
   type: Method
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: RegisterEditor
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-    startLine: 20
+    startLine: 19
   assemblies:
   - Unity.ShaderGraph.GraphicsTests
   namespace: Mixture
@@ -85,7 +87,7 @@ items:
     - id: nodeView
       type: Mixture.MixtureNodeView
     - id: graph
-      type: MixtureGraph
+      type: Mixture.MixtureGraph
     content.vb: Public Shared Sub RegisterEditor(editor As MaterialEditor, nodeView As MixtureNodeView, graph As MixtureGraph)
   overload: Mixture.MixturePropertyDrawer.RegisterEditor*
   modifiers.csharp:
@@ -94,25 +96,25 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
-  commentId: M:Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
-  id: UnregisterGraph(MixtureGraph)
+- uid: Mixture.MixturePropertyDrawer.UnregisterGraph(Mixture.MixtureGraph)
+  commentId: M:Mixture.MixturePropertyDrawer.UnregisterGraph(Mixture.MixtureGraph)
+  id: UnregisterGraph(Mixture.MixtureGraph)
   parent: Mixture.MixturePropertyDrawer
   langs:
   - csharp
   - vb
   name: UnregisterGraph(MixtureGraph)
   nameWithType: MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
-  fullName: Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
+  fullName: Mixture.MixturePropertyDrawer.UnregisterGraph(Mixture.MixtureGraph)
   type: Method
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: UnregisterGraph
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-    startLine: 31
+    startLine: 24
   assemblies:
   - Unity.ShaderGraph.GraphicsTests
   namespace: Mixture
@@ -120,7 +122,7 @@ items:
     content: public static void UnregisterGraph(MixtureGraph graph)
     parameters:
     - id: graph
-      type: MixtureGraph
+      type: Mixture.MixtureGraph
     content.vb: Public Shared Sub UnregisterGraph(graph As MixtureGraph)
   overload: Mixture.MixturePropertyDrawer.UnregisterGraph*
   modifiers.csharp:
@@ -143,11 +145,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetGraph
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-    startLine: 40
+    startLine: 33
   assemblies:
   - Unity.ShaderGraph.GraphicsTests
   namespace: Mixture
@@ -157,7 +159,7 @@ items:
     - id: editor
       type: UnityEditor.MaterialEditor
     return:
-      type: MixtureGraph
+      type: Mixture.MixtureGraph
     content.vb: Protected Function GetGraph(editor As MaterialEditor) As MixtureGraph
   overload: Mixture.MixturePropertyDrawer.GetGraph*
   modifiers.csharp:
@@ -178,11 +180,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetNodeView
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-    startLine: 41
+    startLine: 34
   assemblies:
   - Unity.ShaderGraph.GraphicsTests
   namespace: Mixture
@@ -213,11 +215,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: OnGUI
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-    startLine: 43
+    startLine: 36
   assemblies:
   - Unity.ShaderGraph.GraphicsTests
   namespace: Mixture
@@ -257,11 +259,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetPropertyHeight
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-    startLine: 77
+    startLine: 51
   assemblies:
   - Unity.ShaderGraph.GraphicsTests
   namespace: Mixture
@@ -285,25 +287,25 @@ items:
   modifiers.vb:
   - Public
   - Overrides
-- uid: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
-  commentId: M:Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
-  id: DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+- uid: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,Mixture.MixtureGraph,Mixture.MixtureNodeView)
+  commentId: M:Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,Mixture.MixtureGraph,Mixture.MixtureNodeView)
+  id: DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,Mixture.MixtureGraph,Mixture.MixtureNodeView)
   parent: Mixture.MixturePropertyDrawer
   langs:
   - csharp
   - vb
   name: DrawerGUI(Rect, MaterialProperty, String, MaterialEditor, MixtureGraph, MixtureNodeView)
   nameWithType: MixturePropertyDrawer.DrawerGUI(Rect, MaterialProperty, String, MaterialEditor, MixtureGraph, MixtureNodeView)
-  fullName: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect, UnityEditor.MaterialProperty, System.String, UnityEditor.MaterialEditor, MixtureGraph, Mixture.MixtureNodeView)
+  fullName: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect, UnityEditor.MaterialProperty, System.String, UnityEditor.MaterialEditor, Mixture.MixtureGraph, Mixture.MixtureNodeView)
   type: Method
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: DrawerGUI
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
-    startLine: 82
+    startLine: 59
   assemblies:
   - Unity.ShaderGraph.GraphicsTests
   namespace: Mixture
@@ -319,7 +321,7 @@ items:
     - id: editor
       type: UnityEditor.MaterialEditor
     - id: graph
-      type: MixtureGraph
+      type: Mixture.MixtureGraph
     - id: nodeView
       type: Mixture.MixtureNodeView
     content.vb: Protected Overridable Sub DrawerGUI(position As Rect, prop As MaterialProperty, label As String, editor As MaterialEditor, graph As MixtureGraph, nodeView As MixtureNodeView)
@@ -510,11 +512,12 @@ references:
   name: MixtureNodeView
   nameWithType: MixtureNodeView
   fullName: Mixture.MixtureNodeView
-- uid: MixtureGraph
-  isExternal: true
+- uid: Mixture.MixtureGraph
+  commentId: T:Mixture.MixtureGraph
+  parent: Mixture
   name: MixtureGraph
   nameWithType: MixtureGraph
-  fullName: MixtureGraph
+  fullName: Mixture.MixtureGraph
 - uid: Mixture.MixturePropertyDrawer.UnregisterGraph*
   commentId: Overload:Mixture.MixturePropertyDrawer.UnregisterGraph
   name: UnregisterGraph

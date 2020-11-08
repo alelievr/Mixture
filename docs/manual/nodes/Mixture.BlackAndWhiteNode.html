@@ -8,7 +8,7 @@
     <title>Black And White </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Black And White ">
-    <meta name="generator" content="docfx 2.55.0.0">
+    <meta name="generator" content="docfx 2.56.4.0">
     
     <link rel="shortcut icon" href="../../favicon.ico">
     <link rel="stylesheet" href="../../styles/docfx.vendor.css">
@@ -81,11 +81,7 @@
 <tbody>
 <tr>
 <td>Input</td>
-<td></td>
-</tr>
-<tr>
-<td>Lum Factors</td>
-<td></td>
+<td>Source Texture</td>
 </tr>
 <tr>
 <td>Color Filter</td>
@@ -113,6 +109,37 @@
 </tbody>
 </table>
 <h2 id="description">Description</h2>
+<p>Convert RGB image to White and Black. With the Mode property you can change how the black and white color is computed:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Perceptual Luminance</td>
+<td>Compute the luminance with this RGB factor: 0.299, 0.587, 0.114</td>
+</tr>
+<tr>
+<td>D65 Luminance</td>
+<td>Compute the luminance with D65 standard RGB factor: 0.2126729, 0.7151522, 0.0721750</td>
+</tr>
+<tr>
+<td>Custom Luminance</td>
+<td>Compute the luminance the custom value &quot;Lum Factors&quot; in the inspector.</td>
+</tr>
+<tr>
+<td>Lightness</td>
+<td>Compute the lightness with <code>( max(R, G, B) + min(R, G, B) ) / 2</code></td>
+</tr>
+<tr>
+<td>Average</td>
+<td>Compute the average with <code>( R + G + B ) / 3</code></td>
+</tr>
+</tbody>
+</table>
 </article>
           </div>
           
@@ -121,7 +148,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/docs/docfx/manual/nodes/Mixture.BlackAndWhiteNode.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/alelievr/Mixture/blob/master/docs/docfx/manual/nodes/Mixture.BlackAndWhiteNode.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class TimeNode
    ">
-    <meta name="generator" content="docfx 2.55.0.0">
+    <meta name="generator" content="docfx 2.56.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -126,6 +126,9 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_showControlsOnHover">MixtureNode.showControlsOnHover</a>
     </div>
     <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_needsInspector">MixtureNode.needsInspector</a>
+    </div>
+    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_temporaryMaterials">MixtureNode.temporaryMaterials</a>
     </div>
     <div>
@@ -141,22 +144,28 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewEV100">MixtureNode.previewEV100</a>
     </div>
     <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewSlice">MixtureNode.previewSlice</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_isPinned">MixtureNode.isPinned</a>
+    </div>
+    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_recorder">MixtureNode.recorder</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnNodeCreated">MixtureNode.OnNodeCreated()</a>
     </div>
     <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_UpdateTempRenderTexture_UnityEngine_CustomRenderTexture__System_Boolean_System_Boolean_">MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)</a>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_UpdateTempRenderTexture_UnityEngine_CustomRenderTexture__System_Boolean_System_Boolean_UnityEngine_CustomRenderTextureUpdateMode_System_Boolean_">MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetTempTextureDimension">MixtureNode.GetTempTextureDimension()</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnProcess_UnityEngine_Rendering_CommandBuffer_">MixtureNode.OnProcess(CommandBuffer)</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_Process">MixtureNode.Process()</a>
-    </div>
-    <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_AddObjectToGraph_UnityEngine_Object_">MixtureNode.AddObjectToGraph(Object)</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_RemoveObjectFromGraph_UnityEngine_Object_">MixtureNode.RemoveObjectFromGraph(Object)</a>
@@ -180,9 +189,6 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_ResetMaterialPropertyToDefault_UnityEngine_Material_System_String_">MixtureNode.ResetMaterialPropertyToDefault(Material, String)</a>
     </div>
     <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetMixtureDependencies">MixtureNode.GetMixtureDependencies()</a>
-    </div>
-    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetTempMaterial_System_String_">MixtureNode.GetTempMaterial(String)</a>
     </div>
     <div>
@@ -193,24 +199,26 @@
   <h6><strong>Assembly</strong>: Mixture.Runtime.dll</h6>
   <h5 id="Mixture_TimeNode_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Serializable]
+    <pre><code class="lang-csharp hljs">[Documentation(&quot;\r\nOutput multiple time related values.\r\n\r\nThis node can be used in a realtime graph for time based effects.\r\n&quot;)]
+[Serializable]
 public class TimeNode : MixtureNode</code></pre>
   </div>
   <h3 id="fields">Fields
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_TimeNode_cosTime.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.cosTime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_TimeNode_cosTime.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.cosTime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L20">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L24">View Source</a>
   </span>
   <h4 id="Mixture_TimeNode_cosTime" data-uid="Mixture.TimeNode.cosTime">cosTime</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public float cosTime</code></pre>
+    <pre><code class="lang-csharp hljs">[NonSerialized]
+public float cosTime</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -229,17 +237,18 @@ public class TimeNode : MixtureNode</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_TimeNode_deltaTime.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.deltaTime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_TimeNode_deltaTime.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.deltaTime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L23">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L27">View Source</a>
   </span>
   <h4 id="Mixture_TimeNode_deltaTime" data-uid="Mixture.TimeNode.deltaTime">deltaTime</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public float deltaTime</code></pre>
+    <pre><code class="lang-csharp hljs">[NonSerialized]
+public float deltaTime</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -258,17 +267,18 @@ public class TimeNode : MixtureNode</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_TimeNode_frameCount.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.frameCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_TimeNode_frameCount.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.frameCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L26">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L30">View Source</a>
   </span>
   <h4 id="Mixture_TimeNode_frameCount" data-uid="Mixture.TimeNode.frameCount">frameCount</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public float frameCount</code></pre>
+    <pre><code class="lang-csharp hljs">[NonSerialized]
+public float frameCount</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -287,17 +297,18 @@ public class TimeNode : MixtureNode</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_TimeNode_sinTime.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.sinTime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_TimeNode_sinTime.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.sinTime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L17">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L21">View Source</a>
   </span>
   <h4 id="Mixture_TimeNode_sinTime" data-uid="Mixture.TimeNode.sinTime">sinTime</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public float sinTime</code></pre>
+    <pre><code class="lang-csharp hljs">[NonSerialized]
+public float sinTime</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -316,17 +327,18 @@ public class TimeNode : MixtureNode</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_TimeNode_time.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.time%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_TimeNode_time.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.time%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L14">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L18">View Source</a>
   </span>
   <h4 id="Mixture_TimeNode_time" data-uid="Mixture.TimeNode.time">time</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public float time</code></pre>
+    <pre><code class="lang-csharp hljs">[NonSerialized]
+public float time</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -347,10 +359,10 @@ public class TimeNode : MixtureNode</code></pre>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_TimeNode_hasSettings.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.hasSettings%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_TimeNode_hasSettings.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.hasSettings%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L28">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L32">View Source</a>
   </span>
   <a id="Mixture_TimeNode_hasSettings_" data-uid="Mixture.TimeNode.hasSettings*"></a>
   <h4 id="Mixture_TimeNode_hasSettings" data-uid="Mixture.TimeNode.hasSettings">hasSettings</h4>
@@ -379,10 +391,10 @@ public class TimeNode : MixtureNode</code></pre>
   <div><a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_hasSettings">MixtureNode.hasSettings</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_TimeNode_name.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_TimeNode_name.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L30">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L34">View Source</a>
   </span>
   <a id="Mixture_TimeNode_name_" data-uid="Mixture.TimeNode.name*"></a>
   <h4 id="Mixture_TimeNode_name" data-uid="Mixture.TimeNode.name">name</h4>
@@ -409,10 +421,10 @@ public class TimeNode : MixtureNode</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_TimeNode_nodeWidth.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.nodeWidth%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_TimeNode_nodeWidth.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.nodeWidth%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L29">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L33">View Source</a>
   </span>
   <a id="Mixture_TimeNode_nodeWidth_" data-uid="Mixture.TimeNode.nodeWidth*"></a>
   <h4 id="Mixture_TimeNode_nodeWidth" data-uid="Mixture.TimeNode.nodeWidth">nodeWidth</h4>
@@ -443,10 +455,10 @@ public class TimeNode : MixtureNode</code></pre>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_TimeNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_TimeNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_.md&amp;value=---%0Auid%3A%20Mixture.TimeNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L32">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L36">View Source</a>
   </span>
   <a id="Mixture_TimeNode_ProcessNode_" data-uid="Mixture.TimeNode.ProcessNode*"></a>
   <h4 id="Mixture_TimeNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_" data-uid="Mixture.TimeNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)">ProcessNode(CommandBuffer)</h4>
@@ -498,10 +510,10 @@ public class TimeNode : MixtureNode</code></pre>
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_TimeNode.md&amp;value=---%0Auid%3A%20Mixture.TimeNode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_TimeNode.md&amp;value=---%0Auid%3A%20Mixture.TimeNode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/TimeNode.cs/#L8" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

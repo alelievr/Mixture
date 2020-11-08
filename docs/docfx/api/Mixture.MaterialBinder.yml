@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: MaterialBinder
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
@@ -31,10 +31,14 @@ items:
   namespace: Mixture
   syntax:
     content: >-
+      [Documentation("\r\nBinds the textures of a material in parameter. This node can be used for pre-viz with a mesh in the scene for faster iterations.\r\n")]
+
       [Serializable]
 
       public class MaterialBinder : MixtureNode
     content.vb: >-
+      <Documentation(vbCrLf & "Binds the textures of a material in parameter. This node can be used for pre-viz with a mesh in the scene for faster iterations." & vbCrLf)>
+
       <Serializable>
 
       Public Class MaterialBinder
@@ -58,18 +62,21 @@ items:
   - Mixture.MixtureNode.beforeProcessSetup
   - Mixture.MixtureNode.afterProcessCleanup
   - Mixture.MixtureNode.showControlsOnHover
+  - Mixture.MixtureNode.needsInspector
   - Mixture.MixtureNode.temporaryMaterials
   - Mixture.MixtureNode.previewMode
   - Mixture.MixtureNode.previewMip
   - Mixture.MixtureNode.previewVisible
   - Mixture.MixtureNode.previewEV100
+  - Mixture.MixtureNode.previewSlice
+  - Mixture.MixtureNode.isPinned
   - Mixture.MixtureNode.recorder
   - Mixture.MixtureNode.OnNodeCreated
-  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  - Mixture.MixtureNode.GetTempTextureDimension
   - Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
   - Mixture.MixtureNode.Process
   - Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
-  - Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
   - Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
   - Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
   - Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
@@ -77,10 +84,14 @@ items:
   - Mixture.MixtureNode.OnSettingsChanged
   - Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
   - Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
-  - Mixture.MixtureNode.GetMixtureDependencies
   - Mixture.MixtureNode.GetTempMaterial(System.String)
   - Mixture.MixtureNode.Disable
   attributes:
+  - type: Mixture.DocumentationAttribute
+    ctor: Mixture.DocumentationAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: "\r\nBinds the textures of a material in parameter. This node can be used for pre-viz with a mesh in the scene for faster iterations.\r\n"
   - type: System.SerializableAttribute
     ctor: System.SerializableAttribute.#ctor
     arguments: []
@@ -104,11 +115,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: exposedProperties
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
-    startLine: 12
+    startLine: 16
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -135,11 +146,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: targetMaterial
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
-    startLine: 14
+    startLine: 18
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -166,11 +177,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: name
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
-    startLine: 16
+    startLine: 20
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -203,11 +214,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: showDefaultInspector
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
-    startLine: 18
+    startLine: 22
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -241,11 +252,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ListMaterialBindings
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
-    startLine: 20
+    startLine: 24
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -279,11 +290,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetMaterialInputs
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Utils/MaterialBinder.cs
-    startLine: 45
+    startLine: 49
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -410,6 +421,12 @@ references:
   name: showControlsOnHover
   nameWithType: MixtureNode.showControlsOnHover
   fullName: Mixture.MixtureNode.showControlsOnHover
+- uid: Mixture.MixtureNode.needsInspector
+  commentId: P:Mixture.MixtureNode.needsInspector
+  parent: Mixture.MixtureNode
+  name: needsInspector
+  nameWithType: MixtureNode.needsInspector
+  fullName: Mixture.MixtureNode.needsInspector
 - uid: Mixture.MixtureNode.temporaryMaterials
   commentId: F:Mixture.MixtureNode.temporaryMaterials
   parent: Mixture.MixtureNode
@@ -440,6 +457,18 @@ references:
   name: previewEV100
   nameWithType: MixtureNode.previewEV100
   fullName: Mixture.MixtureNode.previewEV100
+- uid: Mixture.MixtureNode.previewSlice
+  commentId: F:Mixture.MixtureNode.previewSlice
+  parent: Mixture.MixtureNode
+  name: previewSlice
+  nameWithType: MixtureNode.previewSlice
+  fullName: Mixture.MixtureNode.previewSlice
+- uid: Mixture.MixtureNode.isPinned
+  commentId: F:Mixture.MixtureNode.isPinned
+  parent: Mixture.MixtureNode
+  name: isPinned
+  nameWithType: MixtureNode.isPinned
+  fullName: Mixture.MixtureNode.isPinned
 - uid: Mixture.MixtureNode.recorder
   commentId: P:Mixture.MixtureNode.recorder
   parent: Mixture.MixtureNode
@@ -474,15 +503,15 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
-  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
   parent: Mixture.MixtureNode
   isExternal: true
-  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
-  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
-  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean)
+  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean, UnityEngine.CustomRenderTextureUpdateMode, System.Boolean)
   spec.csharp:
-  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
     name: UpdateTempRenderTexture
     nameWithType: MixtureNode.UpdateTempRenderTexture
     fullName: Mixture.MixtureNode.UpdateTempRenderTexture
@@ -501,6 +530,22 @@ references:
     name: Boolean
     nameWithType: Boolean
     fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.CustomRenderTextureUpdateMode
+    name: CustomRenderTextureUpdateMode
+    nameWithType: CustomRenderTextureUpdateMode
+    fullName: UnityEngine.CustomRenderTextureUpdateMode
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -514,7 +559,7 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
     name: UpdateTempRenderTexture
     nameWithType: MixtureNode.UpdateTempRenderTexture
     fullName: Mixture.MixtureNode.UpdateTempRenderTexture
@@ -542,6 +587,50 @@ references:
     nameWithType: Boolean
     fullName: System.Boolean
     isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.CustomRenderTextureUpdateMode
+    name: CustomRenderTextureUpdateMode
+    nameWithType: CustomRenderTextureUpdateMode
+    fullName: UnityEngine.CustomRenderTextureUpdateMode
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.GetTempTextureDimension
+  commentId: M:Mixture.MixtureNode.GetTempTextureDimension
+  parent: Mixture.MixtureNode
+  name: GetTempTextureDimension()
+  nameWithType: MixtureNode.GetTempTextureDimension()
+  fullName: Mixture.MixtureNode.GetTempTextureDimension()
+  spec.csharp:
+  - uid: Mixture.MixtureNode.GetTempTextureDimension
+    name: GetTempTextureDimension
+    nameWithType: MixtureNode.GetTempTextureDimension
+    fullName: Mixture.MixtureNode.GetTempTextureDimension
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.GetTempTextureDimension
+    name: GetTempTextureDimension
+    nameWithType: MixtureNode.GetTempTextureDimension
+    fullName: Mixture.MixtureNode.GetTempTextureDimension
+  - name: (
+    nameWithType: (
+    fullName: (
   - name: )
     nameWithType: )
     fullName: )
@@ -647,45 +736,6 @@ references:
     name: CommandBuffer
     nameWithType: CommandBuffer
     fullName: UnityEngine.Rendering.CommandBuffer
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  commentId: M:Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  parent: Mixture.MixtureNode
-  isExternal: true
-  name: AddObjectToGraph(Object)
-  nameWithType: MixtureNode.AddObjectToGraph(Object)
-  fullName: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  spec.csharp:
-  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-    name: AddObjectToGraph
-    nameWithType: MixtureNode.AddObjectToGraph
-    fullName: Mixture.MixtureNode.AddObjectToGraph
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Object
-    name: Object
-    nameWithType: Object
-    fullName: UnityEngine.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-    name: AddObjectToGraph
-    nameWithType: MixtureNode.AddObjectToGraph
-    fullName: Mixture.MixtureNode.AddObjectToGraph
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Object
-    name: Object
-    nameWithType: Object
-    fullName: UnityEngine.Object
     isExternal: true
   - name: )
     nameWithType: )
@@ -1022,34 +1072,6 @@ references:
     nameWithType: String
     fullName: System.String
     isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: Mixture.MixtureNode.GetMixtureDependencies
-  commentId: M:Mixture.MixtureNode.GetMixtureDependencies
-  parent: Mixture.MixtureNode
-  name: GetMixtureDependencies()
-  nameWithType: MixtureNode.GetMixtureDependencies()
-  fullName: Mixture.MixtureNode.GetMixtureDependencies()
-  spec.csharp:
-  - uid: Mixture.MixtureNode.GetMixtureDependencies
-    name: GetMixtureDependencies
-    nameWithType: MixtureNode.GetMixtureDependencies
-    fullName: Mixture.MixtureNode.GetMixtureDependencies
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.MixtureNode.GetMixtureDependencies
-    name: GetMixtureDependencies
-    nameWithType: MixtureNode.GetMixtureDependencies
-    fullName: Mixture.MixtureNode.GetMixtureDependencies
-  - name: (
-    nameWithType: (
-    fullName: (
   - name: )
     nameWithType: )
     fullName: )

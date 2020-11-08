@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class BreakVectorNode
    ">
-    <meta name="generator" content="docfx 2.55.0.0">
+    <meta name="generator" content="docfx 2.56.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -132,6 +132,9 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_showControlsOnHover">MixtureNode.showControlsOnHover</a>
     </div>
     <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_needsInspector">MixtureNode.needsInspector</a>
+    </div>
+    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_temporaryMaterials">MixtureNode.temporaryMaterials</a>
     </div>
     <div>
@@ -147,22 +150,28 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewEV100">MixtureNode.previewEV100</a>
     </div>
     <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewSlice">MixtureNode.previewSlice</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_isPinned">MixtureNode.isPinned</a>
+    </div>
+    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_recorder">MixtureNode.recorder</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnNodeCreated">MixtureNode.OnNodeCreated()</a>
     </div>
     <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_UpdateTempRenderTexture_UnityEngine_CustomRenderTexture__System_Boolean_System_Boolean_">MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)</a>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_UpdateTempRenderTexture_UnityEngine_CustomRenderTexture__System_Boolean_System_Boolean_UnityEngine_CustomRenderTextureUpdateMode_System_Boolean_">MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetTempTextureDimension">MixtureNode.GetTempTextureDimension()</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnProcess_UnityEngine_Rendering_CommandBuffer_">MixtureNode.OnProcess(CommandBuffer)</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_Process">MixtureNode.Process()</a>
-    </div>
-    <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_AddObjectToGraph_UnityEngine_Object_">MixtureNode.AddObjectToGraph(Object)</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_RemoveObjectFromGraph_UnityEngine_Object_">MixtureNode.RemoveObjectFromGraph(Object)</a>
@@ -186,9 +195,6 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_ResetMaterialPropertyToDefault_UnityEngine_Material_System_String_">MixtureNode.ResetMaterialPropertyToDefault(Material, String)</a>
     </div>
     <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetMixtureDependencies">MixtureNode.GetMixtureDependencies()</a>
-    </div>
-    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetTempMaterial_System_String_">MixtureNode.GetTempMaterial(String)</a>
     </div>
     <div>
@@ -206,10 +212,10 @@ public class BreakVectorNode : MixtureNode</code></pre>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_BreakVectorNode_vector.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode.vector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_BreakVectorNode_vector.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode.vector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L14">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L14">View Source</a>
   </span>
   <h4 id="Mixture_BreakVectorNode_vector" data-uid="Mixture.BreakVectorNode.vector">vector</h4>
   <div class="markdown level1 summary"></div>
@@ -235,10 +241,10 @@ public class BreakVectorNode : MixtureNode</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_BreakVectorNode_W.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode.W%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_BreakVectorNode_W.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode.W%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L23">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L23">View Source</a>
   </span>
   <h4 id="Mixture_BreakVectorNode_W" data-uid="Mixture.BreakVectorNode.W">W</h4>
   <div class="markdown level1 summary"></div>
@@ -264,10 +270,10 @@ public class BreakVectorNode : MixtureNode</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_BreakVectorNode_X.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode.X%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_BreakVectorNode_X.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode.X%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L17">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L17">View Source</a>
   </span>
   <h4 id="Mixture_BreakVectorNode_X" data-uid="Mixture.BreakVectorNode.X">X</h4>
   <div class="markdown level1 summary"></div>
@@ -293,10 +299,10 @@ public class BreakVectorNode : MixtureNode</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_BreakVectorNode_Y.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode.Y%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_BreakVectorNode_Y.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode.Y%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L19">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L19">View Source</a>
   </span>
   <h4 id="Mixture_BreakVectorNode_Y" data-uid="Mixture.BreakVectorNode.Y">Y</h4>
   <div class="markdown level1 summary"></div>
@@ -322,10 +328,10 @@ public class BreakVectorNode : MixtureNode</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_BreakVectorNode_Z.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode.Z%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_BreakVectorNode_Z.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode.Z%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L21">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L21">View Source</a>
   </span>
   <h4 id="Mixture_BreakVectorNode_Z" data-uid="Mixture.BreakVectorNode.Z">Z</h4>
   <div class="markdown level1 summary"></div>
@@ -353,10 +359,10 @@ public class BreakVectorNode : MixtureNode</code></pre>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_BreakVectorNode_name.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode.name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_BreakVectorNode_name.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode.name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L25">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L25">View Source</a>
   </span>
   <a id="Mixture_BreakVectorNode_name_" data-uid="Mixture.BreakVectorNode.name*"></a>
   <h4 id="Mixture_BreakVectorNode_name" data-uid="Mixture.BreakVectorNode.name">name</h4>
@@ -385,10 +391,10 @@ public class BreakVectorNode : MixtureNode</code></pre>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_BreakVectorNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_BreakVectorNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L27">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L27">View Source</a>
   </span>
   <a id="Mixture_BreakVectorNode_ProcessNode_" data-uid="Mixture.BreakVectorNode.ProcessNode*"></a>
   <h4 id="Mixture_BreakVectorNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_" data-uid="Mixture.BreakVectorNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)">ProcessNode(CommandBuffer)</h4>
@@ -440,10 +446,10 @@ public class BreakVectorNode : MixtureNode</code></pre>
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_BreakVectorNode.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_BreakVectorNode.md&amp;value=---%0Auid%3A%20Mixture.BreakVectorNode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/Utils/BreakVectorNode.cs/#L10" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

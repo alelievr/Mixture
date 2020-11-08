@@ -1,0 +1,211 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.OutputPrecision
+  commentId: T:Mixture.OutputPrecision
+  id: OutputPrecision
+  parent: Mixture
+  children:
+  - Mixture.OutputPrecision.Full
+  - Mixture.OutputPrecision.Half
+  - Mixture.OutputPrecision.LDR
+  - Mixture.OutputPrecision.SameAsOutput
+  - Mixture.OutputPrecision.SRGB
+  langs:
+  - csharp
+  - vb
+  name: OutputPrecision
+  nameWithType: OutputPrecision
+  fullName: Mixture.OutputPrecision
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: OutputPrecision
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 524
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public enum OutputPrecision
+    content.vb: Public Enum OutputPrecision
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.OutputPrecision.SameAsOutput
+  commentId: F:Mixture.OutputPrecision.SameAsOutput
+  id: SameAsOutput
+  parent: Mixture.OutputPrecision
+  langs:
+  - csharp
+  - vb
+  name: SameAsOutput
+  nameWithType: OutputPrecision.SameAsOutput
+  fullName: Mixture.OutputPrecision.SameAsOutput
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: SameAsOutput
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 526
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: SameAsOutput = 0
+    return:
+      type: Mixture.OutputPrecision
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.OutputPrecision.SRGB
+  commentId: F:Mixture.OutputPrecision.SRGB
+  id: SRGB
+  parent: Mixture.OutputPrecision
+  langs:
+  - csharp
+  - vb
+  name: SRGB
+  nameWithType: OutputPrecision.SRGB
+  fullName: Mixture.OutputPrecision.SRGB
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: SRGB
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 527
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: SRGB = 1
+    return:
+      type: Mixture.OutputPrecision
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.OutputPrecision.LDR
+  commentId: F:Mixture.OutputPrecision.LDR
+  id: LDR
+  parent: Mixture.OutputPrecision
+  langs:
+  - csharp
+  - vb
+  name: LDR
+  nameWithType: OutputPrecision.LDR
+  fullName: Mixture.OutputPrecision.LDR
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: LDR
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 528
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: LDR = 2
+    return:
+      type: Mixture.OutputPrecision
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.OutputPrecision.Half
+  commentId: F:Mixture.OutputPrecision.Half
+  id: Half
+  parent: Mixture.OutputPrecision
+  langs:
+  - csharp
+  - vb
+  name: Half
+  nameWithType: OutputPrecision.Half
+  fullName: Mixture.OutputPrecision.Half
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Half
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 529
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Half = 3
+    return:
+      type: Mixture.OutputPrecision
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.OutputPrecision.Full
+  commentId: F:Mixture.OutputPrecision.Full
+  id: Full
+  parent: Mixture.OutputPrecision
+  langs:
+  - csharp
+  - vb
+  name: Full
+  nameWithType: OutputPrecision.Full
+  fullName: Mixture.OutputPrecision.Full
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Full
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 530
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Full = 4
+    return:
+      type: Mixture.OutputPrecision
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.OutputPrecision
+  commentId: T:Mixture.OutputPrecision
+  parent: Mixture
+  name: OutputPrecision
+  nameWithType: OutputPrecision
+  fullName: Mixture.OutputPrecision

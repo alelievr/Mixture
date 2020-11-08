@@ -1,0 +1,112 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.SplatterNode.Mode
+  commentId: T:Mixture.SplatterNode.Mode
+  id: SplatterNode.Mode
+  parent: Mixture
+  children:
+  - Mixture.SplatterNode.Mode.HeightTile
+  - Mixture.SplatterNode.Mode.Sprites
+  langs:
+  - csharp
+  - vb
+  name: SplatterNode.Mode
+  nameWithType: SplatterNode.Mode
+  fullName: Mixture.SplatterNode.Mode
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Mode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 62
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public enum Mode
+    content.vb: Public Enum Mode
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.SplatterNode.Mode.Sprites
+  commentId: F:Mixture.SplatterNode.Mode.Sprites
+  id: Sprites
+  parent: Mixture.SplatterNode.Mode
+  langs:
+  - csharp
+  - vb
+  name: Sprites
+  nameWithType: SplatterNode.Mode.Sprites
+  fullName: Mixture.SplatterNode.Mode.Sprites
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: Sprites
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 64
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Sprites = 0
+    return:
+      type: Mixture.SplatterNode.Mode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.Mode.HeightTile
+  commentId: F:Mixture.SplatterNode.Mode.HeightTile
+  id: HeightTile
+  parent: Mixture.SplatterNode.Mode
+  langs:
+  - csharp
+  - vb
+  name: HeightTile
+  nameWithType: SplatterNode.Mode.HeightTile
+  fullName: Mixture.SplatterNode.Mode.HeightTile
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: HeightTile
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 65
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: HeightTile = 1
+    return:
+      type: Mixture.SplatterNode.Mode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.SplatterNode.Mode
+  commentId: T:Mixture.SplatterNode.Mode
+  parent: Mixture
+  name: SplatterNode.Mode
+  nameWithType: SplatterNode.Mode
+  fullName: Mixture.SplatterNode.Mode

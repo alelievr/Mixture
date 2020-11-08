@@ -5,7 +5,7 @@ items:
   id: TooltipDrawerDecorator
   parent: Mixture
   children:
-  - Mixture.TooltipDrawerDecorator.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+  - Mixture.TooltipDrawerDecorator.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,Mixture.MixtureGraph,Mixture.MixtureNodeView)
   - Mixture.TooltipDrawerDecorator.tooltip
   langs:
   - csharp
@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/TooltipDrawer.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: TooltipDrawerDecorator
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/TooltipDrawer.cs
@@ -35,8 +35,8 @@ items:
   - UnityEditor.MaterialPropertyDrawer
   - Mixture.MixturePropertyDrawer
   inheritedMembers:
-  - Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,MixtureGraph)
-  - Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
+  - Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,Mixture.MixtureGraph)
+  - Mixture.MixturePropertyDrawer.UnregisterGraph(Mixture.MixtureGraph)
   - Mixture.MixturePropertyDrawer.GetGraph(UnityEditor.MaterialEditor)
   - Mixture.MixturePropertyDrawer.GetNodeView(UnityEditor.MaterialEditor)
   - Mixture.MixturePropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor)
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/TooltipDrawer.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: tooltip
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/TooltipDrawer.cs
@@ -80,21 +80,21 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: Mixture.TooltipDrawerDecorator.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
-  commentId: M:Mixture.TooltipDrawerDecorator.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
-  id: DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+- uid: Mixture.TooltipDrawerDecorator.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,Mixture.MixtureGraph,Mixture.MixtureNodeView)
+  commentId: M:Mixture.TooltipDrawerDecorator.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,Mixture.MixtureGraph,Mixture.MixtureNodeView)
+  id: DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,Mixture.MixtureGraph,Mixture.MixtureNodeView)
   parent: Mixture.TooltipDrawerDecorator
   langs:
   - csharp
   - vb
   name: DrawerGUI(Rect, MaterialProperty, String, MaterialEditor, MixtureGraph, MixtureNodeView)
   nameWithType: TooltipDrawerDecorator.DrawerGUI(Rect, MaterialProperty, String, MaterialEditor, MixtureGraph, MixtureNodeView)
-  fullName: Mixture.TooltipDrawerDecorator.DrawerGUI(UnityEngine.Rect, UnityEditor.MaterialProperty, System.String, UnityEditor.MaterialEditor, MixtureGraph, Mixture.MixtureNodeView)
+  fullName: Mixture.TooltipDrawerDecorator.DrawerGUI(UnityEngine.Rect, UnityEditor.MaterialProperty, System.String, UnityEditor.MaterialEditor, Mixture.MixtureGraph, Mixture.MixtureNodeView)
   type: Method
   source:
     remote:
       path: Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/TooltipDrawer.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: DrawerGUI
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/TooltipDrawer.cs
@@ -114,11 +114,11 @@ items:
     - id: editor
       type: UnityEditor.MaterialEditor
     - id: graph
-      type: MixtureGraph
+      type: Mixture.MixtureGraph
     - id: nodeView
       type: Mixture.MixtureNodeView
     content.vb: Protected Overrides Sub DrawerGUI(position As Rect, prop As MaterialProperty, label As String, editor As MaterialEditor, graph As MixtureGraph, nodeView As MixtureNodeView)
-  overridden: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+  overridden: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,Mixture.MixtureGraph,Mixture.MixtureNodeView)
   overload: Mixture.TooltipDrawerDecorator.DrawerGUI*
   modifiers.csharp:
   - protected
@@ -152,15 +152,15 @@ references:
   name: MixturePropertyDrawer
   nameWithType: MixturePropertyDrawer
   fullName: Mixture.MixturePropertyDrawer
-- uid: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,MixtureGraph)
-  commentId: M:Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,MixtureGraph)
+- uid: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,Mixture.MixtureGraph)
+  commentId: M:Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,Mixture.MixtureGraph)
   parent: Mixture.MixturePropertyDrawer
   isExternal: true
   name: RegisterEditor(MaterialEditor, MixtureNodeView, MixtureGraph)
   nameWithType: MixturePropertyDrawer.RegisterEditor(MaterialEditor, MixtureNodeView, MixtureGraph)
-  fullName: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor, Mixture.MixtureNodeView, MixtureGraph)
+  fullName: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor, Mixture.MixtureNodeView, Mixture.MixtureGraph)
   spec.csharp:
-  - uid: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,MixtureGraph)
+  - uid: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,Mixture.MixtureGraph)
     name: RegisterEditor
     nameWithType: MixturePropertyDrawer.RegisterEditor
     fullName: Mixture.MixturePropertyDrawer.RegisterEditor
@@ -182,16 +182,15 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: MixtureGraph
+  - uid: Mixture.MixtureGraph
     name: MixtureGraph
     nameWithType: MixtureGraph
-    fullName: MixtureGraph
-    isExternal: true
+    fullName: Mixture.MixtureGraph
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,MixtureGraph)
+  - uid: Mixture.MixturePropertyDrawer.RegisterEditor(UnityEditor.MaterialEditor,Mixture.MixtureNodeView,Mixture.MixtureGraph)
     name: RegisterEditor
     nameWithType: MixturePropertyDrawer.RegisterEditor
     fullName: Mixture.MixturePropertyDrawer.RegisterEditor
@@ -213,50 +212,46 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: MixtureGraph
+  - uid: Mixture.MixtureGraph
     name: MixtureGraph
     nameWithType: MixtureGraph
-    fullName: MixtureGraph
-    isExternal: true
+    fullName: Mixture.MixtureGraph
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
-  commentId: M:Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
+- uid: Mixture.MixturePropertyDrawer.UnregisterGraph(Mixture.MixtureGraph)
+  commentId: M:Mixture.MixturePropertyDrawer.UnregisterGraph(Mixture.MixtureGraph)
   parent: Mixture.MixturePropertyDrawer
-  isExternal: true
   name: UnregisterGraph(MixtureGraph)
   nameWithType: MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
-  fullName: Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
+  fullName: Mixture.MixturePropertyDrawer.UnregisterGraph(Mixture.MixtureGraph)
   spec.csharp:
-  - uid: Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
+  - uid: Mixture.MixturePropertyDrawer.UnregisterGraph(Mixture.MixtureGraph)
     name: UnregisterGraph
     nameWithType: MixturePropertyDrawer.UnregisterGraph
     fullName: Mixture.MixturePropertyDrawer.UnregisterGraph
   - name: (
     nameWithType: (
     fullName: (
-  - uid: MixtureGraph
+  - uid: Mixture.MixtureGraph
     name: MixtureGraph
     nameWithType: MixtureGraph
-    fullName: MixtureGraph
-    isExternal: true
+    fullName: Mixture.MixtureGraph
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.MixturePropertyDrawer.UnregisterGraph(MixtureGraph)
+  - uid: Mixture.MixturePropertyDrawer.UnregisterGraph(Mixture.MixtureGraph)
     name: UnregisterGraph
     nameWithType: MixturePropertyDrawer.UnregisterGraph
     fullName: Mixture.MixturePropertyDrawer.UnregisterGraph
   - name: (
     nameWithType: (
     fullName: (
-  - uid: MixtureGraph
+  - uid: Mixture.MixtureGraph
     name: MixtureGraph
     nameWithType: MixtureGraph
-    fullName: MixtureGraph
-    isExternal: true
+    fullName: Mixture.MixtureGraph
   - name: )
     nameWithType: )
     fullName: )
@@ -645,15 +640,15 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
-  commentId: M:Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+- uid: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,Mixture.MixtureGraph,Mixture.MixtureNodeView)
+  commentId: M:Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,Mixture.MixtureGraph,Mixture.MixtureNodeView)
   parent: Mixture.MixturePropertyDrawer
   isExternal: true
   name: DrawerGUI(Rect, MaterialProperty, String, MaterialEditor, MixtureGraph, MixtureNodeView)
   nameWithType: MixturePropertyDrawer.DrawerGUI(Rect, MaterialProperty, String, MaterialEditor, MixtureGraph, MixtureNodeView)
-  fullName: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect, UnityEditor.MaterialProperty, System.String, UnityEditor.MaterialEditor, MixtureGraph, Mixture.MixtureNodeView)
+  fullName: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect, UnityEditor.MaterialProperty, System.String, UnityEditor.MaterialEditor, Mixture.MixtureGraph, Mixture.MixtureNodeView)
   spec.csharp:
-  - uid: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+  - uid: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,Mixture.MixtureGraph,Mixture.MixtureNodeView)
     name: DrawerGUI
     nameWithType: MixturePropertyDrawer.DrawerGUI
     fullName: Mixture.MixturePropertyDrawer.DrawerGUI
@@ -692,11 +687,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: MixtureGraph
+  - uid: Mixture.MixtureGraph
     name: MixtureGraph
     nameWithType: MixtureGraph
-    fullName: MixtureGraph
-    isExternal: true
+    fullName: Mixture.MixtureGraph
   - name: ', '
     nameWithType: ', '
     fullName: ', '
@@ -708,7 +702,7 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,MixtureGraph,Mixture.MixtureNodeView)
+  - uid: Mixture.MixturePropertyDrawer.DrawerGUI(UnityEngine.Rect,UnityEditor.MaterialProperty,System.String,UnityEditor.MaterialEditor,Mixture.MixtureGraph,Mixture.MixtureNodeView)
     name: DrawerGUI
     nameWithType: MixturePropertyDrawer.DrawerGUI
     fullName: Mixture.MixturePropertyDrawer.DrawerGUI
@@ -747,11 +741,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: MixtureGraph
+  - uid: Mixture.MixtureGraph
     name: MixtureGraph
     nameWithType: MixtureGraph
-    fullName: MixtureGraph
-    isExternal: true
+    fullName: Mixture.MixtureGraph
   - name: ', '
     nameWithType: ', '
     fullName: ', '
@@ -788,11 +781,12 @@ references:
   name: MaterialEditor
   nameWithType: MaterialEditor
   fullName: UnityEditor.MaterialEditor
-- uid: MixtureGraph
-  isExternal: true
+- uid: Mixture.MixtureGraph
+  commentId: T:Mixture.MixtureGraph
+  parent: Mixture
   name: MixtureGraph
   nameWithType: MixtureGraph
-  fullName: MixtureGraph
+  fullName: Mixture.MixtureGraph
 - uid: Mixture.MixtureNodeView
   commentId: T:Mixture.MixtureNodeView
   parent: Mixture

@@ -1,0 +1,112 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.ForEnd.AggregationMode
+  commentId: T:Mixture.ForEnd.AggregationMode
+  id: ForEnd.AggregationMode
+  parent: Mixture
+  children:
+  - Mixture.ForEnd.AggregationMode.FeedbackToStartNode
+  - Mixture.ForEnd.AggregationMode.None
+  langs:
+  - csharp
+  - vb
+  name: ForEnd.AggregationMode
+  nameWithType: ForEnd.AggregationMode
+  fullName: Mixture.ForEnd.AggregationMode
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/ForEnd.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: AggregationMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/ForEnd.cs
+    startLine: 13
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public enum AggregationMode
+    content.vb: Public Enum AggregationMode
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.ForEnd.AggregationMode.FeedbackToStartNode
+  commentId: F:Mixture.ForEnd.AggregationMode.FeedbackToStartNode
+  id: FeedbackToStartNode
+  parent: Mixture.ForEnd.AggregationMode
+  langs:
+  - csharp
+  - vb
+  name: FeedbackToStartNode
+  nameWithType: ForEnd.AggregationMode.FeedbackToStartNode
+  fullName: Mixture.ForEnd.AggregationMode.FeedbackToStartNode
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/ForEnd.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: FeedbackToStartNode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/ForEnd.cs
+    startLine: 15
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: FeedbackToStartNode = 0
+    return:
+      type: Mixture.ForEnd.AggregationMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.ForEnd.AggregationMode.None
+  commentId: F:Mixture.ForEnd.AggregationMode.None
+  id: None
+  parent: Mixture.ForEnd.AggregationMode
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ForEnd.AggregationMode.None
+  fullName: Mixture.ForEnd.AggregationMode.None
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/ForEnd.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: None
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/ForEnd.cs
+    startLine: 17
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: None = 2
+    return:
+      type: Mixture.ForEnd.AggregationMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.ForEnd.AggregationMode
+  commentId: T:Mixture.ForEnd.AggregationMode
+  parent: Mixture
+  name: ForEnd.AggregationMode
+  nameWithType: ForEnd.AggregationMode
+  fullName: Mixture.ForEnd.AggregationMode

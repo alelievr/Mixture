@@ -1,0 +1,115 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.ILoopEnd
+  commentId: T:Mixture.ILoopEnd
+  id: ILoopEnd
+  parent: Mixture
+  children:
+  - Mixture.ILoopEnd.FinalIteration
+  - Mixture.ILoopEnd.PrepareLoopEnd(Mixture.ILoopStart)
+  langs:
+  - csharp
+  - vb
+  name: ILoopEnd
+  nameWithType: ILoopEnd
+  fullName: Mixture.ILoopEnd
+  type: Interface
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: ILoopEnd
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+    startLine: 8
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public interface ILoopEnd
+    content.vb: Public Interface ILoopEnd
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: Mixture.ILoopEnd.PrepareLoopEnd(Mixture.ILoopStart)
+  commentId: M:Mixture.ILoopEnd.PrepareLoopEnd(Mixture.ILoopStart)
+  id: PrepareLoopEnd(Mixture.ILoopStart)
+  parent: Mixture.ILoopEnd
+  langs:
+  - csharp
+  - vb
+  name: PrepareLoopEnd(ILoopStart)
+  nameWithType: ILoopEnd.PrepareLoopEnd(ILoopStart)
+  fullName: Mixture.ILoopEnd.PrepareLoopEnd(Mixture.ILoopStart)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: PrepareLoopEnd
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+    startLine: 13
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  summary: "\nFunction executed the first time a Loop end is encountered. I.e. at the end of the first loop iteration\n"
+  example: []
+  syntax:
+    content: void PrepareLoopEnd(ILoopStart loopStartNode)
+    parameters:
+    - id: loopStartNode
+      type: Mixture.ILoopStart
+    content.vb: Sub PrepareLoopEnd(loopStartNode As ILoopStart)
+  overload: Mixture.ILoopEnd.PrepareLoopEnd*
+- uid: Mixture.ILoopEnd.FinalIteration
+  commentId: M:Mixture.ILoopEnd.FinalIteration
+  id: FinalIteration
+  parent: Mixture.ILoopEnd
+  langs:
+  - csharp
+  - vb
+  name: FinalIteration()
+  nameWithType: ILoopEnd.FinalIteration()
+  fullName: Mixture.ILoopEnd.FinalIteration()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: FinalIteration
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FlowControl/IConditional.cs
+    startLine: 15
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: void FinalIteration()
+    content.vb: Sub FinalIteration
+  overload: Mixture.ILoopEnd.FinalIteration*
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.ILoopEnd.PrepareLoopEnd*
+  commentId: Overload:Mixture.ILoopEnd.PrepareLoopEnd
+  name: PrepareLoopEnd
+  nameWithType: ILoopEnd.PrepareLoopEnd
+  fullName: Mixture.ILoopEnd.PrepareLoopEnd
+- uid: Mixture.ILoopStart
+  commentId: T:Mixture.ILoopStart
+  parent: Mixture
+  name: ILoopStart
+  nameWithType: ILoopStart
+  fullName: Mixture.ILoopStart
+- uid: Mixture.ILoopEnd.FinalIteration*
+  commentId: Overload:Mixture.ILoopEnd.FinalIteration
+  name: FinalIteration
+  nameWithType: ILoopEnd.FinalIteration
+  fullName: Mixture.ILoopEnd.FinalIteration

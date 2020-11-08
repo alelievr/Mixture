@@ -1,0 +1,2545 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.MixtureNodeInspectorObject
+  commentId: T:Mixture.MixtureNodeInspectorObject
+  id: MixtureNodeInspectorObject
+  parent: Mixture
+  children:
+  - Mixture.MixtureNodeInspectorObject.AddPinnedView(GraphProcessor.BaseNodeView)
+  - Mixture.MixtureNodeInspectorObject.pinnedNodes
+  - Mixture.MixtureNodeInspectorObject.pinnedNodeUpdate
+  - Mixture.MixtureNodeInspectorObject.RemovePinnedView(GraphProcessor.BaseNodeView)
+  langs:
+  - csharp
+  - vb
+  name: MixtureNodeInspectorObject
+  nameWithType: MixtureNodeInspectorObject
+  fullName: Mixture.MixtureNodeInspectorObject
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/MixtureNodeInspectorObject.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: MixtureNodeInspectorObject
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/MixtureNodeInspectorObject.cs
+    startLine: 326
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: 'public class MixtureNodeInspectorObject : NodeInspectorObject'
+    content.vb: >-
+      Public Class MixtureNodeInspectorObject
+          Inherits NodeInspectorObject
+  inheritance:
+  - System.Object
+  - UnityEngine.Object
+  - UnityEngine.ScriptableObject
+  - GraphProcessor.NodeInspectorObject
+  inheritedMembers:
+  - GraphProcessor.NodeInspectorObject.previouslySelectedObject
+  - GraphProcessor.NodeInspectorObject.selectedNodes
+  - GraphProcessor.NodeInspectorObject.nodeSelectionUpdated
+  - GraphProcessor.NodeInspectorObject.UpdateSelectedNodes(System.Collections.Generic.HashSet{GraphProcessor.BaseNodeView})
+  - UnityEngine.ScriptableObject.SetDirty
+  - UnityEngine.ScriptableObject.CreateInstance(System.String)
+  - UnityEngine.ScriptableObject.CreateInstance(System.Type)
+  - UnityEngine.ScriptableObject.CreateInstance``1
+  - UnityEngine.Object.GetInstanceID
+  - UnityEngine.Object.GetHashCode
+  - UnityEngine.Object.Equals(System.Object)
+  - UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Vector3,UnityEngine.Quaternion)
+  - UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+  - UnityEngine.Object.Instantiate(UnityEngine.Object)
+  - UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Transform)
+  - UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Transform,System.Boolean)
+  - UnityEngine.Object.Instantiate``1({T})
+  - UnityEngine.Object.Instantiate``1({T},UnityEngine.Vector3,UnityEngine.Quaternion)
+  - UnityEngine.Object.Instantiate``1({T},UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+  - UnityEngine.Object.Instantiate``1({T},UnityEngine.Transform)
+  - UnityEngine.Object.Instantiate``1({T},UnityEngine.Transform,System.Boolean)
+  - UnityEngine.Object.Destroy(UnityEngine.Object,System.Single)
+  - UnityEngine.Object.Destroy(UnityEngine.Object)
+  - UnityEngine.Object.DestroyImmediate(UnityEngine.Object,System.Boolean)
+  - UnityEngine.Object.DestroyImmediate(UnityEngine.Object)
+  - UnityEngine.Object.FindObjectsOfType(System.Type)
+  - UnityEngine.Object.FindObjectsOfType(System.Type,System.Boolean)
+  - UnityEngine.Object.DontDestroyOnLoad(UnityEngine.Object)
+  - UnityEngine.Object.DestroyObject(UnityEngine.Object,System.Single)
+  - UnityEngine.Object.DestroyObject(UnityEngine.Object)
+  - UnityEngine.Object.FindSceneObjectsOfType(System.Type)
+  - UnityEngine.Object.FindObjectsOfTypeIncludingAssets(System.Type)
+  - UnityEngine.Object.FindObjectsOfType``1
+  - UnityEngine.Object.FindObjectsOfType``1(System.Boolean)
+  - UnityEngine.Object.FindObjectOfType``1
+  - UnityEngine.Object.FindObjectOfType``1(System.Boolean)
+  - UnityEngine.Object.FindObjectsOfTypeAll(System.Type)
+  - UnityEngine.Object.FindObjectOfType(System.Type)
+  - UnityEngine.Object.FindObjectOfType(System.Type,System.Boolean)
+  - UnityEngine.Object.ToString
+  - UnityEngine.Object.name
+  - UnityEngine.Object.hideFlags
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.MixtureNodeInspectorObject.pinnedNodeUpdate
+  commentId: E:Mixture.MixtureNodeInspectorObject.pinnedNodeUpdate
+  id: pinnedNodeUpdate
+  parent: Mixture.MixtureNodeInspectorObject
+  langs:
+  - csharp
+  - vb
+  name: pinnedNodeUpdate
+  nameWithType: MixtureNodeInspectorObject.pinnedNodeUpdate
+  fullName: Mixture.MixtureNodeInspectorObject.pinnedNodeUpdate
+  type: Event
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/MixtureNodeInspectorObject.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: pinnedNodeUpdate
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/MixtureNodeInspectorObject.cs
+    startLine: 328
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public event Action pinnedNodeUpdate
+    return:
+      type: System.Action
+    content.vb: Public Event pinnedNodeUpdate As Action
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNodeInspectorObject.pinnedNodes
+  commentId: F:Mixture.MixtureNodeInspectorObject.pinnedNodes
+  id: pinnedNodes
+  parent: Mixture.MixtureNodeInspectorObject
+  langs:
+  - csharp
+  - vb
+  name: pinnedNodes
+  nameWithType: MixtureNodeInspectorObject.pinnedNodes
+  fullName: Mixture.MixtureNodeInspectorObject.pinnedNodes
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/MixtureNodeInspectorObject.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: pinnedNodes
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/MixtureNodeInspectorObject.cs
+    startLine: 330
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public List<BaseNodeView> pinnedNodes
+    return:
+      type: System.Collections.Generic.List{GraphProcessor.BaseNodeView}
+    content.vb: Public pinnedNodes As List(Of BaseNodeView)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNodeInspectorObject.AddPinnedView(GraphProcessor.BaseNodeView)
+  commentId: M:Mixture.MixtureNodeInspectorObject.AddPinnedView(GraphProcessor.BaseNodeView)
+  id: AddPinnedView(GraphProcessor.BaseNodeView)
+  parent: Mixture.MixtureNodeInspectorObject
+  langs:
+  - csharp
+  - vb
+  name: AddPinnedView(BaseNodeView)
+  nameWithType: MixtureNodeInspectorObject.AddPinnedView(BaseNodeView)
+  fullName: Mixture.MixtureNodeInspectorObject.AddPinnedView(GraphProcessor.BaseNodeView)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/MixtureNodeInspectorObject.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: AddPinnedView
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/MixtureNodeInspectorObject.cs
+    startLine: 332
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public void AddPinnedView(BaseNodeView view)
+    parameters:
+    - id: view
+      type: GraphProcessor.BaseNodeView
+    content.vb: Public Sub AddPinnedView(view As BaseNodeView)
+  overload: Mixture.MixtureNodeInspectorObject.AddPinnedView*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNodeInspectorObject.RemovePinnedView(GraphProcessor.BaseNodeView)
+  commentId: M:Mixture.MixtureNodeInspectorObject.RemovePinnedView(GraphProcessor.BaseNodeView)
+  id: RemovePinnedView(GraphProcessor.BaseNodeView)
+  parent: Mixture.MixtureNodeInspectorObject
+  langs:
+  - csharp
+  - vb
+  name: RemovePinnedView(BaseNodeView)
+  nameWithType: MixtureNodeInspectorObject.RemovePinnedView(BaseNodeView)
+  fullName: Mixture.MixtureNodeInspectorObject.RemovePinnedView(GraphProcessor.BaseNodeView)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/MixtureNodeInspectorObject.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: RemovePinnedView
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureInspector/MixtureNodeInspectorObject.cs
+    startLine: 342
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public void RemovePinnedView(BaseNodeView view)
+    parameters:
+    - id: view
+      type: GraphProcessor.BaseNodeView
+    content.vb: Public Sub RemovePinnedView(view As BaseNodeView)
+  overload: Mixture.MixtureNodeInspectorObject.RemovePinnedView*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: UnityEngine.Object
+  commentId: T:UnityEngine.Object
+  parent: UnityEngine
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: UnityEngine.Object
+- uid: UnityEngine.ScriptableObject
+  commentId: T:UnityEngine.ScriptableObject
+  parent: UnityEngine
+  isExternal: true
+  name: ScriptableObject
+  nameWithType: ScriptableObject
+  fullName: UnityEngine.ScriptableObject
+- uid: GraphProcessor.NodeInspectorObject
+  commentId: T:GraphProcessor.NodeInspectorObject
+  parent: GraphProcessor
+  name: NodeInspectorObject
+  nameWithType: NodeInspectorObject
+  fullName: GraphProcessor.NodeInspectorObject
+- uid: GraphProcessor.NodeInspectorObject.previouslySelectedObject
+  commentId: F:GraphProcessor.NodeInspectorObject.previouslySelectedObject
+  parent: GraphProcessor.NodeInspectorObject
+  name: previouslySelectedObject
+  nameWithType: NodeInspectorObject.previouslySelectedObject
+  fullName: GraphProcessor.NodeInspectorObject.previouslySelectedObject
+- uid: GraphProcessor.NodeInspectorObject.selectedNodes
+  commentId: P:GraphProcessor.NodeInspectorObject.selectedNodes
+  parent: GraphProcessor.NodeInspectorObject
+  name: selectedNodes
+  nameWithType: NodeInspectorObject.selectedNodes
+  fullName: GraphProcessor.NodeInspectorObject.selectedNodes
+- uid: GraphProcessor.NodeInspectorObject.nodeSelectionUpdated
+  commentId: E:GraphProcessor.NodeInspectorObject.nodeSelectionUpdated
+  parent: GraphProcessor.NodeInspectorObject
+  name: nodeSelectionUpdated
+  nameWithType: NodeInspectorObject.nodeSelectionUpdated
+  fullName: GraphProcessor.NodeInspectorObject.nodeSelectionUpdated
+- uid: GraphProcessor.NodeInspectorObject.UpdateSelectedNodes(System.Collections.Generic.HashSet{GraphProcessor.BaseNodeView})
+  commentId: M:GraphProcessor.NodeInspectorObject.UpdateSelectedNodes(System.Collections.Generic.HashSet{GraphProcessor.BaseNodeView})
+  parent: GraphProcessor.NodeInspectorObject
+  isExternal: true
+  name: UpdateSelectedNodes(HashSet<BaseNodeView>)
+  nameWithType: NodeInspectorObject.UpdateSelectedNodes(HashSet<BaseNodeView>)
+  fullName: GraphProcessor.NodeInspectorObject.UpdateSelectedNodes(System.Collections.Generic.HashSet<GraphProcessor.BaseNodeView>)
+  nameWithType.vb: NodeInspectorObject.UpdateSelectedNodes(HashSet(Of BaseNodeView))
+  fullName.vb: GraphProcessor.NodeInspectorObject.UpdateSelectedNodes(System.Collections.Generic.HashSet(Of GraphProcessor.BaseNodeView))
+  name.vb: UpdateSelectedNodes(HashSet(Of BaseNodeView))
+  spec.csharp:
+  - uid: GraphProcessor.NodeInspectorObject.UpdateSelectedNodes(System.Collections.Generic.HashSet{GraphProcessor.BaseNodeView})
+    name: UpdateSelectedNodes
+    nameWithType: NodeInspectorObject.UpdateSelectedNodes
+    fullName: GraphProcessor.NodeInspectorObject.UpdateSelectedNodes
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    nameWithType: HashSet
+    fullName: System.Collections.Generic.HashSet
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: GraphProcessor.BaseNodeView
+    name: BaseNodeView
+    nameWithType: BaseNodeView
+    fullName: GraphProcessor.BaseNodeView
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: GraphProcessor.NodeInspectorObject.UpdateSelectedNodes(System.Collections.Generic.HashSet{GraphProcessor.BaseNodeView})
+    name: UpdateSelectedNodes
+    nameWithType: NodeInspectorObject.UpdateSelectedNodes
+    fullName: GraphProcessor.NodeInspectorObject.UpdateSelectedNodes
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    nameWithType: HashSet
+    fullName: System.Collections.Generic.HashSet
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: GraphProcessor.BaseNodeView
+    name: BaseNodeView
+    nameWithType: BaseNodeView
+    fullName: GraphProcessor.BaseNodeView
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.ScriptableObject.SetDirty
+  commentId: M:UnityEngine.ScriptableObject.SetDirty
+  parent: UnityEngine.ScriptableObject
+  isExternal: true
+  name: SetDirty()
+  nameWithType: ScriptableObject.SetDirty()
+  fullName: UnityEngine.ScriptableObject.SetDirty()
+  spec.csharp:
+  - uid: UnityEngine.ScriptableObject.SetDirty
+    name: SetDirty
+    nameWithType: ScriptableObject.SetDirty
+    fullName: UnityEngine.ScriptableObject.SetDirty
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.ScriptableObject.SetDirty
+    name: SetDirty
+    nameWithType: ScriptableObject.SetDirty
+    fullName: UnityEngine.ScriptableObject.SetDirty
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.ScriptableObject.CreateInstance(System.String)
+  commentId: M:UnityEngine.ScriptableObject.CreateInstance(System.String)
+  parent: UnityEngine.ScriptableObject
+  isExternal: true
+  name: CreateInstance(String)
+  nameWithType: ScriptableObject.CreateInstance(String)
+  fullName: UnityEngine.ScriptableObject.CreateInstance(System.String)
+  spec.csharp:
+  - uid: UnityEngine.ScriptableObject.CreateInstance(System.String)
+    name: CreateInstance
+    nameWithType: ScriptableObject.CreateInstance
+    fullName: UnityEngine.ScriptableObject.CreateInstance
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.ScriptableObject.CreateInstance(System.String)
+    name: CreateInstance
+    nameWithType: ScriptableObject.CreateInstance
+    fullName: UnityEngine.ScriptableObject.CreateInstance
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.ScriptableObject.CreateInstance(System.Type)
+  commentId: M:UnityEngine.ScriptableObject.CreateInstance(System.Type)
+  parent: UnityEngine.ScriptableObject
+  isExternal: true
+  name: CreateInstance(Type)
+  nameWithType: ScriptableObject.CreateInstance(Type)
+  fullName: UnityEngine.ScriptableObject.CreateInstance(System.Type)
+  spec.csharp:
+  - uid: UnityEngine.ScriptableObject.CreateInstance(System.Type)
+    name: CreateInstance
+    nameWithType: ScriptableObject.CreateInstance
+    fullName: UnityEngine.ScriptableObject.CreateInstance
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.ScriptableObject.CreateInstance(System.Type)
+    name: CreateInstance
+    nameWithType: ScriptableObject.CreateInstance
+    fullName: UnityEngine.ScriptableObject.CreateInstance
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.ScriptableObject.CreateInstance``1
+  commentId: M:UnityEngine.ScriptableObject.CreateInstance``1
+  parent: UnityEngine.ScriptableObject
+  isExternal: true
+  name: CreateInstance<T>()
+  nameWithType: ScriptableObject.CreateInstance<T>()
+  fullName: UnityEngine.ScriptableObject.CreateInstance<T>()
+  nameWithType.vb: ScriptableObject.CreateInstance(Of T)()
+  fullName.vb: UnityEngine.ScriptableObject.CreateInstance(Of T)()
+  name.vb: CreateInstance(Of T)()
+  spec.csharp:
+  - uid: UnityEngine.ScriptableObject.CreateInstance``1
+    name: CreateInstance<T>
+    nameWithType: ScriptableObject.CreateInstance<T>
+    fullName: UnityEngine.ScriptableObject.CreateInstance<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.ScriptableObject.CreateInstance``1
+    name: CreateInstance(Of T)
+    nameWithType: ScriptableObject.CreateInstance(Of T)
+    fullName: UnityEngine.ScriptableObject.CreateInstance(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.GetInstanceID
+  commentId: M:UnityEngine.Object.GetInstanceID
+  parent: UnityEngine.Object
+  isExternal: true
+  name: GetInstanceID()
+  nameWithType: Object.GetInstanceID()
+  fullName: UnityEngine.Object.GetInstanceID()
+  spec.csharp:
+  - uid: UnityEngine.Object.GetInstanceID
+    name: GetInstanceID
+    nameWithType: Object.GetInstanceID
+    fullName: UnityEngine.Object.GetInstanceID
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.GetInstanceID
+    name: GetInstanceID
+    nameWithType: Object.GetInstanceID
+    fullName: UnityEngine.Object.GetInstanceID
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.GetHashCode
+  commentId: M:UnityEngine.Object.GetHashCode
+  parent: UnityEngine.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: UnityEngine.Object.GetHashCode()
+  spec.csharp:
+  - uid: UnityEngine.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: UnityEngine.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: UnityEngine.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Equals(System.Object)
+  commentId: M:UnityEngine.Object.Equals(System.Object)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: UnityEngine.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: UnityEngine.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: UnityEngine.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: UnityEngine.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Vector3,UnityEngine.Quaternion)
+  commentId: M:UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Vector3,UnityEngine.Quaternion)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: Instantiate(Object, Vector3, Quaternion)
+  nameWithType: Object.Instantiate(Object, Vector3, Quaternion)
+  fullName: UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Vector3, UnityEngine.Quaternion)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Vector3,UnityEngine.Quaternion)
+    name: Instantiate
+    nameWithType: Object.Instantiate
+    fullName: UnityEngine.Object.Instantiate
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Vector3
+    name: Vector3
+    nameWithType: Vector3
+    fullName: UnityEngine.Vector3
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Quaternion
+    name: Quaternion
+    nameWithType: Quaternion
+    fullName: UnityEngine.Quaternion
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Vector3,UnityEngine.Quaternion)
+    name: Instantiate
+    nameWithType: Object.Instantiate
+    fullName: UnityEngine.Object.Instantiate
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Vector3
+    name: Vector3
+    nameWithType: Vector3
+    fullName: UnityEngine.Vector3
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Quaternion
+    name: Quaternion
+    nameWithType: Quaternion
+    fullName: UnityEngine.Quaternion
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+  commentId: M:UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: Instantiate(Object, Vector3, Quaternion, Transform)
+  nameWithType: Object.Instantiate(Object, Vector3, Quaternion, Transform)
+  fullName: UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Vector3, UnityEngine.Quaternion, UnityEngine.Transform)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+    name: Instantiate
+    nameWithType: Object.Instantiate
+    fullName: UnityEngine.Object.Instantiate
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Vector3
+    name: Vector3
+    nameWithType: Vector3
+    fullName: UnityEngine.Vector3
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Quaternion
+    name: Quaternion
+    nameWithType: Quaternion
+    fullName: UnityEngine.Quaternion
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+    name: Instantiate
+    nameWithType: Object.Instantiate
+    fullName: UnityEngine.Object.Instantiate
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Vector3
+    name: Vector3
+    nameWithType: Vector3
+    fullName: UnityEngine.Vector3
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Quaternion
+    name: Quaternion
+    nameWithType: Quaternion
+    fullName: UnityEngine.Quaternion
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Instantiate(UnityEngine.Object)
+  commentId: M:UnityEngine.Object.Instantiate(UnityEngine.Object)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: Instantiate(Object)
+  nameWithType: Object.Instantiate(Object)
+  fullName: UnityEngine.Object.Instantiate(UnityEngine.Object)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate(UnityEngine.Object)
+    name: Instantiate
+    nameWithType: Object.Instantiate
+    fullName: UnityEngine.Object.Instantiate
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate(UnityEngine.Object)
+    name: Instantiate
+    nameWithType: Object.Instantiate
+    fullName: UnityEngine.Object.Instantiate
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Transform)
+  commentId: M:UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Transform)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: Instantiate(Object, Transform)
+  nameWithType: Object.Instantiate(Object, Transform)
+  fullName: UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Transform)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Transform)
+    name: Instantiate
+    nameWithType: Object.Instantiate
+    fullName: UnityEngine.Object.Instantiate
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Transform)
+    name: Instantiate
+    nameWithType: Object.Instantiate
+    fullName: UnityEngine.Object.Instantiate
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Transform,System.Boolean)
+  commentId: M:UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Transform,System.Boolean)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: Instantiate(Object, Transform, Boolean)
+  nameWithType: Object.Instantiate(Object, Transform, Boolean)
+  fullName: UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Transform, System.Boolean)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Transform,System.Boolean)
+    name: Instantiate
+    nameWithType: Object.Instantiate
+    fullName: UnityEngine.Object.Instantiate
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate(UnityEngine.Object,UnityEngine.Transform,System.Boolean)
+    name: Instantiate
+    nameWithType: Object.Instantiate
+    fullName: UnityEngine.Object.Instantiate
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Instantiate``1({T})
+  commentId: M:UnityEngine.Object.Instantiate``1(``0)
+  parent: UnityEngine.Object
+  definition: UnityEngine.Object.Instantiate``1(``0)
+  name: Instantiate<T>(T)
+  nameWithType: Object.Instantiate<T>(T)
+  fullName: UnityEngine.Object.Instantiate<T>(T)
+  nameWithType.vb: Object.Instantiate(Of T)(T)
+  fullName.vb: UnityEngine.Object.Instantiate(Of T)(T)
+  name.vb: Instantiate(Of T)(T)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate``1(``0)
+    name: Instantiate<T>
+    nameWithType: Object.Instantiate<T>
+    fullName: UnityEngine.Object.Instantiate<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate``1(``0)
+    name: Instantiate(Of T)
+    nameWithType: Object.Instantiate(Of T)
+    fullName: UnityEngine.Object.Instantiate(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Instantiate``1({T},UnityEngine.Vector3,UnityEngine.Quaternion)
+  commentId: M:UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion)
+  parent: UnityEngine.Object
+  definition: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion)
+  name: Instantiate<T>(T, Vector3, Quaternion)
+  nameWithType: Object.Instantiate<T>(T, Vector3, Quaternion)
+  fullName: UnityEngine.Object.Instantiate<T>(T, UnityEngine.Vector3, UnityEngine.Quaternion)
+  nameWithType.vb: Object.Instantiate(Of T)(T, Vector3, Quaternion)
+  fullName.vb: UnityEngine.Object.Instantiate(Of T)(T, UnityEngine.Vector3, UnityEngine.Quaternion)
+  name.vb: Instantiate(Of T)(T, Vector3, Quaternion)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion)
+    name: Instantiate<T>
+    nameWithType: Object.Instantiate<T>
+    fullName: UnityEngine.Object.Instantiate<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Vector3
+    name: Vector3
+    nameWithType: Vector3
+    fullName: UnityEngine.Vector3
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Quaternion
+    name: Quaternion
+    nameWithType: Quaternion
+    fullName: UnityEngine.Quaternion
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion)
+    name: Instantiate(Of T)
+    nameWithType: Object.Instantiate(Of T)
+    fullName: UnityEngine.Object.Instantiate(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Vector3
+    name: Vector3
+    nameWithType: Vector3
+    fullName: UnityEngine.Vector3
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Quaternion
+    name: Quaternion
+    nameWithType: Quaternion
+    fullName: UnityEngine.Quaternion
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Instantiate``1({T},UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+  commentId: M:UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+  parent: UnityEngine.Object
+  definition: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+  name: Instantiate<T>(T, Vector3, Quaternion, Transform)
+  nameWithType: Object.Instantiate<T>(T, Vector3, Quaternion, Transform)
+  fullName: UnityEngine.Object.Instantiate<T>(T, UnityEngine.Vector3, UnityEngine.Quaternion, UnityEngine.Transform)
+  nameWithType.vb: Object.Instantiate(Of T)(T, Vector3, Quaternion, Transform)
+  fullName.vb: UnityEngine.Object.Instantiate(Of T)(T, UnityEngine.Vector3, UnityEngine.Quaternion, UnityEngine.Transform)
+  name.vb: Instantiate(Of T)(T, Vector3, Quaternion, Transform)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+    name: Instantiate<T>
+    nameWithType: Object.Instantiate<T>
+    fullName: UnityEngine.Object.Instantiate<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Vector3
+    name: Vector3
+    nameWithType: Vector3
+    fullName: UnityEngine.Vector3
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Quaternion
+    name: Quaternion
+    nameWithType: Quaternion
+    fullName: UnityEngine.Quaternion
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+    name: Instantiate(Of T)
+    nameWithType: Object.Instantiate(Of T)
+    fullName: UnityEngine.Object.Instantiate(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Vector3
+    name: Vector3
+    nameWithType: Vector3
+    fullName: UnityEngine.Vector3
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Quaternion
+    name: Quaternion
+    nameWithType: Quaternion
+    fullName: UnityEngine.Quaternion
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Instantiate``1({T},UnityEngine.Transform)
+  commentId: M:UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform)
+  parent: UnityEngine.Object
+  definition: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform)
+  name: Instantiate<T>(T, Transform)
+  nameWithType: Object.Instantiate<T>(T, Transform)
+  fullName: UnityEngine.Object.Instantiate<T>(T, UnityEngine.Transform)
+  nameWithType.vb: Object.Instantiate(Of T)(T, Transform)
+  fullName.vb: UnityEngine.Object.Instantiate(Of T)(T, UnityEngine.Transform)
+  name.vb: Instantiate(Of T)(T, Transform)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform)
+    name: Instantiate<T>
+    nameWithType: Object.Instantiate<T>
+    fullName: UnityEngine.Object.Instantiate<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform)
+    name: Instantiate(Of T)
+    nameWithType: Object.Instantiate(Of T)
+    fullName: UnityEngine.Object.Instantiate(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Instantiate``1({T},UnityEngine.Transform,System.Boolean)
+  commentId: M:UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform,System.Boolean)
+  parent: UnityEngine.Object
+  definition: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform,System.Boolean)
+  name: Instantiate<T>(T, Transform, Boolean)
+  nameWithType: Object.Instantiate<T>(T, Transform, Boolean)
+  fullName: UnityEngine.Object.Instantiate<T>(T, UnityEngine.Transform, System.Boolean)
+  nameWithType.vb: Object.Instantiate(Of T)(T, Transform, Boolean)
+  fullName.vb: UnityEngine.Object.Instantiate(Of T)(T, UnityEngine.Transform, System.Boolean)
+  name.vb: Instantiate(Of T)(T, Transform, Boolean)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform,System.Boolean)
+    name: Instantiate<T>
+    nameWithType: Object.Instantiate<T>
+    fullName: UnityEngine.Object.Instantiate<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform,System.Boolean)
+    name: Instantiate(Of T)
+    nameWithType: Object.Instantiate(Of T)
+    fullName: UnityEngine.Object.Instantiate(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Destroy(UnityEngine.Object,System.Single)
+  commentId: M:UnityEngine.Object.Destroy(UnityEngine.Object,System.Single)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: Destroy(Object, Single)
+  nameWithType: Object.Destroy(Object, Single)
+  fullName: UnityEngine.Object.Destroy(UnityEngine.Object, System.Single)
+  spec.csharp:
+  - uid: UnityEngine.Object.Destroy(UnityEngine.Object,System.Single)
+    name: Destroy
+    nameWithType: Object.Destroy
+    fullName: UnityEngine.Object.Destroy
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Destroy(UnityEngine.Object,System.Single)
+    name: Destroy
+    nameWithType: Object.Destroy
+    fullName: UnityEngine.Object.Destroy
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Destroy(UnityEngine.Object)
+  commentId: M:UnityEngine.Object.Destroy(UnityEngine.Object)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: Destroy(Object)
+  nameWithType: Object.Destroy(Object)
+  fullName: UnityEngine.Object.Destroy(UnityEngine.Object)
+  spec.csharp:
+  - uid: UnityEngine.Object.Destroy(UnityEngine.Object)
+    name: Destroy
+    nameWithType: Object.Destroy
+    fullName: UnityEngine.Object.Destroy
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Destroy(UnityEngine.Object)
+    name: Destroy
+    nameWithType: Object.Destroy
+    fullName: UnityEngine.Object.Destroy
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.DestroyImmediate(UnityEngine.Object,System.Boolean)
+  commentId: M:UnityEngine.Object.DestroyImmediate(UnityEngine.Object,System.Boolean)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: DestroyImmediate(Object, Boolean)
+  nameWithType: Object.DestroyImmediate(Object, Boolean)
+  fullName: UnityEngine.Object.DestroyImmediate(UnityEngine.Object, System.Boolean)
+  spec.csharp:
+  - uid: UnityEngine.Object.DestroyImmediate(UnityEngine.Object,System.Boolean)
+    name: DestroyImmediate
+    nameWithType: Object.DestroyImmediate
+    fullName: UnityEngine.Object.DestroyImmediate
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.DestroyImmediate(UnityEngine.Object,System.Boolean)
+    name: DestroyImmediate
+    nameWithType: Object.DestroyImmediate
+    fullName: UnityEngine.Object.DestroyImmediate
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.DestroyImmediate(UnityEngine.Object)
+  commentId: M:UnityEngine.Object.DestroyImmediate(UnityEngine.Object)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: DestroyImmediate(Object)
+  nameWithType: Object.DestroyImmediate(Object)
+  fullName: UnityEngine.Object.DestroyImmediate(UnityEngine.Object)
+  spec.csharp:
+  - uid: UnityEngine.Object.DestroyImmediate(UnityEngine.Object)
+    name: DestroyImmediate
+    nameWithType: Object.DestroyImmediate
+    fullName: UnityEngine.Object.DestroyImmediate
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.DestroyImmediate(UnityEngine.Object)
+    name: DestroyImmediate
+    nameWithType: Object.DestroyImmediate
+    fullName: UnityEngine.Object.DestroyImmediate
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.FindObjectsOfType(System.Type)
+  commentId: M:UnityEngine.Object.FindObjectsOfType(System.Type)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: FindObjectsOfType(Type)
+  nameWithType: Object.FindObjectsOfType(Type)
+  fullName: UnityEngine.Object.FindObjectsOfType(System.Type)
+  spec.csharp:
+  - uid: UnityEngine.Object.FindObjectsOfType(System.Type)
+    name: FindObjectsOfType
+    nameWithType: Object.FindObjectsOfType
+    fullName: UnityEngine.Object.FindObjectsOfType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.FindObjectsOfType(System.Type)
+    name: FindObjectsOfType
+    nameWithType: Object.FindObjectsOfType
+    fullName: UnityEngine.Object.FindObjectsOfType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.FindObjectsOfType(System.Type,System.Boolean)
+  commentId: M:UnityEngine.Object.FindObjectsOfType(System.Type,System.Boolean)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: FindObjectsOfType(Type, Boolean)
+  nameWithType: Object.FindObjectsOfType(Type, Boolean)
+  fullName: UnityEngine.Object.FindObjectsOfType(System.Type, System.Boolean)
+  spec.csharp:
+  - uid: UnityEngine.Object.FindObjectsOfType(System.Type,System.Boolean)
+    name: FindObjectsOfType
+    nameWithType: Object.FindObjectsOfType
+    fullName: UnityEngine.Object.FindObjectsOfType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.FindObjectsOfType(System.Type,System.Boolean)
+    name: FindObjectsOfType
+    nameWithType: Object.FindObjectsOfType
+    fullName: UnityEngine.Object.FindObjectsOfType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.DontDestroyOnLoad(UnityEngine.Object)
+  commentId: M:UnityEngine.Object.DontDestroyOnLoad(UnityEngine.Object)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: DontDestroyOnLoad(Object)
+  nameWithType: Object.DontDestroyOnLoad(Object)
+  fullName: UnityEngine.Object.DontDestroyOnLoad(UnityEngine.Object)
+  spec.csharp:
+  - uid: UnityEngine.Object.DontDestroyOnLoad(UnityEngine.Object)
+    name: DontDestroyOnLoad
+    nameWithType: Object.DontDestroyOnLoad
+    fullName: UnityEngine.Object.DontDestroyOnLoad
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.DontDestroyOnLoad(UnityEngine.Object)
+    name: DontDestroyOnLoad
+    nameWithType: Object.DontDestroyOnLoad
+    fullName: UnityEngine.Object.DontDestroyOnLoad
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.DestroyObject(UnityEngine.Object,System.Single)
+  commentId: M:UnityEngine.Object.DestroyObject(UnityEngine.Object,System.Single)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: DestroyObject(Object, Single)
+  nameWithType: Object.DestroyObject(Object, Single)
+  fullName: UnityEngine.Object.DestroyObject(UnityEngine.Object, System.Single)
+  spec.csharp:
+  - uid: UnityEngine.Object.DestroyObject(UnityEngine.Object,System.Single)
+    name: DestroyObject
+    nameWithType: Object.DestroyObject
+    fullName: UnityEngine.Object.DestroyObject
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.DestroyObject(UnityEngine.Object,System.Single)
+    name: DestroyObject
+    nameWithType: Object.DestroyObject
+    fullName: UnityEngine.Object.DestroyObject
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.DestroyObject(UnityEngine.Object)
+  commentId: M:UnityEngine.Object.DestroyObject(UnityEngine.Object)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: DestroyObject(Object)
+  nameWithType: Object.DestroyObject(Object)
+  fullName: UnityEngine.Object.DestroyObject(UnityEngine.Object)
+  spec.csharp:
+  - uid: UnityEngine.Object.DestroyObject(UnityEngine.Object)
+    name: DestroyObject
+    nameWithType: Object.DestroyObject
+    fullName: UnityEngine.Object.DestroyObject
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.DestroyObject(UnityEngine.Object)
+    name: DestroyObject
+    nameWithType: Object.DestroyObject
+    fullName: UnityEngine.Object.DestroyObject
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Object
+    name: Object
+    nameWithType: Object
+    fullName: UnityEngine.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.FindSceneObjectsOfType(System.Type)
+  commentId: M:UnityEngine.Object.FindSceneObjectsOfType(System.Type)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: FindSceneObjectsOfType(Type)
+  nameWithType: Object.FindSceneObjectsOfType(Type)
+  fullName: UnityEngine.Object.FindSceneObjectsOfType(System.Type)
+  spec.csharp:
+  - uid: UnityEngine.Object.FindSceneObjectsOfType(System.Type)
+    name: FindSceneObjectsOfType
+    nameWithType: Object.FindSceneObjectsOfType
+    fullName: UnityEngine.Object.FindSceneObjectsOfType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.FindSceneObjectsOfType(System.Type)
+    name: FindSceneObjectsOfType
+    nameWithType: Object.FindSceneObjectsOfType
+    fullName: UnityEngine.Object.FindSceneObjectsOfType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.FindObjectsOfTypeIncludingAssets(System.Type)
+  commentId: M:UnityEngine.Object.FindObjectsOfTypeIncludingAssets(System.Type)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: FindObjectsOfTypeIncludingAssets(Type)
+  nameWithType: Object.FindObjectsOfTypeIncludingAssets(Type)
+  fullName: UnityEngine.Object.FindObjectsOfTypeIncludingAssets(System.Type)
+  spec.csharp:
+  - uid: UnityEngine.Object.FindObjectsOfTypeIncludingAssets(System.Type)
+    name: FindObjectsOfTypeIncludingAssets
+    nameWithType: Object.FindObjectsOfTypeIncludingAssets
+    fullName: UnityEngine.Object.FindObjectsOfTypeIncludingAssets
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.FindObjectsOfTypeIncludingAssets(System.Type)
+    name: FindObjectsOfTypeIncludingAssets
+    nameWithType: Object.FindObjectsOfTypeIncludingAssets
+    fullName: UnityEngine.Object.FindObjectsOfTypeIncludingAssets
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.FindObjectsOfType``1
+  commentId: M:UnityEngine.Object.FindObjectsOfType``1
+  parent: UnityEngine.Object
+  isExternal: true
+  name: FindObjectsOfType<T>()
+  nameWithType: Object.FindObjectsOfType<T>()
+  fullName: UnityEngine.Object.FindObjectsOfType<T>()
+  nameWithType.vb: Object.FindObjectsOfType(Of T)()
+  fullName.vb: UnityEngine.Object.FindObjectsOfType(Of T)()
+  name.vb: FindObjectsOfType(Of T)()
+  spec.csharp:
+  - uid: UnityEngine.Object.FindObjectsOfType``1
+    name: FindObjectsOfType<T>
+    nameWithType: Object.FindObjectsOfType<T>
+    fullName: UnityEngine.Object.FindObjectsOfType<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.FindObjectsOfType``1
+    name: FindObjectsOfType(Of T)
+    nameWithType: Object.FindObjectsOfType(Of T)
+    fullName: UnityEngine.Object.FindObjectsOfType(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.FindObjectsOfType``1(System.Boolean)
+  commentId: M:UnityEngine.Object.FindObjectsOfType``1(System.Boolean)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: FindObjectsOfType<T>(Boolean)
+  nameWithType: Object.FindObjectsOfType<T>(Boolean)
+  fullName: UnityEngine.Object.FindObjectsOfType<T>(System.Boolean)
+  nameWithType.vb: Object.FindObjectsOfType(Of T)(Boolean)
+  fullName.vb: UnityEngine.Object.FindObjectsOfType(Of T)(System.Boolean)
+  name.vb: FindObjectsOfType(Of T)(Boolean)
+  spec.csharp:
+  - uid: UnityEngine.Object.FindObjectsOfType``1(System.Boolean)
+    name: FindObjectsOfType<T>
+    nameWithType: Object.FindObjectsOfType<T>
+    fullName: UnityEngine.Object.FindObjectsOfType<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.FindObjectsOfType``1(System.Boolean)
+    name: FindObjectsOfType(Of T)
+    nameWithType: Object.FindObjectsOfType(Of T)
+    fullName: UnityEngine.Object.FindObjectsOfType(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.FindObjectOfType``1
+  commentId: M:UnityEngine.Object.FindObjectOfType``1
+  parent: UnityEngine.Object
+  isExternal: true
+  name: FindObjectOfType<T>()
+  nameWithType: Object.FindObjectOfType<T>()
+  fullName: UnityEngine.Object.FindObjectOfType<T>()
+  nameWithType.vb: Object.FindObjectOfType(Of T)()
+  fullName.vb: UnityEngine.Object.FindObjectOfType(Of T)()
+  name.vb: FindObjectOfType(Of T)()
+  spec.csharp:
+  - uid: UnityEngine.Object.FindObjectOfType``1
+    name: FindObjectOfType<T>
+    nameWithType: Object.FindObjectOfType<T>
+    fullName: UnityEngine.Object.FindObjectOfType<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.FindObjectOfType``1
+    name: FindObjectOfType(Of T)
+    nameWithType: Object.FindObjectOfType(Of T)
+    fullName: UnityEngine.Object.FindObjectOfType(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.FindObjectOfType``1(System.Boolean)
+  commentId: M:UnityEngine.Object.FindObjectOfType``1(System.Boolean)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: FindObjectOfType<T>(Boolean)
+  nameWithType: Object.FindObjectOfType<T>(Boolean)
+  fullName: UnityEngine.Object.FindObjectOfType<T>(System.Boolean)
+  nameWithType.vb: Object.FindObjectOfType(Of T)(Boolean)
+  fullName.vb: UnityEngine.Object.FindObjectOfType(Of T)(System.Boolean)
+  name.vb: FindObjectOfType(Of T)(Boolean)
+  spec.csharp:
+  - uid: UnityEngine.Object.FindObjectOfType``1(System.Boolean)
+    name: FindObjectOfType<T>
+    nameWithType: Object.FindObjectOfType<T>
+    fullName: UnityEngine.Object.FindObjectOfType<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.FindObjectOfType``1(System.Boolean)
+    name: FindObjectOfType(Of T)
+    nameWithType: Object.FindObjectOfType(Of T)
+    fullName: UnityEngine.Object.FindObjectOfType(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.FindObjectsOfTypeAll(System.Type)
+  commentId: M:UnityEngine.Object.FindObjectsOfTypeAll(System.Type)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: FindObjectsOfTypeAll(Type)
+  nameWithType: Object.FindObjectsOfTypeAll(Type)
+  fullName: UnityEngine.Object.FindObjectsOfTypeAll(System.Type)
+  spec.csharp:
+  - uid: UnityEngine.Object.FindObjectsOfTypeAll(System.Type)
+    name: FindObjectsOfTypeAll
+    nameWithType: Object.FindObjectsOfTypeAll
+    fullName: UnityEngine.Object.FindObjectsOfTypeAll
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.FindObjectsOfTypeAll(System.Type)
+    name: FindObjectsOfTypeAll
+    nameWithType: Object.FindObjectsOfTypeAll
+    fullName: UnityEngine.Object.FindObjectsOfTypeAll
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.FindObjectOfType(System.Type)
+  commentId: M:UnityEngine.Object.FindObjectOfType(System.Type)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: FindObjectOfType(Type)
+  nameWithType: Object.FindObjectOfType(Type)
+  fullName: UnityEngine.Object.FindObjectOfType(System.Type)
+  spec.csharp:
+  - uid: UnityEngine.Object.FindObjectOfType(System.Type)
+    name: FindObjectOfType
+    nameWithType: Object.FindObjectOfType
+    fullName: UnityEngine.Object.FindObjectOfType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.FindObjectOfType(System.Type)
+    name: FindObjectOfType
+    nameWithType: Object.FindObjectOfType
+    fullName: UnityEngine.Object.FindObjectOfType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.FindObjectOfType(System.Type,System.Boolean)
+  commentId: M:UnityEngine.Object.FindObjectOfType(System.Type,System.Boolean)
+  parent: UnityEngine.Object
+  isExternal: true
+  name: FindObjectOfType(Type, Boolean)
+  nameWithType: Object.FindObjectOfType(Type, Boolean)
+  fullName: UnityEngine.Object.FindObjectOfType(System.Type, System.Boolean)
+  spec.csharp:
+  - uid: UnityEngine.Object.FindObjectOfType(System.Type,System.Boolean)
+    name: FindObjectOfType
+    nameWithType: Object.FindObjectOfType
+    fullName: UnityEngine.Object.FindObjectOfType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.FindObjectOfType(System.Type,System.Boolean)
+    name: FindObjectOfType
+    nameWithType: Object.FindObjectOfType
+    fullName: UnityEngine.Object.FindObjectOfType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.ToString
+  commentId: M:UnityEngine.Object.ToString
+  parent: UnityEngine.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: UnityEngine.Object.ToString()
+  spec.csharp:
+  - uid: UnityEngine.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: UnityEngine.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: UnityEngine.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.name
+  commentId: P:UnityEngine.Object.name
+  parent: UnityEngine.Object
+  isExternal: true
+  name: name
+  nameWithType: Object.name
+  fullName: UnityEngine.Object.name
+- uid: UnityEngine.Object.hideFlags
+  commentId: P:UnityEngine.Object.hideFlags
+  parent: UnityEngine.Object
+  isExternal: true
+  name: hideFlags
+  nameWithType: Object.hideFlags
+  fullName: UnityEngine.Object.hideFlags
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: GraphProcessor
+  commentId: N:GraphProcessor
+  name: GraphProcessor
+  nameWithType: GraphProcessor
+  fullName: GraphProcessor
+- uid: UnityEngine.Object.Instantiate``1(``0)
+  commentId: M:UnityEngine.Object.Instantiate``1(``0)
+  isExternal: true
+  name: Instantiate<T>(T)
+  nameWithType: Object.Instantiate<T>(T)
+  fullName: UnityEngine.Object.Instantiate<T>(T)
+  nameWithType.vb: Object.Instantiate(Of T)(T)
+  fullName.vb: UnityEngine.Object.Instantiate(Of T)(T)
+  name.vb: Instantiate(Of T)(T)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate``1(``0)
+    name: Instantiate<T>
+    nameWithType: Object.Instantiate<T>
+    fullName: UnityEngine.Object.Instantiate<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate``1(``0)
+    name: Instantiate(Of T)
+    nameWithType: Object.Instantiate(Of T)
+    fullName: UnityEngine.Object.Instantiate(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion)
+  commentId: M:UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion)
+  isExternal: true
+  name: Instantiate<T>(T, Vector3, Quaternion)
+  nameWithType: Object.Instantiate<T>(T, Vector3, Quaternion)
+  fullName: UnityEngine.Object.Instantiate<T>(T, UnityEngine.Vector3, UnityEngine.Quaternion)
+  nameWithType.vb: Object.Instantiate(Of T)(T, Vector3, Quaternion)
+  fullName.vb: UnityEngine.Object.Instantiate(Of T)(T, UnityEngine.Vector3, UnityEngine.Quaternion)
+  name.vb: Instantiate(Of T)(T, Vector3, Quaternion)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion)
+    name: Instantiate<T>
+    nameWithType: Object.Instantiate<T>
+    fullName: UnityEngine.Object.Instantiate<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Vector3
+    name: Vector3
+    nameWithType: Vector3
+    fullName: UnityEngine.Vector3
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Quaternion
+    name: Quaternion
+    nameWithType: Quaternion
+    fullName: UnityEngine.Quaternion
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion)
+    name: Instantiate(Of T)
+    nameWithType: Object.Instantiate(Of T)
+    fullName: UnityEngine.Object.Instantiate(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Vector3
+    name: Vector3
+    nameWithType: Vector3
+    fullName: UnityEngine.Vector3
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Quaternion
+    name: Quaternion
+    nameWithType: Quaternion
+    fullName: UnityEngine.Quaternion
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+  commentId: M:UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+  isExternal: true
+  name: Instantiate<T>(T, Vector3, Quaternion, Transform)
+  nameWithType: Object.Instantiate<T>(T, Vector3, Quaternion, Transform)
+  fullName: UnityEngine.Object.Instantiate<T>(T, UnityEngine.Vector3, UnityEngine.Quaternion, UnityEngine.Transform)
+  nameWithType.vb: Object.Instantiate(Of T)(T, Vector3, Quaternion, Transform)
+  fullName.vb: UnityEngine.Object.Instantiate(Of T)(T, UnityEngine.Vector3, UnityEngine.Quaternion, UnityEngine.Transform)
+  name.vb: Instantiate(Of T)(T, Vector3, Quaternion, Transform)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+    name: Instantiate<T>
+    nameWithType: Object.Instantiate<T>
+    fullName: UnityEngine.Object.Instantiate<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Vector3
+    name: Vector3
+    nameWithType: Vector3
+    fullName: UnityEngine.Vector3
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Quaternion
+    name: Quaternion
+    nameWithType: Quaternion
+    fullName: UnityEngine.Quaternion
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Vector3,UnityEngine.Quaternion,UnityEngine.Transform)
+    name: Instantiate(Of T)
+    nameWithType: Object.Instantiate(Of T)
+    fullName: UnityEngine.Object.Instantiate(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Vector3
+    name: Vector3
+    nameWithType: Vector3
+    fullName: UnityEngine.Vector3
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Quaternion
+    name: Quaternion
+    nameWithType: Quaternion
+    fullName: UnityEngine.Quaternion
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform)
+  commentId: M:UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform)
+  isExternal: true
+  name: Instantiate<T>(T, Transform)
+  nameWithType: Object.Instantiate<T>(T, Transform)
+  fullName: UnityEngine.Object.Instantiate<T>(T, UnityEngine.Transform)
+  nameWithType.vb: Object.Instantiate(Of T)(T, Transform)
+  fullName.vb: UnityEngine.Object.Instantiate(Of T)(T, UnityEngine.Transform)
+  name.vb: Instantiate(Of T)(T, Transform)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform)
+    name: Instantiate<T>
+    nameWithType: Object.Instantiate<T>
+    fullName: UnityEngine.Object.Instantiate<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform)
+    name: Instantiate(Of T)
+    nameWithType: Object.Instantiate(Of T)
+    fullName: UnityEngine.Object.Instantiate(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform,System.Boolean)
+  commentId: M:UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform,System.Boolean)
+  isExternal: true
+  name: Instantiate<T>(T, Transform, Boolean)
+  nameWithType: Object.Instantiate<T>(T, Transform, Boolean)
+  fullName: UnityEngine.Object.Instantiate<T>(T, UnityEngine.Transform, System.Boolean)
+  nameWithType.vb: Object.Instantiate(Of T)(T, Transform, Boolean)
+  fullName.vb: UnityEngine.Object.Instantiate(Of T)(T, UnityEngine.Transform, System.Boolean)
+  name.vb: Instantiate(Of T)(T, Transform, Boolean)
+  spec.csharp:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform,System.Boolean)
+    name: Instantiate<T>
+    nameWithType: Object.Instantiate<T>
+    fullName: UnityEngine.Object.Instantiate<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEngine.Object.Instantiate``1(``0,UnityEngine.Transform,System.Boolean)
+    name: Instantiate(Of T)
+    nameWithType: Object.Instantiate(Of T)
+    fullName: UnityEngine.Object.Instantiate(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Transform
+    name: Transform
+    nameWithType: Transform
+    fullName: UnityEngine.Transform
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action
+  commentId: T:System.Action
+  parent: System
+  isExternal: true
+  name: Action
+  nameWithType: Action
+  fullName: System.Action
+- uid: System.Collections.Generic.List{GraphProcessor.BaseNodeView}
+  commentId: T:System.Collections.Generic.List{GraphProcessor.BaseNodeView}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<BaseNodeView>
+  nameWithType: List<BaseNodeView>
+  fullName: System.Collections.Generic.List<GraphProcessor.BaseNodeView>
+  nameWithType.vb: List(Of BaseNodeView)
+  fullName.vb: System.Collections.Generic.List(Of GraphProcessor.BaseNodeView)
+  name.vb: List(Of BaseNodeView)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: GraphProcessor.BaseNodeView
+    name: BaseNodeView
+    nameWithType: BaseNodeView
+    fullName: GraphProcessor.BaseNodeView
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: GraphProcessor.BaseNodeView
+    name: BaseNodeView
+    nameWithType: BaseNodeView
+    fullName: GraphProcessor.BaseNodeView
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: Mixture.MixtureNodeInspectorObject.AddPinnedView*
+  commentId: Overload:Mixture.MixtureNodeInspectorObject.AddPinnedView
+  name: AddPinnedView
+  nameWithType: MixtureNodeInspectorObject.AddPinnedView
+  fullName: Mixture.MixtureNodeInspectorObject.AddPinnedView
+- uid: GraphProcessor.BaseNodeView
+  commentId: T:GraphProcessor.BaseNodeView
+  parent: GraphProcessor
+  name: BaseNodeView
+  nameWithType: BaseNodeView
+  fullName: GraphProcessor.BaseNodeView
+- uid: Mixture.MixtureNodeInspectorObject.RemovePinnedView*
+  commentId: Overload:Mixture.MixtureNodeInspectorObject.RemovePinnedView
+  name: RemovePinnedView
+  nameWithType: MixtureNodeInspectorObject.RemovePinnedView
+  fullName: Mixture.MixtureNodeInspectorObject.RemovePinnedView

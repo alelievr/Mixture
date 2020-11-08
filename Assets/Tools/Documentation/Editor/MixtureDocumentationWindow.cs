@@ -17,7 +17,7 @@ public class MixtureDocumentationWindow : EditorWindow
 
     static string docFxDir => Application.dataPath + "/../docs/docfx";
     static string nodeIndexFile => "NodeLibraryIndex.md";
-    static string manualDir => docFxDir + "/manual/nodes/";
+    static string nodeManualDir => docFxDir + "/manual/nodes/";
 
     static readonly int toolbarHeight = 21;
 
@@ -126,7 +126,7 @@ public class MixtureDocumentationWindow : EditorWindow
 
         nodeViews.Sort((n1, n2) => n1.nodeTarget.name.CompareTo(n2.nodeTarget.name));
 
-        GenerateNodeIndexMarkdown(nodeViews);
+        GenerateNodeIndexFiles(nodeViews);
 
         foreach (var node in docGraph.nodes.ToList())
             if (!(node is OutputNode))
@@ -166,7 +166,7 @@ public class MixtureDocumentationWindow : EditorWindow
 
     void GenerateNodeMarkdownDoc(BaseNodeView view)
     {
-        using (var fs = new FileStream(manualDir + view.nodeTarget.GetType().ToString() + ".md", FileMode.OpenOrCreate))
+        using (var fs = new FileStream(nodeManualDir + view.nodeTarget.GetType().ToString() + ".md", FileMode.OpenOrCreate))
         {
             fs.SetLength(0);
 
@@ -231,9 +231,19 @@ public class MixtureDocumentationWindow : EditorWindow
 
     string GetImageLink(BaseNode node) => $"../../images/{node.GetType()}.png";
 
-    void GenerateNodeIndexMarkdown(List<BaseNodeView> nodeViews)
+    string GetNodeName(BaseNodeView view)
     {
-        using (var fs = new FileStream(manualDir + nodeIndexFile, FileMode.OpenOrCreate))
+        string name = view.nodeTarget.name;
+
+        // Special case for the compute shader node as the name of the node is inherited from the compute shader.
+        name = name == "DocumentationComputeShader" ? "Compute Shader" : name;
+
+        return name;
+    }
+
+    void GenerateNodeIndexFiles(List<BaseNodeView> nodeViews)
+    {
+        using (var fs = new FileStream(nodeManualDir + nodeIndexFile, FileMode.OpenOrCreate))
         {
             fs.SetLength(0);
 
@@ -241,15 +251,26 @@ public class MixtureDocumentationWindow : EditorWindow
             {
                 foreach (var nodeView in nodeViews)
                 {
-                    string name = nodeView.nodeTarget.name;
 
-                    // Special case for the compute shader node as the name of the node is inherited from the compute shader.
-                    name = name == "DocumentationComputeShader" ? "Compute Shader" : name;
-
-                    sw.WriteLine($"[{name}]({nodeView.nodeTarget.GetType()}.md)  ");
+                    sw.WriteLine($"[{GetNodeName(nodeView)}]({nodeView.nodeTarget.GetType()}.md)  ");
                     sw.WriteLine();
                 }
                 sw.Flush();
+            }
+        }
+
+        // We also generate toc.yml in the nodes folder
+        using (var fs = new FileStream(nodeManualDir + "toc.yml", FileMode.OpenOrCreate))
+        {
+            fs.SetLength(0);
+
+            using (var sw = new StreamWriter(fs))
+            {
+                foreach (var nodeView in nodeViews)
+                {
+                    sw.WriteLine($"- name: {GetNodeName(nodeView)}");
+                    sw.WriteLine($"  href: {nodeView.nodeTarget.GetType().ToString()}.md");
+                }
             }
         }
     }

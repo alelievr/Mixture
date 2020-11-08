@@ -7,12 +7,13 @@ items:
   children:
   - Mixture.ExternalOutputNode.asset
   - Mixture.ExternalOutputNode.defaultRTSettings
-  - Mixture.ExternalOutputNode.Disable
   - Mixture.ExternalOutputNode.Enable
   - Mixture.ExternalOutputNode.external2DOoutputType
+  - Mixture.ExternalOutputNode.external3DFormat
   - Mixture.ExternalOutputNode.externalOutputDimension
   - Mixture.ExternalOutputNode.hasSettings
   - Mixture.ExternalOutputNode.name
+  - Mixture.ExternalOutputNode.previewTexture
   - Mixture.ExternalOutputNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
   langs:
   - csharp
@@ -24,20 +25,24 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ExternalOutputNode
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-    startLine: 7
+    startLine: 8
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
     content: >-
+      [Documentation("\r\nExport a texture from the graph, the texture can also be exported outside of unity.\r\n\r\nNote that for 2D textures, the file is exported either in png or exr depending on the current floating precision.\r\nFor 3D and Cube textures, the file is exported as a .asset and can be use in another Unity project.\r\n")]
+
       [Serializable]
 
       public class ExternalOutputNode : OutputNode, IUseCustomRenderTextureProcessing
     content.vb: >-
+      <Documentation(vbCrLf & "Export a texture from the graph, the texture can also be exported outside of unity." & vbCrLf & vbCrLf & "Note that for 2D textures, the file is exported either in png or exr depending on the current floating precision." & vbCrLf & "For 3D and Cube textures, the file is exported as a .asset and can be use in another Unity project." & vbCrLf)>
+
       <Serializable>
 
       Public Class ExternalOutputNode
@@ -50,22 +55,18 @@ items:
   implements:
   - Mixture.IUseCustomRenderTextureProcessing
   inheritedMembers:
-  - Mixture.OutputNode.input
-  - Mixture.OutputNode.hasMips
-  - Mixture.OutputNode.customMipMapShader
-  - Mixture.OutputNode.tempRenderTexture
-  - Mixture.OutputNode.mipmapRenderTexture
-  - Mixture.OutputNode.currentSlice
+  - Mixture.OutputNode.outputTextureSettings
+  - Mixture.OutputNode.mainOutput
   - Mixture.OutputNode.onTempRenderTextureUpdated
-  - Mixture.OutputNode.previewTexture
   - Mixture.OutputNode.nodeWidth
-  - Mixture.OutputNode.finalCopyMaterial
-  - Mixture.OutputNode.compressionFormat
-  - Mixture.OutputNode.compressionQuality
-  - Mixture.OutputNode.enableCompression
   - Mixture.OutputNode.uniqueMessages
+  - Mixture.OutputNode.CanResetPort(NodePort)
+  - Mixture.OutputNode.AddTextureOutput(Mixture.OutputTextureSettings.Preset)
+  - Mixture.OutputNode.RemoveTextureOutput(Mixture.OutputTextureSettings)
+  - Mixture.OutputNode.Disable
   - Mixture.OutputNode.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
-  - Mixture.OutputNode.GetCustomRenderTexture
+  - Mixture.OutputNode.AssignSubTextures(System.Collections.Generic.List{SerializableEdge})
+  - Mixture.OutputNode.GetCustomRenderTextures
   - Mixture.MixtureNode.graph
   - Mixture.MixtureNode.rtSettings
   - Mixture.MixtureNode.hasPreview
@@ -78,17 +79,20 @@ items:
   - Mixture.MixtureNode.beforeProcessSetup
   - Mixture.MixtureNode.afterProcessCleanup
   - Mixture.MixtureNode.showControlsOnHover
+  - Mixture.MixtureNode.needsInspector
   - Mixture.MixtureNode.temporaryMaterials
   - Mixture.MixtureNode.previewMode
   - Mixture.MixtureNode.previewMip
   - Mixture.MixtureNode.previewVisible
   - Mixture.MixtureNode.previewEV100
+  - Mixture.MixtureNode.previewSlice
+  - Mixture.MixtureNode.isPinned
   - Mixture.MixtureNode.recorder
   - Mixture.MixtureNode.OnNodeCreated
-  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  - Mixture.MixtureNode.GetTempTextureDimension
   - Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
   - Mixture.MixtureNode.Process
-  - Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
   - Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
   - Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
   - Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
@@ -96,9 +100,13 @@ items:
   - Mixture.MixtureNode.OnSettingsChanged
   - Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
   - Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
-  - Mixture.MixtureNode.GetMixtureDependencies
   - Mixture.MixtureNode.GetTempMaterial(System.String)
   attributes:
+  - type: Mixture.DocumentationAttribute
+    ctor: Mixture.DocumentationAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: "\r\nExport a texture from the graph, the texture can also be exported outside of unity.\r\n\r\nNote that for 2D textures, the file is exported either in png or exr depending on the current floating precision.\r\nFor 3D and Cube textures, the file is exported as a .asset and can be use in another Unity project.\r\n"
   - type: System.SerializableAttribute
     ctor: System.SerializableAttribute.#ctor
     arguments: []
@@ -122,11 +130,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: name
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-    startLine: 23
+    startLine: 32
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -160,11 +168,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: asset
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-    startLine: 25
+    startLine: 34
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -191,11 +199,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: externalOutputDimension
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-    startLine: 27
+    startLine: 36
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -222,11 +230,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: external2DOoutputType
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-    startLine: 28
+    startLine: 37
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -239,6 +247,75 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: Mixture.ExternalOutputNode.external3DFormat
+  commentId: F:Mixture.ExternalOutputNode.external3DFormat
+  id: external3DFormat
+  parent: Mixture.ExternalOutputNode
+  langs:
+  - csharp
+  - vb
+  name: external3DFormat
+  nameWithType: ExternalOutputNode.external3DFormat
+  fullName: Mixture.ExternalOutputNode.external3DFormat
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: external3DFormat
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
+    startLine: 38
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public ConversionFormat external3DFormat
+    return:
+      type: Mixture.ConversionFormat
+    content.vb: Public external3DFormat As ConversionFormat
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.ExternalOutputNode.previewTexture
+  commentId: P:Mixture.ExternalOutputNode.previewTexture
+  id: previewTexture
+  parent: Mixture.ExternalOutputNode
+  langs:
+  - csharp
+  - vb
+  name: previewTexture
+  nameWithType: ExternalOutputNode.previewTexture
+  fullName: Mixture.ExternalOutputNode.previewTexture
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: previewTexture
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
+    startLine: 39
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public override Texture previewTexture { get; }
+    parameters: []
+    return:
+      type: UnityEngine.Texture
+    content.vb: Public Overrides ReadOnly Property previewTexture As Texture
+  overridden: Mixture.OutputNode.previewTexture
+  overload: Mixture.ExternalOutputNode.previewTexture*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
 - uid: Mixture.ExternalOutputNode.hasSettings
   commentId: P:Mixture.ExternalOutputNode.hasSettings
   id: hasSettings
@@ -253,11 +330,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: hasSettings
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-    startLine: 30
+    startLine: 41
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -291,11 +368,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: defaultRTSettings
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-    startLine: 32
+    startLine: 43
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -329,11 +406,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: Enable
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-    startLine: 47
+    startLine: 67
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -342,39 +419,6 @@ items:
     content.vb: Protected Overrides Sub Enable
   overridden: Mixture.OutputNode.Enable
   overload: Mixture.ExternalOutputNode.Enable*
-  modifiers.csharp:
-  - protected
-  - override
-  modifiers.vb:
-  - Protected
-  - Overrides
-- uid: Mixture.ExternalOutputNode.Disable
-  commentId: M:Mixture.ExternalOutputNode.Disable
-  id: Disable
-  parent: Mixture.ExternalOutputNode
-  langs:
-  - csharp
-  - vb
-  name: Disable()
-  nameWithType: ExternalOutputNode.Disable()
-  fullName: Mixture.ExternalOutputNode.Disable()
-  type: Method
-  source:
-    remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-      branch: new-custom-texture-api
-      repo: git@github.com:alelievr/Mixture.git
-    id: Disable
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-    startLine: 73
-  assemblies:
-  - Mixture.Runtime
-  namespace: Mixture
-  syntax:
-    content: protected override void Disable()
-    content.vb: Protected Overrides Sub Disable
-  overridden: Mixture.OutputNode.Disable
-  overload: Mixture.ExternalOutputNode.Disable*
   modifiers.csharp:
   - protected
   - override
@@ -395,11 +439,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ProcessNode
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/ExternalOutputNode.cs
-    startLine: 75
+    startLine: 78
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -450,90 +494,175 @@ references:
   name: IUseCustomRenderTextureProcessing
   nameWithType: IUseCustomRenderTextureProcessing
   fullName: Mixture.IUseCustomRenderTextureProcessing
-- uid: Mixture.OutputNode.input
-  commentId: F:Mixture.OutputNode.input
+- uid: Mixture.OutputNode.outputTextureSettings
+  commentId: F:Mixture.OutputNode.outputTextureSettings
   parent: Mixture.OutputNode
-  name: input
-  nameWithType: OutputNode.input
-  fullName: Mixture.OutputNode.input
-- uid: Mixture.OutputNode.hasMips
-  commentId: F:Mixture.OutputNode.hasMips
+  name: outputTextureSettings
+  nameWithType: OutputNode.outputTextureSettings
+  fullName: Mixture.OutputNode.outputTextureSettings
+- uid: Mixture.OutputNode.mainOutput
+  commentId: P:Mixture.OutputNode.mainOutput
   parent: Mixture.OutputNode
-  name: hasMips
-  nameWithType: OutputNode.hasMips
-  fullName: Mixture.OutputNode.hasMips
-- uid: Mixture.OutputNode.customMipMapShader
-  commentId: F:Mixture.OutputNode.customMipMapShader
-  parent: Mixture.OutputNode
-  name: customMipMapShader
-  nameWithType: OutputNode.customMipMapShader
-  fullName: Mixture.OutputNode.customMipMapShader
-- uid: Mixture.OutputNode.tempRenderTexture
-  commentId: F:Mixture.OutputNode.tempRenderTexture
-  parent: Mixture.OutputNode
-  name: tempRenderTexture
-  nameWithType: OutputNode.tempRenderTexture
-  fullName: Mixture.OutputNode.tempRenderTexture
-- uid: Mixture.OutputNode.mipmapRenderTexture
-  commentId: F:Mixture.OutputNode.mipmapRenderTexture
-  parent: Mixture.OutputNode
-  name: mipmapRenderTexture
-  nameWithType: OutputNode.mipmapRenderTexture
-  fullName: Mixture.OutputNode.mipmapRenderTexture
-- uid: Mixture.OutputNode.currentSlice
-  commentId: F:Mixture.OutputNode.currentSlice
-  parent: Mixture.OutputNode
-  name: currentSlice
-  nameWithType: OutputNode.currentSlice
-  fullName: Mixture.OutputNode.currentSlice
+  name: mainOutput
+  nameWithType: OutputNode.mainOutput
+  fullName: Mixture.OutputNode.mainOutput
 - uid: Mixture.OutputNode.onTempRenderTextureUpdated
   commentId: E:Mixture.OutputNode.onTempRenderTextureUpdated
   parent: Mixture.OutputNode
   name: onTempRenderTextureUpdated
   nameWithType: OutputNode.onTempRenderTextureUpdated
   fullName: Mixture.OutputNode.onTempRenderTextureUpdated
-- uid: Mixture.OutputNode.previewTexture
-  commentId: P:Mixture.OutputNode.previewTexture
-  parent: Mixture.OutputNode
-  name: previewTexture
-  nameWithType: OutputNode.previewTexture
-  fullName: Mixture.OutputNode.previewTexture
 - uid: Mixture.OutputNode.nodeWidth
   commentId: P:Mixture.OutputNode.nodeWidth
   parent: Mixture.OutputNode
   name: nodeWidth
   nameWithType: OutputNode.nodeWidth
   fullName: Mixture.OutputNode.nodeWidth
-- uid: Mixture.OutputNode.finalCopyMaterial
-  commentId: P:Mixture.OutputNode.finalCopyMaterial
-  parent: Mixture.OutputNode
-  name: finalCopyMaterial
-  nameWithType: OutputNode.finalCopyMaterial
-  fullName: Mixture.OutputNode.finalCopyMaterial
-- uid: Mixture.OutputNode.compressionFormat
-  commentId: F:Mixture.OutputNode.compressionFormat
-  parent: Mixture.OutputNode
-  name: compressionFormat
-  nameWithType: OutputNode.compressionFormat
-  fullName: Mixture.OutputNode.compressionFormat
-- uid: Mixture.OutputNode.compressionQuality
-  commentId: F:Mixture.OutputNode.compressionQuality
-  parent: Mixture.OutputNode
-  name: compressionQuality
-  nameWithType: OutputNode.compressionQuality
-  fullName: Mixture.OutputNode.compressionQuality
-- uid: Mixture.OutputNode.enableCompression
-  commentId: F:Mixture.OutputNode.enableCompression
-  parent: Mixture.OutputNode
-  name: enableCompression
-  nameWithType: OutputNode.enableCompression
-  fullName: Mixture.OutputNode.enableCompression
 - uid: Mixture.OutputNode.uniqueMessages
   commentId: F:Mixture.OutputNode.uniqueMessages
   parent: Mixture.OutputNode
   name: uniqueMessages
   nameWithType: OutputNode.uniqueMessages
   fullName: Mixture.OutputNode.uniqueMessages
+- uid: Mixture.OutputNode.CanResetPort(NodePort)
+  commentId: M:Mixture.OutputNode.CanResetPort(NodePort)
+  parent: Mixture.OutputNode
+  isExternal: true
+  name: CanResetPort(NodePort)
+  nameWithType: OutputNode.CanResetPort(NodePort)
+  fullName: Mixture.OutputNode.CanResetPort(NodePort)
+  spec.csharp:
+  - uid: Mixture.OutputNode.CanResetPort(NodePort)
+    name: CanResetPort
+    nameWithType: OutputNode.CanResetPort
+    fullName: Mixture.OutputNode.CanResetPort
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: NodePort
+    name: NodePort
+    nameWithType: NodePort
+    fullName: NodePort
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.OutputNode.CanResetPort(NodePort)
+    name: CanResetPort
+    nameWithType: OutputNode.CanResetPort
+    fullName: Mixture.OutputNode.CanResetPort
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: NodePort
+    name: NodePort
+    nameWithType: NodePort
+    fullName: NodePort
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.OutputNode.AddTextureOutput(Mixture.OutputTextureSettings.Preset)
+  commentId: M:Mixture.OutputNode.AddTextureOutput(Mixture.OutputTextureSettings.Preset)
+  parent: Mixture.OutputNode
+  name: AddTextureOutput(OutputTextureSettings.Preset)
+  nameWithType: OutputNode.AddTextureOutput(OutputTextureSettings.Preset)
+  fullName: Mixture.OutputNode.AddTextureOutput(Mixture.OutputTextureSettings.Preset)
+  spec.csharp:
+  - uid: Mixture.OutputNode.AddTextureOutput(Mixture.OutputTextureSettings.Preset)
+    name: AddTextureOutput
+    nameWithType: OutputNode.AddTextureOutput
+    fullName: Mixture.OutputNode.AddTextureOutput
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Mixture.OutputTextureSettings.Preset
+    name: OutputTextureSettings.Preset
+    nameWithType: OutputTextureSettings.Preset
+    fullName: Mixture.OutputTextureSettings.Preset
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.OutputNode.AddTextureOutput(Mixture.OutputTextureSettings.Preset)
+    name: AddTextureOutput
+    nameWithType: OutputNode.AddTextureOutput
+    fullName: Mixture.OutputNode.AddTextureOutput
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Mixture.OutputTextureSettings.Preset
+    name: OutputTextureSettings.Preset
+    nameWithType: OutputTextureSettings.Preset
+    fullName: Mixture.OutputTextureSettings.Preset
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.OutputNode.RemoveTextureOutput(Mixture.OutputTextureSettings)
+  commentId: M:Mixture.OutputNode.RemoveTextureOutput(Mixture.OutputTextureSettings)
+  parent: Mixture.OutputNode
+  name: RemoveTextureOutput(OutputTextureSettings)
+  nameWithType: OutputNode.RemoveTextureOutput(OutputTextureSettings)
+  fullName: Mixture.OutputNode.RemoveTextureOutput(Mixture.OutputTextureSettings)
+  spec.csharp:
+  - uid: Mixture.OutputNode.RemoveTextureOutput(Mixture.OutputTextureSettings)
+    name: RemoveTextureOutput
+    nameWithType: OutputNode.RemoveTextureOutput
+    fullName: Mixture.OutputNode.RemoveTextureOutput
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Mixture.OutputTextureSettings
+    name: OutputTextureSettings
+    nameWithType: OutputTextureSettings
+    fullName: Mixture.OutputTextureSettings
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.OutputNode.RemoveTextureOutput(Mixture.OutputTextureSettings)
+    name: RemoveTextureOutput
+    nameWithType: OutputNode.RemoveTextureOutput
+    fullName: Mixture.OutputNode.RemoveTextureOutput
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Mixture.OutputTextureSettings
+    name: OutputTextureSettings
+    nameWithType: OutputTextureSettings
+    fullName: Mixture.OutputTextureSettings
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.OutputNode.Disable
+  commentId: M:Mixture.OutputNode.Disable
+  parent: Mixture.OutputNode
+  name: Disable()
+  nameWithType: OutputNode.Disable()
+  fullName: Mixture.OutputNode.Disable()
+  spec.csharp:
+  - uid: Mixture.OutputNode.Disable
+    name: Disable
+    nameWithType: OutputNode.Disable
+    fullName: Mixture.OutputNode.Disable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.OutputNode.Disable
+    name: Disable
+    nameWithType: OutputNode.Disable
+    fullName: Mixture.OutputNode.Disable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: Mixture.OutputNode.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
   commentId: M:Mixture.OutputNode.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})
   parent: Mixture.OutputNode
@@ -598,17 +727,81 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.OutputNode.GetCustomRenderTexture
-  commentId: M:Mixture.OutputNode.GetCustomRenderTexture
+- uid: Mixture.OutputNode.AssignSubTextures(System.Collections.Generic.List{SerializableEdge})
+  commentId: M:Mixture.OutputNode.AssignSubTextures(System.Collections.Generic.List{SerializableEdge})
   parent: Mixture.OutputNode
-  name: GetCustomRenderTexture()
-  nameWithType: OutputNode.GetCustomRenderTexture()
-  fullName: Mixture.OutputNode.GetCustomRenderTexture()
+  isExternal: true
+  name: AssignSubTextures(List<SerializableEdge>)
+  nameWithType: OutputNode.AssignSubTextures(List<SerializableEdge>)
+  fullName: Mixture.OutputNode.AssignSubTextures(System.Collections.Generic.List<SerializableEdge>)
+  nameWithType.vb: OutputNode.AssignSubTextures(List(Of SerializableEdge))
+  fullName.vb: Mixture.OutputNode.AssignSubTextures(System.Collections.Generic.List(Of SerializableEdge))
+  name.vb: AssignSubTextures(List(Of SerializableEdge))
   spec.csharp:
-  - uid: Mixture.OutputNode.GetCustomRenderTexture
-    name: GetCustomRenderTexture
-    nameWithType: OutputNode.GetCustomRenderTexture
-    fullName: Mixture.OutputNode.GetCustomRenderTexture
+  - uid: Mixture.OutputNode.AssignSubTextures(System.Collections.Generic.List{SerializableEdge})
+    name: AssignSubTextures
+    nameWithType: OutputNode.AssignSubTextures
+    fullName: Mixture.OutputNode.AssignSubTextures
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: SerializableEdge
+    name: SerializableEdge
+    nameWithType: SerializableEdge
+    fullName: SerializableEdge
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.OutputNode.AssignSubTextures(System.Collections.Generic.List{SerializableEdge})
+    name: AssignSubTextures
+    nameWithType: OutputNode.AssignSubTextures
+    fullName: Mixture.OutputNode.AssignSubTextures
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: SerializableEdge
+    name: SerializableEdge
+    nameWithType: SerializableEdge
+    fullName: SerializableEdge
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.OutputNode.GetCustomRenderTextures
+  commentId: M:Mixture.OutputNode.GetCustomRenderTextures
+  parent: Mixture.OutputNode
+  name: GetCustomRenderTextures()
+  nameWithType: OutputNode.GetCustomRenderTextures()
+  fullName: Mixture.OutputNode.GetCustomRenderTextures()
+  spec.csharp:
+  - uid: Mixture.OutputNode.GetCustomRenderTextures
+    name: GetCustomRenderTextures
+    nameWithType: OutputNode.GetCustomRenderTextures
+    fullName: Mixture.OutputNode.GetCustomRenderTextures
   - name: (
     nameWithType: (
     fullName: (
@@ -616,10 +809,10 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.OutputNode.GetCustomRenderTexture
-    name: GetCustomRenderTexture
-    nameWithType: OutputNode.GetCustomRenderTexture
-    fullName: Mixture.OutputNode.GetCustomRenderTexture
+  - uid: Mixture.OutputNode.GetCustomRenderTextures
+    name: GetCustomRenderTextures
+    nameWithType: OutputNode.GetCustomRenderTextures
+    fullName: Mixture.OutputNode.GetCustomRenderTextures
   - name: (
     nameWithType: (
     fullName: (
@@ -698,6 +891,12 @@ references:
   name: showControlsOnHover
   nameWithType: MixtureNode.showControlsOnHover
   fullName: Mixture.MixtureNode.showControlsOnHover
+- uid: Mixture.MixtureNode.needsInspector
+  commentId: P:Mixture.MixtureNode.needsInspector
+  parent: Mixture.MixtureNode
+  name: needsInspector
+  nameWithType: MixtureNode.needsInspector
+  fullName: Mixture.MixtureNode.needsInspector
 - uid: Mixture.MixtureNode.temporaryMaterials
   commentId: F:Mixture.MixtureNode.temporaryMaterials
   parent: Mixture.MixtureNode
@@ -728,6 +927,18 @@ references:
   name: previewEV100
   nameWithType: MixtureNode.previewEV100
   fullName: Mixture.MixtureNode.previewEV100
+- uid: Mixture.MixtureNode.previewSlice
+  commentId: F:Mixture.MixtureNode.previewSlice
+  parent: Mixture.MixtureNode
+  name: previewSlice
+  nameWithType: MixtureNode.previewSlice
+  fullName: Mixture.MixtureNode.previewSlice
+- uid: Mixture.MixtureNode.isPinned
+  commentId: F:Mixture.MixtureNode.isPinned
+  parent: Mixture.MixtureNode
+  name: isPinned
+  nameWithType: MixtureNode.isPinned
+  fullName: Mixture.MixtureNode.isPinned
 - uid: Mixture.MixtureNode.recorder
   commentId: P:Mixture.MixtureNode.recorder
   parent: Mixture.MixtureNode
@@ -762,15 +973,15 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
-  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
   parent: Mixture.MixtureNode
   isExternal: true
-  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
-  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
-  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean)
+  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean, UnityEngine.CustomRenderTextureUpdateMode, System.Boolean)
   spec.csharp:
-  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
     name: UpdateTempRenderTexture
     nameWithType: MixtureNode.UpdateTempRenderTexture
     fullName: Mixture.MixtureNode.UpdateTempRenderTexture
@@ -789,6 +1000,22 @@ references:
     name: Boolean
     nameWithType: Boolean
     fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.CustomRenderTextureUpdateMode
+    name: CustomRenderTextureUpdateMode
+    nameWithType: CustomRenderTextureUpdateMode
+    fullName: UnityEngine.CustomRenderTextureUpdateMode
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -802,7 +1029,7 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
     name: UpdateTempRenderTexture
     nameWithType: MixtureNode.UpdateTempRenderTexture
     fullName: Mixture.MixtureNode.UpdateTempRenderTexture
@@ -830,6 +1057,50 @@ references:
     nameWithType: Boolean
     fullName: System.Boolean
     isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.CustomRenderTextureUpdateMode
+    name: CustomRenderTextureUpdateMode
+    nameWithType: CustomRenderTextureUpdateMode
+    fullName: UnityEngine.CustomRenderTextureUpdateMode
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.GetTempTextureDimension
+  commentId: M:Mixture.MixtureNode.GetTempTextureDimension
+  parent: Mixture.MixtureNode
+  name: GetTempTextureDimension()
+  nameWithType: MixtureNode.GetTempTextureDimension()
+  fullName: Mixture.MixtureNode.GetTempTextureDimension()
+  spec.csharp:
+  - uid: Mixture.MixtureNode.GetTempTextureDimension
+    name: GetTempTextureDimension
+    nameWithType: MixtureNode.GetTempTextureDimension
+    fullName: Mixture.MixtureNode.GetTempTextureDimension
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.GetTempTextureDimension
+    name: GetTempTextureDimension
+    nameWithType: MixtureNode.GetTempTextureDimension
+    fullName: Mixture.MixtureNode.GetTempTextureDimension
+  - name: (
+    nameWithType: (
+    fullName: (
   - name: )
     nameWithType: )
     fullName: )
@@ -897,45 +1168,6 @@ references:
   - name: (
     nameWithType: (
     fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  commentId: M:Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  parent: Mixture.MixtureNode
-  isExternal: true
-  name: AddObjectToGraph(Object)
-  nameWithType: MixtureNode.AddObjectToGraph(Object)
-  fullName: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  spec.csharp:
-  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-    name: AddObjectToGraph
-    nameWithType: MixtureNode.AddObjectToGraph
-    fullName: Mixture.MixtureNode.AddObjectToGraph
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Object
-    name: Object
-    nameWithType: Object
-    fullName: UnityEngine.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-    name: AddObjectToGraph
-    nameWithType: MixtureNode.AddObjectToGraph
-    fullName: Mixture.MixtureNode.AddObjectToGraph
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Object
-    name: Object
-    nameWithType: Object
-    fullName: UnityEngine.Object
-    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
@@ -1274,34 +1506,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.MixtureNode.GetMixtureDependencies
-  commentId: M:Mixture.MixtureNode.GetMixtureDependencies
-  parent: Mixture.MixtureNode
-  name: GetMixtureDependencies()
-  nameWithType: MixtureNode.GetMixtureDependencies()
-  fullName: Mixture.MixtureNode.GetMixtureDependencies()
-  spec.csharp:
-  - uid: Mixture.MixtureNode.GetMixtureDependencies
-    name: GetMixtureDependencies
-    nameWithType: MixtureNode.GetMixtureDependencies
-    fullName: Mixture.MixtureNode.GetMixtureDependencies
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.MixtureNode.GetMixtureDependencies
-    name: GetMixtureDependencies
-    nameWithType: MixtureNode.GetMixtureDependencies
-    fullName: Mixture.MixtureNode.GetMixtureDependencies
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: Mixture.MixtureNode.GetTempMaterial(System.String)
   commentId: M:Mixture.MixtureNode.GetTempMaterial(System.String)
   parent: Mixture.MixtureNode
@@ -1390,6 +1594,23 @@ references:
   name: ExternalOutputNode.External2DOutputType
   nameWithType: ExternalOutputNode.External2DOutputType
   fullName: Mixture.ExternalOutputNode.External2DOutputType
+- uid: Mixture.ConversionFormat
+  commentId: T:Mixture.ConversionFormat
+  parent: Mixture
+  name: ConversionFormat
+  nameWithType: ConversionFormat
+  fullName: Mixture.ConversionFormat
+- uid: Mixture.OutputNode.previewTexture
+  commentId: P:Mixture.OutputNode.previewTexture
+  parent: Mixture.OutputNode
+  name: previewTexture
+  nameWithType: OutputNode.previewTexture
+  fullName: Mixture.OutputNode.previewTexture
+- uid: Mixture.ExternalOutputNode.previewTexture*
+  commentId: Overload:Mixture.ExternalOutputNode.previewTexture
+  name: previewTexture
+  nameWithType: ExternalOutputNode.previewTexture
+  fullName: Mixture.ExternalOutputNode.previewTexture
 - uid: Mixture.MixtureNode.hasSettings
   commentId: P:Mixture.MixtureNode.hasSettings
   parent: Mixture.MixtureNode
@@ -1458,39 +1679,6 @@ references:
   name: Enable
   nameWithType: ExternalOutputNode.Enable
   fullName: Mixture.ExternalOutputNode.Enable
-- uid: Mixture.OutputNode.Disable
-  commentId: M:Mixture.OutputNode.Disable
-  parent: Mixture.OutputNode
-  name: Disable()
-  nameWithType: OutputNode.Disable()
-  fullName: Mixture.OutputNode.Disable()
-  spec.csharp:
-  - uid: Mixture.OutputNode.Disable
-    name: Disable
-    nameWithType: OutputNode.Disable
-    fullName: Mixture.OutputNode.Disable
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.OutputNode.Disable
-    name: Disable
-    nameWithType: OutputNode.Disable
-    fullName: Mixture.OutputNode.Disable
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: Mixture.ExternalOutputNode.Disable*
-  commentId: Overload:Mixture.ExternalOutputNode.Disable
-  name: Disable
-  nameWithType: ExternalOutputNode.Disable
-  fullName: Mixture.ExternalOutputNode.Disable
 - uid: Mixture.OutputNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
   commentId: M:Mixture.OutputNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
   parent: Mixture.OutputNode

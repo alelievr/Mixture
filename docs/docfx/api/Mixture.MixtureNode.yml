@@ -5,7 +5,6 @@ items:
   id: MixtureNode
   parent: Mixture
   children:
-  - Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
   - Mixture.MixtureNode.afterProcessCleanup
   - Mixture.MixtureNode.AssignMaterialPropertiesFromEdges(System.Collections.Generic.List{SerializableEdge},UnityEngine.Material)
   - Mixture.MixtureNode.beforeProcessSetup
@@ -14,13 +13,15 @@ items:
   - Mixture.MixtureNode.Disable
   - Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
   - Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
-  - Mixture.MixtureNode.GetMixtureDependencies
   - Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
   - Mixture.MixtureNode.GetTempMaterial(System.String)
+  - Mixture.MixtureNode.GetTempTextureDimension
   - Mixture.MixtureNode.graph
   - Mixture.MixtureNode.hasPreview
   - Mixture.MixtureNode.hasSettings
+  - Mixture.MixtureNode.isPinned
   - Mixture.MixtureNode.isPreviewCollapsed
+  - Mixture.MixtureNode.needsInspector
   - Mixture.MixtureNode.nodeWidth
   - Mixture.MixtureNode.OnNodeCreated
   - Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
@@ -29,6 +30,7 @@ items:
   - Mixture.MixtureNode.previewEV100
   - Mixture.MixtureNode.previewMip
   - Mixture.MixtureNode.previewMode
+  - Mixture.MixtureNode.previewSlice
   - Mixture.MixtureNode.previewTexture
   - Mixture.MixtureNode.previewVisible
   - Mixture.MixtureNode.Process
@@ -42,7 +44,7 @@ items:
   - Mixture.MixtureNode.showPreviewExposure
   - Mixture.MixtureNode.supportedDimensions
   - Mixture.MixtureNode.temporaryMaterials
-  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
   langs:
   - csharp
   - vb
@@ -53,7 +55,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: MixtureNode
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -69,6 +71,7 @@ items:
   inheritance:
   - System.Object
   derivedClasses:
+  - Mixture.Branch
   - Mixture.BreakVectorNode
   - Mixture.ColorNode
   - Mixture.ComputeShaderNode
@@ -76,18 +79,24 @@ items:
   - Mixture.CustomTextureNode
   - Mixture.DebugLogNode
   - Mixture.FloatNode
+  - Mixture.ForEnd
+  - Mixture.ForStart
   - Mixture.GetPixel
   - Mixture.GradientNode
+  - Mixture.IntegerNode
   - Mixture.MakeVectorNode
   - Mixture.MaterialBinder
+  - Mixture.MeshNode
   - Mixture.OutputNode
+  - Mixture.PrefabCaptureNode
   - Mixture.RandomColorNode
   - Mixture.RandomRangeNode
   - Mixture.SampleGradientNode
-  - Mixture.SceneNode
   - Mixture.ShaderNode
+  - Mixture.Switch
   - Mixture.TextureNode
   - Mixture.TimeNode
+  - Mixture.ToggleNode
   - Mixture.VectorAbsNode
   - Mixture.VectorAddNode
   - Mixture.VectorClampNode
@@ -128,7 +137,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: graph
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -163,7 +172,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: rtSettings
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -194,7 +203,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: defaultRTSettings
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -231,7 +240,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: nodeWidth
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -268,7 +277,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: previewTexture
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -305,7 +314,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: hasSettings
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -342,7 +351,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: hasPreview
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -379,7 +388,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: supportedDimensions
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -416,7 +425,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: defaultPreviewChannels
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -453,7 +462,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: showDefaultInspector
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -490,7 +499,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: showPreviewExposure
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -527,7 +536,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: isPreviewCollapsed
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -568,7 +577,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: onSettingsChanged
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -599,7 +608,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: beforeProcessSetup
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -630,7 +639,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: afterProcessCleanup
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -661,7 +670,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: showControlsOnHover
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
@@ -684,6 +693,43 @@ items:
   - Public
   - Overrides
   - ReadOnly
+- uid: Mixture.MixtureNode.needsInspector
+  commentId: P:Mixture.MixtureNode.needsInspector
+  id: needsInspector
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: needsInspector
+  nameWithType: MixtureNode.needsInspector
+  fullName: Mixture.MixtureNode.needsInspector
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: needsInspector
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 45
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public override bool needsInspector { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides ReadOnly Property needsInspector As Boolean
+  overload: Mixture.MixtureNode.needsInspector*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
 - uid: Mixture.MixtureNode.temporaryMaterials
   commentId: F:Mixture.MixtureNode.temporaryMaterials
   id: temporaryMaterials
@@ -698,11 +744,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: temporaryMaterials
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 45
+    startLine: 48
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -729,11 +775,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: previewMode
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 49
+    startLine: 52
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -770,11 +816,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: previewMip
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 51
+    startLine: 54
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -811,11 +857,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: previewVisible
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 53
+    startLine: 56
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -852,11 +898,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: previewEV100
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 55
+    startLine: 58
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -879,6 +925,68 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: Mixture.MixtureNode.previewSlice
+  commentId: F:Mixture.MixtureNode.previewSlice
+  id: previewSlice
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: previewSlice
+  nameWithType: MixtureNode.previewSlice
+  fullName: Mixture.MixtureNode.previewSlice
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: previewSlice
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 59
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public float previewSlice
+    return:
+      type: System.Single
+    content.vb: Public previewSlice As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureNode.isPinned
+  commentId: F:Mixture.MixtureNode.isPinned
+  id: isPinned
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: isPinned
+  nameWithType: MixtureNode.isPinned
+  fullName: Mixture.MixtureNode.isPinned
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: isPinned
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 60
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public bool isPinned
+    return:
+      type: System.Boolean
+    content.vb: Public isPinned As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 - uid: Mixture.MixtureNode.recorder
   commentId: P:Mixture.MixtureNode.recorder
   id: recorder
@@ -893,11 +1001,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: recorder
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 76
+    startLine: 79
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -928,11 +1036,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: OnNodeCreated
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 89
+    startLine: 92
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -946,30 +1054,30 @@ items:
   modifiers.vb:
   - Public
   - Overrides
-- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
-  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
-  id: UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  id: UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
   parent: Mixture.MixtureNode
   langs:
   - csharp
   - vb
-  name: UpdateTempRenderTexture(ref CustomRenderTexture, Boolean, Boolean)
-  nameWithType: MixtureNode.UpdateTempRenderTexture(ref CustomRenderTexture, Boolean, Boolean)
-  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(ref UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean)
+  name: UpdateTempRenderTexture(ref CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  nameWithType: MixtureNode.UpdateTempRenderTexture(ref CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(ref UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean, UnityEngine.CustomRenderTextureUpdateMode, System.Boolean)
   type: Method
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: UpdateTempRenderTexture
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 96
+    startLine: 99
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
-    content: protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false)
+    content: protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false, CustomRenderTextureUpdateMode updateMode = CustomRenderTextureUpdateMode.OnDemand, bool depthBuffer = false)
     parameters:
     - id: target
       type: UnityEngine.CustomRenderTexture
@@ -977,17 +1085,55 @@ items:
       type: System.Boolean
     - id: autoGenerateMips
       type: System.Boolean
+    - id: updateMode
+      type: UnityEngine.CustomRenderTextureUpdateMode
+    - id: depthBuffer
+      type: System.Boolean
     return:
       type: System.Boolean
-    content.vb: Protected Function UpdateTempRenderTexture(ByRef target As CustomRenderTexture, hasMips As Boolean = False, autoGenerateMips As Boolean = False) As Boolean
+    content.vb: Protected Function UpdateTempRenderTexture(ByRef target As CustomRenderTexture, hasMips As Boolean = False, autoGenerateMips As Boolean = False, updateMode As CustomRenderTextureUpdateMode = CustomRenderTextureUpdateMode.OnDemand, depthBuffer As Boolean = False) As Boolean
   overload: Mixture.MixtureNode.UpdateTempRenderTexture*
-  nameWithType.vb: MixtureNode.UpdateTempRenderTexture(ByRef CustomRenderTexture, Boolean, Boolean)
+  nameWithType.vb: MixtureNode.UpdateTempRenderTexture(ByRef CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
   modifiers.csharp:
   - protected
   modifiers.vb:
   - Protected
-  fullName.vb: Mixture.MixtureNode.UpdateTempRenderTexture(ByRef UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean)
-  name.vb: UpdateTempRenderTexture(ByRef CustomRenderTexture, Boolean, Boolean)
+  fullName.vb: Mixture.MixtureNode.UpdateTempRenderTexture(ByRef UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean, UnityEngine.CustomRenderTextureUpdateMode, System.Boolean)
+  name.vb: UpdateTempRenderTexture(ByRef CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+- uid: Mixture.MixtureNode.GetTempTextureDimension
+  commentId: M:Mixture.MixtureNode.GetTempTextureDimension
+  id: GetTempTextureDimension
+  parent: Mixture.MixtureNode
+  langs:
+  - csharp
+  - vb
+  name: GetTempTextureDimension()
+  nameWithType: MixtureNode.GetTempTextureDimension()
+  fullName: Mixture.MixtureNode.GetTempTextureDimension()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetTempTextureDimension
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 188
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: protected virtual TextureDimension GetTempTextureDimension()
+    return:
+      type: UnityEngine.Rendering.TextureDimension
+    content.vb: Protected Overridable Function GetTempTextureDimension As TextureDimension
+  overload: Mixture.MixtureNode.GetTempTextureDimension*
+  modifiers.csharp:
+  - protected
+  - virtual
+  modifiers.vb:
+  - Protected
+  - Overridable
 - uid: Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
   commentId: M:Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
   id: OnProcess(UnityEngine.Rendering.CommandBuffer)
@@ -1002,11 +1148,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: OnProcess
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 171
+    startLine: 206
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -1035,11 +1181,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: Process
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 182
+    startLine: 217
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -1069,11 +1215,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ProcessNode
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 215
+    startLine: 252
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -1092,39 +1238,6 @@ items:
   modifiers.vb:
   - Protected
   - Overridable
-- uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  commentId: M:Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  id: AddObjectToGraph(UnityEngine.Object)
-  parent: Mixture.MixtureNode
-  langs:
-  - csharp
-  - vb
-  name: AddObjectToGraph(Object)
-  nameWithType: MixtureNode.AddObjectToGraph(Object)
-  fullName: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  type: Method
-  source:
-    remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
-      repo: git@github.com:alelievr/Mixture.git
-    id: AddObjectToGraph
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 217
-  assemblies:
-  - Mixture.Runtime
-  namespace: Mixture
-  syntax:
-    content: protected void AddObjectToGraph(Object obj)
-    parameters:
-    - id: obj
-      type: UnityEngine.Object
-    content.vb: Protected Sub AddObjectToGraph(obj As Object)
-  overload: Mixture.MixtureNode.AddObjectToGraph*
-  modifiers.csharp:
-  - protected
-  modifiers.vb:
-  - Protected
 - uid: Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
   commentId: M:Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
   id: RemoveObjectFromGraph(UnityEngine.Object)
@@ -1139,11 +1252,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: RemoveObjectFromGraph
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 218
+    startLine: 254
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -1172,11 +1285,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetPropertyType
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 220
+    startLine: 256
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -1209,11 +1322,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetMaterialPortDatas
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 240
+    startLine: 276
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -1244,11 +1357,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: AssignMaterialPropertiesFromEdges
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 285
+    startLine: 344
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -1282,11 +1395,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: OnSettingsChanged
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 344
+    startLine: 411
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -1312,11 +1425,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetDefaultMaterial
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 348
+    startLine: 419
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -1347,11 +1460,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ResetMaterialPropertyToDefault
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 358
+    startLine: 429
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -1364,38 +1477,6 @@ items:
       type: System.String
     content.vb: Public Sub ResetMaterialPropertyToDefault(mat As Material, propName As String)
   overload: Mixture.MixtureNode.ResetMaterialPropertyToDefault*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-- uid: Mixture.MixtureNode.GetMixtureDependencies
-  commentId: M:Mixture.MixtureNode.GetMixtureDependencies
-  id: GetMixtureDependencies
-  parent: Mixture.MixtureNode
-  langs:
-  - csharp
-  - vb
-  name: GetMixtureDependencies()
-  nameWithType: MixtureNode.GetMixtureDependencies()
-  fullName: Mixture.MixtureNode.GetMixtureDependencies()
-  type: Method
-  source:
-    remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
-      repo: git@github.com:alelievr/Mixture.git
-    id: GetMixtureDependencies
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 386
-  assemblies:
-  - Mixture.Runtime
-  namespace: Mixture
-  syntax:
-    content: public List<BaseNode> GetMixtureDependencies()
-    return:
-      type: System.Collections.Generic.List{BaseNode}
-    content.vb: Public Function GetMixtureDependencies As List(Of BaseNode)
-  overload: Mixture.MixtureNode.GetMixtureDependencies*
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1414,11 +1495,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetTempMaterial
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 406
+    startLine: 450
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -1449,11 +1530,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: Disable
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 421
+    startLine: 465
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -1680,6 +1761,11 @@ references:
   name: showControlsOnHover
   nameWithType: MixtureNode.showControlsOnHover
   fullName: Mixture.MixtureNode.showControlsOnHover
+- uid: Mixture.MixtureNode.needsInspector*
+  commentId: Overload:Mixture.MixtureNode.needsInspector
+  name: needsInspector
+  nameWithType: MixtureNode.needsInspector
+  fullName: Mixture.MixtureNode.needsInspector
 - uid: System.Collections.Generic.Dictionary{System.String,UnityEngine.Material}
   commentId: T:System.Collections.Generic.Dictionary{System.String,UnityEngine.Material}
   parent: System.Collections.Generic
@@ -1826,6 +1912,31 @@ references:
   name: CustomRenderTexture
   nameWithType: CustomRenderTexture
   fullName: UnityEngine.CustomRenderTexture
+- uid: UnityEngine.CustomRenderTextureUpdateMode
+  commentId: T:UnityEngine.CustomRenderTextureUpdateMode
+  parent: UnityEngine
+  isExternal: true
+  name: CustomRenderTextureUpdateMode
+  nameWithType: CustomRenderTextureUpdateMode
+  fullName: UnityEngine.CustomRenderTextureUpdateMode
+- uid: Mixture.MixtureNode.GetTempTextureDimension*
+  commentId: Overload:Mixture.MixtureNode.GetTempTextureDimension
+  name: GetTempTextureDimension
+  nameWithType: MixtureNode.GetTempTextureDimension
+  fullName: Mixture.MixtureNode.GetTempTextureDimension
+- uid: UnityEngine.Rendering.TextureDimension
+  commentId: T:UnityEngine.Rendering.TextureDimension
+  parent: UnityEngine.Rendering
+  isExternal: true
+  name: TextureDimension
+  nameWithType: TextureDimension
+  fullName: UnityEngine.Rendering.TextureDimension
+- uid: UnityEngine.Rendering
+  commentId: N:UnityEngine.Rendering
+  isExternal: true
+  name: UnityEngine.Rendering
+  nameWithType: UnityEngine.Rendering
+  fullName: UnityEngine.Rendering
 - uid: Mixture.MixtureNode.OnProcess*
   commentId: Overload:Mixture.MixtureNode.OnProcess
   name: OnProcess
@@ -1838,12 +1949,6 @@ references:
   name: CommandBuffer
   nameWithType: CommandBuffer
   fullName: UnityEngine.Rendering.CommandBuffer
-- uid: UnityEngine.Rendering
-  commentId: N:UnityEngine.Rendering
-  isExternal: true
-  name: UnityEngine.Rendering
-  nameWithType: UnityEngine.Rendering
-  fullName: UnityEngine.Rendering
 - uid: Mixture.MixtureNode.Process*
   commentId: Overload:Mixture.MixtureNode.Process
   name: Process
@@ -1854,11 +1959,11 @@ references:
   name: ProcessNode
   nameWithType: MixtureNode.ProcessNode
   fullName: Mixture.MixtureNode.ProcessNode
-- uid: Mixture.MixtureNode.AddObjectToGraph*
-  commentId: Overload:Mixture.MixtureNode.AddObjectToGraph
-  name: AddObjectToGraph
-  nameWithType: MixtureNode.AddObjectToGraph
-  fullName: Mixture.MixtureNode.AddObjectToGraph
+- uid: Mixture.MixtureNode.RemoveObjectFromGraph*
+  commentId: Overload:Mixture.MixtureNode.RemoveObjectFromGraph
+  name: RemoveObjectFromGraph
+  nameWithType: MixtureNode.RemoveObjectFromGraph
+  fullName: Mixture.MixtureNode.RemoveObjectFromGraph
 - uid: UnityEngine.Object
   commentId: T:UnityEngine.Object
   parent: UnityEngine
@@ -1866,11 +1971,6 @@ references:
   name: Object
   nameWithType: Object
   fullName: UnityEngine.Object
-- uid: Mixture.MixtureNode.RemoveObjectFromGraph*
-  commentId: Overload:Mixture.MixtureNode.RemoveObjectFromGraph
-  name: RemoveObjectFromGraph
-  nameWithType: MixtureNode.RemoveObjectFromGraph
-  fullName: Mixture.MixtureNode.RemoveObjectFromGraph
 - uid: Mixture.MixtureNode.GetPropertyType*
   commentId: Overload:Mixture.MixtureNode.GetPropertyType
   name: GetPropertyType
@@ -2063,55 +2163,6 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: Mixture.MixtureNode.GetMixtureDependencies*
-  commentId: Overload:Mixture.MixtureNode.GetMixtureDependencies
-  name: GetMixtureDependencies
-  nameWithType: MixtureNode.GetMixtureDependencies
-  fullName: Mixture.MixtureNode.GetMixtureDependencies
-- uid: System.Collections.Generic.List{BaseNode}
-  commentId: T:System.Collections.Generic.List{BaseNode}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.List`1
-  name: List<BaseNode>
-  nameWithType: List<BaseNode>
-  fullName: System.Collections.Generic.List<BaseNode>
-  nameWithType.vb: List(Of BaseNode)
-  fullName.vb: System.Collections.Generic.List(Of BaseNode)
-  name.vb: List(Of BaseNode)
-  spec.csharp:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    nameWithType: List
-    fullName: System.Collections.Generic.List
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: BaseNode
-    name: BaseNode
-    nameWithType: BaseNode
-    fullName: BaseNode
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    nameWithType: List
-    fullName: System.Collections.Generic.List
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: BaseNode
-    name: BaseNode
-    nameWithType: BaseNode
-    fullName: BaseNode
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: Mixture.MixtureNode.GetTempMaterial*
   commentId: Overload:Mixture.MixtureNode.GetTempMaterial
   name: GetTempMaterial

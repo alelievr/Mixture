@@ -22,21 +22,25 @@ items:
   type: Class
   source:
     remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-      branch: new-custom-texture-api
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: VectorClampNode
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
     startLine: 9
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
     content: >-
+      [Documentation("\r\nPerform a clamp between min and max of the input vector.\r\n")]
+
       [Serializable]
 
       public class VectorClampNode : MixtureNode
     content.vb: >-
+      <Documentation(vbCrLf & "Perform a clamp between min and max of the input vector." & vbCrLf)>
+
       <Serializable>
 
       Public Class VectorClampNode
@@ -59,17 +63,20 @@ items:
   - Mixture.MixtureNode.beforeProcessSetup
   - Mixture.MixtureNode.afterProcessCleanup
   - Mixture.MixtureNode.showControlsOnHover
+  - Mixture.MixtureNode.needsInspector
   - Mixture.MixtureNode.temporaryMaterials
   - Mixture.MixtureNode.previewMode
   - Mixture.MixtureNode.previewMip
   - Mixture.MixtureNode.previewVisible
   - Mixture.MixtureNode.previewEV100
+  - Mixture.MixtureNode.previewSlice
+  - Mixture.MixtureNode.isPinned
   - Mixture.MixtureNode.recorder
   - Mixture.MixtureNode.OnNodeCreated
-  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  - Mixture.MixtureNode.GetTempTextureDimension
   - Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
   - Mixture.MixtureNode.Process
-  - Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
   - Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
   - Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
   - Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
@@ -77,10 +84,14 @@ items:
   - Mixture.MixtureNode.OnSettingsChanged
   - Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
   - Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
-  - Mixture.MixtureNode.GetMixtureDependencies
   - Mixture.MixtureNode.GetTempMaterial(System.String)
   - Mixture.MixtureNode.Disable
   attributes:
+  - type: Mixture.DocumentationAttribute
+    ctor: Mixture.DocumentationAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: "\r\nPerform a clamp between min and max of the input vector.\r\n"
   - type: System.SerializableAttribute
     ctor: System.SerializableAttribute.#ctor
     arguments: []
@@ -103,12 +114,12 @@ items:
   type: Property
   source:
     remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-      branch: new-custom-texture-api
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: hasSettings
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-    startLine: 13
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+    startLine: 17
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -120,6 +131,44 @@ items:
     content.vb: Public Overrides ReadOnly Property hasSettings As Boolean
   overridden: Mixture.MixtureNode.hasSettings
   overload: Mixture.VectorClampNode.hasSettings*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: Mixture.VectorClampNode.showDefaultInspector
+  commentId: P:Mixture.VectorClampNode.showDefaultInspector
+  id: showDefaultInspector
+  parent: Mixture.VectorClampNode
+  langs:
+  - csharp
+  - vb
+  name: showDefaultInspector
+  nameWithType: VectorClampNode.showDefaultInspector
+  fullName: Mixture.VectorClampNode.showDefaultInspector
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: showDefaultInspector
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+    startLine: 18
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public override bool showDefaultInspector { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides ReadOnly Property showDefaultInspector As Boolean
+  overridden: Mixture.MixtureNode.showDefaultInspector
+  overload: Mixture.VectorClampNode.showDefaultInspector*
   modifiers.csharp:
   - public
   - override
@@ -141,12 +190,12 @@ items:
   type: Field
   source:
     remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-      branch: new-custom-texture-api
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: a
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-    startLine: 16
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+    startLine: 21
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -172,12 +221,12 @@ items:
   type: Field
   source:
     remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-      branch: new-custom-texture-api
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: o
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-    startLine: 19
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+    startLine: 24
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -203,12 +252,12 @@ items:
   type: Field
   source:
     remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-      branch: new-custom-texture-api
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: min
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-    startLine: 21
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+    startLine: 26
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -234,12 +283,12 @@ items:
   type: Field
   source:
     remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-      branch: new-custom-texture-api
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: max
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-    startLine: 22
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+    startLine: 27
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -265,12 +314,12 @@ items:
   type: Property
   source:
     remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-      branch: new-custom-texture-api
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: name
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-    startLine: 24
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+    startLine: 29
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -281,44 +330,6 @@ items:
       type: System.String
     content.vb: Public Overrides ReadOnly Property name As String
   overload: Mixture.VectorClampNode.name*
-  modifiers.csharp:
-  - public
-  - override
-  - get
-  modifiers.vb:
-  - Public
-  - Overrides
-  - ReadOnly
-- uid: Mixture.VectorClampNode.showDefaultInspector
-  commentId: P:Mixture.VectorClampNode.showDefaultInspector
-  id: showDefaultInspector
-  parent: Mixture.VectorClampNode
-  langs:
-  - csharp
-  - vb
-  name: showDefaultInspector
-  nameWithType: VectorClampNode.showDefaultInspector
-  fullName: Mixture.VectorClampNode.showDefaultInspector
-  type: Property
-  source:
-    remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-      branch: new-custom-texture-api
-      repo: git@github.com:alelievr/Mixture.git
-    id: showDefaultInspector
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-    startLine: 25
-  assemblies:
-  - Mixture.Runtime
-  namespace: Mixture
-  syntax:
-    content: public override bool showDefaultInspector { get; }
-    parameters: []
-    return:
-      type: System.Boolean
-    content.vb: Public Overrides ReadOnly Property showDefaultInspector As Boolean
-  overridden: Mixture.MixtureNode.showDefaultInspector
-  overload: Mixture.VectorClampNode.showDefaultInspector*
   modifiers.csharp:
   - public
   - override
@@ -340,12 +351,12 @@ items:
   type: Method
   source:
     remote:
-      path: Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-      branch: new-custom-texture-api
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ProcessNode
-    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Operators/VectorClampNode.cs
-    startLine: 27
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Math/VectorClampNode.cs
+    startLine: 31
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -468,6 +479,12 @@ references:
   name: showControlsOnHover
   nameWithType: MixtureNode.showControlsOnHover
   fullName: Mixture.MixtureNode.showControlsOnHover
+- uid: Mixture.MixtureNode.needsInspector
+  commentId: P:Mixture.MixtureNode.needsInspector
+  parent: Mixture.MixtureNode
+  name: needsInspector
+  nameWithType: MixtureNode.needsInspector
+  fullName: Mixture.MixtureNode.needsInspector
 - uid: Mixture.MixtureNode.temporaryMaterials
   commentId: F:Mixture.MixtureNode.temporaryMaterials
   parent: Mixture.MixtureNode
@@ -498,6 +515,18 @@ references:
   name: previewEV100
   nameWithType: MixtureNode.previewEV100
   fullName: Mixture.MixtureNode.previewEV100
+- uid: Mixture.MixtureNode.previewSlice
+  commentId: F:Mixture.MixtureNode.previewSlice
+  parent: Mixture.MixtureNode
+  name: previewSlice
+  nameWithType: MixtureNode.previewSlice
+  fullName: Mixture.MixtureNode.previewSlice
+- uid: Mixture.MixtureNode.isPinned
+  commentId: F:Mixture.MixtureNode.isPinned
+  parent: Mixture.MixtureNode
+  name: isPinned
+  nameWithType: MixtureNode.isPinned
+  fullName: Mixture.MixtureNode.isPinned
 - uid: Mixture.MixtureNode.recorder
   commentId: P:Mixture.MixtureNode.recorder
   parent: Mixture.MixtureNode
@@ -532,15 +561,15 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
-  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
   parent: Mixture.MixtureNode
   isExternal: true
-  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
-  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
-  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean)
+  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean, UnityEngine.CustomRenderTextureUpdateMode, System.Boolean)
   spec.csharp:
-  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
     name: UpdateTempRenderTexture
     nameWithType: MixtureNode.UpdateTempRenderTexture
     fullName: Mixture.MixtureNode.UpdateTempRenderTexture
@@ -559,6 +588,22 @@ references:
     name: Boolean
     nameWithType: Boolean
     fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.CustomRenderTextureUpdateMode
+    name: CustomRenderTextureUpdateMode
+    nameWithType: CustomRenderTextureUpdateMode
+    fullName: UnityEngine.CustomRenderTextureUpdateMode
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -572,7 +617,7 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
     name: UpdateTempRenderTexture
     nameWithType: MixtureNode.UpdateTempRenderTexture
     fullName: Mixture.MixtureNode.UpdateTempRenderTexture
@@ -600,6 +645,50 @@ references:
     nameWithType: Boolean
     fullName: System.Boolean
     isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.CustomRenderTextureUpdateMode
+    name: CustomRenderTextureUpdateMode
+    nameWithType: CustomRenderTextureUpdateMode
+    fullName: UnityEngine.CustomRenderTextureUpdateMode
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.GetTempTextureDimension
+  commentId: M:Mixture.MixtureNode.GetTempTextureDimension
+  parent: Mixture.MixtureNode
+  name: GetTempTextureDimension()
+  nameWithType: MixtureNode.GetTempTextureDimension()
+  fullName: Mixture.MixtureNode.GetTempTextureDimension()
+  spec.csharp:
+  - uid: Mixture.MixtureNode.GetTempTextureDimension
+    name: GetTempTextureDimension
+    nameWithType: MixtureNode.GetTempTextureDimension
+    fullName: Mixture.MixtureNode.GetTempTextureDimension
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.GetTempTextureDimension
+    name: GetTempTextureDimension
+    nameWithType: MixtureNode.GetTempTextureDimension
+    fullName: Mixture.MixtureNode.GetTempTextureDimension
+  - name: (
+    nameWithType: (
+    fullName: (
   - name: )
     nameWithType: )
     fullName: )
@@ -667,45 +756,6 @@ references:
   - name: (
     nameWithType: (
     fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  commentId: M:Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  parent: Mixture.MixtureNode
-  isExternal: true
-  name: AddObjectToGraph(Object)
-  nameWithType: MixtureNode.AddObjectToGraph(Object)
-  fullName: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  spec.csharp:
-  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-    name: AddObjectToGraph
-    nameWithType: MixtureNode.AddObjectToGraph
-    fullName: Mixture.MixtureNode.AddObjectToGraph
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Object
-    name: Object
-    nameWithType: Object
-    fullName: UnityEngine.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-    name: AddObjectToGraph
-    nameWithType: MixtureNode.AddObjectToGraph
-    fullName: Mixture.MixtureNode.AddObjectToGraph
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Object
-    name: Object
-    nameWithType: Object
-    fullName: UnityEngine.Object
-    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
@@ -1044,34 +1094,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.MixtureNode.GetMixtureDependencies
-  commentId: M:Mixture.MixtureNode.GetMixtureDependencies
-  parent: Mixture.MixtureNode
-  name: GetMixtureDependencies()
-  nameWithType: MixtureNode.GetMixtureDependencies()
-  fullName: Mixture.MixtureNode.GetMixtureDependencies()
-  spec.csharp:
-  - uid: Mixture.MixtureNode.GetMixtureDependencies
-    name: GetMixtureDependencies
-    nameWithType: MixtureNode.GetMixtureDependencies
-    fullName: Mixture.MixtureNode.GetMixtureDependencies
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.MixtureNode.GetMixtureDependencies
-    name: GetMixtureDependencies
-    nameWithType: MixtureNode.GetMixtureDependencies
-    fullName: Mixture.MixtureNode.GetMixtureDependencies
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: Mixture.MixtureNode.GetTempMaterial(System.String)
   commentId: M:Mixture.MixtureNode.GetTempMaterial(System.String)
   parent: Mixture.MixtureNode
@@ -1163,6 +1185,17 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: Mixture.MixtureNode.showDefaultInspector
+  commentId: P:Mixture.MixtureNode.showDefaultInspector
+  parent: Mixture.MixtureNode
+  name: showDefaultInspector
+  nameWithType: MixtureNode.showDefaultInspector
+  fullName: Mixture.MixtureNode.showDefaultInspector
+- uid: Mixture.VectorClampNode.showDefaultInspector*
+  commentId: Overload:Mixture.VectorClampNode.showDefaultInspector
+  name: showDefaultInspector
+  nameWithType: VectorClampNode.showDefaultInspector
+  fullName: Mixture.VectorClampNode.showDefaultInspector
 - uid: UnityEngine.Vector4
   commentId: T:UnityEngine.Vector4
   parent: UnityEngine
@@ -1195,17 +1228,6 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: Mixture.MixtureNode.showDefaultInspector
-  commentId: P:Mixture.MixtureNode.showDefaultInspector
-  parent: Mixture.MixtureNode
-  name: showDefaultInspector
-  nameWithType: MixtureNode.showDefaultInspector
-  fullName: Mixture.MixtureNode.showDefaultInspector
-- uid: Mixture.VectorClampNode.showDefaultInspector*
-  commentId: Overload:Mixture.VectorClampNode.showDefaultInspector
-  name: showDefaultInspector
-  nameWithType: VectorClampNode.showDefaultInspector
-  fullName: Mixture.VectorClampNode.showDefaultInspector
 - uid: Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
   commentId: M:Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
   parent: Mixture.MixtureNode

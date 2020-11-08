@@ -5,10 +5,14 @@ items:
   id: CurveNode
   parent: Mixture
   children:
-  - Mixture.CurveNode.curve
+  - Mixture.CurveNode.alphaCurve
+  - Mixture.CurveNode.blueCurve
   - Mixture.CurveNode.Enable
+  - Mixture.CurveNode.greenCurve
   - Mixture.CurveNode.hasSettings
+  - Mixture.CurveNode.mode
   - Mixture.CurveNode.name
+  - Mixture.CurveNode.redCurve
   - Mixture.CurveNode.texture
   - Mixture.CurveNode.UpdateTexture
   langs:
@@ -21,7 +25,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: CurveNode
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
@@ -31,10 +35,14 @@ items:
   namespace: Mixture
   syntax:
     content: >-
+      [Documentation("\r\nGenerate a texture based on curves, you can choose to have a different curve per channel with the Mode property.\r\nThis node is a great alternative to the gradient because it's not limited to 8 keys!\r\n\r\nNote that the internal texture resolution is 512x1 pixels and the format is 32 bit float per channel.\r\n")]
+
       [Serializable]
 
       public class CurveNode : MixtureNode
     content.vb: >-
+      <Documentation(vbCrLf & "Generate a texture based on curves, you can choose to have a different curve per channel with the Mode property." & vbCrLf & "This node is a great alternative to the gradient because it's not limited to 8 keys!" & vbCrLf & vbCrLf & "Note that the internal texture resolution is 512x1 pixels and the format is 32 bit float per channel." & vbCrLf)>
+
       <Serializable>
 
       Public Class CurveNode
@@ -58,18 +66,21 @@ items:
   - Mixture.MixtureNode.beforeProcessSetup
   - Mixture.MixtureNode.afterProcessCleanup
   - Mixture.MixtureNode.showControlsOnHover
+  - Mixture.MixtureNode.needsInspector
   - Mixture.MixtureNode.temporaryMaterials
   - Mixture.MixtureNode.previewMode
   - Mixture.MixtureNode.previewMip
   - Mixture.MixtureNode.previewVisible
   - Mixture.MixtureNode.previewEV100
+  - Mixture.MixtureNode.previewSlice
+  - Mixture.MixtureNode.isPinned
   - Mixture.MixtureNode.recorder
   - Mixture.MixtureNode.OnNodeCreated
-  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  - Mixture.MixtureNode.GetTempTextureDimension
   - Mixture.MixtureNode.OnProcess(UnityEngine.Rendering.CommandBuffer)
   - Mixture.MixtureNode.Process
   - Mixture.MixtureNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)
-  - Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
   - Mixture.MixtureNode.RemoveObjectFromGraph(UnityEngine.Object)
   - Mixture.MixtureNode.GetPropertyType(UnityEngine.Shader,System.Int32)
   - Mixture.MixtureNode.GetMaterialPortDatas(UnityEngine.Material)
@@ -77,10 +88,14 @@ items:
   - Mixture.MixtureNode.OnSettingsChanged
   - Mixture.MixtureNode.GetDefaultMaterial(UnityEngine.Material)
   - Mixture.MixtureNode.ResetMaterialPropertyToDefault(UnityEngine.Material,System.String)
-  - Mixture.MixtureNode.GetMixtureDependencies
   - Mixture.MixtureNode.GetTempMaterial(System.String)
   - Mixture.MixtureNode.Disable
   attributes:
+  - type: Mixture.DocumentationAttribute
+    ctor: Mixture.DocumentationAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: "\r\nGenerate a texture based on curves, you can choose to have a different curve per channel with the Mode property.\r\nThis node is a great alternative to the gradient because it's not limited to 8 keys!\r\n\r\nNote that the internal texture resolution is 512x1 pixels and the format is 32 bit float per channel.\r\n"
   - type: System.SerializableAttribute
     ctor: System.SerializableAttribute.#ctor
     arguments: []
@@ -104,11 +119,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: texture
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
-    startLine: 12
+    startLine: 28
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -121,33 +136,157 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: Mixture.CurveNode.curve
-  commentId: F:Mixture.CurveNode.curve
-  id: curve
+- uid: Mixture.CurveNode.mode
+  commentId: F:Mixture.CurveNode.mode
+  id: mode
   parent: Mixture.CurveNode
   langs:
   - csharp
   - vb
-  name: curve
-  nameWithType: CurveNode.curve
-  fullName: Mixture.CurveNode.curve
+  name: mode
+  nameWithType: CurveNode.mode
+  fullName: Mixture.CurveNode.mode
   type: Field
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
-    id: curve
+    id: mode
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
-    startLine: 14
+    startLine: 30
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
-    content: public AnimationCurve curve
+    content: public CurveNode.CurveOutputMode mode
+    return:
+      type: Mixture.CurveNode.CurveOutputMode
+    content.vb: Public mode As CurveNode.CurveOutputMode
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.CurveNode.redCurve
+  commentId: F:Mixture.CurveNode.redCurve
+  id: redCurve
+  parent: Mixture.CurveNode
+  langs:
+  - csharp
+  - vb
+  name: redCurve
+  nameWithType: CurveNode.redCurve
+  fullName: Mixture.CurveNode.redCurve
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: redCurve
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
+    startLine: 32
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public AnimationCurve redCurve
     return:
       type: UnityEngine.AnimationCurve
-    content.vb: Public curve As AnimationCurve
+    content.vb: Public redCurve As AnimationCurve
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.CurveNode.greenCurve
+  commentId: F:Mixture.CurveNode.greenCurve
+  id: greenCurve
+  parent: Mixture.CurveNode
+  langs:
+  - csharp
+  - vb
+  name: greenCurve
+  nameWithType: CurveNode.greenCurve
+  fullName: Mixture.CurveNode.greenCurve
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: greenCurve
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
+    startLine: 33
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public AnimationCurve greenCurve
+    return:
+      type: UnityEngine.AnimationCurve
+    content.vb: Public greenCurve As AnimationCurve
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.CurveNode.blueCurve
+  commentId: F:Mixture.CurveNode.blueCurve
+  id: blueCurve
+  parent: Mixture.CurveNode
+  langs:
+  - csharp
+  - vb
+  name: blueCurve
+  nameWithType: CurveNode.blueCurve
+  fullName: Mixture.CurveNode.blueCurve
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: blueCurve
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
+    startLine: 34
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public AnimationCurve blueCurve
+    return:
+      type: UnityEngine.AnimationCurve
+    content.vb: Public blueCurve As AnimationCurve
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.CurveNode.alphaCurve
+  commentId: F:Mixture.CurveNode.alphaCurve
+  id: alphaCurve
+  parent: Mixture.CurveNode
+  langs:
+  - csharp
+  - vb
+  name: alphaCurve
+  nameWithType: CurveNode.alphaCurve
+  fullName: Mixture.CurveNode.alphaCurve
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: alphaCurve
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
+    startLine: 35
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public AnimationCurve alphaCurve
+    return:
+      type: UnityEngine.AnimationCurve
+    content.vb: Public alphaCurve As AnimationCurve
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -166,11 +305,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: hasSettings
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
-    startLine: 16
+    startLine: 37
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -204,11 +343,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: name
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
-    startLine: 17
+    startLine: 38
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -241,11 +380,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: Enable
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
-    startLine: 21
+    startLine: 42
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -273,11 +412,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: UpdateTexture
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/Constants/CurveNode.cs
-    startLine: 29
+    startLine: 73
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -398,6 +537,12 @@ references:
   name: showControlsOnHover
   nameWithType: MixtureNode.showControlsOnHover
   fullName: Mixture.MixtureNode.showControlsOnHover
+- uid: Mixture.MixtureNode.needsInspector
+  commentId: P:Mixture.MixtureNode.needsInspector
+  parent: Mixture.MixtureNode
+  name: needsInspector
+  nameWithType: MixtureNode.needsInspector
+  fullName: Mixture.MixtureNode.needsInspector
 - uid: Mixture.MixtureNode.temporaryMaterials
   commentId: F:Mixture.MixtureNode.temporaryMaterials
   parent: Mixture.MixtureNode
@@ -428,6 +573,18 @@ references:
   name: previewEV100
   nameWithType: MixtureNode.previewEV100
   fullName: Mixture.MixtureNode.previewEV100
+- uid: Mixture.MixtureNode.previewSlice
+  commentId: F:Mixture.MixtureNode.previewSlice
+  parent: Mixture.MixtureNode
+  name: previewSlice
+  nameWithType: MixtureNode.previewSlice
+  fullName: Mixture.MixtureNode.previewSlice
+- uid: Mixture.MixtureNode.isPinned
+  commentId: F:Mixture.MixtureNode.isPinned
+  parent: Mixture.MixtureNode
+  name: isPinned
+  nameWithType: MixtureNode.isPinned
+  fullName: Mixture.MixtureNode.isPinned
 - uid: Mixture.MixtureNode.recorder
   commentId: P:Mixture.MixtureNode.recorder
   parent: Mixture.MixtureNode
@@ -462,15 +619,15 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
-  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+- uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
+  commentId: M:Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
   parent: Mixture.MixtureNode
   isExternal: true
-  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
-  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)
-  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean)
+  name: UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  nameWithType: MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)
+  fullName: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture, System.Boolean, System.Boolean, UnityEngine.CustomRenderTextureUpdateMode, System.Boolean)
   spec.csharp:
-  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
     name: UpdateTempRenderTexture
     nameWithType: MixtureNode.UpdateTempRenderTexture
     fullName: Mixture.MixtureNode.UpdateTempRenderTexture
@@ -489,6 +646,22 @@ references:
     name: Boolean
     nameWithType: Boolean
     fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.CustomRenderTextureUpdateMode
+    name: CustomRenderTextureUpdateMode
+    nameWithType: CustomRenderTextureUpdateMode
+    fullName: UnityEngine.CustomRenderTextureUpdateMode
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -502,7 +675,7 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean)
+  - uid: Mixture.MixtureNode.UpdateTempRenderTexture(UnityEngine.CustomRenderTexture@,System.Boolean,System.Boolean,UnityEngine.CustomRenderTextureUpdateMode,System.Boolean)
     name: UpdateTempRenderTexture
     nameWithType: MixtureNode.UpdateTempRenderTexture
     fullName: Mixture.MixtureNode.UpdateTempRenderTexture
@@ -530,6 +703,50 @@ references:
     nameWithType: Boolean
     fullName: System.Boolean
     isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.CustomRenderTextureUpdateMode
+    name: CustomRenderTextureUpdateMode
+    nameWithType: CustomRenderTextureUpdateMode
+    fullName: UnityEngine.CustomRenderTextureUpdateMode
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Mixture.MixtureNode.GetTempTextureDimension
+  commentId: M:Mixture.MixtureNode.GetTempTextureDimension
+  parent: Mixture.MixtureNode
+  name: GetTempTextureDimension()
+  nameWithType: MixtureNode.GetTempTextureDimension()
+  fullName: Mixture.MixtureNode.GetTempTextureDimension()
+  spec.csharp:
+  - uid: Mixture.MixtureNode.GetTempTextureDimension
+    name: GetTempTextureDimension
+    nameWithType: MixtureNode.GetTempTextureDimension
+    fullName: Mixture.MixtureNode.GetTempTextureDimension
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: Mixture.MixtureNode.GetTempTextureDimension
+    name: GetTempTextureDimension
+    nameWithType: MixtureNode.GetTempTextureDimension
+    fullName: Mixture.MixtureNode.GetTempTextureDimension
+  - name: (
+    nameWithType: (
+    fullName: (
   - name: )
     nameWithType: )
     fullName: )
@@ -635,45 +852,6 @@ references:
     name: CommandBuffer
     nameWithType: CommandBuffer
     fullName: UnityEngine.Rendering.CommandBuffer
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  commentId: M:Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  parent: Mixture.MixtureNode
-  isExternal: true
-  name: AddObjectToGraph(Object)
-  nameWithType: MixtureNode.AddObjectToGraph(Object)
-  fullName: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-  spec.csharp:
-  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-    name: AddObjectToGraph
-    nameWithType: MixtureNode.AddObjectToGraph
-    fullName: Mixture.MixtureNode.AddObjectToGraph
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Object
-    name: Object
-    nameWithType: Object
-    fullName: UnityEngine.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.MixtureNode.AddObjectToGraph(UnityEngine.Object)
-    name: AddObjectToGraph
-    nameWithType: MixtureNode.AddObjectToGraph
-    fullName: Mixture.MixtureNode.AddObjectToGraph
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Object
-    name: Object
-    nameWithType: Object
-    fullName: UnityEngine.Object
     isExternal: true
   - name: )
     nameWithType: )
@@ -1013,34 +1191,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Mixture.MixtureNode.GetMixtureDependencies
-  commentId: M:Mixture.MixtureNode.GetMixtureDependencies
-  parent: Mixture.MixtureNode
-  name: GetMixtureDependencies()
-  nameWithType: MixtureNode.GetMixtureDependencies()
-  fullName: Mixture.MixtureNode.GetMixtureDependencies()
-  spec.csharp:
-  - uid: Mixture.MixtureNode.GetMixtureDependencies
-    name: GetMixtureDependencies
-    nameWithType: MixtureNode.GetMixtureDependencies
-    fullName: Mixture.MixtureNode.GetMixtureDependencies
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: Mixture.MixtureNode.GetMixtureDependencies
-    name: GetMixtureDependencies
-    nameWithType: MixtureNode.GetMixtureDependencies
-    fullName: Mixture.MixtureNode.GetMixtureDependencies
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: Mixture.MixtureNode.GetTempMaterial(System.String)
   commentId: M:Mixture.MixtureNode.GetTempMaterial(System.String)
   parent: Mixture.MixtureNode
@@ -1127,6 +1277,12 @@ references:
   name: UnityEngine
   nameWithType: UnityEngine
   fullName: UnityEngine
+- uid: Mixture.CurveNode.CurveOutputMode
+  commentId: T:Mixture.CurveNode.CurveOutputMode
+  parent: Mixture
+  name: CurveNode.CurveOutputMode
+  nameWithType: CurveNode.CurveOutputMode
+  fullName: Mixture.CurveNode.CurveOutputMode
 - uid: UnityEngine.AnimationCurve
   commentId: T:UnityEngine.AnimationCurve
   parent: UnityEngine

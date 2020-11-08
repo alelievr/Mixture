@@ -6,7 +6,7 @@ items:
   parent: Mixture
   children:
   - Mixture.OutputDimension.CubeMap
-  - Mixture.OutputDimension.Default
+  - Mixture.OutputDimension.SameAsOutput
   - Mixture.OutputDimension.Texture2D
   - Mixture.OutputDimension.Texture3D
   langs:
@@ -19,11 +19,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: OutputDimension
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 471
+    startLine: 515
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -36,30 +36,30 @@ items:
   modifiers.vb:
   - Public
   - Enum
-- uid: Mixture.OutputDimension.Default
-  commentId: F:Mixture.OutputDimension.Default
-  id: Default
+- uid: Mixture.OutputDimension.SameAsOutput
+  commentId: F:Mixture.OutputDimension.SameAsOutput
+  id: SameAsOutput
   parent: Mixture.OutputDimension
   langs:
   - csharp
   - vb
-  name: Default
-  nameWithType: OutputDimension.Default
-  fullName: Mixture.OutputDimension.Default
+  name: SameAsOutput
+  nameWithType: OutputDimension.SameAsOutput
+  fullName: Mixture.OutputDimension.SameAsOutput
   type: Field
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
-    id: Default
+    id: SameAsOutput
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 473
+    startLine: 517
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
-    content: Default = 0
+    content: SameAsOutput = 0
     return:
       type: Mixture.OutputDimension
   modifiers.csharp:
@@ -82,11 +82,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: Texture2D
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 474
+    startLine: 518
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -114,11 +114,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: CubeMap
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 475
+    startLine: 519
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -146,11 +146,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: Texture3D
     path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
-    startLine: 476
+    startLine: 520
   assemblies:
   - Mixture.Runtime
   namespace: Mixture

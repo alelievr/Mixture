@@ -7,6 +7,7 @@ items:
   children:
   - Mixture.MixtureGraph.ReadbackData.mipLevel
   - Mixture.MixtureGraph.ReadbackData.node
+  - Mixture.MixtureGraph.ReadbackData.source
   - Mixture.MixtureGraph.ReadbackData.targetTexture
   langs:
   - csharp
@@ -18,11 +19,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ReadbackData
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 399
+    startLine: 617
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -53,11 +54,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: node
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 401
+    startLine: 619
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -84,11 +85,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: targetTexture
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 402
+    startLine: 620
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -97,6 +98,37 @@ items:
     return:
       type: UnityEngine.Texture
     content.vb: Public targetTexture As Texture
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureGraph.ReadbackData.source
+  commentId: F:Mixture.MixtureGraph.ReadbackData.source
+  id: source
+  parent: Mixture.MixtureGraph.ReadbackData
+  langs:
+  - csharp
+  - vb
+  name: source
+  nameWithType: MixtureGraph.ReadbackData.source
+  fullName: Mixture.MixtureGraph.ReadbackData.source
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: source
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
+    startLine: 621
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public RenderTexture source
+    return:
+      type: UnityEngine.RenderTexture
+    content.vb: Public source As RenderTexture
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -115,11 +147,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: mipLevel
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 403
+    startLine: 622
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -273,6 +305,13 @@ references:
   name: UnityEngine
   nameWithType: UnityEngine
   fullName: UnityEngine
+- uid: UnityEngine.RenderTexture
+  commentId: T:UnityEngine.RenderTexture
+  parent: UnityEngine
+  isExternal: true
+  name: RenderTexture
+  nameWithType: RenderTexture
+  fullName: UnityEngine.RenderTexture
 - uid: System.Int32
   commentId: T:System.Int32
   parent: System

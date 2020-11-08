@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class OutputNode
    ">
-    <meta name="generator" content="docfx 2.55.0.0">
+    <meta name="generator" content="docfx 2.56.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -128,6 +128,9 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_showControlsOnHover">MixtureNode.showControlsOnHover</a>
     </div>
     <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_needsInspector">MixtureNode.needsInspector</a>
+    </div>
+    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_temporaryMaterials">MixtureNode.temporaryMaterials</a>
     </div>
     <div>
@@ -143,22 +146,28 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewEV100">MixtureNode.previewEV100</a>
     </div>
     <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewSlice">MixtureNode.previewSlice</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_isPinned">MixtureNode.isPinned</a>
+    </div>
+    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_recorder">MixtureNode.recorder</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnNodeCreated">MixtureNode.OnNodeCreated()</a>
     </div>
     <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_UpdateTempRenderTexture_UnityEngine_CustomRenderTexture__System_Boolean_System_Boolean_">MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)</a>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_UpdateTempRenderTexture_UnityEngine_CustomRenderTexture__System_Boolean_System_Boolean_UnityEngine_CustomRenderTextureUpdateMode_System_Boolean_">MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetTempTextureDimension">MixtureNode.GetTempTextureDimension()</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnProcess_UnityEngine_Rendering_CommandBuffer_">MixtureNode.OnProcess(CommandBuffer)</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_Process">MixtureNode.Process()</a>
-    </div>
-    <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_AddObjectToGraph_UnityEngine_Object_">MixtureNode.AddObjectToGraph(Object)</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_RemoveObjectFromGraph_UnityEngine_Object_">MixtureNode.RemoveObjectFromGraph(Object)</a>
@@ -182,9 +191,6 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_ResetMaterialPropertyToDefault_UnityEngine_Material_System_String_">MixtureNode.ResetMaterialPropertyToDefault(Material, String)</a>
     </div>
     <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetMixtureDependencies">MixtureNode.GetMixtureDependencies()</a>
-    </div>
-    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetTempMaterial_System_String_">MixtureNode.GetTempMaterial(String)</a>
     </div>
   </div>
@@ -199,222 +205,19 @@ public class OutputNode : MixtureNode, IUseCustomRenderTextureProcessing</code><
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_compressionFormat.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.compressionFormat%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_outputTextureSettings.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.outputTextureSettings%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L68">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L15">View Source</a>
   </span>
-  <h4 id="Mixture_OutputNode_compressionFormat" data-uid="Mixture.OutputNode.compressionFormat">compressionFormat</h4>
+  <h4 id="Mixture_OutputNode_outputTextureSettings" data-uid="Mixture.OutputNode.outputTextureSettings">outputTextureSettings</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public MixtureCompressionFormat compressionFormat</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Mixture.MixtureCompressionFormat.html">MixtureCompressionFormat</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_compressionQuality.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.compressionQuality%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L69">View Source</a>
-  </span>
-  <h4 id="Mixture_OutputNode_compressionQuality" data-uid="Mixture.OutputNode.compressionQuality">compressionQuality</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public MixtureCompressionQuality compressionQuality</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Mixture.MixtureCompressionQuality.html">MixtureCompressionQuality</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_currentSlice.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.currentSlice%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L30">View Source</a>
-  </span>
-  <h4 id="Mixture_OutputNode_currentSlice" data-uid="Mixture.OutputNode.currentSlice">currentSlice</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int currentSlice</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_customMipMapShader.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.customMipMapShader%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L17">View Source</a>
-  </span>
-  <h4 id="Mixture_OutputNode_customMipMapShader" data-uid="Mixture.OutputNode.customMipMapShader">customMipMapShader</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Shader customMipMapShader</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">UnityEngine.Shader</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_enableCompression.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.enableCompression%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L70">View Source</a>
-  </span>
-  <h4 id="Mixture_OutputNode_enableCompression" data-uid="Mixture.OutputNode.enableCompression">enableCompression</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool enableCompression</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_hasMips.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.hasMips%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L15">View Source</a>
-  </span>
-  <h4 id="Mixture_OutputNode_hasMips" data-uid="Mixture.OutputNode.hasMips">hasMips</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool hasMips</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_input.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.input%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L13">View Source</a>
-  </span>
-  <h4 id="Mixture_OutputNode_input" data-uid="Mixture.OutputNode.input">input</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Texture input</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">UnityEngine.Texture</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_mipmapRenderTexture.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.mipmapRenderTexture%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L27">View Source</a>
-  </span>
-  <h4 id="Mixture_OutputNode_mipmapRenderTexture" data-uid="Mixture.OutputNode.mipmapRenderTexture">mipmapRenderTexture</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[NonSerialized]
+    <pre><code class="lang-csharp hljs">[SerializeField]
 [HideInInspector]
-public CustomRenderTexture mipmapRenderTexture</code></pre>
+public List&lt;OutputTextureSettings&gt; outputTextureSettings</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -426,48 +229,17 @@ public CustomRenderTexture mipmapRenderTexture</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">UnityEngine.CustomRenderTexture</span></td>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="Mixture.OutputTextureSettings.html">OutputTextureSettings</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_tempRenderTexture.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.tempRenderTexture%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_uniqueMessages.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.uniqueMessages%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L22">View Source</a>
-  </span>
-  <h4 id="Mixture_OutputNode_tempRenderTexture" data-uid="Mixture.OutputNode.tempRenderTexture">tempRenderTexture</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[NonSerialized]
-[HideInInspector]
-public CustomRenderTexture tempRenderTexture</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">UnityEngine.CustomRenderTexture</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_uniqueMessages.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.uniqueMessages%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L74">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L27">View Source</a>
   </span>
   <h4 id="Mixture_OutputNode_uniqueMessages" data-uid="Mixture.OutputNode.uniqueMessages">uniqueMessages</h4>
   <div class="markdown level1 summary"></div>
@@ -496,10 +268,10 @@ protected HashSet&lt;string&gt; uniqueMessages</code></pre>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_defaultRTSettings.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.defaultRTSettings%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_defaultRTSettings.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.defaultRTSettings%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L76">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L29">View Source</a>
   </span>
   <a id="Mixture_OutputNode_defaultRTSettings_" data-uid="Mixture.OutputNode.defaultRTSettings*"></a>
   <h4 id="Mixture_OutputNode_defaultRTSettings" data-uid="Mixture.OutputNode.defaultRTSettings">defaultRTSettings</h4>
@@ -528,18 +300,18 @@ protected HashSet&lt;string&gt; uniqueMessages</code></pre>
   <div><a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_defaultRTSettings">MixtureNode.defaultRTSettings</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_finalCopyMaterial.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.finalCopyMaterial%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_mainOutput.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.mainOutput%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L39">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L17">View Source</a>
   </span>
-  <a id="Mixture_OutputNode_finalCopyMaterial_" data-uid="Mixture.OutputNode.finalCopyMaterial*"></a>
-  <h4 id="Mixture_OutputNode_finalCopyMaterial" data-uid="Mixture.OutputNode.finalCopyMaterial">finalCopyMaterial</h4>
+  <a id="Mixture_OutputNode_mainOutput_" data-uid="Mixture.OutputNode.mainOutput*"></a>
+  <h4 id="Mixture_OutputNode_mainOutput" data-uid="Mixture.OutputNode.mainOutput">mainOutput</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected Material finalCopyMaterial { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public OutputTextureSettings mainOutput { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -551,17 +323,17 @@ protected HashSet&lt;string&gt; uniqueMessages</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">UnityEngine.Material</span></td>
+        <td><a class="xref" href="Mixture.OutputTextureSettings.html">OutputTextureSettings</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_name.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_name.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L34">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L21">View Source</a>
   </span>
   <a id="Mixture_OutputNode_name_" data-uid="Mixture.OutputNode.name*"></a>
   <h4 id="Mixture_OutputNode_name" data-uid="Mixture.OutputNode.name">name</h4>
@@ -588,10 +360,10 @@ protected HashSet&lt;string&gt; uniqueMessages</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_nodeWidth.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.nodeWidth%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_nodeWidth.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.nodeWidth%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L36">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L23">View Source</a>
   </span>
   <a id="Mixture_OutputNode_nodeWidth_" data-uid="Mixture.OutputNode.nodeWidth*"></a>
   <h4 id="Mixture_OutputNode_nodeWidth" data-uid="Mixture.OutputNode.nodeWidth">nodeWidth</h4>
@@ -620,10 +392,10 @@ protected HashSet&lt;string&gt; uniqueMessages</code></pre>
   <div><a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_nodeWidth">MixtureNode.nodeWidth</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_previewTexture.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.previewTexture%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_previewTexture.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.previewTexture%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L35">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L22">View Source</a>
   </span>
   <a id="Mixture_OutputNode_previewTexture_" data-uid="Mixture.OutputNode.previewTexture*"></a>
   <h4 id="Mixture_OutputNode_previewTexture" data-uid="Mixture.OutputNode.previewTexture">previewTexture</h4>
@@ -654,10 +426,136 @@ protected HashSet&lt;string&gt; uniqueMessages</code></pre>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_ChangeOutputPortType_System_Collections_Generic_List_SerializableEdge__.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.ChangeOutputPortType(System.Collections.Generic.List%7BSerializableEdge%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_AddTextureOutput_Mixture_OutputTextureSettings_Preset_.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.AddTextureOutput(Mixture.OutputTextureSettings.Preset)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L263">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L83">View Source</a>
+  </span>
+  <a id="Mixture_OutputNode_AddTextureOutput_" data-uid="Mixture.OutputNode.AddTextureOutput*"></a>
+  <h4 id="Mixture_OutputNode_AddTextureOutput_Mixture_OutputTextureSettings_Preset_" data-uid="Mixture.OutputNode.AddTextureOutput(Mixture.OutputTextureSettings.Preset)">AddTextureOutput(OutputTextureSettings.Preset)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public OutputTextureSettings AddTextureOutput(OutputTextureSettings.Preset preset)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.OutputTextureSettings.Preset.html">OutputTextureSettings.Preset</a></td>
+        <td><span class="parametername">preset</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.OutputTextureSettings.html">OutputTextureSettings</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_AssignSubTextures_System_Collections_Generic_List_SerializableEdge__.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.AssignSubTextures(System.Collections.Generic.List%7BSerializableEdge%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L340">View Source</a>
+  </span>
+  <a id="Mixture_OutputNode_AssignSubTextures_" data-uid="Mixture.OutputNode.AssignSubTextures*"></a>
+  <h4 id="Mixture_OutputNode_AssignSubTextures_System_Collections_Generic_List_SerializableEdge__" data-uid="Mixture.OutputNode.AssignSubTextures(System.Collections.Generic.List{SerializableEdge})">AssignSubTextures(List&lt;SerializableEdge&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void AssignSubTextures(List&lt;SerializableEdge&gt; edges)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">SerializableEdge</span>&gt;</td>
+        <td><span class="parametername">edges</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_CanResetPort_NodePort_.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.CanResetPort(NodePort)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L79">View Source</a>
+  </span>
+  <a id="Mixture_OutputNode_CanResetPort_" data-uid="Mixture.OutputNode.CanResetPort*"></a>
+  <h4 id="Mixture_OutputNode_CanResetPort_NodePort_" data-uid="Mixture.OutputNode.CanResetPort(NodePort)">CanResetPort(NodePort)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override bool CanResetPort(NodePort port)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">NodePort</span></td>
+        <td><span class="parametername">port</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_ChangeOutputPortType_System_Collections_Generic_List_SerializableEdge__.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.ChangeOutputPortType(System.Collections.Generic.List%7BSerializableEdge%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L324">View Source</a>
   </span>
   <a id="Mixture_OutputNode_ChangeOutputPortType_" data-uid="Mixture.OutputNode.ChangeOutputPortType*"></a>
   <h4 id="Mixture_OutputNode_ChangeOutputPortType_System_Collections_Generic_List_SerializableEdge__" data-uid="Mixture.OutputNode.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})">ChangeOutputPortType(List&lt;SerializableEdge&gt;)</h4>
@@ -701,10 +599,10 @@ protected HashSet&lt;string&gt; uniqueMessages</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_Disable.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.Disable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_Disable.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.Disable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L117">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L153">View Source</a>
   </span>
   <a id="Mixture_OutputNode_Disable_" data-uid="Mixture.OutputNode.Disable*"></a>
   <h4 id="Mixture_OutputNode_Disable" data-uid="Mixture.OutputNode.Disable">Disable()</h4>
@@ -718,10 +616,10 @@ protected HashSet&lt;string&gt; uniqueMessages</code></pre>
   <div><a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_Disable">MixtureNode.Disable()</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_Enable.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.Enable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_Enable.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.Enable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L91">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L55">View Source</a>
   </span>
   <a id="Mixture_OutputNode_Enable_" data-uid="Mixture.OutputNode.Enable*"></a>
   <h4 id="Mixture_OutputNode_Enable" data-uid="Mixture.OutputNode.Enable">Enable()</h4>
@@ -733,18 +631,18 @@ protected HashSet&lt;string&gt; uniqueMessages</code></pre>
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_GetCustomRenderTexture.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.GetCustomRenderTexture%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_GetCustomRenderTextures.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.GetCustomRenderTextures%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L275">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L355">View Source</a>
   </span>
-  <a id="Mixture_OutputNode_GetCustomRenderTexture_" data-uid="Mixture.OutputNode.GetCustomRenderTexture*"></a>
-  <h4 id="Mixture_OutputNode_GetCustomRenderTexture" data-uid="Mixture.OutputNode.GetCustomRenderTexture">GetCustomRenderTexture()</h4>
+  <a id="Mixture_OutputNode_GetCustomRenderTextures_" data-uid="Mixture.OutputNode.GetCustomRenderTextures*"></a>
+  <h4 id="Mixture_OutputNode_GetCustomRenderTextures" data-uid="Mixture.OutputNode.GetCustomRenderTextures">GetCustomRenderTextures()</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public CustomRenderTexture GetCustomRenderTexture()</code></pre>
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;CustomRenderTexture&gt; GetCustomRenderTextures()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -756,17 +654,17 @@ protected HashSet&lt;string&gt; uniqueMessages</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">UnityEngine.CustomRenderTexture</span></td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">UnityEngine.CustomRenderTexture</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L124">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L164">View Source</a>
   </span>
   <a id="Mixture_OutputNode_ProcessNode_" data-uid="Mixture.OutputNode.ProcessNode*"></a>
   <h4 id="Mixture_OutputNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_" data-uid="Mixture.OutputNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)">ProcessNode(CommandBuffer)</h4>
@@ -810,14 +708,46 @@ protected HashSet&lt;string&gt; uniqueMessages</code></pre>
   </table>
   <h5 class="overrides">Overrides</h5>
   <div><a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_">MixtureNode.ProcessNode(CommandBuffer)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_RemoveTextureOutput_Mixture_OutputTextureSettings_.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.RemoveTextureOutput(Mixture.OutputTextureSettings)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L129">View Source</a>
+  </span>
+  <a id="Mixture_OutputNode_RemoveTextureOutput_" data-uid="Mixture.OutputNode.RemoveTextureOutput*"></a>
+  <h4 id="Mixture_OutputNode_RemoveTextureOutput_Mixture_OutputTextureSettings_" data-uid="Mixture.OutputNode.RemoveTextureOutput(Mixture.OutputTextureSettings)">RemoveTextureOutput(OutputTextureSettings)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveTextureOutput(OutputTextureSettings settings)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Mixture.OutputTextureSettings.html">OutputTextureSettings</a></td>
+        <td><span class="parametername">settings</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="events">Events
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode_onTempRenderTextureUpdated.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.onTempRenderTextureUpdated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode_onTempRenderTextureUpdated.md&amp;value=---%0Auid%3A%20Mixture.OutputNode.onTempRenderTextureUpdated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L32">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L19">View Source</a>
   </span>
   <h4 id="Mixture_OutputNode_onTempRenderTextureUpdated" data-uid="Mixture.OutputNode.onTempRenderTextureUpdated">onTempRenderTextureUpdated</h4>
   <div class="markdown level1 summary"></div>
@@ -853,10 +783,10 @@ protected HashSet&lt;string&gt; uniqueMessages</code></pre>
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_OutputNode.md&amp;value=---%0Auid%3A%20Mixture.OutputNode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_OutputNode.md&amp;value=---%0Auid%3A%20Mixture.OutputNode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/OutputNode.cs/#L11" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

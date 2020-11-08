@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class ShaderNode
    ">
-    <meta name="generator" content="docfx 2.55.0.0">
+    <meta name="generator" content="docfx 2.56.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -134,6 +134,9 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_showControlsOnHover">MixtureNode.showControlsOnHover</a>
     </div>
     <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_needsInspector">MixtureNode.needsInspector</a>
+    </div>
+    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_temporaryMaterials">MixtureNode.temporaryMaterials</a>
     </div>
     <div>
@@ -149,22 +152,28 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewEV100">MixtureNode.previewEV100</a>
     </div>
     <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_previewSlice">MixtureNode.previewSlice</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_isPinned">MixtureNode.isPinned</a>
+    </div>
+    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_recorder">MixtureNode.recorder</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnNodeCreated">MixtureNode.OnNodeCreated()</a>
     </div>
     <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_UpdateTempRenderTexture_UnityEngine_CustomRenderTexture__System_Boolean_System_Boolean_">MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean)</a>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_UpdateTempRenderTexture_UnityEngine_CustomRenderTexture__System_Boolean_System_Boolean_UnityEngine_CustomRenderTextureUpdateMode_System_Boolean_">MixtureNode.UpdateTempRenderTexture(CustomRenderTexture, Boolean, Boolean, CustomRenderTextureUpdateMode, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetTempTextureDimension">MixtureNode.GetTempTextureDimension()</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_OnProcess_UnityEngine_Rendering_CommandBuffer_">MixtureNode.OnProcess(CommandBuffer)</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_Process">MixtureNode.Process()</a>
-    </div>
-    <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_AddObjectToGraph_UnityEngine_Object_">MixtureNode.AddObjectToGraph(Object)</a>
     </div>
     <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_RemoveObjectFromGraph_UnityEngine_Object_">MixtureNode.RemoveObjectFromGraph(Object)</a>
@@ -188,9 +197,6 @@
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_ResetMaterialPropertyToDefault_UnityEngine_Material_System_String_">MixtureNode.ResetMaterialPropertyToDefault(Material, String)</a>
     </div>
     <div>
-      <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetMixtureDependencies">MixtureNode.GetMixtureDependencies()</a>
-    </div>
-    <div>
       <a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_GetTempMaterial_System_String_">MixtureNode.GetTempMaterial(String)</a>
     </div>
   </div>
@@ -198,17 +204,18 @@
   <h6><strong>Assembly</strong>: Mixture.Runtime.dll</h6>
   <h5 id="Mixture_ShaderNode_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Serializable]
+    <pre><code class="lang-csharp hljs">[Documentation(&quot;\r\nThis node is the base node of all shader operations, it allows you to create a node with a custom behavior by putting a shader in the Shader field.\r\nNote that the shader must be compatible with Custom Render Textures, otherwise it won't work. If you have a doubt you can create a new shader by pressing the button \&quot;New Shader\&quot;.\r\n\r\nThe node will automatically reflect the shader properties as inputs that you'll be able to connect to other nodes.\r\nThis can be especially useful to prototype a new node or just add something that wasn't in the node Library.\r\n\r\nFor more information, you can check the [Shader Nodes](../ShaderNodes.md) documentation page.\r\n&quot;)]
+[Serializable]
 public class ShaderNode : MixtureNode, IUseCustomRenderTextureProcessing</code></pre>
   </div>
   <h3 id="fields">Fields
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_DefaultShaderName.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.DefaultShaderName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_DefaultShaderName.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.DefaultShaderName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L13">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L32">View Source</a>
   </span>
   <h4 id="Mixture_ShaderNode_DefaultShaderName" data-uid="Mixture.ShaderNode.DefaultShaderName">DefaultShaderName</h4>
   <div class="markdown level1 summary"></div>
@@ -234,10 +241,10 @@ public class ShaderNode : MixtureNode, IUseCustomRenderTextureProcessing</code><
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_material.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.material%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_material.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.material%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L23">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L42">View Source</a>
   </span>
   <h4 id="Mixture_ShaderNode_material" data-uid="Mixture.ShaderNode.material">material</h4>
   <div class="markdown level1 summary"></div>
@@ -263,10 +270,10 @@ public class ShaderNode : MixtureNode, IUseCustomRenderTextureProcessing</code><
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_materialInputs.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.materialInputs%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_materialInputs.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.materialInputs%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L16">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L35">View Source</a>
   </span>
   <h4 id="Mixture_ShaderNode_materialInputs" data-uid="Mixture.ShaderNode.materialInputs">materialInputs</h4>
   <div class="markdown level1 summary"></div>
@@ -292,10 +299,10 @@ public class ShaderNode : MixtureNode, IUseCustomRenderTextureProcessing</code><
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_output.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.output%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_output.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.output%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L19">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L38">View Source</a>
   </span>
   <h4 id="Mixture_ShaderNode_output" data-uid="Mixture.ShaderNode.output">output</h4>
   <div class="markdown level1 summary"></div>
@@ -322,10 +329,10 @@ public CustomRenderTexture output</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_shader.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.shader%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_shader.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.shader%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L21">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L40">View Source</a>
   </span>
   <h4 id="Mixture_ShaderNode_shader" data-uid="Mixture.ShaderNode.shader">shader</h4>
   <div class="markdown level1 summary"></div>
@@ -353,10 +360,10 @@ public CustomRenderTexture output</code></pre>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_canProcess.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.canProcess%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_canProcess.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.canProcess%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L108">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L177">View Source</a>
   </span>
   <a id="Mixture_ShaderNode_canProcess_" data-uid="Mixture.ShaderNode.canProcess*"></a>
   <h4 id="Mixture_ShaderNode_canProcess" data-uid="Mixture.ShaderNode.canProcess">canProcess</h4>
@@ -383,10 +390,10 @@ public CustomRenderTexture output</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_filteredOutProperties.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.filteredOutProperties%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_filteredOutProperties.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.filteredOutProperties%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L25">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L52">View Source</a>
   </span>
   <a id="Mixture_ShaderNode_filteredOutProperties_" data-uid="Mixture.ShaderNode.filteredOutProperties*"></a>
   <h4 id="Mixture_ShaderNode_filteredOutProperties" data-uid="Mixture.ShaderNode.filteredOutProperties">filteredOutProperties</h4>
@@ -413,10 +420,10 @@ public CustomRenderTexture output</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_name.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_name.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L22">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L41">View Source</a>
   </span>
   <a id="Mixture_ShaderNode_name_" data-uid="Mixture.ShaderNode.name*"></a>
   <h4 id="Mixture_ShaderNode_name" data-uid="Mixture.ShaderNode.name">name</h4>
@@ -443,10 +450,10 @@ public CustomRenderTexture output</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_previewTexture.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.previewTexture%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_previewTexture.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.previewTexture%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L26">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L53">View Source</a>
   </span>
   <a id="Mixture_ShaderNode_previewTexture_" data-uid="Mixture.ShaderNode.previewTexture*"></a>
   <h4 id="Mixture_ShaderNode_previewTexture" data-uid="Mixture.ShaderNode.previewTexture">previewTexture</h4>
@@ -477,10 +484,10 @@ public CustomRenderTexture output</code></pre>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_ChangeOutputPortType_System_Collections_Generic_List_SerializableEdge__.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.ChangeOutputPortType(System.Collections.Generic.List%7BSerializableEdge%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_ChangeOutputPortType_System_Collections_Generic_List_SerializableEdge__.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.ChangeOutputPortType(System.Collections.Generic.List%7BSerializableEdge%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L83">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L129">View Source</a>
   </span>
   <a id="Mixture_ShaderNode_ChangeOutputPortType_" data-uid="Mixture.ShaderNode.ChangeOutputPortType*"></a>
   <h4 id="Mixture_ShaderNode_ChangeOutputPortType_System_Collections_Generic_List_SerializableEdge__" data-uid="Mixture.ShaderNode.ChangeOutputPortType(System.Collections.Generic.List{SerializableEdge})">ChangeOutputPortType(List&lt;SerializableEdge&gt;)</h4>
@@ -524,10 +531,10 @@ public CustomRenderTexture output</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_Disable.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.Disable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_Disable.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.Disable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L63">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L90">View Source</a>
   </span>
   <a id="Mixture_ShaderNode_Disable_" data-uid="Mixture.ShaderNode.Disable*"></a>
   <h4 id="Mixture_ShaderNode_Disable" data-uid="Mixture.ShaderNode.Disable">Disable()</h4>
@@ -541,10 +548,10 @@ public CustomRenderTexture output</code></pre>
   <div><a class="xref" href="Mixture.MixtureNode.html#Mixture_MixtureNode_Disable">MixtureNode.Disable()</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_Enable.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.Enable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_Enable.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.Enable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L41">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L68">View Source</a>
   </span>
   <a id="Mixture_ShaderNode_Enable_" data-uid="Mixture.ShaderNode.Enable*"></a>
   <h4 id="Mixture_ShaderNode_Enable" data-uid="Mixture.ShaderNode.Enable">Enable()</h4>
@@ -556,18 +563,18 @@ public CustomRenderTexture output</code></pre>
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_GetCustomRenderTexture.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.GetCustomRenderTexture%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_GetCustomRenderTextures.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.GetCustomRenderTextures%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L143">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L256">View Source</a>
   </span>
-  <a id="Mixture_ShaderNode_GetCustomRenderTexture_" data-uid="Mixture.ShaderNode.GetCustomRenderTexture*"></a>
-  <h4 id="Mixture_ShaderNode_GetCustomRenderTexture" data-uid="Mixture.ShaderNode.GetCustomRenderTexture">GetCustomRenderTexture()</h4>
+  <a id="Mixture_ShaderNode_GetCustomRenderTextures_" data-uid="Mixture.ShaderNode.GetCustomRenderTextures*"></a>
+  <h4 id="Mixture_ShaderNode_GetCustomRenderTextures" data-uid="Mixture.ShaderNode.GetCustomRenderTextures">GetCustomRenderTextures()</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public CustomRenderTexture GetCustomRenderTexture()</code></pre>
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;CustomRenderTexture&gt; GetCustomRenderTextures()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -579,17 +586,17 @@ public CustomRenderTexture output</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">UnityEngine.CustomRenderTexture</span></td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">UnityEngine.CustomRenderTexture</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_GetMaterialInputs_System_Collections_Generic_List_SerializableEdge__.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.GetMaterialInputs(System.Collections.Generic.List%7BSerializableEdge%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_GetMaterialInputs_System_Collections_Generic_List_SerializableEdge__.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.GetMaterialInputs(System.Collections.Generic.List%7BSerializableEdge%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L77">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L119">View Source</a>
   </span>
   <a id="Mixture_ShaderNode_GetMaterialInputs_" data-uid="Mixture.ShaderNode.GetMaterialInputs*"></a>
   <h4 id="Mixture_ShaderNode_GetMaterialInputs_System_Collections_Generic_List_SerializableEdge__" data-uid="Mixture.ShaderNode.GetMaterialInputs(System.Collections.Generic.List{SerializableEdge})">GetMaterialInputs(List&lt;SerializableEdge&gt;)</h4>
@@ -618,10 +625,10 @@ public CustomRenderTexture output</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_ListMaterialProperties_System_Collections_Generic_List_SerializableEdge__.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.ListMaterialProperties(System.Collections.Generic.List%7BSerializableEdge%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_ListMaterialProperties_System_Collections_Generic_List_SerializableEdge__.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.ListMaterialProperties(System.Collections.Generic.List%7BSerializableEdge%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L66">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L97">View Source</a>
   </span>
   <a id="Mixture_ShaderNode_ListMaterialProperties_" data-uid="Mixture.ShaderNode.ListMaterialProperties*"></a>
   <h4 id="Mixture_ShaderNode_ListMaterialProperties_System_Collections_Generic_List_SerializableEdge__" data-uid="Mixture.ShaderNode.ListMaterialProperties(System.Collections.Generic.List{SerializableEdge})">ListMaterialProperties(List&lt;SerializableEdge&gt;)</h4>
@@ -665,10 +672,10 @@ public CustomRenderTexture output</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L134">View Source</a>
+    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L216">View Source</a>
   </span>
   <a id="Mixture_ShaderNode_ProcessNode_" data-uid="Mixture.ShaderNode.ProcessNode*"></a>
   <h4 id="Mixture_ShaderNode_ProcessNode_UnityEngine_Rendering_CommandBuffer_" data-uid="Mixture.ShaderNode.ProcessNode(UnityEngine.Rendering.CommandBuffer)">ProcessNode(CommandBuffer)</h4>
@@ -724,10 +731,10 @@ public CustomRenderTexture output</code></pre>
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/alelievr/Mixture/new/new-custom-texture-api/apiSpec/new?filename=Mixture_ShaderNode.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/alelievr/Mixture/new/master/apiSpec/new?filename=Mixture_ShaderNode.md&amp;value=---%0Auid%3A%20Mixture.ShaderNode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/alelievr/Mixture/blob/new-custom-texture-api/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/alelievr/Mixture/blob/master/Packages/com.alelievr.mixture/Runtime/Nodes/ShaderNode.cs/#L10" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

@@ -8,19 +8,23 @@ items:
   - Mixture.MixtureGraph.#ctor
   - Mixture.MixtureGraph.AddObjectToGraph(UnityEngine.Object)
   - Mixture.MixtureGraph.ClearObjectReferences
+  - Mixture.MixtureGraph.embedInBuild
+  - Mixture.MixtureGraph.FindOutputTexture(System.String,System.Boolean)
   - Mixture.MixtureGraph.GetObjectsReferences
+  - Mixture.MixtureGraph.IsExternalSubAsset(UnityEngine.Object)
   - Mixture.MixtureGraph.IsObjectInGraph(UnityEngine.Object)
   - Mixture.MixtureGraph.isParameterViewOpen
   - Mixture.MixtureGraph.isRealtime
   - Mixture.MixtureGraph.mainAssetPath
+  - Mixture.MixtureGraph.mainOutputTexture
   - Mixture.MixtureGraph.onOutputTextureUpdated
   - Mixture.MixtureGraph.outputNode
-  - Mixture.MixtureGraph.outputTexture
+  - Mixture.MixtureGraph.outputTextures
   - Mixture.MixtureGraph.ReadbackMainTexture(UnityEngine.Texture)
-  - Mixture.MixtureGraph.ReadBackTexture(Mixture.OutputNode,UnityEngine.Texture)
+  - Mixture.MixtureGraph.ReadBackTexture(Mixture.OutputNode,UnityEngine.RenderTexture,System.Boolean,UnityEngine.TextureFormat,Mixture.MixtureCompressionQuality,UnityEngine.Texture)
   - Mixture.MixtureGraph.realtimePreview
   - Mixture.MixtureGraph.RemoveObjectFromGraph(UnityEngine.Object)
-  - Mixture.MixtureGraph.UpdateOutputTexture(System.Boolean)
+  - Mixture.MixtureGraph.UpdateOutputTextures
   - Mixture.MixtureGraph.WriteRequestResult(UnityEngine.Rendering.AsyncGPUReadbackRequest,Mixture.MixtureGraph.ReadbackData)
   langs:
   - csharp
@@ -32,7 +36,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: MixtureGraph
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
@@ -76,7 +80,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: realtimePreview
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
@@ -107,7 +111,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: isRealtime
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
@@ -138,7 +142,7 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: isParameterViewOpen
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
@@ -151,6 +155,39 @@ items:
     return:
       type: System.Boolean
     content.vb: Public isParameterViewOpen As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureGraph.embedInBuild
+  commentId: F:Mixture.MixtureGraph.embedInBuild
+  id: embedInBuild
+  parent: Mixture.MixtureGraph
+  langs:
+  - csharp
+  - vb
+  name: embedInBuild
+  nameWithType: MixtureGraph.embedInBuild
+  fullName: Mixture.MixtureGraph.embedInBuild
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: embedInBuild
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
+    startLine: 30
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  summary: "\nAdd the mixture asset to the built player, note that it only works for static mixtures as realtime ones are always included.\n"
+  example: []
+  syntax:
+    content: public bool embedInBuild
+    return:
+      type: System.Boolean
+    content.vb: Public embedInBuild As Boolean
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -169,11 +206,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: outputNode
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 29
+    startLine: 34
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -190,41 +227,76 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: Mixture.MixtureGraph.outputTexture
-  commentId: P:Mixture.MixtureGraph.outputTexture
-  id: outputTexture
+- uid: Mixture.MixtureGraph.mainOutputTexture
+  commentId: P:Mixture.MixtureGraph.mainOutputTexture
+  id: mainOutputTexture
   parent: Mixture.MixtureGraph
   langs:
   - csharp
   - vb
-  name: outputTexture
-  nameWithType: MixtureGraph.outputTexture
-  fullName: Mixture.MixtureGraph.outputTexture
+  name: mainOutputTexture
+  nameWithType: MixtureGraph.mainOutputTexture
+  fullName: Mixture.MixtureGraph.mainOutputTexture
   type: Property
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
-    id: outputTexture
+    id: mainOutputTexture
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 46
+    startLine: 54
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
-    content: public Texture outputTexture { get; set; }
+    content: public Texture mainOutputTexture { get; set; }
     parameters: []
     return:
       type: UnityEngine.Texture
-    content.vb: Public Property outputTexture As Texture
-  overload: Mixture.MixtureGraph.outputTexture*
+    content.vb: Public Property mainOutputTexture As Texture
+  overload: Mixture.MixtureGraph.mainOutputTexture*
   modifiers.csharp:
   - public
   - get
   - set
   modifiers.vb:
   - Public
+- uid: Mixture.MixtureGraph.outputTextures
+  commentId: P:Mixture.MixtureGraph.outputTextures
+  id: outputTextures
+  parent: Mixture.MixtureGraph
+  langs:
+  - csharp
+  - vb
+  name: outputTextures
+  nameWithType: MixtureGraph.outputTextures
+  fullName: Mixture.MixtureGraph.outputTextures
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: outputTextures
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
+    startLine: 75
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public List<Texture> outputTextures { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{UnityEngine.Texture}
+    content.vb: Public ReadOnly Property outputTextures As List(Of Texture)
+  overload: Mixture.MixtureGraph.outputTextures*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: Mixture.MixtureGraph.mainAssetPath
   commentId: P:Mixture.MixtureGraph.mainAssetPath
   id: mainAssetPath
@@ -239,11 +311,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: mainAssetPath
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 61
+    startLine: 89
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -274,11 +346,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: onOutputTextureUpdated
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 76
+    startLine: 101
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -305,11 +377,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: .ctor
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 78
+    startLine: 103
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -335,11 +407,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: GetObjectsReferences
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 95
+    startLine: 128
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -367,11 +439,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: AddObjectToGraph
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 100
+    startLine: 133
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -400,11 +472,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: IsObjectInGraph
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 109
+    startLine: 142
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -417,6 +489,41 @@ items:
       type: System.Boolean
     content.vb: Public Function IsObjectInGraph(obj As Object) As Boolean
   overload: Mixture.MixtureGraph.IsObjectInGraph*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureGraph.IsExternalSubAsset(UnityEngine.Object)
+  commentId: M:Mixture.MixtureGraph.IsExternalSubAsset(UnityEngine.Object)
+  id: IsExternalSubAsset(UnityEngine.Object)
+  parent: Mixture.MixtureGraph
+  langs:
+  - csharp
+  - vb
+  name: IsExternalSubAsset(Object)
+  nameWithType: MixtureGraph.IsExternalSubAsset(Object)
+  fullName: Mixture.MixtureGraph.IsExternalSubAsset(UnityEngine.Object)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: IsExternalSubAsset
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
+    startLine: 144
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public bool IsExternalSubAsset(Object obj)
+    parameters:
+    - id: obj
+      type: UnityEngine.Object
+    return:
+      type: System.Boolean
+    content.vb: Public Function IsExternalSubAsset(obj As Object) As Boolean
+  overload: Mixture.MixtureGraph.IsExternalSubAsset*
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -435,11 +542,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: RemoveObjectFromGraph
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 111
+    startLine: 153
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -468,11 +575,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ClearObjectReferences
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 123
+    startLine: 165
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -484,37 +591,71 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: Mixture.MixtureGraph.UpdateOutputTexture(System.Boolean)
-  commentId: M:Mixture.MixtureGraph.UpdateOutputTexture(System.Boolean)
-  id: UpdateOutputTexture(System.Boolean)
+- uid: Mixture.MixtureGraph.FindOutputTexture(System.String,System.Boolean)
+  commentId: M:Mixture.MixtureGraph.FindOutputTexture(System.String,System.Boolean)
+  id: FindOutputTexture(System.String,System.Boolean)
   parent: Mixture.MixtureGraph
   langs:
   - csharp
   - vb
-  name: UpdateOutputTexture(Boolean)
-  nameWithType: MixtureGraph.UpdateOutputTexture(Boolean)
-  fullName: Mixture.MixtureGraph.UpdateOutputTexture(System.Boolean)
+  name: FindOutputTexture(String, Boolean)
+  nameWithType: MixtureGraph.FindOutputTexture(String, Boolean)
+  fullName: Mixture.MixtureGraph.FindOutputTexture(System.String, System.Boolean)
   type: Method
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
-    id: UpdateOutputTexture
+    id: FindOutputTexture
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 128
+    startLine: 167
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
-  summary: "\nWarning: this function will create a new output texture from scratch, It means that you will loose all data in the former outputTexture\n"
+  syntax:
+    content: public Texture FindOutputTexture(string name, bool isMain)
+    parameters:
+    - id: name
+      type: System.String
+    - id: isMain
+      type: System.Boolean
+    return:
+      type: UnityEngine.Texture
+    content.vb: Public Function FindOutputTexture(name As String, isMain As Boolean) As Texture
+  overload: Mixture.MixtureGraph.FindOutputTexture*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureGraph.UpdateOutputTextures
+  commentId: M:Mixture.MixtureGraph.UpdateOutputTextures
+  id: UpdateOutputTextures
+  parent: Mixture.MixtureGraph
+  langs:
+  - csharp
+  - vb
+  name: UpdateOutputTextures()
+  nameWithType: MixtureGraph.UpdateOutputTextures()
+  fullName: Mixture.MixtureGraph.UpdateOutputTextures()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
+      branch: master
+      repo: git@github.com:alelievr/Mixture.git
+    id: UpdateOutputTextures
+    path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
+    startLine: 175
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  summary: "\nWarning: this function will create updated the cached texture and may result in partial writing of texture on the disk (only uncompressed textures will be updated)\n"
   example: []
   syntax:
-    content: public void UpdateOutputTexture(bool updateMainAsset = true)
-    parameters:
-    - id: updateMainAsset
-      type: System.Boolean
-    content.vb: Public Sub UpdateOutputTexture(updateMainAsset As Boolean = True)
-  overload: Mixture.MixtureGraph.UpdateOutputTexture*
+    content: public void UpdateOutputTextures()
+    content.vb: Public Sub UpdateOutputTextures
+  overload: Mixture.MixtureGraph.UpdateOutputTextures*
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -533,11 +674,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ReadbackMainTexture
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 371
+    startLine: 550
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -552,36 +693,44 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: Mixture.MixtureGraph.ReadBackTexture(Mixture.OutputNode,UnityEngine.Texture)
-  commentId: M:Mixture.MixtureGraph.ReadBackTexture(Mixture.OutputNode,UnityEngine.Texture)
-  id: ReadBackTexture(Mixture.OutputNode,UnityEngine.Texture)
+- uid: Mixture.MixtureGraph.ReadBackTexture(Mixture.OutputNode,UnityEngine.RenderTexture,System.Boolean,UnityEngine.TextureFormat,Mixture.MixtureCompressionQuality,UnityEngine.Texture)
+  commentId: M:Mixture.MixtureGraph.ReadBackTexture(Mixture.OutputNode,UnityEngine.RenderTexture,System.Boolean,UnityEngine.TextureFormat,Mixture.MixtureCompressionQuality,UnityEngine.Texture)
+  id: ReadBackTexture(Mixture.OutputNode,UnityEngine.RenderTexture,System.Boolean,UnityEngine.TextureFormat,Mixture.MixtureCompressionQuality,UnityEngine.Texture)
   parent: Mixture.MixtureGraph
   langs:
   - csharp
   - vb
-  name: ReadBackTexture(OutputNode, Texture)
-  nameWithType: MixtureGraph.ReadBackTexture(OutputNode, Texture)
-  fullName: Mixture.MixtureGraph.ReadBackTexture(Mixture.OutputNode, UnityEngine.Texture)
+  name: ReadBackTexture(OutputNode, RenderTexture, Boolean, TextureFormat, MixtureCompressionQuality, Texture)
+  nameWithType: MixtureGraph.ReadBackTexture(OutputNode, RenderTexture, Boolean, TextureFormat, MixtureCompressionQuality, Texture)
+  fullName: Mixture.MixtureGraph.ReadBackTexture(Mixture.OutputNode, UnityEngine.RenderTexture, System.Boolean, UnityEngine.TextureFormat, Mixture.MixtureCompressionQuality, UnityEngine.Texture)
   type: Method
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: ReadBackTexture
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 407
+    startLine: 626
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
   syntax:
-    content: protected void ReadBackTexture(OutputNode node, Texture externalTexture = null)
+    content: protected void ReadBackTexture(OutputNode node, RenderTexture source, bool enableCompression = false, TextureFormat compressionFormat = TextureFormat.DXT5, MixtureCompressionQuality compressionQuality = MixtureCompressionQuality.Best, Texture externalTexture = null)
     parameters:
     - id: node
       type: Mixture.OutputNode
+    - id: source
+      type: UnityEngine.RenderTexture
+    - id: enableCompression
+      type: System.Boolean
+    - id: compressionFormat
+      type: UnityEngine.TextureFormat
+    - id: compressionQuality
+      type: Mixture.MixtureCompressionQuality
     - id: externalTexture
       type: UnityEngine.Texture
-    content.vb: Protected Sub ReadBackTexture(node As OutputNode, externalTexture As Texture = Nothing)
+    content.vb: Protected Sub ReadBackTexture(node As OutputNode, source As RenderTexture, enableCompression As Boolean = False, compressionFormat As TextureFormat = TextureFormat.DXT5, compressionQuality As MixtureCompressionQuality = MixtureCompressionQuality.Best, externalTexture As Texture = Nothing)
   overload: Mixture.MixtureGraph.ReadBackTexture*
   modifiers.csharp:
   - protected
@@ -601,11 +750,11 @@ items:
   source:
     remote:
       path: Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-      branch: new-custom-texture-api
+      branch: master
       repo: git@github.com:alelievr/Mixture.git
     id: WriteRequestResult
     path: ../../Packages/com.alelievr.mixture/Runtime/Graph/MixtureGraph.cs
-    startLine: 461
+    startLine: 699
   assemblies:
   - Mixture.Runtime
   namespace: Mixture
@@ -659,11 +808,11 @@ references:
   name: OutputNode
   nameWithType: OutputNode
   fullName: Mixture.OutputNode
-- uid: Mixture.MixtureGraph.outputTexture*
-  commentId: Overload:Mixture.MixtureGraph.outputTexture
-  name: outputTexture
-  nameWithType: MixtureGraph.outputTexture
-  fullName: Mixture.MixtureGraph.outputTexture
+- uid: Mixture.MixtureGraph.mainOutputTexture*
+  commentId: Overload:Mixture.MixtureGraph.mainOutputTexture
+  name: mainOutputTexture
+  nameWithType: MixtureGraph.mainOutputTexture
+  fullName: Mixture.MixtureGraph.mainOutputTexture
 - uid: UnityEngine.Texture
   commentId: T:UnityEngine.Texture
   parent: UnityEngine
@@ -677,6 +826,100 @@ references:
   name: UnityEngine
   nameWithType: UnityEngine
   fullName: UnityEngine
+- uid: Mixture.MixtureGraph.outputTextures*
+  commentId: Overload:Mixture.MixtureGraph.outputTextures
+  name: outputTextures
+  nameWithType: MixtureGraph.outputTextures
+  fullName: Mixture.MixtureGraph.outputTextures
+- uid: System.Collections.Generic.List{UnityEngine.Texture}
+  commentId: T:System.Collections.Generic.List{UnityEngine.Texture}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<Texture>
+  nameWithType: List<Texture>
+  fullName: System.Collections.Generic.List<UnityEngine.Texture>
+  nameWithType.vb: List(Of Texture)
+  fullName.vb: System.Collections.Generic.List(Of UnityEngine.Texture)
+  name.vb: List(Of Texture)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: UnityEngine.Texture
+    name: Texture
+    nameWithType: Texture
+    fullName: UnityEngine.Texture
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: UnityEngine.Texture
+    name: Texture
+    nameWithType: Texture
+    fullName: UnityEngine.Texture
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: Mixture.MixtureGraph.mainAssetPath*
   commentId: Overload:Mixture.MixtureGraph.mainAssetPath
   name: mainAssetPath
@@ -750,51 +993,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Collections.Generic.List`1
-  commentId: T:System.Collections.Generic.List`1
-  isExternal: true
-  name: List<T>
-  nameWithType: List<T>
-  fullName: System.Collections.Generic.List<T>
-  nameWithType.vb: List(Of T)
-  fullName.vb: System.Collections.Generic.List(Of T)
-  name.vb: List(Of T)
-  spec.csharp:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    nameWithType: List
-    fullName: System.Collections.Generic.List
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    nameWithType: List
-    fullName: System.Collections.Generic.List
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
 - uid: Mixture.MixtureGraph.AddObjectToGraph*
   commentId: Overload:Mixture.MixtureGraph.AddObjectToGraph
   name: AddObjectToGraph
@@ -812,6 +1010,11 @@ references:
   name: IsObjectInGraph
   nameWithType: MixtureGraph.IsObjectInGraph
   fullName: Mixture.MixtureGraph.IsObjectInGraph
+- uid: Mixture.MixtureGraph.IsExternalSubAsset*
+  commentId: Overload:Mixture.MixtureGraph.IsExternalSubAsset
+  name: IsExternalSubAsset
+  nameWithType: MixtureGraph.IsExternalSubAsset
+  fullName: Mixture.MixtureGraph.IsExternalSubAsset
 - uid: Mixture.MixtureGraph.RemoveObjectFromGraph*
   commentId: Overload:Mixture.MixtureGraph.RemoveObjectFromGraph
   name: RemoveObjectFromGraph
@@ -822,11 +1025,16 @@ references:
   name: ClearObjectReferences
   nameWithType: MixtureGraph.ClearObjectReferences
   fullName: Mixture.MixtureGraph.ClearObjectReferences
-- uid: Mixture.MixtureGraph.UpdateOutputTexture*
-  commentId: Overload:Mixture.MixtureGraph.UpdateOutputTexture
-  name: UpdateOutputTexture
-  nameWithType: MixtureGraph.UpdateOutputTexture
-  fullName: Mixture.MixtureGraph.UpdateOutputTexture
+- uid: Mixture.MixtureGraph.FindOutputTexture*
+  commentId: Overload:Mixture.MixtureGraph.FindOutputTexture
+  name: FindOutputTexture
+  nameWithType: MixtureGraph.FindOutputTexture
+  fullName: Mixture.MixtureGraph.FindOutputTexture
+- uid: Mixture.MixtureGraph.UpdateOutputTextures*
+  commentId: Overload:Mixture.MixtureGraph.UpdateOutputTextures
+  name: UpdateOutputTextures
+  nameWithType: MixtureGraph.UpdateOutputTextures
+  fullName: Mixture.MixtureGraph.UpdateOutputTextures
 - uid: Mixture.MixtureGraph.ReadbackMainTexture*
   commentId: Overload:Mixture.MixtureGraph.ReadbackMainTexture
   name: ReadbackMainTexture
@@ -837,6 +1045,26 @@ references:
   name: ReadBackTexture
   nameWithType: MixtureGraph.ReadBackTexture
   fullName: Mixture.MixtureGraph.ReadBackTexture
+- uid: UnityEngine.RenderTexture
+  commentId: T:UnityEngine.RenderTexture
+  parent: UnityEngine
+  isExternal: true
+  name: RenderTexture
+  nameWithType: RenderTexture
+  fullName: UnityEngine.RenderTexture
+- uid: UnityEngine.TextureFormat
+  commentId: T:UnityEngine.TextureFormat
+  parent: UnityEngine
+  isExternal: true
+  name: TextureFormat
+  nameWithType: TextureFormat
+  fullName: UnityEngine.TextureFormat
+- uid: Mixture.MixtureCompressionQuality
+  commentId: T:Mixture.MixtureCompressionQuality
+  parent: Mixture
+  name: MixtureCompressionQuality
+  nameWithType: MixtureCompressionQuality
+  fullName: Mixture.MixtureCompressionQuality
 - uid: Mixture.MixtureGraph.WriteRequestResult*
   commentId: Overload:Mixture.MixtureGraph.WriteRequestResult
   name: WriteRequestResult
