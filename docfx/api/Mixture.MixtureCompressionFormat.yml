@@ -1,0 +1,1564 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.MixtureCompressionFormat
+  commentId: T:Mixture.MixtureCompressionFormat
+  id: MixtureCompressionFormat
+  parent: Mixture
+  children:
+  - Mixture.MixtureCompressionFormat.ASTC_10x10
+  - Mixture.MixtureCompressionFormat.ASTC_12x12
+  - Mixture.MixtureCompressionFormat.ASTC_4x4
+  - Mixture.MixtureCompressionFormat.ASTC_5x5
+  - Mixture.MixtureCompressionFormat.ASTC_6x6
+  - Mixture.MixtureCompressionFormat.ASTC_8x8
+  - Mixture.MixtureCompressionFormat.ASTC_HDR_10x10
+  - Mixture.MixtureCompressionFormat.ASTC_HDR_12x12
+  - Mixture.MixtureCompressionFormat.ASTC_HDR_4x4
+  - Mixture.MixtureCompressionFormat.ASTC_HDR_5x5
+  - Mixture.MixtureCompressionFormat.ASTC_HDR_6x6
+  - Mixture.MixtureCompressionFormat.ASTC_HDR_8x8
+  - Mixture.MixtureCompressionFormat.ASTC_RGB_10x10
+  - Mixture.MixtureCompressionFormat.ASTC_RGB_12x12
+  - Mixture.MixtureCompressionFormat.ASTC_RGB_4x4
+  - Mixture.MixtureCompressionFormat.ASTC_RGB_5x5
+  - Mixture.MixtureCompressionFormat.ASTC_RGB_6x6
+  - Mixture.MixtureCompressionFormat.ASTC_RGB_8x8
+  - Mixture.MixtureCompressionFormat.ASTC_RGBA_10x10
+  - Mixture.MixtureCompressionFormat.ASTC_RGBA_12x12
+  - Mixture.MixtureCompressionFormat.ASTC_RGBA_4x4
+  - Mixture.MixtureCompressionFormat.ASTC_RGBA_5x5
+  - Mixture.MixtureCompressionFormat.ASTC_RGBA_6x6
+  - Mixture.MixtureCompressionFormat.ASTC_RGBA_8x8
+  - Mixture.MixtureCompressionFormat.BC4
+  - Mixture.MixtureCompressionFormat.BC5
+  - Mixture.MixtureCompressionFormat.BC6H
+  - Mixture.MixtureCompressionFormat.DXT1
+  - Mixture.MixtureCompressionFormat.DXT1Crunched
+  - Mixture.MixtureCompressionFormat.DXT5
+  - Mixture.MixtureCompressionFormat.DXT5Crunched
+  - Mixture.MixtureCompressionFormat.EAC_R
+  - Mixture.MixtureCompressionFormat.EAC_R_SIGNED
+  - Mixture.MixtureCompressionFormat.EAC_RG
+  - Mixture.MixtureCompressionFormat.EAC_RG_SIGNED
+  - Mixture.MixtureCompressionFormat.ETC_RGB4
+  - Mixture.MixtureCompressionFormat.ETC_RGB4Crunched
+  - Mixture.MixtureCompressionFormat.ETC2_RGB
+  - Mixture.MixtureCompressionFormat.ETC2_RGBA1
+  - Mixture.MixtureCompressionFormat.ETC2_RGBA8
+  - Mixture.MixtureCompressionFormat.ETC2_RGBA8Crunched
+  - Mixture.MixtureCompressionFormat.PVRTC_RGB2
+  - Mixture.MixtureCompressionFormat.PVRTC_RGB4
+  - Mixture.MixtureCompressionFormat.PVRTC_RGBA2
+  - Mixture.MixtureCompressionFormat.PVRTC_RGBA4
+  - Mixture.MixtureCompressionFormat.RGB9e5Float
+  langs:
+  - csharp
+  - vb
+  name: MixtureCompressionFormat
+  nameWithType: MixtureCompressionFormat
+  fullName: Mixture.MixtureCompressionFormat
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: MixtureCompressionFormat
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 5
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public enum MixtureCompressionFormat
+    content.vb: Public Enum MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.MixtureCompressionFormat.DXT1
+  commentId: F:Mixture.MixtureCompressionFormat.DXT1
+  id: DXT1
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: DXT1
+  nameWithType: MixtureCompressionFormat.DXT1
+  fullName: Mixture.MixtureCompressionFormat.DXT1
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: DXT1
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 7
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: DXT1 = 10
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.DXT5
+  commentId: F:Mixture.MixtureCompressionFormat.DXT5
+  id: DXT5
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: DXT5
+  nameWithType: MixtureCompressionFormat.DXT5
+  fullName: Mixture.MixtureCompressionFormat.DXT5
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: DXT5
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 8
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: DXT5 = 12
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.RGB9e5Float
+  commentId: F:Mixture.MixtureCompressionFormat.RGB9e5Float
+  id: RGB9e5Float
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: RGB9e5Float
+  nameWithType: MixtureCompressionFormat.RGB9e5Float
+  fullName: Mixture.MixtureCompressionFormat.RGB9e5Float
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: RGB9e5Float
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 9
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: RGB9e5Float = 22
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.BC4
+  commentId: F:Mixture.MixtureCompressionFormat.BC4
+  id: BC4
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: BC4
+  nameWithType: MixtureCompressionFormat.BC4
+  fullName: Mixture.MixtureCompressionFormat.BC4
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: BC4
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 10
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: BC4 = 26
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.BC5
+  commentId: F:Mixture.MixtureCompressionFormat.BC5
+  id: BC5
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: BC5
+  nameWithType: MixtureCompressionFormat.BC5
+  fullName: Mixture.MixtureCompressionFormat.BC5
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: BC5
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 11
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: BC5 = 27
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.BC6H
+  commentId: F:Mixture.MixtureCompressionFormat.BC6H
+  id: BC6H
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: BC6H
+  nameWithType: MixtureCompressionFormat.BC6H
+  fullName: Mixture.MixtureCompressionFormat.BC6H
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: BC6H
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 12
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: BC6H = 24
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.DXT1Crunched
+  commentId: F:Mixture.MixtureCompressionFormat.DXT1Crunched
+  id: DXT1Crunched
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: DXT1Crunched
+  nameWithType: MixtureCompressionFormat.DXT1Crunched
+  fullName: Mixture.MixtureCompressionFormat.DXT1Crunched
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: DXT1Crunched
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 13
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: DXT1Crunched = 28
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.DXT5Crunched
+  commentId: F:Mixture.MixtureCompressionFormat.DXT5Crunched
+  id: DXT5Crunched
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: DXT5Crunched
+  nameWithType: MixtureCompressionFormat.DXT5Crunched
+  fullName: Mixture.MixtureCompressionFormat.DXT5Crunched
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: DXT5Crunched
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 14
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: DXT5Crunched = 29
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.PVRTC_RGB2
+  commentId: F:Mixture.MixtureCompressionFormat.PVRTC_RGB2
+  id: PVRTC_RGB2
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: PVRTC_RGB2
+  nameWithType: MixtureCompressionFormat.PVRTC_RGB2
+  fullName: Mixture.MixtureCompressionFormat.PVRTC_RGB2
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: PVRTC_RGB2
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 15
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: PVRTC_RGB2 = 30
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.PVRTC_RGBA2
+  commentId: F:Mixture.MixtureCompressionFormat.PVRTC_RGBA2
+  id: PVRTC_RGBA2
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: PVRTC_RGBA2
+  nameWithType: MixtureCompressionFormat.PVRTC_RGBA2
+  fullName: Mixture.MixtureCompressionFormat.PVRTC_RGBA2
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: PVRTC_RGBA2
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 16
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: PVRTC_RGBA2 = 31
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.PVRTC_RGB4
+  commentId: F:Mixture.MixtureCompressionFormat.PVRTC_RGB4
+  id: PVRTC_RGB4
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: PVRTC_RGB4
+  nameWithType: MixtureCompressionFormat.PVRTC_RGB4
+  fullName: Mixture.MixtureCompressionFormat.PVRTC_RGB4
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: PVRTC_RGB4
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 17
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: PVRTC_RGB4 = 32
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.PVRTC_RGBA4
+  commentId: F:Mixture.MixtureCompressionFormat.PVRTC_RGBA4
+  id: PVRTC_RGBA4
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: PVRTC_RGBA4
+  nameWithType: MixtureCompressionFormat.PVRTC_RGBA4
+  fullName: Mixture.MixtureCompressionFormat.PVRTC_RGBA4
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: PVRTC_RGBA4
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 18
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: PVRTC_RGBA4 = 33
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ETC_RGB4
+  commentId: F:Mixture.MixtureCompressionFormat.ETC_RGB4
+  id: ETC_RGB4
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ETC_RGB4
+  nameWithType: MixtureCompressionFormat.ETC_RGB4
+  fullName: Mixture.MixtureCompressionFormat.ETC_RGB4
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ETC_RGB4
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 19
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ETC_RGB4 = 34
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.EAC_R
+  commentId: F:Mixture.MixtureCompressionFormat.EAC_R
+  id: EAC_R
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: EAC_R
+  nameWithType: MixtureCompressionFormat.EAC_R
+  fullName: Mixture.MixtureCompressionFormat.EAC_R
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: EAC_R
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 20
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: EAC_R = 41
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.EAC_R_SIGNED
+  commentId: F:Mixture.MixtureCompressionFormat.EAC_R_SIGNED
+  id: EAC_R_SIGNED
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: EAC_R_SIGNED
+  nameWithType: MixtureCompressionFormat.EAC_R_SIGNED
+  fullName: Mixture.MixtureCompressionFormat.EAC_R_SIGNED
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: EAC_R_SIGNED
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 21
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: EAC_R_SIGNED = 42
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.EAC_RG
+  commentId: F:Mixture.MixtureCompressionFormat.EAC_RG
+  id: EAC_RG
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: EAC_RG
+  nameWithType: MixtureCompressionFormat.EAC_RG
+  fullName: Mixture.MixtureCompressionFormat.EAC_RG
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: EAC_RG
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 22
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: EAC_RG = 43
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.EAC_RG_SIGNED
+  commentId: F:Mixture.MixtureCompressionFormat.EAC_RG_SIGNED
+  id: EAC_RG_SIGNED
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: EAC_RG_SIGNED
+  nameWithType: MixtureCompressionFormat.EAC_RG_SIGNED
+  fullName: Mixture.MixtureCompressionFormat.EAC_RG_SIGNED
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: EAC_RG_SIGNED
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 23
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: EAC_RG_SIGNED = 44
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ETC2_RGB
+  commentId: F:Mixture.MixtureCompressionFormat.ETC2_RGB
+  id: ETC2_RGB
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ETC2_RGB
+  nameWithType: MixtureCompressionFormat.ETC2_RGB
+  fullName: Mixture.MixtureCompressionFormat.ETC2_RGB
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ETC2_RGB
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 24
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ETC2_RGB = 45
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ETC2_RGBA1
+  commentId: F:Mixture.MixtureCompressionFormat.ETC2_RGBA1
+  id: ETC2_RGBA1
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ETC2_RGBA1
+  nameWithType: MixtureCompressionFormat.ETC2_RGBA1
+  fullName: Mixture.MixtureCompressionFormat.ETC2_RGBA1
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ETC2_RGBA1
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 25
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ETC2_RGBA1 = 46
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ETC2_RGBA8
+  commentId: F:Mixture.MixtureCompressionFormat.ETC2_RGBA8
+  id: ETC2_RGBA8
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ETC2_RGBA8
+  nameWithType: MixtureCompressionFormat.ETC2_RGBA8
+  fullName: Mixture.MixtureCompressionFormat.ETC2_RGBA8
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ETC2_RGBA8
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 26
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ETC2_RGBA8 = 47
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_4x4
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_4x4
+  id: ASTC_4x4
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_4x4
+  nameWithType: MixtureCompressionFormat.ASTC_4x4
+  fullName: Mixture.MixtureCompressionFormat.ASTC_4x4
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_4x4
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 27
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_4x4 = 48
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_5x5
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_5x5
+  id: ASTC_5x5
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_5x5
+  nameWithType: MixtureCompressionFormat.ASTC_5x5
+  fullName: Mixture.MixtureCompressionFormat.ASTC_5x5
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_5x5
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 28
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_5x5 = 49
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_6x6
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_6x6
+  id: ASTC_6x6
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_6x6
+  nameWithType: MixtureCompressionFormat.ASTC_6x6
+  fullName: Mixture.MixtureCompressionFormat.ASTC_6x6
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_6x6
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 29
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_6x6 = 50
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_8x8
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_8x8
+  id: ASTC_8x8
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_8x8
+  nameWithType: MixtureCompressionFormat.ASTC_8x8
+  fullName: Mixture.MixtureCompressionFormat.ASTC_8x8
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_8x8
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 30
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_8x8 = 51
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_10x10
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_10x10
+  id: ASTC_10x10
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_10x10
+  nameWithType: MixtureCompressionFormat.ASTC_10x10
+  fullName: Mixture.MixtureCompressionFormat.ASTC_10x10
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_10x10
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 31
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_10x10 = 52
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_12x12
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_12x12
+  id: ASTC_12x12
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_12x12
+  nameWithType: MixtureCompressionFormat.ASTC_12x12
+  fullName: Mixture.MixtureCompressionFormat.ASTC_12x12
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_12x12
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 32
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_12x12 = 53
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ETC_RGB4Crunched
+  commentId: F:Mixture.MixtureCompressionFormat.ETC_RGB4Crunched
+  id: ETC_RGB4Crunched
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ETC_RGB4Crunched
+  nameWithType: MixtureCompressionFormat.ETC_RGB4Crunched
+  fullName: Mixture.MixtureCompressionFormat.ETC_RGB4Crunched
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ETC_RGB4Crunched
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 33
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ETC_RGB4Crunched = 64
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ETC2_RGBA8Crunched
+  commentId: F:Mixture.MixtureCompressionFormat.ETC2_RGBA8Crunched
+  id: ETC2_RGBA8Crunched
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ETC2_RGBA8Crunched
+  nameWithType: MixtureCompressionFormat.ETC2_RGBA8Crunched
+  fullName: Mixture.MixtureCompressionFormat.ETC2_RGBA8Crunched
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ETC2_RGBA8Crunched
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 34
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ETC2_RGBA8Crunched = 65
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_HDR_4x4
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_HDR_4x4
+  id: ASTC_HDR_4x4
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_HDR_4x4
+  nameWithType: MixtureCompressionFormat.ASTC_HDR_4x4
+  fullName: Mixture.MixtureCompressionFormat.ASTC_HDR_4x4
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_HDR_4x4
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 35
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_HDR_4x4 = 66
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_HDR_5x5
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_HDR_5x5
+  id: ASTC_HDR_5x5
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_HDR_5x5
+  nameWithType: MixtureCompressionFormat.ASTC_HDR_5x5
+  fullName: Mixture.MixtureCompressionFormat.ASTC_HDR_5x5
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_HDR_5x5
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 36
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_HDR_5x5 = 67
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_HDR_6x6
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_HDR_6x6
+  id: ASTC_HDR_6x6
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_HDR_6x6
+  nameWithType: MixtureCompressionFormat.ASTC_HDR_6x6
+  fullName: Mixture.MixtureCompressionFormat.ASTC_HDR_6x6
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_HDR_6x6
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 37
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_HDR_6x6 = 68
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_HDR_8x8
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_HDR_8x8
+  id: ASTC_HDR_8x8
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_HDR_8x8
+  nameWithType: MixtureCompressionFormat.ASTC_HDR_8x8
+  fullName: Mixture.MixtureCompressionFormat.ASTC_HDR_8x8
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_HDR_8x8
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 38
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_HDR_8x8 = 69
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_HDR_10x10
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_HDR_10x10
+  id: ASTC_HDR_10x10
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_HDR_10x10
+  nameWithType: MixtureCompressionFormat.ASTC_HDR_10x10
+  fullName: Mixture.MixtureCompressionFormat.ASTC_HDR_10x10
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_HDR_10x10
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 39
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_HDR_10x10 = 70
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_HDR_12x12
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_HDR_12x12
+  id: ASTC_HDR_12x12
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_HDR_12x12
+  nameWithType: MixtureCompressionFormat.ASTC_HDR_12x12
+  fullName: Mixture.MixtureCompressionFormat.ASTC_HDR_12x12
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_HDR_12x12
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 40
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_HDR_12x12 = 71
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_RGB_4x4
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_RGB_4x4
+  id: ASTC_RGB_4x4
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_RGB_4x4
+  nameWithType: MixtureCompressionFormat.ASTC_RGB_4x4
+  fullName: Mixture.MixtureCompressionFormat.ASTC_RGB_4x4
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_RGB_4x4
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 41
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_RGB_4x4 = 48
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_RGB_5x5
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_RGB_5x5
+  id: ASTC_RGB_5x5
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_RGB_5x5
+  nameWithType: MixtureCompressionFormat.ASTC_RGB_5x5
+  fullName: Mixture.MixtureCompressionFormat.ASTC_RGB_5x5
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_RGB_5x5
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 42
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_RGB_5x5 = 49
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_RGB_6x6
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_RGB_6x6
+  id: ASTC_RGB_6x6
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_RGB_6x6
+  nameWithType: MixtureCompressionFormat.ASTC_RGB_6x6
+  fullName: Mixture.MixtureCompressionFormat.ASTC_RGB_6x6
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_RGB_6x6
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 43
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_RGB_6x6 = 50
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_RGB_8x8
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_RGB_8x8
+  id: ASTC_RGB_8x8
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_RGB_8x8
+  nameWithType: MixtureCompressionFormat.ASTC_RGB_8x8
+  fullName: Mixture.MixtureCompressionFormat.ASTC_RGB_8x8
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_RGB_8x8
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 44
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_RGB_8x8 = 51
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_RGB_10x10
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_RGB_10x10
+  id: ASTC_RGB_10x10
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_RGB_10x10
+  nameWithType: MixtureCompressionFormat.ASTC_RGB_10x10
+  fullName: Mixture.MixtureCompressionFormat.ASTC_RGB_10x10
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_RGB_10x10
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 45
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_RGB_10x10 = 52
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_RGB_12x12
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_RGB_12x12
+  id: ASTC_RGB_12x12
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_RGB_12x12
+  nameWithType: MixtureCompressionFormat.ASTC_RGB_12x12
+  fullName: Mixture.MixtureCompressionFormat.ASTC_RGB_12x12
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_RGB_12x12
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 46
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_RGB_12x12 = 53
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_RGBA_4x4
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_RGBA_4x4
+  id: ASTC_RGBA_4x4
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_RGBA_4x4
+  nameWithType: MixtureCompressionFormat.ASTC_RGBA_4x4
+  fullName: Mixture.MixtureCompressionFormat.ASTC_RGBA_4x4
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_RGBA_4x4
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 47
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_RGBA_4x4 = 48
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_RGBA_5x5
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_RGBA_5x5
+  id: ASTC_RGBA_5x5
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_RGBA_5x5
+  nameWithType: MixtureCompressionFormat.ASTC_RGBA_5x5
+  fullName: Mixture.MixtureCompressionFormat.ASTC_RGBA_5x5
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_RGBA_5x5
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 48
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_RGBA_5x5 = 49
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_RGBA_6x6
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_RGBA_6x6
+  id: ASTC_RGBA_6x6
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_RGBA_6x6
+  nameWithType: MixtureCompressionFormat.ASTC_RGBA_6x6
+  fullName: Mixture.MixtureCompressionFormat.ASTC_RGBA_6x6
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_RGBA_6x6
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 49
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_RGBA_6x6 = 50
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_RGBA_8x8
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_RGBA_8x8
+  id: ASTC_RGBA_8x8
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_RGBA_8x8
+  nameWithType: MixtureCompressionFormat.ASTC_RGBA_8x8
+  fullName: Mixture.MixtureCompressionFormat.ASTC_RGBA_8x8
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_RGBA_8x8
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 50
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_RGBA_8x8 = 51
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_RGBA_10x10
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_RGBA_10x10
+  id: ASTC_RGBA_10x10
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_RGBA_10x10
+  nameWithType: MixtureCompressionFormat.ASTC_RGBA_10x10
+  fullName: Mixture.MixtureCompressionFormat.ASTC_RGBA_10x10
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_RGBA_10x10
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 51
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_RGBA_10x10 = 52
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.MixtureCompressionFormat.ASTC_RGBA_12x12
+  commentId: F:Mixture.MixtureCompressionFormat.ASTC_RGBA_12x12
+  id: ASTC_RGBA_12x12
+  parent: Mixture.MixtureCompressionFormat
+  langs:
+  - csharp
+  - vb
+  name: ASTC_RGBA_12x12
+  nameWithType: MixtureCompressionFormat.ASTC_RGBA_12x12
+  fullName: Mixture.MixtureCompressionFormat.ASTC_RGBA_12x12
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ASTC_RGBA_12x12
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/MixtureCompressionFormat.cs
+    startLine: 52
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: ASTC_RGBA_12x12 = 53
+    return:
+      type: Mixture.MixtureCompressionFormat
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.MixtureCompressionFormat
+  commentId: T:Mixture.MixtureCompressionFormat
+  parent: Mixture
+  name: MixtureCompressionFormat
+  nameWithType: MixtureCompressionFormat
+  fullName: Mixture.MixtureCompressionFormat

@@ -1,0 +1,314 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.TextureUtils
+  commentId: T:Mixture.TextureUtils
+  id: TextureUtils
+  parent: Mixture
+  children:
+  - Mixture.TextureUtils.GetBlackTexture(Mixture.MixtureRTSettings)
+  - Mixture.TextureUtils.GetBlackTexture(UnityEngine.Rendering.TextureDimension,System.Int32)
+  - Mixture.TextureUtils.GetDimensionFromType(System.Type)
+  - Mixture.TextureUtils.GetSliceCount(UnityEngine.Texture)
+  - Mixture.TextureUtils.GetTypeFromDimension(UnityEngine.Rendering.TextureDimension)
+  langs:
+  - csharp
+  - vb
+  name: TextureUtils
+  nameWithType: TextureUtils
+  fullName: Mixture.TextureUtils
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: TextureUtils
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
+    startLine: 13
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static class TextureUtils
+    content.vb: Public Module TextureUtils
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - static
+  - class
+  modifiers.vb:
+  - Public
+  - Module
+- uid: Mixture.TextureUtils.GetBlackTexture(Mixture.MixtureRTSettings)
+  commentId: M:Mixture.TextureUtils.GetBlackTexture(Mixture.MixtureRTSettings)
+  id: GetBlackTexture(Mixture.MixtureRTSettings)
+  parent: Mixture.TextureUtils
+  langs:
+  - csharp
+  - vb
+  name: GetBlackTexture(MixtureRTSettings)
+  nameWithType: TextureUtils.GetBlackTexture(MixtureRTSettings)
+  fullName: Mixture.TextureUtils.GetBlackTexture(Mixture.MixtureRTSettings)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetBlackTexture
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
+    startLine: 17
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static Texture GetBlackTexture(MixtureRTSettings settings)
+    parameters:
+    - id: settings
+      type: Mixture.MixtureRTSettings
+    return:
+      type: UnityEngine.Texture
+    content.vb: Public Shared Function GetBlackTexture(settings As MixtureRTSettings) As Texture
+  overload: Mixture.TextureUtils.GetBlackTexture*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.TextureUtils.GetBlackTexture(UnityEngine.Rendering.TextureDimension,System.Int32)
+  commentId: M:Mixture.TextureUtils.GetBlackTexture(UnityEngine.Rendering.TextureDimension,System.Int32)
+  id: GetBlackTexture(UnityEngine.Rendering.TextureDimension,System.Int32)
+  parent: Mixture.TextureUtils
+  langs:
+  - csharp
+  - vb
+  name: GetBlackTexture(TextureDimension, Int32)
+  nameWithType: TextureUtils.GetBlackTexture(TextureDimension, Int32)
+  fullName: Mixture.TextureUtils.GetBlackTexture(UnityEngine.Rendering.TextureDimension, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetBlackTexture
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
+    startLine: 22
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static Texture GetBlackTexture(TextureDimension dim, int sliceCount = 0)
+    parameters:
+    - id: dim
+      type: UnityEngine.Rendering.TextureDimension
+    - id: sliceCount
+      type: System.Int32
+    return:
+      type: UnityEngine.Texture
+    content.vb: Public Shared Function GetBlackTexture(dim As TextureDimension, sliceCount As Integer = 0) As Texture
+  overload: Mixture.TextureUtils.GetBlackTexture*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.TextureUtils.GetSliceCount(UnityEngine.Texture)
+  commentId: M:Mixture.TextureUtils.GetSliceCount(UnityEngine.Texture)
+  id: GetSliceCount(UnityEngine.Texture)
+  parent: Mixture.TextureUtils
+  langs:
+  - csharp
+  - vb
+  name: GetSliceCount(Texture)
+  nameWithType: TextureUtils.GetSliceCount(Texture)
+  fullName: Mixture.TextureUtils.GetSliceCount(UnityEngine.Texture)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetSliceCount
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
+    startLine: 63
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static int GetSliceCount(Texture tex)
+    parameters:
+    - id: tex
+      type: UnityEngine.Texture
+    return:
+      type: System.Int32
+    content.vb: Public Shared Function GetSliceCount(tex As Texture) As Integer
+  overload: Mixture.TextureUtils.GetSliceCount*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.TextureUtils.GetTypeFromDimension(UnityEngine.Rendering.TextureDimension)
+  commentId: M:Mixture.TextureUtils.GetTypeFromDimension(UnityEngine.Rendering.TextureDimension)
+  id: GetTypeFromDimension(UnityEngine.Rendering.TextureDimension)
+  parent: Mixture.TextureUtils
+  langs:
+  - csharp
+  - vb
+  name: GetTypeFromDimension(TextureDimension)
+  nameWithType: TextureUtils.GetTypeFromDimension(TextureDimension)
+  fullName: Mixture.TextureUtils.GetTypeFromDimension(UnityEngine.Rendering.TextureDimension)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetTypeFromDimension
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
+    startLine: 87
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static Type GetTypeFromDimension(TextureDimension dimension)
+    parameters:
+    - id: dimension
+      type: UnityEngine.Rendering.TextureDimension
+    return:
+      type: System.Type
+    content.vb: Public Shared Function GetTypeFromDimension(dimension As TextureDimension) As Type
+  overload: Mixture.TextureUtils.GetTypeFromDimension*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.TextureUtils.GetDimensionFromType(System.Type)
+  commentId: M:Mixture.TextureUtils.GetDimensionFromType(System.Type)
+  id: GetDimensionFromType(System.Type)
+  parent: Mixture.TextureUtils
+  langs:
+  - csharp
+  - vb
+  name: GetDimensionFromType(Type)
+  nameWithType: TextureUtils.GetDimensionFromType(Type)
+  fullName: Mixture.TextureUtils.GetDimensionFromType(System.Type)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetDimensionFromType
+    path: ../../Packages/com.alelievr.mixture/Runtime/Utils/TextureUtils.cs
+    startLine: 106
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public static TextureDimension GetDimensionFromType(Type textureType)
+    parameters:
+    - id: textureType
+      type: System.Type
+    return:
+      type: UnityEngine.Rendering.TextureDimension
+    content.vb: Public Shared Function GetDimensionFromType(textureType As Type) As TextureDimension
+  overload: Mixture.TextureUtils.GetDimensionFromType*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mixture.TextureUtils.GetBlackTexture*
+  commentId: Overload:Mixture.TextureUtils.GetBlackTexture
+  name: GetBlackTexture
+  nameWithType: TextureUtils.GetBlackTexture
+  fullName: Mixture.TextureUtils.GetBlackTexture
+- uid: Mixture.MixtureRTSettings
+  commentId: T:Mixture.MixtureRTSettings
+  parent: Mixture
+  name: MixtureRTSettings
+  nameWithType: MixtureRTSettings
+  fullName: Mixture.MixtureRTSettings
+- uid: UnityEngine.Texture
+  commentId: T:UnityEngine.Texture
+  parent: UnityEngine
+  isExternal: true
+  name: Texture
+  nameWithType: Texture
+  fullName: UnityEngine.Texture
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: UnityEngine.Rendering.TextureDimension
+  commentId: T:UnityEngine.Rendering.TextureDimension
+  parent: UnityEngine.Rendering
+  isExternal: true
+  name: TextureDimension
+  nameWithType: TextureDimension
+  fullName: UnityEngine.Rendering.TextureDimension
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: UnityEngine.Rendering
+  commentId: N:UnityEngine.Rendering
+  isExternal: true
+  name: UnityEngine.Rendering
+  nameWithType: UnityEngine.Rendering
+  fullName: UnityEngine.Rendering
+- uid: Mixture.TextureUtils.GetSliceCount*
+  commentId: Overload:Mixture.TextureUtils.GetSliceCount
+  name: GetSliceCount
+  nameWithType: TextureUtils.GetSliceCount
+  fullName: Mixture.TextureUtils.GetSliceCount
+- uid: Mixture.TextureUtils.GetTypeFromDimension*
+  commentId: Overload:Mixture.TextureUtils.GetTypeFromDimension
+  name: GetTypeFromDimension
+  nameWithType: TextureUtils.GetTypeFromDimension
+  fullName: Mixture.TextureUtils.GetTypeFromDimension
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: Mixture.TextureUtils.GetDimensionFromType*
+  commentId: Overload:Mixture.TextureUtils.GetDimensionFromType
+  name: GetDimensionFromType
+  nameWithType: TextureUtils.GetDimensionFromType
+  fullName: Mixture.TextureUtils.GetDimensionFromType

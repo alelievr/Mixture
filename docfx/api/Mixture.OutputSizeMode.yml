@@ -1,0 +1,145 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.OutputSizeMode
+  commentId: T:Mixture.OutputSizeMode
+  id: OutputSizeMode
+  parent: Mixture
+  children:
+  - Mixture.OutputSizeMode.Default
+  - Mixture.OutputSizeMode.Fixed
+  - Mixture.OutputSizeMode.PercentageOfOutput
+  langs:
+  - csharp
+  - vb
+  name: OutputSizeMode
+  nameWithType: OutputSizeMode
+  fullName: Mixture.OutputSizeMode
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: OutputSizeMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 464
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public enum OutputSizeMode
+    content.vb: Public Enum OutputSizeMode
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.OutputSizeMode.Default
+  commentId: F:Mixture.OutputSizeMode.Default
+  id: Default
+  parent: Mixture.OutputSizeMode
+  langs:
+  - csharp
+  - vb
+  name: Default
+  nameWithType: OutputSizeMode.Default
+  fullName: Mixture.OutputSizeMode.Default
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Default
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 466
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Default = 0
+    return:
+      type: Mixture.OutputSizeMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.OutputSizeMode.Fixed
+  commentId: F:Mixture.OutputSizeMode.Fixed
+  id: Fixed
+  parent: Mixture.OutputSizeMode
+  langs:
+  - csharp
+  - vb
+  name: Fixed
+  nameWithType: OutputSizeMode.Fixed
+  fullName: Mixture.OutputSizeMode.Fixed
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Fixed
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 467
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Fixed = 1
+    return:
+      type: Mixture.OutputSizeMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.OutputSizeMode.PercentageOfOutput
+  commentId: F:Mixture.OutputSizeMode.PercentageOfOutput
+  id: PercentageOfOutput
+  parent: Mixture.OutputSizeMode
+  langs:
+  - csharp
+  - vb
+  name: PercentageOfOutput
+  nameWithType: OutputSizeMode.PercentageOfOutput
+  fullName: Mixture.OutputSizeMode.PercentageOfOutput
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: PercentageOfOutput
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/MixtureNode.cs
+    startLine: 468
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: PercentageOfOutput = 2
+    return:
+      type: Mixture.OutputSizeMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.OutputSizeMode
+  commentId: T:Mixture.OutputSizeMode
+  parent: Mixture
+  name: OutputSizeMode
+  nameWithType: OutputSizeMode
+  fullName: Mixture.OutputSizeMode

@@ -1,0 +1,112 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.SplatterNode.ScaleMode
+  commentId: T:Mixture.SplatterNode.ScaleMode
+  id: SplatterNode.ScaleMode
+  parent: Mixture
+  children:
+  - Mixture.SplatterNode.ScaleMode.Fixed
+  - Mixture.SplatterNode.ScaleMode.RandomBetween
+  langs:
+  - csharp
+  - vb
+  name: SplatterNode.ScaleMode
+  nameWithType: SplatterNode.ScaleMode
+  fullName: Mixture.SplatterNode.ScaleMode
+  type: Enum
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ScaleMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 22
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public enum ScaleMode
+    content.vb: Public Enum ScaleMode
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: Mixture.SplatterNode.ScaleMode.Fixed
+  commentId: F:Mixture.SplatterNode.ScaleMode.Fixed
+  id: Fixed
+  parent: Mixture.SplatterNode.ScaleMode
+  langs:
+  - csharp
+  - vb
+  name: Fixed
+  nameWithType: SplatterNode.ScaleMode.Fixed
+  fullName: Mixture.SplatterNode.ScaleMode.Fixed
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Fixed
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 24
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: Fixed = 0
+    return:
+      type: Mixture.SplatterNode.ScaleMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: Mixture.SplatterNode.ScaleMode.RandomBetween
+  commentId: F:Mixture.SplatterNode.ScaleMode.RandomBetween
+  id: RandomBetween
+  parent: Mixture.SplatterNode.ScaleMode
+  langs:
+  - csharp
+  - vb
+  name: RandomBetween
+  nameWithType: SplatterNode.ScaleMode.RandomBetween
+  fullName: Mixture.SplatterNode.ScaleMode.RandomBetween
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: RandomBetween
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/FixedShaderNodes/SplatterNode.cs
+    startLine: 24
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: RandomBetween = 1
+    return:
+      type: Mixture.SplatterNode.ScaleMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: Mixture.SplatterNode.ScaleMode
+  commentId: T:Mixture.SplatterNode.ScaleMode
+  parent: Mixture
+  name: SplatterNode.ScaleMode
+  nameWithType: SplatterNode.ScaleMode
+  fullName: Mixture.SplatterNode.ScaleMode

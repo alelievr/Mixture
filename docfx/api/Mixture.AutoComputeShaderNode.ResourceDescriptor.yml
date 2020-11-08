@@ -1,0 +1,489 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.AutoComputeShaderNode.ResourceDescriptor
+  commentId: T:Mixture.AutoComputeShaderNode.ResourceDescriptor
+  id: AutoComputeShaderNode.ResourceDescriptor
+  parent: Mixture
+  children:
+  - Mixture.AutoComputeShaderNode.ResourceDescriptor.allocatedBuffer
+  - Mixture.AutoComputeShaderNode.ResourceDescriptor.allocatedTexture
+  - Mixture.AutoComputeShaderNode.ResourceDescriptor.autoAlloc
+  - Mixture.AutoComputeShaderNode.ResourceDescriptor.bufferSize
+  - Mixture.AutoComputeShaderNode.ResourceDescriptor.bufferStride
+  - Mixture.AutoComputeShaderNode.ResourceDescriptor.propertyName
+  - Mixture.AutoComputeShaderNode.ResourceDescriptor.sType
+  - Mixture.AutoComputeShaderNode.ResourceDescriptor.textureAllocMode
+  - Mixture.AutoComputeShaderNode.ResourceDescriptor.textureCustomDepth
+  - Mixture.AutoComputeShaderNode.ResourceDescriptor.textureCustomHeight
+  - Mixture.AutoComputeShaderNode.ResourceDescriptor.textureCustomWidth
+  langs:
+  - csharp
+  - vb
+  name: AutoComputeShaderNode.ResourceDescriptor
+  nameWithType: AutoComputeShaderNode.ResourceDescriptor
+  fullName: Mixture.AutoComputeShaderNode.ResourceDescriptor
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ResourceDescriptor
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 39
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [Serializable]
+
+      public class ResourceDescriptor
+    content.vb: >-
+      <Serializable>
+
+      Public Class ResourceDescriptor
+  inheritance:
+  - System.Object
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.AutoComputeShaderNode.ResourceDescriptor.propertyName
+  commentId: F:Mixture.AutoComputeShaderNode.ResourceDescriptor.propertyName
+  id: propertyName
+  parent: Mixture.AutoComputeShaderNode.ResourceDescriptor
+  langs:
+  - csharp
+  - vb
+  name: propertyName
+  nameWithType: AutoComputeShaderNode.ResourceDescriptor.propertyName
+  fullName: Mixture.AutoComputeShaderNode.ResourceDescriptor.propertyName
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: propertyName
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 42
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public string propertyName
+    return:
+      type: System.String
+    content.vb: Public propertyName As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.AutoComputeShaderNode.ResourceDescriptor.autoAlloc
+  commentId: F:Mixture.AutoComputeShaderNode.ResourceDescriptor.autoAlloc
+  id: autoAlloc
+  parent: Mixture.AutoComputeShaderNode.ResourceDescriptor
+  langs:
+  - csharp
+  - vb
+  name: autoAlloc
+  nameWithType: AutoComputeShaderNode.ResourceDescriptor.autoAlloc
+  fullName: Mixture.AutoComputeShaderNode.ResourceDescriptor.autoAlloc
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: autoAlloc
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 43
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public bool autoAlloc
+    return:
+      type: System.Boolean
+    content.vb: Public autoAlloc As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.AutoComputeShaderNode.ResourceDescriptor.bufferStride
+  commentId: F:Mixture.AutoComputeShaderNode.ResourceDescriptor.bufferStride
+  id: bufferStride
+  parent: Mixture.AutoComputeShaderNode.ResourceDescriptor
+  langs:
+  - csharp
+  - vb
+  name: bufferStride
+  nameWithType: AutoComputeShaderNode.ResourceDescriptor.bufferStride
+  fullName: Mixture.AutoComputeShaderNode.ResourceDescriptor.bufferStride
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: bufferStride
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 44
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public int bufferStride
+    return:
+      type: System.Int32
+    content.vb: Public bufferStride As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.AutoComputeShaderNode.ResourceDescriptor.bufferSize
+  commentId: F:Mixture.AutoComputeShaderNode.ResourceDescriptor.bufferSize
+  id: bufferSize
+  parent: Mixture.AutoComputeShaderNode.ResourceDescriptor
+  langs:
+  - csharp
+  - vb
+  name: bufferSize
+  nameWithType: AutoComputeShaderNode.ResourceDescriptor.bufferSize
+  fullName: Mixture.AutoComputeShaderNode.ResourceDescriptor.bufferSize
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: bufferSize
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 45
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public int bufferSize
+    return:
+      type: System.Int32
+    content.vb: Public bufferSize As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.AutoComputeShaderNode.ResourceDescriptor.textureAllocMode
+  commentId: F:Mixture.AutoComputeShaderNode.ResourceDescriptor.textureAllocMode
+  id: textureAllocMode
+  parent: Mixture.AutoComputeShaderNode.ResourceDescriptor
+  langs:
+  - csharp
+  - vb
+  name: textureAllocMode
+  nameWithType: AutoComputeShaderNode.ResourceDescriptor.textureAllocMode
+  fullName: Mixture.AutoComputeShaderNode.ResourceDescriptor.textureAllocMode
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: textureAllocMode
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 47
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public AutoComputeShaderNode.TextureAllocMode textureAllocMode
+    return:
+      type: Mixture.AutoComputeShaderNode.TextureAllocMode
+    content.vb: Public textureAllocMode As AutoComputeShaderNode.TextureAllocMode
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.AutoComputeShaderNode.ResourceDescriptor.textureCustomWidth
+  commentId: F:Mixture.AutoComputeShaderNode.ResourceDescriptor.textureCustomWidth
+  id: textureCustomWidth
+  parent: Mixture.AutoComputeShaderNode.ResourceDescriptor
+  langs:
+  - csharp
+  - vb
+  name: textureCustomWidth
+  nameWithType: AutoComputeShaderNode.ResourceDescriptor.textureCustomWidth
+  fullName: Mixture.AutoComputeShaderNode.ResourceDescriptor.textureCustomWidth
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: textureCustomWidth
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 48
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public int textureCustomWidth
+    return:
+      type: System.Int32
+    content.vb: Public textureCustomWidth As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.AutoComputeShaderNode.ResourceDescriptor.textureCustomHeight
+  commentId: F:Mixture.AutoComputeShaderNode.ResourceDescriptor.textureCustomHeight
+  id: textureCustomHeight
+  parent: Mixture.AutoComputeShaderNode.ResourceDescriptor
+  langs:
+  - csharp
+  - vb
+  name: textureCustomHeight
+  nameWithType: AutoComputeShaderNode.ResourceDescriptor.textureCustomHeight
+  fullName: Mixture.AutoComputeShaderNode.ResourceDescriptor.textureCustomHeight
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: textureCustomHeight
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 49
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public int textureCustomHeight
+    return:
+      type: System.Int32
+    content.vb: Public textureCustomHeight As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.AutoComputeShaderNode.ResourceDescriptor.textureCustomDepth
+  commentId: F:Mixture.AutoComputeShaderNode.ResourceDescriptor.textureCustomDepth
+  id: textureCustomDepth
+  parent: Mixture.AutoComputeShaderNode.ResourceDescriptor
+  langs:
+  - csharp
+  - vb
+  name: textureCustomDepth
+  nameWithType: AutoComputeShaderNode.ResourceDescriptor.textureCustomDepth
+  fullName: Mixture.AutoComputeShaderNode.ResourceDescriptor.textureCustomDepth
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: textureCustomDepth
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 50
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public int textureCustomDepth
+    return:
+      type: System.Int32
+    content.vb: Public textureCustomDepth As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.AutoComputeShaderNode.ResourceDescriptor.sType
+  commentId: F:Mixture.AutoComputeShaderNode.ResourceDescriptor.sType
+  id: sType
+  parent: Mixture.AutoComputeShaderNode.ResourceDescriptor
+  langs:
+  - csharp
+  - vb
+  name: sType
+  nameWithType: AutoComputeShaderNode.ResourceDescriptor.sType
+  fullName: Mixture.AutoComputeShaderNode.ResourceDescriptor.sType
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: sType
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 51
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: public SerializableType sType
+    return:
+      type: SerializableType
+    content.vb: Public sType As SerializableType
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.AutoComputeShaderNode.ResourceDescriptor.allocatedTexture
+  commentId: F:Mixture.AutoComputeShaderNode.ResourceDescriptor.allocatedTexture
+  id: allocatedTexture
+  parent: Mixture.AutoComputeShaderNode.ResourceDescriptor
+  langs:
+  - csharp
+  - vb
+  name: allocatedTexture
+  nameWithType: AutoComputeShaderNode.ResourceDescriptor.allocatedTexture
+  fullName: Mixture.AutoComputeShaderNode.ResourceDescriptor.allocatedTexture
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: allocatedTexture
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 54
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [NonSerialized]
+
+      public RenderTexture allocatedTexture
+    return:
+      type: UnityEngine.RenderTexture
+    content.vb: >-
+      <NonSerialized>
+
+      Public allocatedTexture As RenderTexture
+  attributes:
+  - type: System.NonSerializedAttribute
+    ctor: System.NonSerializedAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.AutoComputeShaderNode.ResourceDescriptor.allocatedBuffer
+  commentId: F:Mixture.AutoComputeShaderNode.ResourceDescriptor.allocatedBuffer
+  id: allocatedBuffer
+  parent: Mixture.AutoComputeShaderNode.ResourceDescriptor
+  langs:
+  - csharp
+  - vb
+  name: allocatedBuffer
+  nameWithType: AutoComputeShaderNode.ResourceDescriptor.allocatedBuffer
+  fullName: Mixture.AutoComputeShaderNode.ResourceDescriptor.allocatedBuffer
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: allocatedBuffer
+    path: ../../Packages/com.alelievr.mixture/Runtime/Nodes/AutoComputeShaderNode.cs
+    startLine: 56
+  assemblies:
+  - Mixture.Runtime
+  namespace: Mixture
+  syntax:
+    content: >-
+      [NonSerialized]
+
+      public ComputeBuffer allocatedBuffer
+    return:
+      type: UnityEngine.ComputeBuffer
+    content.vb: >-
+      <NonSerialized>
+
+      Public allocatedBuffer As ComputeBuffer
+  attributes:
+  - type: System.NonSerializedAttribute
+    ctor: System.NonSerializedAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: Mixture.AutoComputeShaderNode.TextureAllocMode
+  commentId: T:Mixture.AutoComputeShaderNode.TextureAllocMode
+  parent: Mixture
+  name: AutoComputeShaderNode.TextureAllocMode
+  nameWithType: AutoComputeShaderNode.TextureAllocMode
+  fullName: Mixture.AutoComputeShaderNode.TextureAllocMode
+- uid: SerializableType
+  isExternal: true
+  name: SerializableType
+  nameWithType: SerializableType
+  fullName: SerializableType
+- uid: UnityEngine.RenderTexture
+  commentId: T:UnityEngine.RenderTexture
+  parent: UnityEngine
+  isExternal: true
+  name: RenderTexture
+  nameWithType: RenderTexture
+  fullName: UnityEngine.RenderTexture
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: UnityEngine.ComputeBuffer
+  commentId: T:UnityEngine.ComputeBuffer
+  parent: UnityEngine
+  isExternal: true
+  name: ComputeBuffer
+  nameWithType: ComputeBuffer
+  fullName: UnityEngine.ComputeBuffer

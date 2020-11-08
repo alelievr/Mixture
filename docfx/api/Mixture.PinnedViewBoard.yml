@@ -1,0 +1,367 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.PinnedViewBoard
+  commentId: T:Mixture.PinnedViewBoard
+  id: PinnedViewBoard
+  parent: Mixture
+  children:
+  - Mixture.PinnedViewBoard.#ctor
+  - Mixture.PinnedViewBoard.Add(Mixture.MixtureNodeView,UnityEngine.UIElements.VisualElement,System.String)
+  - Mixture.PinnedViewBoard.container
+  - Mixture.PinnedViewBoard.HasView(UnityEngine.UIElements.VisualElement)
+  - Mixture.PinnedViewBoard.Initialize(BaseGraphView)
+  - Mixture.PinnedViewBoard.instance
+  - Mixture.PinnedViewBoard.Remove(UnityEngine.UIElements.VisualElement)
+  langs:
+  - csharp
+  - vb
+  name: PinnedViewBoard
+  nameWithType: PinnedViewBoard
+  fullName: Mixture.PinnedViewBoard
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: PinnedViewBoard
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+    startLine: 11
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: 'public class PinnedViewBoard : PinnedElementView'
+    content.vb: >-
+      Public Class PinnedViewBoard
+          Inherits PinnedElementView
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.PinnedViewBoard.#ctor
+  commentId: M:Mixture.PinnedViewBoard.#ctor
+  id: '#ctor'
+  parent: Mixture.PinnedViewBoard
+  langs:
+  - csharp
+  - vb
+  name: PinnedViewBoard()
+  nameWithType: PinnedViewBoard.PinnedViewBoard()
+  fullName: Mixture.PinnedViewBoard.PinnedViewBoard()
+  type: Constructor
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: .ctor
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+    startLine: 15
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public PinnedViewBoard()
+    content.vb: Public Sub New
+  overload: Mixture.PinnedViewBoard.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.PinnedViewBoard.container
+  commentId: F:Mixture.PinnedViewBoard.container
+  id: container
+  parent: Mixture.PinnedViewBoard
+  langs:
+  - csharp
+  - vb
+  name: container
+  nameWithType: PinnedViewBoard.container
+  fullName: Mixture.PinnedViewBoard.container
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: container
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+    startLine: 17
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public VisualElement container
+    return:
+      type: UnityEngine.UIElements.VisualElement
+    content.vb: Public container As VisualElement
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.PinnedViewBoard.instance
+  commentId: F:Mixture.PinnedViewBoard.instance
+  id: instance
+  parent: Mixture.PinnedViewBoard
+  langs:
+  - csharp
+  - vb
+  name: instance
+  nameWithType: PinnedViewBoard.instance
+  fullName: Mixture.PinnedViewBoard.instance
+  type: Field
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: instance
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+    startLine: 19
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public static PinnedViewBoard instance
+    return:
+      type: Mixture.PinnedViewBoard
+    content.vb: Public Shared instance As PinnedViewBoard
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Mixture.PinnedViewBoard.Initialize(BaseGraphView)
+  commentId: M:Mixture.PinnedViewBoard.Initialize(BaseGraphView)
+  id: Initialize(BaseGraphView)
+  parent: Mixture.PinnedViewBoard
+  langs:
+  - csharp
+  - vb
+  name: Initialize(BaseGraphView)
+  nameWithType: PinnedViewBoard.Initialize(BaseGraphView)
+  fullName: Mixture.PinnedViewBoard.Initialize(BaseGraphView)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Initialize
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+    startLine: 23
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: protected override void Initialize(BaseGraphView graphView)
+    parameters:
+    - id: graphView
+      type: BaseGraphView
+    content.vb: Protected Overrides Sub Initialize(graphView As BaseGraphView)
+  overload: Mixture.PinnedViewBoard.Initialize*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
+- uid: Mixture.PinnedViewBoard.Add(Mixture.MixtureNodeView,UnityEngine.UIElements.VisualElement,System.String)
+  commentId: M:Mixture.PinnedViewBoard.Add(Mixture.MixtureNodeView,UnityEngine.UIElements.VisualElement,System.String)
+  id: Add(Mixture.MixtureNodeView,UnityEngine.UIElements.VisualElement,System.String)
+  parent: Mixture.PinnedViewBoard
+  langs:
+  - csharp
+  - vb
+  name: Add(MixtureNodeView, VisualElement, String)
+  nameWithType: PinnedViewBoard.Add(MixtureNodeView, VisualElement, String)
+  fullName: Mixture.PinnedViewBoard.Add(Mixture.MixtureNodeView, UnityEngine.UIElements.VisualElement, System.String)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Add
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+    startLine: 34
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public void Add(MixtureNodeView node, VisualElement view, string name)
+    parameters:
+    - id: node
+      type: Mixture.MixtureNodeView
+    - id: view
+      type: UnityEngine.UIElements.VisualElement
+    - id: name
+      type: System.String
+    content.vb: Public Sub Add(node As MixtureNodeView, view As VisualElement, name As String)
+  overload: Mixture.PinnedViewBoard.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.PinnedViewBoard.Remove(UnityEngine.UIElements.VisualElement)
+  commentId: M:Mixture.PinnedViewBoard.Remove(UnityEngine.UIElements.VisualElement)
+  id: Remove(UnityEngine.UIElements.VisualElement)
+  parent: Mixture.PinnedViewBoard
+  langs:
+  - csharp
+  - vb
+  name: Remove(VisualElement)
+  nameWithType: PinnedViewBoard.Remove(VisualElement)
+  fullName: Mixture.PinnedViewBoard.Remove(UnityEngine.UIElements.VisualElement)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: Remove
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+    startLine: 49
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public void Remove(VisualElement view)
+    parameters:
+    - id: view
+      type: UnityEngine.UIElements.VisualElement
+    content.vb: Public Sub Remove(view As VisualElement)
+  overload: Mixture.PinnedViewBoard.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.PinnedViewBoard.HasView(UnityEngine.UIElements.VisualElement)
+  commentId: M:Mixture.PinnedViewBoard.HasView(UnityEngine.UIElements.VisualElement)
+  id: HasView(UnityEngine.UIElements.VisualElement)
+  parent: Mixture.PinnedViewBoard
+  langs:
+  - csharp
+  - vb
+  name: HasView(VisualElement)
+  nameWithType: PinnedViewBoard.HasView(VisualElement)
+  fullName: Mixture.PinnedViewBoard.HasView(UnityEngine.UIElements.VisualElement)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: HasView
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/PinnedViewsBoard.cs
+    startLine: 56
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public bool HasView(VisualElement view)
+    parameters:
+    - id: view
+      type: UnityEngine.UIElements.VisualElement
+    return:
+      type: System.Boolean
+    content.vb: Public Function HasView(view As VisualElement) As Boolean
+  overload: Mixture.PinnedViewBoard.HasView*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mixture.PinnedViewBoard.#ctor*
+  commentId: Overload:Mixture.PinnedViewBoard.#ctor
+  name: PinnedViewBoard
+  nameWithType: PinnedViewBoard.PinnedViewBoard
+  fullName: Mixture.PinnedViewBoard.PinnedViewBoard
+- uid: UnityEngine.UIElements.VisualElement
+  commentId: T:UnityEngine.UIElements.VisualElement
+  parent: UnityEngine.UIElements
+  isExternal: true
+  name: VisualElement
+  nameWithType: VisualElement
+  fullName: UnityEngine.UIElements.VisualElement
+- uid: UnityEngine.UIElements
+  commentId: N:UnityEngine.UIElements
+  isExternal: true
+  name: UnityEngine.UIElements
+  nameWithType: UnityEngine.UIElements
+  fullName: UnityEngine.UIElements
+- uid: Mixture.PinnedViewBoard
+  commentId: T:Mixture.PinnedViewBoard
+  parent: Mixture
+  name: PinnedViewBoard
+  nameWithType: PinnedViewBoard
+  fullName: Mixture.PinnedViewBoard
+- uid: Mixture.PinnedViewBoard.Initialize*
+  commentId: Overload:Mixture.PinnedViewBoard.Initialize
+  name: Initialize
+  nameWithType: PinnedViewBoard.Initialize
+  fullName: Mixture.PinnedViewBoard.Initialize
+- uid: BaseGraphView
+  isExternal: true
+  name: BaseGraphView
+  nameWithType: BaseGraphView
+  fullName: BaseGraphView
+- uid: Mixture.PinnedViewBoard.Add*
+  commentId: Overload:Mixture.PinnedViewBoard.Add
+  name: Add
+  nameWithType: PinnedViewBoard.Add
+  fullName: Mixture.PinnedViewBoard.Add
+- uid: Mixture.MixtureNodeView
+  commentId: T:Mixture.MixtureNodeView
+  parent: Mixture
+  name: MixtureNodeView
+  nameWithType: MixtureNodeView
+  fullName: Mixture.MixtureNodeView
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: Mixture.PinnedViewBoard.Remove*
+  commentId: Overload:Mixture.PinnedViewBoard.Remove
+  name: Remove
+  nameWithType: PinnedViewBoard.Remove
+  fullName: Mixture.PinnedViewBoard.Remove
+- uid: Mixture.PinnedViewBoard.HasView*
+  commentId: Overload:Mixture.PinnedViewBoard.HasView
+  name: HasView
+  nameWithType: PinnedViewBoard.HasView
+  fullName: Mixture.PinnedViewBoard.HasView
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

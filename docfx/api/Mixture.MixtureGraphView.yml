@@ -1,0 +1,446 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mixture.MixtureGraphView
+  commentId: T:Mixture.MixtureGraphView
+  id: MixtureGraphView
+  parent: Mixture
+  children:
+  - Mixture.MixtureGraphView.#ctor(UnityEditor.EditorWindow)
+  - Mixture.MixtureGraphView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+  - Mixture.MixtureGraphView.GetCompatiblePorts(UnityEditor.Experimental.GraphView.Port,UnityEditor.Experimental.GraphView.NodeAdapter)
+  - Mixture.MixtureGraphView.graph
+  - Mixture.MixtureGraphView.ProcessGraph
+  - Mixture.MixtureGraphView.processor
+  langs:
+  - csharp
+  - vb
+  name: MixtureGraphView
+  nameWithType: MixtureGraphView
+  fullName: Mixture.MixtureGraphView
+  type: Class
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: MixtureGraphView
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
+    startLine: 11
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: 'public class MixtureGraphView : BaseGraphView'
+    content.vb: >-
+      Public Class MixtureGraphView
+          Inherits BaseGraphView
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Mixture.MixtureGraphView.processor
+  commentId: P:Mixture.MixtureGraphView.processor
+  id: processor
+  parent: Mixture.MixtureGraphView
+  langs:
+  - csharp
+  - vb
+  name: processor
+  nameWithType: MixtureGraphView.processor
+  fullName: Mixture.MixtureGraphView.processor
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: processor
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
+    startLine: 14
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public MixtureGraphProcessor processor { get; }
+    parameters: []
+    return:
+      type: MixtureGraphProcessor
+    content.vb: Public ReadOnly Property processor As MixtureGraphProcessor
+  overload: Mixture.MixtureGraphView.processor*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: Mixture.MixtureGraphView.graph
+  commentId: P:Mixture.MixtureGraphView.graph
+  id: graph
+  parent: Mixture.MixtureGraphView
+  langs:
+  - csharp
+  - vb
+  name: graph
+  nameWithType: MixtureGraphView.graph
+  fullName: Mixture.MixtureGraphView.graph
+  type: Property
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: graph
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
+    startLine: 15
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public MixtureGraph graph { get; }
+    parameters: []
+    return:
+      type: MixtureGraph
+    content.vb: Public ReadOnly Property graph As MixtureGraph
+  overload: Mixture.MixtureGraphView.graph*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: Mixture.MixtureGraphView.#ctor(UnityEditor.EditorWindow)
+  commentId: M:Mixture.MixtureGraphView.#ctor(UnityEditor.EditorWindow)
+  id: '#ctor(UnityEditor.EditorWindow)'
+  parent: Mixture.MixtureGraphView
+  langs:
+  - csharp
+  - vb
+  name: MixtureGraphView(EditorWindow)
+  nameWithType: MixtureGraphView.MixtureGraphView(EditorWindow)
+  fullName: Mixture.MixtureGraphView.MixtureGraphView(UnityEditor.EditorWindow)
+  type: Constructor
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: .ctor
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
+    startLine: 17
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public MixtureGraphView(EditorWindow window)
+    parameters:
+    - id: window
+      type: UnityEditor.EditorWindow
+    content.vb: Public Sub New(window As EditorWindow)
+  overload: Mixture.MixtureGraphView.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Mixture.MixtureGraphView.GetCompatiblePorts(UnityEditor.Experimental.GraphView.Port,UnityEditor.Experimental.GraphView.NodeAdapter)
+  commentId: M:Mixture.MixtureGraphView.GetCompatiblePorts(UnityEditor.Experimental.GraphView.Port,UnityEditor.Experimental.GraphView.NodeAdapter)
+  id: GetCompatiblePorts(UnityEditor.Experimental.GraphView.Port,UnityEditor.Experimental.GraphView.NodeAdapter)
+  parent: Mixture.MixtureGraphView
+  langs:
+  - csharp
+  - vb
+  name: GetCompatiblePorts(Port, NodeAdapter)
+  nameWithType: MixtureGraphView.GetCompatiblePorts(Port, NodeAdapter)
+  fullName: Mixture.MixtureGraphView.GetCompatiblePorts(UnityEditor.Experimental.GraphView.Port, UnityEditor.Experimental.GraphView.NodeAdapter)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: GetCompatiblePorts
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
+    startLine: 26
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+    parameters:
+    - id: startPort
+      type: UnityEditor.Experimental.GraphView.Port
+    - id: nodeAdapter
+      type: UnityEditor.Experimental.GraphView.NodeAdapter
+    return:
+      type: System.Collections.Generic.List{UnityEditor.Experimental.GraphView.Port}
+    content.vb: Public Overrides Function GetCompatiblePorts(startPort As Port, nodeAdapter As NodeAdapter) As List(Of Port)
+  overload: Mixture.MixtureGraphView.GetCompatiblePorts*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: Mixture.MixtureGraphView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+  commentId: M:Mixture.MixtureGraphView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+  id: BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+  parent: Mixture.MixtureGraphView
+  langs:
+  - csharp
+  - vb
+  name: BuildContextualMenu(ContextualMenuPopulateEvent)
+  nameWithType: MixtureGraphView.BuildContextualMenu(ContextualMenuPopulateEvent)
+  fullName: Mixture.MixtureGraphView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: BuildContextualMenu
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
+    startLine: 69
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+    parameters:
+    - id: evt
+      type: UnityEngine.UIElements.ContextualMenuPopulateEvent
+    content.vb: Public Overrides Sub BuildContextualMenu(evt As ContextualMenuPopulateEvent)
+  overload: Mixture.MixtureGraphView.BuildContextualMenu*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: Mixture.MixtureGraphView.ProcessGraph
+  commentId: M:Mixture.MixtureGraphView.ProcessGraph
+  id: ProcessGraph
+  parent: Mixture.MixtureGraphView
+  langs:
+  - csharp
+  - vb
+  name: ProcessGraph()
+  nameWithType: MixtureGraphView.ProcessGraph()
+  fullName: Mixture.MixtureGraphView.ProcessGraph()
+  type: Method
+  source:
+    remote:
+      path: Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
+      branch: new-custom-texture-api
+      repo: git@github.com:alelievr/Mixture.git
+    id: ProcessGraph
+    path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
+    startLine: 139
+  assemblies:
+  - Unity.ShaderGraph.GraphicsTests
+  namespace: Mixture
+  syntax:
+    content: public void ProcessGraph()
+    content.vb: Public Sub ProcessGraph
+  overload: Mixture.MixtureGraphView.ProcessGraph*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Mixture
+  commentId: N:Mixture
+  name: Mixture
+  nameWithType: Mixture
+  fullName: Mixture
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mixture.MixtureGraphView.processor*
+  commentId: Overload:Mixture.MixtureGraphView.processor
+  name: processor
+  nameWithType: MixtureGraphView.processor
+  fullName: Mixture.MixtureGraphView.processor
+- uid: MixtureGraphProcessor
+  commentId: '!:MixtureGraphProcessor'
+  isExternal: true
+  name: MixtureGraphProcessor
+  nameWithType: MixtureGraphProcessor
+  fullName: MixtureGraphProcessor
+- uid: Mixture.MixtureGraphView.graph*
+  commentId: Overload:Mixture.MixtureGraphView.graph
+  name: graph
+  nameWithType: MixtureGraphView.graph
+  fullName: Mixture.MixtureGraphView.graph
+- uid: MixtureGraph
+  isExternal: true
+  name: MixtureGraph
+  nameWithType: MixtureGraph
+  fullName: MixtureGraph
+- uid: Mixture.MixtureGraphView.#ctor*
+  commentId: Overload:Mixture.MixtureGraphView.#ctor
+  name: MixtureGraphView
+  nameWithType: MixtureGraphView.MixtureGraphView
+  fullName: Mixture.MixtureGraphView.MixtureGraphView
+- uid: UnityEditor.EditorWindow
+  commentId: T:UnityEditor.EditorWindow
+  parent: UnityEditor
+  isExternal: true
+  name: EditorWindow
+  nameWithType: EditorWindow
+  fullName: UnityEditor.EditorWindow
+- uid: UnityEditor
+  commentId: N:UnityEditor
+  isExternal: true
+  name: UnityEditor
+  nameWithType: UnityEditor
+  fullName: UnityEditor
+- uid: Mixture.MixtureGraphView.GetCompatiblePorts*
+  commentId: Overload:Mixture.MixtureGraphView.GetCompatiblePorts
+  name: GetCompatiblePorts
+  nameWithType: MixtureGraphView.GetCompatiblePorts
+  fullName: Mixture.MixtureGraphView.GetCompatiblePorts
+- uid: UnityEditor.Experimental.GraphView.Port
+  commentId: T:UnityEditor.Experimental.GraphView.Port
+  parent: UnityEditor.Experimental.GraphView
+  isExternal: true
+  name: Port
+  nameWithType: Port
+  fullName: UnityEditor.Experimental.GraphView.Port
+- uid: UnityEditor.Experimental.GraphView.NodeAdapter
+  commentId: T:UnityEditor.Experimental.GraphView.NodeAdapter
+  parent: UnityEditor.Experimental.GraphView
+  isExternal: true
+  name: NodeAdapter
+  nameWithType: NodeAdapter
+  fullName: UnityEditor.Experimental.GraphView.NodeAdapter
+- uid: System.Collections.Generic.List{UnityEditor.Experimental.GraphView.Port}
+  commentId: T:System.Collections.Generic.List{UnityEditor.Experimental.GraphView.Port}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<Port>
+  nameWithType: List<Port>
+  fullName: System.Collections.Generic.List<UnityEditor.Experimental.GraphView.Port>
+  nameWithType.vb: List(Of Port)
+  fullName.vb: System.Collections.Generic.List(Of UnityEditor.Experimental.GraphView.Port)
+  name.vb: List(Of Port)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: UnityEditor.Experimental.GraphView.Port
+    name: Port
+    nameWithType: Port
+    fullName: UnityEditor.Experimental.GraphView.Port
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: UnityEditor.Experimental.GraphView.Port
+    name: Port
+    nameWithType: Port
+    fullName: UnityEditor.Experimental.GraphView.Port
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.Experimental.GraphView
+  commentId: N:UnityEditor.Experimental.GraphView
+  isExternal: true
+  name: UnityEditor.Experimental.GraphView
+  nameWithType: UnityEditor.Experimental.GraphView
+  fullName: UnityEditor.Experimental.GraphView
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: Mixture.MixtureGraphView.BuildContextualMenu*
+  commentId: Overload:Mixture.MixtureGraphView.BuildContextualMenu
+  name: BuildContextualMenu
+  nameWithType: MixtureGraphView.BuildContextualMenu
+  fullName: Mixture.MixtureGraphView.BuildContextualMenu
+- uid: UnityEngine.UIElements.ContextualMenuPopulateEvent
+  commentId: T:UnityEngine.UIElements.ContextualMenuPopulateEvent
+  parent: UnityEngine.UIElements
+  isExternal: true
+  name: ContextualMenuPopulateEvent
+  nameWithType: ContextualMenuPopulateEvent
+  fullName: UnityEngine.UIElements.ContextualMenuPopulateEvent
+- uid: UnityEngine.UIElements
+  commentId: N:UnityEngine.UIElements
+  isExternal: true
+  name: UnityEngine.UIElements
+  nameWithType: UnityEngine.UIElements
+  fullName: UnityEngine.UIElements
+- uid: Mixture.MixtureGraphView.ProcessGraph*
+  commentId: Overload:Mixture.MixtureGraphView.ProcessGraph
+  name: ProcessGraph
+  nameWithType: MixtureGraphView.ProcessGraph
+  fullName: Mixture.MixtureGraphView.ProcessGraph
