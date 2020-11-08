@@ -14,13 +14,11 @@ TODO: open upm instructions
 
 ## Documentation
 
-You can consult the user manual documentation here:
+You can consult the getting started guide here: https://alelievr.github.io/Mixture/manual/GettingStarted.html
 
-As well as the Node Library here:
+As well as the Node Library here: https://alelievr.github.io/Mixture/manual/nodes/NodeLibraryIndex.html
 
-TODO: publish links
-
-And be sure to check out the getting started guide TODO: url and our examples page TODO: url
+And finally, you can find some Mixture examples here: https://alelievr.github.io/Mixture/manual/Examples.html
 
 # Bugs / Feature Requests
 
@@ -30,8 +28,7 @@ Bugs and features requests are logged using the github issue system. To report a
 
 Your contributions are much appreciated even small ones, we'll review them and eventually merge them.
 
-If you want to add a new node, you can check out this documentation page on how to create a new shader-based node. Once you have it working, you can prepare your pull request.
-TODO: doc link for shader node doc  
+If you want to add a new node, you can check out [this documentation page on how to create a new shader-based node](https://alelievr.github.io/Mixture/manual/ShaderNodes.html). Once you have it working, you can prepare your pull request.
 In case you have any questions about a feature you want to develop of something you're not sure how to do, you can still create a draft pull request to discuss the implementation details.
 
 # Gallery / Cool things
