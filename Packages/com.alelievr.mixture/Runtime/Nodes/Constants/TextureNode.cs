@@ -25,7 +25,7 @@ The output type of the node will update according to the type of texture provide
 		[CustomPortBehavior(nameof(texture))]
 		IEnumerable<PortData> OutputTextureType(List<SerializableEdge> edges)
 		{
-			var dim = (texture is RenderTexture rt) ? rt.dimension : texture?.dimension;
+			var dim = texture == null ? rtSettings.GetTextureDimension(graph) : texture is RenderTexture rt ? rt.dimension : texture?.dimension;
 			yield return new PortData
 			{
 				displayName = "Texture",
