@@ -87,11 +87,12 @@ namespace Mixture
 			if (lastModified != modificationDate)
 			{
 				schedule.Execute(() => {
-					// Reimport the compute shader:
+					// Reimport the shader:
 					AssetDatabase.ImportAsset(shaderPath);
 
 					shaderNode.ValidateShader();
 
+					ForceUpdatePorts();
 					NotifyNodeChanged();
 
 					if (shaderNode.shader?.name != null)
