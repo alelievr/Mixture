@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.ShaderGraph;
 using UnityEditor.ShaderGraph.Legacy;
+using GUID = UnityEditor.GUID;
 
 namespace Mixture
 {
@@ -24,8 +25,8 @@ namespace Mixture
 
         public override void Setup(ref TargetSetupContext context)
         {
-            context.AddAssetDependencyPath(AssetDatabase.GUIDToAssetPath(kAssetGuid));
-            context.AddAssetDependencyPath(AssetDatabase.GUIDToAssetPath(kTemplateGuid));
+            context.AddAssetDependency(new GUID(kAssetGuid), AssetCollection.Flags.SourceDependency);
+            context.AddAssetDependency(new GUID(kTemplateGuid), AssetCollection.Flags.SourceDependency);
             context.AddSubShader(new SubShaderDescriptor()
             {
                 generatesPreview = true,

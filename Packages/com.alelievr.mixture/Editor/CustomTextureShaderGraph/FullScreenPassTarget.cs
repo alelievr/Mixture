@@ -115,7 +115,7 @@ namespace Mixture
         public override void Setup(ref TargetSetupContext context)
         {
             // Setup the Target
-            context.AddAssetDependencyPath(AssetDatabase.GUIDToAssetPath(kAssetGuid));
+            context.AddAssetDependency(new GUID(kAssetGuid), AssetCollection.Flags.SourceDependency);
 
             // Setup the active SubTarget
             ProcessSubTargetList(ref m_ActiveSubTarget, ref m_SubTargets);

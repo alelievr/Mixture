@@ -24,8 +24,8 @@ namespace Mixture
 
         public override void Setup(ref TargetSetupContext context)
         {
-            context.AddAssetDependencyPath(AssetDatabase.GUIDToAssetPath(kAssetGuid));
-            context.AddAssetDependencyPath(AssetDatabase.GUIDToAssetPath(kTemplateGuid));
+            context.AddAssetDependency(new GUID(kAssetGuid), AssetCollection.Flags.SourceDependency);
+            context.AddAssetDependency(new GUID(kTemplateGuid), AssetCollection.Flags.SourceDependency);
             context.AddSubShader(SubShaders.SpriteUnlit);
         }
 
