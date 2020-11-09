@@ -2489,6 +2489,17 @@
     },
     {
       "type": "Resource",
+      "source_relative_path": "images/2020-11-09-11-37-01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/2020-11-09-11-37-01.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
       "source_relative_path": "images/Mixture.AddNode.png",
       "output": {
         "resource": {
@@ -5223,16 +5234,16 @@
         "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 206,
-          "skipped_file_count": 0
-        },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 104,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 206,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {
