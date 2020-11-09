@@ -68,11 +68,11 @@ namespace Mixture
 				if (h.Contains(node))
 					continue;
 				
-				if (!(node is ForeachStart))
+				if (!(node is ILoopStart))
 					foreach (var i in node.GetInputNodes())
 						l.Push(i);
 
-				if (!(node is ForeachEnd))
+				if (!(node is ILoopEnd))
 					foreach (var o in node.GetOutputNodes())
 						l.Push(o);
 

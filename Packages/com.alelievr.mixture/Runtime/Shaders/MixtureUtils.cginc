@@ -16,7 +16,9 @@ sampler s_point_clamp_sampler;
 sampler s_point_repeat_sampler;
 
 // Macros
-#define MERGE_NAME(p1,p2) p1##p2
+#ifndef MERGE_NAME
+# define MERGE_NAME(p1,p2) p1##p2
+#endif
 
 #define TEXTURE_SAMPLER2D(name) sampler2D name
 #define TEXTURE_SAMPLER3D(name) sampler3D name
