@@ -6,7 +6,7 @@ namespace Mixture
 Generates a line pattern. In 3D this node generate cylinders using a signed distance field function.
 ")]
 
-	[System.Serializable, NodeMenuItem("Procedural/Lines")]
+	[System.Serializable, NodeMenuItem("Procedural/Lines"), NodeMenuItem("Procedural/Cylinder")]
 	public class Lines : FixedShaderNode
 	{
 		public override string name => "Lines";

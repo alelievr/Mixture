@@ -10,7 +10,7 @@ namespace Mixture
 Generate a Disk, in 3D this node generate a solid spheres.
 ")]
 
-	[System.Serializable, NodeMenuItem("Procedural/Disk")]
+	[System.Serializable, NodeMenuItem("Procedural/Disk"), NodeMenuItem("Procedural/Sphere")]
 	public class Circles : FixedShaderNode
 	{
 		public override string name => "Disk";

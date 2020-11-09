@@ -10,7 +10,7 @@ namespace Mixture
 Generates a ring pattern. In 3D this node generate toruses.
 ")]
 
-	[System.Serializable, NodeMenuItem("Procedural/Rings")]
+	[System.Serializable, NodeMenuItem("Procedural/Rings"), NodeMenuItem("Procedural/Torus")]
 	public class RingsNode : FixedShaderNode
 	{
 		public override string name => "Rings";
