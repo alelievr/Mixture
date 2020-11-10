@@ -19,16 +19,6 @@ Transform a cubemap into a 2D texture using the LatLong convertion function.
 
         public override bool displayMaterialInspector => true;
 
-        protected override MixtureRTSettings defaultRTSettings
-        {
-            get
-            {
-                var settings = base.defaultRTSettings;
-                settings.dimension = OutputDimension.Texture2D;
-                settings.editFlags = settings.editFlags & ~EditFlags.Dimension;
-                return settings;
-            }
-        }
-
+		protected override MixtureRTSettings defaultRTSettings => Get2DOnlyRTSettings(base.defaultRTSettings);
     }
 }

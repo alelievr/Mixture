@@ -19,15 +19,7 @@ namespace Mixture
 
         protected override TextureDimension GetTempTextureDimension() => TextureDimension.Tex3D;
 
-		protected override MixtureRTSettings defaultRTSettings
-        {
-            get {
-                var rts = MixtureRTSettings.defaultValue;
-                rts.dimension = OutputDimension.Texture3D;
-				rts.editFlags = EditFlags.Size;
-                return rts;
-            }
-        }
+		protected override MixtureRTSettings defaultRTSettings => Get3DOnlyRTSettings(base.defaultRTSettings);
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{

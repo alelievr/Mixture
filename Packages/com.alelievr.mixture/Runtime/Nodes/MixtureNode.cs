@@ -90,6 +90,26 @@ namespace Mixture
 			}
 		}
 
+		protected MixtureRTSettings	Get2DOnlyRTSettings(MixtureRTSettings defaultSettings)
+		{
+			var rtSettings = defaultSettings;
+
+			rtSettings.editFlags &= ~EditFlags.Dimension;
+			rtSettings.dimension = OutputDimension.Texture2D;
+
+			return rtSettings;
+		}
+
+		protected MixtureRTSettings	Get3DOnlyRTSettings(MixtureRTSettings defaultSettings)
+		{
+			var rtSettings = defaultSettings;
+
+			rtSettings.editFlags &= ~EditFlags.Dimension;
+			rtSettings.dimension = OutputDimension.Texture3D;
+
+			return rtSettings;
+		}
+
         public override void OnNodeCreated()
 		{
 			base.OnNodeCreated();
