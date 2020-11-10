@@ -110,7 +110,7 @@ float3 tiledCellularNoise2D(float2 coordinate, float2 period, float seed)
         }
     }
 
-    float random = rand2dTo1d(closestCell);
+    float random = rand2dTo1d(modulo(closestCell, period));
     return float3(pow(abs(minDistToCell), 2.2), random, minEdgeDistance); // Gamma convertion
 }
 
@@ -169,7 +169,7 @@ float3 tiledCellularNoise3D(float3 coordinate, float3 period, float seed)
         }
     }
 
-    float random = rand3dTo1d(closestCell);
+    float random = rand3dTo1d(modulo(closestCell, period));
     return float3(pow(abs(minDistToCell), 2.2), random, minEdgeDistance);
 }
 
