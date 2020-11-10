@@ -219,7 +219,7 @@ namespace Mixture
                 Texture     oldTexture = FindTextureOnDisk(output.name, output.isMain);
 
                 // Update the asset on disk if they differ
-                if (oldTexture == null)
+                if (oldTexture == null || newTexture.GetType() != oldTexture.GetType())
                 {
                     UpdateTextureAssetOnDisk(newTexture, output.isMain);
                     assetsToKeep.Add(newTexture);

@@ -22,14 +22,7 @@ Add two normal maps using the surface gradient functions.
 		// Enumerate the list of material properties that you don't want to be turned into a connectable port.
 		protected override IEnumerable<string> filteredOutProperties => new string[]{};
 
-		protected override MixtureRTSettings defaultRTSettings
-        {
-            get {
-                var rts = MixtureRTSettings.defaultValue;
-                rts.dimension = OutputDimension.Texture2D;
-                return rts;
-            }
-        }
+		protected override MixtureRTSettings defaultRTSettings => Get2DOnlyRTSettings(base.defaultRTSettings);
 
 		// Override this if you node is not compatible with all dimensions
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
