@@ -102,6 +102,8 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 				UpdateShader();
 				ValidateShader();
 			}
+			else
+				UpdateExposedProperties();
 
 			foreach (var p in exposedProperties)
 			{
@@ -186,17 +188,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 				return false;
 			}
 
-			exposedProperties.Clear();
-			var ports = GetMaterialPortDatas(material);
-			foreach (var port in ports)
-			{
-				exposedProperties.Add(new ShaderProperty{
-					displayName = port.displayName,
-					referenceName = port.identifier,
-					type = new SerializableType(port.displayType),
-					tooltip = port.tooltip,
-				});
-			}
+			UpdateExposedProperties();
 
 #if UNITY_EDITOR // IsShaderCompiled is editor only
 			if (!IsShaderCompiled(material.shader))
@@ -211,6 +203,29 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 			}
 #endif
 			return true;
+		}
+
+		internal void UpdateExposedProperties()
+		{
+			if (shader == null || material.shader == null || shader == defaultShader)
+				return;
+
+#if UNITY_EDITOR // IsShaderCompiled is editor only
+			if (!IsShaderCompiled(material.shader))
+				return;
+#endif
+
+			exposedProperties.Clear();
+			var ports = GetMaterialPortDatas(material);
+			foreach (var port in ports)
+			{
+				exposedProperties.Add(new ShaderProperty{
+					displayName = port.displayName,
+					referenceName = port.identifier,
+					type = new SerializableType(port.displayType),
+					tooltip = port.tooltip,
+				});
+			}
 		}
 
 		protected override bool ProcessNode(CommandBuffer cmd)
