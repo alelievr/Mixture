@@ -25,6 +25,8 @@ Mixture is available on the [OpenUPM](https://openupm.com/packages/com.alelievr.
 
 Note that sometimes, the package manager can be slow to update the list of available packages. In that case, you can force it by clicking the circular arrow button at the bottom of the package list.
 
+If you are using a render pipeline like URP or HDRP, make sure tu use the version 10.1.0 or above (Mixture needs render pipeline core and shader graph packages at this verison to compile).
+
 ## Documentation
 
 You can consult the getting started guide here: https://alelievr.github.io/Mixture/manual/GettingStarted.html
