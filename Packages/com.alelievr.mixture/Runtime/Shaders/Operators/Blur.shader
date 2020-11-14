@@ -57,6 +57,7 @@
 	};
 	
 	TEXTURE_X(_Source);
+	SAMPLER_X(sampler_Source);
 	float _Radius;
 
 	float4 GaussianBlur(v2f_customrendertexture i, float3 direction, bool sampleSelf)
@@ -64,9 +65,9 @@
 		float4 color;
 		
 		if (sampleSelf)
-			color = SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz, i.direction);
+			color = SAMPLE_SELF_SAMPLER(sampler_Source, i.localTexcoord.xyz, i.direction);
 		else
-			color = SAMPLE_X_LINEAR_CLAMP(_Source, i.localTexcoord.xyz, i.direction);
+			color = SAMPLE_X_SAMPLER(_Source, sampler_Source, i.localTexcoord.xyz, i.direction);
 
 		if (_Radius == 0)
 			return color;
@@ -82,13 +83,13 @@
 
 			if (sampleSelf)
 			{
-				color += SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz + uvOffset, positiveDirectionOffset) * gaussianWeights[j];
-				color += SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz - uvOffset, negativeDirectionOffset) * gaussianWeights[j];
+				color += SAMPLE_SELF_SAMPLER(sampler_Source, i.localTexcoord.xyz + uvOffset, positiveDirectionOffset) * gaussianWeights[j];
+				color += SAMPLE_SELF_SAMPLER(sampler_Source, i.localTexcoord.xyz - uvOffset, negativeDirectionOffset) * gaussianWeights[j];
 			}
 			else
 			{
-				color += SAMPLE_X_LINEAR_CLAMP(_Source, i.localTexcoord.xyz + uvOffset, positiveDirectionOffset) * gaussianWeights[j];
-				color += SAMPLE_X_LINEAR_CLAMP(_Source, i.localTexcoord.xyz - uvOffset, negativeDirectionOffset) * gaussianWeights[j];
+				color += SAMPLE_X_SAMPLER(_Source, sampler_Source, i.localTexcoord.xyz + uvOffset, positiveDirectionOffset) * gaussianWeights[j];
+				color += SAMPLE_X_SAMPLER(_Source, sampler_Source, i.localTexcoord.xyz - uvOffset, negativeDirectionOffset) * gaussianWeights[j];
 			}
 		}
 
