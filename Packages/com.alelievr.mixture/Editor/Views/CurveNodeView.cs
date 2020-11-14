@@ -38,6 +38,12 @@ namespace Mixture
 			controlsContainer.Add(bCurve);
 			controlsContainer.Add(aCurve);
 
+			if (fromInspector)
+				controlsContainer.Add(AddControlField(nameof(CurveNode.evaluationRange), "Evaluation Range", false, () => {
+                curveNode.UpdateTexture();
+					NotifyNodeChanged();
+				}));
+
 			modeField.RegisterValueChangedCallback(e => {
 				curveNode.mode = (CurveNode.CurveOutputMode)e.newValue;
 				owner.RegisterCompleteObjectUndo("Change Curve Mode");

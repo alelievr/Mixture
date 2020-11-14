@@ -38,6 +38,8 @@ Note that the internal texture resolution is 512x1 pixels and the format is 32 b
         public override bool hasSettings => false;
         public override string name => "Curve";
 
+        public Vector2 evaluationRange = new Vector2(0, 1);
+
         const int CurveTextureResolution = 512;
 
         protected override void Enable()
@@ -84,6 +86,7 @@ Note that the internal texture resolution is 512x1 pixels and the format is 32 b
             for (int i = 0; i<CurveTextureResolution; i++)
             {
                 float t = (float)i / (CurveTextureResolution - 1);
+                t = Mathf.Lerp(evaluationRange.x, evaluationRange.y, t);
                 pixels[i] = GetPixelColor(t);
             }
             texture.SetPixels(pixels);
