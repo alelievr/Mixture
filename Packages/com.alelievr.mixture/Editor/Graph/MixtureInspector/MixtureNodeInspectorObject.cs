@@ -346,5 +346,11 @@ namespace Mixture
             if (pinnedNodes.Remove(view))
                 pinnedNodeUpdate?.Invoke();
         }
+
+        public override void NodeViewRemoved(BaseNodeView view)
+        {
+            pinnedNodes.Remove(view);
+            base.NodeViewRemoved(view);
+        }
     }
 }
