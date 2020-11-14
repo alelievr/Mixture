@@ -65,7 +65,7 @@
 		float4 color;
 		
 		if (sampleSelf)
-			color = SAMPLE_SELF_SAMPLER(sampler_Source, i.localTexcoord.xyz, i.direction);
+			color = SAMPLE_SELF(i.localTexcoord.xyz, i.direction);
 		else
 			color = SAMPLE_X_SAMPLER(_Source, sampler_Source, i.localTexcoord.xyz, i.direction);
 
@@ -83,8 +83,8 @@
 
 			if (sampleSelf)
 			{
-				color += SAMPLE_SELF_SAMPLER(sampler_Source, i.localTexcoord.xyz + uvOffset, positiveDirectionOffset) * gaussianWeights[j];
-				color += SAMPLE_SELF_SAMPLER(sampler_Source, i.localTexcoord.xyz - uvOffset, negativeDirectionOffset) * gaussianWeights[j];
+				color += SAMPLE_SELF(i.localTexcoord.xyz + uvOffset, positiveDirectionOffset) * gaussianWeights[j];
+				color += SAMPLE_SELF(i.localTexcoord.xyz - uvOffset, negativeDirectionOffset) * gaussianWeights[j];
 			}
 			else
 			{

@@ -100,6 +100,15 @@ Gaussian blur filter in two passes. You might see some artifacts with large blur
 
 			rtSettings.doubleBuffered = true;
 
+			output.EnsureDoubleBufferConsistency();
+			var rt = output.GetDoubleBufferRenderTexture();
+			var t = material.GetTextureWithDimension("_Source", rtSettings.GetTextureDimension(graph));
+			if (rt != null && t != null)
+			{
+				rt.filterMode = t.filterMode;
+				rt.wrapMode = t.wrapMode;
+			}
+
 			// Setup the successive passes needed or the blur
 			output.SetUpdateZones(updateZones);
 

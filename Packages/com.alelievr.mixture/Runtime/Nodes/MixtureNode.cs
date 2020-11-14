@@ -384,7 +384,12 @@ namespace Mixture
 						break;
 					case ShaderPropertyType.Texture:
 						// TODO: texture scale and offset
-						material.SetTexture(propName, (Texture)edge.passThroughBuffer);
+						// Check texture dim before assigning:
+						if (edge.passThroughBuffer is Texture t)
+						{
+							if (material.shader.GetPropertyTextureDimension(propertyIndex) == t.dimension)
+								material.SetTexture(propName, (Texture)edge.passThroughBuffer);
+						}
 						break;
 					case ShaderPropertyType.Float:
 					case ShaderPropertyType.Range:

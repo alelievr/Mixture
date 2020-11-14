@@ -18,5 +18,10 @@ namespace Mixture
             var texture = material.GetTexture(baseName + MixtureUtils.shaderPropertiesDimensionSuffix[dimension]);
             return texture != null;
         }
+
+        public static Texture GetTextureWithDimension(this Material material, string baseName, TextureDimension dimension)
+        {
+            return material.GetTexture(baseName + MixtureUtils.shaderPropertiesDimensionSuffix[dimension]);
+        }
     }
 }

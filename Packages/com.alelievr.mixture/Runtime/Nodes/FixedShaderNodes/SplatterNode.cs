@@ -153,9 +153,10 @@ Note that to keep the depth buffer precision correct, the current max depth of a
 		public override string name => "Splatter";
 		protected override string computeShaderResourcePath => "Mixture/Splatter";
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
-			// TODO: support of Texture3D and cubemaps
+			// TODO: support of cubemaps
 			OutputDimension.Texture2D,
 		};
+		protected override MixtureRTSettings defaultRTSettings => Get2DOnlyRTSettings(base.defaultRTSettings);
 		public override bool showDefaultInspector => true;
         protected override bool tempRenderTextureHasDepthBuffer => true;
 
@@ -233,7 +234,7 @@ Note that to keep the depth buffer precision correct, the current max depth of a
 		{
 			yield return new PortData{
 				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
+				displayType = TextureUtils.GetTypeFromDimension(TextureDimension.Tex2D),
 				identifier = "output",
 				acceptMultipleEdges = true,
 			};
