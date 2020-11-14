@@ -25,25 +25,7 @@ namespace Mixture
 
             // First row for volume info
             float timer = 0.0f, refreshRate = 0.2f;
-            var table = new DebugUI.Table() { displayName = "Name", isReadOnly = true };
-            var header = new DebugUI.Table.Row()
-            {
-                displayName = "",
-                children = { new DebugUI.Value() { displayName = "Processor Count",
-                    getter = () => {
-                        // This getter is called first at each render
-                        // It is used to update the volumes
-                        if (Time.time - timer < refreshRate)
-                            return "";
-                        timer = Time.time;
-                        RefreshMixtureDebug(null, false);
-                        return "";
-                    }
-                } }
-            };
-            // header.opened = true;
-            table.children.Add(header);
-
+            var table = new DebugUI.Table() { displayName = "Graph Name", isReadOnly = true };
 
             foreach (var kp in MixtureGraphProcessor.processorInstances)
             {
@@ -52,21 +34,32 @@ namespace Mixture
 
                 var row = new DebugUI.Table.Row()
                 {
-                    displayName = graph.name,
-                    children = {
-                        new DebugUI.Value() {
-                            displayName = "Processor Count",
-                            getter = () => {
-                                                
-                                return processors.Count.ToString();
-                            }
-                        }
-                    }
+                    displayName = String.IsNullOrEmpty(graph.name) ? "(No Name)" : graph.name,
                 };
 
+                // One column
+                row.children.Add( new DebugUI.Value{ displayName = "Processor Count", getter = () => processors.Count.ToString() } );
+
+                // Another one
+                row.children.Add(new DebugUI.Value { displayName = "Update Count", getter = () => graph.mainOutputTexture.updateCount});
+    
                 table.children.Add(row);
             }
-            list.Add(table);
+
+            if (MixtureGraphProcessor.processorInstances.Count == 0)
+            {
+                list.Add(new DebugUI.Value{ displayName = "Graph List", getter = () => {
+                        if (Time.time - timer < refreshRate)
+                            return "";
+                        timer = Time.time;
+                        RefreshMixtureDebug(null, false);
+
+                        return "No Mixture Currently In Use";
+                    }
+                });
+            }
+            else
+                list.Add(table);
 
             var panel = DebugManager.instance.GetPanel(mixturePanel, true);
             panel.flags = DebugUI.Flags.None;
