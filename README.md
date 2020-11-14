@@ -8,7 +8,7 @@ Mixture is a powerful node-based tool crafted in unity to generate all kinds of 
 
 ## Installation
 
-You need at least a Unity 2020.2 beta to be able to use Mixture.
+You need at least a Unity 2020.2 beta to be able to use Mixture and if you are using a render pipeline like URP or HDRP, make sure tu use the version 10.1.0 or above.
 
 [![openupm](https://img.shields.io/npm/v/com.alelievr.mixture?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.alelievr.mixture/)
 
