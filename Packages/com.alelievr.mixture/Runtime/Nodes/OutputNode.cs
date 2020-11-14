@@ -34,7 +34,7 @@ namespace Mixture
                 heightMode = OutputSizeMode.Fixed,
                 depthMode = OutputSizeMode.Fixed,
 				outputChannels = OutputChannel.RGBA,
-				outputPrecision = OutputPrecision.Full,
+				outputPrecision = OutputPrecision.Half,
 				potSize = POTSize._1024,
                 editFlags = EditFlags.POTSize | EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat
             };
@@ -58,7 +58,7 @@ namespace Mixture
 			if (rtSettings.outputChannels == OutputChannel.SameAsOutput)
 				rtSettings.outputChannels = OutputChannel.RGBA;
 			if (rtSettings.outputPrecision == OutputPrecision.SameAsOutput)
-				rtSettings.outputPrecision = OutputPrecision.Full;
+				rtSettings.outputPrecision = OutputPrecision.Half;
 			if (rtSettings.dimension == OutputDimension.SameAsOutput)
 				rtSettings.dimension = OutputDimension.Texture2D;
 			rtSettings.editFlags |= EditFlags.POTSize;
