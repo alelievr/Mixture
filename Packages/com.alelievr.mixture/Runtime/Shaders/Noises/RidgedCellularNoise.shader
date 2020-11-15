@@ -60,16 +60,19 @@
 			float _Frequency;
 			float _Persistance;
 			int _Seed;
+			int _UVMode;
 
 			float3 GenerateCellularNoise(v2f_customrendertexture i, int seed)
 			{
 				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), seed);
 
+				float3 noise;
 #ifdef CRT_2D
-				float3 noise = GenerateRidgedCellular2DNoise(uvs.xy, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgb;
-#else
-				float3 noise = GenerateRidgedCellular3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgb;
+				if (_UVMode == 0)
+					noise = GenerateRidgedCellular2DNoise(uvs.xy, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgb;
+				else
 #endif
+					noise = GenerateRidgedCellular3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgb;
 
 				return RemapClamp(noise, 0, 1, _OutputRange.x, _OutputRange.y);
 			}

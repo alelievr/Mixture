@@ -7,6 +7,7 @@
 		[InlineTexture(HideInNodeInspector)] _UV_Cube("UVs", Cube) = "uv" {}
 
         [KeywordEnum(None, Tiled)] _TilingMode("Tiling Mode", Float) = 1
+		[ShowInInspector][Enum(2D, 0, 3D, 1)]_UVMode("UV Mode", Float) = 0
 		[ShowInInspector][MixtureVector2]_OutputRange("Output Range", Vector) = (0, 1, 0, 0)
 		[ShowInInspector]_Lacunarity("Lacunarity", Float) = 2
 		_Frequency("Frequency", Float) = 5
@@ -44,16 +45,19 @@
 			float _Persistance;
 			int _Seed;
 			int _Channels;
+			int _UVMode;
 
 			float GenerateNoise(v2f_customrendertexture i, int seed)
 			{
 				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), seed);
 
+				float3 noise;
 #ifdef CRT_2D
-				float noise = GenerateRidgedPerlin2DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed);
-#else
-				float noise = GenerateRidgedPerlin3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed);
+				if (_UVMode == 0)
+					noise = GenerateRidgedPerlin2DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed);
+				else
 #endif
+					noise = GenerateRidgedPerlin3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed);
 
 				return RemapClamp(noise, 0, 1, _OutputRange.x, _OutputRange.y);
 			}

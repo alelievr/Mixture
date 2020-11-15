@@ -7,6 +7,7 @@
 		[Tooltip(Custom Noise UV)][InlineTexture(HideInNodeInspector)] _UV_Cube("UVs", Cube) = "uv" {}
 
         [KeywordEnum(None, Tiled)] _TilingMode("Tiling Mode", Float) = 1
+		[ShowInInspector][Enum(2D, 0, 3D, 1)]_UVMode("UV Mode", Float) = 0
 		[ShowInInspector][Enum(Euclidean, 0, Manhattan, 1, Minkowski, 2)] _DistanceMode("Distance Mode", Float) = 0
 		[ShowInInspector][MixtureVector2]_OutputRange("Output Range", Vector) = (0, 1, 0, 0)
 		[ShowInInspector]_Lacunarity("Lacunarity", Float) = 2
@@ -61,17 +62,20 @@
 			float _Frequency;
 			float _Persistance;
 			int _Seed;
+			int _UVMode;
 
 			float3 GenerateCellularNoise(v2f_customrendertexture i, int seed)
 			{
 				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), seed);
 
+				// TODO: if uv mode is 3D, then sample in 3D
+				float3 noise = 0;
 #ifdef CRT_2D
-				float3 noise = GenerateCellular2DNoise(uvs.xy, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgb;
-
-#else
-				float3 noise = GenerateCellular3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgb;
+				if (_UVMode == 0)
+					noise = GenerateCellular2DNoise(uvs.xy, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgb;
+				else // 3D forced by uv mode
 #endif
+					noise = GenerateCellular3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgb;
 
 				return RemapClamp(noise, 0, 1, _OutputRange.x, _OutputRange.y);
 			}
