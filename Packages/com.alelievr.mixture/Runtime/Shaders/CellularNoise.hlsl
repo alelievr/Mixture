@@ -145,12 +145,12 @@ float4 tiledCellularNoise3D(float3 coordinate, float3 period, float seed)
                     closestCell = cell;
                     toClosestCell = toCell;
                 }
-                smoothDistance += exp(-32.0 * distToCell);
+                smoothDistance += exp(-16.0 * distToCell);
             }
         }
     }
     // Source: https://iquilezles.org/www/articles/smoothvoronoi/smoothvoronoi.htm
-    smoothDistance = -(1 / 32.0) * log(smoothDistance);
+    smoothDistance = -(1 / 16.0) * log(smoothDistance);
 
     //second pass to find the distance to the closest edge
     float minEdgeDistance = 10;
