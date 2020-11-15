@@ -87,7 +87,7 @@ Smooth is only in alpha
 				displayName = "Input",
 				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
 				identifier = "Input",
-				acceptMultipleEdges = true,
+				acceptMultipleEdges = false,
 			};
 		}
 

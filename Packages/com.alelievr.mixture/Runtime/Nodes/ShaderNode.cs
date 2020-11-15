@@ -63,6 +63,16 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 			}
 		}
 
+		protected override MixtureRTSettings defaultRTSettings
+		{
+			get
+			{
+                var settings = base.defaultRTSettings;
+                settings.editFlags = EditFlags.All ^ EditFlags.POTSize;
+                return settings;
+			}
+		}
+
 		Shader					defaultShader;
 
 		protected override void Enable()

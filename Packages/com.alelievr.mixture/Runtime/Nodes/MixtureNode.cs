@@ -458,6 +458,9 @@ namespace Mixture
 				return;
 
 			int idx = mat.shader.FindPropertyIndex(propName);
+			if (idx == -1)
+				return;
+
 			switch (mat.shader.GetPropertyType(idx))
 			{
 				case ShaderPropertyType.Float:

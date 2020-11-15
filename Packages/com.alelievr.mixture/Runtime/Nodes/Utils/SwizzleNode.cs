@@ -13,8 +13,6 @@ Swizzle the channels of the input texture, you can also choose to put a custom v
 	[System.Serializable, NodeMenuItem("Channels/Swizzle")]
 	public class SwizzleNode : FixedShaderNode
 	{
-		public override bool hasSettings => false;
-
 		public override string name => "Swizzle";
 
 		public override string shaderName => "Hidden/Mixture/Swizzle";
