@@ -10,16 +10,6 @@ namespace Mixture
 		public abstract bool    displayMaterialInspector { get; }
 		public override Texture previewTexture => output;
 
-		protected override MixtureRTSettings defaultRTSettings
-		{
-			get
-			{
-                var settings = base.defaultRTSettings;
-                settings.editFlags = EditFlags.All ^ EditFlags.POTSize;
-                return settings;
-			}
-		}
-
 		public override void InitializePorts()
 		{
 			if (shader == null)

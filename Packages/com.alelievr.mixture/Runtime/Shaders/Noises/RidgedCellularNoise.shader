@@ -7,8 +7,8 @@
 		[InlineTexture(HideInNodeInspector)] _UV_Cube("UVs", Cube) = "uv" {}
 
         [KeywordEnum(None, Tiled)] _TilingMode("Tiling Mode", Float) = 1
+		[ShowInInspector][Enum(2D, 0, 3D, 1)]_UVMode("UV Mode", Float) = 0
 		[ShowInInspector][Enum(Euclidean, 0, Manhattan, 1, Minkowski, 2)] _DistanceMode("Distance Mode", Float) = 0
-		[ShowInInspector][Enum(Gradient, 0, Cells, 1, Valleys, 2)] _CellsMode("Cells Mode", Float) = 0
 		[ShowInInspector][MixtureVector2]_OutputRange("Output Range", Vector) = (-1, 1, 0, 0)
 		[ShowInInspector]_Lacunarity("Lacunarity", Float) = 1.5
 		_Frequency("Frequency", Float) = 4
@@ -18,6 +18,10 @@
 		_Seed("Seed", Int) = 42
 		[Tooltip(Select how many noise to genereate and on which channel. The more different channel you use the more expensive it is (max 4 noise evaluation).)]
 		[ShowInInspector][Enum(RRRR, 0, R, 1, RG, 2, RGB, 3, RGBA, 4)]_Channels("Channels", Int) = 0
+		[ShowInInspector][Enum(Gradient, 0, Cells, 1, Valleys, 2)] _CellsModeR("Cells Mode R", Float) = 0
+		[ShowInInspector][VisibleIf(_Channels, 2, 3, 4)][Enum(Gradient, 0, Cells, 1, Valleys, 2)] _CellsModeG("Cells Mode G", Float) = 0
+		[ShowInInspector][VisibleIf(_Channels, 3, 4)][Enum(Gradient, 0, Cells, 1, Valleys, 2)] _CellsModeB("Cells Mode B", Float) = 0
+		[ShowInInspector][VisibleIf(_Channels, 4)][Enum(Gradient, 0, Cells, 1, Valleys, 2)] _CellsModeA("Cells Mode A", Float) = 0
 	}
 	SubShader
 	{
@@ -29,6 +33,11 @@
 			HLSLPROGRAM
 			float _DistanceMode;
 			float _CellSize;
+			float _CellsModeR;
+			float _CellsModeG;
+			float _CellsModeB;
+			float _CellsModeA;
+			int _Channels;
 
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
 			#define CUSTOM_DISTANCE _DistanceMode
@@ -50,34 +59,24 @@
 			float _Lacunarity;
 			float _Frequency;
 			float _Persistance;
-			float _CellsMode;
 			int _Seed;
-			int _Channels;
 
-			float GenerateNoise(v2f_customrendertexture i, int seed)
+			float3 GenerateCellularNoise(v2f_customrendertexture i, int seed)
 			{
 				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), seed);
 
 #ifdef CRT_2D
-				float4 noise = GenerateRidgedCellular2DNoise(uvs.xy, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgbr;
+				float3 noise = GenerateRidgedCellular2DNoise(uvs.xy, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgb;
 #else
-				float4 noise = GenerateRidgedCellular3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgbr;
+				float3 noise = GenerateRidgedCellular3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgb;
 #endif
 
-				switch (_CellsMode)
-				{
-					default:
-					case 0: noise = noise.xxxx; break;
-					case 1: noise = noise.yyyy; break;
-					case 2: noise = noise.zzzz; break;
-				}
-
-				return RemapClamp(noise.x, 0, 1, _OutputRange.x, _OutputRange.y);
+				return RemapClamp(noise, 0, 1, _OutputRange.x, _OutputRange.y);
 			}
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				return GenerateNoiseForChannels(i, _Channels, _Seed);
+				return GenerateCellularNoiseForChannels(i, _Seed);
 			}
 			ENDHLSL
 		}

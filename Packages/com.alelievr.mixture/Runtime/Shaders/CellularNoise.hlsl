@@ -201,4 +201,52 @@ RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float3, GenerateRidgedCellularNoise3D(
 // CURL_NOISE_2D_TEMPLATE(Cellular2D, GenerateCellularNoise2D);
 // CURL_NOISE_3D_TEMPLATE(Cellular3D, GenerateCellularNoise2D);
 
+float3 GenerateCellularNoise(v2f_customrendertexture i, int seed);
+
+float SwizzleCellMode(float3 noise, int mode)
+{
+    switch (mode)
+    {
+        default: // Gradient
+        case 0: return noise.x;
+        case 1: return noise.y; // Cells
+        case 2: return noise.z; // Valley
+    }
+}
+
+float4 GenerateCellularNoiseForChannels(v2f_customrendertexture i, int seed)
+{
+    float3 noise = GenerateCellularNoise(i, seed);
+    float4 color = float4(0, 0, 0, 1);
+    color.r = SwizzleCellMode(noise, _CellsModeR);
+
+    if (_Channels == 0) // RRRR
+        return color.rrrr;
+    else if (_Channels == 1) // R
+        return color;
+    else
+    {
+        if (_Channels > 1) // G
+        {
+            if (_CellsModeG == _CellsModeR)
+                noise = GenerateCellularNoise(i, seed + 42);
+            color.g = SwizzleCellMode(noise, _CellsModeG);
+        }
+        if (_Channels > 2) // B
+        {
+            if (_CellsModeB == _CellsModeG || _CellsModeB == _CellsModeR)
+                noise = GenerateCellularNoise(i, seed - 69);
+            color.b = SwizzleCellMode(noise, _CellsModeB);
+        }
+        if (_Channels > 3) // A
+        {
+            if (_CellsModeA == _CellsModeB || _CellsModeA == _CellsModeG || _CellsModeA == _CellsModeR)
+                noise = GenerateCellularNoise(i, seed + 5359);
+            color.a = SwizzleCellMode(noise, _CellsModeA);
+        }
+    }
+
+    return color;
+} 
+
 #endif

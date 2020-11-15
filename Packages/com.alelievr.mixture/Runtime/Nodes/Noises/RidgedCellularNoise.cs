@@ -21,6 +21,6 @@ Be careful with because if you use a UV with a distorted z value, you'll get a w
 
 		public override string shaderName => "Hidden/Mixture/RidgedCellularNoise";
 
-		protected override IEnumerable<string> filteredOutProperties => base.filteredOutProperties.Concat(new string[]{ "_DistanceMode", "_CellsMode" });
+		protected override IEnumerable<string> filteredOutProperties => base.filteredOutProperties.Concat(new string[]{ "_DistanceMode", "_CellsModeR", "_CellsModeG", "_CellsModeB", "_CellsModeA" });
 	}
 }
