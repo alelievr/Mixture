@@ -81,6 +81,10 @@ Material:
     m_Floats:
     - _CellSize: 1
     - _CellsMode: 0
+    - _CellsModeA: 0
+    - _CellsModeB: 0
+    - _CellsModeG: 0
+    - _CellsModeR: 0
     - _Channels: 0
     - _DistanceMode: 0
     - _Frequency: 8
@@ -89,9 +93,51 @@ Material:
     - _Persistance: 0.25
     - _Seed: 42
     - _TilingMode: 1
+    - _UVMode: 0
     m_Colors:
     - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
     - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &-7000788262396261149
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 46c02ba1b0b63954bab0afcd9e828ac6, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Direction: 0
+    - _Falloff: 1
+    - _Mode: 2
+    - _SpiralBranchCount: 1
+    - _SpiralTurnCount: 1
+    m_Colors:
+    - _Color1: {r: 0, g: 0, b: 0, a: 0}
+    - _Color2: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &-6523576954451059865
 Material:
@@ -155,6 +201,93 @@ Material:
     m_Colors:
     - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
+--- !u!21 &-6377491840747743257
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: a781ed4dc6965674987a000e800f1898, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SourceA_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceA_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceA_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceG_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceG_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceG_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceR_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceR_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceR_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _CombineModeA: 6
+    - _CombineModeB: 2
+    - _CombineModeG: 1
+    - _CombineModeR: 0
+    m_Colors:
+    - _Custom: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!28 &-5326166195811395285
 Texture2D:
   m_ObjectHideFlags: 0
@@ -202,6 +335,42 @@ Texture2D:
     offset: 0
     size: 0
     path: 
+--- !u!21 &-5194881324770826461
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 0e57459cc2eca8e4eb3e062b8ed60321, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - _Bias: {r: 0, g: 0, b: 0, a: 0}
+    - _Scale: {r: 1, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
 --- !u!21 &-4299142730213001533
 Material:
   serializedVersion: 6
@@ -225,6 +394,8 @@ Material:
     - _Direction: 0
     - _Falloff: 1
     - _Mode: 2
+    - _SpiralBranchCount: 1
+    - _SpiralTurnCount: 1
     m_Colors:
     - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
     - _Color1: {r: 0, g: 0, b: 0, a: 0}
@@ -423,6 +594,210 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!21 &-2091422790717034720
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 46c02ba1b0b63954bab0afcd9e828ac6, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Direction: 0
+    - _Falloff: 10.77
+    - _Mode: 5
+    - _SpiralBranchCount: 3
+    - _SpiralTurnCount: 2.09
+    m_Colors:
+    - _Color1: {r: 0, g: 0, b: 0, a: 0}
+    - _Color2: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &-1294421583979718287
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 709dbd2e7ab678c4cb23bcf7fcf6fb2f, type: 3}
+  m_ShaderKeywords: CRT_2D _TILINGMODE_TILED
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _CellSize: 1
+    - _CellsModeA: 2
+    - _CellsModeB: 2
+    - _CellsModeG: 0
+    - _CellsModeR: 1
+    - _Channels: 4
+    - _DistanceMode: 0
+    - _Frequency: 4
+    - _Lacunarity: 2
+    - _Octaves: 1
+    - _Persistance: 0.9
+    - _Seed: 42
+    - _TilingMode: 1
+    - _UVMode: 0
+    m_Colors:
+    - _OutputRange: {r: -1, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &-627871837259660301
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: da55f2393d0f8384db177010fad4c19c, type: 3}
+  m_ShaderKeywords: CRT_2D _TILINGMODE_TILED
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _CellSize: 1
+    - _CellsModeA: 0
+    - _CellsModeB: 0
+    - _CellsModeG: 0
+    - _CellsModeR: 3
+    - _Channels: 2
+    - _DistanceMode: 0
+    - _Frequency: 6
+    - _Lacunarity: 2
+    - _Octaves: 1
+    - _Persistance: 0.3
+    - _Seed: 42
+    - _TilingMode: 1
+    - _UVMode: 0
+    m_Colors:
+    - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &-289512822097773234
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 46c02ba1b0b63954bab0afcd9e828ac6, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Direction: 0
+    - _Falloff: 1.39
+    - _Mode: 2
+    - _SpiralBranchCount: 1
+    - _SpiralTurnCount: 1
+    m_Colors:
+    - _Color1: {r: 0, g: 0, b: 0, a: 0}
+    - _Color2: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -446,10 +821,10 @@ MonoBehaviour:
       Noise UV","type":{"serializedType":"UnityEngine.Texture2D, UnityEngine.CoreModule,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Tiling
       Mode","referenceName":"_TilingMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"UV
+      Mode","referenceName":"_UVMode","tooltip":"","type":{"serializedType":"System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Distance
       Mode","referenceName":"_DistanceMode","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
-      Mode","referenceName":"_CellsMode","tooltip":"","type":{"serializedType":"System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
       Range","referenceName":"_OutputRange","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
       UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Lacunarity","referenceName":"_Lacunarity","tooltip":"","type":{"serializedType":"System.Single,
@@ -463,6 +838,14 @@ MonoBehaviour:
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Channels","referenceName":"_Channels","tooltip":"Select
       how many noise to genereate and on which channel. The more different channel
       you use the more expensive it is (max 4 noise evaluation).","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode R","referenceName":"_CellsModeR","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode G","referenceName":"_CellsModeG","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode B","referenceName":"_CellsModeB","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode A","referenceName":"_CellsModeA","tooltip":"","type":{"serializedType":"System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"da55f2393d0f8384db177010fad4c19c"}'
   - type: Mixture.BlendNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"111d4924-4cc5-433a-9b27-5863598f8b14","computeOrder":2,"position":{"serializedVersion":"2","x":278.0,"y":-501.800048828125,"width":250.0,"height":516.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"5d69ff00d9a32944ea012824393d489a","type":3},"material":{"fileID":-6523576954451059865,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Source","referenceName":"_Source_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
@@ -478,7 +861,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"5d69ff00d9a32944ea012824393d489a"}'
   - type: Mixture.NormalFromHeight, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"9e9233c6-3b92-48a2-ae66-86e4092bface","computeOrder":4,"position":{"serializedVersion":"2","x":-261.0,"y":707.0,"width":250.0,"height":417.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":-6465566751694194690,"guid":"7cad23c262a495a4ba607510a558c0a6","type":3},"material":{"fileID":3913573115224412244,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Height
+    jsonDatas: '{"GUID":"9e9233c6-3b92-48a2-ae66-86e4092bface","computeOrder":4,"position":{"serializedVersion":"2","x":-260.9999694824219,"y":707.0000610351563,"width":250.0,"height":417.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":-6465566751694194690,"guid":"7cad23c262a495a4ba607510a558c0a6","type":3},"material":{"fileID":3913573115224412244,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Height
       Map","referenceName":"Texture2D_B5DB8B20","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
       UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Strenght","referenceName":"Vector1_C30F1996","tooltip":"","type":{"serializedType":"System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"7cad23c262a495a4ba607510a558c0a6"}'
@@ -488,10 +871,10 @@ MonoBehaviour:
       Noise UV","type":{"serializedType":"UnityEngine.Texture2D, UnityEngine.CoreModule,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Tiling
       Mode","referenceName":"_TilingMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"UV
+      Mode","referenceName":"_UVMode","tooltip":"","type":{"serializedType":"System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Distance
       Mode","referenceName":"_DistanceMode","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
-      Mode","referenceName":"_CellsMode","tooltip":"","type":{"serializedType":"System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
       Range","referenceName":"_OutputRange","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
       UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Lacunarity","referenceName":"_Lacunarity","tooltip":"","type":{"serializedType":"System.Single,
@@ -505,6 +888,14 @@ MonoBehaviour:
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Channels","referenceName":"_Channels","tooltip":"Select
       how many noise to genereate and on which channel. The more different channel
       you use the more expensive it is (max 4 noise evaluation).","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode R","referenceName":"_CellsModeR","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode G","referenceName":"_CellsModeG","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode B","referenceName":"_CellsModeB","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode A","referenceName":"_CellsModeA","tooltip":"","type":{"serializedType":"System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"da55f2393d0f8384db177010fad4c19c"}'
   - type: Mixture.NormalBlend, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
@@ -526,6 +917,10 @@ MonoBehaviour:
       Type","referenceName":"_Mode","tooltip":"Style of the gradient","type":{"serializedType":"System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Direction","referenceName":"_Direction","tooltip":"Direction
       of the gradient, only visible on the Linear and exponential gradients","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Turn
+      Count","referenceName":"_SpiralTurnCount","tooltip":"Turn count of the spiral","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Branch
+      Count","referenceName":"_SpiralBranchCount","tooltip":"Turn count of the spiral","type":{"serializedType":"System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Falloff","referenceName":"_Falloff","tooltip":"Exponential
       falloff of the gradient","type":{"serializedType":"System.Single, mscorlib,
       Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Color
@@ -548,6 +943,10 @@ MonoBehaviour:
       Type","referenceName":"_Mode","tooltip":"Style of the gradient","type":{"serializedType":"System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Direction","referenceName":"_Direction","tooltip":"Direction
       of the gradient, only visible on the Linear and exponential gradients","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Turn
+      Count","referenceName":"_SpiralTurnCount","tooltip":"Turn count of the spiral","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Branch
+      Count","referenceName":"_SpiralBranchCount","tooltip":"Turn count of the spiral","type":{"serializedType":"System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Falloff","referenceName":"_Falloff","tooltip":"Exponential
       falloff of the gradient","type":{"serializedType":"System.Single, mscorlib,
       Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Color
@@ -560,6 +959,8 @@ MonoBehaviour:
     jsonDatas: '{"GUID":"1514f6a1-80a0-4434-8a35-2b457b1d5108","computeOrder":12,"position":{"serializedVersion":"2","x":-578.520263671875,"y":-86.43659210205078,"width":250.0,"height":589.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"3ff8d72a4c500ad4093607671bcd9097","type":3},"material":{"fileID":9213443604407623271,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"UVs","referenceName":"_UV_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
       UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Tiling
       Mode","referenceName":"_TilingMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"UV
+      Mode","referenceName":"_UVMode","tooltip":"","type":{"serializedType":"System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
       Range","referenceName":"_OutputRange","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
       UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Lacunarity","referenceName":"_Lacunarity","tooltip":"","type":{"serializedType":"System.Single,
@@ -579,6 +980,232 @@ MonoBehaviour:
       UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"UV
       Bias","referenceName":"_Bias","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
       UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}}],"shaderGUID":"0e57459cc2eca8e4eb3e062b8ed60321"}'
+  - type: Mixture.SwizzleNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"49681693-2135-41f5-95e6-e53252ba5764","computeOrder":13,"position":{"serializedVersion":"2","x":554.0001220703125,"y":1074.000244140625,"width":250.0,"height":517.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"8337319f84fab2b4d8243836e6201c22","type":3},"material":{"fileID":7052848010209977056,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Input","referenceName":"_Source_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Output
+      Red","referenceName":"_RMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
+      Green","referenceName":"_GMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
+      Blue","referenceName":"_BMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
+      Alpha","referenceName":"_AMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Custom","referenceName":"_Custom","tooltip":"","type":{"serializedType":"UnityEngine.Color,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}}],"shaderGUID":"8337319f84fab2b4d8243836e6201c22"}'
+  - type: Mixture.RidgedCellularNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"5cecd0b5-892e-4298-b3b5-c68c31d9c9fd","computeOrder":14,"position":{"serializedVersion":"2","x":-847.3818359375,"y":723.4385375976563,"width":250.0,"height":589.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"709dbd2e7ab678c4cb23bcf7fcf6fb2f","type":3},"material":{"fileID":-1294421583979718287,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"UVs","referenceName":"_UV_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Tiling
+      Mode","referenceName":"_TilingMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"UV
+      Mode","referenceName":"_UVMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Distance
+      Mode","referenceName":"_DistanceMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
+      Range","referenceName":"_OutputRange","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Lacunarity","referenceName":"_Lacunarity","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Frequency","referenceName":"_Frequency","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Persistance","referenceName":"_Persistance","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Octaves","referenceName":"_Octaves","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cell
+      Size","referenceName":"_CellSize","tooltip":"Act as a multiplier for the distance
+      function","type":{"serializedType":"System.Single, mscorlib, Version=4.0.0.0,
+      Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Seed","referenceName":"_Seed","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Channels","referenceName":"_Channels","tooltip":"Select
+      how many noise to genereate and on which channel. The more different channel
+      you use the more expensive it is (max 4 noise evaluation).","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode R","referenceName":"_CellsModeR","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode G","referenceName":"_CellsModeG","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode B","referenceName":"_CellsModeB","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode A","referenceName":"_CellsModeA","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"709dbd2e7ab678c4cb23bcf7fcf6fb2f"}'
+  - type: Mixture.UVNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"2b4dddf5-f074-41f7-bbc2-107f70517b07","computeOrder":15,"position":{"serializedVersion":"2","x":-1786.850341796875,"y":983.7001342773438,"width":250.0,"height":437.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"0e57459cc2eca8e4eb3e062b8ed60321","type":3},"material":{"fileID":-5194881324770826461,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"UV
+      Scale","referenceName":"_Scale","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"UV
+      Bias","referenceName":"_Bias","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}}],"shaderGUID":"0e57459cc2eca8e4eb3e062b8ed60321"}'
+  - type: Mixture.PerlinNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"ab6c048c-5225-4450-ac69-e2c32b722195","computeOrder":18,"position":{"serializedVersion":"2","x":-1261.0,"y":1185.0,"width":250.0,"height":569.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"3ff8d72a4c500ad4093607671bcd9097","type":3},"material":{"fileID":8745948070050065892,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"UVs","referenceName":"_UV_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Tiling
+      Mode","referenceName":"_TilingMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"UV
+      Mode","referenceName":"_UVMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
+      Range","referenceName":"_OutputRange","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Lacunarity","referenceName":"_Lacunarity","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Frequency","referenceName":"_Frequency","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Persistance","referenceName":"_Persistance","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Octaves","referenceName":"_Octaves","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Seed","referenceName":"_Seed","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Channels","referenceName":"_Channels","tooltip":"Select
+      how many noise to genereate and on which channel. The more different channel
+      you use the more expensive it is (max 4 noise evaluation).","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"3ff8d72a4c500ad4093607671bcd9097"}'
+  - type: Mixture.GradienMattetNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"c55af52b-4643-4333-bf0a-bd217b1f6aa6","computeOrder":16,"position":{"serializedVersion":"2","x":-1787.0,"y":1421.0,"width":250.0,"height":545.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"46c02ba1b0b63954bab0afcd9e828ac6","type":3},"material":{"fileID":-289512822097773234,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Gradient
+      Type","referenceName":"_Mode","tooltip":"Style of the gradient","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Direction","referenceName":"_Direction","tooltip":"Direction
+      of the gradient, only visible on the Linear and exponential gradients","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Turn
+      Count","referenceName":"_SpiralTurnCount","tooltip":"Turn count of the spiral","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Branch
+      Count","referenceName":"_SpiralBranchCount","tooltip":"Turn count of the spiral","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Falloff","referenceName":"_Falloff","tooltip":"Exponential
+      falloff of the gradient","type":{"serializedType":"System.Single, mscorlib,
+      Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Color
+      1","referenceName":"_Color1","tooltip":"Outer color","type":{"serializedType":"UnityEngine.Color,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Color
+      2","referenceName":"_Color2","tooltip":"Inner color","type":{"serializedType":"UnityEngine.Color,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}}],"shaderGUID":"46c02ba1b0b63954bab0afcd9e828ac6"}'
+  - type: Mixture.CombineNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"f31b6ecc-b413-440b-b761-33d0f986f453","computeOrder":17,"position":{"serializedVersion":"2","x":-1510.7728271484375,"y":1185.097900390625,"width":250.0,"height":589.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"a781ed4dc6965674987a000e800f1898","type":3},"material":{"fileID":-6377491840747743257,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Source
+      R","referenceName":"_SourceR_2D","tooltip":"Source Texture for the R channel","type":{"serializedType":"UnityEngine.Texture2D,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Source
+      G","referenceName":"_SourceG_2D","tooltip":"Source Texture for the G channel","type":{"serializedType":"UnityEngine.Texture2D,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Source
+      B","referenceName":"_SourceB_2D","tooltip":"Source Texture for the B channel","type":{"serializedType":"UnityEngine.Texture2D,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Source
+      A","referenceName":"_SourceA_2D","tooltip":"Source Texture for the A channel","type":{"serializedType":"UnityEngine.Texture2D,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Output
+      R","referenceName":"_CombineModeR","tooltip":"Select which channel from the
+      R input texture to write in the R output channel","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
+      G","referenceName":"_CombineModeG","tooltip":"Select which channel from the
+      G input texture to write in the G output channel","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
+      B","referenceName":"_CombineModeB","tooltip":"Select which channel from the
+      B input texture to write in the B output channel","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
+      A","referenceName":"_CombineModeA","tooltip":"Select which channel from the
+      A input texture to write in the A output channel","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Custom","referenceName":"_Custom","tooltip":"","type":{"serializedType":"UnityEngine.Color,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}}],"shaderGUID":"a781ed4dc6965674987a000e800f1898"}'
+  - type: Mixture.GradienMattetNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"a8969645-fe2b-431d-bbdd-ad3f0001da6f","computeOrder":19,"position":{"serializedVersion":"2","x":-616.5,"y":1961.5003662109375,"width":250.0,"height":613.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"46c02ba1b0b63954bab0afcd9e828ac6","type":3},"material":{"fileID":-2091422790717034720,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Gradient
+      Type","referenceName":"_Mode","tooltip":"Style of the gradient","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Direction","referenceName":"_Direction","tooltip":"Direction
+      of the gradient, only visible on the Linear and exponential gradients","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Turn
+      Count","referenceName":"_SpiralTurnCount","tooltip":"Turn count of the spiral","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Branch
+      Count","referenceName":"_SpiralBranchCount","tooltip":"Turn count of the spiral","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Falloff","referenceName":"_Falloff","tooltip":"Exponential
+      falloff of the gradient","type":{"serializedType":"System.Single, mscorlib,
+      Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Color
+      1","referenceName":"_Color1","tooltip":"Outer color","type":{"serializedType":"UnityEngine.Color,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Color
+      2","referenceName":"_Color2","tooltip":"Inner color","type":{"serializedType":"UnityEngine.Color,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}}],"shaderGUID":"46c02ba1b0b63954bab0afcd9e828ac6"}'
+  - type: Mixture.ThresholdNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"3a38b5e9-526e-4e29-a230-83b5e9febb2e","computeOrder":22,"position":{"serializedVersion":"2","x":-72.99996948242188,"y":2310.00048828125,"width":250.0,"height":525.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"bd0e9b179d9b69e4f9a0f98d347bee62","type":3},"material":{"fileID":7009145746296016286,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Input","referenceName":"_Source_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Channel","referenceName":"_Channel","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Threshold","referenceName":"_Threshold","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Feather","referenceName":"_Feather","tooltip":"Smooth
+      the treshold step","type":{"serializedType":"System.Single, mscorlib, Version=4.0.0.0,
+      Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Invert","referenceName":"_Invert","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"bd0e9b179d9b69e4f9a0f98d347bee62"}'
+  - type: Mixture.MulNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"8c66d9d4-327d-4656-8cb8-c6ff9218bca3","computeOrder":21,"position":{"serializedVersion":"2","x":-323.2174072265625,"y":2310.391357421875,"width":250.0,"height":459.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"535eef2511f2f5540b6c9cc7430067f4","type":3},"material":{"fileID":845126432767949072,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Source
+      A","referenceName":"_SourceA_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Source
+      B","referenceName":"_SourceB_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Value","referenceName":"_Value","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}}],"shaderGUID":"535eef2511f2f5540b6c9cc7430067f4"}'
+  - type: Mixture.GradienMattetNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"b994dfac-aad7-4137-9ca6-59651c4c5f1b","computeOrder":20,"position":{"serializedVersion":"2","x":-616.0001831054688,"y":2575.000244140625,"width":250.0,"height":573.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"46c02ba1b0b63954bab0afcd9e828ac6","type":3},"material":{"fileID":-7000788262396261149,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Gradient
+      Type","referenceName":"_Mode","tooltip":"Style of the gradient","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Direction","referenceName":"_Direction","tooltip":"Direction
+      of the gradient, only visible on the Linear and exponential gradients","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Turn
+      Count","referenceName":"_SpiralTurnCount","tooltip":"Turn count of the spiral","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Branch
+      Count","referenceName":"_SpiralBranchCount","tooltip":"Turn count of the spiral","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Falloff","referenceName":"_Falloff","tooltip":"Exponential
+      falloff of the gradient","type":{"serializedType":"System.Single, mscorlib,
+      Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Color
+      1","referenceName":"_Color1","tooltip":"Outer color","type":{"serializedType":"UnityEngine.Color,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Color
+      2","referenceName":"_Color2","tooltip":"Inner color","type":{"serializedType":"UnityEngine.Color,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}}],"shaderGUID":"46c02ba1b0b63954bab0afcd9e828ac6"}'
+  - type: Mixture.CellularNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"744ee31f-bef5-43e4-b53f-fcd69fb078e7","computeOrder":23,"position":{"serializedVersion":"2","x":-2877.0,"y":2212.0,"width":250.0,"height":589.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":3,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"da55f2393d0f8384db177010fad4c19c","type":3},"material":{"fileID":-627871837259660301,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"UVs","referenceName":"_UV_2D","tooltip":"Custom
+      Noise UV","type":{"serializedType":"UnityEngine.Texture2D, UnityEngine.CoreModule,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Tiling
+      Mode","referenceName":"_TilingMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"UV
+      Mode","referenceName":"_UVMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Distance
+      Mode","referenceName":"_DistanceMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
+      Range","referenceName":"_OutputRange","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Lacunarity","referenceName":"_Lacunarity","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Frequency","referenceName":"_Frequency","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Persistance","referenceName":"_Persistance","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Octaves","referenceName":"_Octaves","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cell
+      Size","referenceName":"_CellSize","tooltip":"Act as a multiplier for the distance
+      function","type":{"serializedType":"System.Single, mscorlib, Version=4.0.0.0,
+      Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Seed","referenceName":"_Seed","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Channels","referenceName":"_Channels","tooltip":"Select
+      how many noise to genereate and on which channel. The more different channel
+      you use the more expensive it is (max 4 noise evaluation).","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode R","referenceName":"_CellsModeR","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode G","referenceName":"_CellsModeG","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode B","referenceName":"_CellsModeB","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
+      Mode A","referenceName":"_CellsModeA","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"da55f2393d0f8384db177010fad4c19c"}'
+  - type: Mixture.SwizzleNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"1f3876e6-38c2-48d2-830a-655e938956a3","computeOrder":24,"position":{"serializedVersion":"2","x":-2596.0,"y":2294.0,"width":250.0,"height":497.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"8337319f84fab2b4d8243836e6201c22","type":3},"material":{"fileID":8387370694529213886,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Input","referenceName":"_Source_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Output
+      Red","referenceName":"_RMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
+      Green","referenceName":"_GMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
+      Blue","referenceName":"_BMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
+      Alpha","referenceName":"_AMode","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Custom","referenceName":"_Custom","tooltip":"","type":{"serializedType":"UnityEngine.Color,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}}],"shaderGUID":"8337319f84fab2b4d8243836e6201c22"}'
+  - type: Mixture.ThresholdNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"18c446a7-890a-470d-97c9-b1de5216b144","computeOrder":26,"position":{"serializedVersion":"2","x":-2071.0,"y":2212.0,"width":250.0,"height":525.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"bd0e9b179d9b69e4f9a0f98d347bee62","type":3},"material":{"fileID":3588219216969141744,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Input","referenceName":"_Source_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Channel","referenceName":"_Channel","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Threshold","referenceName":"_Threshold","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Feather","referenceName":"_Feather","tooltip":"Smooth
+      the treshold step","type":{"serializedType":"System.Single, mscorlib, Version=4.0.0.0,
+      Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Invert","referenceName":"_Invert","tooltip":"","type":{"serializedType":"System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"bd0e9b179d9b69e4f9a0f98d347bee62"}'
+  - type: Mixture.SubNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"c080cfd6-da8a-40ce-a69e-64467f6f40d7","computeOrder":25,"position":{"serializedVersion":"2","x":-2321.0,"y":2212.0,"width":250.0,"height":459.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":3,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"47633e2c0f07a004eae77b0445ed0bd5","type":3},"material":{"fileID":7528153667951422188,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Source
+      A","referenceName":"_SourceA_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Source
+      B","referenceName":"_SourceB_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Value","referenceName":"_Value","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}}],"shaderGUID":"47633e2c0f07a004eae77b0445ed0bd5"}'
+  - type: Mixture.Blur, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"10554ca3-863f-4b76-b63d-b4311d67e26c","computeOrder":28,"position":{"serializedVersion":"2","x":-1804.6546630859375,"y":2212.0,"width":250.0,"height":432.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":true,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"c1f8bac2a6637264ea45079cfa2c04e8","type":3},"material":{"fileID":3969993553649045626,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Source","referenceName":"_Source_2D","tooltip":"Source
+      Texture","type":{"serializedType":"UnityEngine.Texture2D, UnityEngine.CoreModule,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Radius","referenceName":"_Radius","tooltip":"Blur
+      radius in pixels","type":{"serializedType":"System.Single, mscorlib, Version=4.0.0.0,
+      Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"c1f8bac2a6637264ea45079cfa2c04e8"}'
   edges:
   - GUID: b1e168af-6df2-4cd6-aa72-6c3e0d4f7089
     owner: {fileID: 11400000}
@@ -652,6 +1279,110 @@ MonoBehaviour:
     outputFieldName: Float
     inputPortIdentifier: _Persistance
     outputPortIdentifier: 
+  - GUID: 9409ac96-030c-48d2-b17f-3ebde2a84858
+    owner: {fileID: 11400000}
+    inputNodeGUID: 49681693-2135-41f5-95e6-e53252ba5764
+    outputNodeGUID: dbf9069d-7fca-4d1e-a9a6-d63c6c3d10d7
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Source_2D
+    outputPortIdentifier: output
+  - GUID: 0c1d13d7-7cc7-44b7-b1ea-4247c3a4543e
+    owner: {fileID: 11400000}
+    inputNodeGUID: f31b6ecc-b413-440b-b761-33d0f986f453
+    outputNodeGUID: 2b4dddf5-f074-41f7-bbc2-107f70517b07
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _SourceR_2D
+    outputPortIdentifier: output
+  - GUID: e7a7e6a8-927b-4d2c-91c2-c0853a5064ee
+    owner: {fileID: 11400000}
+    inputNodeGUID: f31b6ecc-b413-440b-b761-33d0f986f453
+    outputNodeGUID: 2b4dddf5-f074-41f7-bbc2-107f70517b07
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _SourceG_2D
+    outputPortIdentifier: output
+  - GUID: 0edbd304-f8bc-41ad-a8af-af6125b8899f
+    owner: {fileID: 11400000}
+    inputNodeGUID: f31b6ecc-b413-440b-b761-33d0f986f453
+    outputNodeGUID: c55af52b-4643-4333-bf0a-bd217b1f6aa6
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _SourceB_2D
+    outputPortIdentifier: output
+  - GUID: c2ab8562-e347-467a-87e3-8d90d9cf89ba
+    owner: {fileID: 11400000}
+    inputNodeGUID: ab6c048c-5225-4450-ac69-e2c32b722195
+    outputNodeGUID: f31b6ecc-b413-440b-b761-33d0f986f453
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _UV_2D
+    outputPortIdentifier: output
+  - GUID: cb6bc9e1-5340-49ef-a1cd-bb243e669350
+    owner: {fileID: 11400000}
+    inputNodeGUID: 3a38b5e9-526e-4e29-a230-83b5e9febb2e
+    outputNodeGUID: 8c66d9d4-327d-4656-8cb8-c6ff9218bca3
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Source_2D
+    outputPortIdentifier: output
+  - GUID: acf541b5-f145-44a5-a00d-544d2e09b366
+    owner: {fileID: 11400000}
+    inputNodeGUID: 8c66d9d4-327d-4656-8cb8-c6ff9218bca3
+    outputNodeGUID: a8969645-fe2b-431d-bbdd-ad3f0001da6f
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _SourceA_2D
+    outputPortIdentifier: output
+  - GUID: e89ce4e9-b1d7-4470-a301-1189f9ec93e9
+    owner: {fileID: 11400000}
+    inputNodeGUID: 8c66d9d4-327d-4656-8cb8-c6ff9218bca3
+    outputNodeGUID: b994dfac-aad7-4137-9ca6-59651c4c5f1b
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _SourceB_2D
+    outputPortIdentifier: output
+  - GUID: d252fc80-8738-4b2b-b62f-783a0d5532fb
+    owner: {fileID: 11400000}
+    inputNodeGUID: 1f3876e6-38c2-48d2-830a-655e938956a3
+    outputNodeGUID: 744ee31f-bef5-43e4-b53f-fcd69fb078e7
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Source_2D
+    outputPortIdentifier: output
+  - GUID: 2c2e1398-43d7-421c-a7a6-573c51ecda41
+    owner: {fileID: 11400000}
+    inputNodeGUID: c080cfd6-da8a-40ce-a69e-64467f6f40d7
+    outputNodeGUID: 744ee31f-bef5-43e4-b53f-fcd69fb078e7
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _SourceA_2D
+    outputPortIdentifier: output
+  - GUID: d1844673-e6df-4d6d-8f79-14e77b4ccd67
+    owner: {fileID: 11400000}
+    inputNodeGUID: c080cfd6-da8a-40ce-a69e-64467f6f40d7
+    outputNodeGUID: 1f3876e6-38c2-48d2-830a-655e938956a3
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _SourceB_2D
+    outputPortIdentifier: output
+  - GUID: d350e06c-cc99-42c0-a737-9a4f46282c6a
+    owner: {fileID: 11400000}
+    inputNodeGUID: 18c446a7-890a-470d-97c9-b1de5216b144
+    outputNodeGUID: c080cfd6-da8a-40ce-a69e-64467f6f40d7
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Source_2D
+    outputPortIdentifier: output
+  - GUID: aa8dd2ce-47fe-4c99-a699-12efe39a9f52
+    owner: {fileID: 11400000}
+    inputNodeGUID: 10554ca3-863f-4b76-b63d-b4311d67e26c
+    outputNodeGUID: 18c446a7-890a-470d-97c9-b1de5216b144
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Source_2D
+    outputPortIdentifier: output
   groups: []
   stackNodes: []
   pinnedElements:
@@ -677,8 +1408,8 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
   stickyNotes: []
-  position: {x: 92, y: -954, z: 0}
-  scale: {x: 0.8695652, y: 0.8695652, z: 1}
+  position: {x: 2179, y: -1384, z: 0}
+  scale: {x: 0.7561437, y: 0.7561437, z: 1}
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 0
@@ -701,6 +1432,23 @@ MonoBehaviour:
   - {fileID: 1456462163549747890}
   - {fileID: 9213443604407623271}
   - {fileID: 3788261995383297247}
+  - {fileID: 7052848010209977056}
+  - {fileID: -1294421583979718287}
+  - {fileID: -5194881324770826461}
+  - {fileID: 8745948070050065892}
+  - {fileID: -289512822097773234}
+  - {fileID: -6377491840747743257}
+  - {fileID: -2091422790717034720}
+  - {fileID: 7009145746296016286}
+  - {fileID: 845126432767949072}
+  - {fileID: -7000788262396261149}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: -627871837259660301}
+  - {fileID: 8387370694529213886}
+  - {fileID: 3588219216969141744}
+  - {fileID: 7528153667951422188}
+  - {fileID: 3969993553649045626}
   _mainOutputTexture: {fileID: -5326166195811395285}
   _outputTextures:
   - {fileID: -5326166195811395285}
@@ -819,6 +1567,65 @@ Material:
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
+--- !u!21 &845126432767949072
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 535eef2511f2f5540b6c9cc7430067f4, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SourceA_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceA_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceA_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - _Value: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!21 &1456462163549747890
 Material:
   serializedVersion: 6
@@ -858,6 +1665,8 @@ Material:
     - _Mode: 2
     - _OpaqueCullMode: 2
     - _RenderQueueType: 1
+    - _SpiralBranchCount: 1
+    - _SpiralTurnCount: 1
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 0
@@ -921,6 +1730,44 @@ Material:
     - Vector1_6EE3E138: 0.45
     m_Colors:
     - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &3588219216969141744
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: bd0e9b179d9b69e4f9a0f98d347bee62, type: 3}
+  m_ShaderKeywords: CRT_2D _INVERT_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Channel: 1
+    - _Feather: 0
+    - _Invert: 1
+    - _Threshold: 0.002
+    m_Colors: []
   m_BuildTextureStacks: []
 --- !u!21 &3788261995383297247
 Material:
@@ -987,6 +1834,41 @@ Material:
     m_Colors:
     - Color_5F4ACD5A: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
+--- !u!21 &3969993553649045626
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: c1f8bac2a6637264ea45079cfa2c04e8, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Radius: 10
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!21 &4269344445788610500
 Material:
   serializedVersion: 6
@@ -1020,6 +1902,83 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors: []
+  m_BuildTextureStacks: []
+--- !u!21 &7009145746296016286
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: bd0e9b179d9b69e4f9a0f98d347bee62, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Channel: 3
+    - _Feather: 0
+    - _Invert: 0
+    - _Threshold: 0.06
+    m_Colors: []
+  m_BuildTextureStacks: []
+--- !u!21 &7052848010209977056
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 8337319f84fab2b4d8243836e6201c22, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AMode: 3
+    - _BMode: 2
+    - _GMode: 1
+    - _RMode: 0
+    m_Colors:
+    - _Custom: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &7412953962164294820
 Material:
@@ -1055,6 +2014,10 @@ Material:
     m_Floats:
     - _CellSize: 2.07
     - _CellsMode: 0
+    - _CellsModeA: 0
+    - _CellsModeB: 0
+    - _CellsModeG: 0
+    - _CellsModeR: 0
     - _Channels: 4
     - _DistanceMode: 0
     - _Frequency: 2
@@ -1063,6 +2026,7 @@ Material:
     - _Persistance: 0.47
     - _Seed: 42
     - _TilingMode: 1
+    - _UVMode: 0
     m_Colors:
     - _OutputRange: {r: 0.59, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
@@ -1099,6 +2063,159 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors: []
+  m_BuildTextureStacks: []
+--- !u!21 &7528153667951422188
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 47633e2c0f07a004eae77b0445ed0bd5, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SourceA_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceA_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceA_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SourceB_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - _Value: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &8387370694529213886
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 8337319f84fab2b4d8243836e6201c22, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AMode: 3
+    - _BMode: 2
+    - _GMode: 0
+    - _RMode: 1
+    m_Colors:
+    - _Custom: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &8745948070050065892
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 3ff8d72a4c500ad4093607671bcd9097, type: 3}
+  m_ShaderKeywords: CRT_2D USE_CUSTOM_UV _TILINGMODE_TILED
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Channels: 0
+    - _Frequency: 5
+    - _Lacunarity: 2
+    - _Octaves: 1
+    - _Persistance: 0.5
+    - _Seed: 42
+    - _TilingMode: 1
+    - _UVMode: 1
+    m_Colors:
+    - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!21 &9213443604407623271
 Material:
@@ -1176,6 +2293,7 @@ Material:
     - _TransparentSortPriority: 0
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
+    - _UVMode: 0
     - _UseShadowThreshold: 0
     - _ZTestDepthEqualForOpaque: 4
     - _ZTestGBuffer: 4

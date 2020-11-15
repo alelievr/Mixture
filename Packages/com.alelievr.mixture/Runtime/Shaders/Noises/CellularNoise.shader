@@ -19,10 +19,10 @@
 		_Seed("Seed", Int) = 42
 		[Tooltip(Select how many noise to genereate and on which channel. The more different channel you use the more expensive it is (max 4 noise evaluation).)]
 		[ShowInInspector][Enum(RRRR, 0, R, 1, RG, 2, RGB, 3, RGBA, 4)]_Channels("Channels", Int) = 0
-		[ShowInInspector][Enum(Gradient, 0, Cells, 1, Valleys, 2)] _CellsModeR("Cells Mode R", Float) = 0
-		[ShowInInspector][VisibleIf(_Channels, 2, 3, 4)][Enum(Gradient, 0, Cells, 1, Valleys, 2)] _CellsModeG("Cells Mode G", Float) = 0
-		[ShowInInspector][VisibleIf(_Channels, 3, 4)][Enum(Gradient, 0, Cells, 1, Valleys, 2)] _CellsModeB("Cells Mode B", Float) = 0
-		[ShowInInspector][VisibleIf(_Channels, 4)][Enum(Gradient, 0, Cells, 1, Valleys, 2)] _CellsModeA("Cells Mode A", Float) = 0
+		[ShowInInspector][Enum(Cell Distance, 0, Smooth Cell Distance, 3, Cells, 1, Valleys, 2)] _CellsModeR("Cells Mode R", Float) = 0
+		[ShowInInspector][VisibleIf(_Channels, 2, 3, 4)][Enum(Cell Distance, 0, Smooth Cell Distance, 3, Cells, 1, Valleys, 2)] _CellsModeG("Cells Mode G", Float) = 0
+		[ShowInInspector][VisibleIf(_Channels, 3, 4)][Enum(Cell Distance, 0, Smooth Cell Distance, 3, Cells, 1, Valleys, 2)] _CellsModeB("Cells Mode B", Float) = 0
+		[ShowInInspector][VisibleIf(_Channels, 4)][Enum(Cell Distance, 0, Smooth Cell Distance, 3, Cells, 1, Valleys, 2)] _CellsModeA("Cells Mode A", Float) = 0
 	}
 	SubShader
 	{
@@ -64,18 +64,18 @@
 			int _Seed;
 			int _UVMode;
 
-			float3 GenerateCellularNoise(v2f_customrendertexture i, int seed)
+			float4 GenerateCellularNoise(v2f_customrendertexture i, int seed)
 			{
 				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), seed);
 
 				// TODO: if uv mode is 3D, then sample in 3D
-				float3 noise = 0;
+				float4 noise = 0;
 #ifdef CRT_2D
 				if (_UVMode == 0)
-					noise = GenerateCellular2DNoise(uvs.xy, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgb;
+					noise = GenerateCellular2DNoise(uvs.xy, _Frequency, _Octaves, _Persistance, _Lacunarity, seed);
 				else // 3D forced by uv mode
 #endif
-					noise = GenerateCellular3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).rgb;
+					noise = GenerateCellular3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed);
 
 				return RemapClamp(noise, 0, 1, _OutputRange.x, _OutputRange.y);
 			}

@@ -60,7 +60,7 @@ float3 modulo(float3 divident, float3 divisor)
     return positiveDivident % divisor;
 }
 
-float3 tiledCellularNoise2D(float2 coordinate, float2 period, float seed)
+float4 tiledCellularNoise2D(float2 coordinate, float2 period, float seed)
 {
     float2 baseCell = floor(coordinate);
 
@@ -68,6 +68,7 @@ float3 tiledCellularNoise2D(float2 coordinate, float2 period, float seed)
     float minDistToCell = 10;
     float2 toClosestCell;
     float2 closestCell;
+    float smoothDistance = 0;
     for(int x1=-1; x1<=1; x1++)
     {
         for(int y1=-1; y1<=1; y1++)
@@ -84,8 +85,12 @@ float3 tiledCellularNoise2D(float2 coordinate, float2 period, float seed)
                 closestCell = cell;
                 toClosestCell = toCell;
             }
+
+            smoothDistance += exp(-16.0 * distToCell);
         }
     }
+    // Source: https://iquilezles.org/www/articles/smoothvoronoi/smoothvoronoi.htm
+    smoothDistance = -(1 / 16.0) * log(smoothDistance);
 
     //second pass to find the distance to the closest edge
     float minEdgeDistance = 10;
@@ -111,10 +116,10 @@ float3 tiledCellularNoise2D(float2 coordinate, float2 period, float seed)
     }
 
     float random = rand2dTo1d(modulo(closestCell, period));
-    return float3(pow(abs(minDistToCell), 2.2), random, minEdgeDistance); // Gamma convertion
+    return float4(pow(abs(minDistToCell), 2.2), random, minEdgeDistance, pow(abs(smoothDistance), 2.2)); // Gamma convertion
 }
 
-float3 tiledCellularNoise3D(float3 coordinate, float3 period, float seed)
+float4 tiledCellularNoise3D(float3 coordinate, float3 period, float seed)
 {
     float3 baseCell = floor(coordinate);
 
@@ -122,6 +127,7 @@ float3 tiledCellularNoise3D(float3 coordinate, float3 period, float seed)
     float minDistToCell = 10;
     float3 toClosestCell;
     float3 closestCell;
+    float smoothDistance = 0;
     for(int x1=-1; x1<=1; x1++)
     {
         for(int y1=-1; y1<=1; y1++)
@@ -139,9 +145,12 @@ float3 tiledCellularNoise3D(float3 coordinate, float3 period, float seed)
                     closestCell = cell;
                     toClosestCell = toCell;
                 }
+                smoothDistance += exp(-32.0 * distToCell);
             }
         }
     }
+    // Source: https://iquilezles.org/www/articles/smoothvoronoi/smoothvoronoi.htm
+    smoothDistance = -(1 / 32.0) * log(smoothDistance);
 
     //second pass to find the distance to the closest edge
     float minEdgeDistance = 10;
@@ -170,30 +179,30 @@ float3 tiledCellularNoise3D(float3 coordinate, float3 period, float seed)
     }
 
     float random = rand3dTo1d(modulo(closestCell, period));
-    return float3(pow(abs(minDistToCell), 2.2), random, minEdgeDistance);
+    return float4(pow(abs(minDistToCell), 2.2), random, minEdgeDistance, pow(abs(smoothDistance), 2.2));
 }
 
-float3 GenerateCellularNoise2D(float2 coordinate, float seed) { return tiledCellularNoise2D(coordinate, float2(100000, 100000), seed); }
-float3 GenerateCellularNoise3D(float3 coordinate, float seed) { return tiledCellularNoise3D(coordinate, float3(100000, 100000, 100000), seed); }
-float3 GenerateRidgedCellularNoise2D(float2 coordinate, float seed) { return tiledCellularNoise2D(coordinate, float2(100000, 100000), seed) * 2 - 1; }
-float3 GenerateRidgedCellularNoise3D(float3 coordinate, float seed) { return tiledCellularNoise3D(coordinate, float3(100000, 100000, 100000), seed) * 2 - 1; }
+float4 GenerateCellularNoise2D(float2 coordinate, float seed) { return tiledCellularNoise2D(coordinate, float2(100000, 100000), seed); }
+float4 GenerateCellularNoise3D(float3 coordinate, float seed) { return tiledCellularNoise3D(coordinate, float3(100000, 100000, 100000), seed); }
+float4 GenerateRidgedCellularNoise2D(float2 coordinate, float seed) { return tiledCellularNoise2D(coordinate, float2(100000, 100000), seed) * 2 - 1; }
+float4 GenerateRidgedCellularNoise3D(float3 coordinate, float seed) { return tiledCellularNoise3D(coordinate, float3(100000, 100000, 100000), seed) * 2 - 1; }
 
-float3 ridgedTiledCellularNoise2D(float2 coordinate, float2 period, float seed) { return tiledCellularNoise2D(coordinate, period, seed) * 2 - 1; }
-float3 ridgedTiledCellularNoise3D(float3 coordinate, float3 period, float seed) { return tiledCellularNoise3D(coordinate, period, seed) * 2 - 1; }
+float4 ridgedTiledCellularNoise2D(float2 coordinate, float2 period, float seed) { return tiledCellularNoise2D(coordinate, period, seed) * 2 - 1; }
+float4 ridgedTiledCellularNoise3D(float3 coordinate, float3 period, float seed) { return tiledCellularNoise3D(coordinate, period, seed) * 2 - 1; }
 
 #ifdef _TILINGMODE_TILED
 
-NOISE_TEMPLATE(Cellular2D, float2, float3, tiledCellularNoise2D(coordinate * frequency, frequency, seed));
-NOISE_TEMPLATE(Cellular3D, float3, float3, tiledCellularNoise3D(coordinate * frequency, frequency, seed));
-RIDGED_NOISE_TEMPLATE(Cellular2D, float2, float3, ridgedTiledCellularNoise2D(coordinate * frequency, frequency, seed));
-RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float3, ridgedTiledCellularNoise3D(coordinate * frequency, frequency, seed));
+NOISE_TEMPLATE(Cellular2D, float2, float4, tiledCellularNoise2D(coordinate * frequency, frequency, seed));
+NOISE_TEMPLATE(Cellular3D, float3, float4, tiledCellularNoise3D(coordinate * frequency, frequency, seed));
+RIDGED_NOISE_TEMPLATE(Cellular2D, float2, float4, ridgedTiledCellularNoise2D(coordinate * frequency, frequency, seed));
+RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float4, ridgedTiledCellularNoise3D(coordinate * frequency, frequency, seed));
 
 #else
 
-NOISE_TEMPLATE(Cellular2D, float2, float3, GenerateCellularNoise2D(coordinate * frequency, seed));
-NOISE_TEMPLATE(Cellular3D, float3, float3, GenerateCellularNoise3D(coordinate * frequency, seed));
-RIDGED_NOISE_TEMPLATE(Cellular2D, float2, float3, GenerateRidgedCellularNoise2D(coordinate * frequency, seed));
-RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float3, GenerateRidgedCellularNoise3D(coordinate * frequency, seed));
+NOISE_TEMPLATE(Cellular2D, float2, float4, GenerateCellularNoise2D(coordinate * frequency, seed));
+NOISE_TEMPLATE(Cellular3D, float3, float4, GenerateCellularNoise3D(coordinate * frequency, seed));
+RIDGED_NOISE_TEMPLATE(Cellular2D, float2, float4, GenerateRidgedCellularNoise2D(coordinate * frequency, seed));
+RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float4, GenerateRidgedCellularNoise3D(coordinate * frequency, seed));
 
 #endif
 
@@ -201,29 +210,28 @@ RIDGED_NOISE_TEMPLATE(Cellular3D, float3, float3, GenerateRidgedCellularNoise3D(
 // CURL_NOISE_2D_TEMPLATE(Cellular2D, GenerateCellularNoise2D);
 // CURL_NOISE_3D_TEMPLATE(Cellular3D, GenerateCellularNoise2D);
 
-float3 GenerateCellularNoise(v2f_customrendertexture i, int seed);
+float4 GenerateCellularNoise(v2f_customrendertexture i, int seed);
 
-float SwizzleCellMode(float3 noise, int mode)
+float SwizzleCellMode(float4 noise, int mode)
 {
     switch (mode)
     {
-        default: // Gradient
+        default: // Distance To Cell
         case 0: return noise.x;
         case 1: return noise.y; // Cells
         case 2: return noise.z; // Valley
+        case 3: return noise.w; // Smooth Distance To Cell
     }
 }
 
 float4 GenerateCellularNoiseForChannels(v2f_customrendertexture i, int seed)
 {
-    float3 noise = GenerateCellularNoise(i, seed);
+    float4 noise = GenerateCellularNoise(i, seed);
     float4 color = float4(0, 0, 0, 1);
     color.r = SwizzleCellMode(noise, _CellsModeR);
 
     if (_Channels == 0) // RRRR
-        return color.rrrr;
-    else if (_Channels == 1) // R
-        return color;
+        color = color.rrrr;
     else
     {
         if (_Channels > 1) // G
