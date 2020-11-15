@@ -78,7 +78,7 @@
 
 				for (int j = 1; j < 32; j++)
 				{
-					float2 uvOffset = _Direction * _Radius / _CustomRenderTextureWidth;
+					float2 uvOffset = _Direction * _Radius / _CustomRenderTextureWidth * j / 32;
 
 					color += SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy + uvOffset, 0), i.direction) * gaussianWeights[j];
 					color += SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy - uvOffset, 0), i.direction) * gaussianWeights[j];
