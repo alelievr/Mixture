@@ -181,6 +181,7 @@ namespace Mixture
 		}
 
 		// Custom property draw, we don't want things that are connected to an edge or useless like the render queue
+		static Regex visibleIfRegex = new Regex(@"VisibleIf\((.*?),(.*)\)");
 		protected bool MaterialPropertiesGUI(Material material, bool fromInspector, bool autoLabelWidth = true)
 		{
 			if (material == null || material.shader == null)
@@ -210,13 +211,45 @@ namespace Mixture
 					continue;
 
 				int idx = material.shader.FindPropertyIndex(property.name);
-				if (!fromInspector && material.shader.GetPropertyAttributes(idx).Contains("ShowInInspector"))
+				var propertyAttributes = material.shader.GetPropertyAttributes(idx);
+				if (!fromInspector && propertyAttributes.Contains("ShowInInspector"))
 					continue;
 
 				// Retrieve the port view from the property name
 				var portView = portViews?.FirstOrDefault(p => p.portData.identifier == property.name);
 				if (portView != null && portView.connected)
 					continue;
+
+				// TODO: cache to improve the performance of the UI
+				var visibleIfAtribute = propertyAttributes.FirstOrDefault(s => s.Contains("VisibleIf"));
+				if (!string.IsNullOrEmpty(visibleIfAtribute))
+				{
+					var match = visibleIfRegex.Match(visibleIfAtribute);
+					if (match.Success)
+					{
+						string propertyName = match.Groups[1].Value;
+						string[] accpectedValues = match.Groups[2].Value.Split(',');
+
+						if (material.HasProperty(propertyName))
+						{
+							float f = material.GetFloat(propertyName);
+
+							bool show = false;
+							foreach (var value in accpectedValues)
+							{
+								float f2 = float.Parse(value);
+
+								if (f == f2)
+									show = true;
+							}
+
+							if (!show)
+								continue;
+						}
+						else
+							continue;
+					}
+				}
 
 				string displayName = property.displayName;
 				// We don't display textures specific to certain dimensions if the node isn't in this dimension.
