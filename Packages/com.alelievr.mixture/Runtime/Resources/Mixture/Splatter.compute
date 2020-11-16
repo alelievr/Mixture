@@ -39,6 +39,7 @@ float _Time;
 float _ElementCount;
 float3 _PositionJitter;
 float3 _PositionOffset;
+float _Seed;
 
 void Stack(uint id, uint position1D)
 {
@@ -110,7 +111,7 @@ void FibonacciSpiral(uint id, uint position1D)
 
 float3 WhiteNoise3(uint id)
 {
-    float3 f = float3(float(id) * 3.56687, 0, 0);
+    float3 f = float3(float(id + _Seed) * 3.56687, 0, 0);
 
     return float3(
         WhiteNoise(f + float3(0, 0, 0)),

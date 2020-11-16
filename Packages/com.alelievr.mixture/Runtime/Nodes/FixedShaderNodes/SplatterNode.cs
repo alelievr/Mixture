@@ -69,6 +69,9 @@ Note that to keep the depth buffer precision correct, the current max depth of a
 		[Input]
 		public List<Texture> inputTextures = new List<Texture>();
 
+		[Input]
+		public int seed = 0;
+
 		[Output]
 		public Texture output;
 
@@ -199,6 +202,7 @@ Note that to keep the depth buffer precision correct, the current max depth of a
 		static readonly int _ChannelModeB = Shader.PropertyToID("_ChannelModeB");
 		static readonly int _ChannelModeA = Shader.PropertyToID("_ChannelModeA");
 		static readonly int _Mode = Shader.PropertyToID("_Mode");
+		static readonly int _Seed = Shader.PropertyToID("_Seed");
 
 		[CustomPortBehavior(nameof(inputTextures))]
 		IEnumerable<PortData> CustomInputTexturePortData(List<SerializableEdge> edges)
@@ -280,6 +284,7 @@ Note that to keep the depth buffer precision correct, the current max depth of a
 			// Set input textures:
 			drawIndirectMat.SetInt(_TextureCount, inputTextures.Count);
 			drawIndirectMat.SetFloat(_Mode, (int)mode);
+			drawIndirectMat.SetFloat(_Seed, seed);
 			for (int i = 0; i < inputTextures.Count; i++)
 				drawIndirectMat.SetTexture("_Source" + i + MixtureUtils.texture2DPrefix, inputTextures[i]);
 
@@ -319,6 +324,7 @@ Note that to keep the depth buffer precision correct, the current max depth of a
 			cmd.SetComputeVectorParam(computeShader, _MaxScale, maxScale);
 			cmd.SetComputeVectorParam(computeShader, _PositionJitter, positionJitter);
 			cmd.SetComputeVectorParam(computeShader, _PositionOffset, positionOffset);
+			cmd.SetComputeFloatParam(computeShader, _Seed, seed);
 		}
 
 		void SetRenderStates(Material mat)

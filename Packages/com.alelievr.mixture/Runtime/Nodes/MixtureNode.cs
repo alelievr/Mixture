@@ -407,6 +407,9 @@ namespace Mixture
 							case Vector4 v:
 								material.SetFloat(propName, v.x);
 								break;
+							case int i:
+								material.SetFloat(propName, i);
+								break;
 							default:
 								throw new Exception($"Can't assign {edge.passThroughBuffer.GetType()} to material float property");
 						}

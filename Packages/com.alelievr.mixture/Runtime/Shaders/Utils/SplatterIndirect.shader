@@ -65,6 +65,8 @@ Shader "Hidden/Mixture/Splatter"
 	// Mode
 	float _Mode;
 
+	float _Seed;
+
 	// We only need vertex pos and uv for splat
 	struct VertexInput
 	{
@@ -133,7 +135,7 @@ Shader "Hidden/Mixture/Splatter"
 
 	float4 SampleRandomTexture(uint id, float3 uv)
 	{
-		uint r = WhiteNoise(id * 562) * _TextureCount;
+		uint r = WhiteNoise(id * 562 + _Seed) * _TextureCount;
 
 		switch (r % _TextureCount)
 		{
