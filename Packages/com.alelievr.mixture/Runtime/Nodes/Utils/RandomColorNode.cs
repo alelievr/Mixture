@@ -19,6 +19,9 @@ Output a random color based on the HSV parameters.
 		[Output("Color")]
 		public Color	r;
 
+		[Input]
+		public int 		seed;
+
 		public float	minHue = 0.0f;
 		public float	maxHue = 1.0f;
 		public float	minSat = 0.0f;
@@ -30,7 +33,10 @@ Output a random color based on the HSV parameters.
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
+			var oldState = Random.state;
+			Random.InitState(seed);
 			r = Random.ColorHSV(minHue, maxHue, minSat, maxSat, minValue, maxValue);
+			Random.state = oldState;
 			return true;
 		}
 	}
