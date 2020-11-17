@@ -52,6 +52,8 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
         protected virtual IEnumerable<string> filteredOutProperties => Enumerable.Empty<string>();
 		public override Texture previewTexture => output;
 
+		internal IEnumerable<string> GetFilterOutProperties() => filteredOutProperties;
+
 		internal override float processingTimeInMillis
 		{
 			get

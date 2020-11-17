@@ -260,7 +260,7 @@ namespace Mixture
 
 		void ProcessNode(CommandBuffer cmd, BaseNode node)
 		{
-			if (node.computeOrder < 0)
+			if (node.computeOrder < 0 || !node.canProcess)
 				return;
 
 			if (node is MixtureNode m)
