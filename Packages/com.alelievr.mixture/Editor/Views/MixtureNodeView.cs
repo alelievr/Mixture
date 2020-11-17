@@ -219,6 +219,13 @@ namespace Mixture
 				var portView = portViews?.FirstOrDefault(p => p.portData.identifier == property.name);
 				if (portView != null && portView.connected)
 					continue;
+				
+				// We only display textures that are excluded from the filteredOutProperties (i.e they are not exposed as ports)
+				if (property.type == MaterialProperty.PropType.Texture && nodeTarget is ShaderNode sn)
+				{
+					if (!sn.GetFilterOutProperties().Contains(property.name))
+						continue;
+				}
 
 				// TODO: cache to improve the performance of the UI
 				var visibleIfAtribute = propertyAttributes.FirstOrDefault(s => s.Contains("VisibleIf"));
