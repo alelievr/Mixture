@@ -229,7 +229,12 @@ namespace Mixture
 		public static void SetTextureWithDimension(Material material, string propertyName, Texture texture)
 		{
 			if (shaderPropertiesDimensionSuffix.TryGetValue(texture.dimension, out var suffix))
-				material.SetTexture(propertyName + suffix, texture);
+			{
+#if UNITY_EDITOR
+				if (material.shader.GetPropertyTextureDimension(material.shader.FindPropertyIndex(propertyName + suffix)) == texture.dimension)
+#endif
+					material.SetTexture(propertyName + suffix, texture);
+			}
 		}
 
         public static void DestroyGameObject(Object obj)

@@ -38,6 +38,11 @@
 				float3 uv = IN.localTexcoord.xyz;
 				float gradient = 0.0f;
 
+// For cubemaps, we don't want the z coordinate to mess with the gradients
+#ifdef CRT_CUBE
+				uv.z = 0.5;
+#endif
+
 				switch ((uint)_Mode)
 				{
 					case 0:

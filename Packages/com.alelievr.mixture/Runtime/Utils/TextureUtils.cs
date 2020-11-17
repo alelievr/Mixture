@@ -52,6 +52,7 @@ namespace Mixture
                     blackTexture = new Cubemap(1, TextureFormat.RGBA32, 0);
                     for (int i = 0; i < 6; i++)
                         (blackTexture as Cubemap).SetPixel((CubemapFace)i, 0, 0, Color.black);
+                    (blackTexture as Cubemap).Apply();
                     break ;
                 default: // TextureDimension.Any / TextureDimension.Unknown
                     throw new Exception($"Unable to create black texture for type {dim}");
