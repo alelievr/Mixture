@@ -13,7 +13,7 @@ Apply a transformation on the input texture. This node allows you to offset, sca
 Note that the values from the rotation map will be converted to euler angles in the node so that 1 means 360 degree. 
 ")]
 
-	[System.Serializable, NodeMenuItem("Custom/Transform")]
+	[System.Serializable, NodeMenuItem("Operators/Transform")]
 	public class Transform : FixedShaderNode
 	{
 		public override string name => "Transform";
