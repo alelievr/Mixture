@@ -17,7 +17,7 @@ namespace Mixture
 
 		class Styles
 		{
-			public const string realtimePreviewToggleText = "RealTime Preview";
+			public const string realtimePreviewToggleText = "Always Update";
 			public const string processButtonText = "Process";
             public const string saveAllText = "Save All";
 			public const string parameterViewsText = "Parameters";
