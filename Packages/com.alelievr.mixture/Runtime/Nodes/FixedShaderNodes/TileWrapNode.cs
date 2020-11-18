@@ -4,6 +4,7 @@ using UnityEngine;
 using GraphProcessor;
 using System.Linq;
 using UnityEngine.Rendering;
+using System;
 
 namespace Mixture
 {
@@ -11,14 +12,20 @@ namespace Mixture
 Make the input texture tile by wrapping and blending the borders of the texture.
 ")]
 
-	[System.Serializable, NodeMenuItem("Matte/Tile & Wrap")]
-	public class TileWrapNode : FixedShaderNode
-	{
-		public override string name => "Tile & Wrap";
+    [System.Serializable, NodeMenuItem("Matte/Tile & Wrap")]
+    public class TileWrapNode : FixedShaderNode
+    {
+        public override string name => "Tile & Wrap";
 
-		public override string shaderName => "Hidden/Mixture/TileWrap";
+        public override string shaderName => "Hidden/Mixture/TileWrap";
 
-		public override bool displayMaterialInspector => true;
+        public override bool displayMaterialInspector => true;
+
+        // Override this if you node is not compatible with all dimensions
+        public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
+            OutputDimension.Texture2D,
+            OutputDimension.Texture3D
+        };
 
         protected override bool ProcessNode(CommandBuffer cmd)
         {
@@ -31,8 +38,9 @@ Make the input texture tile by wrapping and blending the borders of the texture.
             switch (output.dimension)
             {
                 default:
-                case TextureDimension.Tex2D:
                 case TextureDimension.Cube:
+                    throw new NotImplementedException();
+                case TextureDimension.Tex2D:
                     updateZones = new CustomRenderTextureUpdateZone[] {
                         new CustomRenderTextureUpdateZone{
                             needSwap = false,
@@ -56,9 +64,9 @@ Make the input texture tile by wrapping and blending the borders of the texture.
                             updateZoneSize = new Vector3(1f, 1f, 1f),
                         },
                         // CRT Workaround: we need to add an additional pass because there is a bug in the swap
-						// of the double buffered CRTs: the last pudate zone will not be passed to the next CRT in the chain.
-						// So we add a dummy pass to force a copy
-						new CustomRenderTextureUpdateZone{
+                        // of the double buffered CRTs: the last pudate zone will not be passed to the next CRT in the chain.
+                        // So we add a dummy pass to force a copy
+                        new CustomRenderTextureUpdateZone{
                             needSwap = true,
                             passIndex = 1,
                             rotation = 0f,
@@ -97,10 +105,10 @@ Make the input texture tile by wrapping and blending the borders of the texture.
                             updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
                             updateZoneSize = new Vector3(1f, 1f, 1f),
                         },
-						// CRT Workaround: we need to add an additional pass because there is a bug in the swap
-						// of the double buffered CRTs: the last pudate zone will not be passed to the next CRT in the chain.
-						// So we add a dummy pass to force a copy
-						new CustomRenderTextureUpdateZone{
+                        // CRT Workaround: we need to add an additional pass because there is a bug in the swap
+                        // of the double buffered CRTs: the last pudate zone will not be passed to the next CRT in the chain.
+                        // So we add a dummy pass to force a copy
+                        new CustomRenderTextureUpdateZone{
                             needSwap = true,
                             passIndex = 1,
                             rotation = 0f,
