@@ -245,6 +245,13 @@ v2f_init_customrendertexture InitCustomRenderTextureVertexShader (appdata_init_c
 #define FIX_CUBEMAP_DIRECTION(crt)
 #endif
 
+#ifdef CRT_3D
+#define FIX_TEXTURE3D_POSITION_Z(crt) crt.localTexcoord.z += rcp(_CustomRenderTextureDepth * 2.0);
+#else
+#define FIX_TEXTURE3D_POSITION_Z(crt)
+#endif
+
+
 // Declare the prototype 
 float4 mixture(v2f_customrendertexture i);
 
@@ -252,6 +259,7 @@ float4 MixtureFragment (v2f_customrendertexture i) : SV_Target
 {
     // Fix the cubemap direction:
     FIX_CUBEMAP_DIRECTION(i);
+    FIX_TEXTURE3D_POSITION_Z(i);
     return mixture(i);
 }
 
