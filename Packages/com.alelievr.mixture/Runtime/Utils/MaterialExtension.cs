@@ -15,7 +15,11 @@ namespace Mixture
 
         public static bool HasTextureBound(this Material material, string baseName, TextureDimension dimension)
         {
-            var texture = material.GetTexture(baseName + MixtureUtils.shaderPropertiesDimensionSuffix[dimension]);
+            string property = baseName + MixtureUtils.shaderPropertiesDimensionSuffix[dimension];
+            if (!material.HasProperty(property))
+                return false;
+
+            var texture = material.GetTexture(property);
             return texture != null;
         }
 
