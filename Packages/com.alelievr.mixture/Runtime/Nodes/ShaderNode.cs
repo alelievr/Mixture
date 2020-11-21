@@ -278,6 +278,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 			output.material = material;
 
             bool useCustomUV = material.HasTextureBound("_UV", rtSettings.GetTextureDimension(graph));
+			Debug.Log(name + " : " + useCustomUV);
             material.SetKeywordEnabled("USE_CUSTOM_UV", useCustomUV);
 
 			return true;
