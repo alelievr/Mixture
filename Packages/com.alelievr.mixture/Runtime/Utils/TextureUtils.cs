@@ -16,6 +16,10 @@ namespace Mixture
         static Dictionary< TextureDimension, Texture >  blackTextures = new Dictionary< TextureDimension, Texture >();
         static Dictionary< TextureDimension, Texture >  whiteTextures = new Dictionary< TextureDimension, Texture >();
 
+        // Do not change change these names, it would break all graphs that are using default texture values
+        static readonly string blackDefaultTextureName = "Mixture Black";
+        static readonly string whiteDefaultTextureName = "Mixture white";
+
         public static Texture GetBlackTexture(MixtureRTSettings settings)
         {
             return GetBlackTexture((TextureDimension)settings.dimension, settings.sliceCount);
@@ -58,7 +62,7 @@ namespace Mixture
                     throw new Exception($"Unable to create black texture for type {dim}");
             }
 
-            blackTexture.name = "Mixture Black";
+            blackTexture.name = blackDefaultTextureName;
             blackTextures[dim] = blackTexture;
 
             return blackTexture;
@@ -100,11 +104,14 @@ namespace Mixture
                     throw new Exception($"Unable to create white texture for type {dim}");
             }
 
-            whiteTexture.name = "Mixture white";
+            whiteTexture.name = whiteDefaultTextureName;
             whiteTextures[dim] = whiteTexture;
 
             return whiteTexture;
         }
+
+        public static bool IsMixtureDefaultTexture(this Texture texture)
+            => texture.name == blackDefaultTextureName || texture.name == whiteDefaultTextureName;
 
         public static int GetSliceCount(Texture tex)
         {

@@ -20,8 +20,7 @@ namespace Mixture
                 return false;
 
             var texture = material.GetTexture(property);
-            Debug.Log(texture);
-            return texture != null && texture != TextureUtils.GetBlackTexture(dimension) && texture != TextureUtils.GetWhiteTexture(dimension);
+            return texture != null && !texture.IsMixtureDefaultTexture();
         }
 
         public static Texture GetTextureWithDimension(this Material material, string baseName, TextureDimension dimension)
