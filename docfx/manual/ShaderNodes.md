@@ -83,6 +83,8 @@ In ShaderGraph it's done like this:
 And the result is a node that update it's input texture type based on the target dimension: (notice the port color change)
 ![](Images/2020-10-01-01-04-46.png)
 
+Note that the above dimension suffix works for all kind of properties such as Float or Vectors, so you can have dimension specific parameters with this feature.
+
 ## C# Shader Node
 
 If you want to create a true node, accessible from the node creation menu that you can reuse very often in any graph you want, then you'll have to create a C# version of the node. To create the C# template file go to "Assets/Create/Mixture/C# Fixed Shader Node"
