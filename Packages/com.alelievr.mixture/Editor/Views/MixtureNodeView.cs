@@ -258,25 +258,23 @@ namespace Mixture
 					}
 				}
 
+				// Hide all the properties that are not supported in the current dimension
+				var currentDimension = nodeTarget.rtSettings.GetTextureDimension(owner.graph);
 				string displayName = property.displayName;
-				// We don't display textures specific to certain dimensions if the node isn't in this dimension.
-				if (property.type == MaterialProperty.PropType.Texture)
-				{
-					bool is2D = property.name.EndsWith(MixtureUtils.texture2DPrefix);
-					bool is3D = property.name.EndsWith(MixtureUtils.texture3DPrefix);
-					bool isCube = property.name.EndsWith(MixtureUtils.textureCubePrefix);
 
-					if (is2D || is3D || isCube)
-					{
-						var currentDimension = nodeTarget.rtSettings.GetTextureDimension(owner.graph);
-						if (currentDimension == TextureDimension.Tex2D && !is2D)
-							continue;
-						if (currentDimension == TextureDimension.Tex3D && !is3D)
-							continue;
-						if (currentDimension == TextureDimension.Cube && !isCube)
-							continue;
-						displayName = Regex.Replace(displayName, @"_2D|_3D|_Cube", "", RegexOptions.IgnoreCase);
-					}
+				bool is2D = displayName.Contains(MixtureUtils.texture2DPrefix);
+				bool is3D = displayName.Contains(MixtureUtils.texture3DPrefix);
+				bool isCube = displayName.Contains(MixtureUtils.textureCubePrefix);
+
+				if (is2D || is3D || isCube)
+				{
+					if (currentDimension == TextureDimension.Tex2D && !is2D)
+						continue;
+					if (currentDimension == TextureDimension.Tex3D && !is3D)
+						continue;
+					if (currentDimension == TextureDimension.Cube && !isCube)
+						continue;
+					displayName = Regex.Replace(displayName, @"_2D|_3D|_Cube", "", RegexOptions.IgnoreCase);
 				}
 
 				// In ShaderGraph we can put [Inspector] in the name of the property to show it only in the inspector and not in the node

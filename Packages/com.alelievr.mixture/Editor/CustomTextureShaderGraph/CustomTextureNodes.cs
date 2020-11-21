@@ -206,7 +206,7 @@ namespace Mixture
     }
 
     [Title("Custom Texture", "UV/Direction")]
-    class UVOrDirection : AbstractMaterialNode, IGeneratesBodyCode, IMayRequireMeshUV
+    class UVOrDirection : AbstractMaterialNode, IGeneratesBodyCode, IMayRequireMeshUV, IMayRequireViewDirection
     {
 		private const string kOutput = "Uv/Direction";
 
@@ -231,12 +231,17 @@ namespace Mixture
             }
             else
             {
-                sb.AppendLine(@"$precision3 {0} = CustomRenderTextureDimension == CRT_DIMENSION_CUBE ? IN.direction : IN.uv0.xyz;" , GetVariableNameForSlot(0));
+                var dir = CoordinateSpace.World.ToVariableName(InterpolatorType.ViewDirection);
+                var uv = UVChannel.UV0.GetUVName();
+                sb.AppendLine(@"$precision3 {0} = CustomRenderTextureDimension == CRT_DIMENSION_CUBE ? IN.{1} : IN.{2}.xyz;" , GetVariableNameForSlot(0), dir, uv);
             }
         }
 
         public bool RequiresMeshUV(UVChannel channel, ShaderStageCapability stageCapability = ShaderStageCapability.All)
             => channel == UVChannel.UV0 && stageCapability == ShaderStageCapability.Fragment;
+
+        public NeededCoordinateSpace RequiresViewDirection(ShaderStageCapability stageCapability = ShaderStageCapability.All)
+            => NeededCoordinateSpace.World;
     }
 }
 #endif

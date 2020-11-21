@@ -22,10 +22,6 @@ namespace Mixture
 			if (!base.ProcessNode(cmd))
 				return false;
 
-			// Check if we need to use custom UVs or not 
-            bool useCustomUV = material.HasTextureBound("_UV", rtSettings.GetTextureDimension(graph));
-			material.SetKeywordEnabled("USE_CUSTOM_UV", useCustomUV);
-
 			if (material.IsKeywordEnabled("_TILINGMODE_TILED"))
 			{
 				material.SetFloat("_Lacunarity", Mathf.Round(material.GetFloat("_Lacunarity")));

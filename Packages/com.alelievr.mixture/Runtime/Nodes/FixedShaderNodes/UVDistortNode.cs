@@ -23,15 +23,5 @@ If fact this node just adds an UV to the distoriton texture value after applying
 		public override bool displayMaterialInspector => true;
 
         public override bool hasSettings => true;
-
-		protected override bool ProcessNode(CommandBuffer cmd)
-        {
-            if (!base.ProcessNode(cmd))
-                return false;
-
-            bool useCustomUV = material.HasTextureBound("_UV", rtSettings.GetTextureDimension(graph));
-            material.SetKeywordEnabled("USE_CUSTOM_UV", useCustomUV);
-            return true;
-        }
     }
 }
