@@ -65,17 +65,18 @@ Shader "Hidden/Mixture/Transform"
 
 #if defined(CRT_2D) || defined(CRT_3D)
 
+				uv.xyz = uv.xyz * 2 - 1;
+
+				// Position
+				uv.xyz += SAMPLE_X(_PositionOffset, i.localTexcoord.xyz, i.direction).xyz + _PositionOffset*-2;
+
 				// Scale
 				uv.xyz *= SAMPLE_X(_Scale, i.localTexcoord.xyz, i.direction) * _Scale;
 
 				// Rotation
-				uv.xyz -= 0.5;
 				uv.xyz = mul(mz, mul(my, mul(mx, float4(uv.xyz, 0)))).xyz;
-				uv.xyz += 0.5;
 
-				// Position
-				uv.xyz += SAMPLE_X(_PositionOffset, i.localTexcoord.xyz, i.direction).xyz + _PositionOffset;
-
+				uv.xyz = uv.xyz * 0.5 + 0.5;
 #else
 
 				// For cubemaps right now, we only handle the rotation
