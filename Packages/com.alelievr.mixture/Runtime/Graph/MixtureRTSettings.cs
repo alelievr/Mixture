@@ -81,19 +81,16 @@ namespace Mixture
 			return (channels, precisions) switch
 			{
 				// RGBA
-				(OutputChannel.RGBA, OutputPrecision.SRGB) => GraphicsFormat.R8G8B8A8_SRGB,
 				(OutputChannel.RGBA, OutputPrecision.LDR) => GraphicsFormat.R8G8B8A8_UNorm,
 				(OutputChannel.RGBA, OutputPrecision.Half) => GraphicsFormat.R16G16B16A16_SFloat,
 				(OutputChannel.RGBA, OutputPrecision.Full) => GraphicsFormat.R32G32B32A32_SFloat,
 
 				// RG
-				(OutputChannel.RG, OutputPrecision.SRGB) => GraphicsFormat.R8G8_SRGB,
 				(OutputChannel.RG, OutputPrecision.LDR) => GraphicsFormat.R8G8_UNorm,
 				(OutputChannel.RG, OutputPrecision.Half) => GraphicsFormat.R16G16_SFloat,
 				(OutputChannel.RG, OutputPrecision.Full) => GraphicsFormat.R32G32_SFloat,
 
 				// R
-				(OutputChannel.R, OutputPrecision.SRGB) => GraphicsFormat.R8_SRGB,
 				(OutputChannel.R, OutputPrecision.LDR) => GraphicsFormat.R8_UNorm,
 				(OutputChannel.R, OutputPrecision.Half) => GraphicsFormat.R16_SFloat,
 				(OutputChannel.R, OutputPrecision.Full) => GraphicsFormat.R32_SFloat,

@@ -98,7 +98,6 @@ namespace Mixture
 					MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(node.previewMode));
 					MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", node.previewMip);
 					MixtureUtils.texture2DPreviewMaterial.SetFloat("_EV100", node.previewEV100);
-					MixtureUtils.SetupIsSRGB(MixtureUtils.texture2DPreviewMaterial, node, graphView.graph);
 
 					if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, node.previewTexture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
@@ -109,7 +108,6 @@ namespace Mixture
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_PreviewMip", node.previewMip);
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", (node.previewSlice + 0.5f) / node.rtSettings.GetDepth(graphView.graph));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_EV100", node.previewEV100);
-					MixtureUtils.SetupIsSRGB(MixtureUtils.texture3DPreviewMaterial, node, graphView.graph);
 
 					if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0, ColorWriteMask.Red);
@@ -119,7 +117,6 @@ namespace Mixture
 					MixtureUtils.textureCubePreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(node.previewMode));
 					MixtureUtils.textureCubePreviewMaterial.SetFloat("_PreviewMip", node.previewMip);
 					MixtureUtils.textureCubePreviewMaterial.SetFloat("_EV100", node.previewEV100);
-					MixtureUtils.SetupIsSRGB(MixtureUtils.textureCubePreviewMaterial, node, graphView.graph);
 
 					if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial, ScaleMode.ScaleToFit, 0, 0);

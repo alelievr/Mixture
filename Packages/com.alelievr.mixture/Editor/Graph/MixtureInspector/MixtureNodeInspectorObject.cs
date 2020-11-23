@@ -244,6 +244,8 @@ namespace Mixture
                 previewMaterial.SetFloat("_Exp", exposure);
                 previewMaterial.SetVector("_TextureSize", new Vector4(firstLockedPreviewTarget.previewTexture.width, firstLockedPreviewTarget.previewTexture.height, 1.0f / firstLockedPreviewTarget.previewTexture.width, 1.0f / firstLockedPreviewTarget.previewTexture.height));
                 previewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(channels));
+                previewMaterial.SetFloat("_IsSRGB0", firstLockedPreviewTarget is OutputNode o0 && o0.mainOutput.sRGB ? 1 : 0);
+                previewMaterial.SetFloat("_IsSRGB1", secondLockedPreviewTarget is OutputNode o1 && o1.mainOutput.sRGB ? 1 : 0);
                 EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, previewMaterial);
             }
             else

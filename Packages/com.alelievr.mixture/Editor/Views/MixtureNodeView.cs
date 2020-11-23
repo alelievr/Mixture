@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using GraphProcessor;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System;
 
 namespace Mixture
 {
@@ -24,7 +25,7 @@ namespace Mixture
 		protected override bool hasSettings => nodeTarget.hasSettings;
 
 		protected MixtureRTSettingsView settingsView;
-	
+
 		Label processTimeLabel;
 		Image pinIcon;
 		
@@ -537,6 +538,8 @@ namespace Mixture
 
 		protected virtual void DrawImGUIPreview(MixtureNode node, Rect previewRect, float currentSlice)
 		{
+			var outputNode = node as OutputNode;
+
 			switch (node.previewTexture.dimension)
 			{
 				case TextureDimension.Tex2D:
@@ -545,7 +548,7 @@ namespace Mixture
 					MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(nodeTarget.previewMode));
 					MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
 					MixtureUtils.texture2DPreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
-					MixtureUtils.SetupIsSRGB(MixtureUtils.texture2DPreviewMaterial, nodeTarget, owner.graph);
+					MixtureUtils.texture2DPreviewMaterial.SetFloat("_IsSRGB", outputNode != null && outputNode.mainOutput.sRGB ? 1 : 0);
 
 					if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, node.previewTexture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
@@ -556,7 +559,7 @@ namespace Mixture
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", (currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
-					MixtureUtils.SetupIsSRGB(MixtureUtils.texture3DPreviewMaterial, nodeTarget, owner.graph);
+					MixtureUtils.texture3DPreviewMaterial.SetFloat("_IsSRGB", outputNode != null && outputNode.mainOutput.sRGB ? 1 : 0);
 
 					if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0, ColorWriteMask.Red);
@@ -566,7 +569,7 @@ namespace Mixture
 					MixtureUtils.textureCubePreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(nodeTarget.previewMode));
 					MixtureUtils.textureCubePreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
 					MixtureUtils.textureCubePreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
-					MixtureUtils.SetupIsSRGB(MixtureUtils.textureCubePreviewMaterial, nodeTarget, owner.graph);
+					MixtureUtils.textureCubePreviewMaterial.SetFloat("_IsSRGB", outputNode != null && outputNode.mainOutput.sRGB ? 1 : 0);
 
 					if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial, ScaleMode.ScaleToFit, 0, 0);

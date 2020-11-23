@@ -39,6 +39,8 @@ namespace Mixture
         EnumField conversionFormat;
         VisualElement conversionSettings;
         VisualElement mipmapSettings;
+        VisualElement sRGBSettings;
+        Toggle sRGB;
 
         // state:
         bool settingsState;
@@ -79,6 +81,8 @@ namespace Mixture
             conversionFormat = this.Q("ConversionFormat") as EnumField;
             enableConversion = this.Q("EnableConversion") as Toggle;
             mipmapSettings = this.Q("MipMapSettings");
+            sRGBSettings = this.Q("SRGBSettings");
+            sRGB = this.Q("sRGB") as Toggle;
         }
 
         bool supportCustomMipMaps => node.rtSettings.GetTextureDimension(graphView.graph) == TextureDimension.Tex2D;
@@ -176,6 +180,15 @@ namespace Mixture
                 targetSettings.conversionFormat = (ConversionFormat)e.newValue;
             });
             conversionFormat.value = targetSettings.conversionFormat;
+
+            sRGB.RegisterValueChangedCallback(e => {
+				graphView.RegisterCompleteObjectUndo("Changed sRGB");
+                targetSettings.sRGB = e.newValue;
+
+                // when updating sRGB flag, we need to process the graph to update the final copy material
+               graphView.ProcessGraph(); 
+            });
+            sRGB.value = targetSettings.sRGB;
 
             // Initial view state
             portSettings.style.display = DisplayStyle.None;

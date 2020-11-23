@@ -31,6 +31,7 @@ Shader "Hidden/MixtureInspectorPreview"
             #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 
 			#include "Packages/com.alelievr.mixture/Editor/Resources/MixturePreview.hlsl"
+            #include "Packages/com.alelievr.mixture/Editor/Resources/MixtureSRGB.hlsl"
 
             float4 _TextureSize;
             float _ComparisonSlider;
@@ -41,6 +42,8 @@ Shader "Hidden/MixtureInspectorPreview"
             float _FilterMode;
             float _CompareMode;
             float _ComparisonEnabled;
+            float _IsSRGB0;
+            float _IsSRGB1;
 
             #define MERGE_NAME(x, y) x##y
 
@@ -124,6 +127,12 @@ Shader "Hidden/MixtureInspectorPreview"
                         color1 = SAMPLE_LEVEL(_MainTex1, s_trilinear_repeat_sampler, float3(uv, 0), floor(_PreviewMip)) * _Channels;
                         break;
                 }
+
+                // Apply gamma if needed
+                if (_IsSRGB0)
+                    color0.xyz = LinearToSRGB(color0.xyz);
+                if (_IsSRGB1)
+                    color1.xyz = LinearToSRGB(color1.xyz);
 
                 // TODO: blend the two colors with comparison mode
                 float4 color = ApplyComparison(uv, color0, color1);

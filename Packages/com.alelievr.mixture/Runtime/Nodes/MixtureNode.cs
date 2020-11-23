@@ -555,11 +555,10 @@ namespace Mixture
 
 	public enum OutputPrecision
 	{
-		SameAsOutput,
-		SRGB,
-		LDR,
-		Half,
-		Full,
+		SameAsOutput	= 0,
+		LDR				= 2,
+		Half			= 3,
+		Full			= 4,
 	}
 
 	public enum OutputChannel

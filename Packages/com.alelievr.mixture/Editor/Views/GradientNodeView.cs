@@ -18,11 +18,9 @@ namespace Mixture
 
 			var gradientField = new GradientField() {
                 value = gradientNode.gradient,
+				colorSpace = ColorSpace.Gamma,
 			};
-			UpdateGradientColorSpace();
             gradientField.style.height = 32;
-
-			owner.graph.outputNode.onTempRenderTextureUpdated += UpdateGradientColorSpace;
 
 			gradientField.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Gradient");
@@ -30,14 +28,6 @@ namespace Mixture
 				NotifyNodeChanged();
                 gradientNode.UpdateTexture();
 			});
-
-			void UpdateGradientColorSpace()
-			{
-				var graphFormat = owner.graph.outputNode.rtSettings.GetGraphicsFormat(owner.graph);
-				gradientField.colorSpace = GraphicsFormatUtility.IsSRGBFormat(graphFormat) ? ColorSpace.Gamma : ColorSpace.Linear;
-				gradientField.MarkDirtyRepaint();
-				gradientField.value = gradientField.value;
-			}
 
 			controlsContainer.Add(gradientField);
 		}

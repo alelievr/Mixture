@@ -22,6 +22,8 @@ namespace Mixture
         public bool                         enableConversion = false;
         public ConversionFormat             conversionFormat;
 
+        public bool                         sRGB = false;
+
         public Material						finalCopyMaterial = null;
         [NonSerialized]
         public CustomRenderTexture			finalCopyRT = null;
@@ -73,6 +75,7 @@ namespace Mixture
                 case Preset.Color:
                     name = getUniqueName("Color");
                     compressionFormat = TextureFormat.BC7;
+                    sRGB = true;
                     break;
                 case Preset.Raw:
                     name = getUniqueName("Output");

@@ -4,6 +4,7 @@ using UnityEngine;
 using GraphProcessor;
 using System.Linq;
 using UnityEngine.Rendering;
+using UnityEngine.Experimental.Rendering;
 
 namespace Mixture
 {
@@ -44,7 +45,7 @@ namespace Mixture
         {
             if (texture == null)
             {
-                texture = new Texture2D(SIZE, 1, TextureFormat.RGBAFloat, false);
+                texture = new Texture2D(SIZE, 1, GraphicsFormat.R32G32B32A32_SFloat, TextureCreationFlags.None);
                 texture.wrapMode = TextureWrapMode.Clamp;
                 texture.filterMode = FilterMode.Bilinear;
             }

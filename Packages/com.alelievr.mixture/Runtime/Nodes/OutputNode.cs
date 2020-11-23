@@ -268,7 +268,7 @@ namespace Mixture
 				else
 					targetOutput.finalCopyMaterial.SetTexture("_Source_Cube", input);
 
-				targetOutput.finalCopyMaterial.SetInt("_IsSRGB", rtSettings.GetOutputPrecision(graph) == OutputPrecision.SRGB ? 1 : 0);
+				targetOutput.finalCopyMaterial.SetInt("_IsSRGB", targetOutput.sRGB ? 1 : 0);
 			}
 
 			if (targetOutput.finalCopyRT != null)

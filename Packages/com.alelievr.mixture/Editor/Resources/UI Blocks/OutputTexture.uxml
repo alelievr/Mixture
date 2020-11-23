@@ -9,6 +9,9 @@
                 <ui:TextField picking-mode="Ignore" value="filler text" text="Main Texture" name="PortNameField" style="flex-grow: 1; display: flex; visibility: visible; position: relative;" />
             </ui:VisualElement>
             <ui:VisualElement name="PortSettings" style="flex-grow: 1;">
+                <ui:VisualElement name="SRGBSettings">
+                    <ui:Toggle label="sRGB" name="sRGB" />
+                </ui:VisualElement>
                 <ui:VisualElement name="CompressionSettings">
                     <ui:Toggle label="Compression" name="EnableCompression" />
                     <ui:VisualElement name="CompressionFields">

@@ -22,9 +22,9 @@ float3 LinearToSRGB(float3 c)
 float3 ConvertToSRGBIfNeeded(float3 color)
 {
     if (_IsSRGB)
-        return color;
-    else
         return LinearToSRGB(color);
+    else
+        return color;
 }
 
 float3 ConvertToLinearIfNeeded(float3 color)

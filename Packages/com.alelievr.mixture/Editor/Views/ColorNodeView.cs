@@ -22,7 +22,7 @@ namespace Mixture
 
 			var colorField = new ColorField() {
 				label = "Color",
-				value = colorNode.color
+				value = colorNode.color,
 			};
 			colorField.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Updated Color " + e.newValue);

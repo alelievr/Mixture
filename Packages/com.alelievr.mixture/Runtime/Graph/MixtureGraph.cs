@@ -460,7 +460,7 @@ namespace Mixture
                         var colors = (outputTexture as Texture2D).GetPixels();
 
                         // We only do the conversion for whe the graph uses SRGB images
-                        if (external.rtSettings.GetOutputPrecision(this) == OutputPrecision.SRGB)
+                        if (external.mainOutput.sRGB)
                         {
                             for (int i = 0; i < colors.Length; i++)
                                 colors[i] = colors[i].linear;
@@ -687,7 +687,7 @@ namespace Mixture
                 bool isCompressedFormat = GraphicsFormatUtility.IsCompressedFormat(GraphicsFormatUtility.GetGraphicsFormat(compressionFormat, false));
                 if (enableCompression && isCompressedFormat)
                     CompressTexture(target, dst, compressionFormat, compressionQuality);
-                // We need a special case for 3D textures because the    function doesn't handle them
+                // We need a special case for 3D textures because the function doesn't handle them
                 else if (source.dimension == TextureDimension.Tex3D)
                     ConvertOutput3DTexture(target as Texture3D, dst as Texture3D, compressionFormat);
                 else
@@ -713,7 +713,6 @@ namespace Mixture
                 case Texture2D t:
                     t.SetPixelData(request.GetData<float>(0), data.mipLevel);
                     t.Apply(false);
-                    var r = t.GetRawTextureData();
                     break;
                 case Texture3D t:
                     List<float> rawData = new List<float>();
