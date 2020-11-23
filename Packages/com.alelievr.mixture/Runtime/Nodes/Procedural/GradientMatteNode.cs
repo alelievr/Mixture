@@ -19,7 +19,7 @@ Generates a gradient texture, 4 Modes are available right now:
 
 		public override bool displayMaterialInspector => true;
 
-		protected override IEnumerable<string> filteredOutProperties => new string[]{"_Mode"};
+		protected override IEnumerable<string> filteredOutProperties => new string[]{"_Mode", "_SpiralTurnCount", "_SpiralBranchCount", "_Direction"};
 
 	}
 }
