@@ -137,6 +137,7 @@ namespace Mixture
 
             unpinButton.RegisterCallback<MouseDownEvent>((e) =>
             {
+                nodeView.RemoveFromClassList("highlight");
                 if (selection)
                 {
                     mixtureInspector.selectedNodes.Remove(nodeView);
