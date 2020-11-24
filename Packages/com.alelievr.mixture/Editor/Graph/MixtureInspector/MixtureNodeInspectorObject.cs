@@ -160,6 +160,13 @@ namespace Mixture
             var block = nodeView.controlsContainer;
             nodeView.controlsContainer = tmp;
 
+            nodeFoldout.RegisterCallback<MouseEnterEvent>(e => {
+                nodeView.AddToClassList("highlight");
+            });
+            nodeFoldout.RegisterCallback<MouseLeaveEvent>(e => {
+                nodeView.RemoveFromClassList("highlight");
+            });
+
             return nodeFoldout;
         }
 
