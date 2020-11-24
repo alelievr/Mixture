@@ -68,7 +68,7 @@ Shader "Hidden/Mixture/Transform"
 				uv.xyz = uv.xyz * 2 - 1;
 
 				// Position
-				uv.xyz += SAMPLE_X(_PositionOffset, i.localTexcoord.xyz, i.direction).xyz + _PositionOffset*-2;
+				uv.xyz += SAMPLE_X(_PositionOffset, i.localTexcoord.xyz, i.direction).xyz + _PositionOffset;
 
 				// Scale
 				uv.xyz *= SAMPLE_X(_Scale, i.localTexcoord.xyz, i.direction) * _Scale;
