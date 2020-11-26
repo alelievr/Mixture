@@ -23,7 +23,8 @@ Mixture is available on the [OpenUPM](https://openupm.com/packages/com.alelievr.
 
 ![](docs/docfx/images/2020-11-09-11-37-01.png)
 
-If you don't have `My Registries` in the dropdown for somne reason, just open your `manifest.json` and paste this (you can change the version number to latest available on [OpenUPM]((https://openupm.com/packages/com.alelievr.mixture/)))
+If you don't have `My Registries` in the dropdown for somne reason, just open your `manifest.json` and paste this (you can change the version number to the latest available on
+[OpenUPM](https://openupm.com/packages/com.alelievr.mixture/))
 ```JSON
     "com.alelievr.mixture": "0.0.4",
 ```
