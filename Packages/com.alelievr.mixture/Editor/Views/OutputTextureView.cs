@@ -110,6 +110,11 @@ namespace Mixture
                 var uniqueName = ObjectNames.GetUniqueName(node.outputTextureSettings.Select(o => o.name).ToArray(), name.newValue);
                 targetSettings.name = uniqueName;
                 portName.text = uniqueName;
+
+#if UNITY_EDITOR
+			if (graphView.graph.isRealtime)
+				graphView.graph.UpdateRealtimeAssetsOnDisk();
+#endif
             });
             portNameField.value = targetSettings.name;
             portName.text = targetSettings.name;
