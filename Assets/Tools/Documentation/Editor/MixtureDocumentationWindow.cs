@@ -83,7 +83,7 @@ public class MixtureDocumentationWindow : EditorWindow
         window.maxSize = new Vector2(1024, 1024);
 
         var nodeViews = new List<BaseNodeView>();
-        foreach (var node in NodeProvider.GetNodeMenuEntries())
+        foreach (var node in NodeProvider.GetNodeMenuEntries(docGraph))
         {
             if (node.path.Contains("Experimental"))
                 continue;
