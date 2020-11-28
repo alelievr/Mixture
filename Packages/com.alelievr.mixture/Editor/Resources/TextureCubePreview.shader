@@ -48,7 +48,7 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float4 color = _Cubemap.SampleLevel(sampler_Linear_Clamp_Cubemap, normalize(LatlongToDirectionCoordinate(i.uv)), 0) * _Channels;
+                float4 color = _Cubemap.SampleLevel(sampler_Linear_Clamp_Cubemap, normalize(LatlongToDirectionCoordinate(i.uv)), floor(_PreviewMip)) * _Channels;
                 return MakePreviewColor(i, _Cubemap_TexelSize.zw, color);
             }
             ENDCG

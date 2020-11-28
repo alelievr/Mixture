@@ -63,7 +63,7 @@ namespace Mixture
         }
 
         public bool IsCompressionEnabled()
-            => enableCompression && finalCopyRT.dimension == TextureDimension.Tex2D;
+            => enableCompression && (finalCopyRT.dimension == TextureDimension.Tex2D || finalCopyRT.dimension == TextureDimension.Cube);
 
         public bool IsConversionEnabled()
             => enableConversion && (finalCopyRT.dimension == TextureDimension.Tex3D || finalCopyRT.dimension == TextureDimension.Cube);

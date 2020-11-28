@@ -770,7 +770,12 @@ namespace Mixture
             EditorUtility.CopySerialized(source, destination);
             Object.DestroyImmediate(source);
 
-            EditorUtility.CompressTexture(destination as Texture2D, (TextureFormat)format, (UnityEditor.TextureCompressionQuality)quality);
+            if (destination.dimension == TextureDimension.Tex2D)
+                EditorUtility.CompressTexture(destination as Texture2D, (TextureFormat)format, (UnityEditor.TextureCompressionQuality)quality);
+            else if (destination.dimension == TextureDimension.Cube)
+                EditorUtility.CompressCubemapTexture(destination as Cubemap, (TextureFormat)format, (UnityEditor.TextureCompressionQuality)quality);
+            else
+                Debug.LogError("Unsupported texture dimension for compression");
 #endif
         }
     }

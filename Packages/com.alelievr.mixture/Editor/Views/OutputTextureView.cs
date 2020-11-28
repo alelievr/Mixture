@@ -123,7 +123,7 @@ namespace Mixture
                 graphView.RegisterCompleteObjectUndo($"Change {targetSettings.name} compression");
                 var textureDim = node.rtSettings.GetTextureDimension(graphView.graph);
 
-                if (textureDim == TextureDimension.Tex2D)
+                if (textureDim == TextureDimension.Tex2D || textureDim == TextureDimension.Cube)
                 {
                     targetSettings.enableCompression = enabled.newValue;
                     if (enabled.newValue)
@@ -165,6 +165,9 @@ namespace Mixture
 				targetSettings.hasMipMaps = e.newValue;
                 if (supportCustomMipMaps)
                     mipmapFields.style.display = targetSettings.hasMipMaps ? DisplayStyle.Flex : DisplayStyle.None;
+                
+                // Processing the graph to update the previews with the new mipmaps
+                graphView.ProcessGraph(); 
 			});
             enableMipMap.value = targetSettings.hasMipMaps;
 
@@ -239,10 +242,10 @@ namespace Mixture
                         mipmapFields.style.display = DisplayStyle.None;
                         break;
                     case TextureDimension.Cube:
-                        // Cubemaps supports conversion but not compression, mipmap but not custom mipmaps.
-                        compressionFields.style.display = DisplayStyle.None;
-                        enableCompression.style.display = DisplayStyle.None;
-                        conversionSettings.style.display = DisplayStyle.Flex;
+                        // Cubemaps supports compression and mipmaps but not custom mipmaps.
+                        compressionFields.style.display = targetSettings.enableCompression ? DisplayStyle.Flex : DisplayStyle.None;
+                        enableCompression.style.display = DisplayStyle.Flex;
+                        conversionSettings.style.display = DisplayStyle.None;
                         mipmapSettings.style.display = DisplayStyle.Flex;
                         mipmapFields.style.display = DisplayStyle.None;
                         break;
