@@ -56,6 +56,10 @@ Currently only the first output texture of the output node can be retrieved.
 			CoreUtils.Destroy(output);
 		}
 
+		[IsCompatibleWithGraph]
+		static bool IsCompatibleWithRealtimeGraph(BaseGraph graph)
+			=> (graph as MixtureGraph).isRealtime;
+
 		[CustomPortBehavior(nameof(output))]
 		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{

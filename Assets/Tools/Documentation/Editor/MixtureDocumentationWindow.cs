@@ -85,20 +85,20 @@ public class MixtureDocumentationWindow : EditorWindow
         var nodeViews = new List<BaseNodeView>();
         foreach (var node in NodeProvider.GetNodeMenuEntries())
         {
-            if (node.Key.Contains("Experimental"))
+            if (node.path.Contains("Experimental"))
                 continue;
 
             // Skip non-mixture nodes:
-            if (!node.Value.FullName.Contains("Mixture"))
+            if (!node.type.FullName.Contains("Mixture"))
                 continue;
 
             // We'll suport loops after
-            if (node.Value == typeof(ForeachStart) || node.Value == typeof(ForStart))
+            if (node.type == typeof(ForeachStart) || node.type == typeof(ForStart))
                 continue;
 
             window.InitializeGraph(docGraph);
             var graphView = window.view;
-            var newNode = BaseNode.CreateFromType(node.Value, new Vector2(0, toolbarHeight));
+            var newNode = BaseNode.CreateFromType(node.type, new Vector2(0, toolbarHeight));
             var nodeView = graphView.AddNode(newNode);
             nodeViews.Add(nodeView);
             graphView.Add(nodeView);

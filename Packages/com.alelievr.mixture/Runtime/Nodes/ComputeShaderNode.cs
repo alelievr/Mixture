@@ -47,6 +47,11 @@ namespace Mixture
 			afterProcessCleanup += UpdateTempRT;
 		}
 
+		// By overriding this function, we mark this node as dependent of the graph, so it will be update
+		// so it will be updated when the graph dimension changes (the ports will be correct when we open the create from edge menu)
+		[IsCompatibleWithGraph]
+		protected static bool IsCompatibleWithGraph(BaseGraph graph) => true;
+
 		protected ComputeShader LoadComputeShader(string name)
 		{
 			var compute = Resources.Load<ComputeShader>(name);

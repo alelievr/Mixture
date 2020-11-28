@@ -129,6 +129,7 @@ namespace Mixture
 						}
 					}).ExecuteLater(1);
 					currentDim = newDim;
+					NodeProvider.LoadGraph(graph);
 				}
 				else
 				{
