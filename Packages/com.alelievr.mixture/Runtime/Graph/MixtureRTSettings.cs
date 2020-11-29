@@ -159,9 +159,9 @@ namespace Mixture
 				return dimension == OutputDimension.SameAsOutput ? (TextureDimension)graph.outputNode.rtSettings.dimension : (TextureDimension)dimension;
 		}
 
-		public bool NeedsUpdate(MixtureGraph graph, Texture t)
+		public bool NeedsUpdate(MixtureGraph graph, Texture t, bool checkFormat = true)
 		{
-			return GetGraphicsFormat(graph) != t.graphicsFormat
+			return (GetGraphicsFormat(graph) != t.graphicsFormat && checkFormat)
 				|| GetWidth(graph) != t.width
 				|| GetHeight(graph) != t.height
 				|| filterMode != t.filterMode

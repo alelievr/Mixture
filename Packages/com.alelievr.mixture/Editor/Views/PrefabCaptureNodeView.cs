@@ -91,6 +91,8 @@ namespace Mixture
             sceneNode.prefabOpened = false;
             sceneNode.prefabCamera = null;
             sceneNode.bufferOutput = null;
+
+            owner.graph.NotifyNodeChanged(nodeTarget);
         }
 
         void OpenPrefab()
@@ -106,6 +108,8 @@ namespace Mixture
                     PrefabUtility.SaveAsPrefabAsset(openedPrefabRoot, openedPrefabPath);
                 StageUtility.GoBackToPreviousStage();
             }
+
+            owner.graph.NotifyNodeChanged(nodeTarget);
         }
 
         void SaveView() => sceneNode.SaveCurrentViewToImage();

@@ -34,6 +34,7 @@ namespace Mixture
             // For color we don't need to do anything
             if (mode != PrefabCaptureNode.OutputMode.Color)
             {
+                properties.SetTexture("_NormalBufferTexture", ctx.cameraNormalBuffer);
                 properties.SetFloat("_OutputMode", (int)mode);
                 CoreUtils.SetRenderTarget(ctx.cmd, ctx.cameraColorBuffer, ClearFlag.Color, Color.clear);
                 CoreUtils.DrawFullScreen(ctx.cmd, outputBufferMaterial, properties, shaderPassId: 0);

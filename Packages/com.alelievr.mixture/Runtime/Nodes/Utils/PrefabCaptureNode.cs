@@ -48,15 +48,28 @@ Note that this node is currently only available with HDRP.
 
         public OutputMode mode;
 
-		public override bool 	hasSettings => false;
-		public override string	name => "Prefab Capture (HDRP only)";
+		public override bool 	hasSettings => true;
+		public override string	name => "Prefab Capture (HDRP)";
 		public override float	nodeWidth => 200;
 		public override Texture	previewTexture => prefabOpened ? (Texture)tmpRenderTexture : savedTexture;
 
         public override bool    showDefaultInspector => true;
         public override bool    showPreviewExposure => mode == OutputMode.LinearEyeDepth;
 
+		protected override MixtureRTSettings defaultRTSettings
+        {
+            get
+            {
+                var settings = base.defaultRTSettings;
+                settings.editFlags = EditFlags.All ^ EditFlags.POTSize;
+                return Get2DOnlyRTSettings(settings);
+            }
+        }
+
         public GameObject       prefab;
+
+        [ShowInInspector]
+        public TextureFormat    compressionFormat = TextureFormat.DXT5; 
 
         [System.NonSerialized]
         internal bool           prefabOpened = false;
@@ -148,7 +161,7 @@ Note that this node is currently only available with HDRP.
                 outputTexture = tmpRenderTexture;
             else
                 outputTexture = savedTexture;
-            
+
             return true;
         }
 
@@ -165,11 +178,27 @@ Note that this node is currently only available with HDRP.
 
         internal void SaveCurrentViewToImage()
         {
+            // Temp texture for the readback (before compression)
+            Texture2D tmp = new Texture2D(savedTexture.width, savedTexture.height, GraphicsFormat.R32G32B32A32_SFloat, TextureCreationFlags.None);
             // Radback color & depth:
             RenderTexture.active = tmpRenderTexture;
-            savedTexture.ReadPixels(new Rect(0, 0, savedTexture.width, savedTexture.height), 0, 0);
+            tmp.ReadPixels(new Rect(0, 0, savedTexture.width, savedTexture.height), 0, 0);
             RenderTexture.active = null; 
-            savedTexture.Apply();
+            tmp.Apply();
+
+#if UNITY_EDITOR
+            if (GraphicsFormatUtility.IsCompressedFormat(savedTexture.graphicsFormat))
+            {
+                EditorUtility.CopySerialized(tmp, savedTexture);
+                Object.DestroyImmediate(tmp);
+                EditorUtility.CompressTexture(savedTexture, compressionFormat, TextureCompressionQuality.Best);
+            }
+            else
+            {
+                savedTexture.SetPixels(tmp.GetPixels());
+                savedTexture.Apply();
+            }
+#endif
 
             graph.NotifyNodeChanged(this);
 
@@ -180,17 +209,36 @@ Note that this node is currently only available with HDRP.
         void UpdateRenderTextures()
         {
             UpdateTempRenderTexture(ref tmpRenderTexture);
-            if (savedTexture == null || rtSettings.NeedsUpdate(graph, savedTexture))
+            var compressedFormat = GraphicsFormatUtility.GetGraphicsFormat(compressionFormat, false);
+
+            if (savedTexture == null || rtSettings.NeedsUpdate(graph, savedTexture, false))
             {
                 if (graph.IsObjectInGraph(savedTexture))
                 {
                     graph.RemoveObjectFromGraph(savedTexture);
                     Object.DestroyImmediate(savedTexture, true);
                 }
-                savedTexture = new Texture2D(rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), rtSettings.GetGraphicsFormat(graph), TextureCreationFlags.None) { name = "SceneNode Rendering"};
+                savedTexture = new Texture2D(rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), compressedFormat, TextureCreationFlags.None) { name = "SceneNode Rendering"};
                 savedTexture.hideFlags = HideFlags.NotEditable;
                 graph.AddObjectToGraph(savedTexture);
             }
+
+#if UNITY_EDITOR
+            // Change texture format without touching the asset:
+            if (savedTexture.graphicsFormat != compressedFormat)
+            {
+                if (GraphicsFormatUtility.IsCompressedFormat(compressedFormat))
+                    EditorUtility.CompressTexture(savedTexture, compressionFormat, TextureCompressionQuality.Best);
+                else
+                {
+                    var pixels = savedTexture.GetPixels();
+                    var tmp = new Texture2D(savedTexture.width, savedTexture.height, compressedFormat, TextureCreationFlags.None);
+                    tmp.SetPixels(pixels);
+                    EditorUtility.CopySerialized(tmp, savedTexture);
+                    Object.DestroyImmediate(tmp);
+                }
+            }
+#endif
         }
 	}
 }
