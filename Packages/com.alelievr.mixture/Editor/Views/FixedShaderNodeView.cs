@@ -51,6 +51,8 @@ namespace Mixture
 
 				materialIMGUI.AddToClassList("MaterialInspector");
 
+				MixtureEditorUtils.ScheduleAutoHide(materialIMGUI, owner);
+
 				controlsContainer.Add(materialIMGUI);
 			}
 		}

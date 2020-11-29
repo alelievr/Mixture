@@ -533,6 +533,8 @@ namespace Mixture
 				DrawTextureInfoHover(previewRect, node.previewTexture);
             });
 
+			MixtureEditorUtils.ScheduleAutoHide(previewContainer, owner);
+
 			previewContainer.Add(previewImageSlice);
 		}
 

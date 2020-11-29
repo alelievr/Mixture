@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System.Linq;
+using UnityEngine.UIElements;
 
 namespace Mixture
 {
@@ -207,6 +208,13 @@ namespace Mixture
                 (channels & PreviewChannels.B) == 0 ? 0 : 1,
                 (channels & PreviewChannels.A) == 0 ? 0 : 1
                 );
+        }
+
+        public static void ScheduleAutoHide(VisualElement target, MixtureGraphView view)
+        {
+            target.schedule.Execute(() => {
+                target.visible = target.worldBound.x == float.NaN || target.worldBound.Overlaps(view.worldBound);
+            }).Every(16); // refresh the visible for 60hz screens (should not cause problems for higher refresh rates)
         }
     }
 }

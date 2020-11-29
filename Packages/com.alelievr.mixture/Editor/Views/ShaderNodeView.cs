@@ -67,6 +67,8 @@ namespace Mixture
 			var materialIMGUI = new IMGUIContainer(() => MaterialGUI(fromInspector, shaderCreationUI, shaderField));
 			controlsContainer.Add(materialIMGUI);
 			materialIMGUI.AddToClassList("MaterialInspector");
+
+			MixtureEditorUtils.ScheduleAutoHide(materialIMGUI, owner);
 		}
 
 		~ShaderNodeView()
