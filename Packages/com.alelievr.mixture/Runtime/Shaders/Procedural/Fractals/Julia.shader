@@ -12,7 +12,7 @@ Shader "Hidden/Mixture/Julia"
 		[Int]_Iteration("Iteration", Range(1, 256)) = 50
 		_Param1("C 1", Range(-1, 1)) = -0.2
 		_Param2("C 2", Range(-1, 1)) = 0.7
-		_Zoom("Zoom", Range(1, 16)) = 1
+		_Zoom("Zoom", Range(1, 16)) = 2
 		[MixtureVector2]_Position("Position", Vector) = (-0.15, 0.1, 0, 0)
 	}
 	SubShader
@@ -75,17 +75,7 @@ Shader "Hidden/Mixture/Julia"
 					f += 1.0;
 				}
 
-				// distance	
-				// d(c) = |Z|·log|Z|/|Z'|
-				// d = f / _Iteration;
-				// if (f < 256.0)
-				// 	d = sqrt(dot(z.xy, z.xy) / dot(z.zw, z.zw)) * log(dot(z.xy, z.xy));
-
-				// do some soft coloring based on distance
-				// d = clamp(4.0 * d, 0.0, 1.0);
-				// d = pow(d, 0.25 );
-
-				d = 1.0+log2(d)/16.0;
+				d = 1.0 + log2(d) / 16.0;
 
 				fractalUVs.y *= 4;
 				fractalUVs = abs(fractalUVs);
