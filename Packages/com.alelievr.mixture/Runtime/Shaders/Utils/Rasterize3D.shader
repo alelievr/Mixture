@@ -21,7 +21,7 @@ Shader "Hidden/Mixture/Rasterize3D"
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 4.5
-            #pragma enable_d3d11_debug_symbols
+            // #pragma enable_d3d11_debug_symbols
 
             #include "UnityCG.cginc"
 

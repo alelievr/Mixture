@@ -22,7 +22,6 @@ Shader "Hidden/Mixture/Splatter"
 
 	CGINCLUDE
 
-	#pragma enable_d3d11_debug_symbols
 	#pragma shader_feature CRT_2D CRT_3D
 	#pragma target 4.5
 	

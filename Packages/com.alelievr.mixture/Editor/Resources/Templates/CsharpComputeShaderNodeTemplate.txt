@@ -21,11 +21,6 @@ namespace Mixture
 
 		protected override string computeShaderResourcePath => "#NAME#";
 
-        // By default we auto detect the inputs and outputs of the node based on the properties
-        // in the compute shader, if you don't want this behavior, you can set them to false.
-		protected override bool autoDetectInputs => true;
-		protected override bool autoDetectOutputs => true;
-
         // In case you want to change the compute
 		// protected override string previewKernel => null;
         // public override string previewTexturePropertyName => previewComputeProperty;
