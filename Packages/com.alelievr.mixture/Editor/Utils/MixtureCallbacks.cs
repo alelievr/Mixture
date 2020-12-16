@@ -27,6 +27,8 @@ namespace Mixture
 		public static readonly string	computeShaderNodeDefaultName = "MixtureCompute.cs";
 		public static readonly string	cSharpMixtureNodeTemplate = "Templates/CSharpMixtureNodeTemplate";
 		public static readonly string	cSharpMixtureNodeName = "New Mixture Node.cs";
+		public static readonly string	cSharpMixtureNodeViewTemplate = "Templates/CSharpMixtureNodeViewTemplate";
+		public static readonly string	cSharpMixtureNodeViewName = "New Mixture Node View.cs";
 
 		public static readonly string	customMipMapShader = "MixtureShader.shader";
 
@@ -110,6 +112,13 @@ namespace Mixture
 		{
 			var template = Resources.Load< TextAsset >(cSharpMixtureNodeTemplate);
 			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), cSharpMixtureNodeName);
+		}
+
+		[MenuItem("Assets/Create/Mixture/C# Mixture Node View", false, 402)]
+		public static void CreateCSharpMixtureViewNodeFile()
+		{
+			var template = Resources.Load< TextAsset >(cSharpMixtureNodeViewTemplate);
+			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), cSharpMixtureNodeViewName);
 		}
 
 		[OnOpenAsset(0)]

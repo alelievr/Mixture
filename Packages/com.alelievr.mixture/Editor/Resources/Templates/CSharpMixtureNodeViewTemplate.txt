@@ -1,0 +1,20 @@
+using UnityEngine.UIElements;
+using GraphProcessor;
+
+namespace Mixture
+{
+	[NodeCustomEditor(typeof(TargetNodeType))]
+	public class #SCRIPTNAME# : MixtureNodeView
+	{
+		TargetNodeType		node;
+
+		public override void Enable(bool fromInspector)
+		{
+			base.Enable(fromInspector);
+
+			node = nodeTarget as TargetNodeType;
+
+            controlsContainer.Add(new Label("Hello World"));
+		}
+	}
+}
