@@ -100,6 +100,7 @@ namespace Mixture
 		}
 
 		public event Action		onOutputTextureUpdated;
+		public event Action		afterCommandBufferExecuted;
 
 		public MixtureGraph()
 		{
@@ -599,22 +600,6 @@ namespace Mixture
 
 #endif
 
-        // public void ConvertTextureIfNeeded(OutputNode node, Texture source, OutputTextureSettings settings)
-        // {
-        //     if (!settings.IsConversionEnabled())
-        //         return;
-            
-        //     switch (source)
-        //     {
-        //         case Texture3D volume:
-        //             volume
-        //             volume.format = settings.conversionFormat;
-        //             break;
-        //         case Cubemap cubemap:
-        //             break;
-        //     }
-        // }
-
         public struct ReadbackData
         {
             public OutputNode               node;
@@ -778,5 +763,7 @@ namespace Mixture
                 Debug.LogError("Unsupported texture dimension for compression");
 #endif
         }
+
+        internal void InvokeCommandBufferExecuted() => afterCommandBufferExecuted?.Invoke();
     }
 }

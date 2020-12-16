@@ -200,8 +200,17 @@ namespace Mixture
 			MaterialEditor  editor;
 			if (!materialEditors.TryGetValue(material, out editor))
 			{
-				editor = materialEditors[material] = Editor.CreateEditor(material) as MaterialEditor;
-				MixturePropertyDrawer.RegisterEditor(editor, this, owner.graph);
+				foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+				{
+					var editorType = assembly.GetType("UnityEditor.MaterialEditor");
+					if (editorType != null)
+					{
+						editor = materialEditors[material] = Editor.CreateEditor(material, editorType) as MaterialEditor;
+						MixturePropertyDrawer.RegisterEditor(editor, this, owner.graph);
+						break ;
+					}
+				}
+
 			}
 
 			bool propertiesChanged = CheckPropertyChanged(material, properties);

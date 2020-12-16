@@ -132,7 +132,7 @@ namespace Mixture
 			}
 		}
 
-		public List<BaseNode> GetNodeDependencies(BaseNode node)
+		List<BaseNode> GetNodeDependencies(BaseNode node)
 		{
 			HashSet<BaseNode> dependencies = new HashSet<BaseNode>();
 			Stack<BaseNode> inputNodes = new Stack<BaseNode>(node.GetInputNodes());
@@ -255,6 +255,8 @@ namespace Mixture
 				RunGraphFor(cmd, graph.graphOutputs);
 
 				Graphics.ExecuteCommandBuffer(cmd);
+
+				graph.InvokeCommandBufferExecuted();
 			}
 		}
 

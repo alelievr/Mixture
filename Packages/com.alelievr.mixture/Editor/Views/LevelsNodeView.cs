@@ -21,7 +21,10 @@ namespace Mixture
 			levelsNode = nodeTarget as Levels;
 
 			var histogram = new HistogramView();
-			histogram.SetHistogramBuffer(levelsNode.histogram);
+			owner.graph.afterCommandBufferExecuted += () => {
+				histogram.UpdateHistogram(levelsNode.input);
+			};
+			histogram.UpdateHistogram(levelsNode.input);
 			controlsContainer.Add(histogram);
 		}
 	}

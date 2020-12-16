@@ -80,28 +80,6 @@ Smooth is only in alpha
 		int jumpFloodingKernel;
 		int finalPassKernel;
 
-		[CustomPortBehavior(nameof(input))]
-		protected IEnumerable< PortData > ChangeInputPortType(List< SerializableEdge > edges)
-		{
-			yield return new PortData{
-				displayName = "Input",
-				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
-				identifier = "Input",
-				acceptMultipleEdges = false,
-			};
-		}
-
-		[CustomPortBehavior(nameof(output))]
-		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
-		{
-			yield return new PortData{
-				displayName = "Output",
-				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
-				identifier = "output",
-				acceptMultipleEdges = true,
-			};
-		}
-
 		protected override void Enable()
 		{
 			base.Enable();
@@ -137,9 +115,12 @@ Smooth is only in alpha
 			output.doubleBuffered = true;
 			output.EnsureDoubleBufferConsistency();
 			var rt = output.GetDoubleBufferRenderTexture();
-			rt.Release();
-			rt.enableRandomWrite = true;
-			rt.Create();
+			if (!rt.enableRandomWrite)
+			{
+				rt.Release();
+				rt.enableRandomWrite = true;
+				rt.Create();
+			}
 
 			MixtureUtils.SetupComputeDimensionKeyword(computeShader, input.dimension);
 

@@ -142,7 +142,7 @@ namespace Mixture
 
 		void Process()
 		{
-			graphView.processor.Run();
+			EditorApplication.delayCall += graphView.processor.Run;
 		}
 	}
 }

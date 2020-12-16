@@ -97,6 +97,7 @@ namespace Mixture
 			{ typeof(Texture3D), "UnityEditor.Texture3DInspector"},
 			{ typeof(Cubemap), "UnityEditor.CubemapInspector"},
 			{ typeof(CustomRenderTexture), "UnityEditor.CustomRenderTextureEditor"},
+			{ typeof(Material), "UnityEditor.MaterialEditor" },
 		};
 
 		protected virtual void LoadInspectorFor(Type typeForEditor)

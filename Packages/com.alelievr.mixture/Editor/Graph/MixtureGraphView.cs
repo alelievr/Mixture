@@ -154,8 +154,10 @@ namespace Mixture
 			};
 			graph.onOutputTextureUpdated += () => ProcessGraph();
 			graph.onGraphChanges += _ => {
-				this.schedule.Execute(() => ProcessGraph()).ExecuteLater(10);
-				MarkDirtyRepaint();
+				EditorApplication.delayCall += () => {
+					ProcessGraph();
+					MarkDirtyRepaint();
+				};
 			};
 
 			// Run the processor when we open the graph

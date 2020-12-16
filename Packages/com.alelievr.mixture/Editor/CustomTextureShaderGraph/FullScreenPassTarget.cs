@@ -7,10 +7,10 @@ using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.ShaderGraph;
-using UnityEditor.Graphing;
 using UnityEditor.UIElements;
 using UnityEditor.ShaderGraph.Serialization;
 using UnityEditor.ShaderGraph.Legacy;
+using SubTargetListPool = UnityEngine.Rendering.ListPool<UnityEditor.ShaderGraph.SubTarget>;
 
 namespace Mixture 
 {
@@ -78,7 +78,7 @@ namespace Mixture
         public static List<SubTarget> GetSubTargets<T>(T target) where T : Target
         {
             // Get Variants
-            var subTargets = ListPool<SubTarget>.Get();
+            var subTargets = SubTargetListPool.Get();
             var typeCollection = TypeCache.GetTypesDerivedFrom<SubTarget>();
             foreach (var type in typeCollection)
             {

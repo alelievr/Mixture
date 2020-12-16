@@ -2,13 +2,14 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using UnityEditorInternal;
+using System.Linq;
 
 namespace Mixture
 {
     // TODO: move this elsewhere
     static class MixtureUpdater
     {
-        public static List< MixtureGraphView >  views = new List< MixtureGraphView >();
+        public static HashSet< MixtureGraphView >  views = new HashSet< MixtureGraphView >();
         static HashSet< MixtureGraph >          needsProcess = new HashSet<MixtureGraph>();
         static MixtureUpdater()
         {
@@ -21,7 +22,7 @@ namespace Mixture
             views.Add(view);
         }
 
-        public static void RemoveGraphToProcess(MixtureGraph graph) => RemoveGraphToProcess(views.Find(v => v.graph == graph));
+        public static void RemoveGraphToProcess(MixtureGraph graph) => RemoveGraphToProcess(views.FirstOrDefault(v => v.graph == graph));
         public static void RemoveGraphToProcess(MixtureGraphView view) => views.Remove(view);
 
         public static void EnqueueGraphProcessing(MixtureGraph graph) => needsProcess.Add(graph);
@@ -32,10 +33,10 @@ namespace Mixture
 			if (!InternalEditorUtility.isApplicationActive)
 				return;
 
-            views.RemoveAll(v => v?.graph == null);
-
             foreach (var view in views)
             {
+                if (view.graph == null)
+                    continue;
                 // TODO: check if view is visible
                 if (view.graph.isRealtime || view.graph.realtimePreview || needsProcess.Contains(view.graph))
                 {

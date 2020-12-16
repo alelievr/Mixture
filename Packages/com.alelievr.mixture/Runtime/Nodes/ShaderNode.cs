@@ -141,25 +141,6 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 				AssignMaterialPropertiesFromEdges(edges, material);
 		}
 
-		[CustomPortBehavior(nameof(output))]
-		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
-		{
-			var dim = rtSettings.GetTextureDimension(graph);
-
-			if (output != null)
-			{
-				UpdateTempRenderTexture(ref output);
-				dim = output.dimension;
-			}
-
-			yield return new PortData{
-				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension(dim),
-				identifier = "output",
-				acceptMultipleEdges = true,
-			};
-		}
-
 		// By overriding this function, we mark this node as dependent of the graph, so it will be update
 		// so it will be updated when the graph dimension changes (the ports will be correct when we open the create from edge menu)
 		[IsCompatibleWithGraph]

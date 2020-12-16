@@ -88,6 +88,30 @@ namespace Mixture
 
             mixtureInspector.pinnedNodeUpdate += UpdateNodeInspectorList;
             previewMaterial = new Material(Shader.Find("Hidden/MixtureInspectorPreview")) { hideFlags = HideFlags.HideAndDontSave };
+
+            // Workaround because UIElements is not able to correctly detect mouse enter / leave events :(
+            var repaint = root.schedule.Execute(() => {
+                Repaint();
+            }).Every(16);
+            root.Insert(0, new IMGUIContainer(() => {
+                if (selectedNodeList.localBound.Contains(Event.current.mousePosition))
+                    repaint.Resume();
+                else
+                {
+                    // Unselect all nodes:
+                    foreach (var view in mixtureInspector.selectedNodes)
+                        view.RemoveFromClassList("highlight");
+                    foreach (var view in mixtureInspector.pinnedNodes)
+                        view.RemoveFromClassList("highlight");
+                    repaint.Pause();
+                }
+            }));
+            // End workaround
+        }
+
+        public override void OnInspectorGUI()
+        {
+            Debug.Log(Event.current.rawType);
         }
 
         protected override void OnDisable()
@@ -110,7 +134,7 @@ namespace Mixture
                 view.AddToClassList("SelectedNode");
                 selectedNodeList.Add(view);
 
-                if (nodeView.nodeTarget is MixtureNode n && n.hasPreview & n.previewTexture != null)
+                if (nodeView.nodeTarget is MixtureNode n && n.hasPreview && n.previewTexture != null)
                     nodeWithPreviews.Add(n);
             }
 
@@ -121,7 +145,7 @@ namespace Mixture
                 view.AddToClassList("PinnedView");
                 selectedNodeList.Add(view);
                 
-                if (nodeView.nodeTarget is MixtureNode n && n.hasPreview & n.previewTexture != null)
+                if (nodeView.nodeTarget is MixtureNode n && n.hasPreview && n.previewTexture != null)
                     nodeWithPreviews.Add(n);
             }
         }

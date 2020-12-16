@@ -7,6 +7,8 @@
 
 #pragma enable_d3d11_debug_symbols
 
+sampler s_point_clamp_sampler;
+
 Texture2D<float4> _Input;
 RWTexture2D<float4> _Output;
 
@@ -14,6 +16,7 @@ RWByteAddressBuffer _MinMax;
 RWByteAddressBuffer _Histogram;
 uint _HistogramBucketCount;
 
+// TODO: we don't need that
 [numthreads(8,8,1)]
 void FindMinMax(uint3 id : SV_DispatchThreadID)
 {
@@ -22,10 +25,8 @@ void FindMinMax(uint3 id : SV_DispatchThreadID)
     // Insert your code here
     // TODO: shared memory with min max redux
     float value = Luminance(input);
-    _MinMax.InterlockedMin(0, uint(value * 1000000)); //  TODO: hardcoded value, asfloat ?
-    _MinMax.InterlockedMax(1, uint(value * 1000000));
-
-    _Output[id.xy] = input;
+    _MinMax.InterlockedMin(0, asfloat(value)); // Min luminance
+    _MinMax.InterlockedMax(4, asfloat(value)); // Max luminance
 }
 
 [numthreads(64,0,1)]
@@ -35,15 +36,20 @@ void ClearHistogramData(uint3 id : SV_DispatchThreadID)
 }
 
 [numthreads(8,8,1)]
-void Levels (uint3 id : SV_DispatchThreadID)
+void Levels(uint3 id : SV_DispatchThreadID)
 {
-    float4 input = _Input[id.xy];
+    float4 input = _Input.SampleLevel(s_point_clamp_sampler, id.xy / 1024.0, 0);
 
     // Insert your code here
 
     // TODO: histogram modes
     float value = Luminance(input);
-    _Histogram.InterlockedAdd(uint(saturate(value) * _HistogramBucketCount), 1);
+    uint result;
+    _Histogram.InterlockedAdd(uint(saturate(value) * _HistogramBucketCount), 1, result);
+    _MinMax.InterlockedMin(0, asfloat(value)); // Min luminance
+    _MinMax.InterlockedMax(4, asfloat(value)); // Max luminance
+    _MinMax.InterlockedMin(8, result + 1); // Min count in histogram bucket
+    _MinMax.InterlockedMax(12, result + 1); // Max count in histogram bucket
 
     _Output[id.xy] = input;
 }

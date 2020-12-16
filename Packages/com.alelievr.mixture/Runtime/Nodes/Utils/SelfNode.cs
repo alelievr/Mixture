@@ -60,16 +60,16 @@ Currently only the first output texture of the output node can be retrieved.
 		static bool IsCompatibleWithRealtimeGraph(BaseGraph graph)
 			=> (graph as MixtureGraph).isRealtime;
 
-		[CustomPortBehavior(nameof(output))]
-		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
-		{
-			yield return new PortData{
-				displayName = "output",
-				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
-				identifier = "output",
-				acceptMultipleEdges = true,
-			};
-		}
+		// [CustomPortBehavior(nameof(output))]
+		// protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
+		// {
+		// 	yield return new PortData{
+		// 		displayName = "output",
+		// 		displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
+		// 		identifier = "output",
+		// 		acceptMultipleEdges = true,
+		// 	};
+		// }
 
 		public void ResetOutputTexture() => initialization = true;
 
@@ -77,7 +77,7 @@ Currently only the first output texture of the output node can be retrieved.
 		{
 			if (output == null)
 				return false;
-			
+
 			var sourceTarget = graph.outputNode.mainOutput.finalCopyRT;
 
 			// We force the initialization if the graph texture have been destroyed (c++ cleanup for example)
@@ -86,7 +86,7 @@ Currently only the first output texture of the output node can be retrieved.
 
 			var dim = rtSettings.GetTextureDimension(graph);
 
-			if (output.width != rtSettings.GetWidth(graph))
+			if (output.width != rtSettings.GetWidth(graph) || output.dimension != rtSettings.GetTextureDimension(graph))
 			{
 				output.Release();
 				output.width = rtSettings.GetWidth(graph);

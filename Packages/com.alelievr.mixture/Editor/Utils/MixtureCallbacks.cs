@@ -25,6 +25,8 @@ namespace Mixture
 		public static readonly string	computeShaderTemplate = "Templates/ComputeShaderTemplate";
 		public static readonly string	computeShaderDefaultName = "MixtureCompute.compute";
 		public static readonly string	computeShaderNodeDefaultName = "MixtureCompute.cs";
+		public static readonly string	cSharpMixtureNodeTemplate = "Templates/CSharpMixtureNodeTemplate";
+		public static readonly string	cSharpMixtureNodeName = "New Mixture Node.cs";
 
 		public static readonly string	customMipMapShader = "MixtureShader.shader";
 
@@ -54,7 +56,7 @@ namespace Mixture
                 $"New Custom Texture Graph.{ShaderGraphImporter.Extension}", Resources.Load<Texture2D>("sg_graph_icon@64"), null);
 		}
 
-		[MenuItem("Assets/Create/Mixture/Custom Mip Map", false, 403)]
+		[MenuItem("Assets/Create/Mixture/Custom Mip Map Shader Graph", false, 903)]
 		public static void CreateCustomMipMapShaderGraph()
 		{
 			var graphItem = ScriptableObject.CreateInstance< MipMapShaderGraphAction >();
@@ -101,6 +103,13 @@ namespace Mixture
 		{
 			var template = Resources.Load< TextAsset >(computeShaderTemplate);
 			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), computeShaderDefaultName);
+		}
+
+		[MenuItem("Assets/Create/Mixture/C# Mixture Node", false, 401)]
+		public static void CreateCSharpMixtureNodeFile()
+		{
+			var template = Resources.Load< TextAsset >(cSharpMixtureNodeTemplate);
+			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), cSharpMixtureNodeName);
 		}
 
 		[OnOpenAsset(0)]

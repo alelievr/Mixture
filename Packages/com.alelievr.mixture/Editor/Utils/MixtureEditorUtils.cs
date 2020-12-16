@@ -213,7 +213,7 @@ namespace Mixture
         public static void ScheduleAutoHide(VisualElement target, MixtureGraphView view)
         {
             target.schedule.Execute(() => {
-                target.visible = target.worldBound.x == float.NaN || target.worldBound.Overlaps(view.worldBound);
+                target.visible = float.IsNaN(target.worldBound.x) || target.worldBound.Overlaps(view.worldBound);
             }).Every(16); // refresh the visible for 60hz screens (should not cause problems for higher refresh rates)
         }
     }

@@ -43,6 +43,12 @@ namespace Mixture
 
 		protected override void InitializeWindow(BaseGraph graph)
 		{
+            if (view != null)
+            {
+                view.Dispose();
+                MixtureUpdater.RemoveGraphToProcess(view);
+            }
+
             var mixture = (graph as MixtureGraph);
             bool realtime = mixture.isRealtime;
 			var fileName = Path.GetFileNameWithoutExtension(mixture.mainAssetPath);

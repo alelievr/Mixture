@@ -7,6 +7,7 @@ using System.Linq;
 using Object = UnityEngine.Object;
 using UnityEngine.Experimental.Rendering;
 using System.Text.RegularExpressions;
+using System.Reflection;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Rendering;
@@ -492,6 +493,23 @@ namespace Mixture
 			}
 
 			return material;
+		}
+
+		// For all nodes that inherit MixtureNode, we provide a function that automatically changes the port type depending on the texture dimension:
+		[CustomPortTypeBehavior(typeof(Texture))]
+		[CustomPortTypeBehavior(typeof(RenderTexture))]
+		[CustomPortTypeBehavior(typeof(CustomRenderTexture))]
+		IEnumerable< PortData > GetTypeFromTextureDim(string fieldName, string displayName, object fieldValue)
+		{
+			// if (fieldValue as Texture != null)
+			// 	Debug.Log("Updated dim for field: " + fieldName + " | " + (fieldValue as Texture)?.dimension);
+			yield return new PortData
+			{
+				displayName = displayName,
+				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
+				identifier = fieldName,
+				acceptMultipleEdges = true,
+			};
 		}
 
 		protected override void Disable()

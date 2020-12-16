@@ -45,31 +45,9 @@ namespace Mixture
 
 		static readonly int histogramBucketCount = 256;
 
-		ComputeBuffer minMaxBuffer;
+		internal ComputeBuffer minMaxBuffer;
 		internal ComputeBuffer histogram;
-		float[] manualMinMaxData = new float[2];
-
-		[CustomPortBehavior(nameof(input))]
-		protected IEnumerable< PortData > ChangeInputPortType(List< SerializableEdge > edges)
-		{
-			yield return new PortData{
-				displayName = "Input",
-				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
-				identifier = "Input",
-				acceptMultipleEdges = false,
-			};
-		}
-
-		[CustomPortBehavior(nameof(output))]
-		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
-		{
-			yield return new PortData{
-				displayName = "Output",
-				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
-				identifier = "output",
-				acceptMultipleEdges = true,
-			};
-		}
+		float[] manualMinMaxData = new float[4];
 
         protected override void Enable()
         {
@@ -79,7 +57,7 @@ namespace Mixture
 			levelsKernel = computeShader.FindKernel("Levels");
 			previewKernel = computeShader.FindKernel("Preview");
 
-			minMaxBuffer = new ComputeBuffer(2, sizeof(float), ComputeBufferType.Raw);
+			minMaxBuffer = new ComputeBuffer(16, sizeof(float), ComputeBufferType.Raw);
 			histogram = new ComputeBuffer(histogramBucketCount, sizeof(uint), ComputeBufferType.Raw);
 			UpdateTempRenderTexture(ref output);
         }
@@ -91,27 +69,34 @@ namespace Mixture
 
 			UpdateTempRenderTexture(ref output);
 
+			// HistogramUtility.ComputeHistogram()
+
+			// TODO: compute shader keywords
+
+			uint[] zero = new uint[256];
+			uint[] zero2 = new uint[16];
+			cmd.SetComputeBufferData(histogram, zero); // Nice but to optimize.
+			cmd.SetComputeBufferData(minMaxBuffer, zero2);
+
 			if (mode == Mode.Automatic)
 			{
 				cmd.SetComputeTextureParam(computeShader, findMinMaxKernel, "_Input", input);
 				cmd.SetComputeBufferParam(computeShader, findMinMaxKernel, "_MinMax", minMaxBuffer);
-				DispatchCompute(cmd, findMinMaxKernel, input.width, input.height, TextureUtils.GetSliceCount(input));
+				DispatchCompute(cmd, findMinMaxKernel, Mathf.Max(8, input.width), Mathf.Max(8, input.height), TextureUtils.GetSliceCount(input));
 			}
 			else
 			{
-				manualMinMaxData[0] = min;
+				manualMinMaxData[0] = min; // TODO: as float
 				manualMinMaxData[1] = max;
 				minMaxBuffer.SetData(manualMinMaxData);
 			}
 
-			uint[] zero = new uint[256];
-			cmd.SetComputeBufferData(histogram, zero); // Nice but to optimize.
 			cmd.SetComputeTextureParam(computeShader, levelsKernel, "_Input", input);
 			cmd.SetComputeTextureParam(computeShader, levelsKernel, "_Output", output);
 			cmd.SetComputeBufferParam(computeShader, levelsKernel, "_MinMax", minMaxBuffer);
 			cmd.SetComputeBufferParam(computeShader, levelsKernel, "_Histogram", histogram);
 			cmd.SetComputeIntParam(computeShader, "_HistogramBucketCount", histogramBucketCount);
-			DispatchCompute(cmd, levelsKernel, input.width, input.height, TextureUtils.GetSliceCount(input));
+			DispatchCompute(cmd, levelsKernel, output.width, output.height, TextureUtils.GetSliceCount(output));
 
 			cmd.SetComputeTextureParam(computeShader, previewKernel, "_Output", output);
 			DispatchComputePreview(cmd, previewKernel);
@@ -123,10 +108,8 @@ namespace Mixture
         {
             base.Disable();
 			minMaxBuffer.Dispose();
+			histogram.Dispose();
 			CoreUtils.Destroy(output);
         }
-
-    
-    
 	}
 }
