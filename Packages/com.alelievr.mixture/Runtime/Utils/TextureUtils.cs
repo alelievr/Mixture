@@ -20,6 +20,8 @@ namespace Mixture
         static readonly string blackDefaultTextureName = "Mixture Black";
         static readonly string whiteDefaultTextureName = "Mixture white";
 
+        const int CurveTextureResolution = 512;
+
         public static Texture GetBlackTexture(MixtureRTSettings settings)
         {
             return GetBlackTexture((TextureDimension)settings.dimension, settings.sliceCount);
@@ -175,6 +177,27 @@ namespace Mixture
                 return TextureDimension.CubeArray;
             else
                 return TextureDimension.Unknown;
+        }
+
+        static Color[] pixels = new Color[CurveTextureResolution];
+        public static void UpdateTextureFromCurve(AnimationCurve curve, ref Texture2D curveTexture)
+        {
+            if (curveTexture == null)
+            {
+                curveTexture = new Texture2D(CurveTextureResolution, 1, TextureFormat.RFloat, false, true);
+                curveTexture.wrapMode = TextureWrapMode.Clamp;
+                curveTexture.filterMode = FilterMode.Bilinear;
+                curveTexture.hideFlags = HideFlags.HideAndDontSave;
+            }
+
+            for (int i = 0; i<CurveTextureResolution; i++)
+            {
+                float t = (float)i / (CurveTextureResolution - 1);
+                pixels[i] = new Color(curve.Evaluate(t), 0, 0, 1);
+            }
+            curveTexture.SetPixels(pixels);
+            curveTexture.Apply(false);
+
         }
     }
 }

@@ -5,6 +5,14 @@ struct LuminanceData
     float maxLuminance;
 };
 
+struct HistogramBucket
+{
+    uint luminance;
+    uint r;
+    uint g;
+    uint b;
+};
+
 // Keep in sync with HistogramView.cs buffer alloc
 struct HistogramData
 {
@@ -12,7 +20,7 @@ struct HistogramData
     uint maxBucketCount;
 };
 
-RWByteAddressBuffer                 _Histogram;
+RWStructuredBuffer<HistogramBucket> _Histogram;
 uint                                _HistogramBucketCount;
 RWStructuredBuffer<LuminanceData>   _ImageLuminance;
 RWStructuredBuffer<HistogramData>   _HistogramData;

@@ -24,27 +24,11 @@ Shader "Hidden/HistogramPreview"
             #pragma enable_d3d11_debug_symbols
 
             #include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.cginc"
-            // #include "Packages/com.alelievr.mixture/Editor/Resources/HistogramData.hlsl"
+            #include "Packages/com.alelievr.mixture/Editor/Resources/HistogramData.hlsl"
 
-            // Keep in sync with HistogramView.cs buffer alloc
-struct LuminanceData
-{
-    float minLuminance;
-    float maxLuminance;
-};
-
-// Keep in sync with HistogramView.cs buffer alloc
-struct HistogramData
-{
-    uint minBucketCount;
-    uint maxBucketCount;
-};
-
-ByteAddressBuffer                 _Histogram2;
-uint                                _HistogramBucketCount;
-StructuredBuffer<LuminanceData>   _ImageLuminance;
-StructuredBuffer<HistogramData>   _HistogramData;
-
+            StructuredBuffer<HistogramBucket>   _HistogramReadOnly;
+            StructuredBuffer<HistogramData>     _HistogramDataReadOnly;
+            float _Mode;
 
             // Unity UI
             uniform float4x4 unity_GUIClipTextureMatrix;
@@ -78,22 +62,38 @@ StructuredBuffer<HistogramData>   _HistogramData;
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            float4 frag (v2f i) : SV_Target
             {
-                uint4 h = _Histogram2.Load(uint(i.uv.x * _HistogramBucketCount));
+                HistogramBucket b = _HistogramReadOnly[uint(i.uv.x * _HistogramBucketCount)];
 
                 // float4 minLuminance = _HistogramMinMax.Load4(0);
                 // float4 maxLuminance = _HistogramMinMax.Load4(4);
-                uint minBuckets = _HistogramData[0].minBucketCount;
-                uint maxBuckets = _HistogramData[0].maxBucketCount;
+                uint minBuckets = _HistogramDataReadOnly[0].minBucketCount;
+                uint maxBuckets = _HistogramDataReadOnly[0].maxBucketCount;
 
-                // TODO: grid + colors
+                // TODO: min bucket range when it works
+                float4 data = float4(b.luminance, b.r, b.g, b.b) / maxBuckets;
 
-                float3 v = h.x / 1200;
+                float3 histogram = 0;
+                switch (_Mode)
+                {
+                    case 0: // Luminance
+                        histogram = data.xxx;
+                        break;
+                    case 1: // Color
+                        histogram = data.yzw;
+                        break;
+                }
 
-                return float4(h.x, 0, 0, 1);
+                histogram = i.uv.yyy < histogram;
 
-                return float4(i.uv.yyy < v.xxx, 1) * tex2D(_GUIClipTexture, i.clipUV).a;
+                // if (all(histogram == 1))
+                //     histogram = 0.8;
+
+                // "Beautify" the colorss:
+                histogram *= 0.8;
+
+                return float4(histogram, 1) * tex2D(_GUIClipTexture, i.clipUV).a;
             }
             ENDCG
         }

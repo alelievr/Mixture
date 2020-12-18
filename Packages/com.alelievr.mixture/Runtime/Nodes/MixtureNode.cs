@@ -501,14 +501,18 @@ namespace Mixture
 		[CustomPortTypeBehavior(typeof(CustomRenderTexture))]
 		IEnumerable< PortData > GetTypeFromTextureDim(string fieldName, string displayName, object fieldValue)
 		{
-			// if (fieldValue as Texture != null)
-			// 	Debug.Log("Updated dim for field: " + fieldName + " | " + (fieldValue as Texture)?.dimension);
+			bool input = false;
+
+			var field = GetType().GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+			if (field.GetCustomAttribute<InputAttribute>() != null)
+				input = true;
+
 			yield return new PortData
 			{
 				displayName = displayName,
 				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
 				identifier = fieldName,
-				acceptMultipleEdges = true,
+				acceptMultipleEdges = input ? false : true,
 			};
 		}
 

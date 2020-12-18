@@ -4,17 +4,17 @@
 #pragma kernel Preview
 
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
 
 #pragma enable_d3d11_debug_symbols
 
-sampler s_point_clamp_sampler;
-
 Texture2D<float4> _Input;
 RWTexture2D<float4> _Output;
+Texture2D<float> _InterpolationCurve;
 
-RWByteAddressBuffer _MinMax;
-RWByteAddressBuffer _Histogram;
-uint _HistogramBucketCount;
+float _InterpolationCurveResolution;
+float _Min;
+float _Max;
 
 // TODO: we don't need that
 [numthreads(8,8,1)]
@@ -25,14 +25,6 @@ void FindMinMax(uint3 id : SV_DispatchThreadID)
     // Insert your code here
     // TODO: shared memory with min max redux
     float value = Luminance(input);
-    _MinMax.InterlockedMin(0, asfloat(value)); // Min luminance
-    _MinMax.InterlockedMax(4, asfloat(value)); // Max luminance
-}
-
-[numthreads(64,0,1)]
-void ClearHistogramData(uint3 id : SV_DispatchThreadID)
-{
-    _Histogram.Store(id.x, 0);
 }
 
 [numthreads(8,8,1)]
@@ -40,16 +32,23 @@ void Levels(uint3 id : SV_DispatchThreadID)
 {
     float4 input = _Input.SampleLevel(s_point_clamp_sampler, id.xy / 1024.0, 0);
 
-    // Insert your code here
+    input.rgb -= _Min;
+    input.rgb /= (_Max - _Min);
 
-    // TODO: histogram modes
-    float value = Luminance(input);
-    uint result;
-    _Histogram.InterlockedAdd(uint(saturate(value) * _HistogramBucketCount), 1, result);
-    _MinMax.InterlockedMin(0, asfloat(value)); // Min luminance
-    _MinMax.InterlockedMax(4, asfloat(value)); // Max luminance
-    _MinMax.InterlockedMin(8, result + 1); // Min count in histogram bucket
-    _MinMax.InterlockedMax(12, result + 1); // Max count in histogram bucket
+    // remap luminance between 0 and 1 to sample the curve:
+    float clampedLuminance = Luminance(clamp(input.rgb, _Min, _Max));
+    float luminance01 = clampedLuminance - _Min * rcp(_Max - _Min);
+
+    // Remap luminance with curve
+    luminance01 = _InterpolationCurve.SampleLevel(s_linear_clamp_sampler, luminance01, 0).r;
+
+    // Remap luminance between min and max
+    float correctedLuminance = luminance01 * (_Max - _Min) + _Min;
+    // Correct the color with the new luminance
+    float luminanceOffset = correctedLuminance - clampedLuminance;
+    // float3 D65 = float3(0.2126729, 0.7151522, 0.0721750);
+
+    input.rgb *= 1 + luminanceOffset;
 
     _Output[id.xy] = input;
 }

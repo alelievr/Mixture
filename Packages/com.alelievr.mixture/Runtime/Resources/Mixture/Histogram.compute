@@ -6,26 +6,9 @@
 #pragma kernel ComputeHistogramData 
 
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-// #include "Packages/com.alelievr.mixture/Editor/Resources/HistogramData.hlsl"
+#include "Packages/com.alelievr.mixture/Editor/Resources/HistogramData.hlsl"
 
-// Keep in sync with HistogramView.cs buffer alloc
-struct LuminanceData
-{
-    float minLuminance;
-    float maxLuminance;
-};
-
-// Keep in sync with HistogramView.cs buffer alloc
-struct HistogramData
-{
-    uint minBucketCount;
-    uint maxBucketCount;
-};
-
-RWByteAddressBuffer                 _Histogram;
-uint                                _HistogramBucketCount;
-RWStructuredBuffer<LuminanceData>   _ImageLuminance;
-RWStructuredBuffer<HistogramData>   _HistogramData;
+float4                              _InputTextureSize;
 
 
 #pragma enable_d3d11_debug_symbols
@@ -36,7 +19,7 @@ Texture2D<float4> _Input;
 void Clear(uint3 id : SV_DispatchThreadID)
 {
     if (id.x < _HistogramBucketCount)
-        _Histogram.Store(id.x, 0);
+        _Histogram[id.x] = (HistogramBucket)0;
 
     // TODO: size check
     _ImageLuminance[id.x].minLuminance = 0;
@@ -59,7 +42,7 @@ void ComputeLuminanceBuffer(uint3 id : SV_DispatchThreadID, int3 gid : SV_GroupT
     // Wait for all threads in the group to write in g_luminance
     GroupMemoryBarrierWithGroupSync();
 
-    if (gid.x == 0 && gid.y == 0)
+    if (all(gid == 0))
     {
         for (uint x = 0; x < 8; x++)
         {
@@ -72,8 +55,8 @@ void ComputeLuminanceBuffer(uint3 id : SV_DispatchThreadID, int3 gid : SV_GroupT
         
         uint2 dispatchId = id.xy / 8;
         // Push results to image luminance
-        _ImageLuminance[dispatchId.x + dispatchId.y * 1024 / 8].minLuminance = minLuminance;
-        _ImageLuminance[dispatchId.x + dispatchId.y * 1024 / 8].maxLuminance = maxLuminance;
+        _ImageLuminance[dispatchId.x + dispatchId.y * _InputTextureSize.x / 8].minLuminance = minLuminance;
+        _ImageLuminance[dispatchId.x + dispatchId.y * _InputTextureSize.x / 8].maxLuminance = maxLuminance;
     }
 }
 
@@ -87,7 +70,7 @@ void ReduceLuminanceBuffer(uint3 id : SV_DispatchThreadID)
     maxLuminance = _ImageLuminance[0].maxLuminance;
 
     // TODO: actual reduce instead of stupid loop
-    for (int i = 0; i < 1024 * 1024 / 64; i++)
+    for (int i = 0; i < _InputTextureSize.x * _InputTextureSize.y / 64; i++)
     {
         minLuminance = min(minLuminance, _ImageLuminance[i].minLuminance);
         maxLuminance = max(maxLuminance, _ImageLuminance[i].maxLuminance);
@@ -105,24 +88,15 @@ void GenerateHistogram(uint3 id : SV_DispatchThreadID)
 
     // TODO: histogram modes
     // Compute the normalized luminance
-    float value = (Luminance(input) + data.minLuminance) / (data.maxLuminance - data.minLuminance);
     uint result;
-    _Histogram.InterlockedAdd(uint(saturate(value) * _HistogramBucketCount + 0), 1, result);
-    // _Histogram.InterlockedAdd(uint(saturate(input.r) * _HistogramBucketCount + 1) * 4, 1, result);
-    // _Histogram.InterlockedAdd(uint(saturate(input.g) * _HistogramBucketCount + 2) * 4, 1, result);
-    // _Histogram.InterlockedAdd(uint(saturate(input.b) * _HistogramBucketCount + 3) * 4, 1, result);
-    // _HistogramMinMax.InterlockedMin(0, asfloat(value)); // Min luminance
-    // _HistogramMinMax.InterlockedMin(1, asfloat(input.r));
-    // _HistogramMinMax.InterlockedMin(2, asfloat(input.g));
-    // _HistogramMinMax.InterlockedMin(3, asfloat(input.b));
-    // _HistogramMinMax.InterlockedMax(4, asfloat(value)); // Max luminance
-    // _HistogramMinMax.InterlockedMax(5, asfloat(input.r));
-    // _HistogramMinMax.InterlockedMax(6, asfloat(input.g));
-    // _HistogramMinMax.InterlockedMax(7, asfloat(input.b));
-
-    // TODO: replace this by another reduce
-    // _HistogramMinMax.InterlockedMin(8, result + 1); // Min count in histogram bucket
-    // _HistogramMinMax.InterlockedMax(12, result + 1); // Max count in histogram bucket
+    input = float4(Luminance(input), input.rgb);
+    float4 remappedColor = saturate((input - data.minLuminance) / (data.maxLuminance - data.minLuminance));
+    remappedColor *= _HistogramBucketCount;
+    remappedColor = int4(remappedColor); // Ensure that the color / luminance always end up in the correct bucket
+    InterlockedAdd(_Histogram[uint(remappedColor.x)].luminance, 1);
+    InterlockedAdd(_Histogram[uint(remappedColor.y)].r, 1);
+    InterlockedAdd(_Histogram[uint(remappedColor.z)].g, 1);
+    InterlockedAdd(_Histogram[uint(remappedColor.w)].b, 1);
 }
 
 [numthreads(64, 1, 1)]
@@ -137,11 +111,13 @@ void ComputeHistogramData(uint id : SV_DispatchThreadID)
         uint maxCount = 0;
         uint minCount = 0;
 
-        for (int i = 0; i < 256; i++)
+        for (int i = 0; i < _HistogramBucketCount; i++)
         {
-            uint count = _Histogram.Load(i);
-            maxCount = max(maxCount, count);
-            minCount = min(minCount, count);
+            HistogramBucket b = _Histogram.Load(i);
+            uint minB = min(b.luminance, min(b.r, min(b.g, b.b)));
+            uint maxB = max(b.luminance, max(b.r, max(b.g, b.b)));
+            maxCount = max(maxCount, b.luminance);
+            minCount = min(minCount, b.luminance);
         }
 
         _HistogramData[0].minBucketCount = minCount;
