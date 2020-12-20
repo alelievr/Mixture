@@ -32,10 +32,8 @@ namespace Mixture
 		[SerializeField, HideInInspector]
 		HistogramMode	histogramMode = HistogramMode.Luminance;
 
-		// TODO: animation curve interpolation
-
 		[Output]
-		public CustomRenderTexture output;
+		public Texture output;
 
 		public override string	name => "Levels";
 		public override bool	showDefaultInspector => true;
@@ -48,7 +46,7 @@ namespace Mixture
 		[SerializeField, HideInInspector]
 		Texture2D curveTexture;
 
-		int findMinMaxKernel;
+		int setMinMaxKernel;
 		int levelsKernel;
 		int previewKernel;
 
@@ -56,19 +54,18 @@ namespace Mixture
 
 		internal ComputeBuffer minMaxBuffer;
 		internal HistogramData histogramData;
-		float[] manualMinMaxData = new float[2];
+
+		float[] minMaxBufferData = new float[2];
 
         protected override void Enable()
         {
             base.Enable();
 
-			findMinMaxKernel = computeShader.FindKernel("FindMinMax");
 			levelsKernel = computeShader.FindKernel("Levels");
 			previewKernel = computeShader.FindKernel("Preview");
 
-			minMaxBuffer = new ComputeBuffer(1, sizeof(float) * 2, ComputeBufferType.Default);
+			minMaxBuffer = new ComputeBuffer(1, sizeof(float) * 2, ComputeBufferType.Structured);
 			HistogramUtility.AllocateHistogramData(histogramBucketCount, histogramMode, out histogramData);
-			UpdateTempRenderTexture(ref output);
         }
 
         protected override bool ProcessNode(CommandBuffer cmd)
@@ -76,47 +73,29 @@ namespace Mixture
             if (!base.ProcessNode(cmd) || input == null)
 				return false;
 
-			UpdateTempRenderTexture(ref output);
+			output = tempRenderTexture;
 
+			var dim = rtSettings.GetTextureDimension(graph);
+			MixtureUtils.SetupComputeDimensionKeyword(computeShader, dim);
 
-			// TODO: compute shader keywords
+			HistogramUtility.ComputeLuminanceMinMax(cmd, minMaxBuffer, input);
 
-			// TODO: clear kernel
-			float[] zero = new float[2];
-			cmd.SetComputeBufferData(minMaxBuffer, zero);
-
-			if (mode == Mode.Automatic)
+			// Maybe a SetBuffer would have been better
+			if (mode == Mode.Manual)
 			{
-				// TODO: find min max or get it from histogram data
-				// cmd.SetComputeTextureParam(computeShader, findMinMaxKernel, "_Input", input);
-				// cmd.SetComputeBufferParam(computeShader, findMinMaxKernel, "_MinMax", minMaxBuffer);
-				// DispatchCompute(cmd, findMinMaxKernel, Mathf.Max(8, input.width), Mathf.Max(8, input.height), TextureUtils.GetSliceCount(input));
-				manualMinMaxData[0] = 0; // TODO: as float
-				manualMinMaxData[1] = 1;
-				minMaxBuffer.SetData<float>(manualMinMaxData.ToList());
-			}
-			else
-			{
-				manualMinMaxData[0] = min; // TODO: as float
-				manualMinMaxData[1] = max;
-				cmd.SetComputeFloatParam(computeShader, "_Min", min);
-				cmd.SetComputeFloatParam(computeShader, "_Max", max);
-				minMaxBuffer.SetData<float>(manualMinMaxData.ToList());
+				minMaxBufferData[0] = min;
+				minMaxBufferData[1] = max;
+				cmd.SetComputeBufferData(minMaxBuffer, minMaxBufferData);
 			}
 
 			TextureUtils.UpdateTextureFromCurve(interpolationCurve, ref curveTexture);
 
+			cmd.SetComputeVectorParam(computeShader, "_RcpTextureSize", new Vector4(1.0f / input.width, 1.0f / input.height, 1.0f / TextureUtils.GetSliceCount(input), 0));
 			cmd.SetComputeTextureParam(computeShader, levelsKernel, "_Input", input);
-			cmd.SetComputeTextureParam(computeShader, levelsKernel, "_Output", output);
-			cmd.SetComputeBufferParam(computeShader, levelsKernel, "_MinMax", minMaxBuffer);
+			cmd.SetComputeTextureParam(computeShader, levelsKernel, "_Output", tempRenderTexture);
+			cmd.SetComputeBufferParam(computeShader, levelsKernel, "_Luminance", minMaxBuffer);
 			cmd.SetComputeTextureParam(computeShader, levelsKernel, "_InterpolationCurve", curveTexture);
-			DispatchCompute(cmd, levelsKernel, output.width, output.height, TextureUtils.GetSliceCount(output));
-
-			cmd.SetComputeTextureParam(computeShader, previewKernel, "_Output", output);
-			DispatchComputePreview(cmd, previewKernel);
-
-			// Update the histogram view after the levels operation
-			HistogramUtility.ComputeHistogram(cmd, output, histogramData);
+			DispatchCompute(cmd, levelsKernel, tempRenderTexture.width, tempRenderTexture.height, TextureUtils.GetSliceCount(tempRenderTexture));
 
 			return true;
         }
@@ -124,9 +103,8 @@ namespace Mixture
         protected override void Disable()
         {
             base.Disable();
-			minMaxBuffer?.Dispose();
 			HistogramUtility.Dispose(histogramData);
-			CoreUtils.Destroy(output);
+			minMaxBuffer?.Dispose();
         }
 	}
 }

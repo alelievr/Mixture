@@ -1,54 +1,51 @@
 // Each #kernel tells which function to compile; you can have many kernels
 #pragma kernel Levels
-#pragma kernel FindMinMax
 #pragma kernel Preview
 
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 #include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+#include "Packages/com.alelievr.mixture/Editor/Resources/HistogramData.hlsl"
 
 #pragma enable_d3d11_debug_symbols
+#pragma multi_compile_local CRT_2D CRT_3D CRT_CUBE
 
 Texture2D<float4> _Input;
 RWTexture2D<float4> _Output;
 Texture2D<float> _InterpolationCurve;
+float3 _RcpTextureSize;
 
-float _InterpolationCurveResolution;
-float _Min;
-float _Max;
-
-// TODO: we don't need that
-[numthreads(8,8,1)]
-void FindMinMax(uint3 id : SV_DispatchThreadID)
-{
-    float4 input = _Input[id.xy];
-
-    // Insert your code here
-    // TODO: shared memory with min max redux
-    float value = Luminance(input);
-}
+float _Mode;
+float _Min, _Max;
+RWStructuredBuffer<LuminanceData> _Luminance;
 
 [numthreads(8,8,1)]
 void Levels(uint3 id : SV_DispatchThreadID)
 {
-    float4 input = _Input.SampleLevel(s_point_clamp_sampler, id.xy / 1024.0, 0);
+    // TODO: function to turn the id into direction / uv for cube / 3D
+    float3 uv = GetDefaultUVsComputeShader(id.xyz, _RcpTextureSize);
+    float4 input = _Input.SampleLevel(s_point_clamp_sampler, uv.xy, 0);
 
-    input.rgb -= _Min;
-    input.rgb /= (_Max - _Min);
+    float minLum = _Luminance[0].minLuminance;
+    float maxLum = _Luminance[0].maxLuminance;
+
+    input.rgb -= minLum;
+    input.rgb /= (maxLum - minLum);
 
     // remap luminance between 0 and 1 to sample the curve:
-    float clampedLuminance = Luminance(clamp(input.rgb, _Min, _Max));
-    float luminance01 = clampedLuminance - _Min * rcp(_Max - _Min);
+    float clampedLuminance = Luminance(clamp(input.rgb, minLum, maxLum));
+    float luminance01 = clampedLuminance - minLum * rcp(maxLum - minLum);
 
     // Remap luminance with curve
     luminance01 = _InterpolationCurve.SampleLevel(s_linear_clamp_sampler, luminance01, 0).r;
 
     // Remap luminance between min and max
-    float correctedLuminance = luminance01 * (_Max - _Min) + _Min;
+    float correctedLuminance = luminance01 * (maxLum - minLum) + minLum;
     // Correct the color with the new luminance
     float luminanceOffset = correctedLuminance - clampedLuminance;
     // float3 D65 = float3(0.2126729, 0.7151522, 0.0721750);
 
-    input.rgb *= 1 + luminanceOffset;
+    // TODO: interp curve doesn't work, it needs correct luminance limits of the texture instead of parametric one
+    // input.rgb *= 1 + luminaceOffset;
 
     _Output[id.xy] = input;
 }

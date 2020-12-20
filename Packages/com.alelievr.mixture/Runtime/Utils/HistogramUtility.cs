@@ -37,10 +37,13 @@ namespace Mixture
         }
 
         static int clearKernel = histogramCompute.FindKernel("Clear");
+        static int clearLuminanceKernel = histogramCompute.FindKernel("ClearLuminance");
         static int computeLuminanceBufferKernel = histogramCompute.FindKernel("ComputeLuminanceBuffer");
         static int reduceLuminanceBufferKernel = histogramCompute.FindKernel("ReduceLuminanceBuffer");
         static int generateHistogramKernel = histogramCompute.FindKernel("GenerateHistogram");
         static int computeHistogramDataKernel = histogramCompute.FindKernel("ComputeHistogramData");
+        static int copyMinMaxToBuffer = histogramCompute.FindKernel("CopyMinMaxToBuffer");
+        static readonly int dispatchGroupSizeX = 512;
 
         // Temp buffer to store the luminance of the input image
         static ComputeBuffer _luminanceBuffer;
@@ -71,21 +74,32 @@ namespace Mixture
         {
             using (new ProfilingScope(cmd, new ProfilingSampler("Generate Histogram")))
             {
+                // TODO: dimension keywords
+
+                MixtureUtils.SetupComputeDimensionKeyword(histogramCompute, input.dimension);
+
                 // Clear buffers
                 cmd.SetComputeBufferParam(histogramCompute, clearKernel, "_ImageLuminance", luminanceBuffer);
                 cmd.SetComputeBufferParam(histogramCompute, clearKernel, "_Histogram", data.histogram);
-                cmd.DispatchCompute(histogramCompute, clearKernel, input.width * input.height / 64, 1, 1);
+                int dispatchCount = input.width * input.height * TextureUtils.GetSliceCount(input) / 64;
+                // Limit computing to 8K textures
+                int yCount = Mathf.Clamp(dispatchCount / dispatchGroupSizeX / 64, 1, dispatchGroupSizeX);
+                int xCount = Mathf.Clamp(dispatchCount / yCount / 8, 1, dispatchGroupSizeX);
+                cmd.SetComputeIntParam(histogramCompute, "_DispatchSizeX", dispatchGroupSizeX);
+                cmd.DispatchCompute(histogramCompute, clearKernel, xCount, yCount, 1);
 
                 // Find luminance min / max in the texture
                 // TODO: handle texture 3D and Cube
                 cmd.SetComputeTextureParam(histogramCompute, computeLuminanceBufferKernel, "_Input", input);
                 cmd.SetComputeBufferParam(histogramCompute, computeLuminanceBufferKernel, "_ImageLuminance", luminanceBuffer);
                 cmd.SetComputeVectorParam(histogramCompute, "_InputTextureSize", new Vector4(input.width, input.height, TextureUtils.GetSliceCount(input), 0));
+                cmd.SetComputeVectorParam(histogramCompute, "_RcpTextureSize", new Vector4(1.0f / input.width, 1.0f / input.height, 1.0f / TextureUtils.GetSliceCount(input), 0));
+                MixtureUtils.SetTextureWithDimension(cmd, histogramCompute, computeLuminanceBufferKernel, "_Input", input);
                 cmd.DispatchCompute(histogramCompute, computeLuminanceBufferKernel, Mathf.Max(1, input.width / 8), Mathf.Max(1, input.height / 8), TextureUtils.GetSliceCount(input));
 
                 // Reduce luminance buffer to find min/max
+                cmd.SetComputeIntParam(histogramCompute, "_LuminanceBufferSize", dispatchCount);
                 cmd.SetComputeBufferParam(histogramCompute, reduceLuminanceBufferKernel, "_ImageLuminance", luminanceBuffer);
-                cmd.SetComputeVectorParam(histogramCompute, "_InputTextureSize", new Vector4(input.width, input.height, TextureUtils.GetSliceCount(input), 0));
                 cmd.DispatchCompute(histogramCompute, reduceLuminanceBufferKernel, 1, 1, 1);
 
                 // Generate histogram data in compute buffer
@@ -93,6 +107,8 @@ namespace Mixture
                 cmd.SetComputeBufferParam(histogramCompute, generateHistogramKernel, "_Histogram", data.histogram);
                 cmd.SetComputeTextureParam(histogramCompute, generateHistogramKernel, "_Input", input);
                 cmd.SetComputeIntParam(histogramCompute, "_HistogramBucketCount", data.bucketCount);
+                cmd.SetComputeVectorParam(histogramCompute, "_RcpTextureSize", new Vector4(1.0f / input.width, 1.0f / input.height, 1.0f / TextureUtils.GetSliceCount(input), 0));
+                MixtureUtils.SetTextureWithDimension(cmd, histogramCompute, generateHistogramKernel, "_Input", input);
                 cmd.DispatchCompute(histogramCompute, generateHistogramKernel, Mathf.Max(1, input.width / 8), Mathf.Max(1, input.height / 8), TextureUtils.GetSliceCount(input));
 
                 cmd.SetComputeBufferParam(histogramCompute, computeHistogramDataKernel, "_HistogramData", data.histogramData);
@@ -109,6 +125,36 @@ namespace Mixture
                     }
                 });
             }
+        }
+
+        public static void ComputeLuminanceMinMax(CommandBuffer cmd, ComputeBuffer targetBuffer, Texture input)
+        {
+            // TODO: dimension keywords
+            MixtureUtils.SetupComputeDimensionKeyword(histogramCompute, input.dimension);
+
+            // Clear buffers
+            cmd.SetComputeBufferParam(histogramCompute, clearLuminanceKernel, "_ImageLuminance", luminanceBuffer);
+            int dispatchCount = input.width * input.height * TextureUtils.GetSliceCount(input) / 64;
+            // Limit computing to 8K textures
+            int yCount = Mathf.Clamp(dispatchCount / 512 / 64, 1, 512);
+            int xCount = Mathf.Clamp(dispatchCount / yCount / 8, 1, 512);
+            cmd.DispatchCompute(histogramCompute, clearLuminanceKernel, xCount, yCount, TextureUtils.GetSliceCount(input));
+
+            // Find luminance min / max in the texture
+            cmd.SetComputeTextureParam(histogramCompute, computeLuminanceBufferKernel, "_Input", input);
+            cmd.SetComputeBufferParam(histogramCompute, computeLuminanceBufferKernel, "_ImageLuminance", luminanceBuffer);
+            cmd.SetComputeVectorParam(histogramCompute, "_InputTextureSize", new Vector4(input.width, input.height, TextureUtils.GetSliceCount(input), 0));
+            MixtureUtils.SetTextureWithDimension(cmd, histogramCompute, computeLuminanceBufferKernel, "_Input", input);
+            cmd.DispatchCompute(histogramCompute, computeLuminanceBufferKernel, Mathf.Max(1, input.width / 8), Mathf.Max(1, input.height / 8), TextureUtils.GetSliceCount(input));
+
+            // Reduce luminance buffer to find min/max
+            cmd.SetComputeBufferParam(histogramCompute, reduceLuminanceBufferKernel, "_ImageLuminance", luminanceBuffer);
+            cmd.SetComputeVectorParam(histogramCompute, "_InputTextureSize", new Vector4(input.width, input.height, TextureUtils.GetSliceCount(input), 0));
+            cmd.DispatchCompute(histogramCompute, reduceLuminanceBufferKernel, xCount, yCount, TextureUtils.GetSliceCount(input));
+
+            cmd.SetComputeBufferParam(histogramCompute, copyMinMaxToBuffer, "_ImageLuminance", luminanceBuffer);
+            cmd.SetComputeBufferParam(histogramCompute, copyMinMaxToBuffer, "_Target", targetBuffer);
+            cmd.DispatchCompute(histogramCompute, copyMinMaxToBuffer, 1, 1, 1);
         }
 
         public static void SetupHistogramPreviewMaterial(HistogramData data)

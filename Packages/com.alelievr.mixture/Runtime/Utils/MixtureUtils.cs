@@ -181,10 +181,13 @@ namespace Mixture
 		{
 			computeShader.DisableKeyword("CRT_2D");
 			computeShader.DisableKeyword("CRT_3D");
+			computeShader.DisableKeyword("CRT_CUBE");
 			if (dimension == TextureDimension.Tex2D)
 				computeShader.EnableKeyword("CRT_2D");
 			else if (dimension == TextureDimension.Tex3D)
 				computeShader.EnableKeyword("CRT_3D");
+			else if (dimension == TextureDimension.Cube)
+				computeShader.EnableKeyword("CRT_CUBE");
 		}
 
 		public static readonly string texture2DPrefix = "_2D";
@@ -235,6 +238,12 @@ namespace Mixture
 #endif
 					material.SetTexture(propertyName + suffix, texture);
 			}
+		}
+
+		public static void SetTextureWithDimension(CommandBuffer cmd, ComputeShader compute, int kernelIndex, string propertyName, Texture texture)
+		{
+			if (shaderPropertiesDimensionSuffix.TryGetValue(texture.dimension, out var suffix))
+				cmd.SetComputeTextureParam(compute, kernelIndex, propertyName + suffix, texture);
 		}
 
         public static void DestroyGameObject(Object obj)

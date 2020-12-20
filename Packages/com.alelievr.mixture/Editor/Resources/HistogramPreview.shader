@@ -21,7 +21,7 @@ Shader "Hidden/HistogramPreview"
             #pragma target 5.0
 
             #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
-            #pragma enable_d3d11_debug_symbols
+            // #pragma enable_d3d11_debug_symbols
 
             #include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.cginc"
             #include "Packages/com.alelievr.mixture/Editor/Resources/HistogramData.hlsl"

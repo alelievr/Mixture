@@ -70,31 +70,31 @@ sampler sampler_SelfTextureCube;
 Texture3D _SelfTexture3D;
 sampler sampler_SelfTexture3D;
 
-float3 CustomRenderTextureComputeCubeDirection(float2 globalTexcoord)
+float3 ComputeCubemapDirectionFromUV(float2 uv, int cubeFace)
 {
-    float2 xy = globalTexcoord * 2.0 - 1.0;
+    float2 xy = uv * 2.0 - 1.0;
     float3 direction;
-    if(_CustomRenderTextureCubeFace == 0.0)
+    if(cubeFace == 0.0)
     {
         direction = normalize(float3(1.0, -xy.y, -xy.x));
     }
-    else if(_CustomRenderTextureCubeFace == 1.0)
+    else if(cubeFace == 1.0)
     {
         direction = normalize(float3(-1.0, -xy.y, xy.x));
     }
-    else if(_CustomRenderTextureCubeFace == 2.0)
+    else if(cubeFace == 2.0)
     {
         direction = normalize(float3(xy.x, 1.0, xy.y));
     }
-    else if(_CustomRenderTextureCubeFace == 3.0)
+    else if(cubeFace == 3.0)
     {
         direction = normalize(float3(xy.x, -1.0, -xy.y));
     }
-    else if(_CustomRenderTextureCubeFace == 4.0)
+    else if(cubeFace == 4.0)
     {
         direction = normalize(float3(xy.x, -xy.y, 1.0));
     }
-    else if(_CustomRenderTextureCubeFace == 5.0)
+    else if(cubeFace == 5.0)
     {
         direction = normalize(float3(-xy.x, -xy.y, -1.0));
     }
@@ -104,6 +104,11 @@ float3 CustomRenderTextureComputeCubeDirection(float2 globalTexcoord)
     }
 
     return direction;
+}
+
+float3 CustomRenderTextureComputeCubeDirection(float2 globalTexcoord)
+{
+    return ComputeCubemapDirectionFromUV(globalTexcoord, _CustomRenderTextureCubeFace);
 }
 
 // standard custom texture vertex shader that should always be used

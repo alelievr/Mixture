@@ -81,7 +81,7 @@ public static class CustomTextureManager
 
     static CommandBuffer MakeCRTCommandBuffer()
     {
-        var cmd = new CommandBuffer{ name = "SRP Custom Render Texture" };
+        var cmd = CommandBufferPool.Get("SRP Custom Render Texture");
         foreach (var crt in sortedCustomRenderTextures)
             UpdateCustomRenderTexture(cmd, crt);
         return cmd;

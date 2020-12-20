@@ -6,6 +6,7 @@ using UnityEditor.UIElements;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using GraphProcessor;
+using UnityEngine.Rendering;
 using System.Linq;
 
 namespace Mixture
@@ -36,6 +37,40 @@ namespace Mixture
 						s.SetValueWithoutNotify(e.newValue);
 			});
 			controlsContainer.Add(slider);
+
+			var mode = this.Q<EnumField>();
+
+			mode.RegisterValueChangedCallback((m) => {
+				UpdateMinMaxSliderVisibility((Levels.Mode)m.newValue);
+			});
+			UpdateMinMaxSliderVisibility(levelsNode.mode);
+
+			// Compute histogram only when the inspector is selected
+			if (fromInspector)
+			{
+				owner.graph.afterCommandBufferExecuted += UpdateHistogram;
+				controlsContainer.RegisterCallback<DetachFromPanelEvent>(e => {
+					owner.graph.afterCommandBufferExecuted -= UpdateHistogram;
+				});
+			}
+
+			void UpdateHistogram()
+			{
+				if (levelsNode.output != null)
+				{
+					var cmd = CommandBufferPool.Get("Update Histogram");
+					HistogramUtility.ComputeHistogram(cmd, levelsNode.output, levelsNode.histogramData);
+					Graphics.ExecuteCommandBuffer(cmd);
+				}
+			}
+
+			void UpdateMinMaxSliderVisibility(Levels.Mode mode)
+			{
+				if (mode == Levels.Mode.Automatic)
+					slider.style.display = DisplayStyle.None;
+				else
+					slider.style.display = DisplayStyle.Flex;
+			}
 
 			if (fromInspector)
 			{
