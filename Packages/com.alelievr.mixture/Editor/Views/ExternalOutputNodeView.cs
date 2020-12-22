@@ -58,6 +58,14 @@ namespace Mixture
                             externalOutputNode.rtSettings.dimension = OutputDimension.CubeMap;
                             break;
                     }
+
+                    long pixelCount = nodeTarget.rtSettings.GetWidth(graph) * nodeTarget.rtSettings.GetHeight(graph) * nodeTarget.rtSettings.GetDepth(graph);
+                    // Above 16M pixels in a texture3D, processing can take too long and crash the GPU when a conversion happen
+                    if (pixelCount > 16777216)
+                    {
+                        nodeTarget.rtSettings.SetPOTSize(64);
+                    }
+
                     externalOutputNode.OnSettingsChanged();
                     ForceUpdatePorts();
                     MarkDirtyRepaint();
