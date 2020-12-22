@@ -6,31 +6,23 @@
 #pragma enable_d3d11_debug_symbols
 
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureComputeUtils.hlsl"
 
 float2 _Size;
 float _InputScaleFactor;
 
-#if CRT_2D
+TEXTURE_X(_Input);
+RWTEXTURE_X(float4, _Output);
+RWTEXTURE_X(float4, _FinalOutput);
+
 Texture2D<float4> _Input;
 RWTexture2D<float4> _Output;
 RWTexture2D<float4> _FinalOutput;
 
-float4 LoadInput(uint3 uv) { return _Input[uint2(float2(uv.xy) * _InputScaleFactor)]; }
-float4 LoadOutput(uint3 uv) { return _Output[uv.xy]; }
-void WriteOutput(uint3 uv, float4 value) { _Output[uv.xy] = value; }
-void WriteFinalOutput(uint3 uv, float4 value) { _FinalOutput[uv.xy] = value; }
-
-#elif CRT_3D
-Texture3D<float4> _Input;
-RWTexture3D<float4> _Output;
-RWTexture3D<float4> _FinalOutput;
-
-float4 LoadInput(uint3 uv) { return _Input[uint3(float3(uv.xyz) * _InputScaleFactor)]; }
-float4 LoadOutput(uint3 uv) { return _Output[uv.xyz]; }
-void WriteOutput(uint3 uv, float4 value) { _Output[uv.xyz] = value; }
-void WriteFinalOutput(uint3 uv, float4 value) { _FinalOutput[uv.xyz] = value; }
-
-#endif
+float4 LoadInput(uint3 uv) { return LOAD_X(_Input, uint3(float2(uv.xy) * _InputScaleFactor, 0)); }
+float4 LoadOutput(uint3 uv) { return LOAD_X(_Output, uv); }
+void WriteOutput(uint3 uv, float4 value) { WRITE_X(_Output, uv, value); }
+void WriteFinalOutput(uint3 uv, float4 value) { WRITE_X(_FinalOutput, uv, value); }
 
 float _Offset;
 float _Threshold;
@@ -38,7 +30,6 @@ float _Distance;
 uint _Mode;
 uint _DistanceMode;
 uint _ThresholdMode;
-sampler s_point_repeat_sampler;
 
 bool PassThreshold(float4 color)
 {
@@ -137,15 +128,11 @@ void JumpFlooding(uint3 id : SV_DispatchThreadID)
     if (nearest.w < 0.5)
         nearest = float4(-10, -10, -10, 0);
 
-#if CRT_2D
-    for (int i = 0; i < 9; i++)
+    int count = Is2D() ? 9 : 27;
+    for (int i = 0; i < count; i++)
     {
-        float3 o = id + float3(offset2D[i], 0) * _Offset;
-#elif CRT_3D
-    for (int i = 0; i < 27; i++)
-    {
-        float3 o = id + offset3D[i] * _Offset;
-#endif
+        float3 o = id + (Is2D() ? float3(offset2D[i], 0) * _Offset : offset3D[i] * _Offset);
+
         // Make the fetch repeat:
         o %= _Size.x;
         o.x += (o.x < 0) ? _Size.x : 0;
@@ -192,11 +179,7 @@ void FinalPass(uint3 id : SV_DispatchThreadID)
     else
         fadeFactor = 1 - (dist / max(_Distance, 0.000001));
 
-#if CRT_2D
-    float4 finalColor = _Input.SampleLevel(s_point_repeat_sampler, uv.xy, 0);
-#else
-    float4 finalColor = _Input.SampleLevel(s_point_repeat_sampler, uv.xyz, 0);
-#endif
+    float4 finalColor = SAMPLE_X(_Input, s_point_repeat_sampler, uv, 0);
 
     switch (_Mode)
     {

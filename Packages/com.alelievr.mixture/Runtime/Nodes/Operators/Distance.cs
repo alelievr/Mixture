@@ -124,9 +124,9 @@ Smooth is only in alpha
 
 			MixtureUtils.SetupComputeTextureDimension(cmd, computeShader, input.dimension);
 
-			cmd.SetComputeTextureParam(computeShader, fillUvKernel, "_Input", input);
-			cmd.SetComputeTextureParam(computeShader, fillUvKernel, "_Output", output);
-			cmd.SetComputeTextureParam(computeShader, fillUvKernel, "_FinalOutput", rt);
+			MixtureUtils.SetTextureWithDimension(cmd, computeShader, fillUvKernel, "_Input", input);
+			MixtureUtils.SetTextureWithDimension(cmd, computeShader, fillUvKernel, "_Output", output);
+			MixtureUtils.SetTextureWithDimension(cmd, computeShader, fillUvKernel, "_FinalOutput", rt);
 			cmd.SetComputeIntParam(computeShader, "_DistanceMode", (int)distanceMode);
 			cmd.SetComputeFloatParam(computeShader, "_InputScaleFactor", (float)input.width / (float)output.width);
 			DispatchCompute(cmd, fillUvKernel, output.width, output.height, output.volumeDepth);
@@ -137,18 +137,18 @@ Smooth is only in alpha
 				float offset = 1 << (maxLevels - i);
 				cmd.SetComputeFloatParam(computeShader, "_InputScaleFactor", 1);
 				cmd.SetComputeFloatParam(computeShader, "_Offset", offset);
-				cmd.SetComputeTextureParam(computeShader, jumpFloodingKernel, "_Input", output);
-				cmd.SetComputeTextureParam(computeShader, jumpFloodingKernel, "_Output", rt);
+				MixtureUtils.SetTextureWithDimension(cmd, computeShader, jumpFloodingKernel, "_Input", output);
+				MixtureUtils.SetTextureWithDimension(cmd, computeShader, jumpFloodingKernel, "_Output", rt);
 				cmd.SetComputeIntParam(computeShader, "_DistanceMode", (int)distanceMode);
 				DispatchCompute(cmd, jumpFloodingKernel, output.width, output.height, output.volumeDepth);
 				cmd.CopyTexture(rt, output);
 			}
 
 			cmd.SetComputeFloatParam(computeShader, "_InputScaleFactor", (float)input.width / (float)output.width);
-			cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_Input", input);
-			cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_Output", rt);
 			cmd.SetComputeIntParam(computeShader, "_DistanceMode", (int)distanceMode);
-			cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_FinalOutput", output);
+			MixtureUtils.SetTextureWithDimension(cmd, computeShader, finalPassKernel, "_Input", input);
+			MixtureUtils.SetTextureWithDimension(cmd, computeShader, finalPassKernel, "_Output", rt);
+			MixtureUtils.SetTextureWithDimension(cmd, computeShader, finalPassKernel, "_FinalOutput", output);
 			DispatchCompute(cmd, finalPassKernel, output.width, output.height, output.volumeDepth);
 
 			return true;
