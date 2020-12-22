@@ -31,6 +31,9 @@ namespace Mixture
         {
             Texture blackTexture;
 
+            if (dim == TextureDimension.Any || dim == TextureDimension.Unknown || dim == TextureDimension.None)
+                    throw new Exception($"Unable to create white texture for type {dim}");
+
             if (blackTextures.TryGetValue(dim, out blackTexture))
             {
                 // We don't cache texture arrays
@@ -38,32 +41,7 @@ namespace Mixture
                     return blackTexture;
             }
 
-            switch (dim)
-            {
-                case TextureDimension.Tex2D:
-                    blackTexture = Texture2D.blackTexture;
-                    break ;
-                case TextureDimension.Tex3D:
-                    blackTexture = new Texture3D(1, 1, 1, TextureFormat.RGBA32, 0);
-                    (blackTexture as Texture3D).SetPixels(new []{Color.black});
-                    (blackTexture as Texture3D).Apply();
-                    break ;
-                case TextureDimension.Tex2DArray:
-                    blackTexture = new Texture2DArray(1, 1, sliceCount, TextureFormat.RGBA32, 0, true);
-                    for (int i = 0; i < sliceCount; i++)
-                        (blackTexture as Texture2DArray).SetPixels(new []{Color.black}, i);
-                    (blackTexture as Texture2DArray).Apply();
-                    break ;
-                case TextureDimension.Cube:
-                    blackTexture = new Cubemap(1, TextureFormat.RGBA32, 0);
-                    for (int i = 0; i < 6; i++)
-                        (blackTexture as Cubemap).SetPixel((CubemapFace)i, 0, 0, Color.black);
-                    (blackTexture as Cubemap).Apply();
-                    break ;
-                default: // TextureDimension.Any / TextureDimension.Unknown
-                    throw new Exception($"Unable to create black texture for type {dim}");
-            }
-
+            blackTexture = CreateColorRenderTexture(dim, Color.black);
             blackTexture.name = blackDefaultTextureName;
             blackTextures[dim] = blackTexture;
 
@@ -74,6 +52,9 @@ namespace Mixture
         {
             Texture whiteTexture;
 
+            if (dim == TextureDimension.Any || dim == TextureDimension.Unknown || dim == TextureDimension.None)
+                    throw new Exception($"Unable to create white texture for type {dim}");
+
             if (whiteTextures.TryGetValue(dim, out whiteTexture))
             {
                 // We don't cache texture arrays
@@ -81,35 +62,31 @@ namespace Mixture
                     return whiteTexture;
             }
 
-            switch (dim)
-            {
-                case TextureDimension.Tex2D:
-                    whiteTexture = Texture2D.whiteTexture;
-                    break ;
-                case TextureDimension.Tex3D:
-                    whiteTexture = new Texture3D(1, 1, 1, TextureFormat.RGBA32, 0);
-                    (whiteTexture as Texture3D).SetPixels(new []{Color.white});
-                    (whiteTexture as Texture3D).Apply();
-                    break ;
-                case TextureDimension.Tex2DArray:
-                    whiteTexture = new Texture2DArray(1, 1, sliceCount, TextureFormat.RGBA32, 0, true);
-                    for (int i = 0; i < sliceCount; i++)
-                        (whiteTexture as Texture2DArray).SetPixels(new []{Color.white}, i);
-                    (whiteTexture as Texture2DArray).Apply();
-                    break ;
-                case TextureDimension.Cube:
-                    whiteTexture = new Cubemap(1, TextureFormat.RGBA32, 0);
-                    for (int i = 0; i < 6; i++)
-                        (whiteTexture as Cubemap).SetPixel((CubemapFace)i, 0, 0, Color.white);
-                    break ;
-                default: // TextureDimension.Any / TextureDimension.Unknown
-                    throw new Exception($"Unable to create white texture for type {dim}");
-            }
-
+            whiteTexture = CreateColorRenderTexture(dim, Color.white);
             whiteTexture.name = whiteDefaultTextureName;
             whiteTextures[dim] = whiteTexture;
 
             return whiteTexture;
+        }
+
+        public static RenderTexture CreateColorRenderTexture(TextureDimension dim, Color color)
+        {
+            RenderTexture rt = new RenderTexture(1, 1, 0, GraphicsFormat.R8G8B8A8_UNorm, 1)
+            {
+                volumeDepth = 1,
+                dimension = dim,
+                enableRandomWrite = true,
+                hideFlags = HideFlags.HideAndDontSave
+            };
+            var cmd = CommandBufferPool.Get();
+
+            for (int i = 0; i < GetSliceCount(rt); i++)
+            {
+                cmd.SetRenderTarget(rt, 0, (CubemapFace)i, i);
+                cmd.ClearRenderTarget(false, true, color);
+            }
+
+            return rt;
         }
 
         public static bool IsMixtureDefaultTexture(this Texture texture)

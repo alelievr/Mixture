@@ -177,17 +177,10 @@ namespace Mixture
 			}
 		}
 
-		public static void SetupComputeDimensionKeyword(ComputeShader computeShader, TextureDimension dimension)
+		static int textureDimensionShaderId = Shader.PropertyToID("_TextureDimension");
+		public static void SetupComputeTextureDimension(CommandBuffer cmd, ComputeShader computeShader, TextureDimension dimension)
 		{
-			computeShader.DisableKeyword("CRT_2D");
-			computeShader.DisableKeyword("CRT_3D");
-			computeShader.DisableKeyword("CRT_CUBE");
-			if (dimension == TextureDimension.Tex2D)
-				computeShader.EnableKeyword("CRT_2D");
-			else if (dimension == TextureDimension.Tex3D)
-				computeShader.EnableKeyword("CRT_3D");
-			else if (dimension == TextureDimension.Cube)
-				computeShader.EnableKeyword("CRT_CUBE");
+			cmd.SetComputeFloatParam(computeShader, textureDimensionShaderId, (int)dimension);
 		}
 
 		public static readonly string texture2DPrefix = "_2D";
@@ -242,8 +235,13 @@ namespace Mixture
 
 		public static void SetTextureWithDimension(CommandBuffer cmd, ComputeShader compute, int kernelIndex, string propertyName, Texture texture)
 		{
-			if (shaderPropertiesDimensionSuffix.TryGetValue(texture.dimension, out var suffix))
-				cmd.SetComputeTextureParam(compute, kernelIndex, propertyName + suffix, texture);
+			foreach (var dim in shaderPropertiesDimensionSuffix)
+			{
+				if (dim.Key == texture.dimension)
+					cmd.SetComputeTextureParam(compute, kernelIndex, propertyName + dim.Value, texture);
+				else // We still need to bind something to the other texture dimension to avoid errors in the console
+					cmd.SetComputeTextureParam(compute, kernelIndex, propertyName + dim.Value, TextureUtils.GetBlackTexture(dim.Key));
+			}
 		}
 
         public static void DestroyGameObject(Object obj)

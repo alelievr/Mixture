@@ -2,6 +2,9 @@
 #pragma kernel CSMain
 #pragma kernel Preview
 
+// Include utility stuff to handle multi-dimension input textures
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureComputeUtils.hlsl"
+
 // By default all RW* structs (RWTexture, RWBuffer, etc) will appear as outputs in the node
 // If you don't want this behaviour, you can prefix your variable with '__',
 // it will prevent the property to show up in the code input/outputs.

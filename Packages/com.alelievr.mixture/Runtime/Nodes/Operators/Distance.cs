@@ -122,7 +122,7 @@ Smooth is only in alpha
 				rt.Create();
 			}
 
-			MixtureUtils.SetupComputeDimensionKeyword(computeShader, input.dimension);
+			MixtureUtils.SetupComputeTextureDimension(cmd, computeShader, input.dimension);
 
 			cmd.SetComputeTextureParam(computeShader, fillUvKernel, "_Input", input);
 			cmd.SetComputeTextureParam(computeShader, fillUvKernel, "_Output", output);

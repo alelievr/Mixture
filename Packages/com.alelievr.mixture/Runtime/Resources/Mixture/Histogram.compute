@@ -7,11 +7,9 @@
 #pragma kernel ComputeHistogramData 
 #pragma kernel CopyMinMaxToBuffer 
 
-#pragma multi_compile_local CRT_2D CRT_3D CRT_CUBE
-
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 #include "Packages/com.alelievr.mixture/Editor/Resources/HistogramData.hlsl"
-#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureComputeUtils.hlsl"
 
 float4      _InputTextureSize;
 uint        _DispatchSizeX;
@@ -42,12 +40,10 @@ groupshared float g_luminance[64];
 float3 _RcpTextureSize;
 
 [numthreads(8,8,1)]
-void ComputeLuminanceBuffer(uint3 id : SV_DispatchThreadID, int3 gid : SV_GroupThreadID)
+void ComputeLuminanceBuffer(uint3 id : SV_DispatchThreadID, int3 gid : SV_GroupThreadID, uint3 groupId : SV_GroupID)
 {
     float3 uvs = GetDefaultUVsComputeShader(id, _RcpTextureSize);
-    float4 input = SAMPLE_X_NEAREST_CLAMP(_Input, uvs, uvs);
-    // float4 input = 0;
-    // float4 input = _Input[id.xy];
+    float4 input = SAMPLE_X(_Input, s_point_clamp_sampler, uvs, uvs);
 
     // Insert your code here
     // TODO: shared memory with min max redux
@@ -68,42 +64,38 @@ void ComputeLuminanceBuffer(uint3 id : SV_DispatchThreadID, int3 gid : SV_GroupT
                 maxLuminance = max(maxLuminance, g_luminance[x + y * 8]);
             }
         }
-        
-        uint2 dispatchId = id.xy / 8;
+
+        int d = _InputTextureSize.x / 8;
+        uint index = groupId.x + groupId.y * d + groupId.z * d * d;
         // Push results to image luminance
-        _ImageLuminance[dispatchId.x + dispatchId.y * _InputTextureSize.x / 8].minLuminance = minLuminance;
-        _ImageLuminance[dispatchId.x + dispatchId.y * _InputTextureSize.x / 8].maxLuminance = maxLuminance;
+        _ImageLuminance[index].minLuminance = minLuminance;
+        _ImageLuminance[index].maxLuminance = maxLuminance;
     }
 }
 
 uint _LuminanceBufferSize;
 
+// TODO: fix this reduce shit with group reduce instead of whole image which doesn't work
 [numthreads(8, 8, 1)]
 void ReduceLuminanceBuffer(uint3 id : SV_DispatchThreadID, uint groupIndex : SV_GroupIndex)
 {
-    uint index = id.x + id.y * _DispatchSizeX * 8 + id.z * _DispatchSizeX * _DispatchSizeX * 8;
-
-    for (uint i = 1; i < _LuminanceBufferSize; i *= 2)
+    for (uint i = _LuminanceBufferSize / 2; i > 0; i >>= 1)
     {
-        uint index = 2 * i * groupIndex;
-
-        // Catch out of boud errors
-        if (index < _LuminanceBufferSize)
+        if (groupIndex < i)
         {
-            _ImageLuminance[index].minLuminance = min(_ImageLuminance[index].minLuminance, _ImageLuminance[index + i].minLuminance);
-            _ImageLuminance[index].maxLuminance = max(_ImageLuminance[index].maxLuminance, _ImageLuminance[index + i].maxLuminance);
+            _ImageLuminance[groupIndex].minLuminance = min(_ImageLuminance[groupIndex].minLuminance, _ImageLuminance[groupIndex + i].minLuminance);
+            _ImageLuminance[groupIndex].maxLuminance = max(_ImageLuminance[groupIndex].maxLuminance, _ImageLuminance[groupIndex + i].maxLuminance);
         }
         GroupMemoryBarrierWithGroupSync();
     }
 }
 
+// TODO: optimize histogram generation with tiling technique
 [numthreads(8,8,1)]
 void GenerateHistogram(uint3 id : SV_DispatchThreadID)
 {
     float3 uvs = GetDefaultUVsComputeShader(id, _RcpTextureSize);
-    float4 input = SAMPLE_X_NEAREST_CLAMP(_Input, uvs, uvs);
-    // float4 input = 0;
-    // float4 input = _Input[id.xy];
+    float4 input = SAMPLE_X(_Input, s_point_clamp_sampler, uvs, uvs);
 
     LuminanceData data = _ImageLuminance[0]; // the index 0 contains min and max lum of the whole image
 
@@ -111,13 +103,13 @@ void GenerateHistogram(uint3 id : SV_DispatchThreadID)
     // Compute the normalized luminance
     uint result;
     input = float4(Luminance(input), input.rgb);
-    float4 remappedColor = saturate((input - data.minLuminance) / (data.maxLuminance - data.minLuminance));
-    remappedColor *= _HistogramBucketCount;
-    remappedColor = int4(remappedColor); // Ensure that the color / luminance always end up in the correct bucket
-    InterlockedAdd(_Histogram[uint(remappedColor.x)].luminance, 1);
-    InterlockedAdd(_Histogram[uint(remappedColor.y)].r, 1);
-    InterlockedAdd(_Histogram[uint(remappedColor.z)].g, 1);
-    InterlockedAdd(_Histogram[uint(remappedColor.w)].b, 1);
+    float4 color01 = saturate((input - data.minLuminance) / (data.maxLuminance - data.minLuminance));
+    color01 *= _HistogramBucketCount;
+    color01 = int4(color01); // Ensure that the color / luminance always end up in the correct bucket
+    InterlockedAdd(_Histogram[uint(color01.x)].luminance, 1);
+    InterlockedAdd(_Histogram[uint(color01.y)].r, 1);
+    InterlockedAdd(_Histogram[uint(color01.z)].g, 1);
+    InterlockedAdd(_Histogram[uint(color01.w)].b, 1);
 }
 
 [numthreads(64, 1, 1)]

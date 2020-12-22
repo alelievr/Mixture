@@ -35,6 +35,7 @@ namespace Mixture
 				foreach (var s in sliders)
 					if (s != null && s.parent != null)
 						s.SetValueWithoutNotify(e.newValue);
+				NotifyNodeChanged();
 			});
 			controlsContainer.Add(slider);
 
@@ -63,6 +64,8 @@ namespace Mixture
 					Graphics.ExecuteCommandBuffer(cmd);
 				}
 			}
+
+			UpdateHistogram();
 
 			void UpdateMinMaxSliderVisibility(Levels.Mode mode)
 			{

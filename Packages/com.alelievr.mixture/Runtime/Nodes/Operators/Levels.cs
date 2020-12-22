@@ -37,7 +37,7 @@ namespace Mixture
 
 		public override string	name => "Levels";
 		public override bool	showDefaultInspector => true;
-		protected override string computeShaderResourcePath => "Mixture/Levels";
+		protected override string computeShaderResourcePath => "Mixture/Histogram";
 
         // In case you want to change the compute
         // protected override string previewKernel => null;
@@ -45,10 +45,6 @@ namespace Mixture
 
 		[SerializeField, HideInInspector]
 		Texture2D curveTexture;
-
-		int setMinMaxKernel;
-		int levelsKernel;
-		int previewKernel;
 
 		static internal readonly int histogramBucketCount = 256;
 
@@ -61,9 +57,6 @@ namespace Mixture
         {
             base.Enable();
 
-			levelsKernel = computeShader.FindKernel("Levels");
-			previewKernel = computeShader.FindKernel("Preview");
-
 			minMaxBuffer = new ComputeBuffer(1, sizeof(float) * 2, ComputeBufferType.Structured);
 			HistogramUtility.AllocateHistogramData(histogramBucketCount, histogramMode, out histogramData);
         }
@@ -75,12 +68,10 @@ namespace Mixture
 
 			output = tempRenderTexture;
 
-			var dim = rtSettings.GetTextureDimension(graph);
-			MixtureUtils.SetupComputeDimensionKeyword(computeShader, dim);
+			MixtureUtils.SetupComputeTextureDimension(cmd, computeShader, rtSettings.GetTextureDimension(graph));
 
 			HistogramUtility.ComputeLuminanceMinMax(cmd, minMaxBuffer, input);
 
-			// Maybe a SetBuffer would have been better
 			if (mode == Mode.Manual)
 			{
 				minMaxBufferData[0] = min;
@@ -90,12 +81,14 @@ namespace Mixture
 
 			TextureUtils.UpdateTextureFromCurve(interpolationCurve, ref curveTexture);
 
-			cmd.SetComputeVectorParam(computeShader, "_RcpTextureSize", new Vector4(1.0f / input.width, 1.0f / input.height, 1.0f / TextureUtils.GetSliceCount(input), 0));
-			cmd.SetComputeTextureParam(computeShader, levelsKernel, "_Input", input);
-			cmd.SetComputeTextureParam(computeShader, levelsKernel, "_Output", tempRenderTexture);
-			cmd.SetComputeBufferParam(computeShader, levelsKernel, "_Luminance", minMaxBuffer);
-			cmd.SetComputeTextureParam(computeShader, levelsKernel, "_InterpolationCurve", curveTexture);
-			DispatchCompute(cmd, levelsKernel, tempRenderTexture.width, tempRenderTexture.height, TextureUtils.GetSliceCount(tempRenderTexture));
+			var mat = tempRenderTexture.material = GetTempMaterial("Hidden/Mixture/Levels");
+			mat.SetVector("_RcpTextureSize", new Vector4(1.0f / input.width, 1.0f / input.height, 1.0f / TextureUtils.GetSliceCount(input), 0));
+			MixtureUtils.SetupDimensionKeyword(mat, tempRenderTexture.dimension);
+			MixtureUtils.SetTextureWithDimension(mat, "_Input", input);
+			mat.SetBuffer("_Luminance", minMaxBuffer);
+			mat.SetTexture("_InterpolationCurve", curveTexture);
+			tempRenderTexture.Update();
+			CustomTextureManager.UpdateCustomRenderTexture(cmd, tempRenderTexture);
 
 			return true;
         }

@@ -204,6 +204,9 @@ namespace Mixture
 			// Patch update mode based on graph type
 			target.updateMode = updateMode;
 
+			if (target.IsCreated())
+				target.Create();
+
 			return changed;
 		}
 
