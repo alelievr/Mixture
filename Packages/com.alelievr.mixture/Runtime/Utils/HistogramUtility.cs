@@ -140,6 +140,7 @@ namespace Mixture
             cmd.SetComputeBufferParam(histogramCompute, computeLuminanceBufferKernel, "_ImageLuminance", luminanceBuffer);
             cmd.SetComputeVectorParam(histogramCompute, "_InputTextureSize", new Vector4(input.width, input.height, TextureUtils.GetSliceCount(input), 0));
             MixtureUtils.SetTextureWithDimension(cmd, histogramCompute, computeLuminanceBufferKernel, "_Input", input);
+            cmd.SetComputeVectorParam(histogramCompute, "_RcpTextureSize", new Vector4(1.0f / input.width, 1.0f / input.height, 1.0f / TextureUtils.GetSliceCount(input), 0));
             cmd.DispatchCompute(histogramCompute, computeLuminanceBufferKernel, Mathf.Max(1, input.width / 8), Mathf.Max(1, input.height / 8), TextureUtils.GetSliceCount(input));
 
             ReduceLuminanceBuffer(cmd, dispatchCount);
