@@ -60,3 +60,6 @@ You can open a Mixture graph just by double clicking any texture field in the in
 
 Extract buffers (depth, normal, color or position) from the rendering of a prefab and use it directly in the graph (HDRP Only).
 ![](docs/docfx/images/SceneCapture.gif)
+
+Fractal nodes in Mixture:
+![image](https://user-images.githubusercontent.com/6877923/102915300-d8944e00-4481-11eb-8e93-f7a57c21b830.png)
