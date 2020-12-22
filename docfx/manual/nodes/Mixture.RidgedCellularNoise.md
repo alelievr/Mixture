@@ -12,7 +12,7 @@ Seed |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Just like the cellular noise node, this one generate a cellular pattern but the octaves are accumulated with an absolute function, which create these small "ridges" in the noise.

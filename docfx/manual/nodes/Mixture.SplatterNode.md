@@ -3,6 +3,7 @@
 ## Inputs
 Port Name | Description
 --- | ---
+seed | 
 Splat textures | 
 
 ## Output

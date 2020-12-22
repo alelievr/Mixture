@@ -12,7 +12,7 @@ Seed |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Voronoi/Cellular Noise generator.

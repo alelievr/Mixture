@@ -3,6 +3,7 @@
 ## Inputs
 Port Name | Description
 --- | ---
+UV | 
 InnerColor | 
 OuterColor | 
 InnerSize | 
@@ -11,7 +12,7 @@ Smooth |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Generate a rectangle pattern. In 3D this node generates cuboid shapes.

@@ -11,7 +11,7 @@ Distort Bias |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Apply a distortion to an UV texture. The distortion map must be encoded as vectors and doesn't have to be normalized.

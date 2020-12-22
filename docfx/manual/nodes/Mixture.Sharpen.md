@@ -9,7 +9,7 @@ Strength |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Sharpen the input image using a very simple 3x3 sharpening kernel.

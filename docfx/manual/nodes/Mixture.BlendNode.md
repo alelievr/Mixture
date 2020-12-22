@@ -10,7 +10,7 @@ Mask |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Blend between two textures, you can use different blend mode depending which texture you want to blend (depth, color, ect.).

@@ -3,6 +3,7 @@
 ## Inputs
 Port Name | Description
 --- | ---
+UV | 
 SphereColor | 
 OuterColor | 
 Inner Size | 
@@ -11,7 +12,7 @@ Smooth |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Generate a Disk, in 3D this node generate a solid spheres.

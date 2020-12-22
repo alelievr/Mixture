@@ -10,7 +10,7 @@ Intensity |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Distort the input texture using a height map.

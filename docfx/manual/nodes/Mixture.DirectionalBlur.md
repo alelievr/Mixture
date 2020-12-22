@@ -10,7 +10,7 @@ Direction | Direction vector, note that it does not have to be normalized
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Blur the input texture using a Gaussian filter in the specified direction.

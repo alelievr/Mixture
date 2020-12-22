@@ -1,4 +1,4 @@
-# Prefab Capture (HDRP only)
+# Prefab Capture (HDRP)
 ![Mixture.PrefabCaptureNode](../../images/Mixture.PrefabCaptureNode.png)
 
 ## Output

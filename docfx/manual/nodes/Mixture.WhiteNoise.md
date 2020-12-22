@@ -8,7 +8,7 @@ Mode |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Generate white noise.

@@ -10,7 +10,7 @@ Value |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Perform a multiplication with `source A`, `source B` and Vector and writes the result to output like so:

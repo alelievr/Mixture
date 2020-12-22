@@ -10,7 +10,7 @@ Max |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Clamp the input texture values. Note that the clamp is executed for each channel of the texture following this forumla:

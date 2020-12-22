@@ -8,7 +8,7 @@ Color |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Generate a texture from an HDR color.

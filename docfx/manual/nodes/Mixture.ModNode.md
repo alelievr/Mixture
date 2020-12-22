@@ -9,7 +9,7 @@ Source B |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Perform a modulo with `source A` and `source B`and writes the result to output like so:

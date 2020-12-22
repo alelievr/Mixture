@@ -11,7 +11,7 @@ Smoothness |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Generates an HDRP Mask map by combining metallic, occlusion, detail mask and smoothness textures.

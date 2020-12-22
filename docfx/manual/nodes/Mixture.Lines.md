@@ -3,16 +3,16 @@
 ## Inputs
 Port Name | Description
 --- | ---
+UV | 
 InnerColor | 
 OuterColor | 
 Radius | 
-Scale | 
 Smooth | 
 
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Generates a line pattern. In 3D this node generate cylinders using a signed distance field function.

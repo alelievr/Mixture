@@ -10,7 +10,7 @@ Keep Lum |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Convert RGB image to White and Black. With the Mode property you can change how the black and white color is computed:

@@ -9,7 +9,7 @@ Strenght |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Generate a Normal map from an Height map. This node uses the surface gradient technique to perform this operation.

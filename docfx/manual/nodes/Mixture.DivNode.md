@@ -10,7 +10,7 @@ Value |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Divide one texture by another plus a constant value. The result is computed like this:
