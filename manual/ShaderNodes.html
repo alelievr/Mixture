@@ -124,7 +124,7 @@ float4 mixture (v2f_customrendertexture i) : SV_Target
 	return SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
 }
 </code></pre>
-<p>This is a valid code that will sample a 2D, 3D or cube texture and write it to the 2D, 3D or cube output render target. Note that you need to include <code>Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc</code> to access these macros.</p>
+<p>This is a valid code that will sample a 2D, 3D or cube texture and write it to the 2D, 3D or cube output render target. Note that you need to include <code>Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl</code> to access these macros.</p>
 <h3 id="expose-a-texture-with-multiple-dimensions">Expose a Texture with multiple dimensions</h3>
 <p>In ShaderLab and ShaderGraph, to expose a texture you must specify a Dimension and when you create a shader node compatible with multiple dimension you need to declare each texture one time per supported dimension like this:</p>
 <pre><code class="lang-hlsl">_Source_2D(&quot;Source&quot;, 2D) = &quot;black&quot; {}

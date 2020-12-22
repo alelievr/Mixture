@@ -62,7 +62,7 @@ float4 mixture (v2f_customrendertexture i) : SV_Target
 }
 ```
 
-This is a valid code that will sample a 2D, 3D or cube texture and write it to the 2D, 3D or cube output render target. Note that you need to include `Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc` to access these macros.
+This is a valid code that will sample a 2D, 3D or cube texture and write it to the 2D, 3D or cube output render target. Note that you need to include `Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl` to access these macros.
 
 ### Expose a Texture with multiple dimensions
 
