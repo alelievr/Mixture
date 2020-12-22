@@ -74,19 +74,34 @@ void ComputeLuminanceBuffer(uint3 id : SV_DispatchThreadID, int3 gid : SV_GroupT
 }
 
 uint _LuminanceBufferSize;
+uint _LuminanceBufferStride;
 
-// TODO: fix this reduce shit with group reduce instead of whole image which doesn't work
-[numthreads(8, 8, 1)]
-void ReduceLuminanceBuffer(uint3 id : SV_DispatchThreadID, uint groupIndex : SV_GroupIndex)
+#define REDUCE_KERNEL_SIZE 64
+
+groupshared LuminanceData g_lum[REDUCE_KERNEL_SIZE];
+
+[numthreads(REDUCE_KERNEL_SIZE, 1, 1)]
+void ReduceLuminanceBuffer(uint3 id : SV_DispatchThreadID, uint3 threadId : SV_GroupThreadID)
 {
-    for (uint i = _LuminanceBufferSize / 2; i > 0; i >>= 1)
+    uint luminanceIndex = id.x * _LuminanceBufferStride;
+
+    g_lum[threadId.x] = _ImageLuminance[luminanceIndex];
+    GroupMemoryBarrierWithGroupSync();
+
+    for (uint i = REDUCE_KERNEL_SIZE / 2; i > 0; i >>= 1)
     {
-        if (groupIndex < i)
+        if (luminanceIndex + i < _LuminanceBufferSize)
         {
-            _ImageLuminance[groupIndex].minLuminance = min(_ImageLuminance[groupIndex].minLuminance, _ImageLuminance[groupIndex + i].minLuminance);
-            _ImageLuminance[groupIndex].maxLuminance = max(_ImageLuminance[groupIndex].maxLuminance, _ImageLuminance[groupIndex + i].maxLuminance);
+            g_lum[threadId.x].minLuminance = min(g_lum[threadId.x].minLuminance, g_lum[threadId.x + i].minLuminance);
+            g_lum[threadId.x].maxLuminance = max(g_lum[threadId.x].maxLuminance, g_lum[threadId.x + i].maxLuminance);
         }
         GroupMemoryBarrierWithGroupSync();
+    }
+
+    // For every group of 64 threads, we output the min max value at the begining of the luminance buffer.
+    if (threadId.x == 0)
+    {
+        _ImageLuminance[luminanceIndex] = g_lum[0];
     }
 }
 

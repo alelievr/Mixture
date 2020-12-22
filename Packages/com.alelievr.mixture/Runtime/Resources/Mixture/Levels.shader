@@ -32,6 +32,30 @@ Shader "Hidden/Mixture/Levels"
 
             StructuredBuffer<LuminanceData> _Luminance;
 
+            float _Mode;
+            float _ManualMin;
+            float _ManualMax;
+
+            void GetLuminanceRemapValues(out float minLuminace, out float maxLuminance)
+            {
+                if (_Mode == 0) // Manual
+                {
+                    minLuminace = _ManualMin;
+                    maxLuminance = _ManualMax;
+                }
+                else // Authomatic
+                {
+                    minLuminace = _Luminance[0].minLuminance;
+                    maxLuminance = _Luminance[0].maxLuminance;
+                }
+            }
+
+            void GetTextureAbsoluteLuminanceValues(out float minLuminace, out float maxLuminance)
+            {
+                minLuminace = _Luminance[0].minLuminance;
+                maxLuminance = _Luminance[0].maxLuminance;
+            }
+
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
                 // TODO: function to turn the id into direction / uv for cube / 3D
@@ -39,24 +63,29 @@ Shader "Hidden/Mixture/Levels"
                 uv += _RcpTextureSize * 0.5;
                 float4 input = SAMPLE_X_NEAREST_CLAMP(_Input, uv, uv);
 
-                float minLum = _Luminance[0].minLuminance;
-                float maxLum = _Luminance[0].maxLuminance;
+                float minRemapLum, maxRemapLum;
+                GetLuminanceRemapValues(minRemapLum, maxRemapLum);
 
-                // return float4(minLum, (maxLum - 0.45) * 50, 0, 1);
+                float minAbsoluteLum, maxAbsoluteLum;
+                GetTextureAbsoluteLuminanceValues(minAbsoluteLum, maxAbsoluteLum);
 
-                input.rgb -= minLum;
-                input.rgb /= (maxLum - minLum);
+                float totalMinLum = (minRemapLum - minAbsoluteLum) / (maxRemapLum - minRemapLum);
+                float totalMaxLum = (maxRemapLum) / (maxRemapLum - minRemapLum);
+
+                input.rgb -= minRemapLum;
+                input.rgb /= (maxRemapLum - minRemapLum);
 
                 // remap luminance between 0 and 1 to sample the curve:
-                float clampedLuminance = clamp(Luminance(input.rgb), minLum, maxLum);
-                float luminance01 = (clampedLuminance - minLum) * rcp(maxLum - minLum);
+                float clampedLuminance = clamp(Luminance(input.rgb), totalMinLum, totalMaxLum);
+                // TODO: this 01 remap doesn't work because totalMinLum and totalMaxLum aren't the min and max lum of the iamge in manual mode
+                float luminance01 = (clampedLuminance - totalMinLum) * rcp(totalMaxLum - totalMinLum);
 
                 // Remap luminance with curve
                 float t = luminance01;
                 luminance01 = _InterpolationCurve.SampleLevel(s_linear_clamp_sampler, luminance01, 0).r;
 
                 // Remap luminance between min and max
-                float correctedLuminance = luminance01 * (maxLum - minLum) + minLum;
+                float correctedLuminance = luminance01 * (totalMaxLum - totalMinLum) + totalMinLum;
                 // Correct the color with the new luminance
                 float luminanceOffset = correctedLuminance - clampedLuminance;
                 // float3 D65 = float3(0.2126729, 0.7151522, 0.0721750);

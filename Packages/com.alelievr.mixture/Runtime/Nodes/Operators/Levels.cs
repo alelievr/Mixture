@@ -66,29 +66,23 @@ namespace Mixture
             if (!base.ProcessNode(cmd) || input == null)
 				return false;
 
-			output = tempRenderTexture;
-
-			MixtureUtils.SetupComputeTextureDimension(cmd, computeShader, rtSettings.GetTextureDimension(graph));
-
 			HistogramUtility.ComputeLuminanceMinMax(cmd, minMaxBuffer, input);
-
-			if (mode == Mode.Manual)
-			{
-				minMaxBufferData[0] = min;
-				minMaxBufferData[1] = max;
-				cmd.SetComputeBufferData(minMaxBuffer, minMaxBufferData);
-			}
-
 			TextureUtils.UpdateTextureFromCurve(interpolationCurve, ref curveTexture);
 
 			var mat = tempRenderTexture.material = GetTempMaterial("Hidden/Mixture/Levels");
+			mat.SetFloat("_Mode", (int)mode);
+			mat.SetFloat("_ManualMin", min);
+			mat.SetFloat("_ManualMax", max);
 			mat.SetVector("_RcpTextureSize", new Vector4(1.0f / input.width, 1.0f / input.height, 1.0f / TextureUtils.GetSliceCount(input), 0));
 			MixtureUtils.SetupDimensionKeyword(mat, tempRenderTexture.dimension);
 			MixtureUtils.SetTextureWithDimension(mat, "_Input", input);
 			mat.SetBuffer("_Luminance", minMaxBuffer);
 			mat.SetTexture("_InterpolationCurve", curveTexture);
+
 			tempRenderTexture.Update();
 			CustomTextureManager.UpdateCustomRenderTexture(cmd, tempRenderTexture);
+
+			output = tempRenderTexture;
 
 			return true;
         }
