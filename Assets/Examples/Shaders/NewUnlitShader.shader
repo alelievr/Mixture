@@ -10,14 +10,14 @@
     		Lighting Off
     		Blend One Zero
 
-    		CGPROGRAM
+    		HLSLPROGRAM
     		#pragma vertex vert
     		#pragma fragment frag
     		#pragma target 3.0
 
     		#pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 
-    		#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.cginc"
+    		#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.hlsl"
 
     		// Global variables required for mip chain generation
     		TEXTURE_SAMPLER_X(_InputTexture);
@@ -122,7 +122,7 @@
 
     			return surf.Color;
     		}
-    		ENDCG
+    		ENDHLSL
     	}
     }
     FallBack "Hidden/Shader Graph/FallbackError"

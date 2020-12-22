@@ -18,8 +18,8 @@
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -86,7 +86,7 @@
 
 				return color;
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

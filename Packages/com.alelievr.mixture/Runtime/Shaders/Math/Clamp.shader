@@ -21,8 +21,8 @@ Shader "Hidden/Mixture/Clamp"
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -41,7 +41,7 @@ Shader "Hidden/Mixture/Clamp"
 				float4 value = SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
 				return clamp(value, _Min, _Max);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

@@ -10,9 +10,9 @@ Shader "Hidden/Mixture/TileWrap"
 		[Range]_WrapW("W Wrap", Range(0.0,0.5)) = 0.2
 	}
 
-	CGINCLUDE
+	HLSLINCLUDE
 
-	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
 	#pragma vertex CustomRenderTextureVertexShader
 	#pragma fragment MixtureFragment
 	#pragma target 3.0
@@ -67,8 +67,7 @@ Shader "Hidden/Mixture/TileWrap"
 		return SAMPLE_SELF_LINEAR_CLAMP(i.localTexcoord.xyz, i.direction);
 	}
 
-
-	ENDCG
+	ENDHLSL
 
 	SubShader
 	{
@@ -79,48 +78,48 @@ Shader "Hidden/Mixture/TileWrap"
 		{
 			Name "U Tiling"
 
-			CGPROGRAM
+			HLSLPROGRAM
 			float4 mixture(v2f_customrendertexture i) : SV_Target
 			{
 				return UTiling(i);
 			}
-			ENDCG
+			ENDHLSL
 		}
 
 		Pass
 		{
 			Name "V Tiling"
 
-			CGPROGRAM
+			HLSLPROGRAM
 			float4 mixture(v2f_customrendertexture i) : SV_Target
 			{
 				return VTiling(i);
 			}
-			ENDCG
+			ENDHLSL
 		}
 
 		Pass
 		{
 			Name "W Tiling"
 
-			CGPROGRAM
+			HLSLPROGRAM
 			float4 mixture(v2f_customrendertexture i) : SV_Target
 			{
 				return WTiling(i);
 			}
-			ENDCG
+			ENDHLSL
 		}
 
 		Pass
 		{
 			Name "RestoreOffset"
 
-			CGPROGRAM
+			HLSLPROGRAM
 			float4 mixture(v2f_customrendertexture i) : SV_Target
 			{
 				return RestoreOffset(i);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

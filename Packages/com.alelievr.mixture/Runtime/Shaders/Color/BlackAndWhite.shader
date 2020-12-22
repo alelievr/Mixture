@@ -18,8 +18,8 @@
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -40,7 +40,7 @@
 				else if (_LuminanceMode == 4) // Average
 					return (source.r + source.g + source.b) / 3;
 				else // Luminance
-					return dot(source, _ColorNorm);
+					return dot(source, _ColorNorm.rgb);
 			}
 
 			float4 mixture(v2f_customrendertexture i) : SV_Target
@@ -50,12 +50,12 @@
 
 				_ColorFilter /= lerp(1.0, Luminance(_ColorFilter.rgb), _KeepLuminance);
 
-				source.rgb *= _ColorFilter;
+				source.rgb *= _ColorFilter.rgb;
 
-				float n = Luminance(source);
+				float n = Luminance(source.rgb);
 				return float4(n,n,n,source.a);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

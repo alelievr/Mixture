@@ -2,28 +2,29 @@
 {	
 	Properties
 	{
-			_Input("Input",Cube) = "white" {}
+		_Input("Input", Cube) = "white" {}
 	}
-		SubShader
+	SubShader
 	{
 		Tags { "RenderType" = "Opaque" }
 		LOD 100
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
 			#pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
 
-			UNITY_DECLARE_TEXCUBE(_Input);
+			TextureCube _Input;
+			sampler sampler_Input;
 
 			float4 mixture(v2f_customrendertexture i) : SV_Target
 			{
-				return UNITY_SAMPLE_TEXCUBE(_Input, LatlongToDirectionCoordinate(i.localTexcoord.xy));
+				return _Input.SampleLevel(sampler_Input, LatlongToDirectionCoordinate(i.localTexcoord.xy), 0);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

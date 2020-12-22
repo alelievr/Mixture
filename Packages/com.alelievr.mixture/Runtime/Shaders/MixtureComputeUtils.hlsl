@@ -4,7 +4,7 @@
 float _TextureDimension;
 
 #include "Packages/com.alelievr.mixture/Runtime/Shaders/CustomTexture.hlsl"
-#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.cginc"
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.hlsl"
 
 bool Is2D() { return _TextureDimension == 2; }
 bool Is3D() { return _TextureDimension == 3; }

@@ -20,12 +20,12 @@ Shader "Hidden/Mixture/Splatter"
 		[HideInInspector] _JitterDistance("Jitter Distance", Float) = 0
 	}
 
-	CGINCLUDE
+	HLSLINCLUDE
 
 	#pragma shader_feature CRT_2D CRT_3D
 	#pragma target 4.5
 	
-	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.cginc"
+	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.hlsl"
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/Splatter.hlsl"
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/NoiseUtils.hlsl"
 
@@ -225,7 +225,7 @@ Shader "Hidden/Mixture/Splatter"
 		return output;
 	}
 
-	ENDCG
+	ENDHLSL
 
 	SubShader
 	{
@@ -242,11 +242,11 @@ Shader "Hidden/Mixture/Splatter"
 			Blend [_SrcBlend] [_DstBlend], One [_DstBlend] 
 			BlendOp [_BlendOp]
 
-			CGPROGRAM
+			HLSLPROGRAM
 				// The list of defines that will be active when processing the node with a certain dimension
 				#pragma vertex IndirectVertex
 				#pragma fragment Fragment
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

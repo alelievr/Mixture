@@ -11,8 +11,8 @@
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
 			#pragma fragment MixtureFragment
             #pragma vertex CustomRenderTextureVertexShader
 
@@ -25,7 +25,7 @@
 			{
 				return tex2D(_Input, IN.localTexcoord.xy);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

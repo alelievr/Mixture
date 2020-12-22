@@ -31,8 +31,8 @@ Shader "Hidden/Mixture/Transform"
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -71,7 +71,7 @@ Shader "Hidden/Mixture/Transform"
 				uv.xyz += SAMPLE_X(_PositionOffset, i.localTexcoord.xyz, i.direction).xyz + _PositionOffset;
 
 				// Scale
-				uv.xyz *= SAMPLE_X(_Scale, i.localTexcoord.xyz, i.direction) * _Scale;
+				uv.xyz *= SAMPLE_X(_Scale, i.localTexcoord.xyz, i.direction).xyz * _Scale;
 
 				// Rotation
 				uv.xyz = mul(mz, mul(my, mul(mx, float4(uv.xyz, 0)))).xyz;
@@ -86,7 +86,7 @@ Shader "Hidden/Mixture/Transform"
 
 				return SAMPLE_X(_Input, uv, uv);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

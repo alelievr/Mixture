@@ -18,7 +18,7 @@ bool IsGammaSpace()
 
 // Unpack normal as DXT5nm (1, y, 1, x) or BC5 (x, y, 0, 1)
 // Note neutral texture like "bump" is (0, 0, 1, 1) to work with both plain RGB normal and DXT5nm/BC5
-float3 UnpackNormalmapRGorAG(fixed4 packednormal)
+float3 UnpackNormalmapRGorAG(float4 packednormal)
 {
     // This do the trick
    packednormal.x *= packednormal.w;
@@ -28,7 +28,7 @@ float3 UnpackNormalmapRGorAG(fixed4 packednormal)
     normal.z = sqrt(1 - saturate(dot(normal.xy, normal.xy)));
     return normal;
 }
-inline float3 UnpackNormal(fixed4 packednormal)
+inline float3 UnpackNormal(float4 packednormal)
 {
 #if defined(UNITY_NO_DXT5nm)
     return packednormal.xyz * 2 - 1;

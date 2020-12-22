@@ -22,8 +22,8 @@ Shader "Hidden/Mixture/Julia"
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -102,7 +102,7 @@ Shader "Hidden/Mixture/Julia"
 
 				return julia(uv.xy);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

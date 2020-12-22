@@ -10,8 +10,8 @@
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
 			#pragma fragment MixtureFragment
 
             #pragma vertex CustomRenderTextureVertexShader
@@ -21,7 +21,7 @@
 			{
 				return float4(1, 0, 1, 1);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

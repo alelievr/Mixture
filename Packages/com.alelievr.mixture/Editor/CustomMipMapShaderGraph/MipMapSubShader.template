@@ -12,7 +12,7 @@ Pass
 	Lighting Off
 	Blend One Zero
 
-	CGPROGRAM
+	HLSLPROGRAM
 	#pragma vertex vert
 	#pragma fragment frag
 	#pragma target 3.0
@@ -27,7 +27,7 @@ Pass
     $splice(GraphKeywords)
 
 	#include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
-	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.cginc"
+	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.hlsl"
 
 	// Global variables required for mip chain generation
 	TEXTURE_X(_InputTexture);
@@ -113,5 +113,5 @@ Pass
 
 		return surf.Color;
 	}
-	ENDCG
+	ENDHLSL
 }

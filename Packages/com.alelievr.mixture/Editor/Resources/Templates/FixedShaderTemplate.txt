@@ -16,8 +16,8 @@ Shader "Hidden/Mixture/#SCRIPTNAME#"
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -33,7 +33,7 @@ Shader "Hidden/Mixture/#SCRIPTNAME#"
 				// The SAMPLE_X macro handles sampling for 2D, 3D and cube textures
 				return SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

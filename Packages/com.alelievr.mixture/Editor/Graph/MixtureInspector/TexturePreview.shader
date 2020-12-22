@@ -51,7 +51,7 @@ Shader "Hidden/MixtureInspectorPreview"
             sampler s_linear_repeat_sampler;
             sampler s_point_repeat_sampler;
 
-            // Local copy/paste because we're in an CGProgram -_________-
+            // Local copy/paste because we're in an HLSLPROGRAM -_________-
             float3 LatlongToDirectionCoordinate(float2 coord)
             {
                 float theta = coord.y * 3.14159265;

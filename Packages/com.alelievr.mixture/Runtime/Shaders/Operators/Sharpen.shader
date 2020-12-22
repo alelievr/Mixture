@@ -10,9 +10,9 @@
 		_Strength("Strength", Range(0.1, 2)) = 1
 	}
 
-	CGINCLUDE
+	HLSLINCLUDE
 	
-	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
 	#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 
 	#pragma target 3.0
@@ -43,7 +43,7 @@
 		return result;
 	}
 
-	ENDCG
+	ENDHLSL
 
 	SubShader
 	{
@@ -54,7 +54,7 @@
 		{
 			Name "Sharpen"
 
-			CGPROGRAM
+			HLSLPROGRAM
 			float4 mixture(v2f_customrendertexture i) : SV_Target
 			{
 				// TODO: cubemaps support
@@ -68,7 +68,7 @@
 					SAMPLE_X(_Source, i.localTexcoord.xyz + rcpSize.www * _Strength, float3(0, 0, 0))
 				);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

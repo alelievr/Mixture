@@ -13,9 +13,9 @@ Shader "Hidden/Mixture/FinalCopy"
 
 		Pass
 		{
-			CGPROGRAM
+			HLSLPROGRAM
 
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
 			#include "Packages/com.alelievr.mixture/Editor/Resources/MixtureSRGB.hlsl"
 			
             #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
@@ -34,7 +34,7 @@ Shader "Hidden/Mixture/FinalCopy"
 
 				return color;
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

@@ -18,8 +18,8 @@
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -46,7 +46,7 @@
 				}
 				else
 				{
-					float3 source_hsv = RGBtoHSV(source);
+					float3 source_hsv = RGBtoHSV(source.rgb);
 					if (ih) source_hsv.x = 1.0 - source_hsv.x;
 					if (is) source_hsv.y = 1.0 - source_hsv.y;
 					if (iv) source_hsv.z = 1.0 - source_hsv.z;
@@ -59,7 +59,7 @@
 				
 				return source;
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

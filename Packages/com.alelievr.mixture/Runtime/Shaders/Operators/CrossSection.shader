@@ -17,8 +17,8 @@ Shader "Hidden/Mixture/CrossSection"
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -40,7 +40,7 @@ Shader "Hidden/Mixture/CrossSection"
 
 				return smoothstep(value, 0, float4(i.localTexcoord.yyyy));
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

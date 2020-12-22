@@ -40,7 +40,7 @@
 			float _CellsModeA;
 			int _Channels;
 
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
 			#define CUSTOM_DISTANCE _DistanceMode
 			#define CUSTOM_DISTANCE_MULTIPLIER _CellSize
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/CellularNoise.hlsl"

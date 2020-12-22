@@ -20,8 +20,8 @@ Shader "Hidden/Mixture/Mandelbrot"
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -108,7 +108,7 @@ Shader "Hidden/Mixture/Mandelbrot"
 
 				return mandelbrot(uv.xy);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

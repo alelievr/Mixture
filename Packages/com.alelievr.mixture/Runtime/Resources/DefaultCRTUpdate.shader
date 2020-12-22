@@ -11,7 +11,7 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             // make fog work
@@ -52,7 +52,7 @@
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

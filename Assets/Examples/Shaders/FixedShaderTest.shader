@@ -16,8 +16,8 @@
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -33,7 +33,7 @@
 				// The SAMPLE_X macro handles sampling for 2D, 3D and cube textures
 				return SAMPLE_X(_Source, float3(i.localTexcoord.xy, 0), i.direction);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

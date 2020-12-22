@@ -15,7 +15,7 @@ Shader "Hidden/HistogramPreview"
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 5.0
@@ -23,7 +23,7 @@ Shader "Hidden/HistogramPreview"
             #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
             // #pragma enable_d3d11_debug_symbols
 
-            #include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.cginc"
+            #include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.hlsl"
             #include "Packages/com.alelievr.mixture/Editor/Resources/HistogramData.hlsl"
 
             StructuredBuffer<HistogramBucket>   _HistogramReadOnly;
@@ -47,18 +47,13 @@ Shader "Hidden/HistogramPreview"
                 float2 clipUV : TEXCOORD1;
             };
 
-            inline float3 UnityObjectToViewPos( in float3 pos )
-            {
-                return mul(UNITY_MATRIX_V, mul(unity_ObjectToWorld, float4(pos, 1.0))).xyz;
-            }
-
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.vertex = UnityObjectToClipPos(v.vertex.xyz);
                 o.uv = v.uv;
                 float3 screenUV = UnityObjectToViewPos(v.vertex.xyz).xyz;
-                o.clipUV = mul(unity_GUIClipTextureMatrix, float4(screenUV, 1.0));
+                o.clipUV = mul(unity_GUIClipTextureMatrix, float4(screenUV, 1.0)).xy;
                 return o;
             }
 
@@ -95,7 +90,7 @@ Shader "Hidden/HistogramPreview"
 
                 return float4(histogram, 1) * tex2D(_GUIClipTexture, i.clipUV).a;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

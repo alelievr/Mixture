@@ -11,9 +11,9 @@
 		[Tooltip(Output color mode, it can either be white and black or input texture coor)][Enum(Edge, 0, ColorEdge, 1)] _Mode("Mode", Float) = 0
 	}
 
-	CGINCLUDE
+	HLSLINCLUDE
 	
-	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
 	#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 
 	#pragma target 3.0
@@ -68,7 +68,7 @@
 #endif
 	}
 
-	ENDCG
+	ENDHLSL
 
 	SubShader
 	{
@@ -79,7 +79,7 @@
 		{
 			Name "EdgeDetect"
 
-			CGPROGRAM
+			HLSLPROGRAM
 			float4 mixture(v2f_customrendertexture i) : SV_Target
 			{
 				float3x3 horizontalPixels = float3x3(
@@ -100,7 +100,7 @@
 						return SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction) * edge;
 				}
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

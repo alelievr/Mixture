@@ -19,8 +19,8 @@
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -53,7 +53,7 @@
 				float a = ChannelMask(source, _Mask);
 				return float4(target.r, target.g, target.b, a);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

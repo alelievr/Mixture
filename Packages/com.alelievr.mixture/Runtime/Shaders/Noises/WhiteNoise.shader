@@ -12,8 +12,8 @@
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/NoiseUtils.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
@@ -47,7 +47,7 @@
 						);
 				}
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

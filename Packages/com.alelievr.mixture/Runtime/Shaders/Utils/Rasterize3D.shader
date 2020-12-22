@@ -17,7 +17,7 @@ Shader "Hidden/Mixture/Rasterize3D"
             ZWrite Off
             ZClip Off
 
-			CGPROGRAM
+			HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 4.5
@@ -57,7 +57,7 @@ Shader "Hidden/Mixture/Rasterize3D"
 
                 return 0;
             }
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

@@ -20,7 +20,7 @@
             ZTest Off
 			ZTest LEqual
 
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
@@ -41,7 +41,7 @@
 
                 return MakePreviewColor(i, _Texture3D_TexelSize.zw, color);
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

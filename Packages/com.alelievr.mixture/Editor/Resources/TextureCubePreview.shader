@@ -19,13 +19,13 @@
             ZTest Off
 			ZTest LEqual
 
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
 			#include "Packages/com.alelievr.mixture/Editor/Resources/MixturePreview.hlsl"
 
-            // Local copy/paste because we're in an CGProgram -_________-
+            // Local copy/paste because we're in an HLSLPROGRAM -_________-
             float3 LatlongToDirectionCoordinate(float2 coord)
             {
                 float theta = coord.y * 3.14159265;
@@ -51,7 +51,7 @@
                 float4 color = _Cubemap.SampleLevel(sampler_Linear_Clamp_Cubemap, normalize(LatlongToDirectionCoordinate(i.uv)), floor(_PreviewMip)) * _Channels;
                 return MakePreviewColor(i, _Cubemap_TexelSize.zw, color);
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

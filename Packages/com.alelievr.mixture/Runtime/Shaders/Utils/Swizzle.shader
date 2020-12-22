@@ -20,8 +20,8 @@
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -45,7 +45,7 @@
 				float a = Swizzle(source, _AMode, _Custom.a);
 				return float4(r, g, b, a);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

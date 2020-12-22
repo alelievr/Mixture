@@ -17,8 +17,8 @@
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
 			#pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -72,7 +72,7 @@
 
 				return lerp(_Color1, _Color2, saturate(gradient));
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

@@ -11,9 +11,9 @@
 		// Other parameters
 	}
 
-	CGINCLUDE
+	HLSLINCLUDE
 	
-	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
 
 	#pragma target 3.0
 	// The list of defines that will be active when processing the node with a certain dimension
@@ -96,7 +96,7 @@
 		return color;
 	}
 
-	ENDCG
+	ENDHLSL
 
 	SubShader
 	{
@@ -107,36 +107,36 @@
 		{
 			Name "Vertical Blur"
 
-			CGPROGRAM
+			HLSLPROGRAM
 			float4 mixture(v2f_customrendertexture i) : SV_Target
 			{
 				return GaussianBlur(i, float3(1, 0, 0), false);
 			}
-			ENDCG
+			ENDHLSL
 		}
 
 		Pass
 		{
 			Name "Horizontal Blur"
 
-			CGPROGRAM
+			HLSLPROGRAM
 			float4 mixture(v2f_customrendertexture i) : SV_Target
 			{
 				return GaussianBlur(i, float3(0, 1, 0), true);
 			}
-			ENDCG
+			ENDHLSL
 		}
 
 		Pass
 		{
 			Name "Depth Blur"
 
-			CGPROGRAM
+			HLSLPROGRAM
 			float4 mixture(v2f_customrendertexture i) : SV_Target
 			{
 				return GaussianBlur(i, float3(0, 0, 1), true);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

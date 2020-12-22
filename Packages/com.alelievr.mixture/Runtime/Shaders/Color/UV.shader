@@ -12,8 +12,8 @@
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
 			#pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -28,10 +28,10 @@
 #ifdef CRT_CUBE
 				return float4(IN.direction, 1) ;
 #else
-				return float4(IN.globalTexcoord.xyz * _Scale + _Bias, 1) ;
+				return float4(IN.globalTexcoord.xyz * _Scale.xyz + _Bias.xyz, 1);
 #endif
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

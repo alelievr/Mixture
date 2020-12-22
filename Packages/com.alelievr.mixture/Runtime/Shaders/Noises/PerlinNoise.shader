@@ -24,8 +24,8 @@
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/PerlinNoise.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
@@ -54,19 +54,19 @@
 				float3 noise = 0;
 #ifdef CRT_2D
 				if (_UVMode == 0)
-					noise = GeneratePerlin2DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed);
+					noise = GeneratePerlin2DNoise(uvs.xy, _Frequency, _Octaves, _Persistance, _Lacunarity, seed);
 				else
 #endif
-					noise = GeneratePerlin3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed);
+					noise = GeneratePerlin3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, seed).x;
 
-				return RemapClamp(noise, -1, 1, _OutputRange.x, _OutputRange.y);
+				return RemapClamp(noise.x, -1, 1, _OutputRange.x, _OutputRange.y);
 			}
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
 				return GenerateNoiseForChannels(i, _Channels, _Seed);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

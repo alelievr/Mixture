@@ -13,8 +13,8 @@ Shader "Hidden/Mixture/Levels"
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #include "Packages/com.alelievr.mixture/Editor/Resources/HistogramData.hlsl"
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
@@ -96,7 +96,7 @@ Shader "Hidden/Mixture/Levels"
 
                 return input;
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

@@ -15,8 +15,8 @@ Shader "Hidden/Mixture/VolumeToVectorField"
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -52,7 +52,7 @@ Shader "Hidden/Mixture/VolumeToVectorField"
 
 				return float4(vec * _Strength, alpha);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

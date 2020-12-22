@@ -46,9 +46,9 @@ sampler s_point_repeat_sampler;
 	#define RW_TEXTURE_X(type, name) RW_TEXTURE2D(type, MERGE_NAME(name,_2D))
 
 	#define LOAD_SELF(uv, dir) LOAD_TEXTURE2D_LOD(_SelfTexture2D, (uv) * float2(_CustomRenderTextureWidth, _CustomRenderTextureHeight), 0);
-	#define SAMPLE_SELF(uv, dir) SAMPLE_TEXTURE2D_LOD(_SelfTexture2D, sampler_SelfTexture2D, uv, 0)
-	#define SAMPLE_SELF_LINEAR_CLAMP(uv, dir) SAMPLE_TEXTURE2D_LOD(_SelfTexture2D, s_linear_clamp_sampler, uv, 0)
-	#define SAMPLE_SELF_SAMPLER(s, uv, dir) SAMPLE_TEXTURE2D_LOD(_SelfTexture2D, MERGE_NAME(s,_2D), uv, 0)
+	#define SAMPLE_SELF(uv, dir) SAMPLE_TEXTURE2D_LOD(_SelfTexture2D, sampler_SelfTexture2D, (uv).xy, 0)
+	#define SAMPLE_SELF_LINEAR_CLAMP(uv, dir) SAMPLE_TEXTURE2D_LOD(_SelfTexture2D, s_linear_clamp_sampler, (uv).xy, 0)
+	#define SAMPLE_SELF_SAMPLER(s, uv, dir) SAMPLE_TEXTURE2D_LOD(_SelfTexture2D, MERGE_NAME(s,_2D), (uv).xy, 0)
 #elif CRT_3D
 	#define SAMPLE_X(tex, uv, dir)	tex3Dlod(MERGE_NAME(tex,_3D), float4(uv, 0))
 	#define SAMPLE_LOD_X(tex, uv, dir, lod)	tex3Dlod(MERGE_NAME(tex,_3D), float4(uv, lod))
@@ -217,6 +217,45 @@ float Swizzle(float4 sourceValue, uint mode, float custom)
 	case 7: return custom;
 	}
 	return 0;
+}
+
+// Built-in unity functions and matrices:
+
+float4 _Time, _SinTime, _CosTime, unity_DeltaTime;
+
+// ================================
+//     PER FRAME CONSTANTS
+// ================================
+#if defined(USING_STEREO_MATRICES)
+	#define glstate_matrix_projection unity_StereoMatrixP[unity_StereoEyeIndex]
+	#define unity_MatrixV unity_StereoMatrixV[unity_StereoEyeIndex]
+	#define unity_MatrixInvV unity_StereoMatrixInvV[unity_StereoEyeIndex]
+	#define unity_MatrixVP unity_StereoMatrixVP[unity_StereoEyeIndex]
+
+	#define unity_CameraProjection unity_StereoCameraProjection[unity_StereoEyeIndex]
+	#define unity_CameraInvProjection unity_StereoCameraInvProjection[unity_StereoEyeIndex]
+	#define unity_WorldToCamera unity_StereoWorldToCamera[unity_StereoEyeIndex]
+	#define unity_CameraToWorld unity_StereoCameraToWorld[unity_StereoEyeIndex]
+#else
+	#if !defined(USING_STEREO_MATRICES)
+		float4x4 glstate_matrix_projection;
+		float4x4 unity_MatrixV;
+		float4x4 unity_MatrixInvV;
+		float4x4 unity_MatrixVP;
+		float4x4 unity_ObjectToWorld;
+		float4 unity_StereoScaleOffset;
+	#endif
+#endif
+
+// Tranforms position from object to homogenous space
+inline float4 UnityObjectToClipPos( in float3 pos )
+{
+	return mul(unity_MatrixVP, mul(unity_ObjectToWorld, float4(pos, 1.0)));
+}
+
+inline float3 UnityObjectToViewPos( in float3 pos )
+{
+	return mul(unity_MatrixV, mul(unity_ObjectToWorld, float4(pos, 1.0))).xyz;
 }
 
 #endif

@@ -12,7 +12,7 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
@@ -48,7 +48,7 @@
                 fixed4 col = UNITY_SAMPLE_TEX2DARRAY(_TextureArray, float3(i.uv, _Slice));
                 return col;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

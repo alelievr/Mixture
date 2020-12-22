@@ -22,8 +22,8 @@
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -42,7 +42,7 @@
 			{
 				float4 source = SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
 				float4 offset = SAMPLE_X(_HSVOffset, i.localTexcoord.xyz, i.direction);
-				float3 source_hsv = RGBtoHSV(source);
+				float3 source_hsv = RGBtoHSV(source.rgb);
 
 				float3 hsvOffset = float3(_Hue, _Saturation, _Value) + offset.xyz;
 
@@ -62,7 +62,7 @@
 
 				return source;
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

@@ -16,8 +16,8 @@ Shader "Hidden/Mixture/LinearToSRGB"
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #include "Packages/com.alelievr.mixture/Editor/Resources/MixtureSRGB.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
@@ -34,7 +34,7 @@ Shader "Hidden/Mixture/LinearToSRGB"
 				float4 value = SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
 				return float4(LinearToSRGB(value.xyz), value.a);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

@@ -17,8 +17,8 @@
 
 		Pass
 		{
-			CGPROGRAM
-			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.cginc"
+			HLSLPROGRAM
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
@@ -60,7 +60,7 @@
 				float4 input = SAMPLE_X(_Input, i.localTexcoord.xyz, i.direction);
 				return Remap(input, _Mode);
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

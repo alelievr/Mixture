@@ -15,13 +15,14 @@ Pass
 	Lighting Off
 	Blend One Zero
 
-	CGPROGRAM
+	HLSLPROGRAM
 	#include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
 	// TODO: move this to HLSLPROGRAM
 	#undef SAMPLE_DEPTH_TEXTURE
 	#undef SAMPLE_DEPTH_TEXTURE_LOD
 	#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 	#include "Packages/com.alelievr.mixture/Runtime/Shaders/CustomTexture.hlsl"
+	#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.hlsl"
 	#include "Packages/com.alelievr.mixture/Runtime/CustomTextureShaderGraph/CustomTextureGraph.hlsl"
 	#pragma vertex CustomRenderTextureVertexShader
 	#pragma fragment frag
@@ -83,5 +84,5 @@ Pass
 
 		return surf.Color;
 	}
-	ENDCG
+	ENDHLSL
 }
