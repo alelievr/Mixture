@@ -59,6 +59,7 @@ namespace Mixture
                             break;
                     }
                     externalOutputNode.OnSettingsChanged();
+                    ForceUpdatePorts();
                     MarkDirtyRepaint();
                 }
 
