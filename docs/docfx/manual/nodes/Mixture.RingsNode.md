@@ -3,6 +3,7 @@
 ## Inputs
 Port Name | Description
 --- | ---
+UV | 
 InnerColor | 
 OuterColor | 
 Radius | 
@@ -12,7 +13,7 @@ Smooth |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Generates a ring pattern. In 3D this node generate toruses.

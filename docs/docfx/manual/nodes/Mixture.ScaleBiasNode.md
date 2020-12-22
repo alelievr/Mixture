@@ -10,7 +10,7 @@ Bias |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Apply a Scale and Bias on the input texture color.

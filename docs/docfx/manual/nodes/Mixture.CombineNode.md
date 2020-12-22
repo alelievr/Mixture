@@ -12,7 +12,7 @@ Custom |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Combine up to 4 textures into one, allowing you to choose which channel to write in the output texture.

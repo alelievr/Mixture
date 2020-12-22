@@ -10,7 +10,7 @@ Rotation In Degree |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Rotate the normal map vector with a certain angle in degree.

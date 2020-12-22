@@ -3,6 +3,7 @@
 ## Inputs
 Port Name | Description
 --- | ---
+UV | 
 Even Color | 
 Odd Color | 
 X Cell Count | 
@@ -13,7 +14,7 @@ Smooth |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Generate a checkerboard patter, in 3D this node generates a cubic checkerboard pattern.

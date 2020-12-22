@@ -9,7 +9,7 @@ Alpha |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Allow you to invert an image in the HSV color space.

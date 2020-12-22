@@ -9,7 +9,7 @@ SpriteCount |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 This node is the base node of all shader operations, it allows you to create a node with a custom behavior by putting a shader in the Shader field.

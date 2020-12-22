@@ -10,7 +10,7 @@ Smoothness |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Generates an HDRP detail map by combining the desaturated albedo, normal and smoothness maps.

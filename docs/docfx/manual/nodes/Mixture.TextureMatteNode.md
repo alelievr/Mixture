@@ -10,7 +10,7 @@ UV Bias |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Sample a Texture with a scale and a bias on the UVs.

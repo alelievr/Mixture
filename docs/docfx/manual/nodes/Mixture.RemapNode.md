@@ -9,7 +9,7 @@ Map |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Remap a texture using another texture as map. You can choose to remap either from the Hue, Saturation, Value(brightness) or alpha of the input texture.

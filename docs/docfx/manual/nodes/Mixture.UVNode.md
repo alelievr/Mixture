@@ -9,7 +9,7 @@ UV Bias |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Constant UV. Note that for texture 2D, the z coordinate is set to 0.5.

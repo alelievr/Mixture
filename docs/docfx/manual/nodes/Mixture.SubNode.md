@@ -10,7 +10,7 @@ Value |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Perform a substraction with `source A`, `source B` and a value and writes the result to output like so:

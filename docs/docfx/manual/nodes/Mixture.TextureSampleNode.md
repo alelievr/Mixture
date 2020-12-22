@@ -9,7 +9,7 @@ UV |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Sample a texture. Note that you can use a custom UV texture as well.

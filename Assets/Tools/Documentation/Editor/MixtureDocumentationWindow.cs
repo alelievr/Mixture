@@ -108,6 +108,8 @@ public class MixtureDocumentationWindow : EditorWindow
             graphView.UpdateViewTransform(new Vector3(0, 0, 0), Vector3.one * graphView.scale);
             graphView.Focus();
 
+            MixtureGraphProcessor.RunOnce(docGraph);
+
             yield return new WaitForEndOfFrame();
 
             if (window == null)

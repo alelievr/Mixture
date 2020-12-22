@@ -9,7 +9,7 @@ Custom |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Swizzle the channels of the input texture, you can also choose to put a custom value instead of reusing a channel.

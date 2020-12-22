@@ -10,7 +10,7 @@ Constant |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Add two normal maps using the surface gradient functions.

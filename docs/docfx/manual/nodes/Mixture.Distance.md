@@ -3,12 +3,12 @@
 ## Inputs
 Port Name | Description
 --- | ---
-Input | 
+input | 
 
 ## Output
 Port Name | Description
 --- | ---
-Output | 
+output | 
 
 ## Description
 Execute a flood fill operation on all pixels above the specified threshold.

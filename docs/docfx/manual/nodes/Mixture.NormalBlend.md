@@ -10,7 +10,7 @@ Opacity |
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 Blend two normal maps using the surface gradient functions.
