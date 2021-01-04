@@ -10,17 +10,20 @@ namespace Mixture
 {
    	// By default textures don't have any CustomEditors so we can define them for Mixture
 	[CustomEditor(typeof(MixtureVariant), false)]
-	class MixtureVariantInspector : MixtureEditor
+	class MixtureVariantInspector : Editor 
 	{
         MixtureVariant variant;
+        MixtureGraph graph;
+        ExposedParameterFieldFactory exposedParameterFactory;
 
         [SerializeField, SerializeReference]
         List<ExposedParameter> visibleParameters = new List<ExposedParameter>();
 
         Dictionary<ExposedParameter, VisualElement> parameterViews = new Dictionary<ExposedParameter, VisualElement>();
         VisualTreeAsset overrideParameterView;
+        VisualElement root, parameters;
 
-		protected override void OnEnable()
+		protected void OnEnable()
 		{
             variant = target as MixtureVariant;
             graph = variant.parentGraph;
@@ -37,21 +40,18 @@ namespace Mixture
 
             overrideParameterView = Resources.Load<VisualTreeAsset>("UI Blocks/MixtureVariantParameter");
 
-			LoadInspectorFor(graph.mainOutputTexture.GetType(), new Object[]{ graph.mainOutputTexture });
+			// LoadInspectorFor(graph.mainOutputTexture.GetType(), new Object[]{ graph.mainOutputTexture });
 		}
 
-		protected override void OnDisable()
+		protected void OnDisable()
         {
             if (graph != null)
 			{
-				graph.onExposedParameterListChanged += UpdateParameters;
-				graph.onExposedParameterModified += UpdateParameters;
-				graph.onExposedParameterValueChanged += UpdateParameters;
+				graph.onExposedParameterListChanged -= UpdateParameters;
+				graph.onExposedParameterModified -= UpdateParameters;
+				graph.onExposedParameterValueChanged -= UpdateParameters;
 			}
             exposedParameterFactory.Dispose();
-
-            if (defaultTextureEditor != null)
-				DestroyImmediate(defaultTextureEditor);
         }
 
 
@@ -60,7 +60,7 @@ namespace Mixture
 			if (graph == null)
 				return base.CreateInspectorGUI();
 
-			CreateRootElement();
+            root = new VisualElement();
             UpdateParentView();
 			UpdateParameters();
 
@@ -105,6 +105,8 @@ namespace Mixture
 		void UpdateParameters(ExposedParameter param) => UpdateParameters();
 		void UpdateParameters()
 		{
+            if (root == null)
+                root = new VisualElement();
 			if (parameters == null || !root.Contains(parameters))
 			{
 				parameters = new VisualElement();
@@ -160,8 +162,8 @@ namespace Mixture
                 UpdateOverrideParameter(param, newValue);
             });
 
-            parameterValueField.AddManipulator(new ContextualMenuManipulator(builder => {
-                builder.menu.AppendAction("Reset", _ => RemoveOverride(param));
+            prop.AddManipulator(new ContextualMenuManipulator(e => {
+                e.menu.AppendAction("Reset", _ => RemoveOverride(param));
             }));
 
             parameterValueField.Bind(serializedInspector);
@@ -192,7 +194,6 @@ namespace Mixture
 
         void UpdateOverrideParameter(ExposedParameter parameter, object overrideValue)
         {
-            Debug.Log(variant.overrideParameters.Count);
             if (!variant.overrideParameters.Contains(parameter))
             {
                 Undo.RegisterCompleteObjectUndo(variant, "Override Parameter");

@@ -45,26 +45,28 @@ namespace Mixture
 			if (!assetPath.EndsWith($".{MixtureAssetCallbacks.Extension}"))
 				return ;
 
-			var variant = AssetDatabase.LoadAssetAtPath< MixtureVariant >(assetPath);
+			// ensure that the asset is a texture:
+			var texture = AssetDatabase.LoadAssetAtPath< Texture >(assetPath);
+			if (texture == null)
+				return ;
+
+			// Check if the current texture is a mixture variant
+			var variant = MixtureEditorUtils.GetVariantAtPath(assetPath);
 			if (variant != null)
 			{
 				mixtureVariants.Add(assetGUID, variant);
+				DrawMixtureSmallIcon(rect, variant);
 				return;
 			}
 
-			// ensure that the asset is a texture:
-			var texture = AssetDatabase.LoadAssetAtPath< Texture >(assetPath);
-			if (texture == null && variant == null)
-				return ;
-
 			// and then that it have a Mixture Graph as subasset
 			graph = MixtureEditorUtils.GetGraphAtPath(assetPath);
-			if (graph == null)
+			if (graph != null)
+			{
+				mixtureAssets.Add(assetGUID, graph);
+				DrawMixtureSmallIcon(rect, graph);
 				return ;
-
-			mixtureAssets.Add(assetGUID, graph);
-
-			DrawMixtureSmallIcon(rect, graph);
+			}
 		}
 
 		static void DrawMixtureSmallIcon(Rect rect, MixtureGraph graph)
@@ -96,7 +98,9 @@ namespace Mixture
 	class MixtureEditor : Editor
 	{
 		protected Editor		defaultTextureEditor;
+		protected Editor		variantEditor;
 		protected MixtureGraph	graph;
+		protected MixtureVariant variant;
 		protected VisualElement	root;
 		protected VisualElement	parameters;
         protected ExposedParameterFieldFactory exposedParameterFactory;
@@ -105,12 +109,19 @@ namespace Mixture
 		{
 			// Load the mixture graph:
 			graph = MixtureEditorUtils.GetGraphAtPath(AssetDatabase.GetAssetPath(target));
+			variant = MixtureEditorUtils.GetVariantAtPath(AssetDatabase.GetAssetPath(target));
 
 			if (graph != null)
 			{
 				exposedParameterFactory = new ExposedParameterFieldFactory(graph);
 				graph.onExposedParameterListChanged += UpdateExposedParameters;
 				graph.onExposedParameterModified += UpdateExposedParameters;
+			}
+			if (variant != null)
+			{
+				graph = variant.parentGraph;
+				exposedParameterFactory = new ExposedParameterFieldFactory(variant.parentGraph);
+				Editor.CreateCachedEditor(variant, typeof(MixtureVariantInspector), ref variantEditor);
 			}
 		}
 
@@ -152,6 +163,8 @@ namespace Mixture
 
 			if (defaultTextureEditor != null)
 				DestroyImmediate(defaultTextureEditor);
+			if (variantEditor != null)
+				DestroyImmediate(variantEditor);
 		}
 		
 		// This block of functions allow us to use the default behavior of the texture inspector instead of re-writing
@@ -202,6 +215,13 @@ namespace Mixture
 				return base.CreateInspectorGUI();
 			
 			CreateRootElement();
+
+			if (variant != null)
+			{
+				root.Add(variantEditor.CreateInspectorGUI());
+				return root;
+			}
+
 			UpdateExposedParameters(null);
 			root.Add(CreateTextureSettingsView());
 			root.Add(CreateAdvancedSettingsView());
