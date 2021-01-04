@@ -182,6 +182,9 @@ namespace Mixture
 
         public static void Dispose(HistogramData data)
         {
+            if (data == null)
+                return;
+
             _dataCount--;
 
             data.histogram?.Dispose();

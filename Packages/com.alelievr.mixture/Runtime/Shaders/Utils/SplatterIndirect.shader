@@ -50,7 +50,7 @@ Shader "Hidden/Mixture/Splatter"
 	uint _TextureCount;
     StructuredBuffer<SplatPoint> _SplatPoints;
 
-	// Blend
+// Blend
 	float _SrcBlend;
 	float _DstBlend;
 	float _BlendOp;

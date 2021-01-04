@@ -153,6 +153,7 @@ namespace Mixture
         protected override void Disable()
 		{
 			base.Disable();
+
 			foreach (var output in outputTextureSettings)
 			{
 				if (!graph.isRealtime)

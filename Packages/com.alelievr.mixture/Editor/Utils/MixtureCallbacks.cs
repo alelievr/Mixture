@@ -48,6 +48,57 @@ namespace Mixture
                 $"New Realtime Mixture Graph.{Extension}", MixtureUtils.realtimeIcon, null);
 		}
 
+		[MenuItem("Assets/Create/Mixture/Variant", false, 100)]
+		public static void CreateMixtureVariant()
+		{
+			var selectedMixtures = Selection.GetFiltered<Texture>(SelectionMode.Assets);
+			var selectedVariants = Selection.GetFiltered<MixtureVariant>(SelectionMode.Assets);
+
+			foreach (var mixtureTexture in selectedMixtures)
+			{
+				var graph = MixtureDatabase.GetGraphFromTexture(mixtureTexture);
+				if (graph != null)
+					CreateMixtureVariant(graph, null);
+			}
+
+			foreach (var variant in selectedVariants)
+				CreateMixtureVariant(null, variant);
+		}
+
+		[MenuItem("Assets/Create/Mixture/Variant", true)]
+		public static bool CreateMixtureVariantEnabled()
+		{
+			var selectedMixtures = Selection.GetFiltered<Texture>(SelectionMode.Assets);
+			int mixtureCount = selectedMixtures.Count(m => MixtureDatabase.GetGraphFromTexture(m) != null);
+			var selectedVariants = Selection.GetFiltered<MixtureVariant>(SelectionMode.Assets);
+
+			return (mixtureCount + selectedVariants.Length) > 0;
+		}
+
+		public static void CreateMixtureVariant(MixtureGraph targetGraph, MixtureVariant parentVariant)
+		{
+			var variant = ScriptableObject.CreateInstance<MixtureVariant>();
+			string path;
+
+			if (targetGraph != null)
+			{
+				path = AssetDatabase.GetAssetPath(targetGraph);
+				variant.SetParent(targetGraph);
+			}
+			else
+			{
+				path = AssetDatabase.GetAssetPath(parentVariant);
+				variant.SetParent(parentVariant);
+			}
+
+			// Patch path name to add Variant
+			string fileName = Path.GetFileNameWithoutExtension(path) + " Variant";
+			path = Path.Combine(Path.GetDirectoryName(path), fileName + Path.GetExtension(path));
+
+			path = AssetDatabase.GenerateUniqueAssetPath(path);
+			AssetDatabase.CreateAsset(variant, path);
+		}
+
 #if MIXTURE_SHADERGRAPH
 		[MenuItem("Assets/Create/Mixture/Fixed Shader Graph", false, 202)]
 		[MenuItem("Assets/Create/Shader/Custom Texture Graph", false, 200)]
@@ -138,6 +189,10 @@ namespace Mixture
 				MixtureGraphWindow.Open(graph);
 				return true;
 			}
+			else if (asset is MixtureVariant variant)
+			{
+				MixtureGraphWindow.Open(variant.parentGraph);
+			}
 			return false;
 		}
 
@@ -162,11 +217,12 @@ namespace Mixture
 				else
 				{
 					MixtureGraphProcessor.RunOnce(mixture);
-					mixture.SaveAllTextures();
+					mixture.SaveAllTextures(false);
 				}
 
 				ProjectWindowUtil.ShowCreatedAsset(mixture.mainOutputTexture);
 				Selection.activeObject = mixture.mainOutputTexture;
+				EditorApplication.delayCall += () => EditorGUIUtility.PingObject(mixture.mainOutputTexture);
 			}
 		}
 
