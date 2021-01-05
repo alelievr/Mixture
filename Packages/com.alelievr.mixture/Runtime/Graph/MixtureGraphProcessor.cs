@@ -58,10 +58,8 @@ namespace Mixture
 
 		public static void RunOnce(MixtureGraph graph)
 		{
-			using (var processor = new MixtureGraphProcessor(graph))
-			{
-				processor.Run();
-			}
+			var processor = GetOrCreate(graph);
+			processor.Run();
 		}
 
 		~MixtureGraphProcessor() => Dispose();
@@ -90,6 +88,15 @@ namespace Mixture
 		{
 			if (isProcessing == 0)
 			{
+				// When the graph is realtime, then we update all the linked mixture variants as well.
+				// We need to do that before the main graph is processed because otherwise the variant would overwrite
+				// the result of the realtime mixture.
+				if (graph.isRealtime)
+				{
+					foreach (var variant in graph.variants)
+						variant.UpdateAllVariantTextures();
+				}
+
 				// TODO: cache
 				// Trigger the graph processing from a CRT update if we weren't processing
 				BaseNode node = graph.nodes.FirstOrDefault(n => n is IUseCustomRenderTextureProcessing i && i.GetCustomRenderTextures().Any(c => c == crt));

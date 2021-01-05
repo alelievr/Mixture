@@ -473,11 +473,6 @@ namespace Mixture
 
         public override bool RequiresConstantRepaint() => true;
 
-		public override void OnInspectorGUI()
-        {
-			defaultTextureEditor.OnInspectorGUI();
-        }
-
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
 		{
 			// If the CRT is not a realtime mixture, then we display the default inspector

@@ -71,6 +71,8 @@ namespace Mixture
 			}
 		}
 
+        public event Action<ExposedParameter> parameterValueChanged;
+
         public void SetParent(MixtureGraph graph)
         {
             parentVariant = null;
@@ -106,6 +108,8 @@ namespace Mixture
             return GetOverrideParamsForVariant(this);
         }
 
+        public void NotifyOverrideValueChanged(ExposedParameter parameter) => parameterValueChanged?.Invoke(parameter);
+
 #if UNITY_EDITOR
         Texture FindOutputTexture(string name, bool isMain)
             => outputTextures.Find(t => t != null && (isMain ? t.name == mainOutputTexture.name : t.name == name));
@@ -123,12 +127,26 @@ namespace Mixture
 
             MixtureGraphProcessor.RunOnce(parentGraph);
 
-            // Readback the result render textures into the variant:
-            foreach (var output in parentGraph.outputNode.outputTextureSettings)
+            if (parentGraph.isRealtime)
             {
-                var currentTexture = FindOutputTexture(output.name, output.isMain);
-                var format = output.enableConversion ? (TextureFormat)output.conversionFormat : output.compressionFormat;
-                parentGraph.ReadBackTexture(parentGraph.outputNode, output.finalCopyRT, output.IsCompressionEnabled() || output.IsConversionEnabled(), format, output.compressionQuality, currentTexture);
+                // Copy the result into the variant
+                foreach (var output in parentGraph.outputNode.outputTextureSettings)
+                {
+                    var currentTexture = FindOutputTexture(output.name, output.isMain);
+                    for (int slice = 0; slice < TextureUtils.GetSliceCount(output.finalCopyRT); slice++)
+                        for (int mipLevel = 0; mipLevel < output.finalCopyRT.mipmapCount; mipLevel++)
+                            Graphics.CopyTexture(output.finalCopyRT, slice, mipLevel, currentTexture, slice, mipLevel);
+                }
+            }
+            else
+            {
+                // Readback the result render textures into the variant:
+                foreach (var output in parentGraph.outputNode.outputTextureSettings)
+                {
+                    var currentTexture = FindOutputTexture(output.name, output.isMain);
+                    var format = output.enableConversion ? (TextureFormat)output.conversionFormat : output.compressionFormat;
+                    parentGraph.ReadBackTexture(parentGraph.outputNode, output.finalCopyRT, output.IsCompressionEnabled() || output.IsConversionEnabled(), format, output.compressionQuality, currentTexture);
+                }
             }
 
             // Set back the original params

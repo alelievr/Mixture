@@ -36,6 +36,13 @@ namespace Mixture
 				graph.onExposedParameterValueChanged += UpdateParameters;
 			}
 
+            MixtureVariant parent = variant.parentVariant;
+            while (parent != null)
+            {
+                parent.parameterValueChanged += UpdateParameters;
+                parent = parent.parentVariant;
+            }
+
             // Update serialized parameters (for the inspector)
             SyncParameters();
             exposedParameterFactory = new ExposedParameterFieldFactory(graph, visibleParameters);
@@ -51,9 +58,16 @@ namespace Mixture
 				graph.onExposedParameterModified -= UpdateParameters;
 				graph.onExposedParameterValueChanged -= UpdateParameters;
 			}
+
+            MixtureVariant parent = variant.parentVariant;
+            while (parent != null)
+            {
+                parent.parameterValueChanged -= UpdateParameters;
+                parent = parent.parentVariant;
+            }
+
             exposedParameterFactory.Dispose();
         }
-
 
 		public override VisualElement CreateInspectorGUI()
         {
@@ -213,6 +227,10 @@ namespace Mixture
             variant.overrideParameters.RemoveAll(p => p == parameter);
             exposedParameterFactory.ResetOldParameter(parameter);
 
+            // 
+            variant.NotifyOverrideValueChanged(parameter);
+            UpdateParameters();
+
             if (parameterViews.TryGetValue(parameter, out var view))
             {
                 view.RemoveFromClassList("Override");
@@ -234,6 +252,9 @@ namespace Mixture
                 variant.overrideParameters[index].value = parameter.value;
                 EditorUtility.SetDirty(variant);
             }
+
+            // Let know variant of variants that a property value changed
+            variant.NotifyOverrideValueChanged(parameter);
 
             // Enable the override overlay:
             if (parameterViews.TryGetValue(parameter, out var view))

@@ -185,7 +185,7 @@ namespace Mixture
             {
                 case Texture2D t2D:
                     var new2D = new Texture2D(t2D.width, t2D.height, t2D.graphicsFormat, t2D.mipmapCount, flags);
-                    new2D.name = source.name;
+                    CopyCommonTextureSettings(source, new2D);
 
                     if (copyContent)
                     {
@@ -196,7 +196,7 @@ namespace Mixture
                     return new2D;
                 case Texture3D t3D:
                     var new3D = new Texture3D(t3D.width, t3D.height, t3D.depth, t3D.graphicsFormat, flags, t3D.mipmapCount);
-                    new3D.name = source.name;
+                    CopyCommonTextureSettings(source, new3D);
 
                     if (copyContent)
                     {
@@ -207,6 +207,7 @@ namespace Mixture
                     return new3D;
                 case Cubemap cube:
                     var newCube = new Cubemap(cube.width, cube.graphicsFormat, flags, cube.mipmapCount);
+                    CopyCommonTextureSettings(source, newCube);
 
                     if (copyContent)
                     {
@@ -215,11 +216,13 @@ namespace Mixture
                                 newCube.SetPixelData(cube.GetPixelData<byte>(mipLevel, (CubemapFace)slice), mipLevel, (CubemapFace)slice);
                     }
 
-                    newCube.name = source.name;
                     return newCube;
-                case RenderTexture rt:
-                    var newRT = new RenderTexture(rt.width, rt.height, 0, rt.graphicsFormat, rt.mipmapCount);
-                    newRT.name = source.name;
+                case CustomRenderTexture rt:
+                    var newRT = new CustomRenderTexture(rt.width, rt.height, rt.graphicsFormat);
+                    newRT.dimension = rt.dimension;
+                    newRT.depth = rt.depth;
+                    newRT.volumeDepth = rt.volumeDepth;
+                    CopyCommonTextureSettings(source, newRT);
                     newRT.enableRandomWrite = rt.enableRandomWrite;
 
                     if (copyContent)
@@ -232,6 +235,17 @@ namespace Mixture
                     return newRT;
                 default:
                     throw new System.Exception("Can't duplicate texture of type " + source.GetType());
+            }
+
+            void CopyCommonTextureSettings(Texture source, Texture destination)
+            {
+                destination.name = source.name;
+                destination.wrapMode = source.wrapMode;
+                destination.filterMode = source.filterMode;
+                destination.wrapModeU = source.wrapModeU;
+                destination.wrapModeV = source.wrapModeV;
+                destination.wrapModeW = source.wrapModeW;
+                destination.anisoLevel = source.anisoLevel;
             }
         }
     }
