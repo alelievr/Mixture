@@ -241,6 +241,9 @@ namespace Mixture
 		protected void UpdateExposedParameters(ExposedParameter param) => UpdateExposedParameters();
 		protected void UpdateExposedParameters()
 		{
+			if (root == null)
+				return;
+
 			if (parameters == null || !root.Contains(parameters))
 			{
 				parameters = new VisualElement();

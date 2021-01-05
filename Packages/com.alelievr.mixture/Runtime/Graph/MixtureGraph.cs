@@ -50,6 +50,9 @@ namespace Mixture
 		[SerializeField]
 		List< Object >			objectReferences = new List< Object >();
 
+        [SerializeField]
+        internal List<MixtureVariant> variants = new List<MixtureVariant>();
+
 		[SerializeField, FormerlySerializedAs("_outputTexture")]
 		Texture					_mainOutputTexture;
 		public Texture			mainOutputTexture
@@ -124,6 +127,9 @@ namespace Mixture
             {
                 return AssetDatabase.GetAssetPath(obj) != mainAssetPath;
             });
+
+            // Cleanup deleted variants
+            variants.RemoveAll(v => v == null);
 #endif
 		}
 
@@ -598,6 +604,38 @@ namespace Mixture
             AssetDatabase.SaveAssets();
         }
 
+        public void UpdateLinkedVariants()
+        {
+            // Sadly we can't display a progress bar for updaing mixture variants because it makes the
+            // EdutorUtility.CompressTexture() function throw erors :( 
+            // EditorUtility.DisplayCancelableProgressBar("Updating Mixture Variants", "Startup...", 0);
+            
+            try
+            {
+                int index = 0;
+                foreach (var variant in variants)
+                {
+                    if (variant == null)
+                        continue;
+
+                    variant.CopyTexturesFromGraph(false);
+                    EditorUtility.ClearProgressBar();
+                    variant.UpdateAllVariantTextures();
+                    index++;
+                }
+
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
+            finally // always cleanup the progress bar
+            {
+                // EditorUtility.ClearProgressBar();
+            }
+        }
 #endif
 
         public struct ReadbackData
@@ -609,7 +647,7 @@ namespace Mixture
         }
 
         // Write the rendertexture value to the graph main texture asset, or to an external Texture
-        protected void ReadBackTexture(OutputNode node, RenderTexture source, bool enableCompression = false, TextureFormat compressionFormat = TextureFormat.DXT5, MixtureCompressionQuality compressionQuality = MixtureCompressionQuality.Best, Texture externalTexture = null)
+        public void ReadBackTexture(OutputNode node, RenderTexture source, bool enableCompression = false, TextureFormat compressionFormat = TextureFormat.DXT5, MixtureCompressionQuality compressionQuality = MixtureCompressionQuality.Best, Texture externalTexture = null)
         {
             var outputFormat = node.rtSettings.GetGraphicsFormat(this);
             var target = externalTexture == null ? mainOutputTexture : externalTexture;

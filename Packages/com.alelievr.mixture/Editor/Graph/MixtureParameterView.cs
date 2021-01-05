@@ -2,11 +2,21 @@ using System;
 using System.Collections.Generic;
 using GraphProcessor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Mixture
 {
     public class MixtureParameterView : ExposedParameterView
     {
+		static readonly string mixtureParameterStyleSheet = "MixtureParameterView";
+
+		public MixtureParameterView()
+		{
+            var style = Resources.Load<StyleSheet>(mixtureParameterStyleSheet);
+            if (style != null)
+                styleSheets.Add(style);
+		}
+
 		protected override IEnumerable< Type > GetExposedParameterTypes()
         {
 			// We only accept these types:

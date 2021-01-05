@@ -164,12 +164,18 @@ namespace Mixture
 
             if (!graph.isRealtime)
             {
-                controlsContainer.Add(new Button(() => graph.SaveAllTextures())
+                controlsContainer.Add(new Button(SaveAllTextures)
                 {
                     text = "Save All"
                 });
             }
         }
+
+		void SaveAllTextures()
+		{
+			graph.SaveAllTextures();
+			graph.UpdateLinkedVariants();
+		}
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{

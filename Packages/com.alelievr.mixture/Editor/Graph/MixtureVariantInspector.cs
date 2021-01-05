@@ -4,7 +4,9 @@ using UnityEngine.UIElements;
 using System.Collections.Generic;
 using GraphProcessor;
 using System.Linq;
+using System;
 using UnityEditor.UIElements;
+using Object = UnityEngine.Object;
 
 namespace Mixture
 {
@@ -39,8 +41,6 @@ namespace Mixture
             exposedParameterFactory = new ExposedParameterFieldFactory(graph, visibleParameters);
 
             overrideParameterView = Resources.Load<VisualTreeAsset>("UI Blocks/MixtureVariantParameter");
-
-			// LoadInspectorFor(graph.mainOutputTexture.GetType(), new Object[]{ graph.mainOutputTexture });
 		}
 
 		protected void OnDisable()
@@ -69,36 +69,56 @@ namespace Mixture
 
         void UpdateParentView()
         {
-            // var headerLabel = new Label("Parent");
-            // headerLabel.AddToClassList("Header");
             var container = new VisualElement();
-            // container.AddToClassList("Indent");
 
-            var parentField = new ObjectField("Parent") { value = (Object)variant.parentVariant ?? variant.parentGraph};
-            parentField.SetEnabled(false);
-            container.Add(parentField);
+            var headerLabel = new Label("Parent Hierarchy");
+            headerLabel.AddToClassList("Header");
+            container.Add(headerLabel);
 
-            // root.Add(headerLabel);
+            // Create a hierarchy queue
+            Queue<Object> parents = new Queue<Object>();
+            MixtureVariant currentVariant = variant.parentVariant;
+            while (currentVariant != null)
+            {
+                parents.Enqueue(currentVariant);
+                currentVariant = currentVariant.parentVariant;
+            }
+            parents.Enqueue(graph);
+
+            // UIElements breadcrumbs bar
+            var parentBar = new ToolbarBreadcrumbs(); 
+            parentBar.AddToClassList("Indent");
+            parentBar.AddToClassList("VariantBreadcrumbs");
+            foreach (var obj in parents.Reverse())
+            {
+                var v = obj as MixtureVariant;
+                var g = obj as MixtureGraph;
+
+                parentBar.PushItem(obj.name, () => {
+                    Selection.activeObject = v?.mainOutputTexture ?? g?.mainOutputTexture ?? obj;
+                });
+            }
+
+            container.Add(parentBar);
+
             root.Add(container);
         }
 
         void SyncParameters()
         {
+            // Clone the graph parameters into visible parameters
             visibleParameters.Clear();
+            visibleParameters.AddRange(graph.exposedParameters.Select(p => p.Clone()));
 
-            foreach (var graphParam in graph.exposedParameters)
+            MixtureVariant currentVariant = variant;
+            foreach (var overrideParam in variant.GetAllOverrideParameters())
             {
-                ExposedParameter param = graphParam.Clone();
-                int index = variant.overrideParameters.FindIndex(p => p == graphParam);
-
-                // If the parameter has an override
-                if (index != -1)
+                var param = visibleParameters.FirstOrDefault(p => p == overrideParam);
+                if (param != null)
                 {
-                    if (param.GetValueType().IsAssignableFrom(variant.overrideParameters[index].GetValueType()))
-                        param.value = variant.overrideParameters[index].value;
+                    if (param.GetValueType().IsAssignableFrom(overrideParam.GetValueType()))
+                        param.value = overrideParam.value;
                 }
-
-                visibleParameters.Add(param);
             }
         }
 
@@ -140,14 +160,21 @@ namespace Mixture
 
 			if (showUpdateButton)
 			{
-				var updateButton = new Button(() => {
-					MixtureGraphProcessor.RunOnce(graph);
-					graph.SaveAllTextures(false);
-				}) { text = "Update Texture(s)" };
+				var updateButton = new Button(UpdateAllVariantTextures){ text = "Update Texture(s)" };
 				updateButton.AddToClassList("Indent");
 				parameters.Add(updateButton);
 			}
 		}
+
+        void UpdateAllVariantTextures()
+        {
+            variant.UpdateAllVariantTextures();
+
+            // If the parentGraph is opened in the editor, we don't want to mess with previews
+            // so we update the parentGraph with the original params again.
+            if (MixtureUpdater.IsMixtureEditorOpened(graph))
+                MixtureGraphProcessor.RunOnce(graph);
+        }
 
         VisualElement CreateParameterVariantView(ExposedParameter param, SerializedObject serializedInspector)
         {

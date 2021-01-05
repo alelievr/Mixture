@@ -46,5 +46,8 @@ namespace Mixture
                 }
             }
         }
+
+        public static bool IsMixtureEditorOpened(MixtureGraph graph)
+            => views.Any(v => v.graph == graph);
     }
 }

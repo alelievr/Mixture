@@ -13,8 +13,8 @@ namespace Mixture
 {
     public static class TextureUtils
     {
-        static Dictionary< TextureDimension, Texture >  blackTextures = new Dictionary< TextureDimension, Texture >();
-        static Dictionary< TextureDimension, Texture >  whiteTextures = new Dictionary< TextureDimension, Texture >();
+        static Dictionary<TextureDimension, Texture> blackTextures = new Dictionary<TextureDimension, Texture>();
+        static Dictionary<TextureDimension, Texture> whiteTextures = new Dictionary<TextureDimension, Texture>();
 
         // Do not change change these names, it would break all graphs that are using default texture values
         static readonly string blackDefaultTextureName = "Mixture Black";
@@ -32,7 +32,7 @@ namespace Mixture
             Texture blackTexture;
 
             if (dim == TextureDimension.Any || dim == TextureDimension.Unknown || dim == TextureDimension.None)
-                    throw new Exception($"Unable to create white texture for type {dim}");
+                throw new Exception($"Unable to create white texture for type {dim}");
 
             if (blackTextures.TryGetValue(dim, out blackTexture))
             {
@@ -53,7 +53,7 @@ namespace Mixture
             Texture whiteTexture;
 
             if (dim == TextureDimension.Any || dim == TextureDimension.Unknown || dim == TextureDimension.None)
-                    throw new Exception($"Unable to create white texture for type {dim}");
+                throw new Exception($"Unable to create white texture for type {dim}");
 
             if (whiteTextures.TryGetValue(dim, out whiteTexture))
             {
@@ -167,7 +167,7 @@ namespace Mixture
                 curveTexture.hideFlags = HideFlags.HideAndDontSave;
             }
 
-            for (int i = 0; i<CurveTextureResolution; i++)
+            for (int i = 0; i < CurveTextureResolution; i++)
             {
                 float t = (float)i / (CurveTextureResolution - 1);
                 pixels[i] = new Color(curve.Evaluate(t), 0, 0, 1);
@@ -175,6 +175,64 @@ namespace Mixture
             curveTexture.SetPixels(pixels);
             curveTexture.Apply(false);
 
+        }
+
+        public static Texture DuplicateTexture(Texture source, bool copyContent = true)
+        {
+            TextureCreationFlags flags = source.mipmapCount > 1 ? TextureCreationFlags.MipChain : TextureCreationFlags.None;
+
+            switch (source)
+            {
+                case Texture2D t2D:
+                    var new2D = new Texture2D(t2D.width, t2D.height, t2D.graphicsFormat, t2D.mipmapCount, flags);
+                    new2D.name = source.name;
+
+                    if (copyContent)
+                    {
+                        for (int mipLevel = 0; mipLevel < t2D.mipmapCount; mipLevel++)
+                            new2D.SetPixelData(t2D.GetPixelData<byte>(mipLevel), mipLevel);
+                    }
+
+                    return new2D;
+                case Texture3D t3D:
+                    var new3D = new Texture3D(t3D.width, t3D.height, t3D.depth, t3D.graphicsFormat, flags, t3D.mipmapCount);
+                    new3D.name = source.name;
+
+                    if (copyContent)
+                    {
+                        for (int mipLevel = 0; mipLevel < t3D.mipmapCount; mipLevel++)
+                            new3D.SetPixelData(t3D.GetPixelData<byte>(mipLevel), mipLevel);
+                    }
+
+                    return new3D;
+                case Cubemap cube:
+                    var newCube = new Cubemap(cube.width, cube.graphicsFormat, flags, cube.mipmapCount);
+
+                    if (copyContent)
+                    {
+                        for (int slice = 0; slice < TextureUtils.GetSliceCount(cube); slice++)
+                            for (int mipLevel = 0; mipLevel < cube.mipmapCount; mipLevel++)
+                                newCube.SetPixelData(cube.GetPixelData<byte>(mipLevel, (CubemapFace)slice), mipLevel, (CubemapFace)slice);
+                    }
+
+                    newCube.name = source.name;
+                    return newCube;
+                case RenderTexture rt:
+                    var newRT = new RenderTexture(rt.width, rt.height, 0, rt.graphicsFormat, rt.mipmapCount);
+                    newRT.name = source.name;
+                    newRT.enableRandomWrite = rt.enableRandomWrite;
+
+                    if (copyContent)
+                    {
+                        for (int slice = 0; slice < TextureUtils.GetSliceCount(rt); slice++)
+                            for (int mipLevel = 0; mipLevel < rt.mipmapCount; mipLevel++)
+                                Graphics.CopyTexture(rt, slice, mipLevel, newRT, slice, mipLevel);
+                    }
+
+                    return newRT;
+                default:
+                    throw new System.Exception("Can't duplicate texture of type " + source.GetType());
+            }
         }
     }
 }

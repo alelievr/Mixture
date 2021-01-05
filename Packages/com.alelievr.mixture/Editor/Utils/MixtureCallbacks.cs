@@ -53,27 +53,26 @@ namespace Mixture
 		public static void CreateMixtureVariant()
 		{
 			var selectedMixtures = Selection.GetFiltered<Texture>(SelectionMode.Assets);
-			var selectedVariants = Selection.GetFiltered<MixtureVariant>(SelectionMode.Assets);
 
 			foreach (var mixtureTexture in selectedMixtures)
 			{
 				var graph = MixtureDatabase.GetGraphFromTexture(mixtureTexture);
+				var variant = MixtureEditorUtils.GetVariantAtPath(AssetDatabase.GetAssetPath(mixtureTexture));
+
 				if (graph != null)
 					CreateMixtureVariant(graph, null);
+				else if (variant != null)
+					CreateMixtureVariant(null, variant);
 			}
-
-			foreach (var variant in selectedVariants)
-				CreateMixtureVariant(null, variant);
 		}
 
 		[MenuItem("Assets/Create/Mixture/Variant", true)]
 		public static bool CreateMixtureVariantEnabled()
 		{
 			var selectedMixtures = Selection.GetFiltered<Texture>(SelectionMode.Assets);
-			int mixtureCount = selectedMixtures.Count(m => MixtureDatabase.GetGraphFromTexture(m) != null);
-			var selectedVariants = Selection.GetFiltered<MixtureVariant>(SelectionMode.Assets);
+			int graphOrVariantCount = selectedMixtures.Count(m => MixtureDatabase.GetGraphFromTexture(m) != null || MixtureEditorUtils.GetVariantAtPath(AssetDatabase.GetAssetPath(m)));
 
-			return (mixtureCount + selectedVariants.Length) > 0;
+			return (graphOrVariantCount) > 0;
 		}
 
 		public static void CreateMixtureVariant(MixtureGraph targetGraph, MixtureVariant parentVariant)
@@ -83,7 +82,10 @@ namespace Mixture
 			if (targetGraph != null)
 				path = AssetDatabase.GetAssetPath(targetGraph);
 			else
+			{
+				targetGraph = parentVariant.parentGraph;
 				path = AssetDatabase.GetAssetPath(parentVariant);
+			}
 
 			// Patch path name to add Variant
 			string fileName = Path.GetFileNameWithoutExtension(path) + " Variant";
@@ -180,6 +182,9 @@ namespace Mixture
 				// Check if the CustomRenderTexture we're opening is a Mixture graph
 				var path = AssetDatabase.GetAssetPath(EditorUtility.InstanceIDToObject(instanceID));
 				var graph = MixtureEditorUtils.GetGraphAtPath(path);
+				var variant = MixtureEditorUtils.GetVariantAtPath(path);
+
+				graph ??= variant?.parentGraph;
 
 				if (graph == null)
 					return false;
@@ -299,7 +304,7 @@ namespace Mixture
 			public override void Action(int instanceId, string pathName, string resourceFile)
 			{
 				var variant = ScriptableObject.CreateInstance<MixtureVariant>();
-				if (targetGraph == null)
+				if (parentVariant != null)
 					variant.SetParent(parentVariant);
 				else
 					variant.SetParent(targetGraph);
@@ -309,80 +314,19 @@ namespace Mixture
 
 				AssetDatabase.CreateAsset(variant, pathName);
 
-				// Duplicate all other mixture outputs
-				var subAssets = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath((Object)targetGraph ?? parentVariant));
-				Texture mainTexture = null;
-				foreach (var asset in subAssets)
-				{
-					if ((asset.hideFlags & (HideFlags.HideInHierarchy | HideFlags.HideInInspector)) != 0)
-						continue;
-
-					if (asset is Texture texture)
-					{
-						var t = DuplicateTexture(texture);
-						AssetDatabase.AddObjectToAsset(t, pathName);
-						if (texture.name == targetGraph.mainOutputTexture.name)
-							mainTexture = t;
-						Debug.Log("Duplicate " + texture);
-					}
-				}
-
-				// Set main output texture
-				AssetDatabase.SetMainObject(mainTexture, pathName);
+				if (parentVariant != null)
+					variant.CopyTexturesFromParentVariant();
+				else
+					variant.CopyTexturesFromGraph();
 
 				AssetDatabase.SaveAssets();
 				AssetDatabase.Refresh();
 
 				EditorApplication.delayCall += () => {
-					Selection.activeObject = mainTexture;
-					EditorGUIUtility.PingObject(mainTexture);
+					var mainAsset = AssetDatabase.LoadAssetAtPath<Texture>(pathName);
+					Selection.activeObject = mainAsset;
+					EditorGUIUtility.PingObject(mainAsset);
 				};
-
-				Texture DuplicateTexture(Texture source)
-				{
-					TextureCreationFlags flags = source.mipmapCount > 1 ? TextureCreationFlags.MipChain : TextureCreationFlags.None;
-
-					switch (source)
-					{
-						case Texture2D t2D:
-							var new2D = new Texture2D(t2D.width, t2D.height, t2D.graphicsFormat, t2D.mipmapCount, flags);
-							new2D.name = source.name;
-
-							for (int mipLevel = 0; mipLevel < t2D.mipmapCount; mipLevel++)
-								new2D.SetPixelData(t2D.GetPixelData<byte>(mipLevel), mipLevel);
-
-							return new2D;
-						case Texture3D t3D:
-							var new3D = new Texture3D(t3D.width, t3D.height, t3D.depth, t3D.graphicsFormat, flags, t3D.mipmapCount);
-							new3D.name = source.name;
-
-							for (int mipLevel = 0; mipLevel < t3D.mipmapCount; mipLevel++)
-								new3D.SetPixelData(t3D.GetPixelData<byte>(mipLevel), mipLevel);
-
-							return new3D;
-						case Cubemap cube:
-							var newCube = new Cubemap(cube.width, cube.graphicsFormat, flags, cube.mipmapCount);
-							
-							for (int slice = 0; slice < TextureUtils.GetSliceCount(cube); slice++)
-								for (int mipLevel = 0; mipLevel < cube.mipmapCount; mipLevel++)
-									newCube.SetPixelData(cube.GetPixelData<byte>(mipLevel, (CubemapFace)slice), mipLevel, (CubemapFace)slice);
-
-							newCube.name = source.name;
-							return newCube;
-						case RenderTexture rt:
-							var newRT = new RenderTexture(rt.width, rt.height, 0, rt.graphicsFormat, rt.mipmapCount);
-							newRT.name = source.name;
-							newRT.enableRandomWrite = rt.enableRandomWrite;
-
-							for (int slice = 0; slice < TextureUtils.GetSliceCount(rt); slice++)
-								for (int mipLevel = 0; mipLevel < rt.mipmapCount; mipLevel++)
-									Graphics.CopyTexture(rt, slice, mipLevel, newRT, slice, mipLevel);
-
-							return newRT;
-						default:
-							throw new System.Exception("Can't duplicate texture of type " + source.GetType());
-					}
-				}
 			}
 		}
 

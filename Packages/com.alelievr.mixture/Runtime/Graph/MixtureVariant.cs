@@ -4,6 +4,7 @@ using UnityEngine;
 using GraphProcessor;
 using System;
 using System.Linq;
+using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -75,6 +76,8 @@ namespace Mixture
             parentVariant = null;
             parentGraph = graph;
             depth = 0;
+            if (!graph.variants.Contains(this))
+                graph.variants.Add(this);
         }
 
         public void SetParent(MixtureVariant variant)
@@ -82,6 +85,120 @@ namespace Mixture
             parentGraph = variant.parentGraph;
             parentVariant = variant;
             depth = variant.depth + 1;
+            if (!parentGraph.variants.Contains(this))
+                parentGraph.variants.Add(this);
         }
+
+        public IEnumerable<ExposedParameter> GetAllOverrideParameters()
+        {
+            static IEnumerable<ExposedParameter> GetOverrideParamsForVariant(MixtureVariant variant)
+            {
+                if (variant.parentVariant != null)
+                {
+                    foreach (var param in GetOverrideParamsForVariant(variant.parentVariant))
+                        yield return param;
+                }
+
+                foreach (var param in variant.overrideParameters)
+                    yield return param;
+            }
+
+            return GetOverrideParamsForVariant(this);
+        }
+
+#if UNITY_EDITOR
+        Texture FindOutputTexture(string name, bool isMain)
+            => outputTextures.Find(t => t != null && (isMain ? t.name == mainOutputTexture.name : t.name == name));
+
+        public void UpdateAllVariantTextures()
+        {
+            // override graph parameter values:
+            var graphParamsValues = parentGraph.exposedParameters.Select(p => p.value).ToList();
+
+            foreach (var param in GetAllOverrideParameters())
+            {
+                var graphParam = parentGraph.exposedParameters.FirstOrDefault(p => p == param);
+                graphParam.value = param.value;
+            }
+
+            MixtureGraphProcessor.RunOnce(parentGraph);
+
+            // Readback the result render textures into the variant:
+            foreach (var output in parentGraph.outputNode.outputTextureSettings)
+            {
+                var currentTexture = FindOutputTexture(output.name, output.isMain);
+                var format = output.enableConversion ? (TextureFormat)output.conversionFormat : output.compressionFormat;
+                parentGraph.ReadBackTexture(parentGraph.outputNode, output.finalCopyRT, output.IsCompressionEnabled() || output.IsConversionEnabled(), format, output.compressionQuality, currentTexture);
+            }
+
+            // Set back the original params
+            for (int i = 0; i < parentGraph.exposedParameters.Count; i++)
+                parentGraph.exposedParameters[i].value = graphParamsValues[i];
+        }
+
+        public void CopyTexturesFromGraph(bool copyTextureContent = true)
+        {
+            var subAssets = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(parentGraph));
+            CopyTextureFromAssets(subAssets, copyTextureContent);
+        }
+
+        public void CopyTexturesFromParentVariant(bool copyTextureContent = true)
+        {
+            var subAssets = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(parentVariant));
+            CopyTextureFromAssets(subAssets, copyTextureContent);
+        }
+
+        void CopyTextureFromAssets(Object[] assets, bool copyTextureContent)
+        {
+            var oldTextures = outputTextures.ToList();
+            var oldMainTexture = mainOutputTexture;
+
+            // Duplicate all other mixture outputs
+            var textures = new List<Texture>();
+            Texture mainTexture = null;
+            foreach (var asset in assets)
+            {
+                if ((asset.hideFlags & (HideFlags.HideInHierarchy | HideFlags.HideInInspector)) != 0)
+                    continue;
+
+                if (asset is Texture texture)
+                {
+                    bool isMain = texture.name == parentGraph.mainOutputTexture.name || (parentVariant != null && texture.name == parentVariant.mainOutputTexture.name);
+                    var t = TextureUtils.DuplicateTexture(texture, copyTextureContent);
+                    var oldTexture = FindOutputTexture(t.name, isMain);
+
+                    // If the new texture is using the same type we can swap it's data instead of replacing
+                    // the asset on the disk (so we can keep object selected / inspector locked on the mixture).
+                    if (oldTexture != null && t.GetType() == oldTexture.GetType())
+                    {
+                        EditorUtility.CopySerialized(t, oldTexture);
+                        oldTextures.Remove(oldTexture);
+                        DestroyImmediate(t);
+                        if (isMain)
+                            mainTexture = oldTexture;
+                    }
+                    else
+                    {
+                        AssetDatabase.AddObjectToAsset(t, mainAssetPath);
+                        textures.Add(t);
+                        if (isMain)
+                            mainTexture = t;
+                    }
+                }
+            }
+
+            // Set main output texture
+            AssetDatabase.SetMainObject(mainTexture, mainAssetPath);
+
+            foreach (var texture in oldTextures)
+            {
+                AssetDatabase.RemoveObjectFromAsset(texture);
+                DestroyImmediate(texture, true);
+            }
+
+            _outputTextures = textures;
+            _mainOutputTexture = mainTexture;
+        }
+#endif
     }
 }
