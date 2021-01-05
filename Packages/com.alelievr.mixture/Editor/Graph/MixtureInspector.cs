@@ -180,35 +180,6 @@ namespace Mixture
 		public override bool RequiresConstantRepaint() { if (defaultTextureEditor != null) return defaultTextureEditor.RequiresConstantRepaint(); else return base.RequiresConstantRepaint(); }
 		public override bool UseDefaultMargins() { if (defaultTextureEditor != null) return defaultTextureEditor.UseDefaultMargins(); else return base.UseDefaultMargins(); }
 
-		protected void BlitMixtureIcon(Texture preview, RenderTexture target, bool realtime = false)
-		{
-			var blitMaterial = (realtime) ? MixtureUtils.blitRealtimeIconMaterial : MixtureUtils.blitIconMaterial;
-			MixtureUtils.SetupDimensionKeyword(blitMaterial, preview.dimension);
-
-			switch (preview.dimension)
-			{
-				case TextureDimension.Tex2D:
-					blitMaterial.SetTexture("_Texture2D", preview);
-					Graphics.Blit(preview, target, blitMaterial, 0);
-					break;
-				case TextureDimension.Tex2DArray:
-					blitMaterial.SetTexture("_Texture2DArray", preview);
-					Graphics.Blit(preview, target, blitMaterial, 0);
-					break;
-				case TextureDimension.Tex3D:
-					blitMaterial.SetTexture("_Texture3D", preview);
-					Graphics.Blit(preview, target, blitMaterial, 0);
-					break;
-				case TextureDimension.Cube:
-					blitMaterial.SetTexture("_Cubemap", preview);
-					Graphics.Blit(preview, target, blitMaterial, 0);
-					break;
-				default:
-					Debug.LogError($"{preview.dimension} is not supported for icon preview");
-					break;
-			}
-		}
-
 		public override VisualElement CreateInspectorGUI()
 		{
 			if (graph == null)
@@ -372,7 +343,7 @@ namespace Mixture
 			
 			// Combine manually on CPU the two textures because it completely broken with GPU :'(
 			Texture2D mixtureIcon = (target is CustomRenderTexture) ? MixtureUtils.realtimeIcon : MixtureUtils.icon;
-			if (target is MixtureVariant v)
+			if (variant != null)
 				mixtureIcon = graph.isRealtime ? MixtureUtils.realtimeVariantIcon : MixtureUtils.iconVariant;
 
 			float scaleFactor = Mathf.Max(mixtureIcon.width / (float)defaultPreview.width, 1) * 2.5f;
@@ -431,22 +402,6 @@ namespace Mixture
 			MixtureUtils.textureArrayPreviewMaterial.SetFloat("_Slice", slice);
 			MixtureUtils.textureArrayPreviewMaterial.SetTexture("_TextureArray", array);
 			EditorGUI.DrawPreviewTexture(r, Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial);
-		}
-
-		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
-		{
-			var icon = new Texture2D(width, height);
-			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
-
-			BlitMixtureIcon(target as Texture, rt);
-
-			RenderTexture.active = rt;
-			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-			icon.Apply();
-			RenderTexture.active = null;
-			rt.Release();
-
-			return icon;
 		}
 	}
 

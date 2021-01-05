@@ -27,6 +27,7 @@ namespace Mixture
 			yield return typeof(Texture2DParameter);
 			yield return typeof(Texture3DParameter);
 			yield return typeof(CubemapParameter);
+			yield return typeof(IntParameter);
 			yield return typeof(FloatParameter);
 			yield return typeof(Vector2Parameter);
 			yield return typeof(Vector3Parameter);
