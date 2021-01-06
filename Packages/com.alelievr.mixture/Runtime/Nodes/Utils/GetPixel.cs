@@ -38,10 +38,12 @@ namespace Mixture
 			pixelX = Mathf.Clamp(pixelX, 0, texture.width - 1);
 			pixelY = Mathf.Clamp(pixelY, 0, texture.height - 1);
 
+
 			if (texture is Texture2D t)
 				output = t.GetPixel(pixelX, pixelY);
 			else if (texture is RenderTexture rt)
 			{
+				// TODO: command buffer read pixels
 				// This seems to not be working while the CRTs are processes :(
 				int depth = texture.dimension == TextureDimension.Cube ? 6 : 1;
 				var request = AsyncGPUReadback.Request(texture, 0, 0, texture.width, 0, texture.height, 0, depth, (r) => {
