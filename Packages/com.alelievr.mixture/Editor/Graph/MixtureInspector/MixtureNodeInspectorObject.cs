@@ -67,6 +67,7 @@ namespace Mixture
         internal float exposure;
         internal PreviewChannels channels = PreviewChannels.RGB;
         internal CompareMode compareMode;
+        internal bool alwaysRefresh;
         internal float mipLevel;
 
         VisualTreeAsset nodeInspectorFoldout;
@@ -107,6 +108,18 @@ namespace Mixture
                 }
             }));
             // End workaround
+
+            // Handle the always refresh option
+            root.Add(new IMGUIContainer(() => {
+                if (!Application.runInBackground && !UnityEditorInternal.InternalEditorUtility.isApplicationActive && alwaysRefresh)
+                    return;
+
+                if (alwaysRefresh)
+                {
+                    if (Event.current.type == EventType.Layout)
+                        Repaint();
+                }
+            }));
         }
 
         public override void OnInspectorGUI()

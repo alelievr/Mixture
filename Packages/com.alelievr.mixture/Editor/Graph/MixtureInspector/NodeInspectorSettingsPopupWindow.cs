@@ -9,8 +9,8 @@ namespace Mixture
     {
         MixtureNodeInspectorObjectEditor inspector;
 
-        public static readonly int width = 220;
-        public static readonly int height = 90;
+        public static readonly int width = 260;
+        public static readonly int height = 110;
 
         public override Vector2 GetWindowSize()
         {
@@ -27,7 +27,7 @@ namespace Mixture
             EditorGUI.BeginChangeCheck();
             var options = inspector.nodeWithPreviews.Select(n => n.name).ToArray();
 
-            EditorGUIUtility.labelWidth = 70;
+            EditorGUIUtility.labelWidth = 90;
             inspector.filterMode = (FilterMode)EditorGUILayout.EnumPopup("Filter Mode", inspector.filterMode);
             inspector.exposure = EditorGUILayout.Slider("Exposure", inspector.exposure, -12, 12);
             EditorGUILayout.BeginHorizontal();
@@ -46,6 +46,8 @@ namespace Mixture
             EditorGUI.BeginDisabledGroup(maxMip == 1);
             inspector.mipLevel = EditorGUILayout.Slider("Mip Level", inspector.mipLevel, 0, maxMip - 1);
             EditorGUI.EndDisabledGroup();
+
+            inspector.alwaysRefresh = EditorGUILayout.Toggle("Always Refresh", inspector.alwaysRefresh);
 
             if (EditorGUI.EndChangeCheck())
                 inspector.Repaint();
