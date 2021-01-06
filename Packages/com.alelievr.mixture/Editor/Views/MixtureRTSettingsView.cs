@@ -170,7 +170,8 @@ namespace Mixture
                 {
                     node.rtSettings.width = outputWidth.value;
                     node.rtSettings.height = outputHeight.value;
-                    node.rtSettings.sliceCount = outputDepth.value;
+                    if (outputDepth != null)
+                        node.rtSettings.sliceCount = outputDepth.value;
                 }
 
                 onChanged?.Invoke();
