@@ -46,25 +46,30 @@ namespace Mixture
             arrowDown = Resources.Load<Texture2D>("Collapse-Up");
 
             // Init all preview components:
-            previewContainer = this.Q("PreviewContainer");
-            rgb = this.Q("ToggleRGB") as Toggle;
-            r = this.Q("ToggleR") as Toggle;
-            g = this.Q("ToggleG") as Toggle;
-            b = this.Q("ToggleB") as Toggle;
-            a = this.Q("ToggleA") as Toggle;
+            previewContainer = previewRoot.Q("PreviewContainer");
+            rgb = previewRoot.Q("ToggleRGB") as Toggle;
+            r = previewRoot.Q("ToggleR") as Toggle;
+            g = previewRoot.Q("ToggleG") as Toggle;
+            b = previewRoot.Q("ToggleB") as Toggle;
+            a = previewRoot.Q("ToggleA") as Toggle;
 
-            mipmapSlider = this.Q("MipMapSlider") as SliderInt;
-            mipmapInputs = this.Q("MipMapInput") as VisualElement;
-            currentMipIndex = this.Q("MipMapNumberText") as Label;
-            sliceInputs = this.Q("SliceInputs");
-            sliceSlider = this.Q("SliceSlider") as SliderInt;
-            currentSliceIndex = this.Q("SliceNumber") as IntegerField;
-            imageInfo = this.Q("ImageInfo");
-            textureInfo = this.Q("ImageInfoText") as Label;
-            collapseButton = this.Q("PreviewFoldout") as Button;
-            previewImage = this.Q("PreviewImage");
+            mipmapSlider = previewRoot.Q("MipMapSlider") as SliderInt;
+            mipmapInputs = previewRoot.Q("MipMapInput") as VisualElement;
+            currentMipIndex = previewRoot.Q("MipMapNumberText") as Label;
+            sliceInputs = previewRoot.Q("SliceInputs");
+            sliceSlider = previewRoot.Q("SliceSlider") as SliderInt;
+            currentSliceIndex = previewRoot.Q("SliceNumber") as IntegerField;
+            imageInfo = previewRoot.Q("ImageInfo");
+            textureInfo = previewRoot.Q("ImageInfoText") as Label;
+            collapseButton = previewRoot.Q("PreviewFoldout") as Button;
+            previewImage = previewRoot.Q("PreviewImage");
+
+            previewImage.style.width = 200;
+            previewImage.style.height = 200;
 
             previewImage.Add(new IMGUIContainer(DrawPreviewImage));
+
+            // TODO: determine image size rect to fit the node
 
             collapseButton.clicked += PreviewColapse;
 
@@ -89,6 +94,7 @@ namespace Mixture
         {
             var node = nodeView.nodeTarget as MixtureNode;
             var previewRect = previewImage.layout;
+            previewRect.position = Vector2.zero;
 
 			switch (node.previewTexture.dimension)
 			{
