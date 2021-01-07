@@ -112,7 +112,7 @@ namespace Mixture
 
 #if UNITY_EDITOR
         Texture FindOutputTexture(string name, bool isMain)
-            => outputTextures.Find(t => t != null && (isMain ? t.name == mainOutputTexture.name : t.name == name));
+            => outputTextures.Find(t => t != null && (isMain ? mainOutputTexture != null && t.name == mainOutputTexture.name : t.name == name));
 
         public void UpdateAllVariantTextures()
         {

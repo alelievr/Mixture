@@ -113,6 +113,11 @@ namespace Mixture
                 });
             }
 
+            // Add new variant button:
+            parentBar.PushItem("+", () => {
+                MixtureAssetCallbacks.CreateMixtureVariant(null, variant);
+            });
+
             container.Add(parentBar);
 
             root.Add(container);

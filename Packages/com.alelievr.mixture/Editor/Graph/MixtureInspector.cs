@@ -120,8 +120,16 @@ namespace Mixture
 			if (variant != null)
 			{
 				graph = variant.parentGraph;
-				exposedParameterFactory = new ExposedParameterFieldFactory(variant.parentGraph);
-				Editor.CreateCachedEditor(variant, typeof(MixtureVariantInspector), ref variantEditor);
+
+				if (graph != null)
+				{
+					exposedParameterFactory = new ExposedParameterFieldFactory(variant.parentGraph);
+					Editor.CreateCachedEditor(variant, typeof(MixtureVariantInspector), ref variantEditor);
+				}
+				else
+				{
+					Debug.LogError("Can't find parent graph for Mixture Variant " + variant);
+				}
 			}
 		}
 
