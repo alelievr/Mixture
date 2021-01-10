@@ -227,12 +227,11 @@ namespace Mixture
         void RemoveOverride(ExposedParameter parameter)
         {
             Undo.RegisterCompleteObjectUndo(variant, "Reset parameter");
-            var graphParam = graph.exposedParameters.FirstOrDefault(p => p == parameter);
-            parameter.value = graphParam.value;
+
             variant.overrideParameters.RemoveAll(p => p == parameter);
+            parameter.value = GetDefaultParameterValue(parameter);
             exposedParameterFactory.ResetOldParameter(parameter);
 
-            // 
             variant.NotifyOverrideValueChanged(parameter);
             UpdateParameters();
 
@@ -240,6 +239,14 @@ namespace Mixture
             {
                 view.RemoveFromClassList("Override");
             }
+        }
+
+        object GetDefaultParameterValue(ExposedParameter parameter)
+        {
+            foreach (var param in variant.GetAllOverrideParameters())
+                if (param == parameter)
+                    return param.value;
+            return parameter.value;
         }
 
         void UpdateOverrideParameter(ExposedParameter parameter, object overrideValue)
