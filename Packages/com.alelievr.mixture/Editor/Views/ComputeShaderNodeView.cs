@@ -110,5 +110,16 @@ namespace Mixture
 			lastModified = modificationDate;
 		}
 
+		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			base.BuildContextualMenu(evt);
+
+			if (computeShaderNode.computeShader != null)
+			{
+				evt.menu.InsertAction(2, "📜 Open Compute Code", (e) => {
+					AssetDatabase.OpenAsset(computeShaderNode.computeShader);
+				});
+			}
+		}
 	}
 }
