@@ -116,6 +116,7 @@ namespace Mixture
 				exposedParameterFactory = new ExposedParameterFieldFactory(graph);
 				graph.onExposedParameterListChanged += UpdateExposedParameters;
 				graph.onExposedParameterModified += UpdateExposedParameters;
+				Undo.undoRedoPerformed += UpdateExposedParameters;
 			}
 			if (variant != null)
 			{
@@ -153,6 +154,10 @@ namespace Mixture
 					if (editorType != null)
 					{
 						Editor.CreateCachedEditor(targets, editorType, ref defaultTextureEditor);
+
+						if (variantEditor != null)
+							(variantEditor as MixtureVariantInspector).SetDefaultTextureEditor(defaultTextureEditor);
+
 						return ;
 					}
 				}
@@ -165,6 +170,7 @@ namespace Mixture
 			{
 				graph.onExposedParameterListChanged -= UpdateExposedParameters;
 				graph.onExposedParameterModified -= UpdateExposedParameters;
+				Undo.undoRedoPerformed -= UpdateExposedParameters;
 				exposedParameterFactory.Dispose();
 				exposedParameterFactory = null;
 			}
@@ -174,19 +180,20 @@ namespace Mixture
 			if (variantEditor != null)
 				DestroyImmediate(variantEditor);
 		}
-		
+
 		// This block of functions allow us to use the default behavior of the texture inspector instead of re-writing
 		// the preview / static icon code for each texture type, we use the one from the default texture inspector.
-		public override void DrawPreview(Rect previewArea) { if (defaultTextureEditor != null) defaultTextureEditor.DrawPreview(previewArea); else base.DrawPreview(previewArea); }
-		public override string GetInfoString() { if (defaultTextureEditor != null) return defaultTextureEditor.GetInfoString(); else return base.GetInfoString(); }
-		public override GUIContent GetPreviewTitle() { if (defaultTextureEditor != null) return defaultTextureEditor.GetPreviewTitle(); else return base.GetPreviewTitle(); }
-		public override bool HasPreviewGUI() { if (defaultTextureEditor != null) return defaultTextureEditor.HasPreviewGUI(); else return base.HasPreviewGUI(); }
-		public override void OnInteractivePreviewGUI(Rect r, GUIStyle background) { if (defaultTextureEditor != null) defaultTextureEditor.OnInteractivePreviewGUI(r, background); else base.OnInteractivePreviewGUI(r, background); }
-		public override void OnPreviewGUI(Rect r, GUIStyle background) { if (defaultTextureEditor != null) defaultTextureEditor.OnPreviewGUI(r, background); else base.OnPreviewGUI(r, background); }
-		public override void OnPreviewSettings() { if (defaultTextureEditor != null) defaultTextureEditor.OnPreviewSettings(); else base.OnPreviewSettings(); }
-		public override void ReloadPreviewInstances() { if (defaultTextureEditor != null) defaultTextureEditor.ReloadPreviewInstances(); else base.ReloadPreviewInstances(); }
-		public override bool RequiresConstantRepaint() { if (defaultTextureEditor != null) return defaultTextureEditor.RequiresConstantRepaint(); else return base.RequiresConstantRepaint(); }
-		public override bool UseDefaultMargins() { if (defaultTextureEditor != null) return defaultTextureEditor.UseDefaultMargins(); else return base.UseDefaultMargins(); }
+		Editor GetPreviewEditor() => variantEditor ?? defaultTextureEditor ?? this;
+		public override string GetInfoString() => GetPreviewEditor().GetInfoString();
+		public override void ReloadPreviewInstances() => GetPreviewEditor().ReloadPreviewInstances();
+		public override bool RequiresConstantRepaint() => GetPreviewEditor().RequiresConstantRepaint();
+		public override bool UseDefaultMargins() => GetPreviewEditor().UseDefaultMargins();
+		public override void DrawPreview(Rect previewArea) => GetPreviewEditor().DrawPreview(previewArea);
+		public override GUIContent GetPreviewTitle() => GetPreviewEditor().GetPreviewTitle();
+		public override bool HasPreviewGUI() => GetPreviewEditor().HasPreviewGUI();
+		public override void OnInteractivePreviewGUI(Rect r, GUIStyle background) => GetPreviewEditor().OnInteractivePreviewGUI(r, background);
+		public override void OnPreviewGUI(Rect r, GUIStyle background) => GetPreviewEditor().OnPreviewGUI(r, background);
+		public override void OnPreviewSettings() => GetPreviewEditor().OnPreviewSettings();
 
 		public override VisualElement CreateInspectorGUI()
 		{

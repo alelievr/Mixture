@@ -15,7 +15,7 @@ Note that for creating HDRP Mask and Detail maps, there are dedicated nodes.
 	[System.Serializable, NodeMenuItem("Operators/Combine")]
 	public class CombineNode : FixedShaderNode
 	{
-		public override string name => "CombineNode";
+		public override string name => "Combine";
 
 		public override string shaderName => "Hidden/Mixture/Combine";
 

@@ -25,6 +25,10 @@ namespace Mixture
         VisualTreeAsset overrideParameterView;
         VisualElement root, parameters;
 
+        internal RenderTexture variantPreview;
+        Editor defaultTextureEditor;
+        Editor variantPreviewEditor;
+
 		protected void OnEnable()
 		{
             variant = target as MixtureVariant;
@@ -34,6 +38,7 @@ namespace Mixture
 				graph.onExposedParameterListChanged += UpdateParameters;
 				graph.onExposedParameterModified += UpdateParameters;
 				graph.onExposedParameterValueChanged += UpdateParameters;
+                Undo.undoRedoPerformed += UpdateParameters;
 			}
 
             MixtureVariant parent = variant.parentVariant;
@@ -43,12 +48,18 @@ namespace Mixture
                 parent = parent.parentVariant;
             }
 
+            // TODO: create a temp render texture to copy the result of the graph we process
+            // it will be used to display in real time how the parameter changes affects the texture
+
             // Update serialized parameters (for the inspector)
             SyncParameters();
             exposedParameterFactory = new ExposedParameterFieldFactory(graph, visibleParameters);
 
             overrideParameterView = Resources.Load<VisualTreeAsset>("UI Blocks/MixtureVariantParameter");
 		}
+
+        internal void SetDefaultTextureEditor(Editor textureEditor)
+            => defaultTextureEditor = textureEditor;
 
 		protected void OnDisable()
         {
@@ -57,6 +68,7 @@ namespace Mixture
 				graph.onExposedParameterListChanged -= UpdateParameters;
 				graph.onExposedParameterModified -= UpdateParameters;
 				graph.onExposedParameterValueChanged -= UpdateParameters;
+                Undo.undoRedoPerformed -= UpdateParameters;
 			}
 
             MixtureVariant parent = variant.parentVariant;
@@ -64,6 +76,18 @@ namespace Mixture
             {
                 parent.parameterValueChanged -= UpdateParameters;
                 parent = parent.parentVariant;
+            }
+
+            if (variantPreview != null)
+            {
+                variantPreview.Release();
+                variantPreview = null;
+            }
+
+            if (variantPreviewEditor != null)
+            {
+                Destroy(variantPreviewEditor);
+                variantPreviewEditor = null;
             }
 
             exposedParameterFactory.Dispose();
@@ -277,5 +301,19 @@ namespace Mixture
         {
             view.AddToClassList("Override");
         }
+
+		// This block of functions allows us dynamically switch between the render texture inspector preview
+        // and the default texture2D preview (the one for the asset on the disk)
+		Editor GetPreviewEditor() => variantPreviewEditor ?? defaultTextureEditor ?? this;
+		public override string GetInfoString() => GetPreviewEditor().GetInfoString();
+		public override void ReloadPreviewInstances() => GetPreviewEditor().ReloadPreviewInstances();
+		public override bool RequiresConstantRepaint() => GetPreviewEditor().RequiresConstantRepaint();
+		public override bool UseDefaultMargins() => GetPreviewEditor().UseDefaultMargins();
+		public override void DrawPreview(Rect previewArea) => GetPreviewEditor().DrawPreview(previewArea);
+		public override GUIContent GetPreviewTitle() => GetPreviewEditor().GetPreviewTitle();
+		public override bool HasPreviewGUI() => GetPreviewEditor().HasPreviewGUI();
+		public override void OnInteractivePreviewGUI(Rect r, GUIStyle background) => GetPreviewEditor().OnInteractivePreviewGUI(r, background);
+		public override void OnPreviewGUI(Rect r, GUIStyle background) => GetPreviewEditor().OnPreviewGUI(r, background);
+		public override void OnPreviewSettings() => GetPreviewEditor().OnPreviewSettings();
 	}
 }
