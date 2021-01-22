@@ -201,6 +201,18 @@ namespace Mixture
 			}
 		}
 
+		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			base.BuildContextualMenu(evt);
+
+			if (shaderNode.shader != null)
+			{
+				evt.menu.InsertAction(2, "📜 Open Shader Code", (e) => {
+					AssetDatabase.OpenAsset(shaderNode.shader);
+				});
+			}
+		}
+
 		public override void OnRemoved() => owner.graph.RemoveObjectFromGraph(shaderNode.material);
 	}
 }

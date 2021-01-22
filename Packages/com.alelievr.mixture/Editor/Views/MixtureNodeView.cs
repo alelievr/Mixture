@@ -7,6 +7,7 @@ using GraphProcessor;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System;
+using System.Reflection;
 
 namespace Mixture
 {
@@ -588,6 +589,18 @@ namespace Mixture
 				default:
 					Debug.LogError(node.previewTexture + " is not a supported type for preview");
 					break;
+			}
+		}
+
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			base.BuildContextualMenu(evt);
+
+			if (nodeTarget.GetType().GetCustomAttribute<DocumentationAttribute>() != null)
+			{
+				evt.menu.InsertAction(1, "📘 Open Documentation", (e) => {
+					Application.OpenURL($"https://alelievr.github.io/Mixture/manual/nodes/{nodeTarget.GetType()}.html");
+				});
 			}
 		}
 

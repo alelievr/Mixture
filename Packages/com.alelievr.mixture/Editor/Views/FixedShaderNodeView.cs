@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using GraphProcessor;
@@ -107,6 +108,18 @@ namespace Mixture
 			{
 				if (pv.portData.identifier == p.identifier)
 					fixedShaderNode.ResetMaterialPropertyToDefault(fixedShaderNode.material, p.identifier);
+			}
+		}
+
+		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			base.BuildContextualMenu(evt);
+
+			if (fixedShaderNode.shader != null)
+			{
+				evt.menu.InsertAction(2, "📜 Open Shader Code", (e) => {
+					AssetDatabase.OpenAsset(fixedShaderNode.shader);
+				});
 			}
 		}
 
