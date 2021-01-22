@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using UnityEditor.UIElements;
 using Object = UnityEngine.Object;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -23,11 +24,13 @@ namespace Mixture
 
         Dictionary<ExposedParameter, VisualElement> parameterViews = new Dictionary<ExposedParameter, VisualElement>();
         VisualTreeAsset overrideParameterView;
-        VisualElement root, parameters;
+        VisualElement root, parameters, updateNeededInfoBox;
 
         internal RenderTexture variantPreview;
         Editor defaultTextureEditor;
         Editor variantPreviewEditor;
+        Type renderTextureEditorType;
+        bool isDirty = false;
 
 		protected void OnEnable()
 		{
@@ -56,6 +59,15 @@ namespace Mixture
             exposedParameterFactory = new ExposedParameterFieldFactory(graph, visibleParameters);
 
             overrideParameterView = Resources.Load<VisualTreeAsset>("UI Blocks/MixtureVariantParameter");
+
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                renderTextureEditorType = assembly.GetType("UnityEditor.RenderTextureEditor");
+                if (renderTextureEditorType != null)
+                    break;
+            }
+
+            variantPreview = new RenderTexture(1, 1, 0);
 		}
 
         internal void SetDefaultTextureEditor(Editor textureEditor)
@@ -86,7 +98,7 @@ namespace Mixture
 
             if (variantPreviewEditor != null)
             {
-                Destroy(variantPreviewEditor);
+                DestroyImmediate(variantPreviewEditor);
                 variantPreviewEditor = null;
             }
 
@@ -203,8 +215,12 @@ namespace Mixture
 
 			if (showUpdateButton)
 			{
+                updateNeededInfoBox = new HelpBox("Parameters have changed, please update the texture to apply the changes.", HelpBoxMessageType.Warning);
+                UpdateIsDirtyAndPreview();
+                parameters.Add(updateNeededInfoBox);
+
 				var updateButton = new Button(UpdateAllVariantTextures){ text = "Update Texture(s)" };
-				updateButton.AddToClassList("Indent");
+                updateButton.AddToClassList("UpdateTextureButton");
 				parameters.Add(updateButton);
 			}
 		}
@@ -213,10 +229,79 @@ namespace Mixture
         {
             variant.UpdateAllVariantTextures();
 
+            UpdateIsDirtyAndPreview();
+
+            // Update all child variants:
+            foreach (var child in variant.GetChildVariants())
+            {
+                if (child.IsDirty())
+                {
+                    child.UpdateAllVariantTextures();
+
+                    // It's okay to do expansive operations here because of the readback before
+                    foreach (var editor in Resources.FindObjectsOfTypeAll<MixtureVariantInspector>())
+                    {
+                        if (editor.target == child && editor is MixtureVariantInspector variantInspector)
+                            variantInspector.UpdateIsDirtyAndPreview();
+                    }
+                }
+            }
+
             // If the parentGraph is opened in the editor, we don't want to mess with previews
             // so we update the parentGraph with the original params again.
             if (MixtureUpdater.IsMixtureEditorOpened(graph))
                 MixtureGraphProcessor.RunOnce(graph);
+        }
+
+        void UpdateIsDirtyAndPreview()
+        {
+            if (updateNeededInfoBox == null)
+                return;
+
+            isDirty = variant.IsDirty();
+            updateNeededInfoBox.style.display = isDirty ? DisplayStyle.Flex : DisplayStyle.None;
+
+            if (isDirty)
+            {
+                // Refresh the preview in the inspector:
+                var s = graph.outputNode.rtSettings;
+                if (variantPreview.graphicsFormat != s.graphicsFormat
+                    || variantPreview.height != s.height
+                    || variantPreview.width != s.width
+                    || variantPreview.volumeDepth != s.sliceCount
+                    || variantPreview.filterMode != s.filterMode
+                    || variantPreview.wrapMode != s.wrapMode
+                    || variantPreview.dimension != (TextureDimension)s.dimension)
+                {
+                    variantPreview.Release();
+                    variantPreview.graphicsFormat = s.graphicsFormat;
+                    variantPreview.width = s.width;
+                    variantPreview.height = s.height;
+                    variantPreview.volumeDepth = s.sliceCount;
+                    variantPreview.filterMode = s.filterMode;
+                    variantPreview.wrapMode = s.wrapMode;
+                    variantPreview.dimension = (TextureDimension)s.dimension;
+                    variantPreview.name = target.name + "*";
+                    variantPreview.Create();
+                }
+
+                // Update the texture in the inspector
+                variant.ProcessGraphWithOverrides();
+
+                // Copy the result into the inspector preview RT
+                var output = graph.outputNode.outputTextureSettings.FirstOrDefault(n => n.name == defaultTextureEditor.target.name);
+                if (output == null)
+                    output = graph.outputNode.outputTextureSettings.First();
+                TextureUtils.CopyTexture(output.finalCopyRT, variantPreview);
+
+                // If the parentGraph is opened in the editor, we don't want to mess with previews
+                // so we update the parentGraph with the original params again.
+                if (MixtureUpdater.IsMixtureEditorOpened(graph))
+                    MixtureGraphProcessor.RunOnce(graph);
+
+                if (variantPreviewEditor == null || variantPreviewEditor.target != variantPreview)
+                    Editor.CreateCachedEditor(variantPreview, renderTextureEditorType, ref variantPreviewEditor);
+            }
         }
 
         VisualElement CreateParameterVariantView(ExposedParameter param, SerializedObject serializedInspector)
@@ -253,24 +338,18 @@ namespace Mixture
             Undo.RegisterCompleteObjectUndo(variant, "Reset parameter");
 
             variant.overrideParameters.RemoveAll(p => p == parameter);
-            parameter.value = GetDefaultParameterValue(parameter);
+            parameter.value = variant.GetDefaultParameterValue(parameter);
             exposedParameterFactory.ResetOldParameter(parameter);
 
             variant.NotifyOverrideValueChanged(parameter);
             UpdateParameters();
 
+            UpdateIsDirtyAndPreview();
+
             if (parameterViews.TryGetValue(parameter, out var view))
             {
                 view.RemoveFromClassList("Override");
             }
-        }
-
-        object GetDefaultParameterValue(ExposedParameter parameter)
-        {
-            foreach (var param in variant.GetAllOverrideParameters())
-                if (param == parameter)
-                    return param.value;
-            return parameter.value;
         }
 
         void UpdateOverrideParameter(ExposedParameter parameter, object overrideValue)
@@ -292,6 +371,8 @@ namespace Mixture
             // Let know variant of variants that a property value changed
             variant.NotifyOverrideValueChanged(parameter);
 
+            UpdateIsDirtyAndPreview();
+
             // Enable the override overlay:
             if (parameterViews.TryGetValue(parameter, out var view))
                 AddOverrideClass(view);
@@ -304,7 +385,7 @@ namespace Mixture
 
 		// This block of functions allows us dynamically switch between the render texture inspector preview
         // and the default texture2D preview (the one for the asset on the disk)
-		Editor GetPreviewEditor() => variantPreviewEditor ?? defaultTextureEditor ?? this;
+		Editor GetPreviewEditor() => isDirty ? variantPreviewEditor : defaultTextureEditor ?? this;
 		public override string GetInfoString() => GetPreviewEditor().GetInfoString();
 		public override void ReloadPreviewInstances() => GetPreviewEditor().ReloadPreviewInstances();
 		public override bool RequiresConstantRepaint() => GetPreviewEditor().RequiresConstantRepaint();

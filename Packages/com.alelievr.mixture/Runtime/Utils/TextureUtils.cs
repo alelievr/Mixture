@@ -248,5 +248,12 @@ namespace Mixture
                 destination.anisoLevel = source.anisoLevel;
             }
         }
+
+        public static void CopyTexture(Texture source, Texture destination)
+        {
+            for (int slice = 0; slice < TextureUtils.GetSliceCount(source); slice++)
+                for (int mipLevel = 0; mipLevel < source.mipmapCount; mipLevel++)
+                    Graphics.CopyTexture(source, slice, mipLevel, destination, slice, mipLevel);
+        }
     }
 }

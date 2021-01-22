@@ -271,6 +271,7 @@ namespace Mixture
 					graph.SaveAllTextures(false);
 				}) { text = "Update Texture(s)" };
 				updateButton.AddToClassList("Indent");
+				updateButton.AddToClassList("UpdateTextureButton");
 				parameters.Add(updateButton);
 			}
 		}
