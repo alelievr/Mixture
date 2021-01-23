@@ -5,7 +5,7 @@ namespace Mixture
 {
 	public class MixtureExposedParameterPropertyView : VisualElement
 	{
-		protected BaseGraphView baseGraphView;
+		protected MixtureGraphView mixtureGraphView;
 
 		public ExposedParameter parameter { get; private set; }
 
@@ -13,13 +13,14 @@ namespace Mixture
 
 		public MixtureExposedParameterPropertyView(BaseGraphView graphView, ExposedParameter param)
 		{
-			baseGraphView = graphView;
+			mixtureGraphView = graphView as MixtureGraphView;
 			parameter      = param;
 
 			var valueField = graphView.exposedParameterFactory.GetParameterValueField(param, (newValue) => {
 				graphView.RegisterCompleteObjectUndo("Updated Parameter Value");
 				param.value = newValue;
 				graphView.graph.NotifyExposedParameterValueChanged(param);
+				mixtureGraphView.ProcessGraph();
 			});
 
 			var field = graphView.exposedParameterFactory.GetParameterSettingsField(param, (newValue) => {
