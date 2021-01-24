@@ -63,3 +63,6 @@ Extract buffers (depth, normal, color or position) from the rendering of a prefa
 
 Fractal nodes in Mixture:
 ![image](https://user-images.githubusercontent.com/6877923/102915300-d8944e00-4481-11eb-8e93-f7a57c21b830.png)
+
+Mixture Variants:
+https://user-images.githubusercontent.com/6877923/105640466-867a8a00-5e7e-11eb-9283-e65d8d6fbee6.mp4
