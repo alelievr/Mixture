@@ -14,7 +14,6 @@ namespace Mixture
         [Output(name = "Gradient")]
         public Texture2D texture;
 
-        [Input("Gradient")]
         public Gradient gradient = new Gradient();
 
         public override bool hasSettings => false;
@@ -34,7 +33,8 @@ namespace Mixture
                 return false;
 
             // Sometimes the texture is destroyed by the C++ without any notification so we check for this
-            UpdateTexture();
+            if (texture == null)
+                UpdateTexture();
             
             return true;
         }

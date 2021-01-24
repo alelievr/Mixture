@@ -156,7 +156,7 @@ namespace Mixture
 
 			foreach (var output in outputTextureSettings)
 			{
-				if (!graph.isRealtime)
+				if (graph != null && !graph.isRealtime)
 					CoreUtils.Destroy(output.finalCopyRT);
 				CoreUtils.Destroy(output.mipmapTempRT);
 			}

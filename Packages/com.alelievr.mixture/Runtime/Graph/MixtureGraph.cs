@@ -619,7 +619,6 @@ namespace Mixture
                         continue;
 
                     variant.CopyTexturesFromGraph(false);
-                    EditorUtility.ClearProgressBar();
                     variant.UpdateAllVariantTextures();
                     index++;
                 }

@@ -44,6 +44,8 @@ namespace Mixture
                 Undo.undoRedoPerformed += UpdateParameters;
 			}
 
+            variant.variantTexturesUpdated += UpdateIsDirtyAndPreview;
+
             MixtureVariant parent = variant.parentVariant;
             while (parent != null)
             {
@@ -82,6 +84,8 @@ namespace Mixture
 				graph.onExposedParameterValueChanged -= UpdateParameters;
                 Undo.undoRedoPerformed -= UpdateParameters;
 			}
+
+            variant.variantTexturesUpdated -= UpdateIsDirtyAndPreview;
 
             MixtureVariant parent = variant.parentVariant;
             while (parent != null)
@@ -229,29 +233,21 @@ namespace Mixture
         {
             variant.UpdateAllVariantTextures();
 
-            UpdateIsDirtyAndPreview();
-
             // Update all child variants:
             foreach (var child in variant.GetChildVariants())
             {
                 if (child.IsDirty())
-                {
                     child.UpdateAllVariantTextures();
-
-                    // It's okay to do expansive operations here because of the readback before
-                    foreach (var editor in Resources.FindObjectsOfTypeAll<MixtureVariantInspector>())
-                    {
-                        if (editor.target == child && editor is MixtureVariantInspector variantInspector)
-                            variantInspector.UpdateIsDirtyAndPreview();
-                    }
-                }
             }
 
             // If the parentGraph is opened in the editor, we don't want to mess with previews
             // so we update the parentGraph with the original params again.
-            if (MixtureUpdater.IsMixtureEditorOpened(graph))
+            if (IsMixtureEditorOpened(graph))
                 MixtureGraphProcessor.RunOnce(graph);
         }
+
+        bool IsMixtureEditorOpened(MixtureGraph graph)
+            => Resources.FindObjectsOfTypeAll<MixtureGraphWindow>().Any(w => w.GetCurrentGraph() == graph);
 
         void UpdateIsDirtyAndPreview()
         {
@@ -296,7 +292,7 @@ namespace Mixture
 
                 // If the parentGraph is opened in the editor, we don't want to mess with previews
                 // so we update the parentGraph with the original params again.
-                if (MixtureUpdater.IsMixtureEditorOpened(graph))
+                if (IsMixtureEditorOpened(graph))
                     MixtureGraphProcessor.RunOnce(graph);
 
                 if (variantPreviewEditor == null || variantPreviewEditor.target != variantPreview)

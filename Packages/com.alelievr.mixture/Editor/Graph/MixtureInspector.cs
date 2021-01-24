@@ -269,6 +269,7 @@ namespace Mixture
 				var updateButton = new Button(() => {
 					MixtureGraphProcessor.RunOnce(graph);
 					graph.SaveAllTextures(false);
+					graph.UpdateLinkedVariants();
 				}) { text = "Update Texture(s)" };
 				updateButton.AddToClassList("Indent");
 				updateButton.AddToClassList("UpdateTextureButton");

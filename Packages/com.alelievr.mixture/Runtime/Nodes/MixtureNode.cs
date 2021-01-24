@@ -20,6 +20,7 @@ namespace Mixture
 	{
 		protected new MixtureGraph			graph => base.graph as MixtureGraph;
 
+		[HideInInspector]
 		public MixtureRTSettings			rtSettings;
 
 		protected virtual MixtureRTSettings	defaultRTSettings => MixtureRTSettings.defaultValue;
@@ -35,7 +36,7 @@ namespace Mixture
 		public virtual PreviewChannels		defaultPreviewChannels => PreviewChannels.RGBA;
 		public virtual bool					showDefaultInspector => false;
 		public virtual bool					showPreviewExposure => false;
-		[SerializeField]
+		[SerializeField, HideInInspector]
 		public bool							isPreviewCollapsed = false;
 
 		public event Action					onSettingsChanged;
@@ -50,15 +51,17 @@ namespace Mixture
 		protected Dictionary<string, Material> temporaryMaterials = new Dictionary<string, Material>();
 
         // UI Serialization
-        [SerializeField]
+        [SerializeField, HideInInspector]
         public PreviewChannels previewMode;
-        [SerializeField]
+        [SerializeField, HideInInspector]
         public float previewMip = 0.0f;
-        [SerializeField]
+        [SerializeField, HideInInspector]
         public bool previewVisible = true;
-		[SerializeField]
+		[SerializeField, HideInInspector]
 		public float previewEV100 = 0.0f;
+		[HideInInspector]
 		public float previewSlice = 0;
+		[HideInInspector]
 		public bool	isPinned;
 
 		CustomSampler		_sampler;

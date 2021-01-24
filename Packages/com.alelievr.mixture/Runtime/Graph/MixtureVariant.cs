@@ -76,6 +76,8 @@ namespace Mixture
 
         public event Action<ExposedParameter> parameterValueChanged;
 
+        internal event Action variantTexturesUpdated;
+
         public void SetParent(MixtureGraph graph)
         {
             parentVariant = null;
@@ -209,6 +211,7 @@ namespace Mixture
             }
 
             parametersStateAtLastUpdate = GetAllParameters().Select(p => p.Clone()).ToList();
+            variantTexturesUpdated?.Invoke();
         }
 
         public void ProcessGraphWithOverrides()
@@ -293,6 +296,7 @@ namespace Mixture
             _mainOutputTexture = mainTexture;
 
             parametersStateAtLastUpdate = GetAllParameters().Select(p => p.Clone()).ToList();
+            variantTexturesUpdated?.Invoke();
         }
 #endif
     }
