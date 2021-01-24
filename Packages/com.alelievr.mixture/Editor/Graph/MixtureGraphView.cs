@@ -183,6 +183,7 @@ namespace Mixture
 		void ReloadGraph()
 		{
 			graph.outputNode = null;
+			ProcessGraph();
 		}
 
 		Color[] nestingLevel = new Color[]

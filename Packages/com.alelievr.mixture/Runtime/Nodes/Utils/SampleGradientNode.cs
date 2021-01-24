@@ -18,7 +18,7 @@ Sample a gradient using a float value between 0 and 1.
         public float x=0.0f;
 
 		[Output("Color")]
-		public Color	color;
+		new public Color	color;
 
         public Gradient gradient = new Gradient();
 

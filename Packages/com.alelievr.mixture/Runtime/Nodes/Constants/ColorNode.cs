@@ -14,7 +14,7 @@ Color constant value.
 	public class ColorNode : MixtureNode
 	{
 		[Output(name = "Color")]
-		public Color color = Color.white;
+		new public Color color = Color.white;
 
 		public override bool 	hasSettings => false;
 		public override string	name => "Color";

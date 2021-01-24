@@ -89,6 +89,7 @@ namespace Mixture
                 EditorUtility.DisplayProgressBar("Mixture", "Saving All...", 0.0f);
 
                 graph.SaveAllTextures();
+				graph.UpdateLinkedVariants();
 
                 List<ExternalOutputNode> externalOutputs = new List<ExternalOutputNode>();
 

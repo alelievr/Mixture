@@ -15,6 +15,7 @@ namespace Mixture
 	class MixtureSmallIconRenderer
 	{
 		static Dictionary< string, MixtureGraph >	mixtureAssets = new Dictionary< string, MixtureGraph >();
+		static Dictionary< string, MixtureVariant >	mixtureVariants = new Dictionary< string, MixtureVariant >();
 
 		static MixtureSmallIconRenderer() => EditorApplication.projectWindowItemOnGUI += DrawMixtureSmallIcon;
 		
@@ -31,6 +32,13 @@ namespace Mixture
 				return ;
 			}
 
+			if (mixtureVariants.TryGetValue(assetGUID, out var v))
+			{
+				// TODO: draw the mixture variant icon
+				DrawMixtureSmallIcon(rect, v);
+				return ;
+			}
+
 			string assetPath = AssetDatabase.GUIDToAssetPath(assetGUID);
 
 			// Mixture assets are saved as .asset files
@@ -42,17 +50,32 @@ namespace Mixture
 			if (texture == null)
 				return ;
 
+			// Check if the current texture is a mixture variant
+			var variant = MixtureEditorUtils.GetVariantAtPath(assetPath);
+			if (variant != null)
+			{
+				mixtureVariants.Add(assetGUID, variant);
+				DrawMixtureSmallIcon(rect, variant);
+				return;
+			}
+
 			// and then that it have a Mixture Graph as subasset
 			graph = MixtureEditorUtils.GetGraphAtPath(assetPath);
-			if (graph == null)
+			if (graph != null)
+			{
+				mixtureAssets.Add(assetGUID, graph);
+				DrawMixtureSmallIcon(rect, graph);
 				return ;
-
-			mixtureAssets.Add(assetGUID, graph);
-
-			DrawMixtureSmallIcon(rect, graph);
+			}
 		}
 
 		static void DrawMixtureSmallIcon(Rect rect, MixtureGraph graph)
+			=> DrawMixtureSmallIcon(rect, graph.isRealtime ? MixtureUtils.realtimeIcon32 : MixtureUtils.icon32);
+
+		static void DrawMixtureSmallIcon(Rect rect, MixtureVariant variant)
+			=> DrawMixtureSmallIcon(rect, variant.parentGraph.isRealtime ? MixtureUtils.realtimeVariantIcon32 : MixtureUtils.iconVariant32);
+
+		static void DrawMixtureSmallIcon(Rect rect, Texture2D mixtureIcon)
 		{
 			Rect clearRect = new Rect(rect.x, rect.y, 20, 16);
 			Rect iconRect = new Rect(rect.x + 2, rect.y, 16, 16);
@@ -68,26 +91,46 @@ namespace Mixture
 				backgroundColor = new Color32(194, 194, 194, 255);
 
 			EditorGUI.DrawRect(clearRect, backgroundColor);
-			GUI.DrawTexture(iconRect, graph.isRealtime ? MixtureUtils.realtimeIcon32 : MixtureUtils.icon32);
+			GUI.DrawTexture(iconRect, mixtureIcon);
 		}
 	}
 
 	class MixtureEditor : Editor
 	{
 		protected Editor		defaultTextureEditor;
+		protected Editor		variantEditor;
 		protected MixtureGraph	graph;
+		protected MixtureVariant variant;
 		protected VisualElement	root;
 		protected VisualElement	parameters;
+        protected ExposedParameterFieldFactory exposedParameterFactory;
 
 		protected virtual void OnEnable()
 		{
 			// Load the mixture graph:
 			graph = MixtureEditorUtils.GetGraphAtPath(AssetDatabase.GetAssetPath(target));
+			variant = MixtureEditorUtils.GetVariantAtPath(AssetDatabase.GetAssetPath(target));
 
 			if (graph != null)
 			{
+				exposedParameterFactory = new ExposedParameterFieldFactory(graph);
 				graph.onExposedParameterListChanged += UpdateExposedParameters;
 				graph.onExposedParameterModified += UpdateExposedParameters;
+				Undo.undoRedoPerformed += UpdateExposedParameters;
+			}
+			if (variant != null)
+			{
+				graph = variant.parentGraph;
+
+				if (graph != null)
+				{
+					exposedParameterFactory = new ExposedParameterFieldFactory(variant.parentGraph);
+					Editor.CreateCachedEditor(variant, typeof(MixtureVariantInspector), ref variantEditor);
+				}
+				else
+				{
+					Debug.LogError("Can't find parent graph for Mixture Variant " + variant);
+				}
 			}
 		}
 
@@ -100,7 +143,7 @@ namespace Mixture
 			{ typeof(Material), "UnityEditor.MaterialEditor" },
 		};
 
-		protected virtual void LoadInspectorFor(Type typeForEditor)
+		protected virtual void LoadInspectorFor(Type typeForEditor, Object[] targets)
 		{
 			string editorTypeName;
 			if (defaultTextureInspectors.TryGetValue(typeForEditor, out editorTypeName))
@@ -111,6 +154,10 @@ namespace Mixture
 					if (editorType != null)
 					{
 						Editor.CreateCachedEditor(targets, editorType, ref defaultTextureEditor);
+
+						if (variantEditor != null)
+							(variantEditor as MixtureVariantInspector).SetDefaultTextureEditor(defaultTextureEditor);
+
 						return ;
 					}
 				}
@@ -123,87 +170,81 @@ namespace Mixture
 			{
 				graph.onExposedParameterListChanged -= UpdateExposedParameters;
 				graph.onExposedParameterModified -= UpdateExposedParameters;
+				Undo.undoRedoPerformed -= UpdateExposedParameters;
+				exposedParameterFactory.Dispose();
+				exposedParameterFactory = null;
 			}
 
 			if (defaultTextureEditor != null)
 				DestroyImmediate(defaultTextureEditor);
+			if (variantEditor != null)
+				DestroyImmediate(variantEditor);
 		}
-		
+
 		// This block of functions allow us to use the default behavior of the texture inspector instead of re-writing
 		// the preview / static icon code for each texture type, we use the one from the default texture inspector.
-		public override void DrawPreview(Rect previewArea) { if (defaultTextureEditor != null) defaultTextureEditor.DrawPreview(previewArea); else base.DrawPreview(previewArea); }
-		public override string GetInfoString() { if (defaultTextureEditor != null) return defaultTextureEditor.GetInfoString(); else return base.GetInfoString(); }
-		public override GUIContent GetPreviewTitle() { if (defaultTextureEditor != null) return defaultTextureEditor.GetPreviewTitle(); else return base.GetPreviewTitle(); }
-		public override bool HasPreviewGUI() { if (defaultTextureEditor != null) return defaultTextureEditor.HasPreviewGUI(); else return base.HasPreviewGUI(); }
-		public override void OnInteractivePreviewGUI(Rect r, GUIStyle background) { if (defaultTextureEditor != null) defaultTextureEditor.OnInteractivePreviewGUI(r, background); else base.OnInteractivePreviewGUI(r, background); }
-		public override void OnPreviewGUI(Rect r, GUIStyle background) { if (defaultTextureEditor != null) defaultTextureEditor.OnPreviewGUI(r, background); else base.OnPreviewGUI(r, background); }
-		public override void OnPreviewSettings() { if (defaultTextureEditor != null) defaultTextureEditor.OnPreviewSettings(); else base.OnPreviewSettings(); }
-		public override void ReloadPreviewInstances() { if (defaultTextureEditor != null) defaultTextureEditor.ReloadPreviewInstances(); else base.ReloadPreviewInstances(); }
-		public override bool RequiresConstantRepaint() { if (defaultTextureEditor != null) return defaultTextureEditor.RequiresConstantRepaint(); else return base.RequiresConstantRepaint(); }
-		public override bool UseDefaultMargins() { if (defaultTextureEditor != null) return defaultTextureEditor.UseDefaultMargins(); else return base.UseDefaultMargins(); }
-
-		protected void BlitMixtureIcon(Texture preview, RenderTexture target, bool realtime = false)
-		{
-			var blitMaterial = (realtime) ? MixtureUtils.blitRealtimeIconMaterial : MixtureUtils.blitIconMaterial;
-			MixtureUtils.SetupDimensionKeyword(blitMaterial, preview.dimension);
-
-			switch (preview.dimension)
-			{
-				case TextureDimension.Tex2D:
-					blitMaterial.SetTexture("_Texture2D", preview);
-					Graphics.Blit(preview, target, blitMaterial, 0);
-					break;
-				case TextureDimension.Tex2DArray:
-					blitMaterial.SetTexture("_Texture2DArray", preview);
-					Graphics.Blit(preview, target, blitMaterial, 0);
-					break;
-				case TextureDimension.Tex3D:
-					blitMaterial.SetTexture("_Texture3D", preview);
-					Graphics.Blit(preview, target, blitMaterial, 0);
-					break;
-				case TextureDimension.Cube:
-					blitMaterial.SetTexture("_Cubemap", preview);
-					Graphics.Blit(preview, target, blitMaterial, 0);
-					break;
-				default:
-					Debug.LogError($"{preview.dimension} is not supported for icon preview");
-					break;
-			}
-		}
+		Editor GetPreviewEditor() => variantEditor ?? defaultTextureEditor ?? this;
+		public override string GetInfoString() => GetPreviewEditor().GetInfoString();
+		public override void ReloadPreviewInstances() => GetPreviewEditor().ReloadPreviewInstances();
+		public override bool RequiresConstantRepaint() => GetPreviewEditor().RequiresConstantRepaint();
+		public override bool UseDefaultMargins() => GetPreviewEditor().UseDefaultMargins();
+		public override void DrawPreview(Rect previewArea) => GetPreviewEditor().DrawPreview(previewArea);
+		public override GUIContent GetPreviewTitle() => GetPreviewEditor().GetPreviewTitle();
+		public override bool HasPreviewGUI() => GetPreviewEditor().HasPreviewGUI();
+		public override void OnInteractivePreviewGUI(Rect r, GUIStyle background) => GetPreviewEditor().OnInteractivePreviewGUI(r, background);
+		public override void OnPreviewGUI(Rect r, GUIStyle background) => GetPreviewEditor().OnPreviewGUI(r, background);
+		public override void OnPreviewSettings() => GetPreviewEditor().OnPreviewSettings();
 
 		public override VisualElement CreateInspectorGUI()
 		{
 			if (graph == null)
 				return base.CreateInspectorGUI();
 			
+			CreateRootElement();
 
-			root = new VisualElement();
-			parameters = new VisualElement();
+			if (variant != null)
+			{
+				root.Add(variantEditor.CreateInspectorGUI());
+				return root;
+			}
 
-			var styleSheet = Resources.Load<StyleSheet>("MixtureInspector");
-			if (styleSheet != null)
-				root.styleSheets.Add(styleSheet);
-			
 			UpdateExposedParameters(null);
-			root.Add(parameters);
 			root.Add(CreateTextureSettingsView());
 			root.Add(CreateAdvancedSettingsView());
 
 			return root;
 		}
 
-		void UpdateExposedParameters(string guid) => UpdateExposedParameters();
-		void UpdateExposedParameters()
+		protected void CreateRootElement()
 		{
+			root = new VisualElement();
+
+			var styleSheet = Resources.Load<StyleSheet>("MixtureInspector");
+			if (styleSheet != null)
+				root.styleSheets.Add(styleSheet);
+		}
+
+		protected void UpdateExposedParameters(ExposedParameter param) => UpdateExposedParameters();
+		protected void UpdateExposedParameters()
+		{
+			if (root == null)
+				return;
+
+			if (parameters == null || !root.Contains(parameters))
+			{
+				parameters = new VisualElement();
+				root.Add(parameters);
+			}
+
 			parameters.Clear();
 
 			bool header = true;
 			bool showUpdateButton = false;
-            foreach (var param in graph.exposedParameters)
+			foreach (var param in graph.exposedParameters)
             {
                 if (param.settings.isHidden)
                     continue;
-
+				
 				if (header)
 				{
 					var headerLabel = new Label("Exposed Parameters");
@@ -215,12 +256,11 @@ namespace Mixture
                 VisualElement prop = new VisualElement();
 				prop.AddToClassList("Indent");
                 prop.style.display = DisplayStyle.Flex;
-                Type paramType = Type.GetType(param.type);
-                var field = FieldFactory.CreateField(paramType, param.serializedValue.value, (newValue) => {
-					Undo.RegisterCompleteObjectUndo(graph, "Changed Parameter " + param.name + " to " + newValue);
-                    param.serializedValue.value = newValue;
-                }, param.name);
-                prop.Add(field);
+                var p = exposedParameterFactory.GetParameterValueField(param, (newValue) => {
+                    param.value = newValue;
+                    graph.NotifyExposedParameterValueChanged(param);
+                });
+                prop.Add(p);
                 parameters.Add(prop);
             }
 
@@ -229,8 +269,10 @@ namespace Mixture
 				var updateButton = new Button(() => {
 					MixtureGraphProcessor.RunOnce(graph);
 					graph.SaveAllTextures(false);
-				}) { text = "Update" };
+					graph.UpdateLinkedVariants();
+				}) { text = "Update Texture(s)" };
 				updateButton.AddToClassList("Indent");
+				updateButton.AddToClassList("UpdateTextureButton");
 				parameters.Add(updateButton);
 			}
 		}
@@ -275,7 +317,6 @@ namespace Mixture
 
 		VisualElement CreateAdvancedSettingsView()
 		{
-			bool hasAdvancedSettings = false;
 			var advanced = new VisualElement();
 			var container = new VisualElement();
 			container.AddToClassList("Indent");
@@ -288,20 +329,20 @@ namespace Mixture
 					graph.embedInBuild = e.newValue;
 				});
 				container.Add(embed);
-				hasAdvancedSettings = true;
 			}
 
-			if (hasAdvancedSettings)
-			{
-				var advancedLabel = new Label("Advanced Settings");
-				advancedLabel.AddToClassList("Header");
-				advanced.Add(advancedLabel);
-			}
+			container.Add(new Button(CreateMixtureVariant) { text = "Create New Mixture Variant"});
+
+			var advancedLabel = new Label("Advanced Settings");
+			advancedLabel.AddToClassList("Header");
+			advanced.Add(advancedLabel);
 
 			advanced.Add(container);
 
 			return advanced;
 		}
+
+		void CreateMixtureVariant() => MixtureAssetCallbacks.CreateMixtureVariant(graph, null);
 		
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
 		{
@@ -319,6 +360,8 @@ namespace Mixture
 			
 			// Combine manually on CPU the two textures because it completely broken with GPU :'(
 			Texture2D mixtureIcon = (target is CustomRenderTexture) ? MixtureUtils.realtimeIcon : MixtureUtils.icon;
+			if (variant != null)
+				mixtureIcon = graph.isRealtime ? MixtureUtils.realtimeVariantIcon : MixtureUtils.iconVariant;
 
 			float scaleFactor = Mathf.Max(mixtureIcon.width / (float)defaultPreview.width, 1) * 2.5f;
 			for (int x = 0; x < width / 2.5f; x++)
@@ -342,7 +385,7 @@ namespace Mixture
 		protected override void OnEnable()
 		{
 			base.OnEnable();
-			LoadInspectorFor(typeof(Texture2D));
+			LoadInspectorFor(typeof(Texture2D), targets);
 		}
 	}
 
@@ -377,22 +420,6 @@ namespace Mixture
 			MixtureUtils.textureArrayPreviewMaterial.SetTexture("_TextureArray", array);
 			EditorGUI.DrawPreviewTexture(r, Texture2D.whiteTexture, MixtureUtils.textureArrayPreviewMaterial);
 		}
-
-		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
-		{
-			var icon = new Texture2D(width, height);
-			RenderTexture	rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
-
-			BlitMixtureIcon(target as Texture, rt);
-
-			RenderTexture.active = rt;
-			icon.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-			icon.Apply();
-			RenderTexture.active = null;
-			rt.Release();
-
-			return icon;
-		}
 	}
 
 	[CustomEditor(typeof(Texture3D), false)]
@@ -405,7 +432,7 @@ namespace Mixture
 		{
 			base.OnEnable();
 			volume = target as Texture3D;
-			LoadInspectorFor(typeof(Texture3D));
+			LoadInspectorFor(typeof(Texture3D), targets);
 		}
 
         public override void OnInspectorGUI()
@@ -440,7 +467,7 @@ namespace Mixture
 		{
 			base.OnEnable();
 			cubemap = target as Cubemap;
-			LoadInspectorFor(typeof(Cubemap));
+			LoadInspectorFor(typeof(Cubemap), targets);
 		}
 	}
 	
@@ -453,7 +480,7 @@ namespace Mixture
 		protected override void OnEnable()
 		{
 			base.OnEnable();
-			base.LoadInspectorFor(typeof(CustomRenderTexture));
+			base.LoadInspectorFor(typeof(CustomRenderTexture), targets);
 			crt = target as CustomRenderTexture;
 
 			ReloadPreviewInstances();
@@ -462,11 +489,6 @@ namespace Mixture
 		}
 
         public override bool RequiresConstantRepaint() => true;
-
-		public override void OnInspectorGUI()
-        {
-			defaultTextureEditor.OnInspectorGUI();
-        }
 
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
 		{

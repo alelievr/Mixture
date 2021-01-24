@@ -117,9 +117,10 @@ namespace Mixture
 		}
 
         public static MixtureGraph GetGraphAtPath(string path)
-        {
-			return AssetDatabase.LoadAllAssetsAtPath(path).FirstOrDefault(o => o is MixtureGraph) as MixtureGraph;
-        }
+			=> AssetDatabase.LoadAllAssetsAtPath(path).FirstOrDefault(o => o is MixtureGraph) as MixtureGraph;
+
+        public static MixtureVariant GetVariantAtPath(string path)
+			=> AssetDatabase.LoadAllAssetsAtPath(path).FirstOrDefault(o => o is MixtureVariant) as MixtureVariant;
 
         static Texture2D LoadIcon(string resourceName)
         {

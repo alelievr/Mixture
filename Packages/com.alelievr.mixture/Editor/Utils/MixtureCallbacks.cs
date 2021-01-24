@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor.ProjectWindowCallback;
 using System.IO;
 using System.Reflection;
+using UnityEngine.Experimental.Rendering;
 
 #if MIXTURE_SHADERGRAPH
 using UnityEditor.ShaderGraph;
@@ -46,6 +47,56 @@ namespace Mixture
 			var graphItem = ScriptableObject.CreateInstance< RealtimeMixtureGraphAction >();
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
                 $"New Realtime Mixture Graph.{Extension}", MixtureUtils.realtimeIcon, null);
+		}
+
+		[MenuItem("Assets/Create/Mixture/Variant", false, 100)]
+		public static void CreateMixtureVariant()
+		{
+			var selectedMixtures = Selection.GetFiltered<Texture>(SelectionMode.Assets);
+
+			foreach (var mixtureTexture in selectedMixtures)
+			{
+				var graph = MixtureDatabase.GetGraphFromTexture(mixtureTexture);
+				var variant = MixtureEditorUtils.GetVariantAtPath(AssetDatabase.GetAssetPath(mixtureTexture));
+
+				if (graph != null)
+					CreateMixtureVariant(graph, null);
+				else if (variant != null)
+					CreateMixtureVariant(null, variant);
+			}
+		}
+
+		[MenuItem("Assets/Create/Mixture/Variant", true)]
+		public static bool CreateMixtureVariantEnabled()
+		{
+			var selectedMixtures = Selection.GetFiltered<Texture>(SelectionMode.Assets);
+			int graphOrVariantCount = selectedMixtures.Count(m => MixtureDatabase.GetGraphFromTexture(m) != null || MixtureEditorUtils.GetVariantAtPath(AssetDatabase.GetAssetPath(m)));
+
+			return (graphOrVariantCount) > 0;
+		}
+
+		public static void CreateMixtureVariant(MixtureGraph targetGraph, MixtureVariant parentVariant)
+		{
+			string path;
+
+			if (targetGraph != null)
+				path = AssetDatabase.GetAssetPath(targetGraph);
+			else
+			{
+				targetGraph = parentVariant.parentGraph;
+				path = AssetDatabase.GetAssetPath(parentVariant);
+			}
+
+			// Patch path name to add Variant
+			string fileName = Path.GetFileNameWithoutExtension(path) + " Variant";
+			path = Path.Combine(Path.GetDirectoryName(path), fileName + Path.GetExtension(path));
+			path = AssetDatabase.GenerateUniqueAssetPath(path);
+
+			var action = ScriptableObject.CreateInstance< MixtureVariantAction >();
+			action.targetGraph = targetGraph;
+			action.parentVariant = parentVariant;
+            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, action,
+            	Path.GetFileName(path), targetGraph.isRealtime ? MixtureUtils.realtimeVariantIcon : MixtureUtils.iconVariant, null);
 		}
 
 #if MIXTURE_SHADERGRAPH
@@ -131,12 +182,19 @@ namespace Mixture
 				// Check if the CustomRenderTexture we're opening is a Mixture graph
 				var path = AssetDatabase.GetAssetPath(EditorUtility.InstanceIDToObject(instanceID));
 				var graph = MixtureEditorUtils.GetGraphAtPath(path);
+				var variant = MixtureEditorUtils.GetVariantAtPath(path);
+
+				graph ??= variant?.parentGraph;
 
 				if (graph == null)
 					return false;
 
 				MixtureGraphWindow.Open(graph);
 				return true;
+			}
+			else if (asset is MixtureVariant variant)
+			{
+				MixtureGraphWindow.Open(variant.parentGraph);
 			}
 			return false;
 		}
@@ -162,11 +220,12 @@ namespace Mixture
 				else
 				{
 					MixtureGraphProcessor.RunOnce(mixture);
-					mixture.SaveAllTextures();
+					mixture.SaveAllTextures(false);
 				}
 
 				ProjectWindowUtil.ShowCreatedAsset(mixture.mainOutputTexture);
 				Selection.activeObject = mixture.mainOutputTexture;
+				EditorApplication.delayCall += () => EditorGUIUtility.PingObject(mixture.mainOutputTexture);
 			}
 		}
 
@@ -234,6 +293,40 @@ namespace Mixture
 				}
 
 				return g;
+			}
+		}
+
+		class MixtureVariantAction : EndNameEditAction
+		{
+			public MixtureGraph targetGraph;
+			public MixtureVariant parentVariant;
+
+			public override void Action(int instanceId, string pathName, string resourceFile)
+			{
+				var variant = ScriptableObject.CreateInstance<MixtureVariant>();
+				if (parentVariant != null)
+					variant.SetParent(parentVariant);
+				else
+					variant.SetParent(targetGraph);
+
+				variant.name = Path.GetFileNameWithoutExtension(pathName);
+				variant.hideFlags = HideFlags.HideInHierarchy;
+
+				AssetDatabase.CreateAsset(variant, pathName);
+
+				if (parentVariant != null)
+					variant.CopyTexturesFromParentVariant();
+				else
+					variant.CopyTexturesFromGraph();
+
+				AssetDatabase.SaveAssets();
+				AssetDatabase.Refresh();
+
+				EditorApplication.delayCall += () => {
+					var mainAsset = AssetDatabase.LoadAssetAtPath<Texture>(pathName);
+					Selection.activeObject = mainAsset;
+					EditorGUIUtility.PingObject(mainAsset);
+				};
 			}
 		}
 
