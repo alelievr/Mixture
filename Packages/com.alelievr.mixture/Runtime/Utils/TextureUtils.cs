@@ -211,7 +211,7 @@ namespace Mixture
 
                     if (copyContent)
                     {
-                        for (int slice = 0; slice < TextureUtils.GetSliceCount(cube); slice++)
+                        for (int slice = 0; slice < 6; slice++)
                             for (int mipLevel = 0; mipLevel < cube.mipmapCount; mipLevel++)
                                 newCube.SetPixelData(cube.GetPixelData<byte>(mipLevel, (CubemapFace)slice), mipLevel, (CubemapFace)slice);
                     }
@@ -251,7 +251,8 @@ namespace Mixture
 
         public static void CopyTexture(Texture source, Texture destination)
         {
-            for (int slice = 0; slice < TextureUtils.GetSliceCount(source); slice++)
+            int sliceCount = (source.dimension == TextureDimension.Cube) ? 6 : TextureUtils.GetSliceCount(source);
+            for (int slice = 0; slice < sliceCount; slice++)
                 for (int mipLevel = 0; mipLevel < source.mipmapCount; mipLevel++)
                     Graphics.CopyTexture(source, slice, mipLevel, destination, slice, mipLevel);
         }

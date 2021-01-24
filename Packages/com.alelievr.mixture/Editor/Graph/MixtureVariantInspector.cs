@@ -259,6 +259,11 @@ namespace Mixture
 
             if (isDirty)
             {
+                // Copy the result into the inspector preview RT
+                var output = graph.outputNode.outputTextureSettings.FirstOrDefault(n => n.name == defaultTextureEditor.target.name);
+                if (output == null)
+                    output = graph.outputNode.outputTextureSettings.First();
+
                 // Refresh the preview in the inspector:
                 var s = graph.outputNode.rtSettings;
                 if (variantPreview.graphicsFormat != s.graphicsFormat
@@ -267,7 +272,8 @@ namespace Mixture
                     || variantPreview.volumeDepth != s.sliceCount
                     || variantPreview.filterMode != s.filterMode
                     || variantPreview.wrapMode != s.wrapMode
-                    || variantPreview.dimension != (TextureDimension)s.dimension)
+                    || variantPreview.dimension != (TextureDimension)s.dimension
+                    || variantPreview.useMipMap != output.hasMipMaps)
                 {
                     variantPreview.Release();
                     variantPreview.graphicsFormat = s.graphicsFormat;
@@ -278,16 +284,13 @@ namespace Mixture
                     variantPreview.wrapMode = s.wrapMode;
                     variantPreview.dimension = (TextureDimension)s.dimension;
                     variantPreview.name = target.name + "*";
+                    variantPreview.useMipMap = output.hasMipMaps;
                     variantPreview.Create();
                 }
 
                 // Update the texture in the inspector
                 variant.ProcessGraphWithOverrides();
 
-                // Copy the result into the inspector preview RT
-                var output = graph.outputNode.outputTextureSettings.FirstOrDefault(n => n.name == defaultTextureEditor.target.name);
-                if (output == null)
-                    output = graph.outputNode.outputTextureSettings.First();
                 TextureUtils.CopyTexture(output.finalCopyRT, variantPreview);
 
                 // If the parentGraph is opened in the editor, we don't want to mess with previews
