@@ -495,169 +495,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b113f958e0564f309164e29c24b042d, type: 3}
   m_Name: 2D
   m_EditorClassIdentifier: 
-  serializedNodes:
-  - type: Mixture.OutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"20aad9a2-f45b-443d-9f30-0287577d108c","computeOrder":1,"position":{"serializedVersion":"2","x":239.0,"y":56.0,"width":350.0,"height":527.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":512,"height":512,"sliceCount":512,"potSize":512,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"outputChannels":1,"outputPrecision":4,"editFlags":981,"doubleBuffered":false,"wrapMode":0,"filterMode":0,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"outputTextureSettings":[{"inputTexture":{"instanceID":0},"name":"Main
-      Texture","enableCompression":true,"compressionFormat":25,"compressionQuality":100,"hasMipMaps":false,"customMipMapShader":{"instanceID":0},"isMain":true,"enableConversion":false,"conversionFormat":0,"sRGB":false,"finalCopyMaterial":{"fileID":4269344445788610500,"guid":"491caa3e4fe93d0408347d7640170082","type":2}}]}'
-  - type: Mixture.CellularNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"9f3f98b3-ff74-41f4-a2cb-7db36effd2ac","computeOrder":0,"position":{"serializedVersion":"2","x":-11.000078201293946,"y":55.99998474121094,"width":250.0,"height":604.0},"expanded":true,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":255,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"da55f2393d0f8384db177010fad4c19c","type":3},"material":{"fileID":7412953962164294820,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"UVs","referenceName":"_UV_2D","tooltip":"Custom
-      Noise UV","type":{"serializedType":"UnityEngine.Texture2D, UnityEngine.CoreModule,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Tiling
-      Mode","referenceName":"_TilingMode","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"UV
-      Mode","referenceName":"_UVMode","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Distance
-      Mode","referenceName":"_DistanceMode","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
-      Range","referenceName":"_OutputRange","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Lacunarity","referenceName":"_Lacunarity","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Frequency","referenceName":"_Frequency","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Persistance","referenceName":"_Persistance","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Octaves","referenceName":"_Octaves","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cell
-      Size","referenceName":"_CellSize","tooltip":"Act as a multiplier for the distance
-      function","type":{"serializedType":"System.Single, mscorlib, Version=4.0.0.0,
-      Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Seed","referenceName":"_Seed","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Channels","referenceName":"_Channels","tooltip":"Select
-      how many noise to genereate and on which channel. The more different channel
-      you use the more expensive it is (max 4 noise evaluation).","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
-      Mode R","referenceName":"_CellsModeR","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
-      Mode G","referenceName":"_CellsModeG","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
-      Mode B","referenceName":"_CellsModeB","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
-      Mode A","referenceName":"_CellsModeA","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"da55f2393d0f8384db177010fad4c19c"}'
-  - type: Mixture.UVNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"2b4dddf5-f074-41f7-bbc2-107f70517b07","computeOrder":2,"position":{"serializedVersion":"2","x":-558.5130615234375,"y":504.5922546386719,"width":250.0,"height":437.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"0e57459cc2eca8e4eb3e062b8ed60321","type":3},"material":{"fileID":-5194881324770826461,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"UV
-      Scale","referenceName":"_Scale","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"UV
-      Bias","referenceName":"_Bias","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}}],"shaderGUID":"0e57459cc2eca8e4eb3e062b8ed60321"}'
-  - type: Mixture.PerlinNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"ab6c048c-5225-4450-ac69-e2c32b722195","computeOrder":5,"position":{"serializedVersion":"2","x":-32.51307678222656,"y":705.5922241210938,"width":250.0,"height":584.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"3ff8d72a4c500ad4093607671bcd9097","type":3},"material":{"fileID":8745948070050065892,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"UVs","referenceName":"_UV_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Tiling
-      Mode","referenceName":"_TilingMode","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"UV
-      Mode","referenceName":"_UVMode","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
-      Range","referenceName":"_OutputRange","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Lacunarity","referenceName":"_Lacunarity","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Frequency","referenceName":"_Frequency","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Persistance","referenceName":"_Persistance","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Octaves","referenceName":"_Octaves","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Seed","referenceName":"_Seed","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Channels","referenceName":"_Channels","tooltip":"Select
-      how many noise to genereate and on which channel. The more different channel
-      you use the more expensive it is (max 4 noise evaluation).","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"3ff8d72a4c500ad4093607671bcd9097"}'
-  - type: Mixture.GradienMattetNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"c55af52b-4643-4333-bf0a-bd217b1f6aa6","computeOrder":3,"position":{"serializedVersion":"2","x":-558.5130615234375,"y":941.5922241210938,"width":250.0,"height":573.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"46c02ba1b0b63954bab0afcd9e828ac6","type":3},"material":{"fileID":-289512822097773234,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Color
-      1","referenceName":"_Color1","tooltip":"Outer color","type":{"serializedType":"UnityEngine.Color,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Color
-      2","referenceName":"_Color2","tooltip":"Inner color","type":{"serializedType":"UnityEngine.Color,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Gradient
-      Type","referenceName":"_Mode","tooltip":"Style of the gradient","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Direction","referenceName":"_Direction","tooltip":"Direction
-      of the gradient, only visible on the Linear and exponential gradients","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Turn
-      Count","referenceName":"_SpiralTurnCount","tooltip":"Turn count of the spiral","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Branch
-      Count","referenceName":"_SpiralBranchCount","tooltip":"Turn count of the spiral","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Falloff","referenceName":"_Falloff","tooltip":"Exponential
-      falloff of the gradient","type":{"serializedType":"System.Single, mscorlib,
-      Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"46c02ba1b0b63954bab0afcd9e828ac6"}'
-  - type: Mixture.CombineNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"f31b6ecc-b413-440b-b761-33d0f986f453","computeOrder":4,"position":{"serializedVersion":"2","x":-282.51312255859377,"y":705.5922241210938,"width":250.0,"height":584.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"a781ed4dc6965674987a000e800f1898","type":3},"material":{"fileID":-6377491840747743257,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Source
-      R","referenceName":"_SourceR_2D","tooltip":"Source Texture for the R channel","type":{"serializedType":"UnityEngine.Texture2D,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Source
-      G","referenceName":"_SourceG_2D","tooltip":"Source Texture for the G channel","type":{"serializedType":"UnityEngine.Texture2D,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Source
-      B","referenceName":"_SourceB_2D","tooltip":"Source Texture for the B channel","type":{"serializedType":"UnityEngine.Texture2D,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Source
-      A","referenceName":"_SourceA_2D","tooltip":"Source Texture for the A channel","type":{"serializedType":"UnityEngine.Texture2D,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Output
-      R","referenceName":"_CombineModeR","tooltip":"Select which channel from the
-      R input texture to write in the R output channel","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
-      G","referenceName":"_CombineModeG","tooltip":"Select which channel from the
-      G input texture to write in the G output channel","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
-      B","referenceName":"_CombineModeB","tooltip":"Select which channel from the
-      B input texture to write in the B output channel","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
-      A","referenceName":"_CombineModeA","tooltip":"Select which channel from the
-      A input texture to write in the A output channel","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Custom","referenceName":"_Custom","tooltip":"","type":{"serializedType":"UnityEngine.Color,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}}],"shaderGUID":"a781ed4dc6965674987a000e800f1898"}'
-  - type: Mixture.CellularNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"744ee31f-bef5-43e4-b53f-fcd69fb078e7","computeOrder":6,"position":{"serializedVersion":"2","x":-223.421142578125,"y":1333.036865234375,"width":250.0,"height":584.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":1,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"da55f2393d0f8384db177010fad4c19c","type":3},"material":{"fileID":-627871837259660301,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"UVs","referenceName":"_UV_2D","tooltip":"Custom
-      Noise UV","type":{"serializedType":"UnityEngine.Texture2D, UnityEngine.CoreModule,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Tiling
-      Mode","referenceName":"_TilingMode","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"UV
-      Mode","referenceName":"_UVMode","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Distance
-      Mode","referenceName":"_DistanceMode","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
-      Range","referenceName":"_OutputRange","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Lacunarity","referenceName":"_Lacunarity","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Frequency","referenceName":"_Frequency","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Persistance","referenceName":"_Persistance","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Octaves","referenceName":"_Octaves","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cell
-      Size","referenceName":"_CellSize","tooltip":"Act as a multiplier for the distance
-      function","type":{"serializedType":"System.Single, mscorlib, Version=4.0.0.0,
-      Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Seed","referenceName":"_Seed","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Channels","referenceName":"_Channels","tooltip":"Select
-      how many noise to genereate and on which channel. The more different channel
-      you use the more expensive it is (max 4 noise evaluation).","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
-      Mode R","referenceName":"_CellsModeR","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
-      Mode G","referenceName":"_CellsModeG","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
-      Mode B","referenceName":"_CellsModeB","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Cells
-      Mode A","referenceName":"_CellsModeA","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"da55f2393d0f8384db177010fad4c19c"}'
-  - type: Mixture.SwizzleNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"1f3876e6-38c2-48d2-830a-655e938956a3","computeOrder":7,"position":{"serializedVersion":"2","x":59.578857421875,"y":1415.036865234375,"width":250.0,"height":497.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"8337319f84fab2b4d8243836e6201c22","type":3},"material":{"fileID":8387370694529213886,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Input","referenceName":"_Source_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Output
-      Red","referenceName":"_RMode","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
-      Green","referenceName":"_GMode","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
-      Blue","referenceName":"_BMode","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Output
-      Alpha","referenceName":"_AMode","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Custom","referenceName":"_Custom","tooltip":"","type":{"serializedType":"UnityEngine.Color,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}}],"shaderGUID":"8337319f84fab2b4d8243836e6201c22"}'
-  - type: Mixture.ThresholdNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"18c446a7-890a-470d-97c9-b1de5216b144","computeOrder":9,"position":{"serializedVersion":"2","x":584.5791015625,"y":1333.036865234375,"width":250.0,"height":525.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"bd0e9b179d9b69e4f9a0f98d347bee62","type":3},"material":{"fileID":3588219216969141744,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Input","referenceName":"_Source_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Channel","referenceName":"_Channel","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Threshold","referenceName":"_Threshold","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Feather","referenceName":"_Feather","tooltip":"Smooth
-      the treshold step","type":{"serializedType":"System.Single, mscorlib, Version=4.0.0.0,
-      Culture=neutral, PublicKeyToken=b77a5c561934e089"}},{"displayName":"Invert","referenceName":"_Invert","tooltip":"","type":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}],"shaderGUID":"bd0e9b179d9b69e4f9a0f98d347bee62"}'
-  - type: Mixture.SubNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"c080cfd6-da8a-40ce-a69e-64467f6f40d7","computeOrder":8,"position":{"serializedVersion":"2","x":334.5791015625,"y":1333.036865234375,"width":250.0,"height":474.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":3,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"47633e2c0f07a004eae77b0445ed0bd5","type":3},"material":{"fileID":7528153667951422188,"guid":"491caa3e4fe93d0408347d7640170082","type":2},"exposedProperties":[{"displayName":"Source
-      A","referenceName":"_SourceA_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Source
-      B","referenceName":"_SourceB_2D","tooltip":"","type":{"serializedType":"UnityEngine.Texture2D,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}},{"displayName":"Value","referenceName":"_Value","tooltip":"","type":{"serializedType":"UnityEngine.Vector4,
-      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"}}],"shaderGUID":"47633e2c0f07a004eae77b0445ed0bd5"}'
+  serializedNodes: []
+  nodes:
+  - id: 0
+  - id: 1
+  - id: 2
+  - id: 3
+  - id: 4
+  - id: 5
+  - id: 6
+  - id: 7
+  - id: 8
+  - id: 9
   edges:
   - GUID: 9381c461-018c-4620-b324-d2edb89833bc
     owner: {fileID: 11400000}
@@ -755,9 +604,10 @@ MonoBehaviour:
       serializedType: Mixture.MixtureParameterView, Unity.ShaderGraph.GraphicsTests,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
+  serializedParameterList: []
   stickyNotes: []
-  position: {x: -80, y: -722, z: 0}
-  scale: {x: 1.15, y: 1.15, z: 1}
+  position: {x: 728, y: -336, z: 0}
+  scale: {x: 0.65751624, y: 0.65751624, z: 1}
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 0
@@ -778,6 +628,7 @@ MonoBehaviour:
   - {fileID: 8387370694529213886}
   - {fileID: 3588219216969141744}
   - {fileID: 7528153667951422188}
+  variants: []
   _mainOutputTexture: {fileID: -5326166195811395285}
   _outputTextures:
   - {fileID: -5326166195811395285}
@@ -785,6 +636,926 @@ MonoBehaviour:
   - {fileID: -5326166195811395285}
   references:
     version: 1
+    00000000:
+      type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 20aad9a2-f45b-443d-9f30-0287577d108c
+        computeOrder: 1
+        position:
+          serializedVersion: 2
+          x: 239
+          y: 56
+          width: 350
+          height: 527
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 0
+          heightPercent: 0
+          depthPercent: 0
+          width: 512
+          height: 512
+          sliceCount: 512
+          potSize: 512
+          widthMode: 1
+          heightMode: 1
+          depthMode: 1
+          dimension: 2
+          outputChannels: 1
+          outputPrecision: 4
+          editFlags: 981
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        outputTextureSettings:
+        - inputTexture: {fileID: 0}
+          name: Main Texture
+          enableCompression: 1
+          compressionFormat: 25
+          compressionQuality: 100
+          hasMipMaps: 0
+          customMipMapShader: {fileID: 0}
+          isMain: 1
+          enableConversion: 0
+          conversionFormat: 0
+          sRGB: 0
+          finalCopyMaterial: {fileID: 4269344445788610500}
+    00000001:
+      type: {class: CellularNoise, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 9f3f98b3-ff74-41f4-a2cb-7db36effd2ac
+        computeOrder: 0
+        position:
+          serializedVersion: 2
+          x: -11.000078
+          y: 55.999985
+          width: 250
+          height: 604
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: 255
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: da55f2393d0f8384db177010fad4c19c, type: 3}
+        material: {fileID: 7412953962164294820}
+        exposedProperties:
+        - displayName: UVs
+          referenceName: _UV_2D
+          tooltip: Custom Noise UV
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Tiling Mode
+          referenceName: _TilingMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: UV Mode
+          referenceName: _UVMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Distance Mode
+          referenceName: _DistanceMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Output Range
+          referenceName: _OutputRange
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Lacunarity
+          referenceName: _Lacunarity
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Frequency
+          referenceName: _Frequency
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Persistance
+          referenceName: _Persistance
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Octaves
+          referenceName: _Octaves
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cell Size
+          referenceName: _CellSize
+          tooltip: Act as a multiplier for the distance function
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Seed
+          referenceName: _Seed
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Channels
+          referenceName: _Channels
+          tooltip: Select how many noise to genereate and on which channel. The more
+            different channel you use the more expensive it is (max 4 noise evaluation).
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cells Mode R
+          referenceName: _CellsModeR
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cells Mode G
+          referenceName: _CellsModeG
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cells Mode B
+          referenceName: _CellsModeB
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cells Mode A
+          referenceName: _CellsModeA
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: da55f2393d0f8384db177010fad4c19c
+    00000002:
+      type: {class: UVNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 2b4dddf5-f074-41f7-bbc2-107f70517b07
+        computeOrder: 2
+        position:
+          serializedVersion: 2
+          x: -558.51306
+          y: 504.59225
+          width: 250
+          height: 437
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 0e57459cc2eca8e4eb3e062b8ed60321, type: 3}
+        material: {fileID: -5194881324770826461}
+        exposedProperties:
+        - displayName: UV Scale
+          referenceName: _Scale
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: UV Bias
+          referenceName: _Bias
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        shaderGUID: 0e57459cc2eca8e4eb3e062b8ed60321
+    00000003:
+      type: {class: PerlinNoise, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: ab6c048c-5225-4450-ac69-e2c32b722195
+        computeOrder: 5
+        position:
+          serializedVersion: 2
+          x: -32.513077
+          y: 705.5922
+          width: 250
+          height: 584
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 3ff8d72a4c500ad4093607671bcd9097, type: 3}
+        material: {fileID: 8745948070050065892}
+        exposedProperties:
+        - displayName: UVs
+          referenceName: _UV_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Tiling Mode
+          referenceName: _TilingMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: UV Mode
+          referenceName: _UVMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Output Range
+          referenceName: _OutputRange
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Lacunarity
+          referenceName: _Lacunarity
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Frequency
+          referenceName: _Frequency
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Persistance
+          referenceName: _Persistance
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Octaves
+          referenceName: _Octaves
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Seed
+          referenceName: _Seed
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Channels
+          referenceName: _Channels
+          tooltip: Select how many noise to genereate and on which channel. The more
+            different channel you use the more expensive it is (max 4 noise evaluation).
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: 3ff8d72a4c500ad4093607671bcd9097
+    00000004:
+      type: {class: GradienMattetNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: c55af52b-4643-4333-bf0a-bd217b1f6aa6
+        computeOrder: 3
+        position:
+          serializedVersion: 2
+          x: -558.51306
+          y: 941.5922
+          width: 250
+          height: 573
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 46c02ba1b0b63954bab0afcd9e828ac6, type: 3}
+        material: {fileID: -289512822097773234}
+        exposedProperties:
+        - displayName: Color 1
+          referenceName: _Color1
+          tooltip: Outer color
+          type:
+            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Color 2
+          referenceName: _Color2
+          tooltip: Inner color
+          type:
+            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Gradient Type
+          referenceName: _Mode
+          tooltip: Style of the gradient
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Direction
+          referenceName: _Direction
+          tooltip: Direction of the gradient, only visible on the Linear and exponential
+            gradients
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Turn Count
+          referenceName: _SpiralTurnCount
+          tooltip: Turn count of the spiral
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Branch Count
+          referenceName: _SpiralBranchCount
+          tooltip: Turn count of the spiral
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Falloff
+          referenceName: _Falloff
+          tooltip: Exponential falloff of the gradient
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: 46c02ba1b0b63954bab0afcd9e828ac6
+    00000005:
+      type: {class: CombineNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: f31b6ecc-b413-440b-b761-33d0f986f453
+        computeOrder: 4
+        position:
+          serializedVersion: 2
+          x: -282.51312
+          y: 705.5922
+          width: 250
+          height: 584
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: a781ed4dc6965674987a000e800f1898, type: 3}
+        material: {fileID: -6377491840747743257}
+        exposedProperties:
+        - displayName: Source R
+          referenceName: _SourceR_2D
+          tooltip: Source Texture for the R channel
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Source G
+          referenceName: _SourceG_2D
+          tooltip: Source Texture for the G channel
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Source B
+          referenceName: _SourceB_2D
+          tooltip: Source Texture for the B channel
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Source A
+          referenceName: _SourceA_2D
+          tooltip: Source Texture for the A channel
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Output R
+          referenceName: _CombineModeR
+          tooltip: Select which channel from the R input texture to write in the
+            R output channel
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Output G
+          referenceName: _CombineModeG
+          tooltip: Select which channel from the G input texture to write in the
+            G output channel
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Output B
+          referenceName: _CombineModeB
+          tooltip: Select which channel from the B input texture to write in the
+            B output channel
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Output A
+          referenceName: _CombineModeA
+          tooltip: Select which channel from the A input texture to write in the
+            A output channel
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Custom
+          referenceName: _Custom
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        shaderGUID: a781ed4dc6965674987a000e800f1898
+    00000006:
+      type: {class: CellularNoise, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 744ee31f-bef5-43e4-b53f-fcd69fb078e7
+        computeOrder: 6
+        position:
+          serializedVersion: 2
+          x: -223.42114
+          y: 1333.0369
+          width: 250
+          height: 584
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 1
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: da55f2393d0f8384db177010fad4c19c, type: 3}
+        material: {fileID: -627871837259660301}
+        exposedProperties:
+        - displayName: UVs
+          referenceName: _UV_2D
+          tooltip: Custom Noise UV
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Tiling Mode
+          referenceName: _TilingMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: UV Mode
+          referenceName: _UVMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Distance Mode
+          referenceName: _DistanceMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Output Range
+          referenceName: _OutputRange
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Lacunarity
+          referenceName: _Lacunarity
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Frequency
+          referenceName: _Frequency
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Persistance
+          referenceName: _Persistance
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Octaves
+          referenceName: _Octaves
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cell Size
+          referenceName: _CellSize
+          tooltip: Act as a multiplier for the distance function
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Seed
+          referenceName: _Seed
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Channels
+          referenceName: _Channels
+          tooltip: Select how many noise to genereate and on which channel. The more
+            different channel you use the more expensive it is (max 4 noise evaluation).
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cells Mode R
+          referenceName: _CellsModeR
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cells Mode G
+          referenceName: _CellsModeG
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cells Mode B
+          referenceName: _CellsModeB
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cells Mode A
+          referenceName: _CellsModeA
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: da55f2393d0f8384db177010fad4c19c
+    00000007:
+      type: {class: SwizzleNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 1f3876e6-38c2-48d2-830a-655e938956a3
+        computeOrder: 7
+        position:
+          serializedVersion: 2
+          x: 59.578857
+          y: 1415.0369
+          width: 250
+          height: 497
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 8337319f84fab2b4d8243836e6201c22, type: 3}
+        material: {fileID: 8387370694529213886}
+        exposedProperties:
+        - displayName: Input
+          referenceName: _Source_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Output Red
+          referenceName: _RMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Output Green
+          referenceName: _GMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Output Blue
+          referenceName: _BMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Output Alpha
+          referenceName: _AMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Custom
+          referenceName: _Custom
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        shaderGUID: 8337319f84fab2b4d8243836e6201c22
+    00000008:
+      type: {class: ThresholdNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 18c446a7-890a-470d-97c9-b1de5216b144
+        computeOrder: 9
+        position:
+          serializedVersion: 2
+          x: 584.5791
+          y: 1333.0369
+          width: 250
+          height: 525
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: bd0e9b179d9b69e4f9a0f98d347bee62, type: 3}
+        material: {fileID: 3588219216969141744}
+        exposedProperties:
+        - displayName: Input
+          referenceName: _Source_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Channel
+          referenceName: _Channel
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Threshold
+          referenceName: _Threshold
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Feather
+          referenceName: _Feather
+          tooltip: Smooth the treshold step
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Invert
+          referenceName: _Invert
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: bd0e9b179d9b69e4f9a0f98d347bee62
+    00000009:
+      type: {class: SubNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: c080cfd6-da8a-40ce-a69e-64467f6f40d7
+        computeOrder: 8
+        position:
+          serializedVersion: 2
+          x: 334.5791
+          y: 1333.0369
+          width: 250
+          height: 474
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 3
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 47633e2c0f07a004eae77b0445ed0bd5, type: 3}
+        material: {fileID: 7528153667951422188}
+        exposedProperties:
+        - displayName: Source A
+          referenceName: _SourceA_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Source B
+          referenceName: _SourceB_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Value
+          referenceName: _Value
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        shaderGUID: 47633e2c0f07a004eae77b0445ed0bd5
 --- !u!21 &104215503536926863
 Material:
   serializedVersion: 6

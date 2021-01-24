@@ -59,14 +59,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b113f958e0564f309164e29c24b042d, type: 3}
   m_Name: 0000_SimpleNoise
   m_EditorClassIdentifier: 
-  serializedNodes:
-  - type: Mixture.OutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"20aad9a2-f45b-443d-9f30-0287577d108c","computeOrder":1,"position":{"serializedVersion":"2","x":1.0000174045562745,"y":23.000003814697267,"width":350.0,"height":538.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":1024,"height":1024,"sliceCount":1,"potSize":1024,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"outputChannels":1,"outputPrecision":2,"editFlags":981,"doubleBuffered":false,"wrapMode":0,"filterMode":0,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"outputTextureSettings":[{"inputTexture":{"instanceID":0},"name":"Main
-      Texture","enableCompression":false,"compressionFormat":25,"compressionQuality":100,"hasMipMaps":false,"customMipMapShader":{"instanceID":0},"isMain":true,"enableConversion":false,"conversionFormat":0,"finalCopyMaterial":{"fileID":4254244234484223371,"guid":"c905b01c86647ab4281daacd8aec33a5","type":2}}]}'
-  - type: Mixture.PerlinNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"948f354d-b2b3-4a4e-a279-86326ed421b6","computeOrder":0,"position":{"serializedVersion":"2","x":-249.0,"y":23.0,"width":250.0,"height":600.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":1,"outputPrecision":4,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"3ff8d72a4c500ad4093607671bcd9097","type":3},"material":{"fileID":2811349411289291656,"guid":"c905b01c86647ab4281daacd8aec33a5","type":2}}'
+  serializedNodes: []
+  nodes:
+  - id: 0
+  - id: 1
   edges:
   - GUID: 43f18bc4-d441-4f37-bcd6-387f11dac816
     owner: {fileID: 11400000}
@@ -80,6 +76,7 @@ MonoBehaviour:
   stackNodes: []
   pinnedElements: []
   exposedParameters: []
+  serializedParameterList: []
   stickyNotes: []
   position: {x: 396, y: 37, z: 0}
   scale: {x: 0.8695652, y: 0.8695652, z: 1}
@@ -90,10 +87,172 @@ MonoBehaviour:
   objectReferences:
   - {fileID: 2811349411289291656}
   - {fileID: 4254244234484223371}
+  variants: []
   _mainOutputTexture: {fileID: -8436687840102649035}
   _outputTextures: []
   references:
     version: 1
+    00000000:
+      type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 20aad9a2-f45b-443d-9f30-0287577d108c
+        computeOrder: 1
+        position:
+          serializedVersion: 2
+          x: 1.0000174
+          y: 23.000004
+          width: 350
+          height: 538
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 0
+          heightPercent: 0
+          depthPercent: 0
+          width: 1024
+          height: 1024
+          sliceCount: 1
+          potSize: 1024
+          widthMode: 1
+          heightMode: 1
+          depthMode: 1
+          dimension: 2
+          outputChannels: 1
+          outputPrecision: 2
+          editFlags: 981
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        outputTextureSettings:
+        - inputTexture: {fileID: 0}
+          name: Main Texture
+          enableCompression: 0
+          compressionFormat: 25
+          compressionQuality: 100
+          hasMipMaps: 0
+          customMipMapShader: {fileID: 0}
+          isMain: 1
+          enableConversion: 0
+          conversionFormat: 0
+          sRGB: 0
+          finalCopyMaterial: {fileID: 4254244234484223371}
+    00000001:
+      type: {class: PerlinNoise, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 948f354d-b2b3-4a4e-a279-86326ed421b6
+        computeOrder: 0
+        position:
+          serializedVersion: 2
+          x: -249
+          y: 23
+          width: 250
+          height: 600
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 1
+          outputPrecision: 4
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 3ff8d72a4c500ad4093607671bcd9097, type: 3}
+        material: {fileID: 2811349411289291656}
+        exposedProperties:
+        - displayName: UVs
+          referenceName: _UV_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Tiling Mode
+          referenceName: _TilingMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: UV Mode
+          referenceName: _UVMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Output Range
+          referenceName: _OutputRange
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Lacunarity
+          referenceName: _Lacunarity
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Frequency
+          referenceName: _Frequency
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Persistance
+          referenceName: _Persistance
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Octaves
+          referenceName: _Octaves
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Seed
+          referenceName: _Seed
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Channels
+          referenceName: _Channels
+          tooltip: Select how many noise to genereate and on which channel. The more
+            different channel you use the more expensive it is (max 4 noise evaluation).
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: 3ff8d72a4c500ad4093607671bcd9097
 --- !u!21 &2811349411289291656
 Material:
   serializedVersion: 6
@@ -133,6 +292,7 @@ Material:
     - _Persistance: 0.56
     - _Seed: 42
     - _TilingMode: 1
+    - _UVMode: 0
     m_Colors:
     - _OutputRange: {r: -0.43, g: 1.06, b: 0, a: 0}
   m_BuildTextureStacks: []
