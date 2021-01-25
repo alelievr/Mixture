@@ -10,7 +10,7 @@ namespace Mixture
         MixtureNodeInspectorObjectEditor inspector;
 
         public static readonly int width = 260;
-        public static readonly int height = 110;
+        public static readonly int height = 130;
 
         public override Vector2 GetWindowSize()
         {
@@ -48,6 +48,8 @@ namespace Mixture
             EditorGUI.EndDisabledGroup();
 
             inspector.alwaysRefresh = EditorGUILayout.Toggle("Always Refresh", inspector.alwaysRefresh);
+
+            inspector.preserveAspect = EditorGUILayout.Toggle("Keep Aspect", inspector.preserveAspect);
 
             if (EditorGUI.EndChangeCheck())
                 inspector.Repaint();
