@@ -17,6 +17,7 @@ namespace Mixture
             SideBySide,
             OnionSkin,
             Difference,
+            Swap,
         }
 
         // TODO
@@ -54,6 +55,7 @@ namespace Mixture
         const int buttonWidth = 25;
 
         float compareSlider = 0.5f;
+        Vector2 mouseUV;
         bool compareEnabled = false;
         bool lockFirstPreview = false;
         bool lockSecondPreview = false;
@@ -69,6 +71,8 @@ namespace Mixture
         internal CompareMode compareMode;
         internal bool alwaysRefresh;
         internal float mipLevel;
+        internal bool preserveAspect;
+        float comparionOffset;
 
         VisualTreeAsset nodeInspectorFoldout;
 
@@ -242,7 +246,9 @@ namespace Mixture
             lockFirstPreview = GUILayout.Toggle(lockFirstPreview, GetLockIcon(lockFirstPreview), EditorStyles.toolbarButton, buttonLayout);
             if (compareEnabled)
             {
-                compareMode = (CompareMode)EditorGUILayout.Popup((int)compareMode, new string[]{"|", "🍕", "-"}, EditorStyles.toolbarButton, buttonLayout);
+                var style = EditorStyles.toolbarButton;
+                style.alignment = TextAnchor.MiddleLeft;
+                compareMode = (CompareMode)EditorGUILayout.Popup((int)compareMode, new string[]{" 1  -  Side By Side", " 2  -  Onion Skin", " 3  -  Difference", " 4  -  Swap"}, style, buttonLayout, GUILayout.Width(24));
                 GUILayout.Label(secondLockedPreviewTarget.name, EditorStyles.toolbarButton);
                 lockSecondPreview = GUILayout.Toggle(lockSecondPreview, GetLockIcon(lockSecondPreview), EditorStyles.toolbarButton, buttonLayout);
             }
@@ -279,6 +285,7 @@ namespace Mixture
                 MixtureUtils.SetTextureWithDimension(previewMaterial, "_MainTex1", secondLockedPreviewTarget.previewTexture);
 
                 previewMaterial.SetFloat("_ComparisonSlider", compareSlider);
+                previewMaterial.SetVector("_MouseUV", mouseUV);
                 previewMaterial.SetFloat("_ComparisonEnabled", compareEnabled ? 1 : 0);
                 previewMaterial.SetFloat("_CompareMode", (int)compareMode);
                 previewMaterial.SetFloat("_PreviewMip", mipLevel);
@@ -291,6 +298,7 @@ namespace Mixture
                 previewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(channels));
                 previewMaterial.SetFloat("_IsSRGB0", firstLockedPreviewTarget is OutputNode o0 && o0.mainOutput.sRGB ? 1 : 0);
                 previewMaterial.SetFloat("_IsSRGB1", secondLockedPreviewTarget is OutputNode o1 && o1.mainOutput.sRGB ? 1 : 0);
+                previewMaterial.SetFloat("_PreserveAspect", preserveAspect ? 1 : 0);
                 EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, previewMaterial);
             }
             else
@@ -322,6 +330,8 @@ namespace Mixture
                         middleClickCameraPosition = positionOffset;
                         needsRepaint = true;
                     }
+                    Vector2 t = (e.mousePosition - positionOffset) / zoom;
+                    comparionOffset = Mathf.Floor(t.x / (float)previewRect.width);
                     break;
                 case EventType.MouseDrag:
                     if (IsMoveMouse(e.button, e.modifiers))
@@ -332,9 +342,11 @@ namespace Mixture
                     }
                     if (e.button == 1)
                     {
-                        float pos = (e.mousePosition.x - positionOffsetTarget.x) / zoom / (float)previewRect.width % 1;
-                        compareSlider = pos < 0 ? pos + 1 : pos;
+                        float pos = (e.mousePosition.x - positionOffsetTarget.x) / zoom / (float)previewRect.width;
+                        pos -= comparionOffset;
+                        compareSlider = Mathf.Clamp01(pos);
                         needsRepaint = true;
+                        mouseUV = new Vector2(e.mousePosition.x / previewRect.width, e.mousePosition.y / previewRect.height);
                     }
                     break;
                 case EventType.ScrollWheel:
