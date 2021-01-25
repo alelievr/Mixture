@@ -35,6 +35,7 @@ Shader "Hidden/MixtureInspectorPreview"
 
             float4 _TextureSize;
             float _ComparisonSlider;
+            float4 _MouseUV;
             float _Zoom;
             float4 _Pan;
             float _YRatio;
@@ -44,6 +45,7 @@ Shader "Hidden/MixtureInspectorPreview"
             float _ComparisonEnabled;
             float _IsSRGB0;
             float _IsSRGB1;
+            float _PreserveAspect;
 
             #define MERGE_NAME(x, y) x##y
 
@@ -101,6 +103,8 @@ Shader "Hidden/MixtureInspectorPreview"
                         return lerp(c0, c1, _ComparisonSlider);
                     case 2: // Difference
                         return abs(c0 - c1);
+                    case 3: // Swap
+                        return _MouseUV.x > 0.5 ? c0 : c1;
                 }
             }
 
@@ -110,6 +114,9 @@ Shader "Hidden/MixtureInspectorPreview"
                 uv += float2(-_Pan.x, _Pan.y - 1);
                 uv *= rcp(_Zoom.xx);
                 float4 color0, color1;
+
+                if (_PreserveAspect > 0)
+                    uv.y *= _YRatio;
 
                 switch (_FilterMode)
                 {
