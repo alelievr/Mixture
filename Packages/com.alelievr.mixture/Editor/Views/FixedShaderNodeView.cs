@@ -4,6 +4,7 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using GraphProcessor;
 using System;
+using System.IO;
 
 namespace Mixture
 {
@@ -16,6 +17,8 @@ namespace Mixture
 		ObjectField			debugCustomRenderTextureField;
 		ObjectField			debugShaderField;
 		ObjectField			debugMaterialField;
+
+		DateTime		lastModified;
 
 		public override void Enable(bool fromInspector)
 		{
@@ -33,6 +36,11 @@ namespace Mixture
 					if (fixedShaderNode.material.shader.name != ShaderNode.DefaultShaderName)
 						owner.graph.AddObjectToGraph(fixedShaderNode.material);
 				}
+
+				if (fixedShaderNode.shader != null)
+					lastModified = File.GetLastWriteTime(AssetDatabase.GetAssetPath(fixedShaderNode.shader));
+				var lastWriteDetector = schedule.Execute(DetectShaderChanges);
+				lastWriteDetector.Every(200);
 
 				InitializeDebug();
 
@@ -59,6 +67,29 @@ namespace Mixture
 		}
 
 		~FixedShaderNodeView() => onPortDisconnected -= ResetMaterialPropertyToDefault;
+
+		void DetectShaderChanges()
+		{
+			if (fixedShaderNode.shader == null)
+				return;
+
+			var shaderPath = AssetDatabase.GetAssetPath(fixedShaderNode.shader);
+			var modificationDate = File.GetLastWriteTime(shaderPath);
+
+			if (lastModified != modificationDate)
+			{
+				schedule.Execute(() => {
+					// Reimport the shader:
+					AssetDatabase.ImportAsset(shaderPath);
+
+					fixedShaderNode.ValidateShader();
+
+					ForceUpdatePorts();
+					NotifyNodeChanged();
+				}).ExecuteLater(100);
+			}
+			lastModified = modificationDate;
+		}
 
 		void InitializeDebug()
 		{

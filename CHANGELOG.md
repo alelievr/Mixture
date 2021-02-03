@@ -1,7 +1,24 @@
 # Changelog
 All notable changes to this project template will be documented in this file.
 
-## 0.0.x
+## 0.2.0
+
+### Added
+
+- Stochastic Tiling node
+![StochasticTiling](https://user-images.githubusercontent.com/6877923/106679862-c4ce2280-65bd-11eb-87bb-eee4d88b1e2c.gif)
+
+## 0.1.0
+
+### Added
+- Mixture Variants
+https://user-images.githubusercontent.com/6877923/105640496-b164de00-5e7e-11eb-921f-95093e411c86.mp4
+- Object To Map node
+![image](https://user-images.githubusercontent.com/6877923/105640618-45cf4080-5e7f-11eb-88b6-6c26616b4af8.png)
+- Generate MipMap node
+![image](https://user-images.githubusercontent.com/6877923/105640649-71522b00-5e7f-11eb-941f-5d757a22f3a4.png)
+- Added a debug menu to directly access shader/compute shader code and node documentation from the context menu
+![image](https://user-images.githubusercontent.com/6877923/105640719-b37b6c80-5e7f-11eb-8bfb-843c4129ebd5.png)
 
 ## 0.0.5
 
