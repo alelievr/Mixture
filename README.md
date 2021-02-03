@@ -15,19 +15,19 @@ You need at least a Unity 2020.2 beta to be able to use Mixture and if you are u
 Mixture is available on the [OpenUPM](https://openupm.com/packages/com.alelievr.mixture/) package registry, to install it in your project, follow the instructions below.
 
 1. Open the `Project Settings` and go to the `Package Manager` tab.
-2. In the `Scoped Registry` section, click on the small plus icon to add a new [scoped registry](https://docs.unity3d.com/2020.2/Documentation/Manual/upm-scoped.html).
-3. In `Name` you can put `Open UPM`, the `URL` is `https://package.openupm.com` and scope is `com.alelievr`
-4. Then below the scoped registries, you need to enable `Preview Packages` (Mixture is still in preview).
-5. Next, open the `Package Manager` window, select `My Registries` in the top left corner and you should be able to see the Mixture package.
-6. Click the `Install` button and you can start using Mixture :)
+2. In the `Scoped Registry` section, click on the small `+` icon to add a new [scoped registry](https://docs.unity3d.com/2020.2/Documentation/Manual/upm-scoped.html) and fill the following information:
+```
+Name:     Open UPM
+URL:      https://package.openupm.com
+Scope(s): com.alelievr
+```
+3. Then below the scoped registries, you need to enable `Preview Packages` (Mixture is still in preview).
+4. Next, open the `Package Manager` window, select `My Registries` in the top left corner and you should be able to see the Mixture package.
+5. Click the `Install` button and you can start using Mixture :)
 
 ![](docs/docfx/images/2020-11-09-11-37-01.png)
 
-If you don't have `My Registries` in the dropdown for somne reason, just open your `manifest.json` and paste this (you can change the version number to the latest available on
-[OpenUPM](https://openupm.com/packages/com.alelievr.mixture/))
-```JSON
-    "com.alelievr.mixture": "0.0.4",
-```
+:warning: If you don't see `My Registries` in the dropdown for some reason, click on the `+` icon in the top left corner of the package manager window and select `Add package from Git URL`, then paste `com.alelievr.mixture` and click `Add`.
 
 Note that sometimes, the package manager can be slow to update the list of available packages. In that case, you can force it by clicking the circular arrow button at the bottom of the package list.
 
