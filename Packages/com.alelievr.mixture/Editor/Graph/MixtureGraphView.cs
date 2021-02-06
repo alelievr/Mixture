@@ -153,20 +153,27 @@ namespace Mixture
 				UpdateNodeColors();
 			};
 			graph.onOutputTextureUpdated += () => ProcessGraph();
-			graph.onGraphChanges += _ => {
-				EditorApplication.delayCall += () => {
-					ProcessGraph();
-					MarkDirtyRepaint();
-				};
+			graph.onGraphChanges += changes => {
+				if (changes.addedEdge != null || changes.removedEdge != null
+					|| changes.addedNode != null || changes.removedNode != null || changes.nodeChanged != null)
+				{
+					EditorApplication.delayCall += () => {
+						ProcessGraph(changes.nodeChanged ?? changes.addedNode);
+						MarkDirtyRepaint();
+					};
+				}
 			};
 
 			// Run the processor when we open the graph
 			ProcessGraph();
 		}
 
-		public void ProcessGraph()
+		public void ProcessGraph(BaseNode sourceNode = null)
 		{
-			processor?.Run();
+			if (sourceNode == null)
+				processor?.Run();
+			else
+				processor?.RunFromNode(sourceNode);
 
 			// Update the inspector in case a node was selected.
 			if (Selection.activeObject is MixtureNodeInspectorObject)

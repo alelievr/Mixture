@@ -103,9 +103,9 @@ namespace Mixture
 
 				// node can be null if the CRT doesn't belong to the graph.
 				if (node != null)
-					RunGraphFor(cmd, new List<BaseNode>{ node });
+					ProcessGraphOutputs(cmd, new List<BaseNode>{ node });
 				else // In that case we process the graph output
-					RunGraphFor(cmd, new List<BaseNode>{ graph.outputNode });
+					ProcessGraphOutputs(cmd, new List<BaseNode>{ graph.outputNode });
 			}
 			else
 			{
@@ -119,17 +119,37 @@ namespace Mixture
 			currentCmd.Clear();
 		}
 
-		void RunGraphFor(CommandBuffer cmd, IEnumerable<BaseNode> nodesToProcess)
+		void ProcessGraphOutputs(CommandBuffer cmd, IEnumerable<BaseNode> graphOutputs)
 		{
 			using (new ProcessingScope(this))
 			{
 				HashSet<BaseNode> finalNodes = new HashSet<BaseNode>();
 
 				// Gather all nodes to process:
-				foreach (var node in nodesToProcess)
+				foreach (var node in graphOutputs)
 				{
 					// TODO: cache node dependencies
 					foreach (var dep in GetNodeDependencies(node))
+					{
+						finalNodes.Add(dep);
+					}
+				}
+
+				ProcessNodeList(cmd, finalNodes);
+			}
+		}
+
+		void ProcessGraphNodes(CommandBuffer cmd, IEnumerable<BaseNode> nodes)
+		{
+			using (new ProcessingScope(this))
+			{
+				HashSet<BaseNode> finalNodes = new HashSet<BaseNode>();
+
+				// Gather all nodes to process:
+				foreach (var node in nodes)
+				{
+					// TODO: cache node dependencies
+					foreach (var dep in GetNodeChildren(node))
 					{
 						finalNodes.Add(dep);
 					}
@@ -163,6 +183,32 @@ namespace Mixture
 			}
 
 			return dependencies.OrderBy(d => d.computeOrder).ToList();
+		}
+
+		List<BaseNode> GetNodeChildren(BaseNode node)
+		{
+			HashSet<BaseNode> children = new HashSet<BaseNode>();
+			Stack<BaseNode> outputNodes = new Stack<BaseNode>(node.GetOutputNodes());
+
+			children.Add(node);
+
+			while (outputNodes.Count > 0)
+			{
+				var child = outputNodes.Pop();
+
+				if (!children.Add(child))
+					continue;
+
+				foreach (var parent in child.GetOutputNodes())
+					outputNodes.Push(parent);
+
+
+				// Max children on a node, maybe we can put a warning if it's reached?
+				if (children.Count > 2000)
+					break;
+			}
+
+			return children.OrderBy(d => d.computeOrder).ToList();
 		}
 
 		void ProcessNodeList(CommandBuffer cmd, HashSet<BaseNode> nodes)
@@ -259,7 +305,22 @@ namespace Mixture
 				UpdateComputeOrder();
 
 				var cmd = CommandBufferPool.Get("Mixture");
-				RunGraphFor(cmd, graph.graphOutputs);
+				ProcessGraphOutputs(cmd, graph.graphOutputs);
+
+				Graphics.ExecuteCommandBuffer(cmd);
+
+				graph.InvokeCommandBufferExecuted();
+			}
+		}
+
+		public void RunFromNode(BaseNode node)
+		{
+			using (new ProcessingScope(this))
+			{
+				UpdateComputeOrder();
+
+				var cmd = CommandBufferPool.Get("Mixture");
+				ProcessGraphNodes(cmd, new List<BaseNode>{node});
 
 				Graphics.ExecuteCommandBuffer(cmd);
 

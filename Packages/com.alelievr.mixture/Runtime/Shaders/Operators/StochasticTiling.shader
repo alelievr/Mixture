@@ -5,7 +5,7 @@ Shader "Hidden/Mixture/StochasticTiling"
 		// By default a shader node is supposed to handle all the input texture dimension, we use a prefix to determine which one is used
 		[InlineTexture]_Source("Input", 2D) = "white" {}
 
-        _BorderSize("Border Size", Range(0,1)) = 0.2
+        _BorderSize("Border Size", Range(0,0.6)) = 0.2
         _BlendPow("Blend Power", Range(1,15)) = 1.0
 	}
 	SubShader
