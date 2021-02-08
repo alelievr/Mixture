@@ -153,19 +153,32 @@ namespace Mixture
 				UpdateNodeColors();
 			};
 			graph.onOutputTextureUpdated += () => ProcessGraph();
-			graph.onGraphChanges += changes => {
-				if (changes.addedEdge != null || changes.removedEdge != null
-					|| changes.addedNode != null || changes.removedNode != null || changes.nodeChanged != null)
-				{
-					EditorApplication.delayCall += () => {
-						ProcessGraph(changes.nodeChanged ?? changes.addedNode);
-						MarkDirtyRepaint();
-					};
-				}
-			};
+
+			bool delayQueued = false;
+			graph.onGraphChanges += ProcessGraphWhenChanged;
 
 			// Run the processor when we open the graph
 			ProcessGraph();
+
+			void ProcessGraphWhenChanged(GraphChanges changes)
+			{
+				if (delayQueued)
+					return;
+
+				if (changes.addedEdge != null || changes.removedEdge != null
+					|| changes.addedNode != null || changes.removedNode != null || changes.nodeChanged != null)
+				{
+					EditorApplication.update += DelayedProcess;
+					void DelayedProcess()
+					{
+						ProcessGraph(changes.nodeChanged ?? changes.addedNode);
+						MarkDirtyRepaint();
+						delayQueued = false;
+						EditorApplication.update -= DelayedProcess;
+					}
+					delayQueued = true;
+				}
+			}
 		}
 
 		public void ProcessGraph(BaseNode sourceNode = null)
