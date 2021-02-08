@@ -440,7 +440,7 @@ namespace Mixture
 			return GUILayoutUtility.GetRect(1, width, 1, height);
 		}
 
-		void DrawPreviewCommonSettings(Texture texture)
+		protected virtual void DrawPreviewSettings(Texture texture)
 		{
 			GUILayout.Space(6);
 
@@ -535,17 +535,40 @@ namespace Mixture
 						MarkDirtyRepaint();
 				}
 
-				DrawPreviewCommonSettings(node.previewTexture);
+				DrawPreviewSettings(node.previewTexture);
 
 				Rect previewRect = GetPreviewRect(node.previewTexture);
 				DrawImGUIPreview(node, previewRect, node.previewSlice);
 
 				DrawTextureInfoHover(previewRect, node.previewTexture);
-            });
+            }) { name = "ImGUIPreview"};
 
 			MixtureEditorUtils.ScheduleAutoHide(previewContainer, owner);
 
 			previewContainer.Add(previewImageSlice);
+		}
+
+		protected Vector2 GetPreviewMousePositionRatio(Vector2 mousePosition)
+		{
+			if (nodeTarget.previewTexture == null)
+				return Vector2.zero;
+
+			var local = previewContainer.WorldToLocal(mousePosition);
+
+			// Add the padding we have on top of the preview
+			local.y -= EditorGUIUtility.singleLineHeight + 13;
+
+			// scale mouse position with preview size:
+			float width = nodeTarget.nodeWidth - 8;
+			float scaleFactor = width / nodeTarget.previewTexture.width;
+			float height = Mathf.Min(width, nodeTarget.previewTexture.height * scaleFactor);
+			local.x /= width;
+			local.y /= height;
+
+			local.x = Mathf.Clamp01(local.x);
+			local.y = Mathf.Clamp01(local.y);
+
+			return local;
 		}
 
 		protected virtual void DrawImGUIPreview(MixtureNode node, Rect previewRect, float currentSlice)

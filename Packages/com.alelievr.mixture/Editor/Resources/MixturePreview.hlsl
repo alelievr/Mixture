@@ -1,6 +1,6 @@
 #include "UnityCG.cginc"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/PhysicalCamera.hlsl"
-#include "Packages/com.alelievr.mixture/Editor/Resources/MixtureSRGB.hlsl"
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureSRGB.hlsl"
 
 struct appdata
 {

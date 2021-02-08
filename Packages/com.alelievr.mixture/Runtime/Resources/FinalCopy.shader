@@ -16,7 +16,7 @@ Shader "Hidden/Mixture/FinalCopy"
 			HLSLPROGRAM
 
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
-			#include "Packages/com.alelievr.mixture/Editor/Resources/MixtureSRGB.hlsl"
+			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureSRGB.hlsl"
 			
             #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 

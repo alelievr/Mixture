@@ -18,7 +18,7 @@ Shader "Hidden/Mixture/LinearToSRGB"
 		{
 			HLSLPROGRAM
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
-            #include "Packages/com.alelievr.mixture/Editor/Resources/MixtureSRGB.hlsl"
+            #include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureSRGB.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
