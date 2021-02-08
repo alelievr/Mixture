@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!21 &-7797858145472901598
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: f53ca163880a74a4cb8940c1893f071f, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Gamma: 0
+    - _HeightChannel: 0
+    - _HeightColorSet: 0
+    - _HeightMax: 1
+    - _HeightMin: 0
+    - _Mode: 1
+    - _NormalMode: 2
+    - _Tiling: 1
+    m_Colors:
+    - _ColorMax: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorMin: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition: {r: -0.23004717, g: 0.19243062, b: 0.2, a: 0}
+    - _NormalMode: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
 --- !u!21 &-7515695781811813903
 Material:
   serializedVersion: 6
@@ -133,6 +179,46 @@ Material:
     - _CombineModeR: 0
     m_Colors:
     - _Custom: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &-6109865235338946543
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: -6465566751694194690, guid: 7cad23c262a495a4ba607510a558c0a6,
+    type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_B5DB8B20:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_C30F1996: 75.4
+    m_Colors: []
   m_BuildTextureStacks: []
 --- !u!28 &-5326166195811395285
 Texture2D:
@@ -381,40 +467,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!21 &-1720069367521147161
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Hidden/Mixture/ShaderNodeDefault
-  m_Shader: {fileID: 4800000, guid: f53ca163880a74a4cb8940c1893f071f, type: 3}
-  m_ShaderKeywords: CRT_2D
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _Source_2D:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Source_3D:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Source_Cube:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
 --- !u!21 &-627871837259660301
 Material:
   serializedVersion: 6
@@ -507,8 +559,21 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors: []
+    m_Floats:
+    - _Gamma: 0
+    - _HeightChannel: 0
+    - _HeightColorSet: 0
+    - _HeightMax: 1
+    - _HeightMin: 0
+    - _Mode: 2
+    - _NormalMode: 0
+    - _Tiling: 1
+    m_Colors:
+    - _ColorMax: {r: 8, g: 8, b: 8, a: 8}
+    - _ColorMin: {r: 0, g: 0, b: 0, a: 0}
+    - _Gamma: {r: 1, g: 1, b: 1, a: 1}
+    - _LightPosition: {r: 0, g: 0, b: 0, a: 0}
+    - _NormalMode: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!21 &-289512822097773234
 Material:
@@ -579,6 +644,9 @@ MonoBehaviour:
   - id: 11
   - id: 12
   - id: 13
+  - id: 14
+  - id: 15
+  - id: 16
   edges:
   - GUID: 9381c461-018c-4620-b324-d2edb89833bc
     owner: {fileID: 11400000}
@@ -660,18 +728,42 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: _Source
     outputPortIdentifier: output
-  - GUID: 2839677b-ce8d-4590-a212-cfd766d3b0a9
+  - GUID: 81349949-6b98-4a73-b490-2c88008f630f
     owner: {fileID: 11400000}
-    inputNodeGUID: a3601eaa-a7fe-45e2-9d52-45011b4deb02
+    inputNodeGUID: 7564d7f9-76c2-4ab2-a233-8d883679d31a
     outputNodeGUID: 5dbd481a-bd6b-493a-b5e9-8d75fe8f221d
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: Texture2D_B5DB8B20
+    outputPortIdentifier: output
+  - GUID: a53db824-5f0b-40b0-96c7-d14f78a38140
+    owner: {fileID: 11400000}
+    inputNodeGUID: bf0ccc10-8dc8-45d6-99d2-1fe020823428
+    outputNodeGUID: 7564d7f9-76c2-4ab2-a233-8d883679d31a
     inputFieldName: materialInputs
     outputFieldName: output
     inputPortIdentifier: _Source_2D
     outputPortIdentifier: output
-  - GUID: ce885e16-b6a6-4299-93ff-c3b6e3b5f265
+  - GUID: 38437c29-db01-4514-8178-f9c5a1de9790
     owner: {fileID: 11400000}
-    inputNodeGUID: 124e15c5-ae59-4778-b817-1c4591053c74
-    outputNodeGUID: a3601eaa-a7fe-45e2-9d52-45011b4deb02
+    inputNodeGUID: a3601eaa-a7fe-45e2-9d52-45011b4deb02
+    outputNodeGUID: 328ab3a7-23a7-4d44-aa00-0c49987857be
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Source_2D
+    outputPortIdentifier: output
+  - GUID: c2fa76df-9fcf-40ef-93ea-507ac2e83708
+    owner: {fileID: 11400000}
+    inputNodeGUID: 8e8aab23-24df-473e-8268-27e247c77399
+    outputNodeGUID: 7564d7f9-76c2-4ab2-a233-8d883679d31a
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: input
+    outputPortIdentifier: output
+  - GUID: 93d7607f-2dbe-40e2-b81b-7ae50de45487
+    owner: {fileID: 11400000}
+    inputNodeGUID: 344046a3-ab32-43e4-a915-12fbdf64b203
+    outputNodeGUID: 8e8aab23-24df-473e-8268-27e247c77399
     inputFieldName: materialInputs
     outputFieldName: output
     inputPortIdentifier: _Source_2D
@@ -702,8 +794,8 @@ MonoBehaviour:
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: -934, y: -836, z: 0}
-  scale: {x: 1.3225, y: 1.3225, z: 1}
+  position: {x: -885, y: -965, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 0
@@ -726,14 +818,15 @@ MonoBehaviour:
   - {fileID: 7528153667951422188}
   - {fileID: 6893389108874368648}
   - {fileID: -401917465787691341}
-  - {fileID: -1720069367521147161}
-  - {fileID: 4957945434452955232}
+  - {fileID: -6109865235338946543}
+  - {fileID: 4657670956485982933}
+  - {fileID: 1240550391805500685}
+  - {fileID: -7797858145472901598}
   variants: []
   _mainOutputTexture: {fileID: -5326166195811395285}
   _outputTextures:
-  - {fileID: -5326166195811395285}
-  - {fileID: -5326166195811395285}
-  - {fileID: -5326166195811395285}
+  - {fileID: 0}
+  - {fileID: 0}
   references:
     version: 1
     00000000:
@@ -754,10 +847,10 @@ MonoBehaviour:
           widthPercent: 0
           heightPercent: 0
           depthPercent: 0
-          width: 512
-          height: 512
-          sliceCount: 512
-          potSize: 512
+          width: 2048
+          height: 2048
+          sliceCount: 2048
+          potSize: 2048
           widthMode: 1
           heightMode: 1
           depthMode: 1
@@ -1724,13 +1817,13 @@ MonoBehaviour:
       type: {class: PreviewNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: a3601eaa-a7fe-45e2-9d52-45011b4deb02
-        computeOrder: 11
+        computeOrder: 12
         position:
           serializedVersion: 2
-          x: 710.00006
-          y: 706
+          x: 1471
+          y: 264
           width: 250
-          height: 390
+          height: 676
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -1771,18 +1864,370 @@ MonoBehaviour:
           type:
             serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
               Culture=neutral, PublicKeyToken=null
+        - displayName: Mode
+          referenceName: _Mode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Min Remap Color
+          referenceName: _ColorMin
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Max Remap Color
+          referenceName: _ColorMax
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Gamma
+          referenceName: _Gamma
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Normal Mode
+          referenceName: _NormalMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Light Position
+          referenceName: _LightPosition
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Color Set
+          referenceName: _HeightColorSet
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Channel
+          referenceName: _HeightChannel
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Min
+          referenceName: _HeightMin
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Max
+          referenceName: _HeightMax
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Tiling
+          referenceName: _Tiling
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
         shaderGUID: f53ca163880a74a4cb8940c1893f071f
+        mousePosition: {x: 0.51104164, y: 0.49216416}
     0000000C:
-      type: {class: PreviewNode, ns: Mixture, asm: Mixture.Runtime}
+      type: {class: NormalFromHeight, ns: Mixture, asm: Mixture.Runtime}
       data:
-        GUID: ea8e5bba-a9a5-4556-82b3-6977a619d18d
-        computeOrder: 12
+        GUID: 7564d7f9-76c2-4ab2-a233-8d883679d31a
+        computeOrder: 13
         position:
           serializedVersion: 2
-          x: 1027.9
-          y: 1172.0504
+          x: 639
+          y: 766
           width: 250
-          height: 390
+          height: 417
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 1024
+          height: 1024
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 2
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -321
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: -6465566751694194690, guid: 7cad23c262a495a4ba607510a558c0a6,
+          type: 3}
+        material: {fileID: -6109865235338946543}
+        exposedProperties:
+        - displayName: Height Map
+          referenceName: Texture2D_B5DB8B20
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Strenght
+          referenceName: Vector1_C30F1996
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: 7cad23c262a495a4ba607510a558c0a6
+    0000000D:
+      type: {class: PreviewNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: bf0ccc10-8dc8-45d6-99d2-1fe020823428
+        computeOrder: 14
+        position:
+          serializedVersion: 2
+          x: 889.00006
+          y: 766
+          width: 250
+          height: 468
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 1024
+          height: 1024
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: f53ca163880a74a4cb8940c1893f071f, type: 3}
+        material: {fileID: 4657670956485982933}
+        exposedProperties:
+        - displayName: Source
+          referenceName: _Source_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Mode
+          referenceName: _Mode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Min Remap Color
+          referenceName: _ColorMin
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Max Remap Color
+          referenceName: _ColorMax
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Gamma
+          referenceName: _Gamma
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Normal Mode
+          referenceName: _NormalMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Light Position
+          referenceName: _LightPosition
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Color Set
+          referenceName: _HeightColorSet
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Channel
+          referenceName: _HeightChannel
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Min
+          referenceName: _HeightMin
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Max
+          referenceName: _HeightMax
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Tiling
+          referenceName: _Tiling
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: f53ca163880a74a4cb8940c1893f071f
+        mousePosition: {x: 0.93114257, y: 0.31811938}
+    0000000E:
+      type: {class: PerlinNoise, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 328ab3a7-23a7-4d44-aa00-0c49987857be
+        computeOrder: 11
+        position:
+          serializedVersion: 2
+          x: 1221
+          y: 264
+          width: 250
+          height: 584
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 1024
+          height: 1024
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 3ff8d72a4c500ad4093607671bcd9097, type: 3}
+        material: {fileID: 1240550391805500685}
+        exposedProperties:
+        - displayName: UVs
+          referenceName: _UV_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Tiling Mode
+          referenceName: _TilingMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: UV Mode
+          referenceName: _UVMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Output Range
+          referenceName: _OutputRange
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Lacunarity
+          referenceName: _Lacunarity
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Frequency
+          referenceName: _Frequency
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Persistance
+          referenceName: _Persistance
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Octaves
+          referenceName: _Octaves
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Seed
+          referenceName: _Seed
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Channels
+          referenceName: _Channels
+          tooltip: Select how many noise to genereate and on which channel. The more
+            different channel you use the more expensive it is (max 4 noise evaluation).
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: 3ff8d72a4c500ad4093607671bcd9097
+    0000000F:
+      type: {class: PreviewNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 344046a3-ab32-43e4-a915-12fbdf64b203
+        computeOrder: 16
+        position:
+          serializedVersion: 2
+          x: 1450.0001
+          y: 1054
+          width: 250
+          height: 468
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -1815,7 +2260,7 @@ MonoBehaviour:
         isPinned: 0
         output: {fileID: 0}
         shader: {fileID: 4800000, guid: f53ca163880a74a4cb8940c1893f071f, type: 3}
-        material: {fileID: -1720069367521147161}
+        material: {fileID: -7797858145472901598}
         exposedProperties:
         - displayName: Source
           referenceName: _Source_2D
@@ -1823,18 +2268,85 @@ MonoBehaviour:
           type:
             serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
               Culture=neutral, PublicKeyToken=null
+        - displayName: Mode
+          referenceName: _Mode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Min Remap Color
+          referenceName: _ColorMin
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Max Remap Color
+          referenceName: _ColorMax
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Gamma
+          referenceName: _Gamma
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Normal Mode
+          referenceName: _NormalMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Light Position
+          referenceName: _LightPosition
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Color Set
+          referenceName: _HeightColorSet
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Channel
+          referenceName: _HeightChannel
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Min
+          referenceName: _HeightMin
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Max
+          referenceName: _HeightMax
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Tiling
+          referenceName: _Tiling
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
         shaderGUID: f53ca163880a74a4cb8940c1893f071f
-    0000000D:
-      type: {class: Blur, ns: Mixture, asm: Mixture.Runtime}
+        mousePosition: {x: 0.18648961, y: 0.091807485}
+    00000010:
+      type: {class: GenerateMipMaps, ns: Mixture, asm: Mixture.Runtime}
       data:
-        GUID: 124e15c5-ae59-4778-b817-1c4591053c74
-        computeOrder: 13
+        GUID: 8e8aab23-24df-473e-8268-27e247c77399
+        computeOrder: 15
         position:
           serializedVersion: 2
-          x: 1131.7561
-          y: 706
+          x: 1200
+          y: 1054
           width: 250
-          height: 432
+          height: 390
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -1853,35 +2365,20 @@ MonoBehaviour:
           outputChannels: 0
           outputPrecision: 0
           editFlags: -257
-          doubleBuffered: 1
+          doubleBuffered: 0
           wrapMode: 0
           filterMode: 1
           refreshMode: 0
           period: 0
         isPreviewCollapsed: 0
-        previewMode: 7
+        previewMode: 15
         previewMip: 0
         previewVisible: 1
         previewEV100: 0
         previewSlice: 0
         isPinned: 0
+        input: {fileID: 0}
         output: {fileID: 0}
-        shader: {fileID: 4800000, guid: c1f8bac2a6637264ea45079cfa2c04e8, type: 3}
-        material: {fileID: 4957945434452955232}
-        exposedProperties:
-        - displayName: Source
-          referenceName: _Source_2D
-          tooltip: Source Texture
-          type:
-            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
-              Culture=neutral, PublicKeyToken=null
-        - displayName: Radius
-          referenceName: _Radius
-          tooltip: Blur radius in pixels
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        shaderGUID: c1f8bac2a6637264ea45079cfa2c04e8
 --- !u!21 &104215503536926863
 Material:
   serializedVersion: 6
@@ -1960,6 +2457,61 @@ Material:
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
+--- !u!21 &1240550391805500685
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 3ff8d72a4c500ad4093607671bcd9097, type: 3}
+  m_ShaderKeywords: CRT_2D _TILINGMODE_TILED
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Channels: 0
+    - _Frequency: 3
+    - _Lacunarity: 2
+    - _Octaves: 8
+    - _Persistance: 0.6
+    - _Seed: 52.1
+    - _TilingMode: 1
+    - _UVMode: 0
+    m_Colors:
+    - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
 --- !u!21 &3588219216969141744
 Material:
   serializedVersion: 6
@@ -2032,7 +2584,7 @@ Material:
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
---- !u!21 &4957945434452955232
+--- !u!21 &4657670956485982933
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 3
@@ -2040,7 +2592,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hidden/Mixture/ShaderNodeDefault
-  m_Shader: {fileID: 4800000, guid: c1f8bac2a6637264ea45079cfa2c04e8, type: 3}
+  m_Shader: {fileID: 4800000, guid: f53ca163880a74a4cb8940c1893f071f, type: 3}
   m_ShaderKeywords: CRT_2D
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -2064,8 +2616,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Radius: 0
-    m_Colors: []
+    - _Gamma: 0
+    - _HeightChannel: 0
+    - _HeightColorSet: 0
+    - _HeightMax: 1
+    - _HeightMin: 0
+    - _Mode: 1
+    - _NormalMode: 2
+    - _Tiling: 1
+    m_Colors:
+    - _ColorMax: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorMin: {r: 0, g: 0, b: 0, a: 0}
+    - _LightPosition: {r: 0.7872956, g: -0.42362797, b: 0, a: 0}
+    - _NormalMode: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!21 &6893389108874368648
 Material:
@@ -2103,8 +2666,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _BlendPow: 1.9
-    - _BorderSize: 0.141
+    - _BlendPow: 3.6
+    - _BorderSize: 0.242
     m_Colors: []
   m_BuildTextureStacks: []
 --- !u!21 &7412953962164294820
