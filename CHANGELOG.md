@@ -9,6 +9,8 @@ All notable changes to this project template will be documented in this file.
 ![StochasticTiling](https://user-images.githubusercontent.com/6877923/106679862-c4ce2280-65bd-11eb-87bb-eee4d88b1e2c.gif)
 - Discretize Node  
 ![image](https://user-images.githubusercontent.com/6877923/106681232-63f41980-65c0-11eb-89a5-39468b746d89.png)
+- Preview Node
+![image](https://user-images.githubusercontent.com/6877923/107294139-2df5e000-6a6d-11eb-9b71-c21cf7e91072.png)
 
 ## 0.1.0
 
