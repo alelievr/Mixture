@@ -31,6 +31,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
@@ -53,6 +54,7 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs: []
+    m_Ints: []
     m_Floats: []
     m_Colors:
     - _Bias: {r: 0, g: 0, b: 0, a: 0}
@@ -70,13 +72,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b113f958e0564f309164e29c24b042d, type: 3}
   m_Name: 1x1 Mixture
   m_EditorClassIdentifier: 
-  serializedNodes:
-  - type: Mixture.OutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"daef4c32-d376-4158-9e10-07b8a8a7f0b7","computeOrder":1,"position":{"serializedVersion":"2","x":-59.0,"y":-17.130430221557618,"width":350.0,"height":517.0},"expanded":true,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":16,"height":16,"sliceCount":16,"potSize":0,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":4,"outputChannels":1,"outputPrecision":4,"editFlags":981,"doubleBuffered":false,"wrapMode":0,"filterMode":0,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"outputTextureSettings":[{"inputTexture":{"instanceID":0},"name":"Main
-      Texture","enableCompression":true,"compressionFormat":25,"compressionQuality":100,"hasMipMaps":false,"customMipMapShader":{"instanceID":0},"isMain":true,"finalCopyMaterial":{"fileID":-3949005722766650720,"guid":"c2be6bc90df544afd8928f1b1030b9ee","type":2}}]}'
-  - type: Mixture.UVNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"e25736be-1cf1-47fc-912f-36cf86266e5a","computeOrder":0,"position":{"serializedVersion":"2","x":-523.239990234375,"y":5.0,"width":250.0,"height":437.0},"expanded":false,"debug":true,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":255,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"0e57459cc2eca8e4eb3e062b8ed60321","type":3},"material":{"fileID":-3223953952058006724,"guid":"c2be6bc90df544afd8928f1b1030b9ee","type":2}}'
+  serializedNodes: []
+  nodes:
+  - id: 0
+  - id: 1
   edges:
   - GUID: e09e9d3c-e989-42c1-8ce0-171e73f835cb
     owner: {fileID: 11400000}
@@ -100,19 +99,135 @@ MonoBehaviour:
       serializedType: Mixture.PinnedViewBoard, Unity.ShaderGraph.GraphicsTests, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   exposedParameters: []
+  serializedParameterList: []
+  stickyNotes: []
   position: {x: 534, y: 214, z: 0}
   scale: {x: 1, y: 1, z: 1}
   realtimePreview: 1
   isRealtime: 0
   isParameterViewOpen: 0
+  embedInBuild: 0
   objectReferences:
   - {fileID: -3223953952058006724}
   - {fileID: -3949005722766650720}
+  variants: []
   _mainOutputTexture: {fileID: 6982677941647048320}
   _outputTextures:
   - {fileID: 6982677941647048320}
   references:
     version: 1
+    00000000:
+      type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: daef4c32-d376-4158-9e10-07b8a8a7f0b7
+        computeOrder: 1
+        position:
+          serializedVersion: 2
+          x: -59
+          y: -17.13043
+          width: 350
+          height: 517
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 0
+          heightPercent: 0
+          depthPercent: 0
+          width: 16
+          height: 16
+          sliceCount: 16
+          potSize: 0
+          widthMode: 1
+          heightMode: 1
+          depthMode: 1
+          dimension: 4
+          outputChannels: 1
+          outputPrecision: 4
+          editFlags: 981
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        outputTextureSettings:
+        - inputTexture: {fileID: 0}
+          name: Main Texture
+          enableCompression: 1
+          compressionFormat: 25
+          compressionQuality: 100
+          hasMipMaps: 0
+          customMipMapShader: {fileID: 0}
+          isMain: 1
+          enableConversion: 0
+          conversionFormat: 0
+          sRGB: 0
+          finalCopyMaterial: {fileID: -3949005722766650720}
+    00000001:
+      type: {class: UVNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: e25736be-1cf1-47fc-912f-36cf86266e5a
+        computeOrder: 0
+        position:
+          serializedVersion: 2
+          x: -523.24
+          y: 5
+          width: 250
+          height: 437
+        expanded: 0
+        debug: 1
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: 255
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 0e57459cc2eca8e4eb3e062b8ed60321, type: 3}
+        material: {fileID: -3223953952058006724}
+        exposedProperties:
+        - displayName: UV Scale
+          referenceName: _Scale
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: UV Bias
+          referenceName: _Bias
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        shaderGUID: 0e57459cc2eca8e4eb3e062b8ed60321
 --- !u!89 &6982677941647048320
 Cubemap:
   m_ObjectHideFlags: 0
