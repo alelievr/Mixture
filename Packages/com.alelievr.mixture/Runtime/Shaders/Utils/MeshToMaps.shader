@@ -2,6 +2,7 @@ Shader "Hidden/Mixture/MeshToMaps"
 {	
 	Properties
 	{
+		[Toggle]_Conservative("Concervative", Float) = 0
 	}
 	SubShader
 	{
@@ -14,6 +15,7 @@ Shader "Hidden/Mixture/MeshToMaps"
             ZWrite Off
             ZClip Off
 			Blend Off
+			Conservative [_Conservative] 
 
 			HLSLPROGRAM
             #pragma vertex vert

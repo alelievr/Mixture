@@ -36,6 +36,9 @@ This process is done using the UV of the mesh to flatten it and output it's attr
 		[ShowInInspector, Tooltip("In case the mesh has multiple sub-meshes, you can select which one to render with this field")]
 		public int submeshIndex;
 
+		[ShowInInspector, Tooltip("Enable Conservative rasterization when rendering the mesh. It can help to keep small details in the mesh.")]
+		public bool conservative = false;
+
 		[Output]
         public CustomRenderTexture output;
 
@@ -68,7 +71,9 @@ This process is done using the UV of the mesh to flatten it and output it's attr
 			cmd.SetRenderTarget(output);
 			cmd.ClearRenderTarget(false, true, Color.clear, 1.0f);
 			materialProperties.SetFloat("_Mode", (int)outputMap);
-			cmd.DrawMesh(mesh.mesh, mesh.localToWorld, GetTempMaterial("Hidden/Mixture/MeshToMaps"), submeshIndex, 0, materialProperties);
+			var mat = GetTempMaterial("Hidden/Mixture/MeshToMaps");
+			mat.SetFloat("_Conservative", conservative ? 1.0f : 0.0f);
+			cmd.DrawMesh(mesh.mesh, mesh.localToWorld, mat, submeshIndex, 0, materialProperties);
 
 			return true;
 		}

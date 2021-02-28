@@ -14,6 +14,7 @@ Shader "Hidden/Mixture/Rasterize3D"
             ColorMask 0
             ZWrite Off
             ZClip Off
+            Conservative True
 
 			HLSLPROGRAM
             #pragma vertex vert

@@ -15,11 +15,7 @@ TEXTURE_X(_Input);
 RWTEXTURE_X(float4, _Output);
 RWTEXTURE_X(float4, _FinalOutput);
 
-Texture2D<float4> _Input;
-RWTexture2D<float4> _Output;
-RWTexture2D<float4> _FinalOutput;
-
-float4 LoadInput(uint3 uv) { return LOAD_X(_Input, uint3(float2(uv.xy) * _InputScaleFactor, 0)); }
+float4 LoadInput(uint3 uv) { return LOAD_X(_Input, uint3(uv.xyz * _InputScaleFactor)); }
 float4 LoadOutput(uint3 uv) { return LOAD_X(_Output, uv); }
 void WriteOutput(uint3 uv, float4 value) { WRITE_X(_Output, uv, value); }
 void WriteFinalOutput(uint3 uv, float4 value) { WRITE_X(_FinalOutput, uv, value); }
