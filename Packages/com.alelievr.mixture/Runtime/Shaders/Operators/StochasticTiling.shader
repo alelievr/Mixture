@@ -54,6 +54,7 @@ Shader "Hidden/Mixture/StochasticTiling"
 			// Modified version made by Thomas Deliot to make a texture tile.
 			float4 SampleTextureMakeTileable(float2 uv)
 			{
+				float4 result = 0;
 				// Precompute uv derivatives
 				float2 duvdx = ddx(uv);
 				float2 duvdy = ddy(uv);
@@ -73,8 +74,9 @@ Shader "Hidden/Mixture/StochasticTiling"
 				if (uv.x > tileRadius && 1.0 - uv.x > tileRadius
 					&& uv.y > tileRadius && 1.0 - uv.y > tileRadius)
 				{
-					return SampleMainTex(uv, duvdx, duvdy);
+					result = SampleMainTex(uv, duvdx, duvdy);
 				}
+				else
 				// Border blend
 				{
 					// Linear interpolation on borders from input to tiles
@@ -142,21 +144,21 @@ Shader "Hidden/Mixture/StochasticTiling"
 							weight1V = 0.0;
 					}
 					// Sharpen blend zone
-					weightCenter = pow(weightCenter, _BlendPow);
-					weight0H = pow(weight0H, _BlendPow);
-					weight1H = pow(weight1H, _BlendPow);
-					weight0V = pow(weight0V, _BlendPow);
-					weight1V = pow(weight1V, _BlendPow);
+					weightCenter = pow(abs(weightCenter), _BlendPow);
+					weight0H = pow(abs(weight0H), _BlendPow);
+					weight1H = pow(abs(weight1H), _BlendPow);
+					weight0V = pow(abs(weight0V), _BlendPow);
+					weight1V = pow(abs(weight1V), _BlendPow);
 					float totalWeight = weightCenter + weight0H + weight1H + weight0V + weight1V;
 					// Final result
-					float4 result =
+					result =
 						sampleCenter * (weightCenter / totalWeight)
 						+ sample0H * (weight0H / totalWeight)
 						+ sample1H * (weight1H / totalWeight)
 						+ sample0V * (weight0V / totalWeight)
 						+ sample1V * (weight1V / totalWeight);
-					return result;
 				}
+				return result;
 			}
 
 			float4 mixture(v2f_customrendertexture i) : SV_Target

@@ -105,7 +105,7 @@ namespace Mixture
 
 			// Try to guess the correct setup for the user
 #if UNITY_EDITOR
-			var names = outputTextureSettings.Select(o => o.name).ToArray();
+			var names = outputTextureSettings.Select(o => o.name).Concat(new List<string>{ graph.mainOutputTexture.name }).ToArray();
 			output.SetupPreset(preset, (name) => UnityEditor.ObjectNames.GetUniqueName(names, name));
 #endif
 

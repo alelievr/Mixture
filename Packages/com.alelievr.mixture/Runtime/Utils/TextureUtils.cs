@@ -256,5 +256,17 @@ namespace Mixture
                 for (int mipLevel = 0; mipLevel < source.mipmapCount; mipLevel++)
                     Graphics.CopyTexture(source, slice, mipLevel, destination, slice, mipLevel);
         }
+
+        static ProfilingSampler copyTextureSampler = new ProfilingSampler("Copy Texture 3D");
+        public static void CopyTexture(CommandBuffer cmd, Texture source, Texture destination)
+        {
+            using (new ProfilingScope(cmd, copyTextureSampler))
+            {
+                int sliceCount = (source.dimension == TextureDimension.Cube) ? 6 : TextureUtils.GetSliceCount(source);
+                for (int slice = 0; slice < sliceCount; slice++)
+                    for (int mipLevel = 0; mipLevel < source.mipmapCount; mipLevel++)
+                        cmd.CopyTexture(source, slice, mipLevel, destination, slice, mipLevel);
+            }
+        }
     }
 }

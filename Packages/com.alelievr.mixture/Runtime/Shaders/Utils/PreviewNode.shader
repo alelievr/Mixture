@@ -146,7 +146,7 @@ Shader "Hidden/Mixture/PreviewNode"
 			float4 PreviewHeightmap(float4 value)
 			{
 				float height = value[uint(_HeightChannel)];
-				height = value / (_HeightMax - _HeightMin) + _HeightMin;
+				height = height / (_HeightMax - _HeightMin) + _HeightMin;
 				value.a = 1;
 
 				switch (_HeightColorSet)
