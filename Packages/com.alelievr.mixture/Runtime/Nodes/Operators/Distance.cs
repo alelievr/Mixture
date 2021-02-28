@@ -85,7 +85,7 @@ Smooth is only in alpha
 			base.Enable();
 
 			rtSettings.outputChannels = OutputChannel.RGBA;
-			rtSettings.outputPrecision = OutputPrecision.Full;
+			rtSettings.outputPrecision = OutputPrecision.Half;
 			rtSettings.editFlags = EditFlags.Dimension | EditFlags.Size;
 
 			UpdateTempRenderTexture(ref output);
@@ -141,7 +141,7 @@ Smooth is only in alpha
 				MixtureUtils.SetTextureWithDimension(cmd, computeShader, jumpFloodingKernel, "_Output", rt);
 				cmd.SetComputeIntParam(computeShader, "_DistanceMode", (int)distanceMode);
 				DispatchCompute(cmd, jumpFloodingKernel, output.width, output.height, output.volumeDepth);
-				cmd.CopyTexture(rt, output);
+				TextureUtils.CopyTexture(cmd, rt, output);
 			}
 
 			cmd.SetComputeFloatParam(computeShader, "_InputScaleFactor", (float)input.width / (float)output.width);
