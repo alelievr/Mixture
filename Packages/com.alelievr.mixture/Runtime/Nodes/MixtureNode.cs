@@ -392,7 +392,7 @@ namespace Mixture
 					case ShaderPropertyType.Texture:
 						// TODO: texture scale and offset
 						// Check texture dim before assigning:
-						if (edge.passThroughBuffer is Texture t)
+						if (edge.passThroughBuffer is Texture t && t != null)
 						{
 							if (material.shader.GetPropertyTextureDimension(propertyIndex) == t.dimension)
 								material.SetTexture(propName, (Texture)edge.passThroughBuffer);

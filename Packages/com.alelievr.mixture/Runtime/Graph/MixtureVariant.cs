@@ -182,7 +182,6 @@ namespace Mixture
             }
         }
 
-#if UNITY_EDITOR
         Texture FindOutputTexture(string name, bool isMain)
             => outputTextures.Find(t => t != null && (isMain ? mainOutputTexture != null && t.name == mainOutputTexture.name : t.name == name));
 
@@ -199,6 +198,7 @@ namespace Mixture
                     TextureUtils.CopyTexture(output.finalCopyRT, currentTexture);
                 }
             }
+#if UNITY_EDITOR
             else
             {
                 // Readback the result render textures into the variant:
@@ -209,6 +209,7 @@ namespace Mixture
                     parentGraph.ReadBackTexture(parentGraph.outputNode, output.finalCopyRT, output.IsCompressionEnabled() || output.IsConversionEnabled(), format, output.compressionQuality, currentTexture);
                 }
             }
+#endif
 
             parametersStateAtLastUpdate = GetAllParameters().Select(p => p.Clone()).ToList();
             variantTexturesUpdated?.Invoke();
@@ -232,6 +233,7 @@ namespace Mixture
                 parentGraph.exposedParameters[i].value = graphParamsValues[i];
         }
 
+#if UNITY_EDITOR
         public void CopyTexturesFromGraph(bool copyTextureContent = true)
         {
             var subAssets = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(parentGraph));
