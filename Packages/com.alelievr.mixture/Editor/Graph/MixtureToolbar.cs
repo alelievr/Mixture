@@ -25,6 +25,7 @@ namespace Mixture
 			public static GUIContent bugReport = new GUIContent("Bug Report", MixtureEditorUtils.bugIcon);
 			public static GUIContent featureRequest = new GUIContent("Feature Request", MixtureEditorUtils.featureRequestIcon);
 			public static GUIContent improveMixture = new GUIContent("Improve Mixture", MixtureEditorUtils.featureRequestIcon);
+			public static GUIContent focusText = new GUIContent("Fit View");
 			static GUIStyle _improveButtonStyle = null;
 			public static GUIStyle improveButtonStyle => _improveButtonStyle == null ? _improveButtonStyle = new GUIStyle(GUI.skin.button) { alignment = TextAnchor.MiddleLeft } : _improveButtonStyle;
 		}
@@ -65,6 +66,7 @@ namespace Mixture
 				// Selection.activeObject = graph;
 			});
 			AddToggle(Styles.parameterViewsText, graph.isParameterViewOpen, ToggleParameterView, left: true);
+			AddButton(Styles.focusText, () => graphView.FrameAll(), left: true);
 
 			if (!graph.isRealtime)
 				AddButton(Styles.saveAllText, SaveAll , left: false);

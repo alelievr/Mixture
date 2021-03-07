@@ -28,14 +28,14 @@ namespace Mixture
 			MixtureGraph graph;
 			if (mixtureAssets.TryGetValue(assetGUID, out graph))
 			{
-				DrawMixtureSmallIcon(rect, graph);
+				DrawMixtureSmallIcon(rect, graph, Selection.Contains(graph.mainOutputTexture));
 				return ;
 			}
 
 			if (mixtureVariants.TryGetValue(assetGUID, out var v))
 			{
 				// TODO: draw the mixture variant icon
-				DrawMixtureSmallIcon(rect, v);
+				DrawMixtureSmallIcon(rect, v, Selection.Contains(v.mainOutputTexture));
 				return ;
 			}
 
@@ -55,7 +55,7 @@ namespace Mixture
 			if (variant != null)
 			{
 				mixtureVariants.Add(assetGUID, variant);
-				DrawMixtureSmallIcon(rect, variant);
+				DrawMixtureSmallIcon(rect, variant, Selection.Contains(texture));
 				return;
 			}
 
@@ -64,31 +64,32 @@ namespace Mixture
 			if (graph != null)
 			{
 				mixtureAssets.Add(assetGUID, graph);
-				DrawMixtureSmallIcon(rect, graph);
+				DrawMixtureSmallIcon(rect, graph, Selection.Contains(texture));
 				return ;
 			}
 		}
 
-		static void DrawMixtureSmallIcon(Rect rect, MixtureGraph graph)
-			=> DrawMixtureSmallIcon(rect, graph.isRealtime ? MixtureUtils.realtimeIcon32 : MixtureUtils.icon32);
+		static void DrawMixtureSmallIcon(Rect rect, MixtureGraph graph, bool focused)
+			=> DrawMixtureSmallIcon(rect, graph.isRealtime ? MixtureUtils.realtimeIcon32 : MixtureUtils.icon32, focused);
 
-		static void DrawMixtureSmallIcon(Rect rect, MixtureVariant variant)
-			=> DrawMixtureSmallIcon(rect, variant.parentGraph.isRealtime ? MixtureUtils.realtimeVariantIcon32 : MixtureUtils.iconVariant32);
+		static void DrawMixtureSmallIcon(Rect rect, MixtureVariant variant, bool focused)
+			=> DrawMixtureSmallIcon(rect, variant.parentGraph.isRealtime ? MixtureUtils.realtimeVariantIcon32 : MixtureUtils.iconVariant32, focused);
 
-		static void DrawMixtureSmallIcon(Rect rect, Texture2D mixtureIcon)
+		static void DrawMixtureSmallIcon(Rect rect, Texture2D mixtureIcon, bool focused)
 		{
 			Rect clearRect = new Rect(rect.x, rect.y, 20, 16);
-			Rect iconRect = new Rect(rect.x + 2, rect.y, 16, 16);
+			Rect iconRect = new Rect(rect.x + 2, rect.y + 1, 14, 14);
 
-			// TODO: find a way to detect the focus of the project window instantaneously
-			bool focused = false;
+			// TODO: find a way to detect the focus of the project window instantaneously (probably with reflection from the project window)
+			bool windowFocused = false; //EditorWindow.focusedWindow.GetType().Name.Contains("ProjectBrowser");
+			focused = false;
 
 			// Draw a quad of the color of the background
 			Color backgroundColor;
 			if (EditorGUIUtility.isProSkin)
-				backgroundColor = focused ? new Color32(44, 93, 135, 255) : new Color32(56, 56, 56, 255);
+				backgroundColor = focused ? windowFocused ? new Color32(44, 93, 135, 255) : new Color32(72, 72, 72, 255) : new Color32(56, 56, 56, 255);
 			else
-				backgroundColor = new Color32(194, 194, 194, 255);
+				backgroundColor = focused ? windowFocused ? new Color32(62, 125, 231, 255) : new Color32(143, 143, 143, 255) : new Color32(194, 194, 194, 255);
 
 			EditorGUI.DrawRect(clearRect, backgroundColor);
 			GUI.DrawTexture(iconRect, mixtureIcon);
