@@ -50,8 +50,11 @@ namespace Mixture
 				};
 
 				if (computeShaderNode.computeShader != null)
+				{
 					UpdateComputeShaderData(computeShaderNode.computeShader);
-				
+					ForceUpdatePorts();
+				}
+
 				computeShaderChanged += () => {
 					UpdateComputeShaderData(computeShaderNode.computeShader);
 					RefreshPorts();

@@ -328,9 +328,9 @@ namespace Mixture
 					tooltip = m.Groups[1].Value;
 				}
 
-				if (flags == ShaderPropertyFlags.HideInInspector
-					|| flags == ShaderPropertyFlags.NonModifiableTextureData
-					|| flags == ShaderPropertyFlags.PerRendererData)
+				if ((flags & ShaderPropertyFlags.HideInInspector) != 0
+					|| (flags & ShaderPropertyFlags.NonModifiableTextureData) != 0
+					|| (flags & ShaderPropertyFlags.PerRendererData) != 0)
 					continue;
 				
 				if (!PropertySupportsDimension(s.GetPropertyName(i), currentDimension))

@@ -23,7 +23,7 @@ Shader "Hidden/Mixture/Levels"
 
 			// The list of defines that will be active when processing the node with a certain dimension
             #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
-            #pragma enable_d3d11_debug_symbols
+            // #pragma enable_d3d11_debug_symbols
 
             TEXTURE_X(_Input);
 

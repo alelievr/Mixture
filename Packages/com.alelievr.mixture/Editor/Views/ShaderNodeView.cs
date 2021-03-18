@@ -22,6 +22,8 @@ namespace Mixture
 		DateTime		lastModified;
 		string			shaderPath;
 
+		protected VisualElement shaderSettings;
+
 		protected override string header => "Shader Properties";
 
 		public override void Enable(bool fromInspector)
@@ -39,11 +41,12 @@ namespace Mixture
 				owner.graph.AddObjectToGraph(shaderNode.material);
 			}
 
+			shaderSettings = new VisualElement();
 			var shaderField = AddControlField(nameof(ShaderNode.shader)) as ObjectField;
-			controlsContainer.Add(shaderField);
+			shaderSettings.Add(shaderField);
 
 			var shaderCreationUI = new VisualElement();
-			controlsContainer.Add(shaderCreationUI);
+			shaderSettings.Add(shaderCreationUI);
 			UpdateShaderCreationUI(shaderCreationUI, shaderField);
 
 			shaderField.RegisterValueChangedCallback((v) => {
@@ -65,9 +68,10 @@ namespace Mixture
 			}
 
 			var materialIMGUI = new IMGUIContainer(() => MaterialGUI(fromInspector, shaderCreationUI, shaderField));
-			controlsContainer.Add(materialIMGUI);
+			shaderSettings.Add(materialIMGUI);
 			materialIMGUI.AddToClassList("MaterialInspector");
 
+			controlsContainer.Add(shaderSettings);
 			MixtureEditorUtils.ScheduleAutoHide(materialIMGUI, owner);
 		}
 

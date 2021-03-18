@@ -73,7 +73,7 @@ namespace Mixture
 
 			controlsContainer.AddToClassList("ControlsContainer");
 
-			if (header != string.Empty)
+			if (!String.IsNullOrEmpty(header))
 			{
 				var title = new Label(header);
 				title.AddToClassList("PropertyEditorTitle");
@@ -474,7 +474,7 @@ namespace Mixture
 					GUILayout.Space(8);
 
 					nodeTarget.previewMip = GUILayout.HorizontalSlider(nodeTarget.previewMip, 0.0f, texture.mipmapCount - 1, GUILayout.Width(64));
-					GUILayout.Label($"Mip #{Mathf.RoundToInt(nodeTarget.previewMip)}", EditorStyles.toolbarButton);
+					GUILayout.Label($"Mip #{Mathf.CeilToInt(nodeTarget.previewMip)}", EditorStyles.toolbarButton);
 				}
 
 				GUILayout.FlexibleSpace();
