@@ -24,7 +24,7 @@ Note that this node is currently only available with HDRP.
 ")]
 
 	[System.Serializable, NodeMenuItem("Utils/Prefab Capture (HDRP only)")]
-	public class PrefabCaptureNode : MixtureNode
+	public class PrefabCaptureNode : MixtureNode, ICreateNodeFrom<GameObject>
 	{
         [System.Serializable]
         public enum OutputMode
@@ -92,6 +92,13 @@ Note that this node is currently only available with HDRP.
             createNewPrefab = true;
 #endif
         }
+
+		public bool InitializeNodeFromObject(GameObject value)
+		{
+            createNewPrefab = false;
+			prefab = value;
+			return true;
+		}
 
 #if UNITY_EDITOR
         GameObject LoadDefaultPrefab()

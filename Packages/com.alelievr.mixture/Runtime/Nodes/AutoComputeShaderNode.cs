@@ -15,7 +15,7 @@ Note that this node tries to generate input / output based on the declared prope
 ")]
 
 	[System.Serializable, NodeMenuItem("Utils/Compute Shader")]
-	public class AutoComputeShaderNode : ComputeShaderNode
+	public class AutoComputeShaderNode : ComputeShaderNode, ICreateNodeFrom<ComputeShader>
 	{
 		[Serializable]
 		public struct ComputeParameter
@@ -88,6 +88,14 @@ Note that this node tries to generate input / output based on the declared prope
         // TODO: setting in the UI for this
 		protected virtual string previewKernel => "Preview";
 
+		public bool InitializeNodeFromObject(ComputeShader value)
+		{
+			computeShader = value;
+			UpdateComputeShader();
+
+			return true;
+		}
+
 		protected override void Enable()
 		{
 			if (!String.IsNullOrEmpty(computeShaderResourcePath) && computeShader == null)
@@ -106,7 +114,7 @@ Note that this node tries to generate input / output based on the declared prope
 			if (computeShader == null)
 				return;
 
-			if (!String.IsNullOrEmpty(previewKernel))
+			if (!String.IsNullOrEmpty(previewKernel) && computeShader.HasKernel(previewKernel))
 				previewKernelIndex = computeShader.FindKernel(previewKernel);
 		}
 

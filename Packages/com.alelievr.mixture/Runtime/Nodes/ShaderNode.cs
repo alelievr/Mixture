@@ -18,7 +18,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 ")]
 
 	[System.Serializable, NodeMenuItem("Shader")]
-	public class ShaderNode : MixtureNode, IUseCustomRenderTextureProcessing
+	public class ShaderNode : MixtureNode, IUseCustomRenderTextureProcessing, ICreateNodeFrom<Shader>, ICreateNodeFrom<Material>
 	{
 		[Serializable]
 		public struct ShaderProperty
@@ -37,8 +37,10 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 		[Output(name = "Out"), Tooltip("Output Texture")]
 		public CustomRenderTexture	output = null;
 
+		[HideInInspector]
 		public Shader			shader;
 		public override string	name => (shader != null) ? shader.name.Split('/')?.Last() : "Shader";
+		[HideInInspector]
 		public Material			material;
 
 		// We keep internally a list of ports generated from the material exposed properties so when
@@ -48,6 +50,8 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 		// We also keep the GUID of the shader, in case of the script is imported before the shader so we can load it afterwards.
 		[SerializeField]
 		string					shaderGUID;
+
+		protected virtual bool hasMips => false;
 
         protected virtual IEnumerable<string> filteredOutProperties => Enumerable.Empty<string>();
 		public override Texture previewTexture => output;
@@ -90,12 +94,12 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 			beforeProcessSetup += BeforeProcessSetup;
 
 			UpdateShader();
-			UpdateTempRenderTexture(ref output);
+			UpdateTempRenderTexture(ref output, hasMips: hasMips);
 			output.material = material;
 
 			// Update temp RT after process in case RTSettings have been modified in Process()
 			afterProcessCleanup += () => {
-				UpdateTempRenderTexture(ref output);
+				UpdateTempRenderTexture(ref output, hasMips: hasMips);
 			};
 		}
 
@@ -103,6 +107,19 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 		{
 			base.Disable();
 			CoreUtils.Destroy(output);
+		}
+
+		public bool InitializeNodeFromObject(Shader value)
+		{
+			shader = value;
+			return true;
+		}
+
+		public bool InitializeNodeFromObject(Material value)
+		{
+			shader = value.shader;
+			material = value;
+			return true;
 		}
 
 		// Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code
@@ -172,7 +189,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 		void BeforeProcessSetup()
 		{
 			UpdateShader();
-			UpdateTempRenderTexture(ref output);
+			UpdateTempRenderTexture(ref output, hasMips: hasMips);
 		}
 
 		public override bool canProcess => ValidateShader();

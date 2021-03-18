@@ -20,6 +20,8 @@ namespace Mixture
 			base.Enable(fromInspector);
             var textureField = this.Q(className: "unity-object-field") as ObjectField;
 
+			// TODO: watch for texture changes
+
             textureField.RegisterValueChangedCallback(e => {
                 ForceUpdatePorts();
             });

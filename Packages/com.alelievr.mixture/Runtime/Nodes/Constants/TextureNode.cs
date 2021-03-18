@@ -12,7 +12,7 @@ The output type of the node will update according to the type of texture provide
 ")]
 
 	[System.Serializable, NodeMenuItem("Constants/Texture")]
-	public class TextureNode : MixtureNode
+	public class TextureNode : MixtureNode, ICreateNodeFrom<Texture>
 	{
 		[Output(name = "Texture"), SerializeField]
 		public Texture texture;
@@ -33,6 +33,12 @@ The output type of the node will update according to the type of texture provide
 				identifier = nameof(texture),
 				acceptMultipleEdges = true,
 			};
+		}
+
+		public bool InitializeNodeFromObject(Texture value)
+		{
+			texture = value;
+			return true;
 		}
     }
 }
