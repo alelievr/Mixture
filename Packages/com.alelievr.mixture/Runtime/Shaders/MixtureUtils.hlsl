@@ -34,6 +34,7 @@ sampler s_point_repeat_sampler;
 	#define SAMPLE_X_LINEAR_CLAMP(tex, uv, dir)	SAMPLE_TEXTURE2D_LOD(MERGE_NAME(tex,_2D), s_linear_clamp_sampler, (uv).xy, 0)
 	#define SAMPLE_LOD_X_LINEAR_CLAMP(tex, uv, dir, lod) SAMPLE_TEXTURE2D_LOD(MERGE_NAME(tex,_2D), s_linear_clamp_sampler, (uv).xy, lod)
 	#define SAMPLE_X_NEAREST_CLAMP(tex, uv, dir) SAMPLE_TEXTURE2D_LOD(MERGE_NAME(tex,_2D), s_point_clamp_sampler, (uv).xy, 0)
+	#define SAMPLE_LOD_X_NEAREST_CLAMP(tex, uv, dir, lod) SAMPLE_TEXTURE2D_LOD(MERGE_NAME(tex,_2D), s_point_clamp_sampler, (uv).xy, lod)
 	#define LOAD_X(tex, uv, dir) LOAD_TEXTURE2D_LOD(MERGE_NAME(tex,_2D), (uv).xy * float2(_CustomRenderTextureWidth, _CustomRenderTextureHeight), 0)
 	#define SET_X(tex, uv, value) MERGE_NAME(tex,_2D)[uint2((uv).xy * float2(_CustomRenderTextureWidth, _CustomRenderTextureHeight))] = value
 	#define FLOAT_X float2
@@ -57,6 +58,7 @@ sampler s_point_repeat_sampler;
 	#define SAMPLE_X_LINEAR_CLAMP(tex, uv, dir)	SAMPLE_TEXTURE3D_LOD(MERGE_NAME(tex,_3D), s_linear_clamp_sampler, (uv).xyz, 0)
 	#define SAMPLE_LOD_X_LINEAR_CLAMP(tex, uv, dir, lod) SAMPLE_TEXTURE3D_LOD(MERGE_NAME(tex,_3D), s_linear_clamp_sampler, uv.xyz, lod)
 	#define SAMPLE_X_NEAREST_CLAMP(tex, uv, dir) SAMPLE_TEXTURE3D_LOD(MERGE_NAME(tex,_3D), s_point_clamp_sampler, (uv).xyz, 0)
+	#define SAMPLE_LOD_X_NEAREST_CLAMP(tex, uv, dir, lod) SAMPLE_TEXTURE3D_LOD(MERGE_NAME(tex,_3D), s_point_clamp_sampler, (uv).xyz, lod)
 	#define LOAD_X(tex, uv, dir) LOAD_TEXTURE3D_LOD(MERGE_NAME(tex,_3D), (uv) * float3(_CustomRenderTextureWidth, _CustomRenderTextureHeight, _CustomRenderTextureDepth), 0)
 	#define SET_X(tex, uv, value) MERGE_NAME(tex,_3D)[uint3((uv).xyz * float3(_CustomRenderTextureWidth, _CustomRenderTextureHeight, _CustomRenderTextureDepth))] = value
 	#define FLOAT_X float3
@@ -80,6 +82,7 @@ sampler s_point_repeat_sampler;
 	#define SAMPLE_X_LINEAR_CLAMP(tex, uv, dir)	SAMPLE_TEXTURECUBE_LOD(MERGE_NAME(tex,_Cube), s_linear_clamp_sampler, dir, 0)
 	#define SAMPLE_LOD_X_LINEAR_CLAMP(tex, uv, dir, lod) SAMPLE_TEXTURECUBE_LOD(MERGE_NAME(tex,_Cube), s_linear_clamp_sampler, dir, lod)
 	#define SAMPLE_X_NEAREST_CLAMP(tex, uv, dir) SAMPLE_TEXTURECUBE_LOD(MERGE_NAME(tex,_Cube), s_point_clamp_sampler, dir, 0)
+	#define SAMPLE_LOD_X_NEAREST_CLAMP(tex, uv, dir, lod) SAMPLE_TEXTURECUBE_LOD(MERGE_NAME(tex,_Cube), s_point_clamp_sampler, dir, lod)
 	#define LOAD_X(tex, uv, dir) SAMPLE_X_NEAREST_CLAMP(tex, uv, dir) // there is no load on cubemaps
 	#define FLOAT_X float3
 	#define INT_X int3

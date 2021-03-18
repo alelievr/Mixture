@@ -249,23 +249,34 @@ namespace Mixture
             }
         }
 
-        public static void CopyTexture(Texture source, Texture destination)
+        public static void CopyTexture(Texture source, Texture destination, bool copyMips = true)
         {
-            int sliceCount = (source.dimension == TextureDimension.Cube) ? 6 : TextureUtils.GetSliceCount(source);
-            for (int slice = 0; slice < sliceCount; slice++)
-                for (int mipLevel = 0; mipLevel < source.mipmapCount; mipLevel++)
-                    Graphics.CopyTexture(source, slice, mipLevel, destination, slice, mipLevel);
+            var cmd = CommandBufferPool.Get("CopyTexture");
+            CopyTexture(cmd, source, destination, copyMips);
+            Graphics.ExecuteCommandBuffer(cmd);
         }
 
-        static ProfilingSampler copyTextureSampler = new ProfilingSampler("Copy Texture 3D");
-        public static void CopyTexture(CommandBuffer cmd, Texture source, Texture destination)
+        static ProfilingSampler copyTextureSampler = new ProfilingSampler("Copy Texture");
+        public static void CopyTexture(CommandBuffer cmd, Texture source, Texture destination, bool copyMips = true)
         {
             using (new ProfilingScope(cmd, copyTextureSampler))
             {
                 int sliceCount = (source.dimension == TextureDimension.Cube) ? 6 : TextureUtils.GetSliceCount(source);
+
+                bool canCopy = source.graphicsFormat == destination.graphicsFormat && source.width == destination.width && source.height == destination.height;
+
                 for (int slice = 0; slice < sliceCount; slice++)
-                    for (int mipLevel = 0; mipLevel < source.mipmapCount; mipLevel++)
-                        cmd.CopyTexture(source, slice, mipLevel, destination, slice, mipLevel);
+                {
+                    if (canCopy)
+                    {
+                        for (int mipLevel = 0; mipLevel < (copyMips ? source.mipmapCount : 1); mipLevel++)
+                            cmd.CopyTexture(source, slice, mipLevel, destination, slice, mipLevel);
+                    }
+                    else
+                    {
+                        cmd.Blit(source, destination, slice, 0); // no mips in this version 
+                    }
+                }
             }
         }
     }

@@ -252,8 +252,20 @@ public static class CustomTextureManager
     static int kSelfCube                       = Shader.PropertyToID("_SelfTextureCube");
 
     // Returns user facing texture info
-    static Vector4 GetTextureInfos(CustomRenderTexture crt, int sliceIndex)
-        => new Vector4((float)crt.width, (float)crt.height, crt.volumeDepth, (float)sliceIndex);
+    static Vector4 GetTextureInfos(CustomRenderTexture crt, int sliceIndex, int mipLevel)
+    {
+        var info = new Vector4((float)crt.width, (float)crt.height, crt.volumeDepth, (float)sliceIndex);
+
+        // Adjust texture size using mip level:
+        if (mipLevel > 0 && mipLevel < crt.mipmapCount)
+        {
+            info.x = Mathf.Max((int)info.x >> mipLevel, 1);
+            info.y = Mathf.Max((int)info.y >> mipLevel, 1);
+            info.z = Mathf.Max((int)info.z >> mipLevel, 1);
+        }
+
+        return info;
+    }
 
     // Returns internal parameters for rendering
     static Vector4 GetTextureParameters(CustomRenderTexture crt, int sliceIndex)
@@ -305,87 +317,10 @@ public static class CustomTextureManager
             cmd.BeginSample(sampler);
 #endif
 
-            using (new ProfilingScope(cmd, new ProfilingSampler($"Update {crt.name}")))
+            // using (new ProfilingScope(cmd, new ProfilingSampler($"Update {crt.name}")))
             {
-                // Prepare "self" texture for reading in the shader for double buffered custom textures
-                RenderTexture textureSelf2D = null;
-                RenderTexture textureSelf3D = null;
-                RenderTexture textureSelfCube = null;
-                if (crt.doubleBuffered)
-                {
-                    if (crt.dimension == TextureDimension.Tex2D)
-                        textureSelf2D = crt;
-                    if (crt.dimension == TextureDimension.Cube)
-                        textureSelfCube = crt;
-                    if (crt.dimension == TextureDimension.Tex3D)
-                        textureSelf3D = crt;
-                }
-
-                if (crt.doubleBuffered)
-                {
-                    // Update the internal double buffered render texture (resize / alloc / ect.)
-                    crt.EnsureDoubleBufferConsistency();
-                }
-
-                MaterialPropertyBlock block = new MaterialPropertyBlock();
-
-                // If the user didn't called the update on CRT, we still process it because it's realtime
                 updateCount = Mathf.Max(updateCount, 1);
-                for (int i = 0; i < updateCount; i++)
-                {
-                    // TODO: cache everything
-                    List<CustomRenderTextureUpdateZone> updateZones = new List<CustomRenderTextureUpdateZone>();
-                    crt.GetUpdateZones(updateZones);
-
-                    if (updateZones.Count == 0)
-                        updateZones.Add(new CustomRenderTextureUpdateZone{ needSwap = false, updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f), updateZoneSize = Vector3.one, rotation = 0, passIndex = 0});
-
-                    foreach (var zone in updateZones)
-                    // int sliceCount = GetSliceCount(crt);
-                    // for (int slice = 0; slice < sliceCount; slice++)
-                    {
-                        var zoneCenters = updateZones.Select(z => new Vector4(z.updateZoneCenter.x, z.updateZoneCenter.y, z.updateZoneCenter.z, 0)).ToList();
-                        var zoneSizesAndRotation = updateZones.Select(z => new Vector4(z.updateZoneSize.x, z.updateZoneSize.y, z.updateZoneSize.z, z.rotation)).ToList();
-                        var zonePrimitiveIDs = Enumerable.Range(0, updateZones.Count).Select(j => (float)j).ToList();// updateZones.Select(z => 0.0f).ToList();
-                        int sliceCount = GetSliceCount(crt);
-
-                        // Copy all the slices in case the texture is double buffered
-                        if (zone.needSwap)
-                        {
-                            var doubleBuffer = crt.GetDoubleBufferRenderTexture();
-                            if (doubleBuffer != null)
-                            {
-                                // For now, it's just a copy, once we actually do the swap of pointer, be careful to reset the Active Render Texture
-                                for (int slice = 0; slice < sliceCount; slice++)
-                                    cmd.CopyTexture(doubleBuffer, slice, crt, slice);
-                            }
-                        }
-
-                        // foreach (var zone in updateZones)
-                        for (int slice = 0; slice < sliceCount; slice++)
-                        {
-                            RenderTexture renderTexture = crt.doubleBuffered ? crt.GetDoubleBufferRenderTexture() : crt;
-                            cmd.SetRenderTarget(renderTexture, 0, (crt.dimension == TextureDimension.Cube) ? (CubemapFace)slice : 0, (crt.dimension == TextureDimension.Tex3D) ? slice : 0);
-                            cmd.SetViewport(new Rect(0, 0, crt.width, crt.height));
-                            block.SetVector(kCustomRenderTextureInfo, GetTextureInfos(crt, slice));
-                            block.SetVector(kCustomRenderTextureParameters, GetTextureParameters(crt, slice));
-                            if (textureSelf2D != null)
-                                block.SetTexture(kSelf2D, textureSelf2D);
-                            if (textureSelf3D != null)
-                                block.SetTexture(kSelf3D, textureSelf3D);
-                            if (textureSelfCube != null)
-                                block.SetTexture(kSelfCube, textureSelfCube);
-
-                            int passIndex = zone.passIndex == -1 ? 0 : zone.passIndex;
-
-                            block.SetVectorArray(kUpdateDataCenters, zoneCenters);
-                            block.SetVectorArray(kUpdateDataSizesAndRotation, zoneSizesAndRotation);
-                            block.SetFloatArray(kUpdateDataPrimitiveIDs, zonePrimitiveIDs);
-
-                            cmd.DrawProcedural(Matrix4x4.identity, crt.material, passIndex, MeshTopology.Triangles, 6 * updateZones.Count, 1, block);
-                        }
-                    }
-                }
+                UpdateCustomRenderTexture(cmd, crt, updateCount);
 
                 needsUpdate.Remove(crt);
             }
@@ -394,6 +329,86 @@ public static class CustomTextureManager
             cmd.EndSample(sampler);
 #endif
             crt.IncrementUpdateCount();
+        }
+    }
+
+    public static void UpdateCustomRenderTexture(CommandBuffer cmd, CustomRenderTexture crt, int updateCount, int mipLevel = 0, MaterialPropertyBlock block = null)
+    {
+        // Prepare "self" texture for reading in the shader for double buffered custom textures
+        RenderTexture textureSelf2D = null;
+        RenderTexture textureSelf3D = null;
+        RenderTexture textureSelfCube = null;
+        if (crt.doubleBuffered)
+        {
+            if (crt.dimension == TextureDimension.Tex2D)
+                textureSelf2D = crt;
+            if (crt.dimension == TextureDimension.Cube)
+                textureSelfCube = crt;
+            if (crt.dimension == TextureDimension.Tex3D)
+                textureSelf3D = crt;
+        }
+
+        if (crt.doubleBuffered)
+        {
+            // Update the internal double buffered render texture (resize / alloc / ect.)
+            crt.EnsureDoubleBufferConsistency();
+        }
+
+        if (block == null)
+            block = new MaterialPropertyBlock();
+
+        // If the user didn't called the update on CRT, we still process it because it's realtime
+        for (int i = 0; i < updateCount; i++)
+        {
+            // TODO: cache everything
+            List<CustomRenderTextureUpdateZone> updateZones = new List<CustomRenderTextureUpdateZone>();
+            crt.GetUpdateZones(updateZones);
+
+            if (updateZones.Count == 0)
+                updateZones.Add(new CustomRenderTextureUpdateZone{ needSwap = false, updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f), updateZoneSize = Vector3.one, rotation = 0, passIndex = 0});
+
+            foreach (var zone in updateZones)
+            {
+                var zoneCenters = updateZones.Select(z => new Vector4(z.updateZoneCenter.x, z.updateZoneCenter.y, z.updateZoneCenter.z, 0)).ToList();
+                var zoneSizesAndRotation = updateZones.Select(z => new Vector4(z.updateZoneSize.x, z.updateZoneSize.y, z.updateZoneSize.z, z.rotation)).ToList();
+                var zonePrimitiveIDs = Enumerable.Range(0, updateZones.Count).Select(j => (float)j).ToList();// updateZones.Select(z => 0.0f).ToList();
+                int sliceCount = GetSliceCount(crt);
+
+                // Copy all the slices in case the texture is double buffered
+                if (zone.needSwap)
+                {
+                    var doubleBuffer = crt.GetDoubleBufferRenderTexture();
+                    if (doubleBuffer != null)
+                    {
+                        // For now, it's just a copy, once we actually do the swap of pointer, be careful to reset the Active Render Texture
+                        for (int slice = 0; slice < sliceCount; slice++)
+                            cmd.CopyTexture(doubleBuffer, slice, crt, slice);
+                    }
+                }
+
+                for (int slice = 0; slice < sliceCount; slice++)
+                {
+                    RenderTexture renderTexture = crt.doubleBuffered ? crt.GetDoubleBufferRenderTexture() : crt;
+                    cmd.SetRenderTarget(renderTexture, mipLevel, (crt.dimension == TextureDimension.Cube) ? (CubemapFace)slice : 0, (crt.dimension == TextureDimension.Tex3D) ? slice : 0);
+                    cmd.SetViewport(new Rect(0, 0, crt.width >> mipLevel, crt.height >> mipLevel));
+                    block.SetVector(kCustomRenderTextureInfo, GetTextureInfos(crt, slice, mipLevel));
+                    block.SetVector(kCustomRenderTextureParameters, GetTextureParameters(crt, slice));
+                    if (textureSelf2D != null)
+                        block.SetTexture(kSelf2D, textureSelf2D);
+                    if (textureSelf3D != null)
+                        block.SetTexture(kSelf3D, textureSelf3D);
+                    if (textureSelfCube != null)
+                        block.SetTexture(kSelfCube, textureSelfCube);
+
+                    int passIndex = zone.passIndex == -1 ? 0 : zone.passIndex;
+
+                    block.SetVectorArray(kUpdateDataCenters, zoneCenters);
+                    block.SetVectorArray(kUpdateDataSizesAndRotation, zoneSizesAndRotation);
+                    block.SetFloatArray(kUpdateDataPrimitiveIDs, zonePrimitiveIDs);
+
+                    cmd.DrawProcedural(Matrix4x4.identity, crt.material, passIndex, MeshTopology.Triangles, 6 * updateZones.Count, 1, block);
+                }
+            }
         }
     }
 

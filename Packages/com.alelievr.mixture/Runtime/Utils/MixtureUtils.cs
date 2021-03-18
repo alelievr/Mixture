@@ -251,10 +251,21 @@ namespace Mixture
 			if (shaderPropertiesDimensionSuffix.TryGetValue(texture.dimension, out var suffix))
 			{
 #if UNITY_EDITOR
-				if (material.shader.GetPropertyTextureDimension(material.shader.FindPropertyIndex(propertyName + suffix)) == texture.dimension)
+				int id = material.shader.FindPropertyIndex(propertyName + suffix);
+
+				if (id == -1)
+					return;
+
+				if (material.shader.GetPropertyTextureDimension(id) == texture.dimension)
 #endif
 					material.SetTexture(propertyName + suffix, texture);
 			}
+		}
+
+		public static void SetTextureWithDimension(MaterialPropertyBlock block, string propertyName, Texture texture)
+		{
+			if (shaderPropertiesDimensionSuffix.TryGetValue(texture.dimension, out var suffix))
+				block.SetTexture(propertyName + suffix, texture);
 		}
 
 		public static void SetTextureWithDimension(CommandBuffer cmd, ComputeShader compute, int kernelIndex, string propertyName, Texture texture)
