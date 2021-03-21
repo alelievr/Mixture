@@ -30,8 +30,7 @@ namespace Mixture
 		public static readonly string	cSharpMixtureNodeName = "New Mixture Node.cs";
 		public static readonly string	cSharpMixtureNodeViewTemplate = "Templates/CSharpMixtureNodeViewTemplate";
 		public static readonly string	cSharpMixtureNodeViewName = "New Mixture Node View.cs";
-
-		public static readonly string	customMipMapShader = "MixtureShader.shader";
+		public static readonly string	customMipMapShaderTemplate = "Templates/CustomMipMapTemplate";
 
 		[MenuItem("Assets/Create/🎨 Static Mixture Graph", false, 83)]
 		public static void CreateStaticMixtureGraph()
@@ -109,12 +108,11 @@ namespace Mixture
                 $"New Custom Texture Graph.{ShaderGraphImporter.Extension}", Resources.Load<Texture2D>("sg_graph_icon@64"), null);
 		}
 
-		[MenuItem("Assets/Create/Mixture/Custom Mip Map Shader Graph", false, 903)]
+		[MenuItem("Assets/Create/Mixture/Custom Mip Map Shader", false, 903)]
 		public static void CreateCustomMipMapShaderGraph()
 		{
-			var graphItem = ScriptableObject.CreateInstance< MipMapShaderGraphAction >();
-            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
-                $"New Custom Mip Map.{ShaderGraphImporter.Extension}", Resources.Load<Texture2D>("sg_graph_icon@64"), null);
+			var template = Resources.Load< TextAsset >(customMipMapShaderTemplate);
+			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(AssetDatabase.GetAssetPath(template), "Custom MipMap");
 		}
 #endif
 		
@@ -360,23 +358,6 @@ namespace Mixture
 		class CustomtextureShaderGraphAction : EndNameEditAction
 		{
 			public static readonly string template = "Templates/CustomTextureGraphTemplate";
-
-			public override void Action(int instanceId, string pathName, string resourceFile)
-			{
-				var s = Resources.Load(template, typeof(Shader));
-
-				// In case there was a compilation error sg files can be broken so we re-import them
-				if (s == null)
-					s = ReimportShaderGraphResource(template);
-
-				AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(s), pathName);
-				ProjectWindowUtil.ShowCreatedAsset(AssetDatabase.LoadAssetAtPath<Shader>(pathName));
-			}
-		}
-
-		class MipMapShaderGraphAction : EndNameEditAction
-		{
-			public static readonly string template = "Templates/CustomMipMapTemplate";
 
 			public override void Action(int instanceId, string pathName, string resourceFile)
 			{

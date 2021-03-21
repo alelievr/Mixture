@@ -28,7 +28,7 @@ Shader "Hidden/Mixture/FinalCopy"
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				float4 color = SAMPLE_X_NEAREST_CLAMP(_Source, i.localTexcoord.xyz, i.direction);
+				float4 color = SAMPLE_LOD_X_NEAREST_CLAMP(_Source, i.localTexcoord.xyz, i.direction, _CustomRenderTextureMipLevel);
 
 				color.rgb = ConvertToLinearIfNeeded(color.rgb);
 

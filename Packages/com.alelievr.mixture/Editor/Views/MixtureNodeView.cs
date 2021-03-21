@@ -474,7 +474,7 @@ namespace Mixture
 					GUILayout.Space(8);
 
 					nodeTarget.previewMip = GUILayout.HorizontalSlider(nodeTarget.previewMip, 0.0f, texture.mipmapCount - 1, GUILayout.Width(64));
-					GUILayout.Label($"Mip #{Mathf.CeilToInt(nodeTarget.previewMip)}", EditorStyles.toolbarButton);
+					GUILayout.Label($"Mip #{Mathf.RoundToInt(nodeTarget.previewMip)}", EditorStyles.toolbarButton);
 				}
 
 				GUILayout.FlexibleSpace();
@@ -592,7 +592,7 @@ namespace Mixture
 					MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", node.previewTexture);
 					MixtureUtils.texture3DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(nodeTarget.previewMode));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
-					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", (currentSlice + 0.5f) / nodeTarget.rtSettings.GetDepth(owner.graph));
+					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", currentSlice / nodeTarget.rtSettings.GetDepth(owner.graph));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_IsSRGB", outputNode != null && outputNode.mainOutput.sRGB ? 1 : 0);
 

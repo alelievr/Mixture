@@ -15,6 +15,8 @@ namespace Mixture
 	{
 		GenerateMipMaps		genMipMapNode => nodeTarget as GenerateMipMaps;
 
+		protected override string header => null;
+
 		public override void Enable(bool fromInspector)
 		{
 			base.Enable(fromInspector);
@@ -29,6 +31,11 @@ namespace Mixture
 				shaderSettings.style.display = genMipMapNode.mode == GenerateMipMaps.Mode.Custom ? DisplayStyle.Flex : DisplayStyle.None;
 				ForceUpdatePorts();
 			}
+		}
+
+		protected override void CreateNewShader(VisualElement shaderCreationUI, ObjectField shaderField)
+		{
+			SetShader(MixtureEditorUtils.CreateCustomMipMapShaderGraph(owner.graph, title), shaderCreationUI, shaderField);
 		}
 	}
 }

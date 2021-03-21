@@ -186,6 +186,9 @@ public static class CustomTextureManager
             return -1;
         }
 
+        if (crt?.material?.shader == null)
+            return -1;
+
         if (computeOrder.TryGetValue(crt, out crtComputeOrder))
             return crtComputeOrder;
 
@@ -250,6 +253,7 @@ public static class CustomTextureManager
     static int kSelf2D                         = Shader.PropertyToID("_SelfTexture2D");
     static int kSelf3D                         = Shader.PropertyToID("_SelfTexture3D");
     static int kSelfCube                       = Shader.PropertyToID("_SelfTextureCube");
+    static int kMipLevel                       = Shader.PropertyToID("_CustomRenderTextureMipLevel");
 
     // Returns user facing texture info
     static Vector4 GetTextureInfos(CustomRenderTexture crt, int sliceIndex, int mipLevel)
@@ -268,9 +272,9 @@ public static class CustomTextureManager
     }
 
     // Returns internal parameters for rendering
-    static Vector4 GetTextureParameters(CustomRenderTexture crt, int sliceIndex)
+    static Vector4 GetTextureParameters(CustomRenderTexture crt, int sliceIndex, int mipLevel)
     {
-        int depth = crt.dimension == TextureDimension.Cube ? 6 : crt.volumeDepth;
+        int depth = GetSliceCount(crt, mipLevel);
         return new Vector4(
             (crt.updateZoneSpace == CustomRenderTextureUpdateZoneSpace.Pixel) ? 1.0f : 0.0f,
             // Important: textureparam.y is used for the z coordinate in the CRT and in case of 2D, we use 0.5 because most of the 3D compatible effects will use a neutral value 0.5
@@ -320,7 +324,12 @@ public static class CustomTextureManager
             // using (new ProfilingScope(cmd, new ProfilingSampler($"Update {crt.name}")))
             {
                 updateCount = Mathf.Max(updateCount, 1);
-                UpdateCustomRenderTexture(cmd, crt, updateCount);
+                crtExecInfo.TryGetValue(crt, out var execInfo);
+                if (execInfo != null && execInfo.runOnAllMips)
+                    for (int mipLevel = 0; mipLevel < crt.mipmapCount; mipLevel++)
+                        UpdateCustomRenderTexture(cmd, crt, updateCount, mipLevel: mipLevel);
+                else
+                    UpdateCustomRenderTexture(cmd, crt, updateCount);
 
                 needsUpdate.Remove(crt);
             }
@@ -331,6 +340,14 @@ public static class CustomTextureManager
             crt.IncrementUpdateCount();
         }
     }
+
+    // Temporary stuff that will be removed when moving to RenderGraph
+    public class CustomTextureExecInfo
+    {
+        public bool runOnAllMips = false;
+    }
+
+    public static Dictionary<CustomRenderTexture, CustomTextureExecInfo> crtExecInfo = new Dictionary<CustomRenderTexture, CustomTextureExecInfo>();
 
     public static void UpdateCustomRenderTexture(CommandBuffer cmd, CustomRenderTexture crt, int updateCount, int mipLevel = 0, MaterialPropertyBlock block = null)
     {
@@ -372,7 +389,7 @@ public static class CustomTextureManager
                 var zoneCenters = updateZones.Select(z => new Vector4(z.updateZoneCenter.x, z.updateZoneCenter.y, z.updateZoneCenter.z, 0)).ToList();
                 var zoneSizesAndRotation = updateZones.Select(z => new Vector4(z.updateZoneSize.x, z.updateZoneSize.y, z.updateZoneSize.z, z.rotation)).ToList();
                 var zonePrimitiveIDs = Enumerable.Range(0, updateZones.Count).Select(j => (float)j).ToList();// updateZones.Select(z => 0.0f).ToList();
-                int sliceCount = GetSliceCount(crt);
+                int sliceCount = GetSliceCount(crt, mipLevel);
 
                 // Copy all the slices in case the texture is double buffered
                 if (zone.needSwap)
@@ -381,18 +398,19 @@ public static class CustomTextureManager
                     if (doubleBuffer != null)
                     {
                         // For now, it's just a copy, once we actually do the swap of pointer, be careful to reset the Active Render Texture
-                        for (int slice = 0; slice < sliceCount; slice++)
-                            cmd.CopyTexture(doubleBuffer, slice, crt, slice);
+                        for (int sliceIndex = 0; sliceIndex < sliceCount; sliceIndex++)
+                            cmd.CopyTexture(doubleBuffer, sliceIndex, crt, sliceIndex);
                     }
                 }
 
                 for (int slice = 0; slice < sliceCount; slice++)
                 {
                     RenderTexture renderTexture = crt.doubleBuffered ? crt.GetDoubleBufferRenderTexture() : crt;
-                    cmd.SetRenderTarget(renderTexture, mipLevel, (crt.dimension == TextureDimension.Cube) ? (CubemapFace)slice : 0, (crt.dimension == TextureDimension.Tex3D) ? slice : 0);
-                    cmd.SetViewport(new Rect(0, 0, crt.width >> mipLevel, crt.height >> mipLevel));
+                    cmd.SetRenderTarget(renderTexture, mipLevel, (crt.dimension == TextureDimension.Cube) ? (CubemapFace)slice : CubemapFace.Unknown, (crt.dimension == TextureDimension.Tex3D) ? slice : 0);
+                    cmd.SetViewport(new Rect(0, 0, Mathf.Max(1, crt.width >> mipLevel), Mathf.Max(1, crt.height >> mipLevel)));
                     block.SetVector(kCustomRenderTextureInfo, GetTextureInfos(crt, slice, mipLevel));
-                    block.SetVector(kCustomRenderTextureParameters, GetTextureParameters(crt, slice));
+                    block.SetVector(kCustomRenderTextureParameters, GetTextureParameters(crt, slice, mipLevel));
+                    block.SetFloat(kMipLevel, mipLevel);
                     if (textureSelf2D != null)
                         block.SetTexture(kSelf2D, textureSelf2D);
                     if (textureSelf3D != null)
@@ -418,14 +436,14 @@ public static class CustomTextureManager
         return sampler;
     }
 
-    static int GetSliceCount(CustomRenderTexture crt)
+    static int GetSliceCount(CustomRenderTexture crt, int mipLevel)
     {
         switch (crt.dimension)
         {
             case TextureDimension.Cube:
                 return 6;
             case TextureDimension.Tex3D:
-                return crt.volumeDepth;
+                return Mathf.Max(1, crt.volumeDepth >> mipLevel);
             default:
             case TextureDimension.Tex2D:
                 return 1;

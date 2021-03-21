@@ -8,7 +8,11 @@ using System.Reflection;
 namespace Mixture
 {
 	[Documentation(@"
-Generate mipmaps for the input texture.
+Generate mipmaps for the input texture. You can choose between 4 modes to generate the mip chain:
+- Auto, it uses the built-in unity mipmap generation code (see https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.GenerateMips.html).
+- Gaussian, generate the mips using a gaussian filter.
+- Max, generate the mips using a Max operation, it can be useful when manipulating depth textures
+- Custom, you can create a new shader that will be used to generate the mipmaps. Click on the ""New Shader"" button to create a new mipmap shader. If you add properties to your shader, they will be displayed as input of the node.
 ")]
 
 	[System.Serializable, NodeMenuItem("Utils/Generate MipMaps")]
@@ -64,6 +68,8 @@ Generate mipmaps for the input texture.
             base.Enable();
         }
 
+        public override IEnumerable<CustomRenderTexture> GetCustomRenderTextures() { yield break; }
+
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			rtSettings.doubleBuffered = true;
@@ -77,16 +83,17 @@ Generate mipmaps for the input texture.
 				mipmapGenMat = material;
 			else
 				output.material = null;
-			
+
 			if (mode == Mode.Auto)
 			{
 				cmd.GenerateMips(output);
 			}
 			else
 			{
-				mipmapGenMat.SetFloat("_Mode", (int)mode);
-				MixtureUtils.SetTextureWithDimension(mipmapGenMat, "_PreviousMip", input);
 				var props = new MaterialPropertyBlock();
+				MixtureUtils.SetupDimensionKeyword(mipmapGenMat, rtSettings.GetTextureDimension(graph));
+				mipmapGenMat.SetFloat("_Mode", (int)mode);
+				MixtureUtils.SetTextureWithDimension(props, "_PreviousMip", input);
 				// Manually generate mips:
 				for (int i = 0; i < output.mipmapCount - 1; i++)
 				{
@@ -102,7 +109,7 @@ Generate mipmaps for the input texture.
 						// 2 passes of gaussian blur for 2D and Cubemaps
 						props.SetVector("_GaussianBlurDirection", Vector3.right);
 						CustomTextureManager.UpdateCustomRenderTexture(cmd, output, 1, i + 1, props);
-						cmd.CopyTexture(output.GetDoubleBufferRenderTexture(), 0, i + 1, output, 0, i + 1);
+						TextureUtils.CopyTexture(cmd, output.GetDoubleBufferRenderTexture(), output, i + 1);
 
 						props.SetFloat("_SourceMip", i + 1);
 						MixtureUtils.SetTextureWithDimension(props, "_PreviousMip", output);
@@ -113,7 +120,7 @@ Generate mipmaps for the input texture.
 						if (input.dimension == TextureDimension.Tex3D)
 						{
 							props.SetVector("_GaussianBlurDirection", Vector3.forward);
-							cmd.CopyTexture(output.GetDoubleBufferRenderTexture(), 0, i + 1, output, 0, i + 1);
+							TextureUtils.CopyTexture(cmd, output.GetDoubleBufferRenderTexture(), output, i + 1);
 							CustomTextureManager.UpdateCustomRenderTexture(cmd, output, 1, i + 1, props);
 						}
 					}
@@ -122,11 +129,7 @@ Generate mipmaps for the input texture.
 						CustomTextureManager.UpdateCustomRenderTexture(cmd, output, 1, i + 1, props);
 					}
 
-					// TODO: handle cube & 3D textures
-					// CoreUtils.SetRenderTarget(cmd, output, miplevel: i + 1);
-					// CoreUtils.DrawFullScreen(cmd, mipmapGenMat, props);
-					// cmd.DrawProcedural(Matrix4x4.identity, mipmapGenMat, 0, MeshTopology.Triangles, 6, 1, props);
-					cmd.CopyTexture(output.GetDoubleBufferRenderTexture(), 0, i + 1, output, 0, i + 1);
+					TextureUtils.CopyTexture(cmd, output.GetDoubleBufferRenderTexture(), output, i + 1);
 					MixtureUtils.SetTextureWithDimension(props, "_PreviousMip", output);
 				}
 			}
@@ -134,5 +137,5 @@ Generate mipmaps for the input texture.
 
 			return true;
 		}
-    }
+    }	
 }

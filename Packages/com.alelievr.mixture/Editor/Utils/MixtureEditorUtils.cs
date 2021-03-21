@@ -105,6 +105,12 @@ namespace Mixture
             return CopyAssetWithNameFromTemplate<ComputeShader>(graph, name, GetAssetTemplatePath<ComputeShader>(computeShaderTemplate));
         }
 
+        public static Shader CreateCustomMipMapShaderGraph(MixtureGraph graph, string name)
+        {
+            name += ".shader";
+            return CopyAssetWithNameFromTemplate<Shader>(graph, name, GetAssetTemplatePath<Shader>(MixtureAssetCallbacks.customMipMapShaderTemplate));
+        }
+
 		public static void ToggleMixtureGraphMode(MixtureGraph mixture)
 		{
 			mixture.isRealtime = !mixture.isRealtime;

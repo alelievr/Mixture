@@ -287,7 +287,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 			return true;
 		}
 
-        public IEnumerable<CustomRenderTexture> GetCustomRenderTextures()
+        public virtual IEnumerable<CustomRenderTexture> GetCustomRenderTextures()
 		{
 			yield return output;
 		}

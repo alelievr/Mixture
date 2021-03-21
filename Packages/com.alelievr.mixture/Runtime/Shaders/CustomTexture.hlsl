@@ -61,6 +61,8 @@ float4      _CustomRenderTextureInfo; // x = width, y = height, z = depth, w = f
 #define _CustomRenderTextureCubeFace    _CustomRenderTextureInfo.w
 #define _CustomRenderTexture3DSlice     _CustomRenderTextureInfo.w
 
+float _CustomRenderTextureMipLevel;
+
 Texture2D _SelfTexture2D;
 sampler sampler_SelfTexture2D;
 

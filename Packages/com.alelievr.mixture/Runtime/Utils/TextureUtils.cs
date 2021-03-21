@@ -259,23 +259,39 @@ namespace Mixture
         static ProfilingSampler copyTextureSampler = new ProfilingSampler("Copy Texture");
         public static void CopyTexture(CommandBuffer cmd, Texture source, Texture destination, bool copyMips = true)
         {
-            using (new ProfilingScope(cmd, copyTextureSampler))
+            int mipStop = copyMips ? source.mipmapCount : 1;
+            CopyTexture(cmd, source, destination, 0, mipStop);
+        }
+
+        public static void CopyTexture(CommandBuffer cmd, Texture source, Texture destination, int mipStart, int mipStop = -1)
+        {
+            if (mipStop == -1)
+                mipStop = mipStart + 1;
+            using (new ProfilingScope(cmd, new ProfilingSampler("Copy Texture " + source.name + " to " + destination.name)))
             {
-                int sliceCount = (source.dimension == TextureDimension.Cube) ? 6 : TextureUtils.GetSliceCount(source);
+                int originalSliceCount = (source.dimension == TextureDimension.Cube) ? 6 : TextureUtils.GetSliceCount(source);
 
                 bool canCopy = source.graphicsFormat == destination.graphicsFormat && source.width == destination.width && source.height == destination.height;
 
-                for (int slice = 0; slice < sliceCount; slice++)
+                if (canCopy)
                 {
-                    if (canCopy)
+                    for (int mipLevel = mipStart; mipLevel < mipStop; mipLevel++)
                     {
-                        for (int mipLevel = 0; mipLevel < (copyMips ? source.mipmapCount : 1); mipLevel++)
-                            cmd.CopyTexture(source, slice, mipLevel, destination, slice, mipLevel);
+                        int sliceCount = source.dimension == TextureDimension.Tex3D ? Mathf.Max(originalSliceCount >> mipLevel, 1) : originalSliceCount;
+                        for (int slice = 0; slice < sliceCount; slice++)
+                        {
+                            // CopyTexture with mip API is really weird, it needs to take the slice << mipLevel otherwise it doesn't work
+                            int copySlice = source.dimension == TextureDimension.Tex3D ? slice << mipLevel : slice;
+                            cmd.CopyTexture(source, copySlice, mipLevel, destination, copySlice, mipLevel);
+                        }
                     }
-                    else
-                    {
-                        cmd.Blit(source, destination, slice, 0); // no mips in this version 
-                    }
+
+                }
+                else
+                {
+                    // no mips mip target in Blit call
+                    for (int slice = 0; slice < originalSliceCount; slice++)
+                        cmd.Blit(source, destination, slice, 0);
                 }
             }
         }

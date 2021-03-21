@@ -128,7 +128,7 @@ namespace Mixture
 
 			if (shaderNode.shader == null)
 			{
-				shaderCreationUI.Add(new Button(CreateNewShader) {
+				shaderCreationUI.Add(new Button(() => CreateNewShader(shaderCreationUI, shaderField)) {
 					text = "New Shader"
 				});
 			}
@@ -139,25 +139,25 @@ namespace Mixture
 				});
 			}
 
-			void CreateNewShader()
-			{
-				// TODO: create a popupwindow instead of a context menu
-				var menu = new GenericMenu();
-				var dim = (OutputDimension)shaderNode.rtSettings.GetTextureDimension(owner.graph);
-
-#if MIXTURE_SHADERGRAPH
-				GUIContent shaderGraphContent = EditorGUIUtility.TrTextContentWithIcon("Graph", Resources.Load<Texture2D>("sg_graph_icon@64"));
-				menu.AddItem(shaderGraphContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderGraph(owner.graph, title, dim), shaderCreationUI, shaderField));
-#endif
-				GUIContent shaderTextContent = EditorGUIUtility.TrTextContentWithIcon("Text", "Shader Icon");
-				menu.AddItem(shaderTextContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderText(owner.graph, title, dim), shaderCreationUI, shaderField));
-				menu.ShowAsContext();
-			}
-
 			void OpenCurrentShader()
 			{
 				AssetDatabase.OpenAsset(shaderNode.shader);
 			}
+		}
+
+		protected virtual void CreateNewShader(VisualElement shaderCreationUI, ObjectField shaderField)
+		{
+			// TODO: create a popupwindow instead of a context menu
+			var menu = new GenericMenu();
+			var dim = (OutputDimension)shaderNode.rtSettings.GetTextureDimension(owner.graph);
+
+#if MIXTURE_SHADERGRAPH
+			GUIContent shaderGraphContent = EditorGUIUtility.TrTextContentWithIcon("Graph", Resources.Load<Texture2D>("sg_graph_icon@64"));
+			menu.AddItem(shaderGraphContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderGraph(owner.graph, title, dim), shaderCreationUI, shaderField));
+#endif
+			GUIContent shaderTextContent = EditorGUIUtility.TrTextContentWithIcon("Text", "Shader Icon");
+			menu.AddItem(shaderTextContent, false, () => SetShader(MixtureEditorUtils.CreateNewShaderText(owner.graph, title, dim), shaderCreationUI, shaderField));
+			menu.ShowAsContext();
 		}
 		
 		void ResetMaterialPropertyToDefault(PortView pv)
@@ -169,7 +169,7 @@ namespace Mixture
 			}
 		}
 
-		void SetShader(Shader newShader, VisualElement shaderCreationUI, ObjectField shaderField)
+		protected void SetShader(Shader newShader, VisualElement shaderCreationUI, ObjectField shaderField)
 		{
 			owner.RegisterCompleteObjectUndo("Updated Shader of ShaderNode");
 			shaderNode.shader = newShader;

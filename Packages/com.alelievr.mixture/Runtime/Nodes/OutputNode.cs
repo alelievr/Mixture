@@ -40,18 +40,6 @@ namespace Mixture
             };
         }
 
-		CustomSampler	_generateMipMapSampler;
-		CustomSampler	generateMipMapSampler
-		{
-			get
-			{
-				if (_generateMipMapSampler == null)
-					_generateMipMapSampler = CustomSampler.Create("Generate Mips", true);
-
-				return _generateMipMapSampler;
-			}
-		}
-
         protected override void Enable()
         {
 			// Sanitize the RT Settings for the output node, they must contains only valid information for the output node
@@ -91,13 +79,6 @@ namespace Mixture
 
 			if (graph.isRealtime)
 				output.finalCopyRT = graph.mainOutputTexture as CustomRenderTexture;
-			else
-			{
-				UpdateTempRenderTexture(ref output.finalCopyRT, output.hasMipMaps, output.customMipMapShader == null);
-				graph.onOutputTextureUpdated += () => {
-					UpdateTempRenderTexture(ref output.finalCopyRT, output.hasMipMaps, output.customMipMapShader == null);
-				};
-			}
 
 			// output.finalCopyRT can be null here if the graph haven't been imported yet
 			if (output.finalCopyRT != null)
@@ -158,7 +139,6 @@ namespace Mixture
 			{
 				if (graph != null && !graph.isRealtime)
 					CoreUtils.Destroy(output.finalCopyRT);
-				CoreUtils.Destroy(output.mipmapTempRT);
 			}
 		}
 
@@ -200,23 +180,25 @@ namespace Mixture
 				else
 				{
 					// Update the renderTexture size and format:
-					if (UpdateTempRenderTexture(ref output.finalCopyRT, output.hasMipMaps, output.customMipMapShader == null))
+					if (UpdateTempRenderTexture(ref output.finalCopyRT, output.hasMipMaps))
 						onTempRenderTextureUpdated?.Invoke();
 				}
 
 				if (!UpdateFinalCopyMaterial(output))
 					continue;
 
+				bool inputHasMips = output.inputTexture.mipmapCount > 1;
+				CustomTextureManager.crtExecInfo[output.finalCopyRT] = new CustomTextureManager.CustomTextureExecInfo{
+					runOnAllMips = inputHasMips
+				};
+
 				// The CustomRenderTexture update will be triggered at the begining of the next frame so we wait one frame to generate the mipmaps
 				// We need to do this because we can't generate custom mipMaps with CustomRenderTextures
-				if (output.customMipMapShader != null && output.hasMipMaps)
+
+				if (output.hasMipMaps && !inputHasMips)
 				{
-					UpdateTempRenderTexture(ref output.mipmapTempRT, true, false);
-					GenerateCustomMipMaps(cmd, output);
-				}
-				else if (Camera.main != null)
-				{
-					Camera.main.RemoveCommandBuffers(CameraEvent.BeforeDepthTexture);
+					// TODO: check if input has mips and copy them instead of overwritting them.
+					cmd.GenerateMips(output.finalCopyRT);
 				}
 			}
 
@@ -276,50 +258,6 @@ namespace Mixture
 				targetOutput.finalCopyRT.material = targetOutput.finalCopyMaterial;
 
 			return true;
-		}
-
-		void GenerateCustomMipMaps(CommandBuffer cmd, OutputTextureSettings targetOutput)
-		{
-#if UNITY_EDITOR
-			if (targetOutput.mipmapTempRT == null || targetOutput.finalCopyRT == null)
-				return;
-
-			cmd.BeginSample(generateMipMapSampler);
-
-			if (targetOutput.mipMapPropertyBlock == null)
-				targetOutput.mipMapPropertyBlock = new MaterialPropertyBlock();
-
-			int slice = 0;
-			// TODO: support 3D textures and Cubemaps
-			// for (int slice = 0; slice < targetOutput.finalCopyRT.volumeDepth; slice++)
-			{
-				for (int i = 0; i < targetOutput.finalCopyRT.mipmapCount - 1; i++)
-				{
-					int mipLevel = i + 1;
-					targetOutput.mipmapTempRT.name = "Tmp mipmap";
-					cmd.SetRenderTarget(targetOutput.mipmapTempRT, mipLevel, CubemapFace.Unknown, 0);
-
-					Vector4 textureSize = new Vector4(targetOutput.finalCopyRT.width, targetOutput.finalCopyRT.height, targetOutput.finalCopyRT.volumeDepth, 0);
-					textureSize /= 1 << (mipLevel);
-					Vector4 textureSizeRcp = new Vector4(1.0f / textureSize.x, 1.0f / textureSize.y, 1.0f / textureSize.z, 0);
-
-					targetOutput.mipMapPropertyBlock.SetTexture("_InputTexture_2D", targetOutput.finalCopyRT);
-					targetOutput.mipMapPropertyBlock.SetTexture("_InputTexture_3D", targetOutput.finalCopyRT);
-					targetOutput.mipMapPropertyBlock.SetFloat("_CurrentMipLevel", mipLevel - 1);
-					targetOutput.mipMapPropertyBlock.SetFloat("_MaxMipLevel", targetOutput.finalCopyRT.mipmapCount);
-					targetOutput.mipMapPropertyBlock.SetVector("_InputTextureSize", textureSize);
-					targetOutput.mipMapPropertyBlock.SetVector("_InputTextureSizeRcp", textureSizeRcp);
-					targetOutput.mipMapPropertyBlock.SetFloat("_CurrentSlice", slice / (float)targetOutput.finalCopyRT.width);
-
-					MixtureUtils.SetupDimensionKeyword(targetOutput.customMipMapMaterial, targetOutput.finalCopyRT.dimension);
-					cmd.DrawProcedural(Matrix4x4.identity, targetOutput.customMipMapMaterial, 0, MeshTopology.Triangles, 3, 1, targetOutput.mipMapPropertyBlock);
-
-					cmd.CopyTexture(targetOutput.mipmapTempRT, slice, mipLevel, targetOutput.finalCopyRT, slice, mipLevel);
-				}
-			}
-
-			cmd.EndSample(generateMipMapSampler);
-#endif
 		}
 
 		[CustomPortBehavior(nameof(outputTextureSettings))]

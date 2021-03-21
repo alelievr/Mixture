@@ -30,15 +30,11 @@ namespace Mixture
         EnumField compressionFormat;
         EnumField compressionQuality;
         Toggle enableMipMap;
-        VisualElement mipmapFields;
-        ObjectField mipmapShaderField;
-        Button createMipMapShaderButton;
         Label portName;
         Button removeOutputButton;
         Toggle enableConversion;
         EnumField conversionFormat;
         VisualElement conversionSettings;
-        VisualElement mipmapSettings;
         VisualElement sRGBSettings;
         Toggle sRGB;
 
@@ -73,19 +69,13 @@ namespace Mixture
             compressionQuality = this.Q("CompressionQuality") as EnumField;
             enableMipMap = this.Q("EnableMipMap") as Toggle;
             compressionFields = this.Q("CompressionFields");
-            mipmapFields = this.Q("MipMapFields");
-            createMipMapShaderButton = this.Q("NewMipMapShader") as Button;
-            mipmapShaderField = this.Q("ShaderField") as ObjectField;
             removeOutputButton = this.Q("RemoveButton") as Button;
             conversionSettings = this.Q("ConversionSettings");
             conversionFormat = this.Q("ConversionFormat") as EnumField;
             enableConversion = this.Q("EnableConversion") as Toggle;
-            mipmapSettings = this.Q("MipMapSettings");
             sRGBSettings = this.Q("SRGBSettings");
             sRGB = this.Q("sRGB") as Toggle;
         }
-
-        bool supportCustomMipMaps => node.rtSettings.GetTextureDimension(graphView.graph) == TextureDimension.Tex2D;
 
         void InitializeView()
         {
@@ -149,22 +139,8 @@ namespace Mixture
             compressionFormat.SetValueWithoutNotify(targetSettings.compressionFormat);
             compressionQuality.SetValueWithoutNotify(targetSettings.compressionQuality);
 
-			createMipMapShaderButton.clicked += MixtureAssetCallbacks.CreateCustomMipMapShaderGraph;
-			// TODO: assign the created shader when finished
-
-			mipmapShaderField.objectType = typeof(Shader);
-			mipmapShaderField.value = targetSettings.customMipMapShader;
-			createMipMapShaderButton.style.display = targetSettings.customMipMapShader != null ? DisplayStyle.None : DisplayStyle.Flex;
-			mipmapShaderField.RegisterValueChangedCallback(e => {
-				graphView.RegisterCompleteObjectUndo("Changed Custom Mip Map Shader");
-				targetSettings.customMipMapShader = e.newValue as Shader;
-				createMipMapShaderButton.style.display = e.newValue != null ? DisplayStyle.None : DisplayStyle.Flex;;
-			});
-
 			enableMipMap.RegisterValueChangedCallback(e => {
 				targetSettings.hasMipMaps = e.newValue;
-                if (supportCustomMipMaps)
-                    mipmapFields.style.display = targetSettings.hasMipMaps ? DisplayStyle.Flex : DisplayStyle.None;
                 
                 // Processing the graph to update the previews with the new mipmaps
                 graphView.ProcessGraph(); 
@@ -201,7 +177,6 @@ namespace Mixture
             // Initial view state
             portSettings.style.display = DisplayStyle.None;
             compressionFields.style.display = targetSettings.enableCompression ? DisplayStyle.Flex : DisplayStyle.None;
-			mipmapFields.style.display = targetSettings.hasMipMaps ? DisplayStyle.Flex : DisplayStyle.None;
             portNameField.style.display = DisplayStyle.None;
             conversionFormat.style.display = targetSettings.enableConversion ? DisplayStyle.Flex : DisplayStyle.None;
         }
@@ -216,9 +191,6 @@ namespace Mixture
                 compressionFields.style.display = DisplayStyle.None;
                 enableCompression.style.display = DisplayStyle.None;
                 conversionSettings.style.display = DisplayStyle.None;
-                mipmapSettings.style.display = DisplayStyle.Flex;
-
-                mipmapFields.style.display = supportCustomMipMaps ? DisplayStyle.Flex : DisplayStyle.None;
             }
             else
             {
@@ -229,25 +201,18 @@ namespace Mixture
                         compressionFields.style.display = targetSettings.enableCompression ? DisplayStyle.Flex : DisplayStyle.None;
                         enableCompression.style.display = DisplayStyle.Flex;
                         conversionSettings.style.display = DisplayStyle.None;
-                        mipmapSettings.style.display = DisplayStyle.Flex;
-                        if (targetSettings.hasMipMaps)
-                            mipmapFields.style.display = targetSettings.hasMipMaps ? DisplayStyle.Flex : DisplayStyle.None;
                         break;
                     case TextureDimension.Tex3D:
                         // Tex3D supports conversion but not compression, mipmap but not custom mipmaps.
                         compressionFields.style.display = DisplayStyle.None;
                         enableCompression.style.display = DisplayStyle.None;
                         conversionSettings.style.display = DisplayStyle.Flex;
-                        mipmapSettings.style.display = DisplayStyle.Flex;
-                        mipmapFields.style.display = DisplayStyle.None;
                         break;
                     case TextureDimension.Cube:
                         // Cubemaps supports compression and mipmaps but not custom mipmaps.
                         compressionFields.style.display = targetSettings.enableCompression ? DisplayStyle.Flex : DisplayStyle.None;
                         enableCompression.style.display = DisplayStyle.Flex;
                         conversionSettings.style.display = DisplayStyle.None;
-                        mipmapSettings.style.display = DisplayStyle.Flex;
-                        mipmapFields.style.display = DisplayStyle.None;
                         break;
                 }
             }

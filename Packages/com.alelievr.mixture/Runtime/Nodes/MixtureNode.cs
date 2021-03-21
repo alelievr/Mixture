@@ -266,7 +266,7 @@ namespace Mixture
 			// Avoid adding markers if it's CRT processing (CRT  already have one)
 			// Or loops as it will bloat the debug markers
 			bool loopNode = this is ILoopStart || this is ILoopEnd;
-			if (this is IUseCustomRenderTextureProcessing || loopNode)
+			if ((this is IUseCustomRenderTextureProcessing crt && crt.GetCustomRenderTextures().Count() > 0) || loopNode)
 				ProcessNode(cmd);
 			else
 			{
