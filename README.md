@@ -39,6 +39,10 @@ As well as the Node Library here: https://alelievr.github.io/Mixture/manual/node
 
 And finally, you can find some Mixture examples here: https://alelievr.github.io/Mixture/manual/Examples.html
 
+## Roadmap
+
+The roadmap is available on Trello: https://trello.com/b/2JiH2Vsp/mixture. If you have a Trello account, you can vote on cards to prioritize a feature.
+
 # Bugs / Feature Requests
 
 Bugs and features requests are logged using the github issue system. To report a bug, request a feature, or simply ask a question, simply [open a new issue](https://github.com/alelievr/Mixture/issues/new/choose).
