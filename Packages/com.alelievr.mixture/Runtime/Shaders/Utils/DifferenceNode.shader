@@ -88,9 +88,9 @@ Shader "Hidden/Mixture/DifferenceNode"
 				float3 b = 1 + kC3 * lms;
 				float3 tmp = a / b; 
 
-				lms.x = pow(tmp.x, kP);
-				lms.y = pow(tmp.y, kP);
-				lms.z = pow(tmp.z, kP);
+				lms.x = pow(abs(tmp.x), kP);
+				lms.y = pow(abs(tmp.y), kP);
+				lms.z = pow(abs(tmp.z), kP);
 
 				float3 jab = float3(
 					0.5 * lms.x + 0.5 * lms.y,
@@ -112,7 +112,7 @@ Shader "Hidden/Mixture/DifferenceNode"
 				float h2 = atan(v2.z / v2.y);
 
 				float deltaH = 2 * sqrt(c1 * c2) * sin((h1 - h2) / 2);
-				float deltaE = sqrt(pow(v1.x - v2.x, 2) + pow(c1 - c2, 2) + deltaH * deltaH);
+				float deltaE = sqrt(pow(abs(v1.x - v2.x), 2) + pow(abs(c1 - c2), 2) + deltaH * deltaH);
 				return deltaE;
 			}
 

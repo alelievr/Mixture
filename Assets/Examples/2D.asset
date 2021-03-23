@@ -795,7 +795,7 @@ MonoBehaviour:
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: -2622, y: -1481, z: 0}
+  position: {x: -153, y: -723, z: 0}
   scale: {x: 1.3225, y: 1.3225, z: 1}
   realtimePreview: 0
   isRealtime: 0
@@ -824,6 +824,7 @@ MonoBehaviour:
   - {fileID: -7797858145472901598}
   - {fileID: 2491625942348867105}
   - {fileID: 6670091451615697692}
+  - {fileID: 9060617578117326855}
   variants: []
   _mainOutputTexture: {fileID: -5326166195811395285}
   _outputTextures:
@@ -879,7 +880,6 @@ MonoBehaviour:
           compressionFormat: 25
           compressionQuality: 100
           hasMipMaps: 0
-          customMipMapShader: {fileID: 0}
           isMain: 1
           enableConversion: 0
           conversionFormat: 0
@@ -1933,18 +1933,18 @@ MonoBehaviour:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
         shaderGUID: f53ca163880a74a4cb8940c1893f071f
-        mousePosition: {x: 0.16384828, y: 0.9774005}
+        mousePosition: {x: 0.8648962, y: 0.13593884}
     0000000C:
       type: {class: NormalFromHeight, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 7564d7f9-76c2-4ab2-a233-8d883679d31a
-        computeOrder: 13
+        computeOrder: -1
         position:
           serializedVersion: 2
-          x: 639
-          y: 766
+          x: 467.00006
+          y: 706
           width: 250
-          height: 417
+          height: 415
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -2104,13 +2104,13 @@ MonoBehaviour:
       type: {class: PreviewNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 344046a3-ab32-43e4-a915-12fbdf64b203
-        computeOrder: 15
+        computeOrder: 14
         position:
           serializedVersion: 2
-          x: 1707.0002
-          y: 1064
+          x: 1450
+          y: 1085
           width: 250
-          height: 483
+          height: 466
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -2218,18 +2218,18 @@ MonoBehaviour:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
         shaderGUID: f53ca163880a74a4cb8940c1893f071f
-        mousePosition: {x: 0.8704548, y: 0.19958688}
+        mousePosition: {x: 0.63542324, y: 0.48047513}
     0000000F:
       type: {class: GenerateMipMaps, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 8e8aab23-24df-473e-8268-27e247c77399
-        computeOrder: 14
+        computeOrder: 13
         position:
           serializedVersion: 2
-          x: 1457.0001
-          y: 1064
+          x: 1200
+          y: 1085
           width: 250
-          height: 390
+          height: 394
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -2248,7 +2248,7 @@ MonoBehaviour:
           outputChannels: 0
           outputPrecision: 0
           editFlags: -257
-          doubleBuffered: 0
+          doubleBuffered: 1
           wrapMode: 0
           filterMode: 1
           refreshMode: 0
@@ -2260,13 +2260,18 @@ MonoBehaviour:
         previewEV100: 0
         previewSlice: 0
         isPinned: 0
-        input: {fileID: 0}
         output: {fileID: 0}
+        shader: {fileID: 0}
+        material: {fileID: 9060617578117326855}
+        exposedProperties: []
+        shaderGUID: 
+        input: {fileID: 0}
+        mode: 0
     00000010:
       type: {class: CellularNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: e8b6f561-9a46-4d2b-a900-10d5025118a4
-        computeOrder: 16
+        computeOrder: 15
         position:
           serializedVersion: 2
           x: 1706.829
@@ -2409,7 +2414,7 @@ MonoBehaviour:
       type: {class: PreviewNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 27bac9ae-c562-4b0f-a91a-8b66fd4b028a
-        computeOrder: 17
+        computeOrder: 16
         position:
           serializedVersion: 2
           x: 1964.0002
@@ -2523,7 +2528,7 @@ MonoBehaviour:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
         shaderGUID: f53ca163880a74a4cb8940c1893f071f
-        mousePosition: {x: 0.43801653, y: 0.9793388}
+        mousePosition: {x: 0.8657549, y: 0}
 --- !u!21 &104215503536926863
 Material:
   serializedVersion: 6
@@ -3111,4 +3116,38 @@ Material:
     - _UVMode: 1
     m_Colors:
     - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &9060617578117326855
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: f3b7eb0cc69e30e46baef90e235377df, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors: []
   m_BuildTextureStacks: []

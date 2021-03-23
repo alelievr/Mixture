@@ -187,7 +187,7 @@ namespace Mixture
 				if (!UpdateFinalCopyMaterial(output))
 					continue;
 
-				bool inputHasMips = output.inputTexture.mipmapCount > 1;
+				bool inputHasMips = output.inputTexture != null && output.inputTexture.mipmapCount > 1;
 				CustomTextureManager.crtExecInfo[output.finalCopyRT] = new CustomTextureManager.CustomTextureExecInfo{
 					runOnAllMips = inputHasMips
 				};
