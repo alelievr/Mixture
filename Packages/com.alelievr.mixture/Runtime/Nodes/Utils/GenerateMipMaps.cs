@@ -29,6 +29,7 @@ Generate mipmaps for the input texture. You can choose between 4 modes to genera
 		[Input(name = "Input Texture")]
 		public Texture	input;
 
+		[Tooltip("Select which algorithm will be used to generate the mipmaps.")]
 		public Mode mode;
 
 		public override string	name => "Generate MipMaps";

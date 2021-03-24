@@ -4,10 +4,19 @@ using UnityEngine;
 
 namespace Mixture
 {
+    [System.Serializable]
     public class MixtureMesh
     {
         public Mesh         mesh;
         public Matrix4x4    localToWorld = Matrix4x4.identity;
+
+        public MixtureMesh(Mesh mesh = null) : this(mesh, Matrix4x4.identity) {}
+
+        public MixtureMesh(Mesh mesh, Matrix4x4 localToWorld)
+        {
+            this.mesh = mesh;
+            this.localToWorld = localToWorld;
+        }
 
         public MixtureMesh Clone()
         {
@@ -19,7 +28,7 @@ namespace Mixture
             clonedMesh.bounds = mesh.bounds;
             clonedMesh.colors = mesh.colors;
             clonedMesh.colors32 = mesh.colors32;
-            return new MixtureMesh{ mesh = clonedMesh, localToWorld = localToWorld };
+            return new MixtureMesh(clonedMesh, localToWorld);
         }
     }
 }

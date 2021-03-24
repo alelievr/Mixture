@@ -13,7 +13,7 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Experimental/Apply Attributes To Mesh")]
 	public class ApplyAttributesToMesh : MixtureNode
 	{
-		[Input("Mesh")]
+		[ShowAsDrawer, Input("Mesh")]
 		public MixtureMesh input;
 
         [Input("Attributes")]

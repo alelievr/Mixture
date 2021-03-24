@@ -11,7 +11,7 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Experimental/Baked Geometry")]
 	public class BakedGeometry : MixtureNode
 	{
-		[Input("Input Meshes")]
+		[Input("Input Meshes"), ShowAsDrawer]
 		public MixtureMesh inputMesh;
 		// [Input(name = "Positions")]
 		// public List< Vector3 >		positions = new List<Vector3>();

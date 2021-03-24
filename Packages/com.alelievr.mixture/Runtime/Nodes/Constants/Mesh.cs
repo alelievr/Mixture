@@ -40,7 +40,7 @@ Mesh in mixture, it also have transform a so you can apply any kind of transform
 			if (mesh == null)
 				return false;
 
-            output = new MixtureMesh{ mesh = mesh };
+            output = new MixtureMesh(mesh);
 
 			// Apply matrix to mesh
 			var combine = new CombineInstance[1];

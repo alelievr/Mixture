@@ -9,7 +9,7 @@ namespace Mixture
 	[System.Serializable, NodeMenuItem("Experimental/Transform Mesh")]
 	public class TransformMesh : MixtureNode
 	{
-		[Input("Mesh")]
+		[Input("Mesh"), ShowAsDrawer]
 		public MixtureMesh inputMesh;
 		[Input("Attribute")]
 		public MixtureAttribute inputAttrib;
