@@ -1,5 +1,11 @@
 ![](Packages/com.alelievr.mixture/Documentation~/Images/Mixture-github.png)
 
+[![Discord](https://img.shields.io/discord/823720615965622323.svg?style=for-the-badge)](https://discord.gg/DGxZRP3qeg)
+[![openupm](https://img.shields.io/npm/v/com.alelievr.mixture?label=openupm&registry_uri=https://package.openupm.com&style=for-the-badge)](https://openupm.com/packages/com.alelievr.mixture/)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](https://github.com/alelievr/Mixture/blob/master/LICENSE)
+[![Documentation](https://img.shields.io/badge/Documentation-github-brightgreen.svg?style=for-the-badge)](https://alelievr.github.io/Mixture/manual/GettingStarted.html)
+
+
 Mixture is a powerful node-based tool crafted in unity to generate all kinds of textures in realtime. Mixture is very flexible, easily customizable through [ShaderGraph](https://unity.com/shader-graph) and a simple C# API, fast with it's GPU based workflow and compatible with all the render pipelines thanks to the new [Custom Render Texture](https://docs.unity3d.com/2020.2/Documentation/ScriptReference/CustomRenderTextureManager.html) API.
 
 ![](Packages/com.alelievr.mixture/Documentation~/Images/2020-11-04-01-04-59.png)
@@ -8,9 +14,9 @@ Mixture is a powerful node-based tool crafted in unity to generate all kinds of 
 
 ## Installation
 
-You need at least a Unity 2020.2 beta to be able to use Mixture and if you are using a render pipeline like URP or HDRP, make sure tu use the version 10.1.0 or above.
+You need at least a Unity 2020.2 beta to be able to use Mixture and if you are using a render pipeline like URP or HDRP, make sure to use the version 10.1.0 or above.
 
-[![openupm](https://img.shields.io/npm/v/com.alelievr.mixture?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.alelievr.mixture/)
+<details><summary>Instructions</summary>
 
 Mixture is available on the [OpenUPM](https://openupm.com/packages/com.alelievr.mixture/) package registry, to install it in your project, follow the instructions below.
 
@@ -31,6 +37,8 @@ Scope(s): com.alelievr
 
 Note that sometimes, the package manager can be slow to update the list of available packages. In that case, you can force it by clicking the circular arrow button at the bottom of the package list.
 
+</details>
+
 ## Documentation
 
 You can consult the getting started guide here: https://alelievr.github.io/Mixture/manual/GettingStarted.html
@@ -43,15 +51,23 @@ And finally, you can find some Mixture examples here: https://alelievr.github.io
 
 The roadmap is available on Trello: https://trello.com/b/2JiH2Vsp/mixture. If you have a Trello account, you can vote on cards to prioritize a feature.
 
-# Bugs / Feature Requests
+# Community 
 
-Bugs and features requests are logged using the github issue system. To report a bug, request a feature, or simply ask a question, simply [open a new issue](https://github.com/alelievr/Mixture/issues/new/choose).
+## Discord
 
-# How to contribute 
+Join the [Mixture Discord](https://discord.gg/DGxZRP3qeg)! 
 
-Your contributions are much appreciated even small ones, we'll review them and eventually merge them.
+## Feedback
 
-If you want to add a new node, you can check out [this documentation page on how to create a new shader-based node](https://alelievr.github.io/Mixture/manual/ShaderNodes.html). Once you have it working, you can prepare your pull request.
+To give feedback, ask a question or make a feature request, you can either use the [Github Discussions](https://github.com/alelievr/Mixture/discussions) or the [Discord server](https://discord.gg/DGxZRP3qeg).
+
+Bugs are logged using the github issue system. To report a bug, simply [open a new issue](https://github.com/alelievr/Mixture/issues/new/choose).
+
+## Contributions 
+
+All contributions are welcomed.
+
+For new nodes, check out [this documentation page on how to create a new shader-based node](https://alelievr.github.io/Mixture/manual/ShaderNodes.html). Once you have it working, prepare a pull request against this repository.  
 In case you have any questions about a feature you want to develop of something you're not sure how to do, you can still create a draft pull request to discuss the implementation details.
 
 # Gallery / Cool things
