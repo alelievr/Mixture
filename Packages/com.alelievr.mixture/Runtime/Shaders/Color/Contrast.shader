@@ -9,7 +9,7 @@ Shader "Hidden/Mixture/Contrast"
 
 		// Other parameters
 		[Tooltip(Adjusts the contrast of the image)]_Saturation("Saturation", Range(-1, 1)) = 0
-		[Tooltip(Adjusts the luminosity/brightness of the image)]_Luminosity("Luminosity", Range(-1, 1)) = 0
+		[Tooltip(Adjusts the luminosity or brightness of the image)]_Luminosity("Luminosity", Range(-1, 1)) = 0
 	}
 	SubShader
 	{
