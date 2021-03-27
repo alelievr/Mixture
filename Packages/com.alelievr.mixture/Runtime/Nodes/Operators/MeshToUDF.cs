@@ -30,6 +30,7 @@ Note that currently, there is no mesh to signed distance field node.
         
         const string rasterize3DShader = "Hidden/Mixture/Rasterize3D";
 
+        // TODO: remove list and keep only one input
 		[Input("Input Meshes", allowMultiple: true)]
 		public List<MixtureMesh> inputMeshes = new List<MixtureMesh>();
 
