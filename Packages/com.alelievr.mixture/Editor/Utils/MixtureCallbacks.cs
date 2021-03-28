@@ -95,7 +95,7 @@ namespace Mixture
 			action.targetGraph = targetGraph;
 			action.parentVariant = parentVariant;
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, action,
-            	Path.GetFileName(path), targetGraph.isRealtime ? MixtureUtils.realtimeVariantIcon : MixtureUtils.iconVariant, null);
+            	Path.GetFileName(path), targetGraph.type == MixtureGraphType.Realtime ? MixtureUtils.realtimeVariantIcon : MixtureUtils.iconVariant, null);
 		}
 
 #if MIXTURE_SHADERGRAPH
@@ -211,7 +211,7 @@ namespace Mixture
 
 				// Generate the output texture:
 				mixture.outputTextures.Clear();
-				if (mixture.isRealtime)
+				if (mixture.type == MixtureGraphType.Realtime)
 				{
 					mixture.UpdateRealtimeAssetsOnDisk();
 				}

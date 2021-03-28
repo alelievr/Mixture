@@ -102,7 +102,7 @@ namespace Mixture
                 portName.text = uniqueName;
 
 #if UNITY_EDITOR
-			if (graphView.graph.isRealtime)
+			if (graphView.graph.type == MixtureGraphType.Realtime)
 				graphView.graph.UpdateRealtimeAssetsOnDisk();
 #endif
             });
@@ -185,7 +185,7 @@ namespace Mixture
         {
             var dimension = node.rtSettings.GetTextureDimension(graphView.graph);
 
-            if (graphView.graph.isRealtime)
+            if (graphView.graph.type == MixtureGraphType.Realtime)
             {
                 // In realtime we don't support compression or conversion
                 compressionFields.style.display = DisplayStyle.None;

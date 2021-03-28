@@ -70,10 +70,10 @@ namespace Mixture
 		}
 
 		static void DrawMixtureSmallIcon(Rect rect, MixtureGraph graph, bool focused)
-			=> DrawMixtureSmallIcon(rect, graph.isRealtime ? MixtureUtils.realtimeIcon32 : MixtureUtils.icon32, focused);
+			=> DrawMixtureSmallIcon(rect, graph.type == MixtureGraphType.Realtime ? MixtureUtils.realtimeIcon32 : MixtureUtils.icon32, focused);
 
 		static void DrawMixtureSmallIcon(Rect rect, MixtureVariant variant, bool focused)
-			=> DrawMixtureSmallIcon(rect, variant.parentGraph.isRealtime ? MixtureUtils.realtimeVariantIcon32 : MixtureUtils.iconVariant32, focused);
+			=> DrawMixtureSmallIcon(rect, variant.parentGraph.type == MixtureGraphType.Realtime ? MixtureUtils.realtimeVariantIcon32 : MixtureUtils.iconVariant32, focused);
 
 		static void DrawMixtureSmallIcon(Rect rect, Texture2D mixtureIcon, bool focused)
 		{
@@ -233,7 +233,7 @@ namespace Mixture
 
 			if (parameters == null || !root.Contains(parameters))
 			{
-				parameters = new VisualElement();
+				parameters = new VisualElement() { name = "ExposedParameters" };
 				root.Add(parameters);
 			}
 
@@ -322,7 +322,7 @@ namespace Mixture
 			var container = new VisualElement();
 			container.AddToClassList("Indent");
 
-			if (!graph.isRealtime)
+			if (graph.type != MixtureGraphType.Realtime)
 			{
 				var embed = new Toggle("Embed Graph In Build") { value = graph.embedInBuild };
 				embed.RegisterValueChangedCallback(e => {
@@ -362,7 +362,7 @@ namespace Mixture
 			// Combine manually on CPU the two textures because it completely broken with GPU :'(
 			Texture2D mixtureIcon = (target is CustomRenderTexture) ? MixtureUtils.realtimeIcon : MixtureUtils.icon;
 			if (variant != null)
-				mixtureIcon = graph.isRealtime ? MixtureUtils.realtimeVariantIcon : MixtureUtils.iconVariant;
+				mixtureIcon = graph.type == MixtureGraphType.Realtime ? MixtureUtils.realtimeVariantIcon : MixtureUtils.iconVariant;
 
 			float scaleFactor = Mathf.Max(mixtureIcon.width / (float)defaultPreview.width, 1) * 2.5f;
 			for (int x = 0; x < width / 2.5f; x++)

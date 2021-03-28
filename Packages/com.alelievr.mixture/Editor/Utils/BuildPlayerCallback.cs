@@ -38,7 +38,7 @@ namespace Mixture
 
                 if (graph != null)
                 {
-                    if (graph.isRealtime)
+                    if (graph.type == MixtureGraphType.Realtime)
                         db.realtimeGraphs.Add(graph);
                     else if (graph.embedInBuild)
                         db.staticGraphs.Add(graph);

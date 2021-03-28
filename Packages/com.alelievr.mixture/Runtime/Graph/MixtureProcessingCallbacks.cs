@@ -28,7 +28,7 @@ namespace Mixture
             MixtureGraph graph = MixtureDatabase.GetGraphFromTexture(crt);;
 
 			// If the graph is valid and realtime
-			if (graph != null && graph.isRealtime == true)
+			if (graph != null && graph.type == MixtureGraphType.Realtime)
 			{
 				MixtureGraphProcessor.processorInstances.TryGetValue(graph, out var processorSet);
 				if (processorSet == null)

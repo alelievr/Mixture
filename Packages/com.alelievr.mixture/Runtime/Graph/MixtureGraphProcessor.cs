@@ -91,7 +91,7 @@ namespace Mixture
 				// When the graph is realtime, then we update all the linked mixture variants as well.
 				// We need to do that before the main graph is processed because otherwise the variant would overwrite
 				// the result of the realtime mixture.
-				if (graph.isRealtime)
+				if (graph.type == MixtureGraphType.Realtime)
 				{
 					foreach (var variant in graph.variants)
 						variant.UpdateAllVariantTextures();

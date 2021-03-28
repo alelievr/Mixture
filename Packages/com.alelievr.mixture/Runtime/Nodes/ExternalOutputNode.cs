@@ -83,7 +83,7 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
 
             uniqueMessages.Clear();
 
-            if(!graph.isRealtime)
+            if(graph.type != MixtureGraphType.Realtime)
             {
                 if(rtSettings.dimension != OutputDimension.CubeMap)
                     return base.ProcessNode(cmd);

@@ -14,14 +14,31 @@ using UnityEditor;
 
 namespace Mixture
 {
+    public enum MixtureGraphType
+    {
+        Baked,
+        Realtime,
+        Behaviour,
+    }
+
 	[System.Serializable]
 	public class MixtureGraph : BaseGraph
 	{
+        public enum Version
+        {
+            Initial,
+        }
+
+        public Version          version = MixtureUtils.GetLastEnumValue<Version>();
+
+        public MixtureGraphType type = MixtureGraphType.Baked;
+
 		// Serialized data for the editor:
 		public bool				realtimePreview;
 
 		// Whether or not the mixture is realtime
-		public bool				isRealtime;
+        [SerializeField, Obsolete("Use type instead.")]
+		bool				    isRealtime;
 
         public bool             isParameterViewOpen;
 
@@ -112,14 +129,20 @@ namespace Mixture
 
 		void Enabled()
 		{
+            // Migrate the graph if needed
+            MigrateGraph();
+
 			// We should have only one OutputNode per graph
-			if (outputNode == null)
+			if (type != MixtureGraphType.Behaviour && outputNode == null)
+            {
 				outputNode = AddNode(BaseNode.CreateFromType< OutputNode >(Vector2.zero)) as OutputNode;
+                Debug.Log("Create new output node!");
+            }
 
 #if UNITY_EDITOR
             // TODO: check if the asset is in a Resources folder for realtime and put a warning if it's not the case
             // + store the Resources path in a string
-			if (isRealtime)
+			if (type == MixtureGraphType.Realtime)
 				RealtimeMixtureReferences.realtimeMixtureCRTs.Add(mainOutputTexture as CustomRenderTexture);
             
             // Check that object references are really ours (just in case the asset was duplicated)
@@ -132,6 +155,17 @@ namespace Mixture
             variants.RemoveAll(v => v == null);
 #endif
 		}
+
+        void MigrateGraph()
+        {
+#pragma warning disable CS0618
+            if (isRealtime)
+            {
+                type = MixtureGraphType.Realtime;
+                isRealtime = false;
+            }
+#pragma warning restore CS0618
+        }
 
 		public List< Object >		GetObjectsReferences()
 		{
@@ -188,7 +222,7 @@ namespace Mixture
                 Texture		oldTextureObject = FindOutputTexture(output.name, output.isMain);
                 Texture     newTexture;
 
-                if (isRealtime)
+                if (type == MixtureGraphType.Realtime)
                 {
                     newTexture = UpdateOutputRealtimeTexture(output);
                     // We don't ever need to the main asset in realtime if it's already a CRT
@@ -557,7 +591,7 @@ namespace Mixture
 
         public void ReadbackMainTexture(Texture target)
         {
-            if (isRealtime)
+            if (type == MixtureGraphType.Realtime)
             {
                 Debug.LogError("Can't save runtime texture to a specified path.");
                 return;
@@ -570,7 +604,7 @@ namespace Mixture
 #if UNITY_EDITOR
         public void SaveAllTextures(bool pingObject = true)
         {
-            if (isRealtime)
+            if (type == MixtureGraphType.Realtime)
                 return;
 
             UpdateOutputTextures();
@@ -596,7 +630,7 @@ namespace Mixture
 
         public void UpdateRealtimeAssetsOnDisk()
         {
-			if (!isRealtime)
+			if (type != MixtureGraphType.Realtime)
                 return;
 
             UpdateOutputTextures();

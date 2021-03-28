@@ -19,7 +19,7 @@ namespace Mixture
 		public event Action			onTempRenderTextureUpdated;
 
 		public override string		name => "Output Texture Asset";
-		public override Texture 	previewTexture => graph.isRealtime ? graph.mainOutputTexture : outputTextureSettings.Count > 0 ? outputTextureSettings[0].finalCopyRT : null;
+		public override Texture 	previewTexture => graph.type == MixtureGraphType.Realtime ? graph.mainOutputTexture : outputTextureSettings.Count > 0 ? outputTextureSettings[0].finalCopyRT : null;
 		public override float		nodeWidth => 350;
 
 		// TODO: move this to NodeGraphProcessor
@@ -42,6 +42,7 @@ namespace Mixture
 
         protected override void Enable()
         {
+			
 			// Sanitize the RT Settings for the output node, they must contains only valid information for the output node
 			if (rtSettings.outputChannels == OutputChannel.SameAsOutput)
 				rtSettings.outputChannels = OutputChannel.RGBA;
@@ -77,7 +78,7 @@ namespace Mixture
 				finalCopyMaterial = CreateFinalCopyMaterial(),
 			};
 
-			if (graph.isRealtime)
+			if (graph.type == MixtureGraphType.Realtime)
 				output.finalCopyRT = graph.mainOutputTexture as CustomRenderTexture;
 
 			// output.finalCopyRT can be null here if the graph haven't been imported yet
@@ -100,7 +101,7 @@ namespace Mixture
 			outputTextureSettings.Add(output);
 
 #if UNITY_EDITOR
-			if (graph.isRealtime)
+			if (graph.type == MixtureGraphType.Realtime)
 				graph.UpdateRealtimeAssetsOnDisk();
 #endif
 
@@ -113,7 +114,7 @@ namespace Mixture
 
 #if UNITY_EDITOR
 			// When the graph is realtime, we don't have the save all button, so we call is automatically
-			if (graph.isRealtime)
+			if (graph.type == MixtureGraphType.Realtime)
 				graph.UpdateRealtimeAssetsOnDisk();
 #endif
 		}
@@ -137,7 +138,7 @@ namespace Mixture
 
 			foreach (var output in outputTextureSettings)
 			{
-				if (graph != null && !graph.isRealtime)
+				if (graph != null && graph.type != MixtureGraphType.Realtime)
 					CoreUtils.Destroy(output.finalCopyRT);
 			}
 		}
@@ -155,7 +156,7 @@ namespace Mixture
 			foreach (var output in outputTextureSettings)
 			{
 				// Update the renderTexture reference for realtime graph
-				if (graph.isRealtime)
+				if (graph.type == MixtureGraphType.Realtime)
 				{
 					var finalCopyRT = graph.FindOutputTexture(output.name, output.isMain) as CustomRenderTexture;
 					if (finalCopyRT != null && output.finalCopyRT != finalCopyRT)

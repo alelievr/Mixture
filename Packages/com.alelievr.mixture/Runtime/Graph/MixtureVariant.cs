@@ -189,7 +189,7 @@ namespace Mixture
         {
             ProcessGraphWithOverrides();
 
-            if (parentGraph.isRealtime)
+            if (parentGraph.type == MixtureGraphType.Realtime)
             {
                 // Copy the result into the variant
                 foreach (var output in parentGraph.outputNode.outputTextureSettings)

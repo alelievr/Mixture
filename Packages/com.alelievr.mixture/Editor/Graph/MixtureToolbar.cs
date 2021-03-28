@@ -68,7 +68,7 @@ namespace Mixture
 			AddToggle(Styles.parameterViewsText, graph.isParameterViewOpen, ToggleParameterView, left: true);
 			AddButton(Styles.focusText, () => graphView.FrameAll(), left: true);
 
-			if (!graph.isRealtime)
+			if (graph.type != MixtureGraphType.Realtime)
 				AddButton(Styles.saveAllText, SaveAll , left: false);
 			// AddButton(Styles.bugReport, ReportBugCallback, left: false);
 			AddDropDownButton(Styles.improveMixture, ShowImproveMixtureWindow, left: false);

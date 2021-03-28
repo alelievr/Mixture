@@ -3,6 +3,8 @@ using UnityEngine.Rendering;
 using System.Linq;
 using System.Collections.Generic;
 using GraphProcessor;
+using System;
+using Object = UnityEngine.Object;
 
 namespace Mixture
 {
@@ -329,5 +331,8 @@ namespace Mixture
                 displayType = type.type,
             };
 		}
+
+        public static T GetLastEnumValue<T>() where T : Enum 
+            => typeof(T).GetEnumValues().Cast<T>().Last();
     }
 }

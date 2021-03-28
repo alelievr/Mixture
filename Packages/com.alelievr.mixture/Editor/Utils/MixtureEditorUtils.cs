@@ -113,7 +113,7 @@ namespace Mixture
 
 		public static void ToggleMixtureGraphMode(MixtureGraph mixture)
 		{
-			mixture.isRealtime = !mixture.isRealtime;
+			mixture.type = mixture.type == MixtureGraphType.Realtime ? MixtureGraphType.Baked : MixtureGraphType.Realtime;
             AssetDatabase.SaveAssets();
             mixture.UpdateOutputTextures();
             mixture.FlushTexturesToDisk();

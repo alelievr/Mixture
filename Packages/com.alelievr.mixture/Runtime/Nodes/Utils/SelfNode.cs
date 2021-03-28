@@ -58,7 +58,7 @@ Currently only the first output texture of the output node can be retrieved.
 
 		[IsCompatibleWithGraph]
 		static bool IsCompatibleWithRealtimeGraph(BaseGraph graph)
-			=> (graph as MixtureGraph).isRealtime;
+			=> (graph as MixtureGraph).type == MixtureGraphType.Realtime;
 
 		// [CustomPortBehavior(nameof(output))]
 		// protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)

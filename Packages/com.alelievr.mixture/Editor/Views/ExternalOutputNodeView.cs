@@ -98,7 +98,7 @@ namespace Mixture
 
             controlsContainer.Add(nodeSettings);
 
-            if(graph.isRealtime)
+            if(graph.type == MixtureGraphType.Realtime)
             {
                 controlsContainer.Add(new IMGUIContainer(() =>
                 {
@@ -135,7 +135,7 @@ namespace Mixture
                 if (button.save == null || button.update == null)
                     continue;
 
-                if (graph.isRealtime)
+                if (graph.type == MixtureGraphType.Realtime)
                 {
                     button.save.style.display = DisplayStyle.None;
                     button.update.style.display = DisplayStyle.None;

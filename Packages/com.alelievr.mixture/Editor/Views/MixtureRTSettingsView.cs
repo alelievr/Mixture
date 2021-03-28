@@ -320,7 +320,7 @@ namespace Mixture
 
             UpdateFieldVisibility(node);
 
-			if (owner.graph.isRealtime)
+			if (owner.graph.type == MixtureGraphType.Realtime)
             {
                 // Realtime fields and refresh mode
                 otherHeader = new Label("Other");

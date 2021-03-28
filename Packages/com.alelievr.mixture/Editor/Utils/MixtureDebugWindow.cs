@@ -34,7 +34,7 @@ namespace Mixture
 
                 foreach (var view in MixtureUpdater.views)
                 {
-                    if (view.graph.isRealtime)
+                    if (view.graph.type == MixtureGraphType.Realtime)
                         continue;
 
                     var window = mixtureWindows.FirstOrDefault(w => w.view == view);
@@ -64,7 +64,7 @@ namespace Mixture
 
                 foreach (var graph in graphs)
                 {
-                    if (!graph.isRealtime)
+                    if (graph.type != MixtureGraphType.Realtime)
                         continue;
 
                     using (new EditorGUILayout.HorizontalScope())

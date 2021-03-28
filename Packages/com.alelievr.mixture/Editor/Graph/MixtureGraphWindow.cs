@@ -50,7 +50,7 @@ namespace Mixture
             }
 
             var mixture = (graph as MixtureGraph);
-            bool realtime = mixture.isRealtime;
+            bool realtime = mixture.type == MixtureGraphType.Realtime;
 			var fileName = Path.GetFileNameWithoutExtension(mixture.mainAssetPath);
 			titleContent = new GUIContent($"Mixture {(realtime ? "(RT) " : "")}- {fileName}", MixtureUtils.windowIcon);
 

@@ -162,7 +162,7 @@ namespace Mixture
 				}
 			}){ text = "Add Output"});
 
-            if (!graph.isRealtime)
+            if (graph.type != MixtureGraphType.Realtime)
             {
                 controlsContainer.Add(new Button(SaveAllTextures)
                 {
@@ -181,7 +181,7 @@ namespace Mixture
 		{
 			base.BuildContextualMenu(evt);
 			
-			string mode = graph.isRealtime ? "Static" : "Realtime";
+			string mode = graph.type == MixtureGraphType.Realtime ? "Static" : "Realtime";
 			evt.menu.AppendSeparator();
 			evt.menu.AppendAction($"Convert Mixture to {mode}", _ => MixtureEditorUtils.ToggleMixtureGraphMode(graph), DropdownMenuAction.AlwaysEnabled);
 		}

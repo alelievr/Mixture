@@ -64,6 +64,7 @@ namespace Mixture
             data = new HistogramData();
             data.bucketCount = histogramBucketCount;
             data.mode = mode;
+            Debug.Log("Alloc: " + histogramBucketCount);
 			data.histogram = new ComputeBuffer(histogramBucketCount, sizeof(uint) * 4, ComputeBufferType.Structured);
             data.histogramData = new ComputeBuffer(1, sizeof(uint) * 2, ComputeBufferType.Structured);
             data.previewMaterial = new Material(Shader.Find("Hidden/HistogramPreview")) {hideFlags = HideFlags.HideAndDontSave};
@@ -171,10 +172,7 @@ namespace Mixture
 
         public static void SetupHistogramPreviewMaterial(HistogramData data)
         {
-            // previewMaterial.SetBuffer("_Histogram", histogramBuffer);
             data.previewMaterial.SetInt("_HistogramBucketCount", data.bucketCount);
-            // data.previewMaterial.SetBuffer("_ImageLuminance", luminanceBuffer);
-            // data.previewMaterial.SetBuffer("_Histogram", histogramBuffer);
             data.previewMaterial.SetBuffer("_HistogramReadOnly", data.histogram);
             data.previewMaterial.SetBuffer("_HistogramDataReadOnly", data.histogramData);
             data.previewMaterial.SetFloat("_Mode", (int)data.mode);
@@ -187,6 +185,7 @@ namespace Mixture
 
             _dataCount--;
 
+            Debug.Log("Dispose " + data.bucketCount);
             data.histogram?.Dispose();
             data.histogramData?.Dispose();
             CoreUtils.Destroy(data.previewMaterial);
