@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
-using System.Linq;
+using UnityEngine.Rendering;
+using UnityEngine.Experimental.Rendering;
+using System;
+using UnityEngine.Serialization;
 
 namespace Mixture
 {
@@ -12,32 +15,80 @@ The output type of the node will update according to the type of texture provide
 ")]
 
 	[System.Serializable, NodeMenuItem("Constants/Texture")]
-	public class TextureNode : MixtureNode, ICreateNodeFrom<Texture>
+	public class TextureNode : MixtureNode, ICreateNodeFrom<Texture> 
 	{
-		[Output(name = "Texture"), SerializeField]
-		public Texture texture;
+		[SerializeField, FormerlySerializedAs("texture")]
+		public Texture textureAsset;
+		[Output(name = "Texture")]
+		public Texture outputTexture;
 
 		public override bool 	hasSettings => false;
 		public override string	name => "Texture";
-        public override Texture previewTexture => texture;
+        public override Texture previewTexture => outputTexture;
 		public override bool	showDefaultInspector => true;
 
-		[CustomPortBehavior(nameof(texture))]
+		[SerializeField, HideInInspector]
+		bool normalMap = false;
+
+		[NonSerialized]
+		RenderTexture			postProcessedTexture = null;
+
+		[CustomPortBehavior(nameof(outputTexture))]
 		IEnumerable<PortData> OutputTextureType(List<SerializableEdge> edges)
 		{
-			var dim = texture == null ? rtSettings.GetTextureDimension(graph) : texture is RenderTexture rt ? rt.dimension : texture?.dimension;
+			var dim = textureAsset == null ? rtSettings.GetTextureDimension(graph) : textureAsset is RenderTexture rt ? rt.dimension : textureAsset?.dimension;
 			yield return new PortData
 			{
 				displayName = "Texture",
 				displayType = dim == null ? typeof(Texture) : TextureUtils.GetTypeFromDimension(dim.Value),
-				identifier = nameof(texture),
+				identifier = nameof(outputTexture),
 				acceptMultipleEdges = true,
 			};
 		}
 
+        protected override bool ProcessNode(CommandBuffer cmd)
+        {
+            if (!base.ProcessNode(cmd) || textureAsset == null)
+				return false;
+
+#if UNITY_EDITOR
+			var importer = UnityEditor.AssetImporter.GetAtPath(UnityEditor.AssetDatabase.GetAssetPath(textureAsset));
+			if (importer is UnityEditor.TextureImporter textureImporter)
+				normalMap = textureImporter.textureType == UnityEditor.TextureImporterType.NormalMap;
+#endif
+
+			// Compressed normal maps need to be converted from AG to RG format
+			if (normalMap)
+			{
+				if (postProcessedTexture == null)
+					postProcessedTexture = new RenderTexture(1, 1, 0, GraphicsFormat.R16G16B16A16_SFloat);
+
+				if (postProcessedTexture.width != textureAsset.width || postProcessedTexture.height != textureAsset.height)
+				{
+					postProcessedTexture.Release();
+					postProcessedTexture.width = textureAsset.width;
+					postProcessedTexture.height = textureAsset.height;
+					postProcessedTexture.Create();
+				}
+
+				var blitMaterial = GetTempMaterial("Hidden/Mixture/TextureNode");
+				MixtureUtils.SetTextureWithDimension(blitMaterial, "_Source", textureAsset);
+				MixtureUtils.Blit(cmd, blitMaterial, textureAsset, postProcessedTexture);
+
+				outputTexture = postProcessedTexture;
+			}
+			else
+			{
+				postProcessedTexture?.Release();
+				outputTexture = textureAsset;
+			}
+
+			return true;
+        }
+
 		public bool InitializeNodeFromObject(Texture value)
 		{
-			texture = value;
+			textureAsset = value;
 			return true;
 		}
     }
