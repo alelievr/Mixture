@@ -42,7 +42,6 @@ namespace Mixture
 
         protected override void Enable()
         {
-			
 			// Sanitize the RT Settings for the output node, they must contains only valid information for the output node
 			if (rtSettings.outputChannels == OutputChannel.SameAsOutput)
 				rtSettings.outputChannels = OutputChannel.RGBA;

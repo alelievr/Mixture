@@ -25,28 +25,12 @@
 
 			#include "Packages/com.alelievr.mixture/Editor/Resources/MixturePreview.hlsl"
 
-            // Local copy/paste because we're in an HLSLPROGRAM -_________-
-            float3 LatlongToDirectionCoordinate(float2 coord)
-            {
-                float theta = coord.y * 3.14159265;
-                float phi = (coord.x * 2.f * 3.14159265 - 3.14159265*0.5f);
-
-                float cosTheta = cos(theta);
-                float sinTheta = sqrt(1.0 - min(1.0, cosTheta*cosTheta));
-                float cosPhi = cos(phi);
-                float sinPhi = sin(phi);
-
-                float3 direction = float3(sinTheta*cosPhi, cosTheta, sinTheta*sinPhi);
-                direction.xy *= -1.0;
-                return direction;
-            }
-
-            UNITY_DECLARE_TEXCUBE(_Cubemap);
+            TextureCube _Cubemap;
             SamplerState sampler_Linear_Clamp_Cubemap;
             float4 _Cubemap_ST;
             float4 _Cubemap_TexelSize;
 
-            fixed4 frag (v2f i) : SV_Target
+            float4 frag (v2f i) : SV_Target
             {
                 float4 color = _Cubemap.SampleLevel(sampler_Linear_Clamp_Cubemap, normalize(LatlongToDirectionCoordinate(i.uv)), floor(_PreviewMip)) * _Channels;
                 return MakePreviewColor(i, _Cubemap_TexelSize.zw, color);

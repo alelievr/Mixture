@@ -1,6 +1,7 @@
-#include "UnityCG.cginc"
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureUtils.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/PhysicalCamera.hlsl"
 #include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureSRGB.hlsl"
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/NoiseUtils.hlsl"
 
 struct appdata
 {
@@ -25,10 +26,10 @@ sampler2D _GUIClipTexture;
 v2f vert (appdata v)
 {
     v2f o;
-    o.vertex = UnityObjectToClipPos(v.vertex);
+    o.vertex = UnityObjectToClipPos(v.vertex.xyz);
     o.uv = v.uv;
-    float3 screenUV = UnityObjectToViewPos(v.vertex);
-    o.clipUV = mul(unity_GUIClipTextureMatrix, float4(screenUV, 1.0));
+    float3 screenUV = UnityObjectToViewPos(v.vertex.xyz);
+    o.clipUV = mul(unity_GUIClipTextureMatrix, float4(screenUV, 1.0)).xy;
     return o;
 }
 
@@ -55,4 +56,49 @@ float4 MakePreviewColor(v2f i, float2 texelSize, float4 imageColor)
     imageColor.xyz *= pow(2, _EV100);
 
     return imageColor * tex2D(_GUIClipTexture, i.clipUV).a;
+}
+
+float4 RayMarchTexture3D(float3 ro, float3 rd, Texture3D volume, SamplerState samp, float mip, float startDistance = 0, float stopDistance = 1)
+{
+    float dist = 0;
+    float4 accumulation = 0;
+    float alpha = 0;
+    const int quality = 42;
+    const float step = rcp(quality);
+    int stepCount = 0;
+
+    ro += rd * startDistance;
+    for (stepCount = 0; dist + startDistance < stopDistance; stepCount++)
+    {
+        float3 ray = ro + rd * dist;
+        float4 c = volume.SampleLevel(samp, ray * 0.5 + 0.5, mip);
+        c.a = max(c.a, FLT_MIN);
+        c.rgb *= c.a;
+        accumulation += c * (1 - accumulation.a);
+        alpha += c.a;
+        dist += step;
+
+        if (accumulation.a >= 1 || stepCount > 1024)
+            break;
+    }
+    
+    return accumulation;
+}
+
+// Ray origin is "ro", ray direction is "rd"
+// Returns "t" along the ray of min,max intersection, or (-1,-1) if no intersections are found.
+// https://iquilezles.org/www/articles/intersectors/intersectors.htm
+float2 RayBoxIntersection(float3 ro, float3 rd, float3 boxSize)
+{
+    float3 m = 1.0/rd;
+    float3 n = m*ro;
+    float3 k = abs(m)*boxSize;
+    float3 t1 = -n - k;
+    float3 t2 = -n + k;
+    float tN = max(max(t1.x, t1.y), t1.z);
+    float tF = min(min(t2.x, t2.y), t2.z);
+    if (tN > tF || tF < 0.0)
+        return -1; // no intersection
+    else
+        return float2(tN, tF);
 }

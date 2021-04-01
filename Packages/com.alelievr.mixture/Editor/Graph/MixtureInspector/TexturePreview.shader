@@ -29,12 +29,14 @@ Shader "Hidden/MixtureInspectorPreview"
             #pragma vertex vert
             #pragma fragment frag
             #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
+            #pragma enable_d3d11_debug_symbols
 
 			#include "Packages/com.alelievr.mixture/Editor/Resources/MixturePreview.hlsl"
             #include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureSRGB.hlsl"
 
             float4 _TextureSize;
             float _ComparisonSlider;
+            float _ComparisonSlider3D;
             float4 _MouseUV;
             float _Zoom;
             float4 _Pan;
@@ -46,73 +48,92 @@ Shader "Hidden/MixtureInspectorPreview"
             float _IsSRGB0;
             float _IsSRGB1;
             float _PreserveAspect;
+            float _CameraZoom;
+            float4x4 _CameraMatrix;
 
             #define MERGE_NAME(x, y) x##y
 
             sampler s_trilinear_repeat_sampler;
-            sampler s_linear_repeat_sampler;
-            sampler s_point_repeat_sampler;
-
-            // Local copy/paste because we're in an HLSLPROGRAM -_________-
-            float3 LatlongToDirectionCoordinate(float2 coord)
-            {
-                float theta = coord.y * 3.14159265;
-                float phi = (coord.x * 2.f * 3.14159265 - 3.14159265*0.5f);
-
-                float cosTheta = cos(theta);
-                float sinTheta = sqrt(1.0 - min(1.0, cosTheta*cosTheta));
-                float cosPhi = cos(phi);
-                float sinPhi = sin(phi);
-
-                float3 direction = float3(sinTheta*cosPhi, cosTheta, sinTheta*sinPhi);
-                direction.xy *= -1.0;
-                return direction;
-            }
 
 #if CRT_2D
 			Texture2D _MainTex0_2D;
 			Texture2D _MainTex1_2D;
             #define TEXTURE_TYPE Texture2D
 
-            #define SAMPLE_LEVEL(tex, samp, uv, mip) MERGE_NAME(tex,_2D).SampleLevel(samp, uv, mip)
+            #define SAMPLE_LEVEL(tex, samp, uv, mip) MERGE_NAME(tex,_2D).SampleLevel(samp, uv.xy, mip)
 #elif CRT_3D
 			Texture3D _MainTex0_3D;
 			Texture3D _MainTex1_3D;
             #define TEXTURE_TYPE Texture3D
 
-            #define SAMPLE_LEVEL(tex, samp, uv, mip) MERGE_NAME(tex,_3D).SampleLevel(samp, uv, mip)
+            // #define SAMPLE_LEVEL(tex, samp, uv, mip) MERGE_NAME(tex,_3D).SampleLevel(samp, uv + float3(0, 0, 0.5), mip)
+            #define SAMPLE_LEVEL(tex, samp, uv, mip) SampleTexture3D(MERGE_NAME(tex,_3D), samp, uv, mip)
+
+            float4 SampleTexture3D(Texture3D volume, SamplerState samp, float3 uv, float mip)
+            {
+                // UV can be seen as 3D object space pos
+                float3 objectCenter = float3(0, 0, 0);
+
+                float3 target = float3(0., 0., 0.);
+                float3 ro = mul(_CameraMatrix, float3(0, 0, -_CameraZoom));
+                float3 rd = normalize(mul(_CameraMatrix, float3(uv.x * 2 - 1, uv.y * 2 + 1, 4)));
+
+                float2 boxIntersection = RayBoxIntersection(ro, rd, 1 - 0.000001);
+
+                if (boxIntersection.y < 0)
+                    return 0;
+                else
+                {
+                    boxIntersection.x = max(boxIntersection.x, 0.0);
+                    // TODO: send max distance to raymarcher
+                    return RayMarchTexture3D(ro, rd, volume, samp, mip, boxIntersection.x, boxIntersection.y);
+                }
+            }
 #elif CRT_CUBE
 			TextureCube _MainTex0_Cube;
 			TextureCube _MainTex1_Cube;
             #define TEXTURE_TYPE TextureCube
 
-            #define SAMPLE_LEVEL(tex, samp, uv, mip) MERGE_NAME(tex,_Cube).SampleLevel(samp, LatlongToDirectionCoordinate(uv.xy), mip)
+            #define SAMPLE_LEVEL(tex, samp, uv, mip) MERGE_NAME(tex,_Cube).SampleLevel(samp, 0, 0)
 #endif
 
             float4 ApplyComparison(float2 uv, float4 c0, float4 c1)
             {
-                if (!_ComparisonEnabled)
-                    return c0;
-
-                switch (_CompareMode)
+                if (_ComparisonEnabled.x == 0)
                 {
-                    default:
-                    case 0: // Side By Side
-                        return frac(uv.x) < _ComparisonSlider ? c0 : c1;
-                    case 1: // Onion skin
-                        return lerp(c0, c1, _ComparisonSlider);
-                    case 2: // Difference
-                        return abs(c0 - c1);
-                    case 3: // Swap
-                        return _MouseUV.x > 0.5 ? c0 : c1;
+                    return c0;
+                }
+                else
+                {
+                    float comparisonSlider = _ComparisonSlider;
+    #if CRT_3D
+                    comparisonSlider = _ComparisonSlider3D;
+    #endif
+
+                    switch (_CompareMode)
+                    {
+                        default:
+                        case 0: // Side By Side
+                            return frac(uv.x) < comparisonSlider ? c0 : c1;
+                        case 1: // Onion skin
+                            return lerp(c0, c1, comparisonSlider);
+                        case 2: // Difference
+                            return abs(c0 - c1);
+                        case 3: // Swap
+                            return _MouseUV.x > 0.5 ? c0 : c1;
+                    }
                 }
             }
 
             float4 frag (v2f i) : SV_Target
             {
                 float2 uv = i.uv;
+#ifndef CRT_3D // 3D texture have the camera zoom instead of UV zoom
                 uv += float2(-_Pan.x, _Pan.y - 1);
                 uv *= rcp(_Zoom.xx);
+#else
+                uv.y = uv.y - 1;
+#endif
                 float4 color0, color1;
 
                 if (_PreserveAspect > 0)

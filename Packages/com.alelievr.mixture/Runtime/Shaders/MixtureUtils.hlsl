@@ -201,6 +201,21 @@ float3 Rotate(float3 axis, float3 vec, float deg)
 	return mul(rotationMatrix(axis, deg * (UNITY_PI / 180.0)), float4(vec, 0)).xyz;
 }
 
+float3 RotatePoint(float3 axis, float3 vec, float deg)
+{
+	return mul(rotationMatrix(axis, deg * (UNITY_PI / 180.0)), float4(vec, 1)).xyz;
+}
+
+// Source: https://github.com/glslify/glsl-look-at/blob/gh-pages/index.glsl
+float3x3 CalcLookAtMatrix(float3 origin, float3 target, float roll) {
+  float3 rr = float3(sin(roll), cos(roll), 0.0);
+  float3 ww = normalize(target - origin);
+  float3 uu = normalize(cross(ww, rr));
+  float3 vv = normalize(cross(uu, ww));
+
+  return float3x3(uu, vv, ww);
+}
+
 #define TEMPLATE_FLT_2(functionName, a, b, body) \
 float  functionName(float  a, float  b) { body; } \
 float2 functionName(float2 a, float2 b) { body; } \

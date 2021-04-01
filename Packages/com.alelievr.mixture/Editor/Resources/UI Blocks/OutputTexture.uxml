@@ -25,13 +25,6 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="MipMapSettings">
                     <ui:Toggle label="Has Mip Maps" name="EnableMipMap" />
-                    <ui:VisualElement name="MipMapFields" style="margin-left: 20px; margin-right: 4px;">
-                        <ui:Label text="Custom Mip Maps Shader" />
-                        <ui:VisualElement style="flex-direction: row; height: 20px;">
-                            <uie:ObjectField allow-scene-objects="false" name="ShaderField" style="flex-shrink: 0; flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
-                            <ui:Button text="Create New" name="NewMipMapShader" style="flex-grow: 1; margin-top: 0; margin-bottom: 0;" />
-                        </ui:VisualElement>
-                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:Button text="Remove Output" display-tooltip-when-elided="True" tooltip="Remove the output port as well as the saved texture" name="RemoveButton" style="background-color: rgb(103, 16, 5);" />
             </ui:VisualElement>

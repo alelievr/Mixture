@@ -55,7 +55,12 @@ namespace Mixture
         const int buttonWidth = 25;
 
         float compareSlider = 0.5f;
+        float compareSlider3D = 0.5f;
         Vector2 mouseUV;
+        Matrix4x4 volumeCameraMatrix = Matrix4x4.identity;
+        float cameraZoom;
+        float cameraXAxis;
+        float cameraYAxis;
         bool compareEnabled = false;
         bool lockFirstPreview = false;
         bool lockSecondPreview = false;
@@ -72,7 +77,7 @@ namespace Mixture
         internal bool alwaysRefresh;
         internal float mipLevel;
         internal bool preserveAspect;
-        float comparionOffset;
+        float comparisonOffset;
 
         VisualTreeAsset nodeInspectorFoldout;
 
@@ -124,11 +129,8 @@ namespace Mixture
                         Repaint();
                 }
             }));
-        }
 
-        public override void OnInspectorGUI()
-        {
-            Debug.Log(Event.current.rawType);
+            Fit();
         }
 
         protected override void OnDisable()
@@ -268,8 +270,12 @@ namespace Mixture
 
         void Fit()
         {
+            // position offset is wrong?
             zoomTarget = 1;
             positionOffsetTarget = Vector2.zero;
+            cameraXAxis = 30;
+            cameraYAxis = 15;
+            cameraZoom = 6;
         }
 
         public override void OnInteractivePreviewGUI(Rect previewRect, GUIStyle background)
@@ -278,6 +284,8 @@ namespace Mixture
 
             if (firstLockedPreviewTarget?.previewTexture != null && e.type == EventType.Repaint)
             {
+                volumeCameraMatrix = Matrix4x4.Rotate(Quaternion.Euler(cameraYAxis, cameraXAxis, 0));
+
                 MixtureUtils.SetupDimensionKeyword(previewMaterial, firstLockedPreviewTarget.previewTexture.dimension);
 
                 // Set texture property based on the dimension
@@ -285,7 +293,10 @@ namespace Mixture
                 MixtureUtils.SetTextureWithDimension(previewMaterial, "_MainTex1", secondLockedPreviewTarget.previewTexture);
 
                 previewMaterial.SetFloat("_ComparisonSlider", compareSlider);
+                previewMaterial.SetFloat("_ComparisonSlider3D", compareSlider3D);
                 previewMaterial.SetVector("_MouseUV", mouseUV);
+                previewMaterial.SetMatrix("_CameraMatrix", volumeCameraMatrix);
+                previewMaterial.SetFloat("_CameraZoom", cameraZoom);
                 previewMaterial.SetFloat("_ComparisonEnabled", compareEnabled ? 1 : 0);
                 previewMaterial.SetFloat("_CompareMode", (int)compareMode);
                 previewMaterial.SetFloat("_PreviewMip", mipLevel);
@@ -331,7 +342,7 @@ namespace Mixture
                         needsRepaint = true;
                     }
                     Vector2 t = (e.mousePosition - positionOffset) / zoom;
-                    comparionOffset = Mathf.Floor(t.x / (float)previewRect.width);
+                    comparisonOffset = Mathf.Floor(t.x / (float)previewRect.width);
                     break;
                 case EventType.MouseDrag:
                     if (IsMoveMouse(e.button, e.modifiers))
@@ -339,12 +350,17 @@ namespace Mixture
                         positionOffset = middleClickCameraPosition + (lastMousePosition - middleClickMousePosition);
                         positionOffsetTarget = positionOffset;
                         needsRepaint = true;
+
+                        cameraXAxis += e.delta.x / 4.0f;
+                        cameraYAxis += e.delta.y / 4.0f;
+                        cameraXAxis = Mathf.Repeat(cameraXAxis, 360);
+                        cameraYAxis = Mathf.Repeat(cameraYAxis, 360);
                     }
                     if (e.button == 1)
                     {
                         float pos = (e.mousePosition.x - positionOffsetTarget.x) / zoom / (float)previewRect.width;
-                        pos -= comparionOffset;
-                        compareSlider = Mathf.Clamp01(pos);
+                        compareSlider = Mathf.Clamp01(pos - comparisonOffset);
+                        compareSlider3D = Mathf.Clamp01(e.mousePosition.x / (float)previewRect.width);
                         needsRepaint = true;
                         mouseUV = new Vector2(e.mousePosition.x / previewRect.width, e.mousePosition.y / previewRect.height);
                     }
@@ -356,6 +372,8 @@ namespace Mixture
                         delta = 1;
                     zoomTarget *= delta;
                     positionOffsetTarget = lastMousePosition + (positionOffsetTarget - lastMousePosition) * delta;
+
+                    cameraZoom *= 1.0f / delta;
                     break;
             }
 

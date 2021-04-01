@@ -9,7 +9,7 @@ namespace Mixture
 Separates the 4 components (RGBA) of the input texture into 4 R channel texture.
 ")]
 
-	[System.Serializable, NodeMenuItem("Utils/Separate")]
+	[System.Serializable, NodeMenuItem("Colors/Separate"), NodeMenuItem("Colors/Split")]
 	public class Separate : MixtureNode, IUseCustomRenderTextureProcessing
 	{
         [Input]

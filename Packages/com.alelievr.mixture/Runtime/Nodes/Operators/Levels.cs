@@ -49,6 +49,7 @@ namespace Mixture
 		static internal readonly int histogramBucketCount = 256;
 
 		internal ComputeBuffer minMaxBuffer;
+		[SerializeField, HideInInspector]
 		internal HistogramData histogramData;
 
 		float[] minMaxBufferData = new float[2];

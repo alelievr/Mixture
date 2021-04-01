@@ -26,14 +26,14 @@
 
 			#include "Packages/com.alelievr.mixture/Editor/Resources/MixturePreview.hlsl"
 
-            UNITY_DECLARE_TEX3D(_Texture3D);
+            Texture3D _Texture3D;
             // SamplerState sampler_Point_Clamp_Texture3D;
             SamplerState sampler_Linear_Clamp_Texture3D;
             float4 _Texture3D_ST;
             float4 _Texture3D_TexelSize;
             float _Depth;
 
-            fixed4 frag (v2f i) : SV_Target
+            float4 frag (v2f i) : SV_Target
             {
                 float4 color = _Texture3D.SampleLevel(sampler_Linear_Clamp_Texture3D, float3(i.uv, _Depth), _PreviewMip) * _Channels;
                 // For debug we can use a point sampler: TODO make it an option in the UI
