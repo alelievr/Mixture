@@ -10,6 +10,7 @@ namespace Mixture
         Color,
     }
 
+    [System.Serializable]
     public class HistogramData
     {
         // TODO: compute buffer, latest stats, mode, ect...
@@ -51,7 +52,7 @@ namespace Mixture
         {
             get
             {
-                if (_luminanceBuffer == null)
+                if (_luminanceBuffer == null || !_luminanceBuffer.IsValid())
                     _luminanceBuffer = new ComputeBuffer(1048576, sizeof(float) * 2, ComputeBufferType.Structured);
                 return _luminanceBuffer;
             }
@@ -64,7 +65,6 @@ namespace Mixture
             data = new HistogramData();
             data.bucketCount = histogramBucketCount;
             data.mode = mode;
-            Debug.Log("Alloc: " + histogramBucketCount);
 			data.histogram = new ComputeBuffer(histogramBucketCount, sizeof(uint) * 4, ComputeBufferType.Structured);
             data.histogramData = new ComputeBuffer(1, sizeof(uint) * 2, ComputeBufferType.Structured);
             data.previewMaterial = new Material(Shader.Find("Hidden/HistogramPreview")) {hideFlags = HideFlags.HideAndDontSave};
@@ -185,7 +185,6 @@ namespace Mixture
 
             _dataCount--;
 
-            Debug.Log("Dispose " + data.bucketCount);
             data.histogram?.Dispose();
             data.histogramData?.Dispose();
             CoreUtils.Destroy(data.previewMaterial);
