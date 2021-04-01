@@ -20,6 +20,12 @@ namespace Mixture
             Swap,
         }
 
+        internal enum Texture3DPreviewMode
+        {
+            Volumetric,
+            DistanceField,
+        }
+
         // TODO
         // internal enum PreviewMode
         // {
@@ -77,6 +83,9 @@ namespace Mixture
         internal bool alwaysRefresh;
         internal float mipLevel;
         internal bool preserveAspect;
+        internal Texture3DPreviewMode texture3DPreviewMode;
+        internal float texture3DDensity = 1;
+        internal float texture3DDistanceFieldOffset = 0;
         float comparisonOffset;
 
         VisualTreeAsset nodeInspectorFoldout;
@@ -310,6 +319,9 @@ namespace Mixture
                 previewMaterial.SetFloat("_IsSRGB0", firstLockedPreviewTarget is OutputNode o0 && o0.mainOutput.sRGB ? 1 : 0);
                 previewMaterial.SetFloat("_IsSRGB1", secondLockedPreviewTarget is OutputNode o1 && o1.mainOutput.sRGB ? 1 : 0);
                 previewMaterial.SetFloat("_PreserveAspect", preserveAspect ? 1 : 0);
+                previewMaterial.SetFloat("_Texture3DMode", (int)texture3DPreviewMode);
+                previewMaterial.SetFloat("_Density", texture3DDensity);
+                previewMaterial.SetFloat("_SDFOffset", texture3DDistanceFieldOffset);
                 EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, previewMaterial);
             }
             else

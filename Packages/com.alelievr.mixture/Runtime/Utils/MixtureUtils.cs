@@ -340,6 +340,10 @@ namespace Mixture
 			int sliceCount = source.dimension == TextureDimension.Cube ? 6 : TextureUtils.GetSliceCount(source);
 			var props = new MaterialPropertyBlock();
 
+			// Patch up custom render texture data for Blit
+			props.SetVectorArray("CustomRenderTextureSizesAndRotations", new List<Vector4>(){new Vector4(1, 1, 0, 0)});
+			props.SetVectorArray("CustomRenderTextureCenters", new List<Vector4>(){new Vector4(0.5f, 0.5f, 0, 0)});
+
 			for (int i = 0; i < sliceCount; i++)
 			{
 				for (int mip = 0; i < source.mipmapCount; i++)
@@ -347,8 +351,6 @@ namespace Mixture
 					CubemapFace face = source.dimension == TextureDimension.Cube ? (CubemapFace)i : CubemapFace.Unknown;
 					int depthSlice = source.dimension == TextureDimension.Tex3D ? i : 0;
 					props.SetFloat("_Mip", mip);
-					props.SetVectorArray("CustomRenderTextureSizesAndRotations", new List<Vector4>(){new Vector4(1, 1, 0, 0)});
-					props.SetVectorArray("CustomRenderTextureCenters", new List<Vector4>(){new Vector4(0.5f, 0.5f, 0, 0)});
 					cmd.SetRenderTarget(target, mip, face, depthSlice);
 					cmd.DrawProcedural(Matrix4x4.identity, material, 0, MeshTopology.Triangles, 6, 1, props);
 				}

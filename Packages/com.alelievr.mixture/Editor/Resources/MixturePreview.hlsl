@@ -58,24 +58,22 @@ float4 MakePreviewColor(v2f i, float2 texelSize, float4 imageColor)
     return imageColor * tex2D(_GUIClipTexture, i.clipUV).a;
 }
 
-float4 RayMarchTexture3D(float3 ro, float3 rd, Texture3D volume, SamplerState samp, float mip, float startDistance = 0, float stopDistance = 1)
+float4 RayMarchVolume(float3 ro, float3 rd, Texture3D volume, SamplerState samp, float mip, float startDistance = 0, float stopDistance = 1, float densityMultiplier = 1)
 {
     float dist = 0;
     float4 accumulation = 0;
-    float alpha = 0;
-    const int quality = 42;
+    const int quality = 150;
     const float step = rcp(quality);
     int stepCount = 0;
 
     ro += rd * startDistance;
     for (stepCount = 0; dist + startDistance < stopDistance; stepCount++)
     {
-        float3 ray = ro + rd * dist;
-        float4 c = volume.SampleLevel(samp, ray * 0.5 + 0.5, mip);
-        c.a = max(c.a, FLT_MIN);
+        float3 ray = (ro + rd * dist) * 0.5 + 0.5;
+        float4 c = volume.SampleLevel(samp, ray, mip);
+        c.a = max(c.a * densityMultiplier*densityMultiplier, FLT_MIN);
         c.rgb *= c.a;
         accumulation += c * (1 - accumulation.a);
-        alpha += c.a;
         dist += step;
 
         if (accumulation.a >= 1 || stepCount > 1024)
@@ -83,6 +81,41 @@ float4 RayMarchTexture3D(float3 ro, float3 rd, Texture3D volume, SamplerState sa
     }
     
     return accumulation;
+}
+
+float4 RayMarchSDF(float3 ro, float3 rd, Texture3D volume, SamplerState samp, float mip, float startDistance = 0, float stopDistance = 1, float offset = 0)
+{
+    float dist = 0;
+    float4 accumulation = 0;
+    float alpha = 0;
+    const int quality = 150;
+    const float step = rcp(quality);
+    const float2 epsylon = float2(step, 0);
+    int stepCount = 0;
+
+    ro += rd * startDistance;
+    for (stepCount = 0; dist + startDistance < stopDistance; stepCount++)
+    {
+        float3 ray = (ro + rd * dist) * 0.5 + 0.5;
+        float4 c = volume.SampleLevel(samp, ray , mip);
+        if (c.r + offset < 0.0)
+        {
+            // show normal:
+           	float3 normal = normalize(float3(
+                volume.SampleLevel(samp, ray + epsylon.xyy, mip).x - volume.SampleLevel(samp, ray - epsylon.xyy, mip).x,
+                volume.SampleLevel(samp, ray + epsylon.yxy, mip).x - volume.SampleLevel(samp, ray - epsylon.yxy, mip).x,
+                volume.SampleLevel(samp, ray + epsylon.yyx, mip).x - volume.SampleLevel(samp, ray - epsylon.yyx, mip).x
+            ));
+ 
+            return float4(normal * 0.5 + 0.5, 1);
+        }
+        dist += step;
+
+        if (accumulation.a >= 1 || stepCount > 1024)
+            break;
+    }
+    
+    return 0;
 }
 
 // Ray origin is "ro", ray direction is "rd"

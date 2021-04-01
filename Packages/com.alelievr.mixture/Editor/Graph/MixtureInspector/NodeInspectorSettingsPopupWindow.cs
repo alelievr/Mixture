@@ -10,7 +10,7 @@ namespace Mixture
         MixtureNodeInspectorObjectEditor inspector;
 
         public static readonly int width = 260;
-        public static readonly int height = 130;
+        public static readonly int height = 190;
 
         public override Vector2 GetWindowSize()
         {
@@ -50,6 +50,21 @@ namespace Mixture
             inspector.alwaysRefresh = EditorGUILayout.Toggle("Always Refresh", inspector.alwaysRefresh);
 
             inspector.preserveAspect = EditorGUILayout.Toggle("Keep Aspect", inspector.preserveAspect);
+            
+            EditorGUILayout.LabelField("3D view", EditorStyles.boldLabel);
+
+            inspector.texture3DPreviewMode = (MixtureNodeInspectorObjectEditor.Texture3DPreviewMode)EditorGUILayout.EnumPopup("Mode", inspector.texture3DPreviewMode);
+
+            switch (inspector.texture3DPreviewMode)
+            {
+                default:
+                case MixtureNodeInspectorObjectEditor.Texture3DPreviewMode.Volumetric:
+                    inspector.texture3DDensity = EditorGUILayout.Slider("Density", inspector.texture3DDensity, 0, 1);
+                    break;
+                case MixtureNodeInspectorObjectEditor.Texture3DPreviewMode.DistanceField:
+                    inspector.texture3DDistanceFieldOffset = EditorGUILayout.FloatField("SDF Offset", inspector.texture3DDistanceFieldOffset);
+                    break;
+            }
 
             if (EditorGUI.EndChangeCheck())
                 inspector.Repaint();

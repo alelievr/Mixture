@@ -50,6 +50,9 @@ Shader "Hidden/MixtureInspectorPreview"
             float _PreserveAspect;
             float _CameraZoom;
             float4x4 _CameraMatrix;
+            float _Density;
+            float _SDFOffset;
+            float _Texture3DMode;
 
             #define MERGE_NAME(x, y) x##y
 
@@ -85,8 +88,16 @@ Shader "Hidden/MixtureInspectorPreview"
                 else
                 {
                     boxIntersection.x = max(boxIntersection.x, 0.0);
+
+                    switch (_Texture3DMode)
+                    {
+                        default:
+                        case 0: // Volume
+                            return RayMarchVolume(ro, rd, volume, samp, mip, boxIntersection.x, boxIntersection.y, _Density);
+                        case 1: // SDF
+                            return RayMarchSDF(ro, rd, volume, samp, mip, boxIntersection.x, boxIntersection.y, _SDFOffset);
+                    }
                     // TODO: send max distance to raymarcher
-                    return RayMarchTexture3D(ro, rd, volume, samp, mip, boxIntersection.x, boxIntersection.y);
                 }
             }
 #elif CRT_CUBE
