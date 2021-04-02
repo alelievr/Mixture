@@ -44,7 +44,15 @@
 #endif
 
 				// Scale and Bias does not works on cubemap
-				uv.rgb += ScaleBias(SAMPLE_X(_Texture, IN.localTexcoord.xyz, IN.direction).rgb, _Scale.xyz, _Bias.xyz);
+				float3 distortionVector = SAMPLE_X(_Texture, IN.localTexcoord.xyz, IN.direction).rgb;
+#ifdef CRT_CUBE
+				uv.rgb += distortionVector;
+				uv.rgb = Rotate(float3(1, 0, 0), uv.rgb, _Bias.x);
+				uv.rgb = Rotate(float3(0, 1, 0), uv.rgb, _Bias.y);
+				uv.rgb = Rotate(float3(0, 0, 1), uv.rgb, _Bias.z);
+#else
+				uv.rgb += ScaleBias(distortionVector, _Scale.xyz, _Bias.xyz);
+#endif
 
 				return uv; 
 

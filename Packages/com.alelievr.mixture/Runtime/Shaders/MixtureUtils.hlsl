@@ -246,11 +246,7 @@ TEMPLATE_FLT_5(RemapClamp, i, inputMin, intputMax, outputMin, outputMax, return 
 
 float3 ScaleBias(float3 uv, float3 scale, float3 bias)
 {
-#ifdef CRT_CUBE
-    return uv; // TODO
-#else
     return (uv * scale) + bias;
-#endif
 }
 
 float4 ScaleBias(float4 uv, float4 scale, float4 bias) { return float4(ScaleBias(uv.xyz, scale.xyz, bias.xyz), uv.a); }

@@ -33,8 +33,8 @@
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
 				float4 col = SAMPLE_X(_Texture, float3(i.localTexcoord.xy, 0), i.direction);
-				uint mode = (uint)_Mode;
-				switch (mode)
+
+				switch ((uint)_Mode)
 				{
 					case 0: col = ScaleBias(col, _Scale, _Bias); break;
 					case 1: col = ScaleBias(col, _Bias, _Scale); break;
