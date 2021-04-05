@@ -80,7 +80,7 @@
 </thead>
 <tbody>
 <tr>
-<td>In</td>
+<td>Input Texture</td>
 <td></td>
 </tr>
 </tbody>
@@ -101,7 +101,13 @@
 </tbody>
 </table>
 <h2 id="description">Description</h2>
-<p>Generate mipmaps for the input texture.</p>
+<p>Generate mipmaps for the input texture. You can choose between 4 modes to generate the mip chain:</p>
+<ul>
+<li>Auto, it uses the built-in unity mipmap generation code (see <a href="https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.GenerateMips.html">https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.GenerateMips.html</a>).</li>
+<li>Gaussian, generate the mips using a gaussian filter.</li>
+<li>Max, generate the mips using a Max operation, it can be useful when manipulating depth textures</li>
+<li>Custom, you can create a new shader that will be used to generate the mipmaps. Click on the &quot;New Shader&quot; button to create a new mipmap shader. If you add properties to your shader, they will be displayed as input of the node.</li>
+</ul>
 </article>
           </div>
           

@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Mesh To UDF </title>
+    <title>Mesh To Distance Field </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Mesh To UDF ">
+    <meta name="title" content="Mesh To Distance Field ">
     <meta name="generator" content="docfx 2.56.7.0">
     
     <link rel="shortcut icon" href="../../favicon.ico">
@@ -67,7 +67,7 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="mesh-to-udf">Mesh To UDF</h1>
+<h1 id="mesh-to-distance-field">Mesh To Distance Field</h1>
 
 <p><img src="../../images/Mixture.MeshToUDF.png" alt="Mixture.MeshToUDF"></p>
 <h2 id="inputs">Inputs</h2>
@@ -80,7 +80,7 @@
 </thead>
 <tbody>
 <tr>
-<td>Input Meshes</td>
+<td>Input Mesh</td>
 <td></td>
 </tr>
 </tbody>
@@ -101,8 +101,8 @@
 </tbody>
 </table>
 <h2 id="description">Description</h2>
-<p>Transform a Mesh into an Unsigned distance field. note that the output 3D texture is unsigned, it means that you can't know if a point is within of outside of the volume, you only know the distance to the closest boundary.</p>
-<p>Note that currently, there is no mesh to signed distance field node.</p>
+<p>Transform a Mesh into a distance field. The distance field can be either signed or unsigned depending on the mode.</p>
+<p>Note that the unsigned distance field is faster to compute.</p>
 </article>
           </div>
           

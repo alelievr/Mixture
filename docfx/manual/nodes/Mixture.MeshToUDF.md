@@ -1,9 +1,9 @@
-# Mesh To UDF
+# Mesh To Distance Field
 ![Mixture.MeshToUDF](../../images/Mixture.MeshToUDF.png)
 ## Inputs
 Port Name | Description
 --- | ---
-Input Meshes | 
+Input Mesh | 
 
 ## Output
 Port Name | Description
@@ -11,7 +11,7 @@ Port Name | Description
 Volume | 
 
 ## Description
-Transform a Mesh into an Unsigned distance field. note that the output 3D texture is unsigned, it means that you can't know if a point is within of outside of the volume, you only know the distance to the closest boundary.
+Transform a Mesh into a distance field. The distance field can be either signed or unsigned depending on the mode.
 
-Note that currently, there is no mesh to signed distance field node.
+Note that the unsigned distance field is faster to compute.
 
