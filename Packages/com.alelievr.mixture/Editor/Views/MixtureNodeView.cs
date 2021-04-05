@@ -132,10 +132,8 @@ namespace Mixture
 
         bool CheckDimensionChanged()
         {
-            if(nodeTarget.previewTexture is CustomRenderTexture)
-            {
-                return (nodeTarget.previewTexture as CustomRenderTexture).dimension.ToString() != previewContainer.name;
-            }
+            if(nodeTarget.previewTexture is CustomRenderTexture crt && crt != null)
+                return crt.dimension.ToString() != previewContainer.name;
             else if (nodeTarget.previewTexture is Texture2D && previewContainer.name == "Texture2D")
                 return true;
             else if (nodeTarget.previewTexture is Texture2DArray && previewContainer.name == "Texture2DArray")

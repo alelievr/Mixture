@@ -120,6 +120,49 @@ namespace Mixture
 			}
 		}
 
+		static Material _rasterize3DMaterial;
+		public static Material rasterize3DMaterial
+		{
+			get
+			{
+				if (_rasterize3DMaterial == null)
+				{
+					var shader = Shader.Find("Hidden/Mixture/Rasterize3D");
+
+					// The shader can be null if a mixture is called while the package is imported
+					if (shader != null)
+					{
+						_rasterize3DMaterial = new Material(shader);
+					}
+				}
+
+				_rasterize3DMaterial.SetFloat("_ConservativeRaster", 0);
+				return _rasterize3DMaterial;
+			}
+		}
+
+		// Conservative rasterization needs to be enabled on the material instead of on command buffer
+		static Material _rasterize3DMaterialConservative;
+		public static Material rasterize3DMaterialConservative
+		{
+			get
+			{
+				if (_rasterize3DMaterialConservative == null)
+				{
+					var shader = Shader.Find("Hidden/Mixture/Rasterize3D");
+
+					// The shader can be null if a mixture is called while the package is imported
+					if (shader != null)
+					{
+						_rasterize3DMaterialConservative = new Material(shader);
+					}
+				}
+
+				_rasterize3DMaterialConservative.SetFloat("_ConservativeRaster", 1);
+				return _rasterize3DMaterialConservative;
+			}
+		}
+
         static Texture2D _windowIcon;
         public static Texture2D windowIcon
         {
@@ -354,6 +397,30 @@ namespace Mixture
 					cmd.SetRenderTarget(target, mip, face, depthSlice);
 					cmd.DrawProcedural(Matrix4x4.identity, material, 0, MeshTopology.Triangles, 6, 1, props);
 				}
+			}
+		}
+
+		public static void RasterizeMeshToTexture3D(CommandBuffer cmd, MixtureMesh mesh, RenderTexture outputVolume, bool conservative = false)
+		{
+			var props = new MaterialPropertyBlock();
+
+			var material = conservative ? rasterize3DMaterialConservative : rasterize3DMaterial;
+			props.SetVector("_OutputSize", new Vector4(outputVolume.width, 1.0f / (float)outputVolume.width));
+			cmd.SetRandomWriteTarget(2, outputVolume);
+			cmd.GetTemporaryRT(42, (int)outputVolume.width, (int)outputVolume.height, 0);
+			cmd.SetRenderTarget(42);
+			RenderMesh(Quaternion.Euler(90, 0, 0));
+			RenderMesh(Quaternion.Euler(0, 90, 0));
+			RenderMesh(Quaternion.Euler(0, 0, 90));
+			cmd.ClearRandomWriteTargets();
+
+			void RenderMesh(Quaternion cameraRotation)
+			{
+				var worldToCamera = Matrix4x4.Rotate(cameraRotation);
+				var projection = Matrix4x4.Ortho(-1, 1, -1, 1, -1, 1);
+				var vp = projection * worldToCamera;
+				props.SetMatrix("_CameraMatrix", vp);
+				cmd.DrawMesh(mesh.mesh, mesh.localToWorld, material, 0, shaderPass: 0, props);
 			}
 		}
     }

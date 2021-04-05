@@ -121,7 +121,9 @@ namespace Mixture
 			previewMode = defaultPreviewChannels;
 		}
 
-		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false, CustomRenderTextureUpdateMode updateMode = CustomRenderTextureUpdateMode.OnDemand, bool depthBuffer = false)
+		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false,
+			CustomRenderTextureUpdateMode updateMode = CustomRenderTextureUpdateMode.OnDemand, bool depthBuffer = false,
+			GraphicsFormat overrideGraphicsFormat = GraphicsFormat.None)
 		{
 			if (graph.mainOutputTexture == null)
 				return false;
@@ -130,7 +132,7 @@ namespace Mixture
 			int outputWidth = rtSettings.GetWidth(graph);
 			int outputHeight = rtSettings.GetHeight(graph);
 			int outputDepth = rtSettings.GetDepth(graph);
-			GraphicsFormat targetFormat = rtSettings.GetGraphicsFormat(graph);
+			GraphicsFormat targetFormat = overrideGraphicsFormat != GraphicsFormat.None ? overrideGraphicsFormat : rtSettings.GetGraphicsFormat(graph);
 			TextureDimension dimension = GetTempTextureDimension();
 
 			outputWidth = Mathf.Max(outputWidth, 1);
@@ -206,6 +208,18 @@ namespace Mixture
 
 			// Patch update mode based on graph type
 			target.updateMode = updateMode;
+
+			if (target.doubleBuffered)
+			{
+				target.EnsureDoubleBufferConsistency();
+				var rt = target.GetDoubleBufferRenderTexture();
+				if (rt.enableRandomWrite != true)
+				{
+					rt.Release();
+					rt.enableRandomWrite = true;
+					rt.Create();
+				}
+			}
 
 			if (target.IsCreated())
 				target.Create();

@@ -1,30 +1,160 @@
 ﻿// Each #kernel tells which function to compile; you can have many kernels
-#pragma kernel Clear
-// #pragma kernel JumpFlooding
-// #pragma kernel Preview
+#pragma kernel ClearUnsigned Clear=ClearUnsigned
+#pragma kernel ClearSigned Clear=ClearSigned SIGNED_DISTANCE_FIELD
+#pragma kernel FillUVMapUnsigned FillUVMap=FillUVMapUnsigned
+#pragma kernel FillUVMapSigned FillUVMap=FillUVMapSigned SIGNED_DISTANCE_FIELD
+#pragma kernel JumpFloodingUnsigned JumpFlooding=JumpFloodingUnsigned 
+#pragma kernel JumpFloodingSigned JumpFlooding=JumpFloodingSigned SIGNED_DISTANCE_FIELD
+#pragma kernel FinalPassUnsigned FinalPass=FinalPassUnsigned
+#pragma kernel FinalPassSigned FinalPass=FinalPassSigned SIGNED_DISTANCE_FIELD
 
-// By default all RW* structs (RWTexture, RWBuffer, etc) will appear as outputs in the node
-// If you don't want this behaviour, you can prefix your variable with '__',
-// it will prevent the property to show up in the code input/outputs.
-// Note that every property declared after a function won't be visible in the node UI.
+// #pragma enable_d3d11_debug_symbols
 
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureComputeUtils.hlsl"
+
+Texture3D _Input;
 RWTexture3D<float4> _Output;
+RWTexture3D<float4> _FinalOutput;
 
-float __Hidden;
+RWTexture3D<uint> _RayMapsInput;
+RWTexture3D<uint> _RayMapsOutput;
 
-[numthreads(8,8,8)]
+[numthreads(8,8,1)]
 void Clear (uint3 id : SV_DispatchThreadID)
 {
     _Output[id] = 0;
+#if SIGNED_DISTANCE_FIELD
+    _RayMapsOutput[id] = 0;
+#endif
 }
 
-// // This will be used for the preview Texture in the node
-// RWTexture2D<float4> _Preview;
-// float4 _PreviewResolution; // xy is the pixel resolution and zw is 1 / xy
+float2 _Size;
 
-// [numthreads(8, 8, 1)]
-// void Preview(uint3 id : SV_DispatchThreadID)
-// {
-//     // You can insert custom preview code here
-//     _Preview[id.xy] = _Output[id.xy];
-// }
+float _Offset;
+
+[numthreads(8,8,1)]
+void FillUVMap(uint3 id : SV_DispatchThreadID)
+{
+    float4 input = _Input[id];
+
+    if (input.a > 0.5)
+    {
+        _Output[id] = float4(id / _Size.x, 1);
+#if SIGNED_DISTANCE_FIELD
+        _RayMapsOutput[id] = -1; // Full bits enabled, means there is geometry in the cell
+#endif
+    }
+    else
+    {
+        _Output[id] = 0; // mark UV as invalid with w = 0
+#if SIGNED_DISTANCE_FIELD
+        _RayMapsOutput[id] = 0;
+#endif
+    }
+}
+
+static float3 offset3D[27] = 
+{
+    float3(-1, -1, -1),
+    float3(-1,  0, -1),
+    float3(-1,  1, -1),
+    float3( 0, -1, -1),
+    float3( 0,  0, -1),
+    float3( 0,  1, -1),
+    float3( 1, -1, -1),
+    float3( 1,  0, -1),
+    float3( 1,  1, -1),
+
+    float3(-1, -1,  0),
+    float3(-1,  0,  0),
+    float3(-1,  1,  0),
+    float3( 0, -1,  0),
+    float3( 0,  0,  0),
+    float3( 0,  1,  0),
+    float3( 1, -1,  0),
+    float3( 1,  0,  0),
+    float3( 1,  1,  0),
+
+    float3(-1, -1,  1),
+    float3(-1,  0,  1),
+    float3(-1,  1,  1),
+    float3( 0, -1,  1),
+    float3( 0,  0,  1),
+    float3( 0,  1,  1),
+    float3( 1, -1,  1),
+    float3( 1,  0,  1),
+    float3( 1,  1,  1),
+};
+
+float Distance(float3 pos)
+{
+    return length(pos);
+}
+
+[numthreads(8,8,1)]
+void JumpFlooding(uint3 id : SV_DispatchThreadID)
+{
+    float4 nearest = _Input[id];
+#if SIGNED_DISTANCE_FIELD
+    uint rayMapValue = _RayMapsInput[id];
+#endif
+
+    if (nearest.w < 0.5)
+        nearest = float4(-10, -10, -10, 0);
+
+    int j = 0;
+    for (int i = 0; i < 27; i++)
+    {
+        float3 o = id + offset3D[i] * _Offset;
+
+#if SIGNED_DISTANCE_FIELD
+        if (length(offset3D[i]) == 1)
+        {
+            rayMapValue |= _RayMapsInput[o] & (1 << j);
+            j++;
+        }
+#endif
+
+        o %= _Size.x;
+        o.x += (o.x < 0) ? _Size.x : 0;
+        o.y += (o.y < 0) ? _Size.x : 0;
+        o.z += (o.z < 0) ? _Size.x : 0;
+        float4 n1 = _Output[o];
+
+        // Discard invalid samples
+        if (n1.w < 0.5)
+            continue;
+
+        float3 uv = id / _Size.x;
+        if (Distance(uv - n1.xyz) < Distance(uv - nearest.xyz))
+            nearest = n1;
+    }
+
+#if SIGNED_DISTANCE_FIELD
+    _RayMapsOutput[id] = rayMapValue;
+#endif
+
+    _Output[id] = nearest;
+}
+
+[numthreads(8, 8, 1)]
+void FinalPass(uint3 id : SV_DispatchThreadID)
+{
+    float3 defaultUV = id / _Size.x;
+    float3 nearestUV = _Input[id].xyz;
+
+    float dist = Distance(nearestUV - defaultUV);
+
+#if SIGNED_DISTANCE_FIELD
+    uint rays = _RayMapsInput[id];
+
+    int bits = countbits(rays);
+
+    float sign = bits > 4 ? -1 : 1;
+
+    dist *= sign;
+#endif
+
+    _Output[id] = float4(dist.xxx, 1);
+}

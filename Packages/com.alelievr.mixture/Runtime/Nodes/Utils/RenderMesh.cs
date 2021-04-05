@@ -56,7 +56,7 @@ Renders a mesh using the material specified in the 'material' field.
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-            if (!base.ProcessNode(cmd) || mesh == null || material == null)
+            if (!base.ProcessNode(cmd) || mesh?.mesh == null || material == null)
                 return false;
 
             // Update temp target in case settings changes

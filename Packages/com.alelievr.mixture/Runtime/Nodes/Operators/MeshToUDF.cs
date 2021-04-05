@@ -3,148 +3,171 @@ using UnityEngine;
 using GraphProcessor;
 using System.Linq;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 using UnityEngine.Experimental.Rendering;
 using System;
 
 namespace Mixture
 {
     [Documentation(@"
-Transform a Mesh into an Unsigned distance field. note that the output 3D texture is unsigned, it means that you can't know if a point is within of outside of the volume, you only know the distance to the closest boundary.
+Transform a Mesh into a distance field. The distance field can be either signed or unsigned depending on the mode.
 
-Note that currently, there is no mesh to signed distance field node.
+Note that the unsigned distance field is faster to compute.
 ")]
 
-	[System.Serializable, NodeMenuItem("Mesh/Rasterize 3D Mesh"), NodeMenuItem("Mesh/Mesh To Volume")]
+	[System.Serializable, NodeMenuItem("Mesh/Mesh To Distance Field"), NodeMenuItem("Mesh/Mesh To Volume")]
 	public class MeshToUDF : ComputeShaderNode
 	{
-        public enum Resolution
+        public enum Mode
         {
-            _16 = 16,
-            _32 = 32,
-            _64 = 64,
-            _128 = 128,
-            _256 = 256,
-            _512 = 512,
-            _1024 = 1024,
+            Signed,
+            Unsigned,
         }
-        
-        const string rasterize3DShader = "Hidden/Mixture/Rasterize3D";
 
-        // TODO: remove list and keep only one input
-		[Input("Input Meshes", allowMultiple: true)]
-		public List<MixtureMesh> inputMeshes = new List<MixtureMesh>();
+		[Input("Input Mesh"), ShowAsDrawer]
+		public MixtureMesh inputMesh;
 
         [Output("Volume")]
         public CustomRenderTexture outputVolume;
 
-        public float renderingVolumeSize = 1;
+        [Tooltip("Unsigned distance fields are faster to compute")]
+        public Mode mode = Mode.Signed;
 
-		public override string	name => "Mesh To UDF";
+		[Tooltip("Enable Conservative rasterization when rendering the mesh. It can help to keep small details in the mesh."), ShowInInspector]
+        public bool conservativeRaster = false;
+
+		public override string	name => "Mesh To Distance Field";
 		protected override string computeShaderResourcePath => "Mixture/MeshToSDF";
-
-        public Resolution resolution = Resolution._128;
 
 		public override Texture previewTexture => outputVolume;
 		public override bool showDefaultInspector => true;
 
+        CustomRenderTexture rayMapBuffer;
+
         MaterialPropertyBlock props;
+        int clearUnsignedKernel;
+        int clearSignedKernel;
+        int fillUVUnsignedKernel;
+        int fillUVSignedKernel;
+        int jumpFloodingUnsignedKernel;
+        int jumpFloodingSignedKernel;
+        int finalPassUnsignedKernel;
+        int finalPassSignedKernel;
 
 		protected override void Enable()
 		{
             base.Enable();
-            rtSettings.editFlags = 0;
-            rtSettings.sizeMode = OutputSizeMode.Fixed;
-            rtSettings.SetPOTSize((int)resolution);
+            rtSettings.editFlags = EditFlags.Dimension | EditFlags.Size;
+            rtSettings.sizeMode = OutputSizeMode.Default;
             rtSettings.outputChannels = OutputChannel.RGBA;
-            rtSettings.outputPrecision = OutputPrecision.Full;
+            rtSettings.outputPrecision = OutputPrecision.Half;
             rtSettings.filterMode = FilterMode.Point;
             rtSettings.dimension = OutputDimension.Texture3D;
             UpdateTempRenderTexture(ref outputVolume);
+            UpdateTempRenderTexture(ref rayMapBuffer, overrideGraphicsFormat: GraphicsFormat.R32_UInt);
             props = new MaterialPropertyBlock();
+
+            clearUnsignedKernel = computeShader.FindKernel("ClearUnsigned");
+            clearSignedKernel = computeShader.FindKernel("ClearSigned");
+            fillUVUnsignedKernel = computeShader.FindKernel("FillUVMapUnsigned");
+            fillUVSignedKernel = computeShader.FindKernel("FillUVMapSigned");
+            jumpFloodingUnsignedKernel = computeShader.FindKernel("JumpFloodingUnsigned");
+            jumpFloodingSignedKernel = computeShader.FindKernel("JumpFloodingSigned");
+            finalPassUnsignedKernel = computeShader.FindKernel("FinalPassUnsigned");
+            finalPassSignedKernel = computeShader.FindKernel("FinalPassSigned");
 		}
 
         protected override void Disable()
         {
             base.Disable();
             CoreUtils.Destroy(outputVolume);
-        }
-
-		[CustomPortBehavior(nameof(inputMeshes))]
-		public IEnumerable< PortData > InputMeshesDisplayType(List< SerializableEdge > edges)
-		{
-            yield return new PortData
-            {
-                identifier = nameof(inputMeshes),
-                displayName = "Input Meshes",
-                acceptMultipleEdges = true,
-                displayType = typeof(MixtureMesh),
-            };
-		}
-
-		[CustomPortInput(nameof(inputMeshes), typeof(MixtureMesh))]
-		protected void GetMaterialInputs(List< SerializableEdge > edges)
-		{
-            if (inputMeshes == null)
-                inputMeshes = new List<MixtureMesh>();
-            inputMeshes.Clear();
-			foreach (var edge in edges)
-            {
-                if (edge.passThroughBuffer is MixtureMesh m)
-                    inputMeshes.Add(m);
-            }
-		}
-
-        [CustomPortBehavior(nameof(outputVolume))]
-		public IEnumerable< PortData > ListMaterialProperties(List< SerializableEdge > edges)
-        {
-            yield return new PortData
-            {
-                identifier = nameof(outputVolume),
-                displayName = "Volume",
-                displayType = typeof(Texture3D),
-                acceptMultipleEdges = true,
-            };
+            CoreUtils.Destroy(rayMapBuffer);
         }
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-            if (!base.ProcessNode(cmd))
+			rtSettings.doubleBuffered = true;
+
+            if (!base.ProcessNode(cmd) || inputMesh?.mesh == null)
                 return false;
 
-            // Patch rtsettings with correct resolution input
-            rtSettings.SetPOTSize((int)resolution);
             UpdateTempRenderTexture(ref outputVolume);
+            UpdateTempRenderTexture(ref rayMapBuffer, overrideGraphicsFormat: GraphicsFormat.R32_UInt);
+			MixtureUtils.SetupComputeTextureDimension(cmd, computeShader, TextureDimension.Tex3D);
 
-            // Render the input meshes into the 3D volume:
-            foreach (var mesh in inputMeshes)
-            {
-                if (mesh?.mesh == null)
-                    continue;
+			// Clear 3D render texture
+            int clearKernel = mode == Mode.Signed ? clearSignedKernel : clearUnsignedKernel;
+			cmd.SetComputeTextureParam(computeShader, clearKernel, "_Output", outputVolume);
+			cmd.SetComputeTextureParam(computeShader, clearKernel, "_RayMapsOutput", rayMapBuffer);
+			DispatchCompute(cmd, clearKernel, outputVolume.width, outputVolume.height, outputVolume.volumeDepth);
 
-                cmd.SetComputeTextureParam(computeShader, 0, "_Output", outputVolume);
-                DispatchCompute(cmd, 0, outputVolume.width, outputVolume.height, outputVolume.volumeDepth);
+            // Rasterize the mesh in the volume
+			MixtureUtils.RasterizeMeshToTexture3D(cmd, inputMesh, outputVolume, conservativeRaster);
 
-                var mat = GetTempMaterial(rasterize3DShader);
-                mat.SetVector("_OutputSize", new Vector4(outputVolume.width, 1.0f / (float)outputVolume.width));
-                cmd.SetRandomWriteTarget(2, outputVolume);
-                cmd.GetTemporaryRT(42, (int)outputVolume.width, (int)outputVolume.height, 0);
-                cmd.SetRenderTarget(42);
-                RenderMesh(Quaternion.Euler(90, 0, 0));
-                RenderMesh(Quaternion.Euler(0, 90, 0));
-                RenderMesh(Quaternion.Euler(0, 0, 90));
-                cmd.ClearRandomWriteTargets();
-
-                void RenderMesh(Quaternion cameraRotation)
-                {
-                    var worldToCamera = Matrix4x4.Rotate(cameraRotation);
-                    var projection = Matrix4x4.Ortho(-renderingVolumeSize, renderingVolumeSize, -renderingVolumeSize, renderingVolumeSize, -renderingVolumeSize, renderingVolumeSize); // Rendering bounds
-                    var vp = projection * worldToCamera;
-                    props.SetMatrix("_CameraMatrix", vp);
-                    cmd.DrawMesh(mesh.mesh, mesh.localToWorld, mat, 0, shaderPass: 0, props);
-                }
-            }
+            // Generate a distance field with JFA
+            JumpFlooding(cmd);
 
 			return true;
 		}
+
+        void JumpFlooding(CommandBuffer cmd)
+        {
+            // TODO: add non-cube support for JFA
+			cmd.SetComputeVectorParam(computeShader, "_Size", new Vector4(outputVolume.width, 1.0f / outputVolume.width));
+
+			var rt = outputVolume.GetDoubleBufferRenderTexture();
+            var rayMapBuffer2 = rayMapBuffer.GetDoubleBufferRenderTexture();
+
+            int jumpFloodingKernel = jumpFloodingUnsignedKernel;
+            int fillUVKernel = fillUVUnsignedKernel;
+            int finalPassKernel = finalPassUnsignedKernel;
+
+            if (mode == Mode.Signed)
+            {
+                jumpFloodingKernel = jumpFloodingSignedKernel;
+                fillUVKernel = fillUVSignedKernel;
+                finalPassKernel = finalPassSignedKernel;
+            }
+            
+            // TODO: try to get rid of the copies again
+            TextureUtils.CopyTexture(cmd, outputVolume, rt);
+
+            // Jump flooding implementation based on https://www.comp.nus.edu.sg/~tants/jfa.html
+            // ANd signed version based on 'Generating signed distance fields on the GPU with ray maps'
+			cmd.SetComputeTextureParam(computeShader, fillUVKernel, "_Input", rt);
+			cmd.SetComputeTextureParam(computeShader, fillUVKernel, "_Output", outputVolume);
+            cmd.SetComputeTextureParam(computeShader, fillUVKernel, "_RayMapsOutput", rayMapBuffer2);
+			DispatchCompute(cmd, fillUVKernel, outputVolume.width, outputVolume.height, outputVolume.volumeDepth);
+
+			int maxLevels = (int)Mathf.Log(outputVolume.width, 2);
+			for (int i = 0; i <= maxLevels; i++)
+			{
+				float offset = 1 << (maxLevels - i);
+				cmd.SetComputeFloatParam(computeShader, "_Offset", offset);
+				cmd.SetComputeTextureParam(computeShader, jumpFloodingKernel, "_Input", outputVolume);
+				cmd.SetComputeTextureParam(computeShader, jumpFloodingKernel, "_Output", rt);
+                cmd.SetComputeTextureParam(computeShader, jumpFloodingKernel, "_RayMapsInput", rayMapBuffer2);
+                cmd.SetComputeTextureParam(computeShader, jumpFloodingKernel, "_RayMapsOutput", rayMapBuffer);
+				DispatchCompute(cmd, jumpFloodingKernel, outputVolume.width, outputVolume.height, outputVolume.volumeDepth);
+				TextureUtils.CopyTexture(cmd, rt, outputVolume);
+                if (mode == Mode.Signed)
+                    TextureUtils.CopyTexture(cmd, rayMapBuffer, rayMapBuffer2);
+			}
+
+            // TODO: compute sign based on ray maps
+            if (mode == Mode.Signed)
+            {
+
+            }
+
+            // TODO: in final pass, combine signness with distance for SDF
+
+			cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_Input", rt);
+			cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_Output", outputVolume);
+            cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_RayMapsInput", rayMapBuffer2);
+            cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_RayMapsOutput", rayMapBuffer);
+			DispatchCompute(cmd, finalPassKernel, outputVolume.width, outputVolume.height, outputVolume.volumeDepth);
+
+        }
     }
 }

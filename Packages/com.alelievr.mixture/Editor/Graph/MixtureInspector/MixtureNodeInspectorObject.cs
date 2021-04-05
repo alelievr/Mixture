@@ -23,7 +23,16 @@ namespace Mixture
         internal enum Texture3DPreviewMode
         {
             Volumetric,
-            DistanceField,
+            DistanceFieldNormal,
+            DistanceFieldColor,
+        }
+
+        internal enum SDFChannel
+        {
+            R,
+            G,
+            B,
+            A
         }
 
         // TODO
@@ -86,6 +95,7 @@ namespace Mixture
         internal Texture3DPreviewMode texture3DPreviewMode;
         internal float texture3DDensity = 1;
         internal float texture3DDistanceFieldOffset = 0;
+        internal SDFChannel sdfChannel = SDFChannel.R;
         float comparisonOffset;
 
         VisualTreeAsset nodeInspectorFoldout;
@@ -322,6 +332,7 @@ namespace Mixture
                 previewMaterial.SetFloat("_Texture3DMode", (int)texture3DPreviewMode);
                 previewMaterial.SetFloat("_Density", texture3DDensity);
                 previewMaterial.SetFloat("_SDFOffset", texture3DDistanceFieldOffset);
+                previewMaterial.SetFloat("_SDFChannel", (int)sdfChannel);
                 EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, previewMaterial);
             }
             else

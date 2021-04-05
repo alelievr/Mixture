@@ -183,10 +183,17 @@ namespace Mixture
 
 		public void ProcessGraph(BaseNode sourceNode = null)
 		{
-			if (sourceNode == null)
-				processor?.Run();
-			else
-				processor?.RunFromNode(sourceNode);
+			try
+			{
+				if (sourceNode == null)
+					processor?.Run();
+				else
+					processor?.RunFromNode(sourceNode);
+			}
+			catch (Exception e)
+			{
+				Debug.LogException(e);
+			}
 
 			// Update the inspector in case a node was selected.
 			if (Selection.activeObject is MixtureNodeInspectorObject)

@@ -83,7 +83,7 @@ float4 RayMarchVolume(float3 ro, float3 rd, Texture3D volume, SamplerState samp,
     return accumulation;
 }
 
-float4 RayMarchSDF(float3 ro, float3 rd, Texture3D volume, SamplerState samp, float mip, float startDistance = 0, float stopDistance = 1, float offset = 0)
+float4 RayMarchSDF(float3 ro, float3 rd, Texture3D volume, SamplerState samp, float mip, float startDistance = 0, float stopDistance = 1, float offset = 0, bool outputNormal = true)
 {
     float dist = 0;
     float4 accumulation = 0;
@@ -100,14 +100,19 @@ float4 RayMarchSDF(float3 ro, float3 rd, Texture3D volume, SamplerState samp, fl
         float4 c = volume.SampleLevel(samp, ray , mip);
         if (c.r + offset < 0.0)
         {
-            // show normal:
-           	float3 normal = normalize(float3(
-                volume.SampleLevel(samp, ray + epsylon.xyy, mip).x - volume.SampleLevel(samp, ray - epsylon.xyy, mip).x,
-                volume.SampleLevel(samp, ray + epsylon.yxy, mip).x - volume.SampleLevel(samp, ray - epsylon.yxy, mip).x,
-                volume.SampleLevel(samp, ray + epsylon.yyx, mip).x - volume.SampleLevel(samp, ray - epsylon.yyx, mip).x
-            ));
- 
-            return float4(normal * 0.5 + 0.5, 1);
+            if (outputNormal)
+            {
+                // show normal:
+                float3 normal = normalize(float3(
+                    volume.SampleLevel(samp, ray + epsylon.xyy, mip).x - volume.SampleLevel(samp, ray - epsylon.xyy, mip).x,
+                    volume.SampleLevel(samp, ray + epsylon.yxy, mip).x - volume.SampleLevel(samp, ray - epsylon.yxy, mip).x,
+                    volume.SampleLevel(samp, ray + epsylon.yyx, mip).x - volume.SampleLevel(samp, ray - epsylon.yyx, mip).x
+                ));
+    
+                return float4(normal * 0.5 + 0.5, 1);
+            }
+            else
+                return c;
         }
         dist += step;
 

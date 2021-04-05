@@ -95,7 +95,9 @@ Shader "Hidden/MixtureInspectorPreview"
                         case 0: // Volume
                             return RayMarchVolume(ro, rd, volume, samp, mip, boxIntersection.x, boxIntersection.y, _Density);
                         case 1: // SDF
-                            return RayMarchSDF(ro, rd, volume, samp, mip, boxIntersection.x, boxIntersection.y, _SDFOffset);
+                            return RayMarchSDF(ro, rd, volume, samp, mip, boxIntersection.x, boxIntersection.y, _SDFOffset, true);
+                        case 2: // SDF
+                            return RayMarchSDF(ro, rd, volume, samp, mip, boxIntersection.x, boxIntersection.y, _SDFOffset, false);
                     }
                     // TODO: send max distance to raymarcher
                 }

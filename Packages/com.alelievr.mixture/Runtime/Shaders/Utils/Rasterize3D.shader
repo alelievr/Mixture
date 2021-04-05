@@ -14,13 +14,12 @@ Shader "Hidden/Mixture/Rasterize3D"
             ColorMask 0
             ZWrite Off
             ZClip Off
-            Conservative True
+            Conservative [_ConservativeRaster]
 
 			HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 4.5
-            // #pragma enable_d3d11_debug_symbols
 
             #include "UnityCG.cginc"
 
