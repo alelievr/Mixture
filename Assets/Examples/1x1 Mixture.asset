@@ -31,7 +31,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Ints: []
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
@@ -54,7 +53,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs: []
-    m_Ints: []
     m_Floats: []
     m_Colors:
     - _Bias: {r: 0, g: 0, b: 0, a: 0}
@@ -76,15 +74,7 @@ MonoBehaviour:
   nodes:
   - id: 0
   - id: 1
-  edges:
-  - GUID: e09e9d3c-e989-42c1-8ce0-171e73f835cb
-    owner: {fileID: 11400000}
-    inputNodeGUID: daef4c32-d376-4158-9e10-07b8a8a7f0b7
-    outputNodeGUID: e25736be-1cf1-47fc-912f-36cf86266e5a
-    inputFieldName: outputTextureSettings
-    outputFieldName: output
-    inputPortIdentifier: Main Texture
-    outputPortIdentifier: output
+  edges: []
   groups: []
   stackNodes: []
   pinnedElements:
@@ -101,8 +91,10 @@ MonoBehaviour:
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 534, y: 214, z: 0}
+  position: {x: 641, y: 238, z: 0}
   scale: {x: 1, y: 1, z: 1}
+  version: 0
+  type: 0
   realtimePreview: 1
   isRealtime: 0
   isParameterViewOpen: 0
@@ -113,20 +105,21 @@ MonoBehaviour:
   variants: []
   _mainOutputTexture: {fileID: 6982677941647048320}
   _outputTextures:
-  - {fileID: 6982677941647048320}
+  - {fileID: 0}
+  - {fileID: 0}
   references:
     version: 1
     00000000:
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: daef4c32-d376-4158-9e10-07b8a8a7f0b7
-        computeOrder: 1
+        computeOrder: 0
         position:
           serializedVersion: 2
-          x: -59
-          y: -17.13043
+          x: 266
+          y: -70
           width: 350
-          height: 517
+          height: 525
         expanded: 1
         debug: 0
         nodeLock: 0
@@ -134,10 +127,10 @@ MonoBehaviour:
           widthPercent: 0
           heightPercent: 0
           depthPercent: 0
-          width: 16
-          height: 16
-          sliceCount: 16
-          potSize: 0
+          width: 128
+          height: 128
+          sliceCount: 128
+          potSize: 128
           widthMode: 1
           heightMode: 1
           depthMode: 1
@@ -164,7 +157,6 @@ MonoBehaviour:
           compressionFormat: 25
           compressionQuality: 100
           hasMipMaps: 0
-          customMipMapShader: {fileID: 0}
           isMain: 1
           enableConversion: 0
           conversionFormat: 0
@@ -174,7 +166,7 @@ MonoBehaviour:
       type: {class: UVNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: e25736be-1cf1-47fc-912f-36cf86266e5a
-        computeOrder: 0
+        computeOrder: 1
         position:
           serializedVersion: 2
           x: -523.24
@@ -182,7 +174,7 @@ MonoBehaviour:
           width: 250
           height: 437
         expanded: 0
-        debug: 1
+        debug: 0
         nodeLock: 0
         rtSettings:
           widthPercent: 1
@@ -228,6 +220,55 @@ MonoBehaviour:
             serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
               Culture=neutral, PublicKeyToken=null
         shaderGUID: 0e57459cc2eca8e4eb3e062b8ed60321
+--- !u!21 &5785015576610333509
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 423c5740bee720241a593eb459426694, type: 3}
+  m_ShaderKeywords: CRT_CUBE
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Mode: 0
+    m_Colors:
+    - _Bias: {r: 0, g: 0, b: 0, a: 0}
+    - _Scale: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
 --- !u!89 &6982677941647048320
 Cubemap:
   m_ObjectHideFlags: 0

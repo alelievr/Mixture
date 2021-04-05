@@ -43,7 +43,7 @@ Material:
     m_Colors:
     - _ColorMax: {r: 1, g: 1, b: 1, a: 1}
     - _ColorMin: {r: 0, g: 0, b: 0, a: 0}
-    - _LightPosition: {r: -0.45131153, g: 0.1588211, b: 0.2, a: 0}
+    - _LightPosition: {r: 0.4401133, g: 0.069536924, b: 0.2, a: 0}
     - _NormalMode: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!21 &-7515695781811813903
@@ -467,6 +467,45 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!21 &-2481330548224082510
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 42c9b3b577e805c47a4c1d21610fd6ea, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Feather: 0.21
+    - _Mode: 4
+    - _Threshold: 5
+    m_Colors:
+    - _SourceColor: {r: 0.972549, g: 1, b: 0, a: 0}
+    - _TargetColor: {r: 1, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []
 --- !u!21 &-627871837259660301
 Material:
   serializedVersion: 6
@@ -648,6 +687,9 @@ MonoBehaviour:
   - id: 15
   - id: 16
   - id: 17
+  - id: 18
+  - id: 19
+  - id: 20
   edges:
   - GUID: 9381c461-018c-4620-b324-d2edb89833bc
     owner: {fileID: 11400000}
@@ -769,6 +811,22 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: _Source_2D
     outputPortIdentifier: output
+  - GUID: cbefe13b-9077-47cf-a945-2bd1f65e4ca7
+    owner: {fileID: 11400000}
+    inputNodeGUID: 1e6387fb-0613-4704-8bc3-b758b62f2a89
+    outputNodeGUID: f31b6ecc-b413-440b-b761-33d0f986f453
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Source_2D
+    outputPortIdentifier: output
+  - GUID: 01ef92eb-bcb8-4021-be41-1297bea8bd3e
+    owner: {fileID: 11400000}
+    inputNodeGUID: 9cb723ed-c908-4446-ade9-d528f719100b
+    outputNodeGUID: 1e6387fb-0613-4704-8bc3-b758b62f2a89
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: input
+    outputPortIdentifier: output
   groups: []
   stackNodes: []
   pinnedElements:
@@ -795,14 +853,15 @@ MonoBehaviour:
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: -153, y: -723, z: 0}
-  scale: {x: 1.3225, y: 1.3225, z: 1}
+  position: {x: -1618, y: -599, z: 0}
+  scale: {x: 0.8695652, y: 0.8695652, z: 1}
+  version: 0
+  type: 0
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 0
   embedInBuild: 0
   objectReferences:
-  - {fileID: 7412953962164294820}
   - {fileID: 104215503536926863}
   - {fileID: -7515695781811813903}
   - {fileID: 458437118441847180}
@@ -820,11 +879,11 @@ MonoBehaviour:
   - {fileID: 6893389108874368648}
   - {fileID: -401917465787691341}
   - {fileID: -6109865235338946543}
-  - {fileID: 1240550391805500685}
   - {fileID: -7797858145472901598}
   - {fileID: 2491625942348867105}
   - {fileID: 6670091451615697692}
   - {fileID: 9060617578117326855}
+  - {fileID: 6259393094311546166}
   variants: []
   _mainOutputTexture: {fileID: -5326166195811395285}
   _outputTextures:
@@ -836,7 +895,7 @@ MonoBehaviour:
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 20aad9a2-f45b-443d-9f30-0287577d108c
-        computeOrder: 1
+        computeOrder: 0
         position:
           serializedVersion: 2
           x: 239
@@ -889,13 +948,13 @@ MonoBehaviour:
       type: {class: CellularNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 9f3f98b3-ff74-41f4-a2cb-7db36effd2ac
-        computeOrder: 0
+        computeOrder: -1
         position:
           serializedVersion: 2
-          x: -11.000078
-          y: 55.999985
+          x: -50.369938
+          y: 56.000008
           width: 250
-          height: 604
+          height: 469
         expanded: 1
         debug: 0
         nodeLock: 0
@@ -927,8 +986,8 @@ MonoBehaviour:
         previewSlice: 0
         isPinned: 0
         output: {fileID: 0}
-        shader: {fileID: 4800000, guid: da55f2393d0f8384db177010fad4c19c, type: 3}
-        material: {fileID: 7412953962164294820}
+        shader: {fileID: 0}
+        material: {fileID: 0}
         exposedProperties:
         - displayName: UVs
           referenceName: _UV_2D
@@ -1032,7 +1091,7 @@ MonoBehaviour:
       type: {class: UVNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 2b4dddf5-f074-41f7-bbc2-107f70517b07
-        computeOrder: 2
+        computeOrder: 1
         position:
           serializedVersion: 2
           x: -558.51306
@@ -1090,7 +1149,7 @@ MonoBehaviour:
       type: {class: PerlinNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: ab6c048c-5225-4450-ac69-e2c32b722195
-        computeOrder: 5
+        computeOrder: 4
         position:
           serializedVersion: 2
           x: -32.513077
@@ -1197,7 +1256,7 @@ MonoBehaviour:
       type: {class: GradienMattetNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: c55af52b-4643-4333-bf0a-bd217b1f6aa6
-        computeOrder: 3
+        computeOrder: 2
         position:
           serializedVersion: 2
           x: -558.51306
@@ -1286,7 +1345,7 @@ MonoBehaviour:
       type: {class: CombineNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: f31b6ecc-b413-440b-b761-33d0f986f453
-        computeOrder: 4
+        computeOrder: 3
         position:
           serializedVersion: 2
           x: -282.51312
@@ -1390,7 +1449,7 @@ MonoBehaviour:
       type: {class: CellularNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 744ee31f-bef5-43e4-b53f-fcd69fb078e7
-        computeOrder: 6
+        computeOrder: 5
         position:
           serializedVersion: 2
           x: -223.42114
@@ -1533,7 +1592,7 @@ MonoBehaviour:
       type: {class: SwizzleNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 1f3876e6-38c2-48d2-830a-655e938956a3
-        computeOrder: 7
+        computeOrder: 6
         position:
           serializedVersion: 2
           x: 59.578857
@@ -1615,7 +1674,7 @@ MonoBehaviour:
       type: {class: ThresholdNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 18c446a7-890a-470d-97c9-b1de5216b144
-        computeOrder: 9
+        computeOrder: 8
         position:
           serializedVersion: 2
           x: 584.5791
@@ -1691,7 +1750,7 @@ MonoBehaviour:
       type: {class: SubNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: c080cfd6-da8a-40ce-a69e-64467f6f40d7
-        computeOrder: 8
+        computeOrder: 7
         position:
           serializedVersion: 2
           x: 334.5791
@@ -1755,7 +1814,7 @@ MonoBehaviour:
       type: {class: StochasticTiling, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 5dbd481a-bd6b-493a-b5e9-8d75fe8f221d
-        computeOrder: 10
+        computeOrder: 9
         position:
           serializedVersion: 2
           x: 217
@@ -1819,7 +1878,7 @@ MonoBehaviour:
       type: {class: PreviewNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: a3601eaa-a7fe-45e2-9d52-45011b4deb02
-        computeOrder: 12
+        computeOrder: 10
         position:
           serializedVersion: 2
           x: 1450.0002
@@ -1933,12 +1992,18 @@ MonoBehaviour:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
         shaderGUID: f53ca163880a74a4cb8940c1893f071f
-        mousePosition: {x: 0.8648962, y: 0.13593884}
+        histogramData:
+          mode: 1
+          bucketCount: 256
+          previewMaterial: {fileID: 0}
+          minLuminance: 0
+          maxLuminance: 0.92850876
+        mousePosition: {x: 0.5714461, y: 1}
     0000000C:
       type: {class: NormalFromHeight, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 7564d7f9-76c2-4ab2-a233-8d883679d31a
-        computeOrder: -1
+        computeOrder: 11
         position:
           serializedVersion: 2
           x: 467.00006
@@ -1997,13 +2062,13 @@ MonoBehaviour:
       type: {class: PerlinNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 328ab3a7-23a7-4d44-aa00-0c49987857be
-        computeOrder: 11
+        computeOrder: -1
         position:
           serializedVersion: 2
           x: 1200
-          y: 480.20007
+          y: 480
           width: 250
-          height: 569
+          height: 582
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -2036,7 +2101,7 @@ MonoBehaviour:
         isPinned: 0
         output: {fileID: 0}
         shader: {fileID: 4800000, guid: 3ff8d72a4c500ad4093607671bcd9097, type: 3}
-        material: {fileID: 1240550391805500685}
+        material: {fileID: 0}
         exposedProperties:
         - displayName: UVs
           referenceName: _UV_2D
@@ -2104,13 +2169,13 @@ MonoBehaviour:
       type: {class: PreviewNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 344046a3-ab32-43e4-a915-12fbdf64b203
-        computeOrder: 14
+        computeOrder: 13
         position:
           serializedVersion: 2
           x: 1450
           y: 1085
           width: 250
-          height: 466
+          height: 481
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -2218,12 +2283,18 @@ MonoBehaviour:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
         shaderGUID: f53ca163880a74a4cb8940c1893f071f
-        mousePosition: {x: 0.63542324, y: 0.48047513}
+        histogramData:
+          mode: 1
+          bucketCount: 256
+          previewMaterial: {fileID: 0}
+          minLuminance: -0.23675811
+          maxLuminance: 0.5229896
+        mousePosition: {x: 0.8917358, y: 0.6444215}
     0000000F:
       type: {class: GenerateMipMaps, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 8e8aab23-24df-473e-8268-27e247c77399
-        computeOrder: 13
+        computeOrder: 12
         position:
           serializedVersion: 2
           x: 1200
@@ -2271,7 +2342,7 @@ MonoBehaviour:
       type: {class: CellularNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: e8b6f561-9a46-4d2b-a900-10d5025118a4
-        computeOrder: 15
+        computeOrder: 14
         position:
           serializedVersion: 2
           x: 1706.829
@@ -2414,13 +2485,13 @@ MonoBehaviour:
       type: {class: PreviewNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 27bac9ae-c562-4b0f-a91a-8b66fd4b028a
-        computeOrder: 16
+        computeOrder: 15
         position:
           serializedVersion: 2
-          x: 1964.0002
-          y: 480.00003
+          x: 1963.9565
+          y: 480
           width: 250
-          height: 524
+          height: 537
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -2528,7 +2599,186 @@ MonoBehaviour:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
         shaderGUID: f53ca163880a74a4cb8940c1893f071f
-        mousePosition: {x: 0.8657549, y: 0}
+        histogramData:
+          mode: 1
+          bucketCount: 256
+          previewMaterial: {fileID: 0}
+          minLuminance: 0.3427431
+          maxLuminance: 1.1427197
+        mousePosition: {x: 0.446281, y: 0.92561984}
+    00000012:
+      type: {class: Contrast, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 1e6387fb-0613-4704-8bc3-b758b62f2a89
+        computeOrder: 16
+        position:
+          serializedVersion: 2
+          x: 1957
+          y: 1067
+          width: 250
+          height: 459
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 1024
+          height: 1024
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 20ff72437c5db5e4f91da56acd07c828, type: 3}
+        material: {fileID: 6259393094311546166}
+        exposedProperties:
+        - displayName: Source
+          referenceName: _Source_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Saturation
+          referenceName: _Saturation
+          tooltip: Adjusts the contrast of the image
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Luminosity
+          referenceName: _Luminosity
+          tooltip: Adjusts the luminosity or brightness of the image
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: 20ff72437c5db5e4f91da56acd07c828
+    00000013:
+      type: {class: Separate, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 9cb723ed-c908-4446-ade9-d528f719100b
+        computeOrder: 17
+        position:
+          serializedVersion: 2
+          x: 2207
+          y: 1067
+          width: 250
+          height: 152
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 1024
+          height: 1024
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 3
+          outputPrecision: 0
+          editFlags: -449
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        input: {fileID: 0}
+        outputR: {fileID: 0}
+        outputG: {fileID: 0}
+        outputB: {fileID: 0}
+        outputA: {fileID: 0}
+    00000014:
+      type: {class: RenderMesh, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: a9f004db-5969-48c4-a07f-3bc66910c60b
+        computeOrder: 18
+        position:
+          serializedVersion: 2
+          x: 2613.244
+          y: 1067
+          width: 250
+          height: 397
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 1024
+          height: 1024
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 2
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -321
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        mesh:
+          mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+          localToWorld:
+            e00: 1
+            e01: 0
+            e02: 0
+            e03: 0
+            e10: 0
+            e11: 1
+            e12: 0
+            e13: 0
+            e20: 0
+            e21: 0
+            e22: 1
+            e23: 0
+            e30: 0
+            e31: 0
+            e32: 0
+            e33: 1
+        material: {fileID: 2100000, guid: a2eebb005300ade48b9abb24cb20f13a, type: 2}
+        submeshIndex: 0
+        output: {fileID: 0}
 --- !u!21 &104215503536926863
 Material:
   serializedVersion: 6
@@ -2607,6 +2857,45 @@ Material:
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
+--- !u!21 &723473780967048767
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 42c9b3b577e805c47a4c1d21610fd6ea, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Feather: 0.28
+    - _Mode: 0
+    - _Threshold: 0.22
+    m_Colors:
+    - _SourceColor: {r: 0.87545574, g: 1, b: 0, a: 1}
+    - _TargetColor: {r: 0.13003778, g: 0, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!21 &1240550391805500685
 Material:
   serializedVersion: 6
@@ -2661,6 +2950,47 @@ Material:
     - _UVMode: 0
     m_Colors:
     - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &2141595591699230815
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 46c02ba1b0b63954bab0afcd9e828ac6, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Direction: 0
+    - _Falloff: 1
+    - _Mode: 2
+    - _SpiralBranchCount: 1
+    - _SpiralTurnCount: 1
+    m_Colors:
+    - _Color1: {r: 0, g: 0, b: 0, a: 0}
+    - _Color2: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &2491625942348867105
 Material:
@@ -2795,6 +3125,81 @@ Material:
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
+--- !u!21 &6132749778080076648
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 42c9b3b577e805c47a4c1d21610fd6ea, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Feather: 0.01
+    - _Mode: 0
+    - _Threshold: 0.01
+    m_Colors:
+    - _SourceColor: {r: 1, g: 0, b: 0, a: 1}
+    - _TargetColor: {r: 1, g: 0.059489295, b: 0, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &6259393094311546166
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/ShaderNodeDefault
+  m_Shader: {fileID: 4800000, guid: 20ff72437c5db5e4f91da56acd07c828, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Luminosity: 0
+    - _Saturation: 0
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!21 &6670091451615697692
 Material:
   serializedVersion: 6
@@ -2838,7 +3243,7 @@ Material:
     m_Colors:
     - _ColorMax: {r: 2, g: 2, b: 2, a: 1}
     - _ColorMin: {r: 0, g: 0, b: 0, a: 0}
-    - _LightPosition: {r: 0, g: 0, b: 0.2, a: 0}
+    - _LightPosition: {r: 1.2574563, g: -1.5, b: 0.2, a: 0}
   m_BuildTextureStacks: []
 --- !u!21 &6893389108874368648
 Material:
@@ -2879,56 +3284,6 @@ Material:
     - _BlendPow: 3.6
     - _BorderSize: 0.242
     m_Colors: []
-  m_BuildTextureStacks: []
---- !u!21 &7412953962164294820
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Hidden/Mixture/CellularNoise
-  m_Shader: {fileID: 4800000, guid: da55f2393d0f8384db177010fad4c19c, type: 3}
-  m_ShaderKeywords: CRT_2D _TILINGMODE_TILED
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _UV_2D:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _UV_3D:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _UV_Cube:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _CellSize: 2.07
-    - _CellsMode: 0
-    - _CellsModeA: 0
-    - _CellsModeB: 0
-    - _CellsModeG: 0
-    - _CellsModeR: 0
-    - _Channels: 4
-    - _DistanceMode: 0
-    - _Frequency: 2
-    - _Lacunarity: 4
-    - _Octaves: 3
-    - _Persistance: 0.47
-    - _Seed: 42
-    - _TilingMode: 1
-    - _UVMode: 0
-    m_Colors:
-    - _OutputRange: {r: 0.59, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!21 &7493468621230872315
 Material:
