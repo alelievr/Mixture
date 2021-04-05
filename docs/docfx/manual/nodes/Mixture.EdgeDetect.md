@@ -1,4 +1,4 @@
-# EdgeDetect
+# Edge Detection
 ![Mixture.EdgeDetect](../../images/Mixture.EdgeDetect.png)
 ## Inputs
 Port Name | Description

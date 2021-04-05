@@ -1,4 +1,4 @@
-# CombineNode
+# Combine
 ![Mixture.CombineNode](../../images/Mixture.CombineNode.png)
 ## Inputs
 Port Name | Description

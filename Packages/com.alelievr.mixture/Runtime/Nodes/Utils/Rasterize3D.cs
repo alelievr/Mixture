@@ -13,7 +13,7 @@ Note that the unsigned distance field is faster to compute.
 	[System.Serializable, NodeMenuItem("Mesh/Rasterize 3D Mesh")]
 	public class Rasterize3D : ComputeShaderNode
 	{
-		[Input("Input Mesh")]
+		[Input("Input Mesh"), ShowAsDrawer]
 		public MixtureMesh inputMesh;
 
         [Output("Volume")]
