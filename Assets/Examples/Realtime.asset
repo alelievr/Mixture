@@ -36,7 +36,7 @@ Material:
     - _Frequency: 3
     - _Lacunarity: 2
     - _Octaves: 4
-    - _Persistance: 0.5
+    - _Persistance: 0.13793331
     - _Seed: 42
     - _TilingMode: 1
     - _UVMode: 0
@@ -61,6 +61,12 @@ MonoBehaviour:
   - id: 1
   - id: 2
   - id: 3
+  - id: 4
+  - id: 5
+  - id: 6
+  - id: 7
+  - id: 8
+  - id: 9
   edges:
   - GUID: a036f0bd-ea59-43a6-849e-214a768ed5a4
     owner: {fileID: 11400000}
@@ -70,27 +76,86 @@ MonoBehaviour:
     outputFieldName: sinTime
     inputPortIdentifier: 
     outputPortIdentifier: 
-  - GUID: e69c08bc-ed09-4ad3-8be2-fe38330402db
+  - GUID: 75953af7-0f83-4c92-9f55-f90025360cb1
+    owner: {fileID: 11400000}
+    inputNodeGUID: dfc885c4-25f9-483c-b217-26a7e7d1480a
+    outputNodeGUID: 45b55e43-50ed-49df-b940-105b197c4bb0
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: 0
+    outputPortIdentifier: output
+  - GUID: d0200a7b-ddf5-414c-a11a-91f61abfdea3
     owner: {fileID: 11400000}
     inputNodeGUID: 691aa737-9a89-40dd-b56d-201a248e396d
-    outputNodeGUID: 45b55e43-50ed-49df-b940-105b197c4bb0
+    outputNodeGUID: dfc885c4-25f9-483c-b217-26a7e7d1480a
     inputFieldName: outputTextureSettings
     outputFieldName: output
     inputPortIdentifier: Main Texture
-    outputPortIdentifier: output
+    outputPortIdentifier: 0
+  - GUID: 7f159212-b8d4-4fc5-9529-ba4be932e9b8
+    owner: {fileID: 11400000}
+    inputNodeGUID: bc5fb718-5d86-4634-8b61-c88e76bc7870
+    outputNodeGUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
+    inputFieldName: input
+    outputFieldName: o
+    inputPortIdentifier: 0
+    outputPortIdentifier: 
+  - GUID: 83e6a9a6-0ea9-473c-b9d7-f0fea8a5419d
+    owner: {fileID: 11400000}
+    inputNodeGUID: 65dfbfd3-a672-4851-a9a9-029804d3a6eb
+    outputNodeGUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
+    inputFieldName: input
+    outputFieldName: o
+    inputPortIdentifier: 0
+    outputPortIdentifier: 
+  - GUID: 8b3044b7-b217-4b87-907f-d8dd033927c9
+    owner: {fileID: 11400000}
+    inputNodeGUID: fb9d469b-6a7c-44c7-948f-7c3dfd72454f
+    outputNodeGUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
+    inputFieldName: input
+    outputFieldName: o
+    inputPortIdentifier: 0
+    outputPortIdentifier: 
+  - GUID: a6f81bf8-abd6-4a68-a429-284e87d8ee1f
+    owner: {fileID: 11400000}
+    inputNodeGUID: 049b3123-542a-4a2a-b7d7-a555b6d121fd
+    outputNodeGUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
+    inputFieldName: input
+    outputFieldName: o
+    inputPortIdentifier: 0
+    outputPortIdentifier: 
+  - GUID: 57118d4a-54e3-4191-b5eb-b8637dace28f
+    owner: {fileID: 11400000}
+    inputNodeGUID: 45b55e43-50ed-49df-b940-105b197c4bb0
+    outputNodeGUID: 049b3123-542a-4a2a-b7d7-a555b6d121fd
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Persistance
+    outputPortIdentifier: 0
   groups: []
   stackNodes: []
-  pinnedElements: []
-  exposedParameters: []
+  pinnedElements:
+  - position:
+      serializedVersion: 2
+      x: 27
+      y: 35
+      width: 150
+      height: 200
+    opened: 1
+    editorType:
+      serializedType: Mixture.MixtureParameterView, Unity.ShaderGraph.GraphicsTests,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  exposedParameters:
+  - id: 10
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 579, y: 291, z: 0}
-  scale: {x: 0.7561437, y: 0.7561437, z: 1}
+  position: {x: 791, y: 243, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}
   version: 0
   type: 1
   realtimePreview: 0
   isRealtime: 0
-  isParameterViewOpen: 0
+  isParameterViewOpen: 1
   embedInBuild: 0
   objectReferences:
   - {fileID: 3598281741535884985}
@@ -106,13 +171,13 @@ MonoBehaviour:
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 691aa737-9a89-40dd-b56d-201a248e396d
-        computeOrder: 1
+        computeOrder: 5
         position:
           serializedVersion: 2
-          x: -44
-          y: -44.5
-          width: 320
-          height: 463
+          x: 162.25218
+          y: -27.999992
+          width: 350
+          height: 500
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -159,13 +224,13 @@ MonoBehaviour:
       type: {class: RidgedPerlinNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 45b55e43-50ed-49df-b940-105b197c4bb0
-        computeOrder: 0
+        computeOrder: 3
         position:
           serializedVersion: 2
-          x: -312
-          y: -44
+          x: -194.60869
+          y: -27.999998
           width: 250
-          height: 585
+          height: 547
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -266,13 +331,13 @@ MonoBehaviour:
       type: {class: TimeNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 3fd32b5b-8edd-4948-a1ef-e34f4d5d42dc
-        computeOrder: 2
+        computeOrder: 0
         position:
           serializedVersion: 2
-          x: -707
-          y: 4
+          x: -842.65234
+          y: -42.95652
           width: 120
-          height: 178
+          height: 176
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -307,13 +372,13 @@ MonoBehaviour:
       type: {class: VectorRemapNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
-        computeOrder: 3
+        computeOrder: 1
         position:
           serializedVersion: 2
-          x: -570
-          y: 28
+          x: -705.6523
+          y: -18.956512
           width: 250
-          height: 166
+          height: 164
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -344,12 +409,136 @@ MonoBehaviour:
         previewEV100: 0
         previewSlice: 0
         isPinned: 0
-        a: {x: 0.9679046, y: 0.9679046, z: 0.9679046, w: 0.9679046}
-        o: {x: 0.6887666, y: 0.6887666, z: 0.6887666, w: 0.6887666}
+        a: {x: -0.6059048, y: -0.6059048, z: -0.6059048, w: -0.6059048}
+        o: {x: 0.13793331, y: 0.13793331, z: 0.13793331, w: 0.13793331}
         inputMin: -1
         inputMax: 1
         outputMin: 0
         outputMax: 0.7
+    00000004:
+      type: {class: RelayNode, ns: , asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        GUID: dfc885c4-25f9-483c-b217-26a7e7d1480a
+        computeOrder: 4
+        position:
+          serializedVersion: 2
+          x: 84.82607
+          y: 18.4348
+          width: 200
+          height: 200
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        unpackOutput: 0
+        packInput: 0
+        inputEdgeCount: 1
+    00000005:
+      type: {class: RelayNode, ns: , asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        GUID: bc5fb718-5d86-4634-8b61-c88e76bc7870
+        computeOrder: 6
+        position:
+          serializedVersion: 2
+          x: -366.95654
+          y: 209.56523
+          width: 200
+          height: 200
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        unpackOutput: 0
+        packInput: 0
+        inputEdgeCount: 1
+    00000006:
+      type: {class: RelayNode, ns: , asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        GUID: 65dfbfd3-a672-4851-a9a9-029804d3a6eb
+        computeOrder: 7
+        position:
+          serializedVersion: 2
+          x: -346.95654
+          y: 229.56523
+          width: 200
+          height: 200
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        unpackOutput: 0
+        packInput: 0
+        inputEdgeCount: 1
+    00000007:
+      type: {class: RelayNode, ns: , asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        GUID: fb9d469b-6a7c-44c7-948f-7c3dfd72454f
+        computeOrder: 8
+        position:
+          serializedVersion: 2
+          x: -326.95654
+          y: 249.56523
+          width: 200
+          height: 200
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        unpackOutput: 0
+        packInput: 0
+        inputEdgeCount: 1
+    00000008:
+      type: {class: RelayNode, ns: , asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        GUID: 049b3123-542a-4a2a-b7d7-a555b6d121fd
+        computeOrder: 2
+        position:
+          serializedVersion: 2
+          x: -306.95654
+          y: 269.56525
+          width: 200
+          height: 200
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        unpackOutput: 0
+        packInput: 0
+        inputEdgeCount: 1
+    00000009:
+      type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        GUID: 67fab44d-4514-4fe9-810f-71a18446fcd8
+        computeOrder: 9
+        position:
+          serializedVersion: 2
+          x: -565.2174
+          y: 206.08696
+          width: 100
+          height: 100
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        parameterGUID: 80428b56-fbee-41f0-b28d-e77bb483e1bf
+        accessor: 0
+    0000000A:
+      type: {class: IntParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        guid: 80428b56-fbee-41f0-b28d-e77bb483e1bf
+        name: New Int
+        type: 
+        serializedValue:
+          serializedType: 
+          serializedName: 
+          serializedValue: 
+        input: 1
+        settings:
+          id: 11
+        val: 4
+    0000000B:
+      type: {class: IntParameter/IntSettings, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        isHidden: 0
+        expanded: 1
+        guid: 80428b56-fbee-41f0-b28d-e77bb483e1bf
+        mode: 0
+        min: 0
+        max: 10
 --- !u!21 &3598281741535884985
 Material:
   serializedVersion: 6

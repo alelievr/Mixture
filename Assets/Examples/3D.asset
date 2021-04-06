@@ -306,6 +306,8 @@ MonoBehaviour:
   - id: 1
   - id: 2
   - id: 3
+  - id: 4
+  - id: 5
   edges:
   - GUID: 9ac3eb61-cd89-42e9-92c7-f1b1d22402ed
     owner: {fileID: 11400000}
@@ -323,14 +325,22 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: Main Texture
     outputPortIdentifier: output
+  - GUID: 8bc08ece-381b-4f9a-8f1e-15577581823b
+    owner: {fileID: 11400000}
+    inputNodeGUID: 77429a92-fb10-47f1-b26e-6d00bb30a4e7
+    outputNodeGUID: ace11089-5e0b-43dc-85e6-389e298d7e5b
+    inputFieldName: inputMesh
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
   groups: []
   stackNodes: []
   pinnedElements: []
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 517, y: 328, z: 0}
-  scale: {x: 0.49717674, y: 0.49717674, z: 1}
+  position: {x: 1734, y: -755, z: 0}
+  scale: {x: 1.520875, y: 1.520875, z: 1}
   version: 0
   type: 0
   realtimePreview: 0
@@ -689,6 +699,134 @@ MonoBehaviour:
             serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
               Culture=neutral, PublicKeyToken=null
         shaderGUID: 9c772025373ab42479c6b27b476a4a38
+    00000004:
+      type: {class: MeshNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: ace11089-5e0b-43dc-85e6-389e298d7e5b
+        computeOrder: 4
+        position:
+          serializedVersion: 2
+          x: -976.9999
+          y: 621
+          width: 250
+          height: 143
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 1024
+          height: 1024
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output:
+          mesh: {fileID: 0}
+          localToWorld:
+            e00: 1
+            e01: 0
+            e02: 0
+            e03: 0
+            e10: 0
+            e11: 1
+            e12: 0
+            e13: 0
+            e20: 0
+            e21: 0
+            e22: 1
+            e23: 0
+            e30: 0
+            e31: 0
+            e32: 0
+            e33: 1
+        mesh: {fileID: 4300000, guid: 9946dc938bf62df4b8fdd82af9833dab, type: 2}
+        scale: {x: 1, y: 1, z: 1}
+        pos: {x: 0, y: 0, z: 0}
+        eulerAngles: {x: 0, y: 180, z: 0}
+    00000005:
+      type: {class: MeshToUDF, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 77429a92-fb10-47f1-b26e-6d00bb30a4e7
+        computeOrder: 5
+        position:
+          serializedVersion: 2
+          x: -726.99994
+          y: 621
+          width: 250
+          height: 414
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 1024
+          height: 1024
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 3
+          outputChannels: 1
+          outputPrecision: 3
+          editFlags: 127
+          doubleBuffered: 1
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 32.1
+        isPinned: 0
+        computeShader: {fileID: 7200000, guid: 9c524ae06c58e3e4ca96151762b02ae6, type: 3}
+        inputMesh:
+          mesh: {fileID: 0}
+          localToWorld:
+            e00: 1
+            e01: 0
+            e02: 0
+            e03: 0
+            e10: 0
+            e11: 1
+            e12: 0
+            e13: 0
+            e20: 0
+            e21: 0
+            e22: 1
+            e23: 0
+            e30: 0
+            e31: 0
+            e32: 0
+            e33: 1
+        outputVolume: {fileID: 0}
+        mode: 0
+        conservativeRaster: 0
 --- !u!21 &545143701074682782
 Material:
   serializedVersion: 6
