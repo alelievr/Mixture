@@ -144,6 +144,9 @@ namespace Mixture
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
+			if (graph == null) // Not good but, waiting to render graph refactor to clean up
+				return false;
+
 			if (graph.mainOutputTexture == null)
 			{
 				Debug.LogError("Output Node can't write to target texture, Graph references a null output texture");
