@@ -31,6 +31,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
@@ -53,6 +54,7 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs: []
+    m_Ints: []
     m_Floats: []
     m_Colors:
     - _Bias: {r: 0, g: 0, b: 0, a: 0}
@@ -74,7 +76,15 @@ MonoBehaviour:
   nodes:
   - id: 0
   - id: 1
-  edges: []
+  edges:
+  - GUID: e663159e-3c4d-457c-ac8d-7eb1a768f93f
+    owner: {fileID: 11400000}
+    inputNodeGUID: daef4c32-d376-4158-9e10-07b8a8a7f0b7
+    outputNodeGUID: e25736be-1cf1-47fc-912f-36cf86266e5a
+    inputFieldName: outputTextureSettings
+    outputFieldName: output
+    inputPortIdentifier: Main Texture
+    outputPortIdentifier: output
   groups: []
   stackNodes: []
   pinnedElements:
@@ -91,8 +101,8 @@ MonoBehaviour:
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 641, y: 238, z: 0}
-  scale: {x: 1, y: 1, z: 1}
+  position: {x: 324, y: 430, z: 0}
+  scale: {x: 0.7561437, y: 0.7561437, z: 1}
   version: 0
   type: 0
   realtimePreview: 1
@@ -113,7 +123,7 @@ MonoBehaviour:
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: daef4c32-d376-4158-9e10-07b8a8a7f0b7
-        computeOrder: 0
+        computeOrder: 1
         position:
           serializedVersion: 2
           x: 266
@@ -166,13 +176,13 @@ MonoBehaviour:
       type: {class: UVNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: e25736be-1cf1-47fc-912f-36cf86266e5a
-        computeOrder: 1
+        computeOrder: 0
         position:
           serializedVersion: 2
-          x: -523.24
-          y: 5
+          x: 15.999878
+          y: -70.00007
           width: 250
-          height: 437
+          height: 435
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -263,6 +273,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _Mode: 0
     m_Colors:
