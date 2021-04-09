@@ -47,7 +47,6 @@ namespace Mixture
 
 		public override bool				needsInspector => true;
 
-
 		protected Dictionary<string, Material> temporaryMaterials = new Dictionary<string, Material>();
 
         // UI Serialization
@@ -535,6 +534,10 @@ namespace Mixture
 				acceptMultipleEdges = input ? false : true,
 			};
 		}
+
+		// Workaround to be able to have the same node with different port settings per graph texture dimension
+		[IsCompatibleWithGraph]
+		internal static bool IsNodeCompatibleWithGraph(BaseGraph graph) => true;
 
 		protected override void Disable()
 		{
