@@ -12,7 +12,7 @@ namespace Mixture
 Make the input texture tile by wrapping and blending the borders of the texture.
 ")]
 
-    [System.Serializable, NodeMenuItem("Matte/Tile & Wrap")]
+    [System.Serializable, NodeMenuItem("Textures/Tile & Wrap")]
     public class TileWrapNode : FixedShaderNode
     {
         public override string name => "Tile & Wrap";

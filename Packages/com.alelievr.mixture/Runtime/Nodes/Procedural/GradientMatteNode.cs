@@ -10,7 +10,7 @@ namespace Mixture
 Generates a gradient texture, 4 Modes are available right now:
 ")]
 
-	[System.Serializable, NodeMenuItem("Matte/Gradient Matte")]
+	[System.Serializable, NodeMenuItem("Color/Gradient Matte")]
 	public class GradienMattetNode : FixedShaderNode
 	{
 		public override string name => "Gradient Matte";

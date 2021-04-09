@@ -7,9 +7,32 @@ namespace Mixture
     {
         public enum Blend
         {
-            Normal, Min, Max, Burn, Darken, Difference, Dodge, Divide, Exclusion, HardLight, HardMix,
-            Lighten, LinearBurn, LinearDodge, LinearLight, LinearLightAddSub, Multiply,
-            Negation, Overlay, PinLight, Screen, SoftLight, Subtract, VividLight
+            [InspectorName("Normal (Copy)")]
+            Normal = 0,
+            [InspectorName("Min (Darken)")]
+            Min = 1,
+            [InspectorName("Max (Lighten)")]
+            Max = 2,
+            [InspectorName("Additive (Linear Dodge)")]
+            Additive = 13,
+            Subtract = 22,
+            Burn = 3,
+            Difference = 5,
+            Dodge = 6,
+            Divide = 7,
+            Exclusion = 8,
+            HardLight = 9,
+            HardMix = 10,
+            LinearBurn = 12,
+            LinearLight = 14,
+            LinearLightAddSub = 15,
+            Multiply = 16,
+            Negation = 17,
+            Overlay = 18,
+            PinLight = 19,
+            Screen = 20,
+            SoftLight = 21,
+            VividLight = 23
         }
 
         protected override void DrawerGUI(Rect position, MaterialProperty prop, string label, MaterialEditor editor, MixtureGraph graph, MixtureNodeView nodeView)

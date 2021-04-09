@@ -10,7 +10,7 @@ namespace Mixture
 Replace the source color by the target color in the image.
 ")]
 
-	[System.Serializable, NodeMenuItem("Color/Swap Color"), NodeMenuItem("Colors/Replace Color")]
+	[System.Serializable, NodeMenuItem("Color/Swap Color"), NodeMenuItem("Color/Replace Color")]
 	public class ColorSwapNode : FixedShaderNode
 	{
 		public override string name => "Swap Color";
