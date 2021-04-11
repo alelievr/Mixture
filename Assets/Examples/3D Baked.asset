@@ -156,6 +156,14 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: Main Texture
     outputPortIdentifier: output
+  - GUID: f88f4905-8451-438e-a5ef-bcd740f5d8c5
+    owner: {fileID: 11400000}
+    inputNodeGUID: 48f12219-7ffb-4471-98e9-9d558c9d2032
+    outputNodeGUID: 3cc1a081-ce1a-4a7b-8fcd-14318fabe4b6
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Source_3D
+    outputPortIdentifier: output
   groups: []
   stackNodes: []
   pinnedElements:
@@ -172,8 +180,8 @@ MonoBehaviour:
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 1264, y: 9, z: 0}
-  scale: {x: 0.8695652, y: 0.8695652, z: 1}
+  position: {x: 875, y: 101, z: 0}
+  scale: {x: 0.6598695, y: 0.6598695, z: 1}
   version: 0
   type: 0
   realtimePreview: 0
@@ -200,10 +208,10 @@ MonoBehaviour:
         computeOrder: 1
         position:
           serializedVersion: 2
-          x: 419.6859
-          y: 37.000008
+          x: 419.99997
+          y: 36.999992
           width: 350
-          height: 547
+          height: 545
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -393,13 +401,13 @@ MonoBehaviour:
       type: {class: HSVNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 48f12219-7ffb-4471-98e9-9d558c9d2032
-        computeOrder: 3
+        computeOrder: 4
         position:
           serializedVersion: 2
-          x: -183.749
-          y: 220.49992
+          x: -166.08704
+          y: 314.56528
           width: 250
-          height: 591
+          height: 606
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -476,7 +484,7 @@ MonoBehaviour:
       type: {class: CellularNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 3cc1a081-ce1a-4a7b-8fcd-14318fabe4b6
-        computeOrder: 4
+        computeOrder: 3
         position:
           serializedVersion: 2
           x: -459.99994
@@ -871,7 +879,7 @@ MonoBehaviour:
         previewMip: 0
         previewVisible: 1
         previewEV100: 0
-        previewSlice: 66
+        previewSlice: 44
         isPinned: 0
         computeShader: {fileID: 7200000, guid: 9c524ae06c58e3e4ca96151762b02ae6, type: 3}
         inputMesh:
@@ -935,7 +943,7 @@ MonoBehaviour:
         previewMip: 0
         previewVisible: 1
         previewEV100: 0
-        previewSlice: 51
+        previewSlice: 53
         isPinned: 0
         computeShader: {fileID: 7200000, guid: 9c524ae06c58e3e4ca96151762b02ae6, type: 3}
         inputMesh:
@@ -1301,7 +1309,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Hue: 0.5
+    - _Hue: 0.03
     - _MaxValue: 1
     - _Saturation: 0.5
     - _Value: 0.5

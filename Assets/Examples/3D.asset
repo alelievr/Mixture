@@ -304,20 +304,8 @@ MonoBehaviour:
   nodes:
   - id: 0
   - id: 1
-  - id: 2
-  - id: 3
-  - id: 4
-  - id: 5
   edges:
-  - GUID: 9ac3eb61-cd89-42e9-92c7-f1b1d22402ed
-    owner: {fileID: 11400000}
-    inputNodeGUID: dcec61fa-26e7-4b71-9100-8b90017cef83
-    outputNodeGUID: c13831a0-9958-4bfd-8d01-44dd9043325d
-    inputFieldName: materialInputs
-    outputFieldName: output
-    inputPortIdentifier: _Texture_2D
-    outputPortIdentifier: output
-  - GUID: bc1196c6-5624-4487-8cb5-4002e8c5adfb
+  - GUID: 37f510b4-f568-46b5-8219-40a499bc2c49
     owner: {fileID: 11400000}
     inputNodeGUID: fe1498a4-a4fa-47bb-9e16-c48c89682618
     outputNodeGUID: 638196b4-8c19-418f-85a7-5d3485a6a871
@@ -325,22 +313,14 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: Main Texture
     outputPortIdentifier: output
-  - GUID: 8bc08ece-381b-4f9a-8f1e-15577581823b
-    owner: {fileID: 11400000}
-    inputNodeGUID: 77429a92-fb10-47f1-b26e-6d00bb30a4e7
-    outputNodeGUID: ace11089-5e0b-43dc-85e6-389e298d7e5b
-    inputFieldName: inputMesh
-    outputFieldName: output
-    inputPortIdentifier: 
-    outputPortIdentifier: 
   groups: []
   stackNodes: []
   pinnedElements: []
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 1734, y: -755, z: 0}
-  scale: {x: 1.520875, y: 1.520875, z: 1}
+  position: {x: 123, y: 218, z: 0}
+  scale: {x: 1, y: 1, z: 1}
   version: 0
   type: 0
   realtimePreview: 0
@@ -353,8 +333,6 @@ MonoBehaviour:
   - {fileID: 2038603539271621808}
   - {fileID: -755923382381542343}
   - {fileID: 5134733757221539014}
-  - {fileID: 6131548148676251739}
-  - {fileID: -1008578641234709956}
   - {fileID: -5447759766478739432}
   - {fileID: -7996317960024388228}
   - {fileID: -4858348075236065237}
@@ -364,21 +342,19 @@ MonoBehaviour:
   _mainOutputTexture: {fileID: -5970564961653884076}
   _outputTextures:
   - {fileID: -5970564961653884076}
-  - {fileID: -5970564961653884076}
-  - {fileID: -5970564961653884076}
   references:
     version: 1
     00000000:
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: fe1498a4-a4fa-47bb-9e16-c48c89682618
-        computeOrder: 1
+        computeOrder: 0
         position:
           serializedVersion: 2
-          x: 204.99998
-          y: -6.999998
+          x: 440.73566
+          y: -6.9999833
           width: 350
-          height: 547
+          height: 545
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -425,13 +401,13 @@ MonoBehaviour:
       type: {class: RidgedPerlinNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 638196b4-8c19-418f-85a7-5d3485a6a871
-        computeOrder: 0
+        computeOrder: 1
         position:
           serializedVersion: 2
-          x: -477
-          y: -105
+          x: -64.84274
+          y: -7
           width: 250
-          height: 589
+          height: 587
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -465,113 +441,6 @@ MonoBehaviour:
         output: {fileID: 0}
         shader: {fileID: 4800000, guid: 49eed0c8b6dca3949a7864570e424043, type: 3}
         material: {fileID: 5134733757221539014}
-        exposedProperties:
-        - displayName: UVs
-          referenceName: _UV_3D
-          tooltip: 
-          type:
-            serializedType: UnityEngine.Texture3D, UnityEngine.CoreModule, Version=0.0.0.0,
-              Culture=neutral, PublicKeyToken=null
-        - displayName: Tiling Mode
-          referenceName: _TilingMode
-          tooltip: 
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        - displayName: UV Mode
-          referenceName: _UVMode
-          tooltip: 
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        - displayName: Output Range
-          referenceName: _OutputRange
-          tooltip: 
-          type:
-            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
-              Culture=neutral, PublicKeyToken=null
-        - displayName: Lacunarity
-          referenceName: _Lacunarity
-          tooltip: 
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        - displayName: Frequency
-          referenceName: _Frequency
-          tooltip: 
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        - displayName: Persistance
-          referenceName: _Persistance
-          tooltip: 
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        - displayName: Octaves
-          referenceName: _Octaves
-          tooltip: 
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        - displayName: Seed
-          referenceName: _Seed
-          tooltip: 
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        - displayName: Channels
-          referenceName: _Channels
-          tooltip: Select how many noise to genereate and on which channel. The more
-            different channel you use the more expensive it is (max 4 noise evaluation).
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        shaderGUID: 49eed0c8b6dca3949a7864570e424043
-    00000002:
-      type: {class: PerlinNoise, ns: Mixture, asm: Mixture.Runtime}
-      data:
-        GUID: c13831a0-9958-4bfd-8d01-44dd9043325d
-        computeOrder: 2
-        position:
-          serializedVersion: 2
-          x: -150.9477
-          y: 670.83765
-          width: 250
-          height: 585
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
-          width: 512
-          height: 512
-          sliceCount: 1
-          potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 2
-          outputChannels: 0
-          outputPrecision: 0
-          editFlags: 255
-          doubleBuffered: 0
-          wrapMode: 0
-          filterMode: 1
-          refreshMode: 0
-          period: 0
-        isPreviewCollapsed: 0
-        previewMode: 7
-        previewMip: 0
-        previewVisible: 1
-        previewEV100: 0
-        previewSlice: 0
-        isPinned: 0
-        output: {fileID: 0}
-        shader: {fileID: 4800000, guid: 3ff8d72a4c500ad4093607671bcd9097, type: 3}
-        material: {fileID: 6131548148676251739}
         exposedProperties:
         - displayName: UVs
           referenceName: _UV_2D
@@ -634,199 +503,7 @@ MonoBehaviour:
           type:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
-        shaderGUID: 3ff8d72a4c500ad4093607671bcd9097
-    00000003:
-      type: {class: TextureMatteNode, ns: Mixture, asm: Mixture.Runtime}
-      data:
-        GUID: dcec61fa-26e7-4b71-9100-8b90017cef83
-        computeOrder: 3
-        position:
-          serializedVersion: 2
-          x: 99.05234
-          y: 670.83765
-          width: 250
-          height: 476
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
-          width: 512
-          height: 512
-          sliceCount: 1
-          potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 2
-          outputChannels: 0
-          outputPrecision: 0
-          editFlags: 255
-          doubleBuffered: 0
-          wrapMode: 0
-          filterMode: 1
-          refreshMode: 0
-          period: 0
-        isPreviewCollapsed: 0
-        previewMode: 7
-        previewMip: 0
-        previewVisible: 1
-        previewEV100: 0
-        previewSlice: 0
-        isPinned: 0
-        output: {fileID: 0}
-        shader: {fileID: 4800000, guid: 9c772025373ab42479c6b27b476a4a38, type: 3}
-        material: {fileID: -1008578641234709956}
-        exposedProperties:
-        - displayName: Texture
-          referenceName: _Texture_2D
-          tooltip: 
-          type:
-            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
-              Culture=neutral, PublicKeyToken=null
-        - displayName: UV Scale
-          referenceName: _Scale
-          tooltip: 
-          type:
-            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
-              Culture=neutral, PublicKeyToken=null
-        - displayName: UV Bias
-          referenceName: _Bias
-          tooltip: 
-          type:
-            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
-              Culture=neutral, PublicKeyToken=null
-        shaderGUID: 9c772025373ab42479c6b27b476a4a38
-    00000004:
-      type: {class: MeshNode, ns: Mixture, asm: Mixture.Runtime}
-      data:
-        GUID: ace11089-5e0b-43dc-85e6-389e298d7e5b
-        computeOrder: 4
-        position:
-          serializedVersion: 2
-          x: -976.9999
-          y: 621
-          width: 250
-          height: 143
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
-          width: 1024
-          height: 1024
-          sliceCount: 1
-          potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
-          editFlags: -257
-          doubleBuffered: 0
-          wrapMode: 0
-          filterMode: 1
-          refreshMode: 0
-          period: 0
-        isPreviewCollapsed: 0
-        previewMode: 15
-        previewMip: 0
-        previewVisible: 1
-        previewEV100: 0
-        previewSlice: 0
-        isPinned: 0
-        output:
-          mesh: {fileID: 0}
-          localToWorld:
-            e00: 1
-            e01: 0
-            e02: 0
-            e03: 0
-            e10: 0
-            e11: 1
-            e12: 0
-            e13: 0
-            e20: 0
-            e21: 0
-            e22: 1
-            e23: 0
-            e30: 0
-            e31: 0
-            e32: 0
-            e33: 1
-        mesh: {fileID: 4300000, guid: 9946dc938bf62df4b8fdd82af9833dab, type: 2}
-        scale: {x: 1, y: 1, z: 1}
-        pos: {x: 0, y: 0, z: 0}
-        eulerAngles: {x: 0, y: 180, z: 0}
-    00000005:
-      type: {class: MeshToUDF, ns: Mixture, asm: Mixture.Runtime}
-      data:
-        GUID: 77429a92-fb10-47f1-b26e-6d00bb30a4e7
-        computeOrder: 5
-        position:
-          serializedVersion: 2
-          x: -726.99994
-          y: 621
-          width: 250
-          height: 414
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
-          width: 1024
-          height: 1024
-          sliceCount: 1
-          potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 3
-          outputChannels: 1
-          outputPrecision: 3
-          editFlags: 127
-          doubleBuffered: 1
-          wrapMode: 0
-          filterMode: 0
-          refreshMode: 0
-          period: 0
-        isPreviewCollapsed: 0
-        previewMode: 15
-        previewMip: 0
-        previewVisible: 1
-        previewEV100: 0
-        previewSlice: 32.1
-        isPinned: 0
-        computeShader: {fileID: 7200000, guid: 9c524ae06c58e3e4ca96151762b02ae6, type: 3}
-        inputMesh:
-          mesh: {fileID: 0}
-          localToWorld:
-            e00: 1
-            e01: 0
-            e02: 0
-            e03: 0
-            e10: 0
-            e11: 1
-            e12: 0
-            e13: 0
-            e20: 0
-            e21: 0
-            e22: 1
-            e23: 0
-            e30: 0
-            e31: 0
-            e32: 0
-            e33: 1
-        outputVolume: {fileID: 0}
-        mode: 0
-        conservativeRaster: 0
+        shaderGUID: 49eed0c8b6dca3949a7864570e424043
 --- !u!21 &545143701074682782
 Material:
   serializedVersion: 6
@@ -923,7 +600,7 @@ Material:
     - _Frequency: 2
     - _Lacunarity: 2
     - _Octaves: 3
-    - _Persistance: -0.16
+    - _Persistance: 0.77
     - _Seed: 42
     - _TilingMode: 1
     - _UVMode: 0

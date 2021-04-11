@@ -169,6 +169,15 @@ MonoBehaviour:
   - type: Mixture.RandomColorNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     jsonDatas: '{"GUID":"07ccddf4-eba8-47b8-8a6f-2a98dc7d04ea","computeOrder":2,"position":{"serializedVersion":"2","x":-1063.0,"y":711.0,"width":250.0,"height":139.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"r":{"r":0.34076765179634097,"g":0.9940916895866394,"b":0.8553175926208496,"a":1.0},"seed":361,"minHue":0.23943662643432618,"maxHue":1.0,"minSat":0.6197182536125183,"maxSat":0.7253521680831909,"minValue":0.6478873491287231,"maxValue":1.0}'
+  nodes:
+  - id: 0
+  - id: 1
+  - id: 2
+  - id: 3
+  - id: 4
+  - id: 5
+  - id: 6
+  - id: 7
   edges:
   - GUID: c0418bed-42aa-4d36-907e-090da46ab66e
     owner: {fileID: 11400000}
@@ -262,9 +271,12 @@ MonoBehaviour:
   stackNodes: []
   pinnedElements: []
   exposedParameters: []
+  serializedParameterList: []
   stickyNotes: []
   position: {x: 837, y: -299, z: 0}
   scale: {x: 0.8695652, y: 0.8695652, z: 1}
+  version: 0
+  type: 0
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 0
@@ -274,6 +286,7 @@ MonoBehaviour:
   - {fileID: 2107091648527431827}
   - {fileID: -7841374495174668473}
   - {fileID: 5058114829130265168}
+  variants: []
   _mainOutputTexture: {fileID: -3256554369776046036}
   _outputTextures:
   - {fileID: -3256554369776046036}
@@ -281,6 +294,491 @@ MonoBehaviour:
   - {fileID: -3256554369776046036}
   references:
     version: 1
+    00000000:
+      type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 20aad9a2-f45b-443d-9f30-0287577d108c
+        computeOrder: 7
+        position:
+          serializedVersion: 2
+          x: 512.8801
+          y: 596
+          width: 350
+          height: 527
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 0
+          heightPercent: 0
+          depthPercent: 0
+          width: 1024
+          height: 1024
+          sliceCount: 1024
+          potSize: 1024
+          widthMode: 1
+          heightMode: 1
+          depthMode: 1
+          dimension: 2
+          outputChannels: 1
+          outputPrecision: 3
+          editFlags: 981
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        outputTextureSettings:
+        - inputTexture: {fileID: 0}
+          name: Main Texture
+          enableCompression: 1
+          compressionFormat: 25
+          compressionQuality: 100
+          hasMipMaps: 0
+          isMain: 1
+          enableConversion: 0
+          conversionFormat: 0
+          sRGB: 0
+          finalCopyMaterial: {fileID: 7954624577780414776}
+    00000001:
+      type: {class: ForStart, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 75a76625-1330-4589-a707-829f72832d14
+        computeOrder: 1
+        position:
+          serializedVersion: 2
+          x: -1239
+          y: 453.99994
+          width: 150
+          height: 142
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        inputCount: 361
+        outputCount: 361
+        inputType:
+          serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+    00000002:
+      type: {class: ForEnd, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 1487b689-2a11-4dab-8f7f-1df74ac09f41
+        computeOrder: 6
+        position:
+          serializedVersion: 2
+          x: 224.18343
+          y: 596
+          width: 250
+          height: 103
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        mode: 0
+        loopStartGUID: 75a76625-1330-4589-a707-829f72832d14
+    00000003:
+      type: {class: ColorMatteNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 85d0eef4-f5d0-445c-809f-f9a1fe1ca204
+        computeOrder: 0
+        position:
+          serializedVersion: 2
+          x: -1538
+          y: 462
+          width: 250
+          height: 100
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: c9fe3de6e0f2f1d4b8d8afc805f4ca22, type: 3}
+        material: {fileID: 2107091648527431827}
+        exposedProperties:
+        - displayName: Color
+          referenceName: _Color
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        shaderGUID: c9fe3de6e0f2f1d4b8d8afc805f4ca22
+    00000004:
+      type: {class: SplatterNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: b1a3e28a-de7f-4109-9a82-7029e5b2abb9
+        computeOrder: 4
+        position:
+          serializedVersion: 2
+          x: -368.62122
+          y: 562
+          width: 250
+          height: 483
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 2
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        computeShader: {fileID: 7200000, guid: 62d0bf62935cbf0478d244cb6687fab6, type: 3}
+        inputTextures:
+        - {fileID: 0}
+        seed: 361
+        output: {fileID: 0}
+        maxSplatCount: 1
+        mode: 0
+        sequence: 1
+        stackPosition: {x: 0, y: 0, z: 0}
+        gridScale: {x: 8, y: 8}
+        gridCram: {x: 0, y: 0}
+        gridShift: {x: 0, y: 0}
+        lambda: 0
+        rotation: 0
+        radius: 1
+        goldenRatio: 2.399999
+        positionOffset: {x: 0, y: 0, z: 0}
+        positionJitter: {x: 10, y: 10, z: 0}
+        rotationMode: 0
+        fixedAngles: {x: 0, y: 0, z: 0}
+        minAngles: {x: -180, y: -180, z: -180}
+        maxAngles: {x: 180, y: 180, z: 180}
+        scaleMode: 0
+        fixedScale: {x: 0.3, y: 0.3, z: 1}
+        minScale: {x: 0.5, y: 0.5, z: 0.5}
+        maxScale: {x: 1.5, y: 1.5, z: 1.5}
+        blendOperator: 0
+        inputDepth: 0
+        depthTest: 4
+    00000005:
+      type: {class: BlendNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 63d513f4-9bb7-46d4-877f-345d4239c764
+        computeOrder: 5
+        position:
+          serializedVersion: 2
+          x: -44.613342
+          y: 562
+          width: 250
+          height: 481
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 5d69ff00d9a32944ea012824393d489a, type: 3}
+        material: {fileID: -7841374495174668473}
+        exposedProperties:
+        - displayName: Source
+          referenceName: _Source_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Target
+          referenceName: _Target_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Mask
+          referenceName: _Mask_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Opacity
+          referenceName: _Opacity
+          tooltip: Opacity of the Blend, 0 means that only Source is visible and
+            1 that only Target is visible
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Blend Mode
+          referenceName: _BlendMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Mask Mode
+          referenceName: _MaskMode
+          tooltip: Select which channel is used to sample the mask value
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: 5d69ff00d9a32944ea012824393d489a
+    00000006:
+      type: {class: GradienMattetNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: eda5e3c2-fa07-491c-b61b-68a7ed6185a4
+        computeOrder: 3
+        position:
+          serializedVersion: 2
+          x: -707.13116
+          y: 651.9881
+          width: 250
+          height: 553
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 46c02ba1b0b63954bab0afcd9e828ac6, type: 3}
+        material: {fileID: 5058114829130265168}
+        exposedProperties:
+        - displayName: Color 1
+          referenceName: _Color1
+          tooltip: Outer color
+          type:
+            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Color 2
+          referenceName: _Color2
+          tooltip: Inner color
+          type:
+            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Gradient Type
+          referenceName: _Mode
+          tooltip: Style of the gradient
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Direction
+          referenceName: _Direction
+          tooltip: Direction of the gradient, only visible on the Linear and exponential
+            gradients
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Turn Count
+          referenceName: _SpiralTurnCount
+          tooltip: Turn count of the spiral
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Branch Count
+          referenceName: _SpiralBranchCount
+          tooltip: Turn count of the spiral
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Falloff
+          referenceName: _Falloff
+          tooltip: Exponential falloff of the gradient
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: 46c02ba1b0b63954bab0afcd9e828ac6
+    00000007:
+      type: {class: RandomColorNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        GUID: 07ccddf4-eba8-47b8-8a6f-2a98dc7d04ea
+        computeOrder: 2
+        position:
+          serializedVersion: 2
+          x: -1063
+          y: 711
+          width: 250
+          height: 139
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        rtSettings:
+          widthPercent: 1
+          heightPercent: 1
+          depthPercent: 1
+          width: 512
+          height: 512
+          sliceCount: 1
+          potSize: 0
+          widthMode: 0
+          heightMode: 0
+          depthMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        r: {r: 0.34076765, g: 0.9940917, b: 0.8553176, a: 1}
+        seed: 361
+        minHue: 0.23943663
+        maxHue: 1
+        minSat: 0.61971825
+        maxSat: 0.72535217
+        minValue: 0.64788735
+        maxValue: 1
 --- !u!21 &2107091648527431827
 Material:
   serializedVersion: 6
