@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project template will be documented in this file.
 
+## 0.3.0
+
+### Added
+- Mirror Node
+![image](https://user-images.githubusercontent.com/6877923/114311850-b554e380-9af0-11eb-896d-46df72f6e06e.png)
+
+
 ## 0.2.0
 
 ### Added
