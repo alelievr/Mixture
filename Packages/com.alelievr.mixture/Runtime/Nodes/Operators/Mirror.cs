@@ -10,7 +10,7 @@ namespace Mixture
 Mirror the input texture along an axis or a corner.
 ")]
 
-	[System.Serializable, NodeMenuItem("Custom/Mirror")]
+	[System.Serializable, NodeMenuItem("Operators/Mirror")]
 	public class Mirror : FixedShaderNode
 	{
 		public override string name => "Mirror";
