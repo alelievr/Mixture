@@ -81,7 +81,8 @@ namespace Mixture
 			mat.SetTexture("_InterpolationCurve", curveTexture);
 
 			tempRenderTexture.Update();
-			CustomTextureManager.UpdateCustomRenderTexture(cmd, tempRenderTexture);
+			// TODO: rendergraph custom blit (that handles 3D, cube and 2D texture, along with mips)
+			// CustomTextureManager.UpdateCustomRenderTexture(cmd, tempRenderTexture);
 
 			output = tempRenderTexture;
 

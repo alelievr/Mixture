@@ -69,8 +69,6 @@ Generate mipmaps for the input texture. You can choose between 4 modes to genera
             base.Enable();
         }
 
-        public override IEnumerable<CustomRenderTexture> GetCustomRenderTextures() { yield break; }
-
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			rtSettings.doubleBuffered = true;
@@ -82,8 +80,8 @@ Generate mipmaps for the input texture. You can choose between 4 modes to genera
 			var mipmapGenMat = GetTempMaterial("Hidden/Mixture/GenerateMipMaps");
 			if (mode == Mode.Custom)
 				mipmapGenMat = material;
-			else
-				output.material = null;
+			// else
+				// output.material = null;
 
 			if (mode == Mode.Auto)
 			{
@@ -103,38 +101,42 @@ Generate mipmaps for the input texture. You can choose between 4 modes to genera
 					float height = Mathf.Max(1, input.width >> i);
 					float depth = Mathf.Max(1, TextureUtils.GetSliceCount(input) >> i);
 					props.SetVector("_RcpTextureSize", new Vector4(1.0f / width, 1.0f / height, 1.0f / depth, 0.0f));
-					output.material = mipmapGenMat;
+					// output.material = mipmapGenMat;
 
 					if (mode == Mode.Gaussian)
 					{
 						// 2 passes of gaussian blur for 2D and Cubemaps
 						props.SetVector("_GaussianBlurDirection", Vector3.right);
-						CustomTextureManager.UpdateCustomRenderTexture(cmd, output, 1, i + 1, props);
-						TextureUtils.CopyTexture(cmd, output.GetDoubleBufferRenderTexture(), output, i + 1);
+						// TODO: rendergraph blit
+						// CustomTextureManager.UpdateCustomRenderTexture(cmd, output, 1, i + 1, props);
+						// TextureUtils.CopyTexture(cmd, output.GetDoubleBufferRenderTexture(), output, i + 1);
 
 						props.SetFloat("_SourceMip", i + 1);
 						MixtureUtils.SetTextureWithDimension(props, "_PreviousMip", output);
 						props.SetVector("_GaussianBlurDirection", Vector3.up);
-						CustomTextureManager.UpdateCustomRenderTexture(cmd, output, 1, i + 1, props);
+						// TODO: rendergraph blit
+						// CustomTextureManager.UpdateCustomRenderTexture(cmd, output, 1, i + 1, props);
 
 						// And a third pass if we're in 3D
 						if (input.dimension == TextureDimension.Tex3D)
 						{
 							props.SetVector("_GaussianBlurDirection", Vector3.forward);
-							TextureUtils.CopyTexture(cmd, output.GetDoubleBufferRenderTexture(), output, i + 1);
-							CustomTextureManager.UpdateCustomRenderTexture(cmd, output, 1, i + 1, props);
+							// TextureUtils.CopyTexture(cmd, output.GetDoubleBufferRenderTexture(), output, i + 1);
+						// TODO: rendergraph blit
+							// CustomTextureManager.UpdateCustomRenderTexture(cmd, output, 1, i + 1, props);
 						}
 					}
 					else
 					{
-						CustomTextureManager.UpdateCustomRenderTexture(cmd, output, 1, i + 1, props);
+						// TODO: rendergraph blit
+						// CustomTextureManager.UpdateCustomRenderTexture(cmd, output, 1, i + 1, props);
 					}
 
-					TextureUtils.CopyTexture(cmd, output.GetDoubleBufferRenderTexture(), output, i + 1);
-					MixtureUtils.SetTextureWithDimension(props, "_PreviousMip", output);
+					// TextureUtils.CopyTexture(cmd, output.GetDoubleBufferRenderTexture(), output, i + 1);
+					// MixtureUtils.SetTextureWithDimension(props, "_PreviousMip", output);
 				}
 			}
-			output.material = null;
+			// output.material = null;
 
 			return true;
 		}

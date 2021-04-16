@@ -84,18 +84,19 @@ namespace Mixture
                 EditorGUILayout.Space();
 
                 EditorGUILayout.LabelField($"Currently Loaded Custom Render Textures", EditorStyles.boldLabel);
-                foreach (var crt in CustomTextureManager.customRenderTextures.ToList())
-                {
-                    using (new EditorGUILayout.HorizontalScope())
-                    {
-                        EditorGUILayout.LabelField($"name: {crt.name}");
-                        EditorGUILayout.LabelField($"HashCode: {crt.GetHashCode()}");
-                        if (GUILayout.Button("Select"))
-                            Selection.activeObject = crt;
-                        if (GUILayout.Button("Unload"))
-                            Resources.UnloadAsset(crt);
-                    }
-                }
+                // TODO: use mixture processing callback instead + rendergraph viewer
+                // foreach (var crt in CustomTextureManager.customRenderTextures.ToList())
+                // {
+                //     using (new EditorGUILayout.HorizontalScope())
+                //     {
+                //         EditorGUILayout.LabelField($"name: {crt.name}");
+                //         EditorGUILayout.LabelField($"HashCode: {crt.GetHashCode()}");
+                //         if (GUILayout.Button("Select"))
+                //             Selection.activeObject = crt;
+                //         if (GUILayout.Button("Unload"))
+                //             Resources.UnloadAsset(crt);
+                //     }
+                // }
 
                 EditorGUILayout.Space();
 

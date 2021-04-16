@@ -1,10 +1,10 @@
-using UnityEngine;
-using System.Collections.Generic;
+// using UnityEngine;
+// using System.Collections.Generic;
 
-namespace Mixture
-{
-    public interface IUseCustomRenderTextureProcessing
-    {
-        IEnumerable<CustomRenderTexture> GetCustomRenderTextures();
-    }
-}
+// namespace Mixture
+// {
+//     public interface IUseCustomRenderTextureProcessing
+//     {
+//         IEnumerable<CustomRenderTexture> GetCustomRenderTextures();
+//     }
+// }

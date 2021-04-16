@@ -9,7 +9,7 @@ using UnityEngine.Profiling;
 namespace Mixture
 {
 	[System.Serializable]
-	public class OutputNode : MixtureNode, IUseCustomRenderTextureProcessing
+	public class OutputNode : MixtureNode 
 	{
 		[Input, SerializeField, HideInInspector]
 		public List<OutputTextureSettings> outputTextureSettings = new List<OutputTextureSettings>();
@@ -191,9 +191,10 @@ namespace Mixture
 					continue;
 
 				bool inputHasMips = output.inputTexture != null && output.inputTexture.mipmapCount > 1;
-				CustomTextureManager.crtExecInfo[output.finalCopyRT] = new CustomTextureManager.CustomTextureExecInfo{
-					runOnAllMips = inputHasMips
-				};
+				// TODO: rendergraph blit with mips
+				// CustomTextureManager.crtExecInfo[output.finalCopyRT] = new CustomTextureManager.CustomTextureExecInfo{
+				// 	runOnAllMips = inputHasMips
+				// };
 
 				// The CustomRenderTexture update will be triggered at the begining of the next frame so we wait one frame to generate the mipmaps
 				// We need to do this because we can't generate custom mipMaps with CustomRenderTextures
@@ -293,11 +294,5 @@ namespace Mixture
 				}
 			}
 		}
-
-        public IEnumerable<CustomRenderTexture> GetCustomRenderTextures()
-        {
-			foreach (var output in outputTextureSettings)
-				yield return output.finalCopyRT;
-        }
     }
 }

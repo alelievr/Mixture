@@ -132,6 +132,10 @@ namespace Mixture
             // Migrate the graph if needed
             MigrateGraph();
 
+            // Patch graph name to match asset is there is one
+            if (!String.IsNullOrEmpty(mainAssetPath))
+                name = System.IO.Path.GetFileNameWithoutExtension(mainAssetPath);
+
 			// We should have only one OutputNode per graph
 			if (type != MixtureGraphType.Behaviour && outputNode == null)
             {

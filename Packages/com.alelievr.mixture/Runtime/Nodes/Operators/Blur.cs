@@ -26,91 +26,92 @@ Gaussian blur filter in two passes. You might see some artifacts with large blur
 			if (!base.ProcessNode(cmd))
 				return false;
 
-			CustomRenderTextureUpdateZone[] updateZones;
+			// TODO: redergraph implementation
+			// CustomRenderTextureUpdateZone[] updateZones;
 		
-			// Setup the custom render texture multi-pass for the blur:
-			switch (output.dimension)
-			{
-				default:
-				case TextureDimension.Tex2D:
-				case TextureDimension.Cube:
-					updateZones = new CustomRenderTextureUpdateZone[] {
-						new CustomRenderTextureUpdateZone{
-							needSwap = false,
-							passIndex = 0,
-							rotation = 0f,
-                    		updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
-                    		updateZoneSize = new Vector3(1f, 1f, 1f),
-						},
-						new CustomRenderTextureUpdateZone{
-							needSwap = true,
-							passIndex = 1,
-							rotation = 0f,
-                    		updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
-                    		updateZoneSize = new Vector3(1f, 1f, 1f),
-						},
-						// CRT Workaround: we need to add an additional pass because there is a bug in the swap
-						// of the double buffered CRTs: the last pudate zone will not be passed to the next CRT in the chain.
-						// So we add a dummy pass to force a copy
-						new CustomRenderTextureUpdateZone{
-							needSwap = true,
-							passIndex = 1,
-							rotation = 0f,
-                    		updateZoneCenter = new Vector3(0.0f, 0.0f, 0.0f),
-                    		updateZoneSize = new Vector3(0f, 0f, 0f),
-						},
-					};
-					break;
-				case TextureDimension.Tex3D:
-					updateZones = new CustomRenderTextureUpdateZone[] {
-						new CustomRenderTextureUpdateZone{
-							needSwap = false,
-							passIndex = 0,
-							rotation = 0f,
-                    		updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
-                    		updateZoneSize = new Vector3(1f, 1f, 1f),
-						},
-						new CustomRenderTextureUpdateZone{
-							needSwap = true,
-							passIndex = 1,
-							rotation = 0f,
-                    		updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
-                    		updateZoneSize = new Vector3(1f, 1f, 1f),
-						},
-						new CustomRenderTextureUpdateZone{
-							needSwap = true,
-							passIndex = 2,
-							rotation = 0f,
-                    		updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
-                    		updateZoneSize = new Vector3(1f, 1f, 1f),
-						},
-						// CRT Workaround: we need to add an additional pass because there is a bug in the swap
-						// of the double buffered CRTs: the last pudate zone will not be passed to the next CRT in the chain.
-						// So we add a dummy pass to force a copy
-						new CustomRenderTextureUpdateZone{
-							needSwap = true,
-							passIndex = 1,
-							rotation = 0f,
-                    		updateZoneCenter = new Vector3(0.0f, 0.0f, 0.0f),
-                    		updateZoneSize = new Vector3(0f, 0f, 0f),
-						},
-					};
-					break;
-			}
+			// // Setup the custom render texture multi-pass for the blur:
+			// switch (output.dimension)
+			// {
+			// 	default:
+			// 	case TextureDimension.Tex2D:
+			// 	case TextureDimension.Cube:
+			// 		updateZones = new CustomRenderTextureUpdateZone[] {
+			// 			new CustomRenderTextureUpdateZone{
+			// 				needSwap = false,
+			// 				passIndex = 0,
+			// 				rotation = 0f,
+            //         		updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
+            //         		updateZoneSize = new Vector3(1f, 1f, 1f),
+			// 			},
+			// 			new CustomRenderTextureUpdateZone{
+			// 				needSwap = true,
+			// 				passIndex = 1,
+			// 				rotation = 0f,
+            //         		updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
+            //         		updateZoneSize = new Vector3(1f, 1f, 1f),
+			// 			},
+			// 			// CRT Workaround: we need to add an additional pass because there is a bug in the swap
+			// 			// of the double buffered CRTs: the last pudate zone will not be passed to the next CRT in the chain.
+			// 			// So we add a dummy pass to force a copy
+			// 			new CustomRenderTextureUpdateZone{
+			// 				needSwap = true,
+			// 				passIndex = 1,
+			// 				rotation = 0f,
+            //         		updateZoneCenter = new Vector3(0.0f, 0.0f, 0.0f),
+            //         		updateZoneSize = new Vector3(0f, 0f, 0f),
+			// 			},
+			// 		};
+			// 		break;
+			// 	case TextureDimension.Tex3D:
+			// 		updateZones = new CustomRenderTextureUpdateZone[] {
+			// 			new CustomRenderTextureUpdateZone{
+			// 				needSwap = false,
+			// 				passIndex = 0,
+			// 				rotation = 0f,
+            //         		updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
+            //         		updateZoneSize = new Vector3(1f, 1f, 1f),
+			// 			},
+			// 			new CustomRenderTextureUpdateZone{
+			// 				needSwap = true,
+			// 				passIndex = 1,
+			// 				rotation = 0f,
+            //         		updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
+            //         		updateZoneSize = new Vector3(1f, 1f, 1f),
+			// 			},
+			// 			new CustomRenderTextureUpdateZone{
+			// 				needSwap = true,
+			// 				passIndex = 2,
+			// 				rotation = 0f,
+            //         		updateZoneCenter = new Vector3(0.5f, 0.5f, 0.5f),
+            //         		updateZoneSize = new Vector3(1f, 1f, 1f),
+			// 			},
+			// 			// CRT Workaround: we need to add an additional pass because there is a bug in the swap
+			// 			// of the double buffered CRTs: the last pudate zone will not be passed to the next CRT in the chain.
+			// 			// So we add a dummy pass to force a copy
+			// 			new CustomRenderTextureUpdateZone{
+			// 				needSwap = true,
+			// 				passIndex = 1,
+			// 				rotation = 0f,
+            //         		updateZoneCenter = new Vector3(0.0f, 0.0f, 0.0f),
+            //         		updateZoneSize = new Vector3(0f, 0f, 0f),
+			// 			},
+			// 		};
+			// 		break;
+			// }
 
-			rtSettings.doubleBuffered = true;
+			// rtSettings.doubleBuffered = true;
 
-			output.EnsureDoubleBufferConsistency();
-			var rt = output.GetDoubleBufferRenderTexture();
-			var t = material.GetTextureWithDimension("_Source", rtSettings.GetTextureDimension(graph));
-			if (rt != null && t != null)
-			{
-				rt.filterMode = t.filterMode;
-				rt.wrapMode = t.wrapMode;
-			}
+			// output.EnsureDoubleBufferConsistency();
+			// var rt = output.GetDoubleBufferRenderTexture();
+			// var t = material.GetTextureWithDimension("_Source", rtSettings.GetTextureDimension(graph));
+			// if (rt != null && t != null)
+			// {
+			// 	rt.filterMode = t.filterMode;
+			// 	rt.wrapMode = t.wrapMode;
+			// }
 
-			// Setup the successive passes needed or the blur
-			output.SetUpdateZones(updateZones);
+			// // Setup the successive passes needed or the blur
+			// output.SetUpdateZones(updateZones);
 
 			return true;
 		}

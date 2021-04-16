@@ -20,7 +20,7 @@ namespace Mixture
 		// We arbitrary take the first compute output that is a texture.
 		// TODO: settings in the node for the name of the preview texture
 		public override Texture previewTexture => tempRenderTexture;
-
+	
 		// We don't use the 'Custom' part but we need a CRT for utility functions
 		protected CustomRenderTexture tempRenderTexture;
 

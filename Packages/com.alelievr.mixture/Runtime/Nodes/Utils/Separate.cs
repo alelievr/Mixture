@@ -10,19 +10,19 @@ Separates the 4 components (RGBA) of the input texture into 4 R channel texture.
 ")]
 
 	[System.Serializable, NodeMenuItem("Colors/Separate"), NodeMenuItem("Colors/Split")]
-	public class Separate : MixtureNode, IUseCustomRenderTextureProcessing
+	public class Separate : MixtureNode 
 	{
         [Input]
         public Texture input;
 
         [Output("R")]
-        public CustomRenderTexture outputR;
+        public RenderTexture outputR;
         [Output("G")]
-        public CustomRenderTexture outputG;
+        public RenderTexture outputG;
         [Output("B")]
-        public CustomRenderTexture outputB;
+        public RenderTexture outputB;
         [Output("A")]
-        public CustomRenderTexture outputA;
+        public RenderTexture outputA;
 
 		public override string	name => "Separate";
 
@@ -35,10 +35,11 @@ Separates the 4 components (RGBA) of the input texture into 4 R channel texture.
 			rtSettings.outputChannels = OutputChannel.R;
 			rtSettings.editFlags &= ~EditFlags.Format;
 
-			UpdateTempRenderTexture(ref outputR);
-			UpdateTempRenderTexture(ref outputG);
-			UpdateTempRenderTexture(ref outputB);
-			UpdateTempRenderTexture(ref outputA);
+			// TODO: rendergraph alloc textures
+			// UpdateTempRenderTexture(ref outputR);
+			// UpdateTempRenderTexture(ref outputG);
+			// UpdateTempRenderTexture(ref outputB);
+			// UpdateTempRenderTexture(ref outputA);
 			
 			var mat = GetTempMaterial("Hidden/Mixture/Separate");
 			outputRMat = new Material(mat){ hideFlags = HideFlags.HideAndDontSave };
@@ -46,10 +47,10 @@ Separates the 4 components (RGBA) of the input texture into 4 R channel texture.
 			outputBMat = new Material(mat){ hideFlags = HideFlags.HideAndDontSave };
 			outputAMat = new Material(mat){ hideFlags = HideFlags.HideAndDontSave };
 
-			outputR.material = outputRMat;
-			outputG.material = outputGMat;
-			outputB.material = outputBMat;
-			outputA.material = outputAMat;
+			// outputR.material = outputRMat;
+			// outputG.material = outputGMat;
+			// outputB.material = outputBMat;
+			// outputA.material = outputAMat;
 		}
 
 		protected override bool ProcessNode(CommandBuffer cmd)
@@ -57,10 +58,10 @@ Separates the 4 components (RGBA) of the input texture into 4 R channel texture.
             if (!base.ProcessNode(cmd) || input == null)
                 return false;
 
-			UpdateTempRenderTexture(ref outputR);
-			UpdateTempRenderTexture(ref outputG);
-			UpdateTempRenderTexture(ref outputB);
-			UpdateTempRenderTexture(ref outputA);
+			// UpdateTempRenderTexture(ref outputR);
+			// UpdateTempRenderTexture(ref outputG);
+			// UpdateTempRenderTexture(ref outputB);
+			// UpdateTempRenderTexture(ref outputA);
 
 			MixtureUtils.SetTextureWithDimension(outputRMat, "_Source", input);
 			MixtureUtils.SetTextureWithDimension(outputGMat, "_Source", input);
@@ -82,13 +83,5 @@ Separates the 4 components (RGBA) of the input texture into 4 R channel texture.
 			CoreUtils.Destroy(outputBMat);
 			CoreUtils.Destroy(outputAMat);
 		}
-
-        public IEnumerable<CustomRenderTexture> GetCustomRenderTextures()
-        {
-			yield return outputR;
-			yield return outputG;
-			yield return outputB;
-			yield return outputA;
-        }
     }
 }

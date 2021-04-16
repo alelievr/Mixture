@@ -65,7 +65,7 @@ namespace Mixture
 		public bool	isPinned;
 
 		CustomSampler		_sampler;
-		CustomSampler		sampler
+		protected CustomSampler		sampler
 		{
 			get
 			{
@@ -83,7 +83,7 @@ namespace Mixture
 		}
 		protected Recorder	recorder { get; private set; }
 
-		internal virtual float processingTimeInMillis
+		internal virtual float gpuProcessingTimeInMillis
 		{
 			get
 			{
@@ -121,6 +121,7 @@ namespace Mixture
 			previewMode = defaultPreviewChannels;
 		}
 
+		// We shouldn't need this anymore
 		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false,
 			CustomRenderTextureUpdateMode updateMode = CustomRenderTextureUpdateMode.OnDemand, bool depthBuffer = false,
 			GraphicsFormat overrideGraphicsFormat = GraphicsFormat.None)
@@ -280,7 +281,7 @@ namespace Mixture
 			// Avoid adding markers if it's CRT processing (CRT  already have one)
 			// Or loops as it will bloat the debug markers
 			bool loopNode = this is ILoopStart || this is ILoopEnd;
-			if ((this is IUseCustomRenderTextureProcessing crt && crt.GetCustomRenderTextures().Count() > 0) || loopNode)
+			if (loopNode)
 				ProcessNode(cmd);
 			else
 			{

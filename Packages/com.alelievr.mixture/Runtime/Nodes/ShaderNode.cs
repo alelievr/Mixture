@@ -18,7 +18,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 ")]
 
 	[System.Serializable, NodeMenuItem("Shader")]
-	public class ShaderNode : MixtureNode, IUseCustomRenderTextureProcessing, ICreateNodeFrom<Shader>, ICreateNodeFrom<Material>
+	public class ShaderNode : MixtureNode, ICreateNodeFrom<Shader>, ICreateNodeFrom<Material>
 	{
 		[Serializable]
 		public struct ShaderProperty
@@ -35,7 +35,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 		public List< object >		materialInputs;
 
 		[Output(name = "Out"), Tooltip("Output Texture")]
-		public CustomRenderTexture	output = null;
+		public RenderTexture	output = null;
 
 		[HideInInspector]
 		public Shader			shader;
@@ -57,17 +57,6 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 		public override Texture previewTexture => output;
 
 		internal IEnumerable<string> GetFilterOutProperties() => filteredOutProperties;
-
-		internal override float processingTimeInMillis
-		{
-			get
-			{
-				var sampler = CustomTextureManager.GetCustomTextureProfilingSampler(output);
-				if (sampler != null)
-					return sampler.GetRecorder().gpuElapsedNanoseconds / 1000000.0f;
-				return 0;
-			}
-		}
 
 		protected override MixtureRTSettings defaultRTSettings
 		{
@@ -94,13 +83,14 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 			beforeProcessSetup += BeforeProcessSetup;
 
 			UpdateShader();
-			UpdateTempRenderTexture(ref output, hasMips: hasMips);
-			output.material = material;
+			// TODO: rendergraph declare needed textures for processing the node
+			// UpdateTempRenderTexture(ref output, hasMips: hasMips);
+			// output.material = material;
 
 			// Update temp RT after process in case RTSettings have been modified in Process()
-			afterProcessCleanup += () => {
-				UpdateTempRenderTexture(ref output, hasMips: hasMips);
-			};
+			// afterProcessCleanup += () => {
+			// 	UpdateTempRenderTexture(ref output, hasMips: hasMips);
+			// };
 		}
 
         protected override void Disable()
@@ -189,7 +179,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 		void BeforeProcessSetup()
 		{
 			UpdateShader();
-			UpdateTempRenderTexture(ref output, hasMips: hasMips);
+		// 	// UpdateTempRenderTexture(ref output, hasMips: hasMips);
 		}
 
 		public override bool canProcess => ValidateShader();
@@ -209,7 +199,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 #if UNITY_EDITOR // IsShaderCompiled is editor only
 			if (!IsShaderCompiled(material.shader))
 			{
-				output.material = null;
+				// output.material = null;
 				foreach (var m in UnityEditor.ShaderUtil.GetShaderMessages(material.shader).Where(m => m.severity == UnityEditor.Rendering.ShaderCompilerMessageSeverity.Error))
 				{
 					string file = String.IsNullOrEmpty(m.file) ? material.shader.name : m.file;
@@ -243,6 +233,8 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 				});
 			}
 		}
+
+		// TODO: add a function to allocate all resources needed for processing
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
@@ -279,17 +271,13 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 				}
 			}
 
-			output.material = material;
+			// TODO: rendergraph write a classic blit
+			// output.material = material;
 
             bool useCustomUV = material.HasTextureBound("_UV", rtSettings.GetTextureDimension(graph));
             material.SetKeywordEnabled("USE_CUSTOM_UV", useCustomUV);
 
 			return true;
-		}
-
-        public virtual IEnumerable<CustomRenderTexture> GetCustomRenderTextures()
-		{
-			yield return output;
 		}
     }
 }

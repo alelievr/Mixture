@@ -639,7 +639,7 @@ namespace Mixture
 			schedule.Execute(() => {
 				// Update processing time every 200 millis
 
-				float time = nodeTarget.processingTimeInMillis;
+				float time = nodeTarget.gpuProcessingTimeInMillis;
 				if (time > 0.1f)
 				{
 					processTimeLabel.text = time.ToString("F2") + " ms";

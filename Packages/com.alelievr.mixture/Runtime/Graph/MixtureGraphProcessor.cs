@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Linq;
 using GraphProcessor;
 using UnityEngine.Rendering;
+using UnityEngine.Experimental.Rendering.RenderGraphModule;
 using System;
 
 namespace Mixture
@@ -20,8 +21,9 @@ namespace Mixture
 		internal static Dictionary<MixtureGraph, HashSet<MixtureGraphProcessor>> processorInstances = new Dictionary<MixtureGraph, HashSet<MixtureGraphProcessor>>();
 
 		internal new MixtureGraph	graph => base.graph as MixtureGraph;
-		HashSet< BaseNode >		executedNodes = new HashSet<BaseNode>();
-		public ComputeOrderInfo	info { get; private set; } = new ComputeOrderInfo();
+		HashSet< BaseNode >			executedNodes = new HashSet<BaseNode>();
+		public ComputeOrderInfo		info { get; private set; } = new ComputeOrderInfo();
+        public RenderGraph			renderGraph;
 
         struct ProcessingScope : IDisposable
         {
@@ -45,6 +47,8 @@ namespace Mixture
 				hashset = processorInstances[graph as MixtureGraph] = new HashSet<MixtureGraphProcessor>();
 
 			hashset.Add(this);
+
+            renderGraph = new RenderGraph("[Mixture]" + graph.name);
 		}
 
 		public static MixtureGraphProcessor GetOrCreate(MixtureGraph graph)
@@ -84,34 +88,34 @@ namespace Mixture
 			}
 		}
 
-		internal void BeforeCustomRenderTextureUpdate(CommandBuffer cmd, CustomRenderTexture crt)
-		{
-			if (isProcessing == 0)
-			{
-				// When the graph is realtime, then we update all the linked mixture variants as well.
-				// We need to do that before the main graph is processed because otherwise the variant would overwrite
-				// the result of the realtime mixture.
-				if (graph.type == MixtureGraphType.Realtime)
-				{
-					foreach (var variant in graph.variants)
-						variant.UpdateAllVariantTextures();
-				}
+		// internal void BeforeCustomRenderTextureUpdate(CommandBuffer cmd, CustomRenderTexture crt)
+		// {
+		// 	if (isProcessing == 0)
+		// 	{
+		// 		// When the graph is realtime, then we update all the linked mixture variants as well.
+		// 		// We need to do that before the main graph is processed because otherwise the variant would overwrite
+		// 		// the result of the realtime mixture.
+		// 		if (graph.type == MixtureGraphType.Realtime)
+		// 		{
+		// 			foreach (var variant in graph.variants)
+		// 				variant.UpdateAllVariantTextures();
+		// 		}
 
-				// TODO: cache
-				// Trigger the graph processing from a CRT update if we weren't processing
-				BaseNode node = graph.nodes.FirstOrDefault(n => n is IUseCustomRenderTextureProcessing i && i.GetCustomRenderTextures().Any(c => c == crt));
+		// 		// TODO: cache
+		// 		// Trigger the graph processing from a CRT update if we weren't processing
+		// 		BaseNode node = graph.nodes.FirstOrDefault(n => n is IUseCustomRenderTextureProcessing i && i.GetCustomRenderTextures().Any(c => c == crt));
 
-				// node can be null if the CRT doesn't belong to the graph.
-				if (node != null)
-					ProcessGraphOutputs(cmd, new List<BaseNode>{ node });
-				else // In that case we process the graph output
-					ProcessGraphOutputs(cmd, new List<BaseNode>{ graph.outputNode });
-			}
-			else
-			{
-				// We don't do anything
-			}
-		}
+		// 		// node can be null if the CRT doesn't belong to the graph.
+		// 		if (node != null)
+		// 			ProcessGraphOutputs(cmd, new List<BaseNode>{ node });
+		// 		else // In that case we process the graph output
+		// 			ProcessGraphOutputs(cmd, new List<BaseNode>{ graph.outputNode });
+		// 	}
+		// 	else
+		// 	{
+		// 		// We don't do anything
+		// 	}
+		// }
 
 		public static void AddGPUAndCPUBarrier(CommandBuffer currentCmd)
 		{
@@ -217,6 +221,13 @@ namespace Mixture
 			HashSet<ILoopEnd> ends = new HashSet<ILoopEnd>();
 			HashSet<INeedLoopReset> iNeedLoopReset = new HashSet<INeedLoopReset>();
 
+			var ctx = new ScriptableRenderContext();
+			renderGraph.Begin(new RenderGraphParameters
+			{
+				commandBuffer = cmd,
+				scriptableRenderContext = ctx,
+			});
+
 			// Note that this jump pattern doesn't handle correctly the multiple dependencies a for loop
 			// can have and it may cause some nodes to be processed multiple times unnecessarily, depending on the compute order.
 			Stack<(ILoopStart node, int index)> jumps = new Stack<(ILoopStart, int)>();
@@ -296,6 +307,9 @@ namespace Mixture
 
 				ProcessNode(cmd, node);
 			}
+
+			renderGraph.EndFrame();
+			renderGraph.Execute();
 		}
 
 		public override void Run()
@@ -328,24 +342,38 @@ namespace Mixture
 			}
 		}
 
+		class MixtureNodePassData
+		{
+			public MixtureNode node;
+		}
+
 		void ProcessNode(CommandBuffer cmd, BaseNode node)
 		{
 			if (node.computeOrder < 0 || !node.canProcess)
 				return;
 
+
 			if (node is MixtureNode m)
 			{
-				m.OnProcess(cmd);
-				if (node is IUseCustomRenderTextureProcessing iUseCRT)
+				using (var builder = renderGraph.AddRenderPass<MixtureNodePassData>(node.name, out var passData))
 				{
-                    foreach (var crt in iUseCRT.GetCustomRenderTextures())
-					{
-						if (crt != null)
-						{
-							crt.Update();
-							CustomTextureManager.UpdateCustomRenderTexture(cmd, crt);
+					passData.node = m;
+					builder.SetRenderFunc(
+						(MixtureNodePassData data, RenderGraphContext context) => {
+							data.node.OnProcess(context.cmd);
 						}
-					}
+					);
+					// if (node is IUseCustomRenderTextureProcessing iUseCRT)
+					// {
+					// 	foreach (var crt in iUseCRT.GetCustomRenderTextures())
+					// 	{
+					// 		if (crt != null)
+					// 		{
+					// 			crt.Update();
+					// 			CustomTextureManager.UpdateCustomRenderTexture(cmd, crt);
+					// 		}
+					// 	}
+					// }
 				}
 			}
 			else
