@@ -85,4 +85,5 @@ Fractal nodes in Mixture:
 ![image](https://user-images.githubusercontent.com/6877923/102915300-d8944e00-4481-11eb-8e93-f7a57c21b830.png)
 
 Mixture Variants:
-![image](https://user-images.githubusercontent.com/6877923/105644280-2b07c680-5e95-11eb-84c0-42d52e80f1bd.png)
+
+https://user-images.githubusercontent.com/6877923/115474571-03c75800-a23e-11eb-8096-8973aad5fa9f.mp4
