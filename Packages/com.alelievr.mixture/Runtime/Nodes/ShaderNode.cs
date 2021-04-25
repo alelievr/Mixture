@@ -31,6 +31,9 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 
 		public static readonly string	DefaultShaderName = "Hidden/Mixture/ShaderNodeDefault";
 
+		public override string	name => (shader != null) ? shader.name.Split('/')?.Last() : "Shader";
+        public override bool	isRenamable => true;
+
 		[Input(name = "In")]
 		public List< object >		materialInputs;
 
@@ -39,7 +42,6 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 
 		[HideInInspector]
 		public Shader			shader;
-		public override string	name => (shader != null) ? shader.name.Split('/')?.Last() : "Shader";
 		[HideInInspector]
 		public Material			material;
 

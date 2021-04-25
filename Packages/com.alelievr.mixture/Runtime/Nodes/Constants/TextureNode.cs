@@ -26,6 +26,7 @@ The output type of the node will update according to the type of texture provide
 		public override string	name => "Texture";
         public override Texture previewTexture => outputTexture;
 		public override bool	showDefaultInspector => true;
+        public override bool	isRenamable => true;
 
 		[SerializeField, HideInInspector]
 		bool normalMap = false;

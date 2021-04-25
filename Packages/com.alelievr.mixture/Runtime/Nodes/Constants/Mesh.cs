@@ -21,6 +21,7 @@ Mesh in mixture, it also have transform a so you can apply any kind of transform
 
 		public override bool hasPreview => false;
 		public override bool showDefaultInspector => true;
+        public override bool	isRenamable => true;
 
 		[Input, SerializeField]
         public Mesh mesh;

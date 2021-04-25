@@ -81,6 +81,7 @@ Note that this node tries to generate input / output based on the declared prope
 
 		public override string	name => computeShader != null ? computeShader.name : "Compute Shader";
 		public override bool    showOpenButton => true;
+        public override bool	isRenamable => true;
 
 		public override string previewTexturePropertyName => previewComputeProperty;
 		protected override string computeShaderResourcePath => resourcePath;
