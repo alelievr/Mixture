@@ -15,6 +15,8 @@ public class ProcessMixture : MonoBehaviour
 
     public RawImage         image;
 
+    public string outputPath;
+
     void Start()
     {
         var graph = MixtureDatabase.GetGraphFromTexture(graphTexture);
@@ -46,7 +48,7 @@ public class ProcessMixture : MonoBehaviour
 
         // Write the file at the target destination
         var bytes = ImageConversion.EncodeToPNG(destination);
-        File.WriteAllBytes("C:\\Users\\Antoine Lelievre\\test.png", bytes);
+        File.WriteAllBytes(outputPath, bytes);
 
         // Reset graph parameters to avoid serialization issues:
         graph.SetParameterValue("Source", null);

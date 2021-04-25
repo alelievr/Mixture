@@ -13,6 +13,8 @@ public class ProcessMixtureWithVariant : MonoBehaviour
 
     public RawImage         image;
 
+    public string   outputPath;
+
     void Start()
     {
         var graph = MixtureDatabase.GetGraphFromTexture(graphTexture);
@@ -39,6 +41,6 @@ public class ProcessMixtureWithVariant : MonoBehaviour
 
         // Write the file at the target destination
         var bytes = ImageConversion.EncodeToPNG(destination);
-        File.WriteAllBytes("C:\\Users\\Antoine Lelievre\\test.png", bytes);
+        File.WriteAllBytes(outputPath, bytes);
     }
 }
