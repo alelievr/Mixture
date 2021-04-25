@@ -41,12 +41,12 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
 
         public override bool hasSettings => true;
 
-        protected override MixtureRTSettings defaultRTSettings
+        protected override MixtureSettings defaultRTSettings
         {
             get
             {
                 POTSize size = (rtSettings.GetTextureDimension(graph) == TextureDimension.Tex3D) ? POTSize._32 : POTSize._1024;
-                return new MixtureRTSettings
+                return new MixtureSettings
                 {
                     heightMode = OutputSizeMode.Fixed,
                     widthMode = OutputSizeMode.Fixed,

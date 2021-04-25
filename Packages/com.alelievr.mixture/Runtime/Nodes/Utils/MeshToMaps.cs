@@ -46,7 +46,7 @@ This process is done using the UV of the mesh to flatten it and output it's attr
 
 		public override bool	showDefaultInspector => true;
 		public override Texture previewTexture => output;
-		protected override MixtureRTSettings defaultRTSettings => Get2DOnlyRTSettings(base.defaultRTSettings);
+		protected override MixtureSettings defaultRTSettings => Get2DOnlyRTSettings(base.defaultRTSettings);
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
 			OutputDimension.Texture2D,
 		};

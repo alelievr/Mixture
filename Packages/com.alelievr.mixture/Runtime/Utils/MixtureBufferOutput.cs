@@ -13,7 +13,7 @@ using UnityEngine.Rendering.Universal;
 namespace Mixture
 {
     // This is to handle normal output and maybe more
-    [ExecuteAlways]
+    [ExecuteAlways, AddComponentMenu("")]
     public class MixtureBufferOutput : MonoBehaviour
     {
 #if MIXTURE_HDRP

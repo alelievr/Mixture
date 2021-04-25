@@ -22,7 +22,7 @@ namespace Mixture
 
         const int CurveTextureResolution = 512;
 
-        public static Texture GetBlackTexture(MixtureRTSettings settings)
+        public static Texture GetBlackTexture(MixtureSettings settings)
         {
             return GetBlackTexture((TextureDimension)settings.dimension, settings.sliceCount);
         }

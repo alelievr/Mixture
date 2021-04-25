@@ -18,7 +18,7 @@ namespace Mixture
 		// Enumerate the list of material properties that you don't want to be turned into a connectable port.
 		protected override IEnumerable<string> filteredOutProperties => new string[]{};
 
-        protected override MixtureRTSettings defaultRTSettings => base.Get3DOnlyRTSettings(base.defaultRTSettings);
+        protected override MixtureSettings defaultRTSettings => base.Get3DOnlyRTSettings(base.defaultRTSettings);
 
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
 			OutputDimension.Texture3D,

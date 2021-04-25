@@ -21,9 +21,9 @@ namespace Mixture
 		protected new MixtureGraph			graph => base.graph as MixtureGraph;
 
 		[HideInInspector]
-		public MixtureRTSettings			rtSettings;
+		public MixtureSettings			rtSettings;
 
-		protected virtual MixtureRTSettings	defaultRTSettings => MixtureRTSettings.defaultValue;
+		protected virtual MixtureSettings	defaultRTSettings => MixtureSettings.defaultValue;
 		public virtual float   				nodeWidth => MixtureUtils.defaultNodeWidth;
 		public virtual Texture				previewTexture => null;
 		public virtual bool					hasSettings => true;
@@ -93,7 +93,7 @@ namespace Mixture
 			}
 		}
 
-		protected MixtureRTSettings	Get2DOnlyRTSettings(MixtureRTSettings defaultSettings)
+		protected MixtureSettings	Get2DOnlyRTSettings(MixtureSettings defaultSettings)
 		{
 			var rtSettings = defaultSettings;
 
@@ -103,7 +103,7 @@ namespace Mixture
 			return rtSettings;
 		}
 
-		protected MixtureRTSettings	Get3DOnlyRTSettings(MixtureRTSettings defaultSettings)
+		protected MixtureSettings	Get3DOnlyRTSettings(MixtureSettings defaultSettings)
 		{
 			var rtSettings = defaultSettings;
 

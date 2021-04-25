@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using GraphProcessor;
 
 namespace Mixture
@@ -19,15 +20,50 @@ namespace Mixture
 		{
 			public const string realtimePreviewToggleText = "Always Update";
 			public const string processButtonText = "Process";
-            public const string saveAllText = "Save All";
+            public const string saveAllText = "Save";
 			public const string parameterViewsText = "Parameters";
 			public static GUIContent documentation = new GUIContent("Documentation", MixtureEditorUtils.documentationIcon);
 			public static GUIContent bugReport = new GUIContent("Bug Report", MixtureEditorUtils.bugIcon);
 			public static GUIContent featureRequest = new GUIContent("Feature Request", MixtureEditorUtils.featureRequestIcon);
 			public static GUIContent improveMixture = new GUIContent("Improve Mixture", MixtureEditorUtils.featureRequestIcon);
 			public static GUIContent focusText = new GUIContent("Fit View");
+			public static GUIContent settingsIcon = new GUIContent(MixtureEditorUtils.settingsIcon24);
 			static GUIStyle _improveButtonStyle = null;
 			public static GUIStyle improveButtonStyle => _improveButtonStyle == null ? _improveButtonStyle = new GUIStyle(GUI.skin.button) { alignment = TextAnchor.MiddleLeft } : _improveButtonStyle;
+		}
+
+		enum TextureType
+		{
+			[InspectorName("Type: 2D")]
+			Type2D = OutputDimension.Texture2D,
+			[InspectorName("Type: 3D")]
+			Type3D = OutputDimension.Texture3D,
+			[InspectorName("Type: Cubemap")]
+			TypeCubemap = OutputDimension.CubeMap,
+		}
+
+		enum Resolution
+		{
+			[InspectorName("Resolution: 32")]
+			Res32 = POTSize._32,
+			[InspectorName("Resolution: 64")]
+			Res64 = POTSize._64,
+			[InspectorName("Resolution: 128")]
+			Res128 = POTSize._128,
+			[InspectorName("Resolution: 256")]
+			Res256 = POTSize._256,
+			[InspectorName("Resolution: 512")]
+			Res512 = POTSize._512,
+			[InspectorName("Resolution: 1024")]
+			Res1024 = POTSize._1024,
+			[InspectorName("Resolution: 2048")]
+			Res2048 = POTSize._2048,
+			[InspectorName("Resolution: 4096")]
+			Res4096 = POTSize._4096,
+			[InspectorName("Resolution: 8192")]
+			Res8192 = POTSize._8192,
+			[InspectorName("Custom")]
+			Custom = POTSize.Custom,
 		}
 
 		public class ImproveMixturePopupWindow : PopupWindowContent
@@ -52,26 +88,46 @@ namespace Mixture
 
 		protected override void AddButtons()
 		{
-			// Add the hello world button on the left of the toolbar
-			AddButton(Styles.processButtonText, Process, left: false);
-			ToggleRealtime(graph.realtimePreview);
-			AddToggle(Styles.realtimePreviewToggleText, graph.realtimePreview, ToggleRealtime, left: false);
+			// Left buttons
+			AddButton(Styles.processButtonText, Process, left: true);
 
-			// bool exposedParamsVisible = graphView.GetPinnedElementStatus< ExposedParameterView >() != Status.Hidden;
-			// For now we don't display the show parameters
-			// AddToggle("Show Parameters", exposedParamsVisible, (v) => graphView.ToggleView<ExposedParameterView>());
-			AddButton("Show In Project", () => {
-				EditorGUIUtility.PingObject(graph.mainOutputTexture);
-				ProjectWindowUtil.ShowCreatedAsset(graph.mainOutputTexture);
-				// Selection.activeObject = graph;
-			});
-			AddToggle(Styles.parameterViewsText, graph.isParameterViewOpen, ToggleParameterView, left: true);
-			AddButton(Styles.focusText, () => graphView.FrameAll(), left: true);
+			ToggleRealtime(graph.realtimePreview);
+			AddToggle(Styles.realtimePreviewToggleText, graph.realtimePreview, ToggleRealtime, left: true);
 
 			if (graph.type != MixtureGraphType.Realtime)
-				AddButton(Styles.saveAllText, SaveAll , left: false);
-			// AddButton(Styles.bugReport, ReportBugCallback, left: false);
+				AddButton(Styles.saveAllText, SaveAll);
+			
+			AddSeparator(5);
+
+			AddButton("Show In Project", ShowInProject);
+
+			AddSeparator(5);
+
+			AddButton(Styles.focusText, () => graphView.FrameAll());
+
+			// Right buttons
+
+			AddCustom(DrawResolutionAndDimensionFields, left: false);
+
+			AddFlexibleSpace(left: false);
+
+			AddToggle(Styles.parameterViewsText, graph.isParameterViewOpen, ToggleParameterView, left: false);
+
+			AddButton(Styles.settingsIcon, () => {}, left: false);
+
 			AddDropDownButton(Styles.improveMixture, ShowImproveMixtureWindow, left: false);
+		}
+
+		void ShowInProject()
+		{
+			EditorGUIUtility.PingObject(graph.mainOutputTexture);
+			ProjectWindowUtil.ShowCreatedAsset(graph.mainOutputTexture);
+		}
+
+		void DrawResolutionAndDimensionFields()
+		{
+			EditorGUILayout.EnumPopup(Resolution.Res2048, EditorStyles.toolbarDropDown, GUILayout.Width(116));
+			EditorGUILayout.EnumPopup(TextureType.Type2D, EditorStyles.toolbarDropDown, GUILayout.Width(114));
 		}
 
 		void ShowImproveMixtureWindow()

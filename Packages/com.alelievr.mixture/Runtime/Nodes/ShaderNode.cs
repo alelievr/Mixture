@@ -71,7 +71,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 			}
 		}
 
-		protected override MixtureRTSettings defaultRTSettings
+		protected override MixtureSettings defaultRTSettings
 		{
 			get
 			{

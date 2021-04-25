@@ -154,20 +154,13 @@ Note that the unsigned distance field is faster to compute.
                     TextureUtils.CopyTexture(cmd, rayMapBuffer, rayMapBuffer2);
 			}
 
-            // TODO: compute sign based on ray maps
-            if (mode == Mode.Signed)
-            {
-
-            }
-
-            // TODO: in final pass, combine signness with distance for SDF
+            // TODO: additional pass to compute an approximate "signness" (see the ray maps paper)
 
 			cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_Input", rt);
 			cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_Output", outputVolume);
             cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_RayMapsInput", rayMapBuffer2);
             cmd.SetComputeTextureParam(computeShader, finalPassKernel, "_RayMapsOutput", rayMapBuffer);
 			DispatchCompute(cmd, finalPassKernel, outputVolume.width, outputVolume.height, outputVolume.volumeDepth);
-
         }
     }
 }

@@ -26,9 +26,9 @@ namespace Mixture
 		[NonSerialized]
 		protected HashSet< string > uniqueMessages = new HashSet< string >();
 
-		protected override MixtureRTSettings defaultRTSettings
+		protected override MixtureSettings defaultRTSettings
         {
-            get => new MixtureRTSettings()
+            get => new MixtureSettings()
             {
                 widthMode = OutputSizeMode.Fixed,
                 heightMode = OutputSizeMode.Fixed,

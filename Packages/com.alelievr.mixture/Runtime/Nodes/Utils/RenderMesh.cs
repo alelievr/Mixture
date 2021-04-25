@@ -41,7 +41,7 @@ Renders a mesh using the material specified in the 'material' field.
 
 		public override bool	showDefaultInspector => true;
 		public override Texture previewTexture => output;
-		protected override MixtureRTSettings defaultRTSettings => Get2DOnlyRTSettings(base.defaultRTSettings);
+		protected override MixtureSettings defaultRTSettings => Get2DOnlyRTSettings(base.defaultRTSettings);
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
 			OutputDimension.Texture2D,
 		};

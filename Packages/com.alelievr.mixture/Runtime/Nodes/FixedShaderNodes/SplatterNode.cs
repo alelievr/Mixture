@@ -159,7 +159,7 @@ Note that to keep the depth buffer precision correct, the current max depth of a
 			// TODO: support of cubemaps
 			OutputDimension.Texture2D,
 		};
-		protected override MixtureRTSettings defaultRTSettings => Get2DOnlyRTSettings(base.defaultRTSettings);
+		protected override MixtureSettings defaultRTSettings => Get2DOnlyRTSettings(base.defaultRTSettings);
 		public override bool showDefaultInspector => true;
         protected override bool tempRenderTextureHasDepthBuffer => true;
 

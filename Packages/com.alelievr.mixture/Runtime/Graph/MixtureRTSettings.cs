@@ -12,7 +12,7 @@ using UnityEditor;
 namespace Mixture
 {
 	[System.Serializable]
-	public struct MixtureRTSettings
+	public struct MixtureSettings
 	{
 		[Range(0.0001f, 1.0f)]
 		public float widthPercent;
@@ -52,9 +52,9 @@ namespace Mixture
 			}
 		}
 
-		public static MixtureRTSettings defaultValue
+		public static MixtureSettings defaultValue
 		{
-			get => new MixtureRTSettings()
+			get => new MixtureSettings()
 			{
 				widthPercent = 1.0f,
 				heightPercent = 1.0f,
