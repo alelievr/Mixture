@@ -96,6 +96,25 @@ namespace Mixture
                 parentGraph.variants.Add(this);
         }
 
+        public bool SetParameterValue(string name, object value)
+        {
+            var param = parentGraph.GetExposedParameter(name);
+
+            if (param == null)
+                return false;
+            
+            param = param.Clone();
+            param.value = value;
+
+            int index = overrideParameters.FindIndex(p => p == param);
+            if (index == -1)
+                overrideParameters.Add(param);
+            else
+                overrideParameters[index].value = value;
+
+            return true;
+        }
+
         public IEnumerable<ExposedParameter> GetAllOverrideParameters()
         {
             static IEnumerable<ExposedParameter> GetOverrideParamsForVariant(MixtureVariant variant)
