@@ -93,60 +93,61 @@ RETURN_TYPE GenerateRidged##NAME##Noise(COORDINATE_TYPE coordinate, float freque
     return total / ((DISTANCE_ALGORITHM != EUCLIDEAN_DISTANCE) ? 1 : totalAmplitude); \
 }
 
-// #define CURL_NOISE_2D_TEMPLATE(NAME, FUNC_CALL) \
-// float2 Generate##NAME##CurlNoise(float2 coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
-// { \
-//     float2 total = float2(0.0f, 0.0f); \
-// \
-//     float amplitude = 1.0f; \
-//     float totalAmplitude = 0.0f; \
-// \
-//     for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
-//     { \
-//         float2 derivatives = FUNC_CALL(coordinate * frequency).yz; \
-//         total += derivatives * amplitude; \
-// \
-//         totalAmplitude += amplitude; \
-//         amplitude *= persistence; \
-//         frequency *= lacunarity; \
-//     } \
-// \
-//     return float2(total.y, -total.x) / totalAmplitude; \
-// }
+#define CURL_NOISE_2D_TEMPLATE(NAME, FUNC_CALL) \
+float2 Generate##NAME##CurlNoise(float2 coordinate, float frequency, int octaveCount, float persistence, float lacunarity, float seed) \
+{ \
+    float2 total = float2(0.0f, 0.0f); \
+\
+    float amplitude = 1.0f; \
+    float totalAmplitude = 0.0f; \
+\
+    for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
+    { \
+        float2 derivatives = FUNC_CALL.yz; \
+        total += derivatives * amplitude; \
+\
+        totalAmplitude += amplitude; \
+        amplitude *= persistence; \
+        frequency *= lacunarity; \
+    } \
+\
+    return float2(total.y, -total.x) / totalAmplitude; \
+}
 
-// #define CURL_NOISE_3D_TEMPLATE(NAME, FUNC_CALL) \
-// float3 Generate##NAME##CurlNoise(float3 coordinate, float frequency, int octaveCount, float persistence, float lacunarity) \
-// { \
-//     float2 total[3] = { float2(0.0f, 0.0f), float2(0.0f, 0.0f), float2(0.0f, 0.0f) }; \
-// \
-//     float amplitude = 1.0f; \
-//     float totalAmplitude = 0.0f; \
-// \
-//     float2 points[3] = \
-//     { \
-//         coordinate.zy, \
-//         coordinate.xz + 100.0f, \
-//         coordinate.yx + 200.0f \
-//     }; \
-// \
-//     for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
-//     { \
-//         for (int i = 0; i < 3; i++) \
-//         { \
-//             float2 derivatives = FUNC_CALL(points[i] * frequency).yz; \
-//             total[i] += derivatives * amplitude; \
-//         } \
-// \
-//         totalAmplitude += amplitude; \
-//         amplitude *= persistence; \
-//         frequency *= lacunarity; \
-//     } \
-// \
-//     return float3( \
-//         (total[2].x - total[1].y), \
-//         (total[0].x - total[2].y), \
-//         (total[1].x - total[0].y)) / totalAmplitude; \
-// }
+#define CURL_NOISE_3D_TEMPLATE(NAME, FUNC_CALL) \
+float3 Generate##NAME##CurlNoise(float3 coordinate3D, float frequency, int octaveCount, float persistence, float lacunarity, float seed) \
+{ \
+    float2 total[3] = { float2(0.0f, 0.0f), float2(0.0f, 0.0f), float2(0.0f, 0.0f) }; \
+\
+    float amplitude = 1.0f; \
+    float totalAmplitude = 0.0f; \
+\
+    float2 points[3] = \
+    { \
+        coordinate3D.zy, \
+        coordinate3D.xz + 100.0f, \
+        coordinate3D.yx + 200.0f \
+    }; \
+\
+    for (int octaveIndex = 0; octaveIndex < octaveCount; octaveIndex++) \
+    { \
+        for (int i = 0; i < 3; i++) \
+        { \
+            float2 coordinate = points[i]; \
+            float2 derivatives = FUNC_CALL.yz; \
+            total[i] += derivatives * amplitude; \
+        } \
+\
+        totalAmplitude += amplitude; \
+        amplitude *= persistence; \
+        frequency *= lacunarity; \
+    } \
+\
+    return float3( \
+        (total[2].x - total[1].y), \
+        (total[0].x - total[2].y), \
+        (total[1].x - total[0].y)) / totalAmplitude; \
+}
 
 #ifdef UNITY_CUSTOM_TEXTURE_INCLUDED
 

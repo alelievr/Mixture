@@ -319,6 +319,12 @@ NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D(coordinate * frequenc
 RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float, tiledPerlinNoise2D(coordinate * frequency, frequency, seed));
 RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D(coordinate * frequency, frequency, seed));
 
+// TODO: implement derivatives in the tiled perlin noise
+// CURL_NOISE_2D_TEMPLATE(Perlin2D, tiledPerlinNoise2D(coordinate * frequency, frequency, seed));
+// CURL_NOISE_3D_TEMPLATE(Perlin3D, tiledPerlinNoise2D(coordinate * frequency, frequency, seed));
+CURL_NOISE_2D_TEMPLATE(Perlin2D, perlinNoise2D(coordinate * frequency, seed));
+CURL_NOISE_3D_TEMPLATE(Perlin3D, perlinNoise2D(coordinate * frequency, seed));
+
 #else
 
 NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D(coordinate * frequency, seed));
@@ -326,9 +332,10 @@ NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D(coordinate * frequency, s
 RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float3, perlinNoise2D(coordinate * frequency, seed));
 RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float4, perlinNoise3D(coordinate * frequency, seed));
 
+CURL_NOISE_2D_TEMPLATE(Perlin2D, perlinNoise2D(coordinate * frequency, seed));
+CURL_NOISE_3D_TEMPLATE(Perlin3D, perlinNoise2D(coordinate * frequency, seed));
+
 #endif
 
-// CURL_NOISE_2D_TEMPLATE(Perlin2D, perlinNoise2D);
-// CURL_NOISE_3D_TEMPLATE(Perlin3D, perlinNoise2D);
 
 #endif
