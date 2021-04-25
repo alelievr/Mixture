@@ -24,7 +24,7 @@ Note that this node is currently only available with HDRP.
 ")]
 
 	[System.Serializable, NodeMenuItem("Utils/Prefab Capture (HDRP only)")]
-	public class PrefabCaptureNode : MixtureNode, ICreateNodeFrom<GameObject>
+	public class PrefabCaptureNode : BasePrefabNode, ICreateNodeFrom<GameObject>
 	{
         [System.Serializable]
         public enum OutputMode
@@ -48,50 +48,21 @@ Note that this node is currently only available with HDRP.
 
         public OutputMode mode;
 
-		public override bool 	hasSettings => true;
 		public override string	name => "Prefab Capture (HDRP)";
-		public override float	nodeWidth => 200;
 		public override Texture	previewTexture => prefabOpened ? (Texture)tmpRenderTexture : savedTexture;
 
-        public override bool    showDefaultInspector => true;
         public override bool    showPreviewExposure => mode == OutputMode.LinearEyeDepth;
-
-		protected override MixtureRTSettings defaultRTSettings
-        {
-            get
-            {
-                var settings = base.defaultRTSettings;
-                settings.editFlags = EditFlags.All ^ EditFlags.POTSize;
-                return Get2DOnlyRTSettings(settings);
-            }
-        }
-
-        public GameObject       prefab;
+        protected override string defaultPrefabName => "SceneCapture";
 
         [ShowInInspector]
         public TextureFormat    compressionFormat = TextureFormat.DXT5; 
 
-        [System.NonSerialized]
-        internal bool           prefabOpened = false;
-#if UNITY_EDITOR
-        [System.NonSerialized]
-        bool                    createNewPrefab = false;
-#endif
         [System.NonSerialized]
         internal Camera         prefabCamera;
         internal MixtureBufferOutput bufferOutput;
 
         // We don't use the 'Custom' part of the render texture but function are taking this type in parameter
         internal CustomRenderTexture     tmpRenderTexture;
-
-        public override void OnNodeCreated()
-        {
-            base.OnNodeCreated();
-
-#if UNITY_EDITOR
-            createNewPrefab = true;
-#endif
-        }
 
 		public bool InitializeNodeFromObject(GameObject value)
 		{
@@ -101,36 +72,13 @@ Note that this node is currently only available with HDRP.
 		}
 
 #if UNITY_EDITOR
-        GameObject LoadDefaultPrefab()
-        {
-            return Resources.Load<GameObject>("Scene Capture Node Prefab");
-        }
-
-        GameObject SavePrefab(GameObject sceneObject)
-        {
-            string dirPath = Path.GetDirectoryName(graph.mainAssetPath) + "/" + graph.name;
-            if (!Directory.Exists(dirPath))
-                Directory.CreateDirectory(dirPath);
-
-            string prefabPath = AssetDatabase.GenerateUniqueAssetPath(dirPath + "/" + "SceneCapture.prefab");
-
-            return PrefabUtility.SaveAsPrefabAssetAndConnect(sceneObject, prefabPath, InteractionMode.UserAction);
-        }
+        protected override GameObject LoadDefaultPrefab()
+            => Resources.Load<GameObject>("Scene Capture Node Prefab");
 #endif
 
         protected override void Enable()
         {
-#if UNITY_EDITOR
-            if (createNewPrefab)
-            {
-                // Create and save the new prefab
-                var defaultPrefab = GameObject.Instantiate(LoadDefaultPrefab());
-                prefab = SavePrefab(defaultPrefab);
-                MixtureUtils.DestroyGameObject(defaultPrefab);
-                ProjectWindowUtil.ShowCreatedAsset(prefab);
-                EditorGUIUtility.PingObject(prefab);
-            }
-#endif
+            base.Enable();
             UpdateRenderTextures();
         }
 

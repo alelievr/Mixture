@@ -747,7 +747,12 @@ namespace Mixture
                 else if (source.dimension == TextureDimension.Tex3D)
                     ConvertOutput3DTexture(target as Texture3D, dst as Texture3D, compressionFormat);
                 else
-                    Graphics.ConvertTexture(target, dst);
+                {
+                    if (!Graphics.ConvertTexture(target, dst))
+                    {
+                        Debug.LogError("Failed to convert " + target.graphicsFormat + " into " + dst.graphicsFormat + " | from: " + compressionFormat);
+                    }
+                }
 
                 dst.name = name;
             }
