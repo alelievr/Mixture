@@ -116,7 +116,7 @@ namespace Mixture
 			mixture.type = mixture.type == MixtureGraphType.Realtime ? MixtureGraphType.Baked : MixtureGraphType.Realtime;
             AssetDatabase.SaveAssets();
             mixture.UpdateOutputTextures();
-            mixture.FlushTexturesToDisk();
+            mixture.FlushAssetsToDisk();
 			AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(mixture), ImportAssetOptions.ForceUpdate | ImportAssetOptions.ImportRecursive | ImportAssetOptions.DontDownloadFromCacheServer);
             AssetDatabase.Refresh();
             MixtureGraphWindow.Open(mixture);

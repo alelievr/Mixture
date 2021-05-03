@@ -19,6 +19,7 @@ namespace Mixture
         Baked,
         Realtime,
         Behaviour,
+        Material,
     }
 
 	[System.Serializable]
@@ -71,24 +72,47 @@ namespace Mixture
         internal List<MixtureVariant> variants = new List<MixtureVariant>();
 
 		[SerializeField, FormerlySerializedAs("_outputTexture")]
-		Texture					_mainOutputTexture;
-		public Texture			mainOutputTexture
+		Object					_mainOutputAsset;
+		public Object			mainOutputAsset
 		{
 			get
 			{
 #if UNITY_EDITOR
-				if (_mainOutputTexture == null)
-					_mainOutputTexture = AssetDatabase.LoadAssetAtPath< Texture >(mainAssetPath);
+				if (_mainOutputAsset == null)
+					_mainOutputAsset = AssetDatabase.LoadAssetAtPath<Object>(mainAssetPath);
 #endif
-				return _mainOutputTexture;
+				return _mainOutputAsset;
 			}
 			set
             {
-                outputTextures.Remove(_mainOutputTexture);
-                outputTextures.Add(value);
-                _mainOutputTexture = value;
+                if (_mainOutputAsset is Texture texture)
+                {
+                    outputTextures.Remove(texture);
+                    outputTextures.Add(value as Texture);
+                }
+                _mainOutputAsset = value;
             }
 		}
+
+        // TODO: merge with main output asset?
+        [SerializeField]
+        Material _outputMaterial;
+        public Material outputMaterial
+        {
+            get
+            {
+                if (_outputMaterial == null)
+                {
+                    // Builtin material using Standard shader by default
+                    if (GraphicsSettings.renderPipelineAsset == null)
+                        _outputMaterial = new Material(Shader.Find("Standard"));
+                    else
+                        _outputMaterial = new Material(GraphicsSettings.renderPipelineAsset.defaultMaterial);
+                }
+
+                return _outputMaterial;
+            }
+        }
 
         // Important: note that order is not guaranteed 
         [SerializeField]
@@ -136,14 +160,13 @@ namespace Mixture
 			if (type != MixtureGraphType.Behaviour && outputNode == null)
             {
 				outputNode = AddNode(BaseNode.CreateFromType< OutputNode >(Vector2.zero)) as OutputNode;
-                Debug.Log("Create new output node!");
             }
 
 #if UNITY_EDITOR
             // TODO: check if the asset is in a Resources folder for realtime and put a warning if it's not the case
             // + store the Resources path in a string
 			if (type == MixtureGraphType.Realtime)
-				RealtimeMixtureReferences.realtimeMixtureCRTs.Add(mainOutputTexture as CustomRenderTexture);
+				RealtimeMixtureReferences.realtimeMixtureCRTs.Add(mainOutputAsset as CustomRenderTexture);
             
             // Check that object references are really ours (just in case the asset was duplicated)
             objectReferences.RemoveAll(obj =>
@@ -208,7 +231,7 @@ namespace Mixture
 
         public Texture FindOutputTexture(string name, bool isMain)
         {
-            return outputTextures.Find(t => t != null && (isMain ? t.name == mainOutputTexture.name : t.name == name));
+            return outputTextures.Find(t => t != null && (isMain ? t.name == mainOutputAsset.name : t.name == name));
         }
 
 		/// <summary>
@@ -228,7 +251,7 @@ namespace Mixture
                     // We don't ever need to the main asset in realtime if it's already a CRT
 #if UNITY_EDITOR
                     if (!(oldTextureObject is CustomRenderTexture))
-                        RealtimeMixtureReferences.realtimeMixtureCRTs.Add(mainOutputTexture as CustomRenderTexture);
+                        RealtimeMixtureReferences.realtimeMixtureCRTs.Add(mainOutputAsset as CustomRenderTexture);
 #endif
                 }
                 else
@@ -247,51 +270,62 @@ namespace Mixture
 
         Texture FindTextureOnDisk(string name, bool isMain)
         {
-            return AssetDatabase.LoadAllAssetsAtPath(mainAssetPath).FirstOrDefault(o => o is Texture t && (isMain ? t.name == mainOutputTexture.name : t.name == name)) as Texture;
+            return AssetDatabase.LoadAllAssetsAtPath(mainAssetPath).FirstOrDefault(o => o is Texture t && (isMain ? t.name == mainOutputAsset.name : t.name == name)) as Texture;
         }
 
-        public void FlushTexturesToDisk()
+        public void FlushAssetsToDisk()
         {
-            List<Texture> assetsToKeep = new List<Texture>();
-            foreach (var output in outputNode.outputTextureSettings)
-            {
-                // Note that the main texture always uses the name of the asset:
-                Texture		newTexture = FindOutputTexture(output.name, output.isMain);
-                Texture     oldTexture = FindTextureOnDisk(output.name, output.isMain);
+            List<Object> assetsToKeep = new List<Object>();
 
-                // Update the asset on disk if they differ
-                if (oldTexture == null || newTexture.GetType() != oldTexture.GetType())
-                {
-                    UpdateTextureAssetOnDisk(newTexture, output.isMain);
-                    assetsToKeep.Add(newTexture);
-                }
-                // In case the old texture already exists, we can swap it's internal data with the new texture
-                // which prevent any reference loss that a Destroy would have caused.
-                else if (newTexture != oldTexture)
-                {
-                    EditorUtility.CopySerialized(newTexture, oldTexture);
-                    if (output.isMain)
-                    {
-                        AssetDatabase.SetMainObject(oldTexture, mainAssetPath);
-                        mainOutputTexture = oldTexture;
-                    }
-                    Object.DestroyImmediate(newTexture);
-                    outputTextures.Remove(newTexture);
-                    outputTextures.Add(oldTexture);
-                    assetsToKeep.Add(oldTexture);
-                }
-                else
-                    assetsToKeep.Add(oldTexture);
+            // TODO: change this code to generic thing
+            if (type == MixtureGraphType.Material)
+            {
+                // AssetDatabase.SetMainObject(outputMaterial, mainAssetPath);
+                AssetDatabase.AddObjectToAsset(outputMaterial, this);
+                AssetDatabase.SetMainObject(outputMaterial, mainAssetPath);
             }
-
-            foreach (var tex in AssetDatabase.LoadAllAssetsAtPath(mainAssetPath).OfType<Texture>())
+            else
             {
-                // When a texture contains the not editable hideflag (for example a prefab capture image) we don't remove it
-                // otherwise it would break the graph.
-                if (!assetsToKeep.Contains(tex) && (tex.hideFlags & HideFlags.NotEditable) == 0)
+                foreach (var output in outputNode.outputTextureSettings)
                 {
-                    AssetDatabase.RemoveObjectFromAsset(tex);
-                    DestroyImmediate(tex, true);
+                    // Note that the main texture always uses the name of the asset:
+                    Texture		newTexture = FindOutputTexture(output.name, output.isMain);
+                    Texture     oldTexture = FindTextureOnDisk(output.name, output.isMain);
+
+                    // Update the asset on disk if they differ
+                    if (oldTexture == null || newTexture.GetType() != oldTexture.GetType())
+                    {
+                        UpdateTextureAssetOnDisk(newTexture, output.isMain);
+                        assetsToKeep.Add(newTexture);
+                    }
+                    // In case the old texture already exists, we can swap it's internal data with the new texture
+                    // which prevent any reference loss that a Destroy would have caused.
+                    else if (newTexture != oldTexture)
+                    {
+                        EditorUtility.CopySerialized(newTexture, oldTexture);
+                        if (output.isMain)
+                        {
+                            AssetDatabase.SetMainObject(oldTexture, mainAssetPath);
+                            mainOutputAsset = oldTexture;
+                        }
+                        Object.DestroyImmediate(newTexture);
+                        outputTextures.Remove(newTexture);
+                        outputTextures.Add(oldTexture);
+                        assetsToKeep.Add(oldTexture);
+                    }
+                    else
+                        assetsToKeep.Add(oldTexture);
+                }
+
+                foreach (var tex in AssetDatabase.LoadAllAssetsAtPath(mainAssetPath).OfType<Texture>())
+                {
+                    // When a texture contains the not editable hideflag (for example a prefab capture image) we don't remove it
+                    // otherwise it would break the graph.
+                    if (!assetsToKeep.Contains(tex) && (tex.hideFlags & HideFlags.NotEditable) == 0)
+                    {
+                        AssetDatabase.RemoveObjectFromAsset(tex);
+                        DestroyImmediate(tex, true);
+                    }
                 }
             }
 
@@ -307,7 +341,7 @@ namespace Mixture
             if (main)
             {
                 AssetDatabase.SetMainObject(newTexture, mainAssetPath);
-                mainOutputTexture = newTexture;
+                mainOutputAsset = newTexture;
             }
         }
 #endif
@@ -347,7 +381,7 @@ namespace Mixture
 			}
 
             if (outputSettings.isMain)
-                mainOutputTexture = newTexture;
+                mainOutputAsset = newTexture;
 
             newTexture.name = outputSettings.name;
 
@@ -383,7 +417,7 @@ namespace Mixture
                 }
             }
 
-            outputTextures.RemoveAll(t => t.name == outputSettings.name || (outputSettings.isMain && t.name == mainOutputTexture.name));
+            outputTextures.RemoveAll(t => t.name == outputSettings.name || (outputSettings.isMain && t.name == mainOutputAsset.name));
 
             Texture newTexture = null;
 
@@ -406,7 +440,7 @@ namespace Mixture
                     return null;
             }
 
-            newTexture.name = (outputSettings.isMain) ? mainOutputTexture.name : outputSettings.name;
+            newTexture.name = (outputSettings.isMain) ? mainOutputAsset.name : outputSettings.name;
 
             outputTextures.Add(newTexture);
 
@@ -602,7 +636,7 @@ namespace Mixture
         }
 
 #if UNITY_EDITOR
-        public void SaveAllTextures(bool pingObject = true)
+        public void SaveAll(bool pingObject = true)
         {
             if (type == MixtureGraphType.Realtime)
                 return;
@@ -620,12 +654,12 @@ namespace Mixture
                 ReadBackTexture(this.outputNode, output.finalCopyRT, output.IsCompressionEnabled() || output.IsConversionEnabled(), format, output.compressionQuality, currentTexture);
             }
 
-            FlushTexturesToDisk();
+            FlushAssetsToDisk();
 
             AssetDatabase.Refresh();
 
             if (pingObject)
-                EditorGUIUtility.PingObject(mainOutputTexture);
+                EditorGUIUtility.PingObject(mainOutputAsset);
         }
 
         public void UpdateRealtimeAssetsOnDisk()
@@ -634,7 +668,7 @@ namespace Mixture
                 return;
 
             UpdateOutputTextures();
-            FlushTexturesToDisk();
+            FlushAssetsToDisk();
             AssetDatabase.SaveAssets();
         }
 
@@ -683,7 +717,7 @@ namespace Mixture
         public void ReadBackTexture(OutputNode node, RenderTexture source, bool enableCompression = false, TextureFormat compressionFormat = TextureFormat.DXT5, MixtureCompressionQuality compressionQuality = MixtureCompressionQuality.Best, Texture externalTexture = null)
         {
             var outputFormat = node.rtSettings.GetGraphicsFormat(this);
-            var target = externalTexture == null ? mainOutputTexture : externalTexture;
+            var target = externalTexture == null ? mainOutputAsset as Texture : externalTexture;
             string name = target.name;
 
             // When we use Texture2D, we can compress them. In that case we use a temporary target for readback before compressing / converting it.
@@ -738,7 +772,7 @@ namespace Mixture
 
             if (useTempTarget)
             {
-                var dst = externalTexture == null ? mainOutputTexture : externalTexture;
+                var dst = externalTexture == null ? mainOutputAsset as Texture : externalTexture;
 
                 bool isCompressedFormat = GraphicsFormatUtility.IsCompressedFormat(GraphicsFormatUtility.GetGraphicsFormat(compressionFormat, false));
                 if (enableCompression && isCompressedFormat)

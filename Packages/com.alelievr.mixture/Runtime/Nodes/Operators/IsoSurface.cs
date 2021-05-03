@@ -81,7 +81,7 @@ Transform a 3D texture into a volume using an iso surface algorithm (Marching cu
 			if (!base.ProcessNode(cmd) || input == null)
 				return false;
             
-            cmd.SetComputeBufferCounterValue(vertices, 0);
+            cmd.SetBufferCounterValue(vertices, 0);
 
             // TODO: non pot texture3Ds
 			cmd.SetComputeVectorParam(computeShader, "_VolumeSize", new Vector4(input.width, input.height, TextureUtils.GetSliceCount(input)));

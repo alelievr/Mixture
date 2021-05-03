@@ -173,7 +173,7 @@ namespace Mixture
 
 		void SaveAllTextures()
 		{
-			graph.SaveAllTextures();
+			graph.SaveAll();
 			graph.UpdateLinkedVariants();
 		}
 

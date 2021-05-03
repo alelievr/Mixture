@@ -124,7 +124,7 @@ namespace Mixture
 			CustomRenderTextureUpdateMode updateMode = CustomRenderTextureUpdateMode.OnDemand, bool depthBuffer = false,
 			GraphicsFormat overrideGraphicsFormat = GraphicsFormat.None)
 		{
-			if (graph.mainOutputTexture == null)
+			if (graph.mainOutputAsset == null)
 				return false;
 
 			bool changed = false;
@@ -142,7 +142,7 @@ namespace Mixture
 				outputHeight = outputDepth = outputWidth; // we only use the width for cubemaps
 
             if (targetFormat == GraphicsFormat.None)
-                targetFormat = graph.mainOutputTexture.graphicsFormat;
+                targetFormat = (graph.mainOutputAsset as Texture).graphicsFormat;
 			if (dimension == TextureDimension.None)
 				dimension = TextureDimension.Tex2D;
 

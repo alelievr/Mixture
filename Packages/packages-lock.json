@@ -18,7 +18,7 @@
       "url": "https://package.openupm.com"
     },
     "com.autodesk.fbx": {
-      "version": "4.0.0-pre.1",
+      "version": "4.0.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
@@ -37,7 +37,7 @@
       "dependencies": {}
     },
     "com.unity.cinemachine": {
-      "version": "2.7.2",
+      "version": "2.7.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -67,22 +67,20 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.formats.fbx": {
-      "version": "4.0.0-pre.1",
+      "version": "4.0.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.timeline": "1.0.0",
-        "com.autodesk.fbx": "4.0.0-pre.1"
+        "com.autodesk.fbx": "4.0.1"
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "3.0.4",
+      "version": "3.0.5",
       "depth": 0,
       "source": "registry",
-      "dependencies": {
-        "com.unity.test-framework": "1.1.1"
-      },
+      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
@@ -102,7 +100,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.mathematics": {
-      "version": "1.1.0",
+      "version": "1.2.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
@@ -118,79 +116,80 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.nuget.newtonsoft-json": {
-      "version": "2.0.0-preview",
+      "version": "2.0.0",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {
-      "version": "10.4.0",
-      "depth": 1,
-      "source": "registry",
+      "version": "file:C:\\Users\\Antoine Lelievre\\Github\\Graphics_ShaderStack\\com.unity.render-pipelines.core",
+      "depth": 0,
+      "source": "local",
       "dependencies": {
-        "com.unity.ugui": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.physics": "1.0.0"
+      }
     },
     "com.unity.render-pipelines.high-definition": {
-      "version": "10.4.0",
+      "version": "file:C:\\Users\\Antoine Lelievre\\Github\\Graphics_ShaderStack\\com.unity.render-pipelines.high-definition",
       "depth": 0,
-      "source": "registry",
+      "source": "local",
       "dependencies": {
-        "com.unity.render-pipelines.core": "10.4.0",
-        "com.unity.shadergraph": "10.4.0",
-        "com.unity.visualeffectgraph": "10.4.0",
-        "com.unity.render-pipelines.high-definition-config": "10.4.0"
-      },
-      "url": "https://packages.unity.com"
+        "com.unity.modules.video": "1.0.0",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
+        "com.unity.render-pipelines.core": "12.0.0",
+        "com.unity.shadergraph": "12.0.0",
+        "com.unity.visualeffectgraph": "12.0.0",
+        "com.unity.render-pipelines.high-definition-config": "12.0.0"
+      }
     },
     "com.unity.render-pipelines.high-definition-config": {
-      "version": "10.4.0",
-      "depth": 1,
-      "source": "registry",
+      "version": "file:C:\\Users\\Antoine Lelievre\\Github\\Graphics_ShaderStack\\com.unity.render-pipelines.high-definition-config",
+      "depth": 0,
+      "source": "local",
       "dependencies": {
-        "com.unity.render-pipelines.core": "10.4.0"
-      },
-      "url": "https://packages.unity.com"
+        "com.unity.render-pipelines.core": "12.0.0"
+      }
     },
     "com.unity.render-pipelines.universal": {
-      "version": "10.4.0",
+      "version": "file:C:\\Users\\Antoine Lelievre\\Github\\Graphics_ShaderStack\\com.unity.render-pipelines.universal",
       "depth": 0,
-      "source": "registry",
+      "source": "local",
       "dependencies": {
         "com.unity.mathematics": "1.1.0",
-        "com.unity.render-pipelines.core": "10.4.0",
-        "com.unity.shadergraph": "10.4.0"
-      },
-      "url": "https://packages.unity.com"
+        "com.unity.render-pipelines.core": "12.0.0",
+        "com.unity.shadergraph": "12.0.0"
+      }
     },
     "com.unity.searcher": {
-      "version": "4.3.1",
-      "depth": 2,
+      "version": "4.3.2",
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.shadergraph": {
-      "version": "10.4.0",
-      "depth": 1,
+      "version": "file:C:\\Users\\Antoine Lelievre\\Github\\Graphics_ShaderStack\\com.unity.shadergraph",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.unity.render-pipelines.core": "12.0.0",
+        "com.unity.searcher": "4.3.1"
+      }
+    },
+    "com.unity.subsystemregistration": {
+      "version": "1.1.0",
+      "depth": 2,
       "source": "registry",
       "dependencies": {
-        "com.unity.render-pipelines.core": "10.4.0",
-        "com.unity.searcher": "4.3.1"
+        "com.unity.modules.subsystems": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
-    "com.unity.subsystemregistration": {
-      "version": "1.0.6",
-      "depth": 2,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
     "com.unity.test-framework": {
-      "version": "1.1.22",
+      "version": "1.1.24",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -212,8 +211,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.timeline": {
-      "version": "1.4.6",
-      "depth": 1,
+      "version": "1.6.0-pre.3",
+      "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.modules.director": "1.0.0",
@@ -225,7 +224,7 @@
     },
     "com.unity.ugui": {
       "version": "1.0.0",
-      "depth": 2,
+      "depth": 0,
       "source": "builtin",
       "dependencies": {
         "com.unity.modules.ui": "1.0.0",
@@ -233,14 +232,13 @@
       }
     },
     "com.unity.visualeffectgraph": {
-      "version": "10.4.0",
-      "depth": 1,
-      "source": "registry",
+      "version": "file:C:\\Users\\Antoine Lelievre\\Github\\Graphics_ShaderStack\\com.unity.visualeffectgraph",
+      "depth": 0,
+      "source": "local",
       "dependencies": {
-        "com.unity.shadergraph": "10.4.0",
-        "com.unity.render-pipelines.core": "10.4.0"
-      },
-      "url": "https://packages.unity.com"
+        "com.unity.shadergraph": "12.0.0",
+        "com.unity.render-pipelines.core": "12.0.0"
+      }
     },
     "com.unity.xr.legacyinputhelpers": {
       "version": "2.1.7",
@@ -253,11 +251,14 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.management": {
-      "version": "3.2.13",
+      "version": "4.0.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.xr.legacyinputhelpers": "2.1.2",
+        "com.unity.modules.subsystems": "1.0.0",
+        "com.unity.modules.vr": "1.0.0",
+        "com.unity.modules.xr": "1.0.0",
+        "com.unity.xr.legacyinputhelpers": "2.1.7",
         "com.unity.subsystemregistration": "1.0.6"
       },
       "url": "https://packages.unity.com"

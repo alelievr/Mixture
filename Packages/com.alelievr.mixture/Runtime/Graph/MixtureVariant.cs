@@ -261,7 +261,7 @@ namespace Mixture
 
                 if (asset is Texture texture)
                 {
-                    bool isMain = texture.name == parentGraph.mainOutputTexture.name || (parentVariant != null && texture.name == parentVariant.mainOutputTexture.name);
+                    bool isMain = texture.name == parentGraph.mainOutputAsset.name || (parentVariant != null && texture.name == parentVariant.mainOutputTexture.name);
                     var t = TextureUtils.DuplicateTexture(texture, copyTextureContent);
                     var oldTexture = FindOutputTexture(t.name, isMain);
 

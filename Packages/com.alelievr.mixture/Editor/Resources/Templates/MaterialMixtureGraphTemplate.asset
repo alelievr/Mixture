@@ -44,7 +44,6 @@ Material:
     m_Colors:
     - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
-  m_MaterialVariant: {fileID: 0}
 --- !u!21 &-5711246096604925849
 Material:
   serializedVersion: 6
@@ -80,7 +79,6 @@ Material:
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
-  m_MaterialVariant: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -122,10 +120,10 @@ MonoBehaviour:
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 872, y: 230, z: 0}
+  position: {x: 833, y: 291, z: 0}
   scale: {x: 1, y: 1, z: 1}
   version: 0
-  type: 1
+  type: 3
   realtimePreview: 1
   isRealtime: 0
   isParameterViewOpen: 0
@@ -145,7 +143,7 @@ MonoBehaviour:
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 691aa737-9a89-40dd-b56d-201a248e396d
-        computeOrder: 1
+        computeOrder: 0
         position:
           serializedVersion: 2
           x: -44
@@ -198,7 +196,7 @@ MonoBehaviour:
       type: {class: RidgedPerlinNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
         GUID: 45b55e43-50ed-49df-b940-105b197c4bb0
-        computeOrder: 0
+        computeOrder: 1
         position:
           serializedVersion: 2
           x: -312
@@ -391,11 +389,11 @@ MonoBehaviour:
         outputMax: 0.7
 --- !u!86 &6585799614466207341
 CustomRenderTexture:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 61
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RealtimeMixtureGraphTemplate
+  m_Name: MaterialMixtureGraphTemplate
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
@@ -424,13 +422,13 @@ CustomRenderTexture:
     m_WrapV: 0
     m_WrapW: 0
   m_Dimension: 2
-  m_VolumeDepth: 512
+  m_VolumeDepth: 1
   m_Material: {fileID: -5711246096604925849}
   m_InitSource: 0
   m_InitMaterial: {fileID: 0}
   m_InitColor: {r: 1, g: 1, b: 1, a: 1}
   m_InitTexture: {fileID: 0}
-  m_UpdateMode: 1
+  m_UpdateMode: 2
   m_InitializationMode: 2
   m_UpdateZoneSpace: 0
   m_CurrentUpdateZoneSpace: 0

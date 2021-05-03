@@ -28,7 +28,7 @@ namespace Mixture
 			MixtureGraph graph;
 			if (mixtureAssets.TryGetValue(assetGUID, out graph))
 			{
-				DrawMixtureSmallIcon(rect, graph, Selection.Contains(graph.mainOutputTexture));
+				DrawMixtureSmallIcon(rect, graph, Selection.Contains(graph.mainOutputAsset));
 				return ;
 			}
 
@@ -269,7 +269,7 @@ namespace Mixture
 			{
 				var updateButton = new Button(() => {
 					MixtureGraphProcessor.RunOnce(graph);
-					graph.SaveAllTextures(false);
+					graph.SaveAll(false);
 					graph.UpdateLinkedVariants();
 				}) { text = "Update Texture(s)" };
 				updateButton.AddToClassList("Indent");

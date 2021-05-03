@@ -40,12 +40,21 @@ namespace Mixture
                 $"New Static Mixture Graph.{Extension}", MixtureUtils.icon, null);
 		}
 
-		[MenuItem("Assets/Create/🌡️ Realtime Mixture Graph", false, 83)]
+		[MenuItem("Assets/Create/🌡️  Realtime Mixture Graph", false, 83)]
 		public static void CreateRealtimeMixtureGraph()
 		{
 			var graphItem = ScriptableObject.CreateInstance< RealtimeMixtureGraphAction >();
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
                 $"New Realtime Mixture Graph.{Extension}", MixtureUtils.realtimeIcon, null);
+		}
+
+		[MenuItem("Assets/Create/🌎 Material Mixture Graph", false, 83)]
+		public static void CreateMaterialMixtureGraph()
+		{
+			var graphItem = ScriptableObject.CreateInstance< MaterialMixtureGraphAction >();
+			// TODO: mixture material icon
+            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem,
+                $"New Mixture Material.{Extension}", MixtureUtils.realtimeIcon, null);
 		}
 
 		[MenuItem("Assets/Create/Mixture/Variant", false, 100)]
@@ -175,7 +184,7 @@ namespace Mixture
 		{
 			var asset = EditorUtility.InstanceIDToObject(instanceID);
 
-			if (asset is Texture)
+			if (asset is Texture || asset is Material)
 			{
 				// Check if the CustomRenderTexture we're opening is a Mixture graph
 				var path = AssetDatabase.GetAssetPath(EditorUtility.InstanceIDToObject(instanceID));
@@ -218,12 +227,12 @@ namespace Mixture
 				else
 				{
 					MixtureGraphProcessor.RunOnce(mixture);
-					mixture.SaveAllTextures(false);
+					mixture.SaveAll(false);
 				}
 
-				ProjectWindowUtil.ShowCreatedAsset(mixture.mainOutputTexture);
-				Selection.activeObject = mixture.mainOutputTexture;
-				EditorApplication.delayCall += () => EditorGUIUtility.PingObject(mixture.mainOutputTexture);
+				ProjectWindowUtil.ShowCreatedAsset(mixture.mainOutputAsset);
+				Selection.activeObject = mixture.mainOutputAsset;
+				EditorApplication.delayCall += () => EditorGUIUtility.PingObject(mixture.mainOutputAsset);
 			}
 		}
 
@@ -291,6 +300,46 @@ namespace Mixture
 				}
 
 				return g;
+			}
+		}
+
+		class MaterialMixtureGraphAction : MixtureGraphAction
+		{
+			public static readonly string template = $"{MixtureEditorUtils.mixtureEditorResourcesPath}Templates/MaterialMixtureGraphTemplate.asset";
+
+			public override MixtureGraph CreateMixtureGraphAsset()
+			{
+				var g = MixtureEditorUtils.GetGraphAtPath(template);
+				g = ScriptableObject.Instantiate(g) as MixtureGraph;
+
+				g.ClearObjectReferences();
+
+				foreach (var node in g.nodes)
+				{
+					// Duplicate all the materials from the template
+					if (node is ShaderNode s && s.material != null)
+					{
+						s.material = new Material(s.material);
+						s.material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+					}
+					else if (node is OutputNode outputNode)
+					{
+						foreach (var outputSettings in outputNode.outputTextureSettings)
+						{
+							outputSettings.finalCopyMaterial = new Material(outputSettings.finalCopyMaterial);
+							outputSettings.finalCopyMaterial.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+						}
+					}
+				}
+
+				return g;
+
+				// // TODO: take in account selected shader / material and copy it to the mixture material
+
+				// var g = ScriptableObject.CreateInstance< MixtureGraph >();
+				// g.type = MixtureGraphType.Material;
+
+				// return g;
 			}
 		}
 

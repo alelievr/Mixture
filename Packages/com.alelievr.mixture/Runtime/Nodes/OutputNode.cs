@@ -19,7 +19,7 @@ namespace Mixture
 		public event Action			onTempRenderTextureUpdated;
 
 		public override string		name => "Output Texture Asset";
-		public override Texture 	previewTexture => graph.type == MixtureGraphType.Realtime ? graph.mainOutputTexture : outputTextureSettings.Count > 0 ? outputTextureSettings[0].finalCopyRT : null;
+		public override Texture 	previewTexture => graph.type == MixtureGraphType.Realtime ? graph.mainOutputAsset as Texture : outputTextureSettings.Count > 0 ? outputTextureSettings[0].finalCopyRT : null;
 		public override float		nodeWidth => 350;
 
 		// TODO: move this to NodeGraphProcessor
@@ -78,7 +78,7 @@ namespace Mixture
 			};
 
 			if (graph.type == MixtureGraphType.Realtime)
-				output.finalCopyRT = graph.mainOutputTexture as CustomRenderTexture;
+				output.finalCopyRT = graph.mainOutputAsset as CustomRenderTexture;
 
 			// output.finalCopyRT can be null here if the graph haven't been imported yet
 			if (output.finalCopyRT != null)
@@ -86,7 +86,7 @@ namespace Mixture
 
 			// Try to guess the correct setup for the user
 #if UNITY_EDITOR
-			var names = outputTextureSettings.Select(o => o.name).Concat(new List<string>{ graph.mainOutputTexture.name }).ToArray();
+			var names = outputTextureSettings.Select(o => o.name).Concat(new List<string>{ graph.mainOutputAsset.name }).ToArray();
 			output.SetupPreset(preset, (name) => UnityEditor.ObjectNames.GetUniqueName(names, name));
 #endif
 
@@ -147,7 +147,7 @@ namespace Mixture
 			if (graph == null) // Not good but, waiting to render graph refactor to clean up
 				return false;
 
-			if (graph.mainOutputTexture == null)
+			if (graph.mainOutputAsset == null)
 			{
 				Debug.LogError("Output Node can't write to target texture, Graph references a null output texture");
 				return false;
@@ -241,7 +241,7 @@ namespace Mixture
 			{
 				if (input.dimension != (TextureDimension)rtSettings.dimension)
 				{
-					Debug.LogError("Error: Expected texture type input for the OutputNode is " + graph.mainOutputTexture.dimension + " but " + input?.dimension + " was provided");
+					Debug.LogError("Error: Expected texture type input for the OutputNode is " + rtSettings.dimension + " but " + input?.dimension + " was provided");
 					return false;
 				}
 

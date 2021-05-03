@@ -149,7 +149,7 @@ namespace Mixture
                 var g = obj as MixtureGraph;
 
                 parentBar.PushItem(obj.name, () => {
-                    Selection.activeObject = v?.mainOutputTexture ?? g?.mainOutputTexture ?? obj;
+                    Selection.activeObject = v?.mainOutputTexture ?? g?.mainOutputAsset ?? obj;
                 });
             }
 

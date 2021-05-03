@@ -41,7 +41,7 @@ namespace Mixture
                 row.children.Add( new DebugUI.Value{ displayName = "Processor Count", getter = () => processors.Count.ToString() } );
 
                 // Another one
-                row.children.Add(new DebugUI.Value { displayName = "Update Count", getter = () => graph.mainOutputTexture.updateCount});
+                // row.children.Add(new DebugUI.Value { displayName = "Update Count", getter = () => graph.mainOutputAsset.updateCount});
     
                 table.children.Add(row);
             }
