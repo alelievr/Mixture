@@ -32,7 +32,7 @@
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				float4 col = SAMPLE_X(_Texture, float3(i.localTexcoord.xy, 0), i.direction);
+				float4 col = SAMPLE_X(_Texture, i.localTexcoord, i.direction);
 
 				switch ((uint)_Mode)
 				{
