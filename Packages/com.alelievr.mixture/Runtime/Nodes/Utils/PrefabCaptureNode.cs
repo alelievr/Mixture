@@ -66,7 +66,9 @@ Note that this node is currently only available with HDRP.
 
 		public bool InitializeNodeFromObject(GameObject value)
 		{
+#if UNITY_EDITOR
             createNewPrefab = false;
+#endif
 			prefab = value;
 			return true;
 		}
