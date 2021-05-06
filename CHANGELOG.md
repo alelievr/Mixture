@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project template will be documented in this file.
 
-## 0.2.1
+## 0.2.3
 
 ### Fixed
 - Fix an issue with the new Input System when adding the Mixture package
