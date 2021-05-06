@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project template will be documented in this file.
 
+## 0.2.1
+
+### Fixed
+- Fix an issue with the new Input System when adding the Mixture package
+- Fixed an error with the build
+- Fixed the scale and bias node in 3D
+
 ## 0.2.0
 
 ### Added
