@@ -5,12 +5,17 @@ using UnityEngine;
 
 namespace Mixture
 {
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     [UnityEditor.InitializeOnLoad]
-    #endif
+#endif
     public class MixtureDebugPanel
     {
-        static MixtureDebugPanel() => LoadDebugPanel();
+#if UNITY_EDITOR
+        static MixtureDebugPanel()
+        {
+            UnityEditor.EditorApplication.delayCall += LoadDebugPanel;
+        }
+#endif
 
         static DebugUI.Widget[] mixtureDebugItems;
         const string mixturePanel = "Mixture";
