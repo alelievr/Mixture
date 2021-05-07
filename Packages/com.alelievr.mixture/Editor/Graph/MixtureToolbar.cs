@@ -26,6 +26,7 @@ namespace Mixture
 			public static GUIContent bugReport = new GUIContent("Bug Report", MixtureEditorUtils.bugIcon);
 			public static GUIContent featureRequest = new GUIContent("Feature Request", MixtureEditorUtils.featureRequestIcon);
 			public static GUIContent improveMixture = new GUIContent("Improve Mixture", MixtureEditorUtils.featureRequestIcon);
+			public static GUIContent discord = new GUIContent("Discord", MixtureEditorUtils.discordIcon);
 			public static GUIContent focusText = new GUIContent("Fit View");
 			public static GUIContent settingsIcon = new GUIContent(MixtureEditorUtils.settingsIcon24);
 			static GUIStyle _improveButtonStyle = null;
@@ -72,7 +73,7 @@ namespace Mixture
 
 			public override Vector2 GetWindowSize()
 			{
-				return new Vector2(width, 94);
+				return new Vector2(width, 124);
 			}
 
 			public override void OnGUI(Rect rect)
@@ -83,6 +84,8 @@ namespace Mixture
 					Application.OpenURL(@"https://github.com/alelievr/Mixture/issues/new?assignees=alelievr&labels=bug&template=bug_report.md&title=%5BBUG%5D");
 				if (GUILayout.Button(Styles.featureRequest, Styles.improveButtonStyle))
 					Application.OpenURL(@"https://github.com/alelievr/Mixture/issues/new?assignees=alelievr&labels=enhancement&template=feature_request.md&title=");
+				if (GUILayout.Button(Styles.discord, Styles.improveButtonStyle))
+					Application.OpenURL(@"https://discord.gg/DGxZRP3qeg");
 			}
 		}
 
