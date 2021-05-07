@@ -9,6 +9,7 @@ using UnityEngine.Rendering;
 using System.Linq;
 using System;
 using UnityEngine.Profiling;
+using Mixture;
 
 #if UNITY_EDITOR
 [UnityEditor.InitializeOnLoad]
@@ -44,8 +45,23 @@ public static class CustomTextureManager
         UnityEditor.EditorApplication.update -= UpdateCRTsEditor;
         UnityEditor.EditorApplication.update += UpdateCRTsEditor;
 #else
-        RenderPipelineManager.beginFrameRendering -= UpdateCRTsRuntime;
-        RenderPipelineManager.beginFrameRendering += UpdateCRTsRuntime;
+        // Workaround for built-in renderer that don't have the RenderPipelineManager callbacks
+        if (GraphicsSettings.renderPipelineAsset == null)
+        {
+            // Avoid creating the updater twice
+            if (Resources.FindObjectsOfTypeAll<BuiltinRealtimeMixtureUpdater>().Length == 0)
+            {
+                var mixtureUpdateObject = new GameObject("Realtime Mixture Updater");
+                GameObject.DontDestroyOnLoad(mixtureUpdateObject);
+                var builtinUpdater = mixtureUpdateObject.AddComponent<BuiltinRealtimeMixtureUpdater>();
+                builtinUpdater.onPreRender += UpdateCRTsRuntime;
+            }
+        }
+        else
+        {
+            RenderPipelineManager.beginFrameRendering -= UpdateCRTsRuntime;
+            RenderPipelineManager.beginFrameRendering += UpdateCRTsRuntime;
+        }
 #endif
 
         GraphicsSettings.disableBuiltinCustomRenderTextureUpdate = true;
@@ -77,6 +93,16 @@ public static class CustomTextureManager
         UpdateDependencies();
 
         context.ExecuteCommandBuffer(MakeCRTCommandBuffer());
+    }
+
+    static void UpdateCRTsRuntime()
+    {
+        if (!GraphicsSettings.disableBuiltinCustomRenderTextureUpdate)
+            return;
+
+        UpdateDependencies();
+
+        Graphics.ExecuteCommandBuffer(MakeCRTCommandBuffer());
     }
 
     static CommandBuffer MakeCRTCommandBuffer()
