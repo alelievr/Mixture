@@ -1,38 +1,254 @@
-// Each #kernel tells which function to compile; you can have many kernels
-#pragma kernel CSMain
-#pragma kernel Preview
+#pragma kernel Advect 
+#pragma kernel AdvectVelocity 
+#pragma kernel ApplyBuoyancy 
+#pragma kernel GaussImpulse 
+#pragma kernel ComputeVorticity 
+#pragma kernel ComputeConfinement 
+#pragma kernel ComputeDivergence 
+#pragma kernel ComputePressure 
+#pragma kernel ComputeProjection 
+#pragma kernel SetBounds 
+
+#pragma enable_d3d11_debug_symbols
 
 // Include utility stuff to handle multi-dimension input textures
 #include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureComputeUtils.hlsl"
+#define FLUID_3D
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/FluidSimulation.hlsl"
 
-// By default all RW* structs (RWTexture, RWBuffer, etc) will appear as outputs in the node
-// If you don't want this behaviour, you can prefix your variable with '__',
-// it will prevent the property to show up in the code input/outputs.
-// Note that every property declared after a function won't be visible in the node UI.
+RWTexture2D<float4> _Fluid;
+Texture2D<float4> _FluidPreviousFrame;
+uint3 _TextureSize;
 
-Texture2D<float4> _Input;
 
-RWTexture2D<float4> _Output;
+float4 _Size, _Up, _Pos;
+float _DeltaTime, _Dissipate, _Decay;
+float _AmbientTemperature, _Buoyancy, _Weight;
+float _Radius, _Amount;
+float _Epsilon;
 
-float __Hidden;
+// TODO: move this to 2D and make a macro file that can work with both 2D and 3D maybe?
+// Cubemap not supported because we can't write to a cubemap with compute shaders :(
+
+// TODO: simplify all those textures
+Texture3D<float3> _VelocityR;
+RWTexture3D<float3> _VelocityW;
+RWTexture3D<float> _Obstacles;
+Texture3D<float> _ObstaclesR;
+Texture3D<float> _Pressure;
+Texture3D<float> _Divergence;
+
+RWTexture3D<float> _Write1f;
+Texture3D<float> _Read1f;
+
+RWTexture3D<float3> _Write3f;
+Texture3D<float3> _Read3f;
+
+RWTexture3D<float3> _Write;
+Texture3D<float> _Density, _Temperature;
+
+Texture3D<float3> _Read, _Reaction;
+
+Texture3D<float3> _Vorticity;
+
+// float3 GetAdvectedPosTexCoords(float3 pos, int3 id)
+// {
+//     pos -= _DeltaTime * _VelocityR[id];
+
+//     // position to UV
+//     return pos / _Size.xyz + 0.5 / _Size.xyz;
+// }
 
 [numthreads(8,8,1)]
-void CSMain (uint3 id : SV_DispatchThreadID)
+void AdvectVelocity(uint3 id : SV_DispatchThreadID)
 {
-    float4 input = _Input[id.xy];
+	if(_Obstacles[id] > 0.1)
+	{
+		 _Write3f[id] = float3(0,0,0);
+		 return;
+	}
 
-    // Insert your code here
+    AdvectBuffer(_Read3f, _VelocityR, _Write3f, id, _Dissipate, _DeltaTime, _Size.xyz);
 
-    _Output[id.xy] = input;
+	// float3 uv = GetAdvectedPosTexCoords(id, id);
+
+   	// _Write3f[id] = _Read3f.SampleLevel(s_linear_clamp_sampler, uv, 0) * _Dissipate;
 }
 
-// This will be used for the preview Texture in the node
-RWTexture2D<float4> _Preview;
-float4 _PreviewResolution; // xy is the pixel resolution and zw is 1 / xy
-
-[numthreads(8, 8, 1)]
-void Preview(uint3 id : SV_DispatchThreadID)
+// TODO: add other types of advection (BFECC amd Mac Cormack)
+[numthreads(8,8,1)]
+void Advect(uint3 id : SV_DispatchThreadID)
 {
-    // You can insert custom preview code here
-    _Preview[id.xy] = _Output[id.xy];
+	if(_Obstacles[id] > 0.1)
+	{
+		 _Write1f[id] = 0;
+		 return;
+	}
+
+    AdvectBuffer(_Read1f, _VelocityR, _Write1f, id, _Dissipate - _Decay, _DeltaTime, _Size.xyz);
+	// float3 uv = GetAdvectedPosTexCoords(id, id);
+			
+   	// _Write1f[id] = max(0, _Read1f.SampleLevel(s_linear_clamp_sampler, uv, 0) * _Dissipate - _Decay);
+}
+
+// This adds density into the simulation
+// TODO: make this an input of the node (density)
+[numthreads(8,8,1)]
+void GaussImpulse(uint3 id : SV_DispatchThreadID)
+{
+
+	float3 pos = id/(_Size.xyz-1.0f) - _Pos.xyz;
+	float mag = pos.x*pos.x + pos.y*pos.y + pos.z*pos.z;
+	float rad2 = _Radius*_Radius;
+	
+	float amount = exp(-mag/rad2) * _Amount * _DeltaTime;
+    _Write[id] = _Read[id] + amount;
+}
+
+[numthreads(8,8,1)]
+void SetBounds(uint3 id : SV_DispatchThreadID)
+{
+    if (any(id == 0 || id == uint3(_Size.xyz - 1)))
+        _Obstacles[id] = 1;
+    else
+        _Obstacles[id] = 0;
+}
+
+// TODO: make this optional
+[numthreads(8,8,1)]
+void ApplyBuoyancy(int3 id : SV_DispatchThreadID)
+{
+    float T = _Temperature[id];
+    float D = _Density[id];
+    float3 V = _VelocityR[id];
+    
+    if(T > _AmbientTemperature)
+    	V += (_DeltaTime * (T - _AmbientTemperature) * _Buoyancy - D * _Weight) * _Up.xyz;
+    
+    _Write[id] = V;
+}
+
+void ComputeNeighbourPositions(int3 id, out int3 idxL, out int3 idxR, out int3 idxB, out int3 idxT, out int3 idxD, out int3 idxU)
+{
+    idxL = int3(max(0, id.x-1), id.y, id.z);
+    idxR = int3(min(_Size.x-1, id.x+1), id.y, id.z);
+
+    idxB = int3(id.x, max(0, id.y-1), id.z);
+    idxT = int3(id.x, min(_Size.y-1, id.y+1), id.z);
+
+    idxD = int3(id.x, id.y, max(0, id.z-1));
+    idxU = int3(id.x, id.y, min(_Size.z-1, id.z+1));
+}
+
+[numthreads(8,8,1)]
+void ComputeVorticity(int3 id : SV_DispatchThreadID)
+{
+    // TODO: remove epsilon as param
+    Vorticity(id, _Size, _VelocityR, _Write, _DeltaTime, _Epsilon);
+    // int3 idxL, idxR, idxB, idxT, idxD, idxU;
+    // ComputeNeighbourPositions(id, idxL, idxR, idxB, idxT, idxD, idxU);
+
+	// float3 L = _VelocityR[ idxL ];
+    // float3 R = _VelocityR[ idxR ];
+    
+    // float3 B = _VelocityR[ idxB ];
+    // float3 T = _VelocityR[ idxT ];
+    
+    // float3 D = _VelocityR[ idxD ];
+    // float3 U = _VelocityR[ idxU ];
+    
+    // float3 vorticity = 0.5 * float3( (( T.z - B.z ) - ( U.y - D.y )) , (( U.x - D.x ) - ( R.z - L.z )) , (( R.y - L.y ) - ( T.x - B.x )) );
+			
+    // _Write[id] = vorticity;
+}
+
+[numthreads(8,8,1)]
+void ComputeConfinement(int3 id : SV_DispatchThreadID)
+{
+    VelocityConfinment(id, _Size, _Vorticity, _Read, _Write, _DeltaTime, _Epsilon);
+    // int3 idxL, idxR, idxB, idxT, idxD, idxU;
+    // ComputeNeighbourPositions(id, idxL, idxR, idxB, idxT, idxD, idxU);
+    
+	// float omegaL = length(_Vorticity[ idxL ]);
+    // float omegaR = length(_Vorticity[ idxR ]);
+    
+    // float omegaB = length(_Vorticity[ idxB ]);
+    // float omegaT = length(_Vorticity[ idxT ]);
+    
+    // float omegaD = length(_Vorticity[ idxD ]);
+    // float omegaU = length(_Vorticity[ idxU ]);
+    
+    // float3 omega = _Vorticity[id];
+    
+    // float3 eta = 0.5 * float3( omegaR - omegaL, omegaT - omegaB, omegaU - omegaD );
+
+    // eta = normalize( eta + float3(0.001,0.001,0.001) );
+    
+    // float3 force = _DeltaTime * _Epsilon * float3( eta.y * omega.z - eta.z * omega.y, eta.z * omega.x - eta.x * omega.z, eta.x * omega.y - eta.y * omega.x );
+	
+    // _Write[id] = _Read[id] + force;
+}
+
+// TODO: move that to another file, and maybe we can merge all those similar functions
+[numthreads(8,8,1)]
+void ComputeDivergence(int3 id : SV_DispatchThreadID)
+{
+    Divergence(id, _Size, _VelocityR, _ObstaclesR, _Write1f);
+    // int3 idxL, idxR, idxB, idxT, idxD, idxU;
+    // ComputeNeighbourPositions(id, idxL, idxR, idxB, idxT, idxD, idxU);
+    
+	// float3 L = _VelocityR[ idxL ];
+    // float3 R = _VelocityR[ idxR ];
+    
+    // float3 B = _VelocityR[ idxB ];
+    // float3 T = _VelocityR[ idxT ];
+    
+    // float3 D = _VelocityR[ idxD ];
+    // float3 U = _VelocityR[ idxU ];
+    
+    // float3 obstacleVelocity = float3(0,0,0);
+    
+    // if(_Obstacles[idxL] > 0.1) L = obstacleVelocity;
+    // if(_Obstacles[idxR] > 0.1) R = obstacleVelocity;
+    
+    // if(_Obstacles[idxB] > 0.1) B = obstacleVelocity;
+    // if(_Obstacles[idxT] > 0.1) T = obstacleVelocity;
+    
+    // if(_Obstacles[idxD] > 0.1) D = obstacleVelocity;
+    // if(_Obstacles[idxU] > 0.1) U = obstacleVelocity;
+    
+    // float divergence =  0.5 * ( ( R.x - L.x ) + ( T.y - B.y ) + ( U.z - D.z ) );
+    
+    // _Write1f[id] = divergence;
+}
+
+[numthreads(8,8,1)]
+void ComputePressure(int3 id : SV_DispatchThreadID)
+{
+    Pressure(id, _Size, _Pressure, _ObstaclesR, _Divergence, _Write1f);
+    // float L, R, B, T, D, U;
+    // float3 unused;
+    // LoadPressureNeighbours(id, L, R, B, T, D, U, unused);
+
+    // float divergence = _Divergence[id];
+    // _Write1f[id] = ( L + R + B + T + U + D - divergence ) / 6.0;
+}
+
+[numthreads(8,8,1)]
+void ComputeProjection(int3 id : SV_DispatchThreadID)
+{
+    Project(id, _Size, _Pressure, _ObstaclesR, _VelocityR, _Write);
+	// if(_Obstacles[id] > 0.1)
+	// {
+	// 	 _Write[id] = float3(0,0,0);
+	// 	 return;
+	// }
+
+    // float L, R, B, T, D, U;
+    // float3 mask = float3(1,1,1);
+    // LoadPressureNeighbours(id, L, R, B, T, D, U, mask);
+
+    // float3 v = _VelocityR[id] - float3( R - L, T - B, U - D ) * 0.5;
+    
+    // _Write[id] = v * mask;
 }
