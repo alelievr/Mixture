@@ -272,4 +272,22 @@ void Project(int3 id, int3 size, Texture3D<float> pressureR, Texture3D<float> ob
     velocityW[id] = v * mask;
 }
 
+void Project(int2 id, int2 size, Texture2D<float> pressureR, Texture2D<float> obstacles, Texture2D<float2> velocityR, RWTexture2D<float2> velocityW)
+{
+	if(obstacles[id] > 0.1)
+	{
+		 velocityW[id] = float2(0,0);
+		 return;
+	}
+
+    float L, R, B, T;
+    float2 mask = float2(1,1);
+    LoadPressureNeighbours(id, size, pressureR, obstacles, L, R, B, T, mask);
+
+    float2 v = velocityR[id] - float2( R - L, T - B ) * 0.5;
+
+    velocityW[id] = v * mask;
+}
+
+
 #endif // FLUID_SIMULATION

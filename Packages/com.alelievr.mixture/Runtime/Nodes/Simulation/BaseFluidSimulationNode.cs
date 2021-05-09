@@ -7,62 +7,42 @@ using GraphProcessor;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Simulation/2D Fluid")]
-	public class Fluid2DNode : BaseFluidSimulationNode 
+	[System.Serializable]
+	public class BaseFluidSimulationNode : ComputeShaderNode 
 	{
-		[Input]
-		public Texture density;
+		public enum BorderMode
+		{
+			Borders,
+			NoBorders,
+			Tile,
+		}
 
-		[Input]
-		public Texture velocity;
-		
-		[Output]
-		public Texture output;
+		public float simulationSpeed;
 
+		[ShowInInspector]
 		public BorderMode borderMode;
-
-		public float viscosity;
-
-		// TODO: expose these settings as presets (water, smoke, ect...)
-		public int m_iterations = 10;
-		public float m_vorticityStrength = 1.0f;
-		public float m_densityAmount = 1.0f;
-		public float m_densityDissipation = 0.999f;
-		public float m_densityBuoyancy = 1.0f;
-		public float m_densityWeight = 0.0125f;
-		public float m_temperatureAmount = 10.0f;
-		public float m_temperatureDissipation = 0.995f;
-		public float m_velocityDissipation = 0.995f;
-		public float m_inputRadius = 0.04f;
-		float m_ambientTemperature = 0.0f;
-		public Vector4 m_inputPos = new Vector4(0.5f,0.1f,0.5f,0.0f);
-		// [Output]
-		// public Texture vectorField;
-		// [Output]
-		// public Texture outputDensity;
 
 		CustomRenderTexture fluidBuffer;
 
 		public override string name => "2D Fluid";
 
-		protected override string computeShaderResourcePath => "Mixture/Fluid2D";
-
 		public override bool showDefaultInspector => true;
 		public override Texture previewTexture => output;
 
-		// protected override MixtureSettings defaultRTSettings {
-		// 	get
-		// 	{
-		// 		var settings = Get2DOnlyRTSettings(base.defaultRTSettings);
-		// 		settings.editFlags &= ~(EditFlags.Format);
+		protected override MixtureSettings defaultRTSettings {
+			get
+			{
+				var settings = base.defaultRTSettings;
+				settings.editFlags &= ~(EditFlags.Format);
 
-		// 		return settings;
-		// 	}
-		// }
+				return settings;
+			}
+		}
 
-		// public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
-		// 	OutputDimension.Texture2D,
-		// };
+		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
+			OutputDimension.Texture2D,
+			OutputDimension.Texture3D,
+		};
 
 		// For now only available in realtime mixtures, we'll see later for static with a spritesheet mode maybe
 		[IsCompatibleWithGraph]
@@ -82,135 +62,25 @@ namespace Mixture
 
 		Vector3 m_size;
 
-		RenderTexture[] m_density, m_velocity, m_pressure, m_temperature;
-		RenderTexture m_temp3f, m_obstacles;
-
-		RenderTexture AllocateRenderTexture(string name, GraphicsFormat format)
-		{
-			var rt = new RenderTexture(rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), 0, format)
-			{
-				name = name,
-				enableRandomWrite = true,
-				volumeDepth = rtSettings.GetDepth(graph),
-				dimension = TextureDimension.Tex3D,
-				hideFlags = HideFlags.HideAndDontSave,
-			};
-
-			for (int i = 0; i < rtSettings.GetDepth(graph); i++)
-				Graphics.Blit(Texture2D.blackTexture, rt, 0, i);
-
-			return rt;
-		}
-
         protected override void Enable()
         {
 			base.Enable();
 
+            // TODO: use this buffer!
 			rtSettings.doubleBuffered = true;
 			rtSettings.outputChannels = OutputChannel.RGBA;
 			UpdateTempRenderTexture(ref fluidBuffer);
-
-			m_density = new RenderTexture[2];
-			m_density[READ] = AllocateRenderTexture("densityR", GraphicsFormat.R16_SFloat);
-			m_density[WRITE] = AllocateRenderTexture("densityW", GraphicsFormat.R16_SFloat);
-			
-			m_temperature = new RenderTexture[2];
-			m_temperature[READ] = AllocateRenderTexture("temperatureR", GraphicsFormat.R16_SFloat);
-			m_temperature[WRITE] = AllocateRenderTexture("temperatureW", GraphicsFormat.R16_SFloat);
-			
-			m_velocity = new RenderTexture[2];
-			m_velocity[READ] = AllocateRenderTexture("velocityR", GraphicsFormat.R16G16B16A16_SFloat);
-			m_velocity[WRITE] = AllocateRenderTexture("velocityW", GraphicsFormat.R16G16B16A16_SFloat);
-			
-			m_pressure = new RenderTexture[2];
-			m_pressure[READ] = AllocateRenderTexture("pressureR", GraphicsFormat.R16_SFloat);
-			m_pressure[WRITE] = AllocateRenderTexture("pressureW", GraphicsFormat.R16_SFloat);
-			
-			m_obstacles = AllocateRenderTexture("Obstacles", GraphicsFormat.R8_SNorm);
-
-			m_temp3f = AllocateRenderTexture("Temp", GraphicsFormat.R16G16B16A16_SFloat);
-
-			// Find all kernels:
-			advectKernel = computeShader.FindKernel("Advect");
-			advectVelocityKernel = computeShader.FindKernel("AdvectVelocity");
-			applyBuoyancyKernel = computeShader.FindKernel("ApplyBuoyancy");
-			gaussImpulseKernel = computeShader.FindKernel("GaussImpulse");
-			computeVorticityKernel = computeShader.FindKernel("ComputeVorticity");
-			computeConfinementKernel = computeShader.FindKernel("ComputeConfinement");
-			computeDivergenceKernel = computeShader.FindKernel("ComputeDivergence");
-			computePressureKernel = computeShader.FindKernel("ComputePressure");
-			computeProjectionKernel = computeShader.FindKernel("ComputeProjection");
-			setBoundsKernel = computeShader.FindKernel("SetBounds");
         }
 
-        protected override void Disable()
-        {
-			base.Disable();
-
-			m_density[READ].Release();
-			m_density[WRITE].Release();
-			
-			m_temperature[READ].Release();
-			m_temperature[WRITE].Release();
-			
-			m_velocity[READ].Release();
-			m_velocity[WRITE].Release();
-			
-			m_pressure[READ].Release();
-			m_pressure[WRITE].Release();
-			
-			m_obstacles.Release();
-			
-			m_temp3f.Release();
-        }
-
-		// Source: GPU Gems 3 ch 38: Fast Fluid Dynamics Simulation on the GPU
-		// and https://github.com/Scrawk/GPU-GEMS-3D-Fluid-Simulation
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			if (!base.ProcessNode(cmd))
 				return false;
 
-			output = m_density[READ];
-
 			m_size = new Vector3(rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), rtSettings.GetDepth(graph));
 
-			UpdateTempRenderTexture(ref fluidBuffer);
-
-			ComputeObstacles(cmd);
-
-			// TODO: exposed parameter (time step)
-			float dt = 0.1f;
-			
-			//First off advect any buffers that contain physical quantities like density or temperature by the 
-			//velocity field. Advection is what moves values around.
-			ApplyAdvection(cmd, dt, m_temperatureDissipation, 0.0f, m_temperature);
-			ApplyAdvection(cmd, dt, m_densityDissipation, 0.0f, m_density);
-
-			//The velocity field also advects its self. 
-			ApplyAdvectionVelocity(cmd, dt);
-			
-			//Apply the effect the sinking colder smoke has on the velocity field
-			ApplyBuoyancy(cmd, dt);
-			
-			//Adds a certain amount of density (the visible smoke) and temperate
-			ApplyImpulse(cmd, dt, m_densityAmount, m_density);
-			ApplyImpulse(cmd, dt,  m_temperatureAmount, m_temperature);
-			
-			//The fuild sim math tends to remove the swirling movement of fluids.
-			//This step will try and add it back in
-			ComputeVorticityConfinement(cmd, dt);
-			
-			//Compute the divergence of the velocity field. In fluid simulation the
-			//fluid is modelled as being incompressible meaning that the volume of the fluid
-			//does not change over time. The divergence is the amount the field has deviated from being divergence free
-			ComputeDivergence(cmd);
-			
-			//This computes the pressure need return the fluid to a divergence free condition
-			ComputePressure(cmd);
-			
-			//Subtract the pressure field from the velocity field enforcing the divergence free conditions
-			ComputeProjection(cmd);
+            // Set size and epsilon
+            cmd.SetComputeVectorParam(computeShader, "_Size", m_size);
 
 			return true;
 		}
@@ -227,11 +97,10 @@ namespace Mixture
 			buffer[WRITE] = tmp;
 		}
 
-		// TODO: replace all Set* by command buffer version
-		void ComputeObstacles(CommandBuffer cmd)
+		void ComputeObstacles(CommandBuffer cmd, RenderTexture obstacles)
 		{
 			cmd.SetComputeVectorParam(computeShader, "_Size", m_size);
-			cmd.SetComputeTextureParam(computeShader, setBoundsKernel, "_Obstacles", m_obstacles);
+			cmd.SetComputeTextureParam(computeShader, setBoundsKernel, "_Obstacles", obstacles);
 			DispatchCompute(cmd, setBoundsKernel, (int)m_size.x, (int)m_size.y, (int)m_size.z);
 		}
 	
