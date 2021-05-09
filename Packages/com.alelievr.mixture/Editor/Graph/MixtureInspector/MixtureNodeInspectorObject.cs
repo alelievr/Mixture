@@ -111,6 +111,11 @@ namespace Mixture
             mixtureInspector = target as MixtureNodeInspectorObject;
 
             nodeInspectorFoldout = Resources.Load("UI Blocks/InspectorNodeFoldout") as VisualTreeAsset;
+
+            // There is a really weird issue where the resources.Load returns null when building a player
+            if (nodeInspectorFoldout == null)
+                return;
+
             nodeInspectorFoldout.hideFlags = HideFlags.HideAndDontSave;
 
             base.OnEnable();
