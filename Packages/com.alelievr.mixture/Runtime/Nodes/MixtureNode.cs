@@ -63,20 +63,19 @@ namespace Mixture
 		[HideInInspector]
 		public bool	isPinned;
 
-		CustomSampler		_sampler;
+		CustomSampler		_sampler = null;
 		CustomSampler		sampler
 		{
 			get
 			{
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 				if (_sampler == null)
 				{
 					_sampler = CustomSampler.Create($"{name} - {GetHashCode()}" , true);
-					recorder = sampler.GetRecorder();
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+					recorder = _sampler.GetRecorder();
 					recorder.enabled = true;
-#endif
 				}
-
+#endif
 				return _sampler;
 			}
 		}
@@ -283,9 +282,11 @@ namespace Mixture
 				ProcessNode(cmd);
 			else
 			{
-				cmd.BeginSample(sampler);
+				if (sampler != null) // samplers are null in non-dev builds
+					cmd.BeginSample(sampler);
 				ProcessNode(cmd);
-				cmd.EndSample(sampler);
+				if (sampler != null) // samplers are null in non-dev builds
+					cmd.EndSample(sampler);
 			}
 			afterProcessCleanup?.Invoke();
 		}
