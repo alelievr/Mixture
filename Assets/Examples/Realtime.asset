@@ -36,7 +36,7 @@ Material:
     - _Frequency: 2
     - _Lacunarity: 2
     - _Octaves: 4
-    - _Persistance: 0.00020801126
+    - _Persistance: 0.54992366
     - _Seed: 42
     - _TilingMode: 1
     - _UVMode: 0
@@ -61,7 +61,6 @@ MonoBehaviour:
   - id: 1
   - id: 2
   - id: 3
-  - id: 4
   edges:
   - GUID: a036f0bd-ea59-43a6-849e-214a768ed5a4
     owner: {fileID: 11400000}
@@ -71,14 +70,6 @@ MonoBehaviour:
     outputFieldName: sinTime
     inputPortIdentifier: 
     outputPortIdentifier: 
-  - GUID: d0200a7b-ddf5-414c-a11a-91f61abfdea3
-    owner: {fileID: 11400000}
-    inputNodeGUID: 691aa737-9a89-40dd-b56d-201a248e396d
-    outputNodeGUID: dfc885c4-25f9-483c-b217-26a7e7d1480a
-    inputFieldName: outputTextureSettings
-    outputFieldName: output
-    inputPortIdentifier: Main Texture
-    outputPortIdentifier: 0
   - GUID: 76114e24-b403-4111-be12-2af3703487ec
     owner: {fileID: 11400000}
     inputNodeGUID: 45b55e43-50ed-49df-b940-105b197c4bb0
@@ -87,6 +78,14 @@ MonoBehaviour:
     outputFieldName: o
     inputPortIdentifier: _Persistance
     outputPortIdentifier: 
+  - GUID: e72d951d-7b9e-46f6-a11a-e7bb0556d641
+    owner: {fileID: 11400000}
+    inputNodeGUID: 691aa737-9a89-40dd-b56d-201a248e396d
+    outputNodeGUID: 45b55e43-50ed-49df-b940-105b197c4bb0
+    inputFieldName: outputTextureSettings
+    outputFieldName: output
+    inputPortIdentifier: Main Texture
+    outputPortIdentifier: output
   groups: []
   stackNodes: []
   pinnedElements:
@@ -101,10 +100,10 @@ MonoBehaviour:
       serializedType: Mixture.MixtureParameterView, Unity.ShaderGraph.GraphicsTests,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters:
-  - id: 5
+  - id: 4
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 1039, y: 416, z: 0}
+  position: {x: 789, y: 410, z: 0}
   scale: {x: 0.7561437, y: 0.7561437, z: 1}
   version: 0
   type: 1
@@ -125,8 +124,9 @@ MonoBehaviour:
     00000000:
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 691aa737-9a89-40dd-b56d-201a248e396d
-        computeOrder: 1
+        computeOrder: 3
         position:
           serializedVersion: 2
           x: 162.25218
@@ -178,8 +178,9 @@ MonoBehaviour:
     00000001:
       type: {class: RidgedPerlinNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 45b55e43-50ed-49df-b940-105b197c4bb0
-        computeOrder: 4
+        computeOrder: 2
         position:
           serializedVersion: 2
           x: -194.60869
@@ -285,8 +286,9 @@ MonoBehaviour:
     00000002:
       type: {class: TimeNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 3fd32b5b-8edd-4948-a1ef-e34f4d5d42dc
-        computeOrder: 2
+        computeOrder: 0
         position:
           serializedVersion: 2
           x: -842.65234
@@ -326,8 +328,9 @@ MonoBehaviour:
     00000003:
       type: {class: VectorRemapNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
-        computeOrder: 3
+        computeOrder: 1
         position:
           serializedVersion: 2
           x: -705.6523
@@ -364,30 +367,13 @@ MonoBehaviour:
         previewEV100: 0
         previewSlice: 0
         isPinned: 0
-        a: {x: -0.9994057, y: -0.9994057, z: -0.9994057, w: -0.9994057}
-        o: {x: 0.00020801126, y: 0.00020801126, z: 0.00020801126, w: 0.00020801126}
+        a: {x: 0.5712105, y: 0.5712105, z: 0.5712105, w: 0.5712105}
+        o: {x: 0.54992366, y: 0.54992366, z: 0.54992366, w: 0.54992366}
         inputMin: -1
         inputMax: 1
         outputMin: 0
         outputMax: 0.7
     00000004:
-      type: {class: RelayNode, ns: , asm: com.alelievr.NodeGraphProcessor.Runtime}
-      data:
-        GUID: dfc885c4-25f9-483c-b217-26a7e7d1480a
-        computeOrder: 0
-        position:
-          serializedVersion: 2
-          x: 84.82607
-          y: 18.4348
-          width: 200
-          height: 200
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        unpackOutput: 0
-        packInput: 0
-        inputEdgeCount: 0
-    00000005:
       type: {class: IntParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
       data:
         guid: 80428b56-fbee-41f0-b28d-e77bb483e1bf
@@ -399,9 +385,9 @@ MonoBehaviour:
           serializedValue: 
         input: 1
         settings:
-          id: 6
+          id: 5
         val: 2
-    00000006:
+    00000005:
       type: {class: IntParameter/IntSettings, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
       data:
         isHidden: 0
