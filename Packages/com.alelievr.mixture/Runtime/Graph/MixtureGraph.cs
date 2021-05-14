@@ -134,10 +134,7 @@ namespace Mixture
 
 			// We should have only one OutputNode per graph
 			if (type != MixtureGraphType.Behaviour && outputNode == null)
-            {
 				outputNode = AddNode(BaseNode.CreateFromType< OutputNode >(Vector2.zero)) as OutputNode;
-                Debug.Log("Create new output node!");
-            }
 
 #if UNITY_EDITOR
             // TODO: check if the asset is in a Resources folder for realtime and put a warning if it's not the case
@@ -295,7 +292,9 @@ namespace Mixture
                 }
             }
 
-            AssetDatabase.ImportAsset(mainAssetPath);
+            // Do not reimport the graph during saving because it can mess up everything if TMP is installed
+            // There are post processors that unload the mixture assets in TMP package :(
+            AssetDatabase.SaveAssets();
         }
 
         void UpdateTextureAssetOnDisk(Texture newTexture, bool main = false)
