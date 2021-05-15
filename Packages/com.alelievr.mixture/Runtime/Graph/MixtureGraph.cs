@@ -365,7 +365,8 @@ namespace Mixture
             {
                 bool matchTextureSettings = currentTexture.dimension == (TextureDimension)s.dimension
                     && currentTexture.width == s.width && currentTexture.height == s.height
-                    && (currentTexture.mipmapCount > 1) == outputSettings.hasMipMaps;
+                    && (currentTexture.mipmapCount > 1) == outputSettings.hasMipMaps
+                    && currentTexture.GetType() == s.GetType();
 
                 bool conversionOrCompression = outputSettings.IsCompressionEnabled() || outputSettings.IsConversionEnabled();
                 matchTextureSettings &= conversionOrCompression || (!conversionOrCompression && currentTexture.graphicsFormat == s.graphicsFormat);

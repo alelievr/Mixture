@@ -28,6 +28,8 @@ namespace Mixture
 			MixtureGraph graph;
 			if (mixtureAssets.TryGetValue(assetGUID, out graph))
 			{
+				if (graph.mainOutputTexture == null)
+					return ;
 				DrawMixtureSmallIcon(rect, graph, Selection.Contains(graph.mainOutputTexture));
 				return ;
 			}
