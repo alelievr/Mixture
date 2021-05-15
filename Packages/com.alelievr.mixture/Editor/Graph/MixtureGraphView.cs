@@ -23,6 +23,10 @@ namespace Mixture
 			Undo.undoRedoPerformed += ReloadGraph;
 			nodeDuplicated += OnNodeDuplicated;
 
+			RegisterCallback<DetachFromPanelEvent>(e => {
+				Undo.undoRedoPerformed -= ReloadGraph;
+			});
+
 			SetupZoom(0.05f, 32f);
 		}
 
