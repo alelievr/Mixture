@@ -45,6 +45,7 @@ namespace Mixture
         MixtureSettings     settings;
         MixtureGraph        graph;
         string              title;
+        bool                showInheritanceValue;
 
         // TODO: Avoid user to pick unavailable texture formats:
         enum SRGBOutputChannels
@@ -53,12 +54,13 @@ namespace Mixture
             // R = OutputChannel.R,
         }
 
-        public MixtureSettingsView(MixtureSettings settings, MixtureGraphView owner, string title = "Node Output Settings")
+        public MixtureSettingsView(MixtureSettings settings, MixtureGraphView owner, string title = "Node Output Settings", bool showInheritanceValue = true)
         {
             this.graph = owner.graph as MixtureGraph;
             this.settings = settings;
             this.owner = owner;
             this.title = title;
+            this.showInheritanceValue = showInheritanceValue;
 
 			var stylesheet = Resources.Load<StyleSheet>("MixtureCommon");
             styleSheets.Add(stylesheet);
@@ -298,7 +300,7 @@ namespace Mixture
 
             UpdateFieldVisibility(settings);
 
-			if (owner.graph.type == MixtureGraphType.Realtime)
+			if (owner.graph.type == MixtureGraphType.Realtime && showInheritanceValue)
             {
                 // Realtime fields and refresh mode
                 otherHeader = new Label("Other");

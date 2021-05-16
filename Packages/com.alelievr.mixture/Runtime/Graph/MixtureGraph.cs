@@ -213,7 +213,7 @@ namespace Mixture
             if ((int)settings.filterMode <= 0)
                 settings.filterMode = OutputFilterMode.Trilinear;
 
-            settings.editFlags = EditFlags.TargetFormat; 
+            settings.editFlags = EditFlags.TargetFormat;
         }
 
 		public List< Object >		GetObjectsReferences()

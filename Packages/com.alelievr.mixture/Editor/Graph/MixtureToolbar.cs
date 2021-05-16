@@ -118,7 +118,7 @@ namespace Mixture
 
             public override void OnOpen()
             {
-				var settingsView = new MixtureSettingsView(graphView.graph.settings, graphView, "Graph Settings");
+				var settingsView = new MixtureSettingsView(graphView.graph.settings, graphView, "Graph Settings", false);
 				settingsView.AddToClassList("RTSettingsView");
 				settingsView.style.height = new StyleLength(new Length(100, LengthUnit.Percent));
 				editorWindow.rootVisualElement.Add(settingsView);
