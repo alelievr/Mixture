@@ -208,9 +208,9 @@ namespace Mixture
                 settings.outputPrecision = OutputPrecision.Half;
             if ((int)settings.dimension <= 0)
                 settings.dimension = OutputDimension.Texture2D;
-            if ((int)settings.wrapMode <= 0)
+            if ((int)settings.wrapMode < 0)
                 settings.wrapMode = OutputWrapMode.Mirror;
-            if ((int)settings.filterMode <= 0)
+            if ((int)settings.filterMode < 0)
                 settings.filterMode = OutputFilterMode.Trilinear;
 
             settings.editFlags = EditFlags.TargetFormat;

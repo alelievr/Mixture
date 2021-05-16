@@ -652,9 +652,9 @@ namespace Mixture
 
 	public enum OutputWrapMode
 	{
-		InheritFromGraph = 0,
-		InheritFromParent = -1,
-		InheritFromChild = -2,
+		InheritFromGraph = -1,
+		InheritFromParent = -2,
+		InheritFromChild = -3,
 		Repeat = TextureWrapMode.Repeat,
 		Clamp = TextureWrapMode.Clamp,
 		Mirror = TextureWrapMode.Mirror,
@@ -663,9 +663,9 @@ namespace Mixture
 
 	public enum OutputFilterMode
 	{
-		InheritFromGraph = 0,
-		InheritFromParent = -1,
-		InheritFromChild = -2,
+		InheritFromGraph = -1,
+		InheritFromParent = -2,
+		InheritFromChild = -3,
 		Point = FilterMode.Point,
 		Bilinear = FilterMode.Bilinear,
 		Trilinear = FilterMode.Trilinear,

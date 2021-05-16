@@ -84,7 +84,7 @@ float GetOffset(float v1, float v2)
 void CreateVertex(float3 position, float3 centre, float3 size, int index)
 {
 	float3 pos = (position - centre);
-	_Vertices[index] = pos;
+	_Vertices[index] = half3(pos);
 	float3 uvw = (position / size);
 	uvw += rcp(_VolumeSize * 2.0);
 	// _Normals[index] = SAMPLE_TEXTURE3D_LOD(_NormalTexture, s_trilinear_clamp_sampler, uvw, 0);

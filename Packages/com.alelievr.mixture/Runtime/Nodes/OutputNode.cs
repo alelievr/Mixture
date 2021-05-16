@@ -154,20 +154,14 @@ namespace Mixture
 						onTempRenderTextureUpdated?.Invoke();
 					output.finalCopyRT = finalCopyRT;
 
+					UpdateTempRenderTexture(ref output.finalCopyRT, output.hasMipMaps);
+
 					// Only the main output CRT is marked as realtime because it's processing will automatically
 					// trigger the processing of it's graph, and thus all the outputs in the graph.
 					if (output.isMain)
 						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.Realtime;
 					else
 						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.OnDemand;
-					
-					if (output.finalCopyRT.dimension != settings.GetTextureDimension(graph))
-					{
-						output.finalCopyRT.Release();
-						output.finalCopyRT.depth = 0;
-						output.finalCopyRT.dimension = settings.GetTextureDimension(graph);
-						output.finalCopyRT.Create();
-					}
 				}
 				else
 				{
