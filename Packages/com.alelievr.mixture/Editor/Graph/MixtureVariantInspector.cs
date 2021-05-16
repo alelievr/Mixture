@@ -265,11 +265,11 @@ namespace Mixture
                     output = graph.outputNode.outputTextureSettings.First();
 
                 // Refresh the preview in the inspector:
-                var s = graph.outputNode.rtSettings;
+                var s = graph.outputNode.settings;
                 if (variantPreview.graphicsFormat != s.graphicsFormat
                     || variantPreview.height != s.height
                     || variantPreview.width != s.width
-                    || variantPreview.volumeDepth != s.sliceCount
+                    || variantPreview.volumeDepth != s.depth
                     || variantPreview.filterMode != s.filterMode
                     || variantPreview.wrapMode != s.wrapMode
                     || variantPreview.dimension != (TextureDimension)s.dimension
@@ -279,7 +279,7 @@ namespace Mixture
                     variantPreview.graphicsFormat = s.graphicsFormat;
                     variantPreview.width = s.width;
                     variantPreview.height = s.height;
-                    variantPreview.volumeDepth = s.sliceCount;
+                    variantPreview.volumeDepth = s.depth;
                     variantPreview.filterMode = s.filterMode;
                     variantPreview.wrapMode = s.wrapMode;
                     variantPreview.dimension = (TextureDimension)s.dimension;

@@ -26,31 +26,20 @@ namespace Mixture
 		[NonSerialized]
 		protected HashSet< string > uniqueMessages = new HashSet< string >();
 
-		protected override MixtureSettings defaultRTSettings
+		protected override MixtureSettings defaultSettings
         {
             get => new MixtureSettings()
             {
-                widthMode = OutputSizeMode.Fixed,
-                heightMode = OutputSizeMode.Fixed,
-                depthMode = OutputSizeMode.Fixed,
+                sizeMode = OutputSizeMode.Absolute,
 				outputChannels = OutputChannel.RGBA,
 				outputPrecision = OutputPrecision.Half,
 				potSize = POTSize._1024,
-                editFlags = EditFlags.POTSize | EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat
+                editFlags = EditFlags.POTSize | EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat | EditFlags.SizeMode
             };
         }
 
         protected override void Enable()
         {
-			// Sanitize the RT Settings for the output node, they must contains only valid information for the output node
-			if (rtSettings.outputChannels == OutputChannel.SameAsOutput)
-				rtSettings.outputChannels = OutputChannel.RGBA;
-			if (rtSettings.outputPrecision == OutputPrecision.SameAsOutput)
-				rtSettings.outputPrecision = OutputPrecision.Half;
-			if (rtSettings.dimension == OutputDimension.SameAsOutput)
-				rtSettings.dimension = OutputDimension.Texture2D;
-			rtSettings.editFlags |= EditFlags.POTSize;
-
 			// Checks that the output have always at least one element:
 			if (outputTextureSettings.Count == 0)
 				AddTextureOutput(OutputTextureSettings.Preset.Color);
@@ -98,6 +87,7 @@ namespace Mixture
 			}
 
 			outputTextureSettings.Add(output);
+			Debug.Log("Add output texture!");
 
 #if UNITY_EDITOR
 			if (graph.type == MixtureGraphType.Realtime)
@@ -110,6 +100,7 @@ namespace Mixture
 		public void RemoveTextureOutput(OutputTextureSettings settings)
 		{
 			outputTextureSettings.Remove(settings);
+			Debug.Log("Remove output texture!");
 
 #if UNITY_EDITOR
 			// When the graph is realtime, we don't have the save all button, so we call is automatically
@@ -144,9 +135,6 @@ namespace Mixture
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			if (graph == null) // Not good but, waiting to render graph refactor to clean up
-				return false;
-
 			if (graph.mainOutputTexture == null)
 			{
 				Debug.LogError("Output Node can't write to target texture, Graph references a null output texture");
@@ -172,11 +160,11 @@ namespace Mixture
 					else
 						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.OnDemand;
 					
-					if (output.finalCopyRT.dimension != rtSettings.GetTextureDimension(graph))
+					if (output.finalCopyRT.dimension != settings.GetTextureDimension(graph))
 					{
 						output.finalCopyRT.Release();
 						output.finalCopyRT.depth = 0;
-						output.finalCopyRT.dimension = rtSettings.GetTextureDimension(graph);
+						output.finalCopyRT.dimension = settings.GetTextureDimension(graph);
 						output.finalCopyRT.Create();
 					}
 				}
@@ -239,7 +227,7 @@ namespace Mixture
 			var input = targetOutput.inputTexture;
 			if (input != null)
 			{
-				if (input.dimension != (TextureDimension)rtSettings.dimension)
+				if (input.dimension != (TextureDimension)settings.dimension)
 				{
 					Debug.LogError("Error: Expected texture type input for the OutputNode is " + graph.mainOutputTexture.dimension + " but " + input?.dimension + " was provided");
 					return false;
@@ -266,7 +254,7 @@ namespace Mixture
 		[CustomPortBehavior(nameof(outputTextureSettings))]
 		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{
-			TextureDimension dim = (GetType() == typeof(ExternalOutputNode)) ? rtSettings.GetTextureDimension(graph) : (TextureDimension)rtSettings.dimension;
+			TextureDimension dim = (GetType() == typeof(ExternalOutputNode)) ? settings.GetTextureDimension(graph) : (TextureDimension)settings.dimension;
 			Type displayType = TextureUtils.GetTypeFromDimension(dim);
 
 			foreach (var output in outputTextureSettings)

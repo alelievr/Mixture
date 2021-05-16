@@ -17,7 +17,7 @@ namespace Mixture
 
 		protected override IEnumerable<string> filteredOutProperties => new string[]{ "_Starryness", "_Mode" };
 
-		protected override MixtureSettings defaultRTSettings => Get2DOnlyRTSettings(base.defaultRTSettings);
+		protected override MixtureSettings defaultSettings => Get2DOnlyRTSettings(base.defaultSettings);
 
 		// Override this if you node is not compatible with all dimensions
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {

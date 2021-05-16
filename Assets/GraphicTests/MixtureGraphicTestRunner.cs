@@ -69,7 +69,7 @@ Please re-run the test to ensure the reference image validity.");
             }
             else
             {
-                var settings = testCase.graph.outputNode.rtSettings;
+                var settings = testCase.graph.outputNode.settings;
                 Texture2D destination = new Texture2D(
                     settings.GetWidth(testCase.graph),
                     settings.GetHeight(testCase.graph),
@@ -101,7 +101,7 @@ Please re-run the test to ensure the reference image validity.");
             processor.Run();
 
             graph.outputNode.outputTextureSettings.First().enableCompression = false;
-            var settings = graph.outputNode.rtSettings;
+            var settings = graph.outputNode.settings;
             Texture2D destination = new Texture2D(
                 settings.GetWidth(graph),
                 settings.GetHeight(graph),

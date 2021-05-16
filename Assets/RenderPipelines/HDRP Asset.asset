@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cf1dab834d4ec34195b920ea7bbf9ec, type: 3}
   m_Name: HDRP Asset
   m_EditorClassIdentifier: 
-  m_Version: 16
+  m_Version: 18
   m_ObsoleteFrameSettings:
     overrides: 0
     enableShadow: 0
@@ -153,12 +153,14 @@ MonoBehaviour:
   m_RenderPipelineRayTracingResources: {fileID: 0}
   m_DefaultVolumeProfile: {fileID: 11400000, guid: 3676df03a8372fc44858b3905502a47b,
     type: 2}
+  m_LensAttenuation: 0
+  m_UseRenderGraph: 1
   m_DefaultLookDevProfile: {fileID: 11400000, guid: 254c4fe87beb7be4fa72e1681edbed02,
     type: 2}
   m_RenderingPathDefaultCameraFrameSettings:
     bitDatas:
       data1: 140649441492813
-      data2: 4539628425463136256
+      data2: 4539628425463136280
     lodBias: 1
     lodBiasMode: 0
     lodBiasQualityLevel: 0
@@ -172,7 +174,7 @@ MonoBehaviour:
   m_RenderingPathDefaultBakedOrCustomReflectionFrameSettings:
     bitDatas:
       data1: 135310787769165
-      data2: 4539628424389459968
+      data2: 4539628424389459992
     lodBias: 1
     lodBiasMode: 0
     lodBiasQualityLevel: 0
@@ -186,7 +188,7 @@ MonoBehaviour:
   m_RenderingPathDefaultRealtimeReflectionFrameSettings:
     bitDatas:
       data1: 140060864290637
-      data2: 4539628424657895424
+      data2: 4539628424657895448
     lodBias: 1
     lodBiasMode: 0
     lodBiasQualityLevel: 0
@@ -226,6 +228,10 @@ MonoBehaviour:
     supportCustomPass: 1
     customBufferFormat: 12
     supportedLitShaderMode: 1
+    planarReflectionResolution:
+      m_Values: 000100000004000000080000
+      m_SchemaId:
+        m_Id: With3Levels
     supportDecals: 1
     supportDecalLayers: 0
     decalLayerName0: Decal Layer default
@@ -239,6 +245,7 @@ MonoBehaviour:
     msaaSampleCount: 1
     supportMotionVectors: 1
     supportRuntimeDebugDisplay: 1
+    supportRuntimeAOVAPI: 0
     supportDitheringCrossFade: 1
     supportTerrainHole: 0
     supportProbeVolume: 0
@@ -256,6 +263,7 @@ MonoBehaviour:
       reflectionProbeCacheSize: 64
       reflectionCubemapSize: 256
       reflectionCacheCompressed: 0
+      reflectionProbeFormat: 74
       skyReflectionSize: 256
       skyLightingOverrideLayerMask:
         serializedVersion: 2
@@ -342,6 +350,7 @@ MonoBehaviour:
       MotionBlurSampleCount: 04000000080000000c000000
       BloomRes: 040000000200000002000000
       BloomHighQualityFiltering: 000101
+      BloomHighQualityPrefiltering: 000001
       ChromaticAberrationMaxSamples: 03000000060000000c000000
     lightSettings:
       useContactShadow:
@@ -418,6 +427,15 @@ MonoBehaviour:
       RTRFullResolution: 000001
       RTRDenoise: 010101
       RTRDenoiserRadius: 080000000c00000010000000
+      Fog_ControlMode: 000000000000000000000000
+      Fog_Budget:
+      - 0.166
+      - 0.33
+      - 0.666
+      Fog_DepthRatio:
+      - 0.666
+      - 0.666
+      - 0.5
   allowShaderVariantStripping: 1
   enableSRPBatcher: 1
   shaderVariantLogLevel: 0

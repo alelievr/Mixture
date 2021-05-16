@@ -8,6 +8,7 @@ using Object = UnityEngine.Object;
 using UnityEngine.Experimental.Rendering;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Rendering;
@@ -20,10 +21,10 @@ namespace Mixture
 	{
 		protected new MixtureGraph			graph => base.graph as MixtureGraph;
 
-		[HideInInspector]
-		public MixtureSettings			rtSettings;
+		[HideInInspector, FormerlySerializedAs("rtSettings")]
+		public MixtureSettings				settings;
 
-		protected virtual MixtureSettings	defaultRTSettings => MixtureSettings.defaultValue;
+		protected virtual MixtureSettings	defaultSettings => MixtureSettings.defaultValue;
 		public virtual float   				nodeWidth => MixtureUtils.defaultNodeWidth;
 		public virtual Texture				previewTexture => null;
 		public virtual bool					hasSettings => true;
@@ -79,6 +80,7 @@ namespace Mixture
 				return _sampler;
 			}
 		}
+
 		protected Recorder	recorder { get; private set; }
 
 		internal virtual float processingTimeInMillis
@@ -115,7 +117,7 @@ namespace Mixture
         public override void OnNodeCreated()
 		{
 			base.OnNodeCreated();
-			rtSettings = defaultRTSettings;
+			settings = defaultSettings;
 			previewMode = defaultPreviewChannels;
 		}
 
@@ -127,10 +129,10 @@ namespace Mixture
 				return false;
 
 			bool changed = false;
-			int outputWidth = rtSettings.GetWidth(graph);
-			int outputHeight = rtSettings.GetHeight(graph);
-			int outputDepth = rtSettings.GetDepth(graph);
-			GraphicsFormat targetFormat = overrideGraphicsFormat != GraphicsFormat.None ? overrideGraphicsFormat : rtSettings.GetGraphicsFormat(graph);
+			int outputWidth = settings.GetWidth(graph);
+			int outputHeight = settings.GetHeight(graph);
+			int outputDepth = settings.GetDepth(graph);
+			GraphicsFormat targetFormat = overrideGraphicsFormat != GraphicsFormat.None ? overrideGraphicsFormat : settings.GetGraphicsFormat(graph);
 			TextureDimension dimension = GetTempTextureDimension();
 
 			outputWidth = Mathf.Max(outputWidth, 1);
@@ -154,9 +156,9 @@ namespace Mixture
                     dimension = dimension,
                     name = $"Mixture Temp {name}",
                     updateMode = CustomRenderTextureUpdateMode.OnDemand,
-                    doubleBuffered = rtSettings.doubleBuffered,
-                    wrapMode = rtSettings.wrapMode,
-                    filterMode = rtSettings.filterMode,
+                    doubleBuffered = settings.doubleBuffered,
+                    wrapMode = settings.wrapMode,
+                    filterMode = settings.filterMode,
                     useMipMap = hasMips,
 					autoGenerateMips = autoGenerateMips,
 					enableRandomWrite = true,
@@ -177,9 +179,9 @@ namespace Mixture
 				|| target.graphicsFormat != targetFormat
 				|| target.dimension != dimension
 				|| target.volumeDepth != outputDepth
-				|| target.filterMode != rtSettings.filterMode
-				|| target.doubleBuffered != rtSettings.doubleBuffered
-                || target.wrapMode != rtSettings.wrapMode
+				|| target.filterMode != settings.filterMode
+				|| target.doubleBuffered != settings.doubleBuffered
+                || target.wrapMode != settings.wrapMode
 				|| target.useMipMap != hasMips
 				|| target.autoGenerateMips != autoGenerateMips
 				|| target.updatePeriod != GetUpdatePeriod())
@@ -190,9 +192,9 @@ namespace Mixture
 				target.graphicsFormat = (GraphicsFormat)targetFormat;
 				target.dimension = dimension;
 				target.volumeDepth = outputDepth;
-				target.doubleBuffered = rtSettings.doubleBuffered;
-                target.wrapMode = rtSettings.wrapMode;
-                target.filterMode = rtSettings.filterMode;
+				target.doubleBuffered = settings.doubleBuffered;
+                target.wrapMode = settings.wrapMode;
+                target.filterMode = settings.filterMode;
                 target.useMipMap = hasMips;
 				target.autoGenerateMips = autoGenerateMips;
 				target.enableRandomWrite = true;
@@ -225,18 +227,18 @@ namespace Mixture
 			return changed;
 		}
 
-		protected virtual TextureDimension GetTempTextureDimension() => rtSettings.GetTextureDimension(graph);
+		protected virtual TextureDimension GetTempTextureDimension() => settings.GetTextureDimension(graph);
 
 		float GetUpdatePeriod()
 		{
-			switch (rtSettings.refreshMode)
+			switch (settings.refreshMode)
 			{
 				case RefreshMode.EveryXFrame:
-					return (1.0f / Application.targetFrameRate) * rtSettings.period;
+					return (1.0f / Application.targetFrameRate) * settings.period;
 				case RefreshMode.EveryXMillis:
-					return rtSettings.period / 1000.0f;
+					return settings.period / 1000.0f;
 				case RefreshMode.EveryXSeconds:
-					return rtSettings.period;
+					return settings.period;
 				default:
 				case RefreshMode.OnLoad:
 					return 0;
@@ -258,7 +260,7 @@ namespace Mixture
 
 		void Process(CommandBuffer cmd)
 		{
-			var outputDimension = rtSettings.GetTextureDimension(graph);
+			var outputDimension = settings.GetTextureDimension(graph);
 
 			if (!supportedDimensions.Contains((OutputDimension)outputDimension))
 			{
@@ -320,7 +322,7 @@ namespace Mixture
 			if (material == null)
 				yield break;
 
-			var currentDimension = rtSettings.GetTextureDimension(graph);
+			var currentDimension = settings.GetTextureDimension(graph);
 
 			var s = material.shader;
 			for (int i = 0; i < material.shader.GetPropertyCount(); i++)
@@ -530,7 +532,7 @@ namespace Mixture
 			yield return new PortData
 			{
 				displayName = displayName,
-				displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
+				displayType = TextureUtils.GetTypeFromDimension(settings.GetTextureDimension(graph)),
 				identifier = fieldName,
 				acceptMultipleEdges = input ? false : true,
 			};
@@ -553,17 +555,14 @@ namespace Mixture
 	{
 		None			= 0,
 		Width			= 1 << 0,
-		WidthMode		= 1 << 1,
+		SizeMode		= 1 << 1,
 		Height			= 1 << 2,
-		HeightMode		= 1 << 3,
 		Depth			= 1 << 4,
-		DepthMode		= 1 << 5,
 		Dimension		= 1 << 6,
 		TargetFormat	= 1 << 7,
 		POTSize			= 1 << 8,
 
-		// Headers
-		Size			= Width | WidthMode | Height | HeightMode | Depth | DepthMode,
+		Size			= SizeMode | Width | Height | Depth,
 		Format			= POTSize | Dimension | TargetFormat,
 		
 		All				= ~0,
@@ -585,14 +584,20 @@ namespace Mixture
 
 	public enum OutputSizeMode
 	{
-		Default = 0,
-		Fixed = 1,
-		PercentageOfOutput = 2
+		InheritFromGraph = 0,
+		InheritFromParent = -1,
+		InheritFromChild = -2,
+		Absolute = 1,
+		ScaleOfParent = 2
 	}
 
 	public enum OutputDimension
 	{
-		SameAsOutput = TextureDimension.None,
+		// TODO: replace all same as output by `inherit from parent`, `inherit from child` and `inherit from graph`
+		// `inherit from parent` by default!
+		InheritFromGraph = TextureDimension.None,
+		InheritFromParent = -2,
+		InheritFromChild = -3,
 		Texture2D = TextureDimension.Tex2D,
 		CubeMap = TextureDimension.Cube,
 		Texture3D = TextureDimension.Tex3D,
@@ -601,7 +606,9 @@ namespace Mixture
 
 	public enum OutputPrecision
 	{
-		SameAsOutput	= 0,
+		InheritFromGraph = 0,
+		InheritFromParent = -1,
+		InheritFromChild = -2,
 		LDR				= 2,
 		Half			= 3,
 		Full			= 4,
@@ -609,10 +616,12 @@ namespace Mixture
 
 	public enum OutputChannel
 	{
-		SameAsOutput,
-		RGBA,
-		RG,
-		R,
+		InheritFromGraph = 0,
+		InheritFromParent = -1,
+		InheritFromChild = -2,
+		RGBA = 1,
+		RG = 2,
+		R = 3,
 	}
 
 	[Flags]

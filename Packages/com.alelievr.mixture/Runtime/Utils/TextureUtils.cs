@@ -24,7 +24,7 @@ namespace Mixture
 
         public static Texture GetBlackTexture(MixtureSettings settings)
         {
-            return GetBlackTexture((TextureDimension)settings.dimension, settings.sliceCount);
+            return GetBlackTexture((TextureDimension)settings.dimension, settings.depth);
         }
 
         public static Texture GetBlackTexture(TextureDimension dim, int sliceCount = 0)

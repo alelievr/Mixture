@@ -65,7 +65,7 @@ Generate mipmaps for the input texture. You can choose between 4 modes to genera
 
         protected override void Enable()
         {
-			rtSettings.doubleBuffered = true;
+			settings.doubleBuffered = true;
             base.Enable();
         }
 
@@ -73,7 +73,7 @@ Generate mipmaps for the input texture. You can choose between 4 modes to genera
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			rtSettings.doubleBuffered = true;
+			settings.doubleBuffered = true;
 			if (!base.ProcessNode(cmd) || input == null)
 				return false;
 
@@ -92,7 +92,7 @@ Generate mipmaps for the input texture. You can choose between 4 modes to genera
 			else
 			{
 				var props = new MaterialPropertyBlock();
-				MixtureUtils.SetupDimensionKeyword(mipmapGenMat, rtSettings.GetTextureDimension(graph));
+				MixtureUtils.SetupDimensionKeyword(mipmapGenMat, settings.GetTextureDimension(graph));
 				mipmapGenMat.SetFloat("_Mode", (int)mode);
 				MixtureUtils.SetTextureWithDimension(props, "_PreviousMip", input);
 				// Manually generate mips:

@@ -112,7 +112,7 @@ namespace Mixture
 					MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", node.previewTexture);
 					MixtureUtils.texture3DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(node.previewMode));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_PreviewMip", node.previewMip);
-					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", (node.previewSlice + 0.5f) / node.rtSettings.GetDepth(graphView.graph));
+					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", (node.previewSlice + 0.5f) / node.settings.GetDepth(graphView.graph));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_EV100", node.previewEV100);
 
 					if (Event.current.type == EventType.Repaint)

@@ -58,7 +58,7 @@ Transform a 3D texture into a volume using an iso surface algorithm (Marching cu
 			base.Enable();
 
             // TODO: auto size from input volume
-            int size = rtSettings.GetWidth(graph) * rtSettings.GetHeight(graph) * rtSettings.GetDepth(graph);
+            int size = settings.GetWidth(graph) * settings.GetHeight(graph) * settings.GetDepth(graph);
             vertices = new ComputeBuffer(size * 15, sizeof(float) * 3, ComputeBufferType.Counter);
             normals = new ComputeBuffer(size * 15, sizeof(float) * 3, ComputeBufferType.Default);
             triangles = new ComputeBuffer(size * 6, sizeof(uint), ComputeBufferType.Default);

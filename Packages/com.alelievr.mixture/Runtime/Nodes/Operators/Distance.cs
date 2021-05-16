@@ -84,9 +84,9 @@ Smooth is only in alpha
 		{
 			base.Enable();
 
-			rtSettings.outputChannels = OutputChannel.RGBA;
-			rtSettings.outputPrecision = OutputPrecision.Half;
-			rtSettings.editFlags = EditFlags.Dimension | EditFlags.Size;
+			settings.outputChannels = OutputChannel.RGBA;
+			settings.outputPrecision = OutputPrecision.Half;
+			settings.editFlags = EditFlags.Dimension | EditFlags.Size;
 
 			UpdateTempRenderTexture(ref output);
 
@@ -98,7 +98,7 @@ Smooth is only in alpha
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			// Force the double buffering for multi-pass flooding
-			rtSettings.doubleBuffered = true;
+			settings.doubleBuffered = true;
 
 			if (!base.ProcessNode(cmd) || input == null)
 				return false;

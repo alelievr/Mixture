@@ -41,23 +41,21 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
 
         public override bool hasSettings => true;
 
-        protected override MixtureSettings defaultRTSettings
+        protected override MixtureSettings defaultSettings
         {
             get
             {
-                POTSize size = (rtSettings.GetTextureDimension(graph) == TextureDimension.Tex3D) ? POTSize._32 : POTSize._1024;
+                POTSize size = (settings.GetTextureDimension(graph) == TextureDimension.Tex3D) ? POTSize._32 : POTSize._1024;
                 return new MixtureSettings
                 {
-                    heightMode = OutputSizeMode.Fixed,
-                    widthMode = OutputSizeMode.Fixed,
-                    depthMode = OutputSizeMode.Fixed,
+                    sizeMode = OutputSizeMode.Absolute,
                     potSize = size,
                     height = (int)size,
                     width = (int)size,
-                    sliceCount = (int)size,
-                    dimension = OutputDimension.SameAsOutput,
-                    outputChannels = OutputChannel.SameAsOutput,
-                    outputPrecision = OutputPrecision.SameAsOutput,
+                    depth = (int)size,
+                    dimension = OutputDimension.InheritFromParent,
+                    outputChannels = OutputChannel.InheritFromParent,
+                    outputPrecision = OutputPrecision.InheritFromParent,
                     editFlags = EditFlags.Height | EditFlags.Width| EditFlags.TargetFormat,
                     wrapMode = TextureWrapMode.Repeat,
                     filterMode = FilterMode.Bilinear,
@@ -68,10 +66,6 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
         protected override void Enable()
         {
             base.Enable();
-
-            // Sanitize the RT Settings for the output node, they must contains only valid information for the output node
-            if (rtSettings.dimension == OutputDimension.SameAsOutput)
-                rtSettings.dimension = OutputDimension.Texture2D;
 
             onSettingsChanged += () => { graph.NotifyNodeChanged(this); };
         }
@@ -85,7 +79,7 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
 
             if(graph.type != MixtureGraphType.Realtime)
             {
-                if(rtSettings.dimension != OutputDimension.CubeMap)
+                if(settings.GetTextureDimension(graph) != TextureDimension.Cube)
                     return base.ProcessNode(cmd);
                 else
                 {
@@ -101,6 +95,5 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
                 return false;
             }
         }
-
     }
 }

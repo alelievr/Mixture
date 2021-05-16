@@ -71,11 +71,11 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 			}
 		}
 
-		protected override MixtureSettings defaultRTSettings
+		protected override MixtureSettings defaultSettings
 		{
 			get
 			{
-                var settings = base.defaultRTSettings;
+                var settings = base.defaultSettings;
                 settings.editFlags = EditFlags.All ^ EditFlags.POTSize;
                 return settings;
 			}
@@ -251,7 +251,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 			if (output == null)
 				return false;
 
-			var outputDimension = rtSettings.GetTextureDimension(graph);
+			var outputDimension = settings.GetTextureDimension(graph);
 			MixtureUtils.SetupDimensionKeyword(material, outputDimension);
 
 			var s = material.shader;
@@ -283,7 +283,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 
 			output.material = material;
 
-            bool useCustomUV = material.HasTextureBound("_UV", rtSettings.GetTextureDimension(graph));
+            bool useCustomUV = material.HasTextureBound("_UV", settings.GetTextureDimension(graph));
             material.SetKeywordEnabled("USE_CUSTOM_UV", useCustomUV);
 
 			return true;

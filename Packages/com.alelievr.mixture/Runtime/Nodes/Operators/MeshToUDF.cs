@@ -57,12 +57,11 @@ Note that the unsigned distance field is faster to compute.
 		protected override void Enable()
 		{
             base.Enable();
-            rtSettings.editFlags = EditFlags.Dimension | EditFlags.Size;
-            rtSettings.sizeMode = OutputSizeMode.Default;
-            rtSettings.outputChannels = OutputChannel.RGBA;
-            rtSettings.outputPrecision = OutputPrecision.Half;
-            rtSettings.filterMode = FilterMode.Point;
-            rtSettings.dimension = OutputDimension.Texture3D;
+            settings.editFlags = EditFlags.Dimension | EditFlags.Size;
+            settings.outputChannels = OutputChannel.RGBA;
+            settings.outputPrecision = OutputPrecision.Half;
+            settings.filterMode = FilterMode.Point;
+            settings.dimension = OutputDimension.Texture3D;
             UpdateTempRenderTexture(ref outputVolume);
             UpdateTempRenderTexture(ref rayMapBuffer, overrideGraphicsFormat: GraphicsFormat.R32_UInt);
             props = new MaterialPropertyBlock();
@@ -86,7 +85,7 @@ Note that the unsigned distance field is faster to compute.
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			rtSettings.doubleBuffered = true;
+			settings.doubleBuffered = true;
 
             if (!base.ProcessNode(cmd) || inputMesh?.mesh == null)
                 return false;
@@ -133,7 +132,7 @@ Note that the unsigned distance field is faster to compute.
             TextureUtils.CopyTexture(cmd, outputVolume, rt);
 
             // Jump flooding implementation based on https://www.comp.nus.edu.sg/~tants/jfa.html
-            // ANd signed version based on 'Generating signed distance fields on the GPU with ray maps'
+            // And signed version based on 'Generating signed distance fields on the GPU with ray maps'
 			cmd.SetComputeTextureParam(computeShader, fillUVKernel, "_Input", rt);
 			cmd.SetComputeTextureParam(computeShader, fillUVKernel, "_Output", outputVolume);
             cmd.SetComputeTextureParam(computeShader, fillUVKernel, "_RayMapsOutput", rayMapBuffer2);

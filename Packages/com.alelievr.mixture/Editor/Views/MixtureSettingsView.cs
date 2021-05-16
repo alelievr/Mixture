@@ -11,7 +11,7 @@ using System;
 
 namespace Mixture
 {
-	public class MixtureRTSettingsView : VisualElement
+	public class MixtureSettingsView : VisualElement
 	{
         public const string headerStyleClass = "PropertyEditorHeader";
         Label sizeHeader;
@@ -19,9 +19,7 @@ namespace Mixture
         Label formatHeader;
         Label otherHeader;
 
-        EnumField outputWidthMode;
-		EnumField outputHeightMode;
-		EnumField outputDepthMode;
+        EnumField outputSizeMode;
 		EnumField outputDimension;
 		EnumField outputChannels;
 		EnumField outputPrecision;
@@ -44,8 +42,9 @@ namespace Mixture
         event Action onChanged;
 
         MixtureGraphView    owner;
-        MixtureNode         node;
+        MixtureSettings     settings;
         MixtureGraph        graph;
+        string              title;
 
         // TODO: Avoid user to pick unavailable texture formats:
         enum SRGBOutputChannels
@@ -54,14 +53,17 @@ namespace Mixture
             // R = OutputChannel.R,
         }
 
-        public MixtureRTSettingsView(MixtureNode node, MixtureGraphView owner)
+        public MixtureSettingsView(MixtureSettings settings, MixtureGraphView owner, string title = "Node Output Settings")
         {
             this.graph = owner.graph as MixtureGraph;
-            this.node = node;
+            this.settings = settings;
             this.owner = owner;
+            this.title = title;
 
+			var stylesheet = Resources.Load<StyleSheet>("MixtureCommon");
+            styleSheets.Add(stylesheet);
             ReloadSettingsView();
-            
+
             onChanged += ReloadSettingsView;
         }
 
@@ -70,35 +72,39 @@ namespace Mixture
             // Remove all old fields
             Clear();
 
-            var title = new Label("Node Output Settings");
-            var dimension = node.rtSettings.GetTextureDimension(graph);
-            title.AddToClassList("PropertyEditorTitle");
-            this.Add(title);
+            if (title != null)
+            {
+                var titleLabel = new Label(title);
+                titleLabel.AddToClassList("PropertyEditorTitle");
+                this.Add(titleLabel);
+            }
+
+            var dimension = settings.GetTextureDimension(graph);
 
             // Wrap and Filter Modes
             smpHeader = new Label("Sampler States");
             smpHeader.AddToClassList(headerStyleClass);
             this.Add(smpHeader);
 
-            wrapMode = new EnumField(node.rtSettings.wrapMode)
+            wrapMode = new EnumField(settings.wrapMode)
             {
                 label = "Wrap Mode",
             };
             wrapMode.RegisterValueChangedCallback(e =>
             {
                 owner.RegisterCompleteObjectUndo("Updated Wrap Mode " + e.newValue);
-                node.rtSettings.wrapMode = (TextureWrapMode)e.newValue;
+                settings.wrapMode = (TextureWrapMode)e.newValue;
                 onChanged?.Invoke();
             });
 
-            filterMode = new EnumField(node.rtSettings.filterMode)
+            filterMode = new EnumField(settings.filterMode)
             {
                 label = "Filter Mode",
             };
             filterMode.RegisterValueChangedCallback(e =>
             {
                 owner.RegisterCompleteObjectUndo("Updated Filter Mode " + e.newValue);
-                node.rtSettings.filterMode = (FilterMode)e.newValue;
+                settings.filterMode = (FilterMode)e.newValue;
                 onChanged?.Invoke();
             });
 
@@ -110,100 +116,72 @@ namespace Mixture
             sizeHeader.AddToClassList(headerStyleClass);
             this.Add(sizeHeader);
 
-            outputWidthMode = new EnumField(node.rtSettings.widthMode) {
+            outputSizeMode = new EnumField(settings.sizeMode) {
                 label = "Width Mode",
             };
-            outputWidthMode.RegisterValueChangedCallback(e => {
-                owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
-                node.rtSettings.widthMode = (OutputSizeMode)e.newValue;
+            outputSizeMode.RegisterValueChangedCallback((EventCallback<ChangeEvent<Enum>>)(e => {
+                owner.RegisterCompleteObjectUndo("Updated Size mode " + e.newValue);
+                settings.sizeMode = (OutputSizeMode)e.newValue;
                 onChanged?.Invoke();
-                UpdateFieldVisibility(node);
-            });
-            this.Add(outputWidthMode);
+                UpdateFieldVisibility(settings);
+            }));
+            this.Add(outputSizeMode);
 
-            if (dimension != TextureDimension.Cube)
+            potSize = new EnumField(settings.potSize)
             {
-                outputHeightMode = new EnumField(node.rtSettings.heightMode) {
-                    label = "Height Mode",
-                };
-                outputHeightMode.RegisterValueChangedCallback(e => {
-                    owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
-                    node.rtSettings.heightMode = (OutputSizeMode)e.newValue;
-                    onChanged?.Invoke();
-                    UpdateFieldVisibility(node);
-                });
-                this.Add(outputHeightMode);
-
-                if (dimension == TextureDimension.Tex3D)
-                {
-                    outputDepthMode = new EnumField(node.rtSettings.depthMode) {
-                        label = "Depth Mode",
-                    };
-                    outputDepthMode.RegisterValueChangedCallback(e => {
-                        owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
-                        node.rtSettings.depthMode = (OutputSizeMode)e.newValue;
-                        onChanged?.Invoke();
-                        UpdateFieldVisibility(node);
-                    });
-                    this.Add(outputDepthMode);
-                }
-            }
-
-            potSize = new EnumField(node.rtSettings.potSize)
-            {
-                value = node.rtSettings.potSize,
+                value = settings.potSize,
                 label = "Resolution",
             };
             potSize.RegisterValueChangedCallback(e =>
             {
                 owner.RegisterCompleteObjectUndo("Updated Size " + e.newValue);
                 var size = (POTSize)e.newValue;
-                node.rtSettings.potSize = size;
+                settings.potSize = size;
 
                 if (size != POTSize.Custom)
                 {
-                    node.rtSettings.width = (int)size;
-                    node.rtSettings.height = (int)size;
-                    node.rtSettings.sliceCount = (int)size;
+                    settings.width = (int)size;
+                    settings.height = (int)size;
+                    settings.depth = (int)size;
                 }
                 else
                 {
-                    node.rtSettings.width = outputWidth.value;
-                    node.rtSettings.height = outputHeight.value;
+                    settings.width = outputWidth.value;
+                    settings.height = outputHeight.value;
                     if (outputDepth != null)
-                        node.rtSettings.sliceCount = outputDepth.value;
+                        settings.depth = outputDepth.value;
                 }
 
                 onChanged?.Invoke();
-                UpdateFieldVisibility(node);
+                UpdateFieldVisibility(settings);
             });
 
             this.Add(potSize);
 
             outputWidth = new IntegerField()
             {
-                value = node.rtSettings.width,
+                value = settings.width,
                 label = "Width",
                 isDelayed = true,
             };
             outputWidth.RegisterValueChangedCallback(e =>
             {
                 owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
-                node.rtSettings.width = e.newValue;
+                settings.width = e.newValue;
                 onChanged?.Invoke();
             });
             this.Add(outputWidth);
 
             outputWidthPercentage = new FloatField()
             {
-                value = node.rtSettings.widthPercent,
+                value = settings.widthPercent,
                 label = "Width Percentage",
                 isDelayed = true,
             };
             outputWidthPercentage.RegisterValueChangedCallback(e =>
             {
                 owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
-                node.rtSettings.widthPercent = e.newValue;
+                settings.widthPercent = e.newValue;
                 onChanged?.Invoke();
             });
             this.Add(outputWidthPercentage);
@@ -212,28 +190,28 @@ namespace Mixture
             {
                 outputHeight = new IntegerField()
                 {
-                    value = node.rtSettings.height,
+                    value = settings.height,
                     label = "Height",
                     isDelayed = true,
                 };
                 outputHeight.RegisterValueChangedCallback(e =>
                 {
                     owner.RegisterCompleteObjectUndo("Updated Height " + e.newValue);
-                    node.rtSettings.height = e.newValue;
+                    settings.height = e.newValue;
                     onChanged?.Invoke();
                 });
                 this.Add(outputHeight);
 
                 outputHeightPercentage = new FloatField()
                 {
-                    value = node.rtSettings.heightPercent,
+                    value = settings.heightPercent,
                     label = "Height Percentage",
                     isDelayed = true,
                 };
                 outputHeightPercentage.RegisterValueChangedCallback(e =>
                 {
                     owner.RegisterCompleteObjectUndo("Updated Height " + e.newValue);
-                    node.rtSettings.heightPercent = e.newValue;
+                    settings.heightPercent = e.newValue;
                     onChanged?.Invoke();
                 });
                 this.Add(outputHeightPercentage);
@@ -242,28 +220,28 @@ namespace Mixture
                 {
                     outputDepth = new IntegerField()
                     {
-                        value = node.rtSettings.sliceCount,
+                        value = settings.depth,
                         label = "Depth",
                         isDelayed = true,
                     };
                     outputDepth.RegisterValueChangedCallback(e =>
                     {
                         owner.RegisterCompleteObjectUndo("Updated Depth " + e.newValue);
-                        node.rtSettings.sliceCount = e.newValue;
+                        settings.depth = e.newValue;
                         onChanged?.Invoke();
                     });
                     this.Add(outputDepth);
 
                     outputDepthPercentage = new FloatField()
                     {
-                        value = node.rtSettings.depthPercent,
+                        value = settings.depthPercent,
                         label = "Depth Percentage",
                         isDelayed = true,
                     };
                     outputDepthPercentage.RegisterValueChangedCallback(e =>
                     {
                         owner.RegisterCompleteObjectUndo("Updated Depth " + e.newValue);
-                        node.rtSettings.depthPercent = e.newValue;
+                        settings.depthPercent = e.newValue;
                         onChanged?.Invoke();
                     });
                     this.Add(outputDepthPercentage);
@@ -275,41 +253,41 @@ namespace Mixture
             formatHeader.AddToClassList(headerStyleClass);
             this.Add(formatHeader);
 
-            outputDimension = new EnumField(node.rtSettings.dimension) {
+            outputDimension = new EnumField(settings.dimension) {
                 label = "Dimension",
             };
             outputDimension.RegisterValueChangedCallback(e => {
                 owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
                 // Check if the new texture is not too high res:
-                node.rtSettings.dimension = (OutputDimension)e.newValue;
-                if (node.rtSettings.dimension == OutputDimension.Texture3D)
+                settings.dimension = (OutputDimension)e.newValue;
+                if (settings.dimension == OutputDimension.Texture3D)
                 {
-                    long pixelCount = node.rtSettings.GetWidth(graph) * node.rtSettings.GetHeight(graph) * node.rtSettings.GetDepth(graph);
+                    long pixelCount = settings.GetWidth(graph) * settings.GetHeight(graph) * settings.GetDepth(graph);
 
                     // Above 16M pixels in a texture3D, processing can take too long and crash the GPU when a conversion happen
                     if (pixelCount > 16777216)
                     {
-                        node.rtSettings.SetPOTSize(64);
+                        settings.SetPOTSize(64);
                     }
                 }
                 onChanged?.Invoke();
             });
 
-            outputChannels = new EnumField(node.rtSettings.outputChannels) {
+            outputChannels = new EnumField(settings.outputChannels) {
                 label = "Output Channels",
             };
             outputChannels.RegisterValueChangedCallback(e => {
                 owner.RegisterCompleteObjectUndo("Updated Output Channels " + e.newValue);
-                node.rtSettings.outputChannels = (OutputChannel)e.newValue;
+                settings.outputChannels = (OutputChannel)e.newValue;
                 onChanged?.Invoke();
             });
 
-            outputPrecision = new EnumField(node.rtSettings.outputPrecision) {
+            outputPrecision = new EnumField(settings.outputPrecision) {
                 label = "Output Precision",
             };
             outputPrecision.RegisterValueChangedCallback(e => {
                 owner.RegisterCompleteObjectUndo("Updated Output Precision " + e.newValue);
-                node.rtSettings.outputPrecision = (OutputPrecision)e.newValue;
+                settings.outputPrecision = (OutputPrecision)e.newValue;
                 // outputPrecision.Init();
                 onChanged?.Invoke();
             });
@@ -318,7 +296,7 @@ namespace Mixture
 			this.Add(outputChannels);
 			this.Add(outputPrecision);
 
-            UpdateFieldVisibility(node);
+            UpdateFieldVisibility(settings);
 
 			if (owner.graph.type == MixtureGraphType.Realtime)
             {
@@ -327,36 +305,36 @@ namespace Mixture
                 otherHeader.AddToClassList(headerStyleClass);
                 this.Add(otherHeader);
 
-				AddRealtimeFields(node, owner);
+				AddRealtimeFields(owner);
             }
         }
 
-		void AddRealtimeFields(MixtureNode node, MixtureGraphView owner)
+		void AddRealtimeFields(MixtureGraphView owner)
 		{
 			doubleBuffered = new Toggle("Double Buffered") {
-				value = node.rtSettings.doubleBuffered,
+				value = settings.doubleBuffered,
 			};
 			doubleBuffered.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Set Double Buffered " + e.newValue);
-				node.rtSettings.doubleBuffered = e.newValue;
+				settings.doubleBuffered = e.newValue;
                 onChanged?.Invoke();
 			});
 
 			Add(doubleBuffered);
 
-			refreshMode = new EnumField("Refresh Mode", node.rtSettings.refreshMode);
+			refreshMode = new EnumField("Refresh Mode", settings.refreshMode);
 			refreshMode.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Set Refresh Mode " + e.newValue);
-				node.rtSettings.refreshMode = (RefreshMode)e.newValue;
+				settings.refreshMode = (RefreshMode)e.newValue;
                 onChanged?.Invoke();
 			});
 
 			Add(refreshMode);
 
-			period = new FloatField("Period") { value = node.rtSettings.period };
+			period = new FloatField("Period") { value = settings.period };
 			period.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Set Period " + e.newValue);
-				node.rtSettings.period = e.newValue;
+				settings.period = e.newValue;
                 onChanged?.Invoke();
 			});
 
@@ -371,28 +349,24 @@ namespace Mixture
             element.style.display = visible? DisplayStyle.Flex: DisplayStyle.None;
         }
 
-		void UpdateFieldVisibility(MixtureNode node)
+		void UpdateFieldVisibility(MixtureSettings settings)
 		{
-            var rtSettings = node.rtSettings;
+            SetVisible(sizeHeader, settings.CanEdit(EditFlags.Size));
+            SetVisible(formatHeader, settings.CanEdit(EditFlags.Format));
+            SetVisible(outputSizeMode, settings.CanEdit(EditFlags.SizeMode));
+            SetVisible(potSize, settings.CanEdit(EditFlags.POTSize));
+            SetVisible(outputWidth, settings.CanEdit(EditFlags.Width) && settings.sizeMode == OutputSizeMode.Absolute && (settings.potSize == POTSize.Custom || !settings.CanEdit(EditFlags.POTSize)));
+            SetVisible(outputWidthPercentage, settings.CanEdit(EditFlags.Width) && settings.sizeMode == OutputSizeMode.ScaleOfParent);
+			SetVisible(outputHeight, settings.CanEdit(EditFlags.Height) && settings.sizeMode == OutputSizeMode.Absolute && (settings.potSize == POTSize.Custom || !settings.CanEdit(EditFlags.POTSize)));
+            SetVisible(outputHeightPercentage, settings.CanEdit(EditFlags.Height) && settings.sizeMode == OutputSizeMode.ScaleOfParent);
+			SetVisible(outputDepth, settings.CanEdit(EditFlags.Depth) && settings.sizeMode == OutputSizeMode.Absolute && (settings.potSize == POTSize.Custom || !settings.CanEdit(EditFlags.POTSize)));
+            SetVisible(outputDepthPercentage, settings.CanEdit(EditFlags.Depth) && settings.sizeMode == OutputSizeMode.ScaleOfParent);
+            SetVisible(outputDimension, settings.CanEdit(EditFlags.Dimension));
+            SetVisible(outputChannels, settings.CanEdit(EditFlags.TargetFormat));
+            SetVisible(outputPrecision, settings.CanEdit(EditFlags.TargetFormat));
 
-            SetVisible(sizeHeader, rtSettings.CanEdit(EditFlags.Size));
-            SetVisible(formatHeader, rtSettings.CanEdit(EditFlags.Format));
-            SetVisible(outputWidthMode, rtSettings.CanEdit(EditFlags.WidthMode));
-            SetVisible(potSize, rtSettings.CanEdit(EditFlags.POTSize));
-            SetVisible(outputHeightMode, rtSettings.CanEdit(EditFlags.HeightMode));
-            SetVisible(outputDepthMode, rtSettings.CanEdit(EditFlags.DepthMode));
-            SetVisible(outputWidth, rtSettings.CanEdit(EditFlags.Width) && rtSettings.widthMode == OutputSizeMode.Fixed && (rtSettings.potSize == POTSize.Custom || !rtSettings.CanEdit(EditFlags.POTSize)));
-            SetVisible(outputWidthPercentage, rtSettings.CanEdit(EditFlags.Width) && rtSettings.widthMode == OutputSizeMode.PercentageOfOutput);
-			SetVisible(outputHeight, rtSettings.CanEdit(EditFlags.Height) && rtSettings.heightMode == OutputSizeMode.Fixed && (rtSettings.potSize == POTSize.Custom || !rtSettings.CanEdit(EditFlags.POTSize)));
-            SetVisible(outputHeightPercentage, rtSettings.CanEdit(EditFlags.Height) && rtSettings.heightMode == OutputSizeMode.PercentageOfOutput);
-			SetVisible(outputDepth, rtSettings.CanEdit(EditFlags.Depth) && rtSettings.depthMode == OutputSizeMode.Fixed && (rtSettings.potSize == POTSize.Custom || !rtSettings.CanEdit(EditFlags.POTSize)));
-            SetVisible(outputDepthPercentage, rtSettings.CanEdit(EditFlags.Depth) && rtSettings.depthMode == OutputSizeMode.PercentageOfOutput);
-            SetVisible(outputDimension, rtSettings.CanEdit(EditFlags.Dimension));
-            SetVisible(outputChannels, rtSettings.CanEdit(EditFlags.TargetFormat));
-            SetVisible(outputPrecision, rtSettings.CanEdit(EditFlags.TargetFormat));
-
-            // GraphicsFormatUtility.GetComponentCount((GraphicsFormat)rtSettings.targetFormat);
-            // GraphicsFormatUtility.Get((GraphicsFormat)rtSettings.targetFormat);
+            // GraphicsFormatUtility.GetComponentCount((GraphicsFormat)settings.targetFormat);
+            // GraphicsFormatUtility.Get((GraphicsFormat)settings.targetFormat);
             // GraphicsFormatUtility.GetBlockWidth()
         }
 

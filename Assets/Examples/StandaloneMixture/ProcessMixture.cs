@@ -28,7 +28,7 @@ public class ProcessMixture : MonoBehaviour
         graph.outputNode.mainOutput.enableCompression = false;
 
         // Create the destination texture
-        var settings = graph.outputNode.rtSettings;
+        var settings = graph.outputNode.settings;
         Texture2D destination = new Texture2D(
             settings.GetWidth(graph),
             settings.GetHeight(graph),

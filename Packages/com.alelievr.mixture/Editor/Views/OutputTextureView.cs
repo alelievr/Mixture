@@ -111,7 +111,7 @@ namespace Mixture
 
             enableCompression.RegisterValueChangedCallback(enabled => {
                 graphView.RegisterCompleteObjectUndo($"Change {targetSettings.name} compression");
-                var textureDim = node.rtSettings.GetTextureDimension(graphView.graph);
+                var textureDim = node.settings.GetTextureDimension(graphView.graph);
 
                 if (textureDim == TextureDimension.Tex2D || textureDim == TextureDimension.Cube)
                 {
@@ -183,7 +183,7 @@ namespace Mixture
 
         public void RefreshSettings()
         {
-            var dimension = node.rtSettings.GetTextureDimension(graphView.graph);
+            var dimension = node.settings.GetTextureDimension(graphView.graph);
 
             if (graphView.graph.type == MixtureGraphType.Realtime)
             {

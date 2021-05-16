@@ -33,10 +33,9 @@ Note that the unsigned distance field is faster to compute.
 		protected override void Enable()
 		{
             base.Enable();
-            rtSettings.editFlags = 0;
-            rtSettings.sizeMode = OutputSizeMode.Default;
-            rtSettings.filterMode = FilterMode.Point;
-            rtSettings.dimension = OutputDimension.Texture3D;
+            settings.editFlags = 0;
+            settings.filterMode = FilterMode.Point;
+            settings.dimension = OutputDimension.Texture3D;
             UpdateTempRenderTexture(ref outputVolume);
             props = new MaterialPropertyBlock();
 		}
