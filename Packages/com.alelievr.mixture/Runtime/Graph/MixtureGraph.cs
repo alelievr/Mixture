@@ -185,8 +185,12 @@ namespace Mixture
                     settings = outputNode.settings.Clone();
 
                     // Patch output node settings to inherit graph settings (old behavior)
-                    outputNode.settings.editFlags |= EditFlags.SizeMode;
+                    outputNode.settings.editFlags |= EditFlags.Size;
                     outputNode.settings.sizeMode = OutputSizeMode.InheritFromGraph;
+                    outputNode.settings.outputPrecision = OutputPrecision.InheritFromGraph;
+                    outputNode.settings.outputChannels = OutputChannel.InheritFromGraph;
+                    outputNode.settings.dimension = OutputDimension.InheritFromGraph;
+                    Debug.Log(outputNode.settings);
 
                     version = Version.SettingsRefactor;
                 }

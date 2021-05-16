@@ -227,9 +227,9 @@ namespace Mixture
 			var input = targetOutput.inputTexture;
 			if (input != null)
 			{
-				if (input.dimension != (TextureDimension)settings.dimension)
+				if (input.dimension != settings.GetTextureDimension(graph))
 				{
-					Debug.LogError("Error: Expected texture type input for the OutputNode is " + graph.mainOutputTexture.dimension + " but " + input?.dimension + " was provided");
+					Debug.LogError("Error: Expected texture type input for the OutputNode is " + settings.GetTextureDimension(graph) + " but " + input?.dimension + " was provided");
 					return false;
 				}
 
@@ -254,8 +254,7 @@ namespace Mixture
 		[CustomPortBehavior(nameof(outputTextureSettings))]
 		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{
-			TextureDimension dim = (GetType() == typeof(ExternalOutputNode)) ? settings.GetTextureDimension(graph) : (TextureDimension)settings.dimension;
-			Type displayType = TextureUtils.GetTypeFromDimension(dim);
+			Type displayType = TextureUtils.GetTypeFromDimension(settings.GetTextureDimension(graph));
 
 			foreach (var output in outputTextureSettings)
 			{

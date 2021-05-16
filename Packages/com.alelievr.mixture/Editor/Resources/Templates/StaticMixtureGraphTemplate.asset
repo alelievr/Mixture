@@ -250,8 +250,10 @@ MonoBehaviour:
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 493, y: 202, z: 0}
+  position: {x: 493, y: 136, z: 0}
   scale: {x: 1, y: 1, z: 1}
+  version: 1
+  type: 0
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 0
@@ -265,12 +267,31 @@ MonoBehaviour:
   _mainOutputTexture: {fileID: -8315651132847728183}
   _outputTextures:
   - {fileID: -8315651132847728183}
-  - {fileID: -8315651132847728183}
+  - {fileID: 0}
+  settings:
+    widthPercent: 0
+    heightPercent: 0
+    depthPercent: 0
+    width: 1024
+    height: 1024
+    depth: 1024
+    potSize: 1024
+    sizeMode: 0
+    dimension: 2
+    outputChannels: 1
+    outputPrecision: 3
+    editFlags: 128
+    doubleBuffered: 0
+    wrapMode: 0
+    filterMode: 0
+    refreshMode: 0
+    period: 0
   references:
     version: 1
     00000000:
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 20aad9a2-f45b-443d-9f30-0287577d108c
         computeOrder: 1
         position:
@@ -282,20 +303,18 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
+        settings:
           widthPercent: 0
           heightPercent: 0
           depthPercent: 0
           width: 1024
           height: 1024
-          sliceCount: 1024
+          depth: 1024
           potSize: 1024
-          widthMode: 1
-          heightMode: 1
-          depthMode: 1
-          dimension: 2
-          outputChannels: 1
-          outputPrecision: 3
+          sizeMode: 1
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
           editFlags: 981
           doubleBuffered: 0
           wrapMode: 0
@@ -316,7 +335,6 @@ MonoBehaviour:
           compressionFormat: 25
           compressionQuality: 100
           hasMipMaps: 0
-          customMipMapShader: {fileID: 0}
           isMain: 1
           enableConversion: 0
           conversionFormat: 0
@@ -325,6 +343,7 @@ MonoBehaviour:
     00000001:
       type: {class: CellularNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 9f3f98b3-ff74-41f4-a2cb-7db36effd2ac
         computeOrder: 0
         position:
@@ -336,17 +355,15 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
+        settings:
           widthPercent: 1
           heightPercent: 1
           depthPercent: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
+          sizeMode: 0
           dimension: 0
           outputChannels: 0
           outputPrecision: 0
