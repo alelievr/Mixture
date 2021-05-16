@@ -19,7 +19,7 @@ namespace Mixture
 		public event Action			onTempRenderTextureUpdated;
 
 		public override string		name => "Output Texture Asset";
-		public override Texture 	previewTexture => graph.type == MixtureGraphType.Realtime ? graph.mainOutputTexture : outputTextureSettings.Count > 0 ? outputTextureSettings[0].finalCopyRT : null;
+		public override Texture 	previewTexture => graph?.type == MixtureGraphType.Realtime ? graph.mainOutputTexture : outputTextureSettings.Count > 0 ? outputTextureSettings[0].finalCopyRT : null;
 		public override float		nodeWidth => 350;
 
 		// TODO: move this to NodeGraphProcessor
@@ -40,6 +40,8 @@ namespace Mixture
 
         protected override void Enable()
         {
+            base.Enable();
+            settings.editFlags = EditFlags.POTSize | EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat | EditFlags.SizeMode;
 			// Checks that the output have always at least one element:
 			if (outputTextureSettings.Count == 0)
 				AddTextureOutput(OutputTextureSettings.Preset.Color);

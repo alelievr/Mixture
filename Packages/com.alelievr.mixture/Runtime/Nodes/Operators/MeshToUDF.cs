@@ -60,7 +60,7 @@ Note that the unsigned distance field is faster to compute.
             settings.editFlags = EditFlags.Dimension | EditFlags.Size;
             settings.outputChannels = OutputChannel.RGBA;
             settings.outputPrecision = OutputPrecision.Half;
-            settings.filterMode = FilterMode.Point;
+            settings.filterMode = OutputFilterMode.Point;
             settings.dimension = OutputDimension.Texture3D;
             UpdateTempRenderTexture(ref outputVolume);
             UpdateTempRenderTexture(ref rayMapBuffer, overrideGraphicsFormat: GraphicsFormat.R32_UInt);

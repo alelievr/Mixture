@@ -33,6 +33,7 @@ namespace Mixture
 
 		protected override void Enable()
 		{
+            base.Enable();
 		}
 
 		// Functions with Attributes must be either protected or public otherwise they can't be accessed by the reflection code

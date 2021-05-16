@@ -84,6 +84,14 @@ The output type of the node will update according to the type of texture provide
 				outputTexture = textureAsset;
 			}
 
+			if (outputTexture != null)
+			{
+				settings.sizeMode = OutputSizeMode.Absolute;
+				settings.width = outputTexture.width;
+				settings.height = outputTexture.height;
+				settings.depth = TextureUtils.GetSliceCount(outputTexture);
+			}
+
 			return true;
         }
 

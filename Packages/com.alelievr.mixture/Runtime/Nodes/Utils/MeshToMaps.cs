@@ -55,6 +55,7 @@ This process is done using the UV of the mesh to flatten it and output it's attr
 
 		protected override void Enable()
 		{
+            base.Enable();
 			UpdateTempRenderTexture(ref output);
 			materialProperties = new MaterialPropertyBlock();
 		}

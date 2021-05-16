@@ -40,6 +40,7 @@ namespace Mixture
 
 		protected override void Enable()
 		{
+            base.Enable();
 			onAfterEdgeConnected += EdgeConnectionCallback;
 			onAfterEdgeDisconnected += EdgeConnectionCallback;
 			RegisterLoopStart();

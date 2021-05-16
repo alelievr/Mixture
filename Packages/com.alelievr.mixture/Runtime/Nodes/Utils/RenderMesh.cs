@@ -50,6 +50,7 @@ Renders a mesh using the material specified in the 'material' field.
 
 		protected override void Enable()
 		{
+            base.Enable();
 			UpdateTempRenderTexture(ref output);
 			materialProperties = new MaterialPropertyBlock();
 		}

@@ -99,6 +99,7 @@ Note that this node tries to generate input / output based on the declared prope
 
 		protected override void Enable()
 		{
+            base.Enable();
 			if (!String.IsNullOrEmpty(computeShaderResourcePath) && computeShader == null)
 				computeShader = LoadComputeShader(computeShaderResourcePath);
 

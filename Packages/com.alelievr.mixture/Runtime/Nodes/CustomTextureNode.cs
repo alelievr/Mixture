@@ -55,6 +55,7 @@ namespace Mixture
 
 		protected override void Enable()
 		{
+            base.Enable();
 			
 			if (customTexture == null)
 			{

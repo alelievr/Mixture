@@ -208,6 +208,10 @@ namespace Mixture
                 settings.outputPrecision = OutputPrecision.Half;
             if ((int)settings.dimension <= 0)
                 settings.dimension = OutputDimension.Texture2D;
+            if ((int)settings.wrapMode <= 0)
+                settings.wrapMode = OutputWrapMode.Mirror;
+            if ((int)settings.filterMode <= 0)
+                settings.filterMode = OutputFilterMode.Trilinear;
 
             settings.editFlags = EditFlags.TargetFormat; 
         }
@@ -361,35 +365,39 @@ namespace Mixture
 
 		Texture UpdateOutputRealtimeTexture(OutputTextureSettings outputSettings)
 		{
-			var s = outputNode.settings;
+			var dimension = outputNode.settings.GetTextureDimension(this);
+            var width = outputNode.settings.GetWidth(this);
+            var height = outputNode.settings.GetHeight(this);
+            var depth = outputNode.settings.GetDepth(this);
+            var graphicsFormat = outputNode.settings.GetGraphicsFormat(this);
 
             var oldTexture = FindOutputTexture(outputSettings.name, outputSettings.isMain);
             Texture newTexture = oldTexture;
 
 			if (!(oldTexture is CustomRenderTexture))
 			{
-				newTexture = new CustomRenderTexture(s.width, s.height, s.graphicsFormat) { name = "Realtime Final Copy", enableRandomWrite = true };
+				newTexture = new CustomRenderTexture(width, height, graphicsFormat) { name = "Realtime Final Copy", enableRandomWrite = true };
 			}
 
 			var crt = newTexture as CustomRenderTexture;
-			bool needsUpdate = crt.width != s.width
-				|| crt.height != s.height
+			bool needsUpdate = crt.width != width
+				|| crt.height != height
 				|| crt.useMipMap != outputSettings.hasMipMaps
-				|| crt.volumeDepth != s.depth
-				|| crt.graphicsFormat != (GraphicsFormat)s.graphicsFormat
+				|| crt.volumeDepth != depth
+				|| crt.graphicsFormat != graphicsFormat
 				|| crt.updateMode != CustomRenderTextureUpdateMode.Realtime;
 
 			if (needsUpdate)
 			{
 				if (crt.IsCreated())
 					crt.Release();
-				crt.width = s.width;
-				crt.height = s.height;
-				crt.graphicsFormat = (GraphicsFormat)s.graphicsFormat;
+				crt.width = width;
+				crt.height = height;
+				crt.graphicsFormat = graphicsFormat;
 				crt.useMipMap = outputSettings.hasMipMaps;
 				crt.autoGenerateMips = false;
 				crt.updateMode = CustomRenderTextureUpdateMode.Realtime;
-				crt.volumeDepth = s.depth;
+				crt.volumeDepth = depth;
 				crt.Create();
 			}
 
@@ -403,7 +411,11 @@ namespace Mixture
 
 		Texture UpdateOutputStaticTexture(OutputTextureSettings outputSettings)
 		{
-			var s = outputNode.settings;
+			var dimension = outputNode.settings.GetTextureDimension(this);
+            var width = outputNode.settings.GetWidth(this);
+            var height = outputNode.settings.GetHeight(this);
+            var depth = outputNode.settings.GetDepth(this);
+            var graphicsFormat = outputNode.settings.GetGraphicsFormat(this);
             var creationFlags = outputSettings.hasMipMaps ? TextureCreationFlags.MipChain : TextureCreationFlags.None;
 
             // Check if we need to re-create the texture:
@@ -411,13 +423,22 @@ namespace Mixture
 
             if (currentTexture != null)
             {
-                bool matchTextureSettings = currentTexture.dimension == (TextureDimension)s.dimension
-                    && currentTexture.width == s.width && currentTexture.height == s.height
+                bool matchTextureSettings = currentTexture.dimension == dimension 
+                    && currentTexture.width == width && currentTexture.height == height
                     && (currentTexture.mipmapCount > 1) == outputSettings.hasMipMaps
-                    && currentTexture.GetType() == s.GetType();
+                    && MatchTextureTypeWithGraphType(currentTexture);
+
+                bool MatchTextureTypeWithGraphType(Texture t)
+                {
+                    bool realtimeTexture = typeof(RenderTexture).IsAssignableFrom(t.GetType());
+                    if (type == MixtureGraphType.Baked)
+                        return !realtimeTexture;
+                    else
+                        return realtimeTexture;
+                }
 
                 bool conversionOrCompression = outputSettings.IsCompressionEnabled() || outputSettings.IsConversionEnabled();
-                matchTextureSettings &= conversionOrCompression || (!conversionOrCompression && currentTexture.graphicsFormat == s.graphicsFormat);
+                matchTextureSettings &= conversionOrCompression || (!conversionOrCompression && currentTexture.graphicsFormat == graphicsFormat);
 
                 // Note that here we don't check the graphic format of the texture, because the current texture
                 // can use a compressed format which will be different compared to the one in the graph.
@@ -426,7 +447,7 @@ namespace Mixture
                     return currentTexture;
                 else if (!conversionOrCompression && matchTextureSettings) // Otherwise if the format is not compressed, we want to compare the format because it directly affects the data on disk
                 {
-                    if (currentTexture.graphicsFormat == s.graphicsFormat)
+                    if (currentTexture.graphicsFormat == graphicsFormat)
                         return currentTexture;
                 }
             }
@@ -435,22 +456,22 @@ namespace Mixture
 
             Texture newTexture = null;
 
-            switch (s.dimension)
+            switch (dimension)
             {
-                case OutputDimension.Texture2D:
-                    newTexture = new Texture2D(s.width, s.height, (GraphicsFormat)s.graphicsFormat, creationFlags);
+                case TextureDimension.Tex2D:
+                    newTexture = new Texture2D(width, height, graphicsFormat, creationFlags);
                     onOutputTextureUpdated?.Invoke();
                     break;
-                case OutputDimension.Texture3D:
-                    newTexture = new Texture3D(s.width, s.height, s.depth, (GraphicsFormat)s.graphicsFormat, creationFlags);
+                case TextureDimension.Tex3D:
+                    newTexture = new Texture3D(width, height, depth, graphicsFormat, creationFlags);
                     onOutputTextureUpdated?.Invoke();
                     break;
-                case OutputDimension.CubeMap:
-                    newTexture = new Cubemap(s.width, (GraphicsFormat)s.graphicsFormat, creationFlags);
+                case TextureDimension.Cube:
+                    newTexture = new Cubemap(width, graphicsFormat, creationFlags);
                     onOutputTextureUpdated?.Invoke();
                     break;
                 default:
-                    Debug.LogError("Texture format " + s.dimension + " is not supported");
+                    Debug.LogError("Texture format " + dimension + " is not supported");
                     return null;
             }
 

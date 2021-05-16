@@ -57,8 +57,8 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
                     outputChannels = OutputChannel.InheritFromParent,
                     outputPrecision = OutputPrecision.InheritFromParent,
                     editFlags = EditFlags.Height | EditFlags.Width| EditFlags.TargetFormat,
-                    wrapMode = TextureWrapMode.Repeat,
-                    filterMode = FilterMode.Bilinear,
+                    wrapMode = OutputWrapMode.Repeat,
+                    filterMode = OutputFilterMode.Bilinear,
                 };
             }
         }

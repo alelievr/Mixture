@@ -36,10 +36,19 @@ namespace Mixture
 		public OutputPrecision outputPrecision;
 		public EditFlags editFlags;
 		public bool doubleBuffered;
-        public TextureWrapMode wrapMode;
-        public FilterMode filterMode;
+        public OutputWrapMode wrapMode;
+        public OutputFilterMode filterMode;
 		public RefreshMode refreshMode;
 		public float period;
+
+		[NonSerialized]
+		MixtureNode node;
+
+		public void ResolveAndUpdate(MixtureNode node)
+		{
+			this.node = node;
+			// TODO: update all cached values in the settings
+		}
 
 		public static MixtureSettings defaultValue
 		{
@@ -57,8 +66,8 @@ namespace Mixture
 				outputPrecision = OutputPrecision.InheritFromParent,
 				editFlags = ~EditFlags.POTSize,
 				doubleBuffered = false,
-                wrapMode = TextureWrapMode.Repeat,
-                filterMode = FilterMode.Bilinear,
+                wrapMode = OutputWrapMode.InheritFromParent,
+                filterMode = OutputFilterMode.InheritFromParent,
 				refreshMode = RefreshMode.OnLoad,
 			};
 		}
@@ -103,9 +112,13 @@ namespace Mixture
 				case OutputSizeMode.InheritFromGraph:
 					return graph.settings.width;
 				case OutputSizeMode.InheritFromParent:
+					if (node?.parentSettingsNode == null)
+						return graph.settings.width;
+					return node.parentSettingsNode.settings.GetWidth(graph);
 				case OutputSizeMode.InheritFromChild:
-					// TODO
-					return graph.settings.width;
+					if (node?.childSettingsNode == null)
+						return graph.settings.width;
+					return node.childSettingsNode.settings.GetWidth(graph);
 				case OutputSizeMode.Absolute:
 					return width;
 				case OutputSizeMode.ScaleOfParent:
@@ -122,9 +135,13 @@ namespace Mixture
 				case OutputSizeMode.InheritFromGraph:
 					return graph.settings.height;
 				case OutputSizeMode.InheritFromParent:
+					if (node?.parentSettingsNode == null)
+						return graph.settings.height;
+					return node.parentSettingsNode.settings.GetHeight(graph);
 				case OutputSizeMode.InheritFromChild:
-					// TODO
-					return graph.settings.height;
+					if (node?.childSettingsNode == null)
+						return graph.settings.height;
+					return node.childSettingsNode.settings.GetHeight(graph);
 				case OutputSizeMode.Absolute:
 					return height;
 				case OutputSizeMode.ScaleOfParent:
@@ -145,9 +162,13 @@ namespace Mixture
 				case OutputSizeMode.InheritFromGraph:
 					return graph.settings.depth;
 				case OutputSizeMode.InheritFromParent:
+					if (node?.parentSettingsNode == null)
+						return graph.settings.depth;
+					return node.parentSettingsNode.settings.GetDepth(graph);
 				case OutputSizeMode.InheritFromChild:
-					// TODO
-					return graph.settings.depth;
+					if (node?.childSettingsNode == null)
+						return graph.settings.depth;
+					return node.childSettingsNode.settings.GetDepth(graph);
 				case OutputSizeMode.Absolute:
 					return depth;
 				case OutputSizeMode.ScaleOfParent:
@@ -157,7 +178,7 @@ namespace Mixture
 		}
 
 		public GraphicsFormat GetGraphicsFormat(MixtureGraph graph)
-			=>ConvertToGraphicsFormat(GetOutputChannels(graph), GetOutputPrecision(graph));
+			=> ConvertToGraphicsFormat(GetOutputChannels(graph), GetOutputPrecision(graph));
 
 		public OutputPrecision GetOutputPrecision(MixtureGraph graph)
 		{
@@ -166,9 +187,13 @@ namespace Mixture
 				case OutputPrecision.InheritFromGraph:
 					return graph.settings.outputPrecision;
 				case OutputPrecision.InheritFromChild:
+					if (node?.childSettingsNode == null)
+						return graph.settings.outputPrecision;
+					return node.childSettingsNode.settings.GetOutputPrecision(graph);
 				case OutputPrecision.InheritFromParent:
-					// TODO!
-					return graph.settings.outputPrecision;
+					if (node?.parentSettingsNode == null)
+						return graph.settings.outputPrecision;
+					return node.parentSettingsNode.settings.GetOutputPrecision(graph);
 				default:
 					return outputPrecision;
 			}
@@ -181,9 +206,13 @@ namespace Mixture
 				case OutputChannel.InheritFromGraph:
 					return graph.settings.outputChannels;
 				case OutputChannel.InheritFromChild:
+					if (node?.childSettingsNode == null)
+						return graph.settings.outputChannels;
+					return node.childSettingsNode.settings.GetOutputChannels(graph);
 				case OutputChannel.InheritFromParent:
-					// TODO!
-					return graph.settings.outputChannels;
+					if (node?.parentSettingsNode == null)
+						return graph.settings.outputChannels;
+					return node.parentSettingsNode.settings.GetOutputChannels(graph);
 				default:
 					return outputChannels;
 			}
@@ -197,11 +226,55 @@ namespace Mixture
 				case OutputDimension.InheritFromGraph:
 					return (TextureDimension)graph.settings.dimension;
 				case OutputDimension.InheritFromChild:
+					if (node?.childSettingsNode == null)
+						return (TextureDimension)graph.settings.dimension;
+					return node.childSettingsNode.settings.GetTextureDimension(graph);
 				case OutputDimension.InheritFromParent:
-					// TODO!
-					return (TextureDimension)graph.settings.dimension;
+					if (node?.parentSettingsNode == null)
+						return (TextureDimension)graph.settings.dimension;
+					return node.parentSettingsNode.settings.GetTextureDimension(graph);
 				default:
 					return (TextureDimension)dimension;
+			}
+		}
+
+		public TextureWrapMode GetWrapMode(MixtureGraph graph)
+		{
+			// if this function is called from the output node and the dimension is default, then we set it to a default value
+			switch (wrapMode)
+			{
+				case OutputWrapMode.InheritFromGraph:
+					return (TextureWrapMode)graph.settings.wrapMode;
+				case OutputWrapMode.InheritFromChild:
+					if (node?.childSettingsNode == null)
+						return (TextureWrapMode)graph.settings.wrapMode;
+					return node.childSettingsNode.settings.GetWrapMode(graph);
+				case OutputWrapMode.InheritFromParent:
+					if (node?.parentSettingsNode == null)
+						return (TextureWrapMode)graph.settings.wrapMode;
+					return node.parentSettingsNode.settings.GetWrapMode(graph);
+				default:
+					return (TextureWrapMode)wrapMode;
+			}
+		}
+
+		public FilterMode GetFilterMode(MixtureGraph graph)
+		{
+			// if this function is called from the output node and the dimension is default, then we set it to a default value
+			switch (filterMode)
+			{
+				case OutputFilterMode.InheritFromGraph:
+					return (FilterMode)graph.settings.filterMode;
+				case OutputFilterMode.InheritFromChild:
+					if (node?.childSettingsNode == null)
+						return (FilterMode)graph.settings.filterMode;
+					return node.childSettingsNode.settings.GetFilterMode(graph);
+				case OutputFilterMode.InheritFromParent:
+					if (node?.parentSettingsNode == null)
+						return (FilterMode)graph.settings.filterMode;
+					return node.parentSettingsNode.settings.GetFilterMode(graph);
+				default:
+					return (FilterMode)filterMode;
 			}
 		}
 
@@ -210,8 +283,8 @@ namespace Mixture
 			return (GetGraphicsFormat(graph) != t.graphicsFormat && checkFormat)
 				|| GetWidth(graph) != t.width
 				|| GetHeight(graph) != t.height
-				|| filterMode != t.filterMode
-				|| wrapMode != t.wrapMode;
+				|| GetFilterMode(graph) != t.filterMode
+				|| GetWrapMode(graph) != t.wrapMode;
 		}
 
 		public void SetPOTSize(int size)

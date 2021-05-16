@@ -93,7 +93,7 @@ namespace Mixture
             wrapMode.RegisterValueChangedCallback(e =>
             {
                 owner.RegisterCompleteObjectUndo("Updated Wrap Mode " + e.newValue);
-                settings.wrapMode = (TextureWrapMode)e.newValue;
+                settings.wrapMode = (OutputWrapMode)e.newValue;
                 onChanged?.Invoke();
             });
 
@@ -104,7 +104,7 @@ namespace Mixture
             filterMode.RegisterValueChangedCallback(e =>
             {
                 owner.RegisterCompleteObjectUndo("Updated Filter Mode " + e.newValue);
-                settings.filterMode = (FilterMode)e.newValue;
+                settings.filterMode = (OutputFilterMode)e.newValue;
                 onChanged?.Invoke();
             });
 
@@ -117,7 +117,7 @@ namespace Mixture
             this.Add(sizeHeader);
 
             outputSizeMode = new EnumField(settings.sizeMode) {
-                label = "Width Mode",
+                label = "Size Mode",
             };
             outputSizeMode.RegisterValueChangedCallback((EventCallback<ChangeEvent<Enum>>)(e => {
                 owner.RegisterCompleteObjectUndo("Updated Size mode " + e.newValue);
@@ -354,7 +354,7 @@ namespace Mixture
             SetVisible(sizeHeader, settings.CanEdit(EditFlags.Size));
             SetVisible(formatHeader, settings.CanEdit(EditFlags.Format));
             SetVisible(outputSizeMode, settings.CanEdit(EditFlags.SizeMode));
-            SetVisible(potSize, settings.CanEdit(EditFlags.POTSize));
+            SetVisible(potSize, settings.CanEdit(EditFlags.POTSize) && settings.sizeMode == OutputSizeMode.Absolute);
             SetVisible(outputWidth, settings.CanEdit(EditFlags.Width) && settings.sizeMode == OutputSizeMode.Absolute && (settings.potSize == POTSize.Custom || !settings.CanEdit(EditFlags.POTSize)));
             SetVisible(outputWidthPercentage, settings.CanEdit(EditFlags.Width) && settings.sizeMode == OutputSizeMode.ScaleOfParent);
 			SetVisible(outputHeight, settings.CanEdit(EditFlags.Height) && settings.sizeMode == OutputSizeMode.Absolute && (settings.potSize == POTSize.Custom || !settings.CanEdit(EditFlags.POTSize)));

@@ -206,8 +206,20 @@ namespace Mixture
 								node.UpdateAllPortsLocal();
 						}
 					}).ExecuteLater(1);
-					graph.settings.dimension = newDimension;
 				}
+
+				graph.settings.dimension = newDimension;
+
+				if (newDimension == OutputDimension.Texture3D)
+                {
+                    long pixelCount = graph.settings.GetWidth(graph) * graph.settings.GetHeight(graph) * graph.settings.GetDepth(graph);
+
+                    // Above 16M pixels in a texture3D, processing can take too long and crash the GPU when a conversion happen
+                    if (pixelCount > 16777216)
+                        graph.settings.SetPOTSize(64);
+                }
+
+				graphView.ProcessGraph();
 			}
 		}
 

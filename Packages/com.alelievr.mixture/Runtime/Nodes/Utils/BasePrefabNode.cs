@@ -61,6 +61,7 @@ namespace Mixture
 
         protected override void Enable()
         {
+            base.Enable();
 #if UNITY_EDITOR
             if (createNewPrefab)
             {

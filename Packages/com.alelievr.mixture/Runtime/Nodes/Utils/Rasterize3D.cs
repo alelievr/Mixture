@@ -34,7 +34,7 @@ Note that the unsigned distance field is faster to compute.
 		{
             base.Enable();
             settings.editFlags = 0;
-            settings.filterMode = FilterMode.Point;
+            settings.filterMode = OutputFilterMode.Point;
             settings.dimension = OutputDimension.Texture3D;
             UpdateTempRenderTexture(ref outputVolume);
             props = new MaterialPropertyBlock();

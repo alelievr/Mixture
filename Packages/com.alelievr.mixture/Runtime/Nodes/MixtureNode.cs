@@ -64,6 +64,11 @@ namespace Mixture
 		[HideInInspector]
 		public bool	isPinned;
 
+		[NonSerialized]
+		internal MixtureNode parentSettingsNode;
+		[NonSerialized]
+		internal MixtureNode childSettingsNode;
+
 		CustomSampler		_sampler = null;
 		CustomSampler		sampler
 		{
@@ -121,6 +126,32 @@ namespace Mixture
 			previewMode = defaultPreviewChannels;
 		}
 
+        protected override void Enable()
+        {
+            base.Enable();
+			onAfterEdgeConnected += UpdateSettings;
+			onAfterEdgeDisconnected += UpdateSettings;
+			UpdateSettings(null);
+        }
+
+		protected override void Disable()
+		{
+			foreach (var matKp in temporaryMaterials)
+				CoreUtils.Destroy(matKp.Value);
+			base.Disable();
+			onAfterEdgeConnected -= UpdateSettings;
+			onAfterEdgeDisconnected -= UpdateSettings;
+		}
+
+		void UpdateSettings(SerializableEdge edge)
+		{
+			// Update nodes used to infere settings values
+			parentSettingsNode = GetInputNodes().FirstOrDefault(n => n is MixtureNode) as MixtureNode;
+			childSettingsNode = GetOutputNodes().FirstOrDefault(n => n is MixtureNode) as MixtureNode;
+
+			settings.ResolveAndUpdate(this);
+		}
+
 		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false,
 			CustomRenderTextureUpdateMode updateMode = CustomRenderTextureUpdateMode.OnDemand, bool depthBuffer = false,
 			GraphicsFormat overrideGraphicsFormat = GraphicsFormat.None)
@@ -132,6 +163,8 @@ namespace Mixture
 			int outputWidth = settings.GetWidth(graph);
 			int outputHeight = settings.GetHeight(graph);
 			int outputDepth = settings.GetDepth(graph);
+			var filterMode = settings.GetFilterMode(graph);
+			var wrapMode = settings.GetWrapMode(graph);
 			GraphicsFormat targetFormat = overrideGraphicsFormat != GraphicsFormat.None ? overrideGraphicsFormat : settings.GetGraphicsFormat(graph);
 			TextureDimension dimension = GetTempTextureDimension();
 
@@ -157,8 +190,8 @@ namespace Mixture
                     name = $"Mixture Temp {name}",
                     updateMode = CustomRenderTextureUpdateMode.OnDemand,
                     doubleBuffered = settings.doubleBuffered,
-                    wrapMode = settings.wrapMode,
-                    filterMode = settings.filterMode,
+                    wrapMode = wrapMode,
+                    filterMode = filterMode,
                     useMipMap = hasMips,
 					autoGenerateMips = autoGenerateMips,
 					enableRandomWrite = true,
@@ -179,9 +212,9 @@ namespace Mixture
 				|| target.graphicsFormat != targetFormat
 				|| target.dimension != dimension
 				|| target.volumeDepth != outputDepth
-				|| target.filterMode != settings.filterMode
+				|| target.filterMode != settings.GetFilterMode(graph)
 				|| target.doubleBuffered != settings.doubleBuffered
-                || target.wrapMode != settings.wrapMode
+                || target.wrapMode != wrapMode
 				|| target.useMipMap != hasMips
 				|| target.autoGenerateMips != autoGenerateMips
 				|| target.updatePeriod != GetUpdatePeriod())
@@ -193,8 +226,8 @@ namespace Mixture
 				target.dimension = dimension;
 				target.volumeDepth = outputDepth;
 				target.doubleBuffered = settings.doubleBuffered;
-                target.wrapMode = settings.wrapMode;
-                target.filterMode = settings.filterMode;
+                target.wrapMode = wrapMode;
+                target.filterMode = filterMode;
                 target.useMipMap = hasMips;
 				target.autoGenerateMips = autoGenerateMips;
 				target.enableRandomWrite = true;
@@ -541,13 +574,6 @@ namespace Mixture
 		// Workaround to be able to have the same node with different port settings per graph texture dimension
 		[IsCompatibleWithGraph]
 		internal static bool IsNodeCompatibleWithGraph(BaseGraph graph) => true;
-
-		protected override void Disable()
-		{
-			foreach (var matKp in temporaryMaterials)
-				CoreUtils.Destroy(matKp.Value);
-			base.Disable();
-		}
 	}
 
 	[Flags]
@@ -622,6 +648,27 @@ namespace Mixture
 		RGBA = 1,
 		RG = 2,
 		R = 3,
+	}
+
+	public enum OutputWrapMode
+	{
+		InheritFromGraph = 0,
+		InheritFromParent = -1,
+		InheritFromChild = -2,
+		Repeat = TextureWrapMode.Repeat,
+		Clamp = TextureWrapMode.Clamp,
+		Mirror = TextureWrapMode.Mirror,
+		MirrorOnce = TextureWrapMode.MirrorOnce,
+	}
+
+	public enum OutputFilterMode
+	{
+		InheritFromGraph = 0,
+		InheritFromParent = -1,
+		InheritFromChild = -2,
+		Point = FilterMode.Point,
+		Bilinear = FilterMode.Bilinear,
+		Trilinear = FilterMode.Trilinear,
 	}
 
 	[Flags]

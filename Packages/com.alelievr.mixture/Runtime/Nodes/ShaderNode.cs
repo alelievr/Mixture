@@ -85,6 +85,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 
 		protected override void Enable()
 		{
+            base.Enable();
 			defaultShader = Shader.Find(DefaultShaderName);
 
 			if (material == null)

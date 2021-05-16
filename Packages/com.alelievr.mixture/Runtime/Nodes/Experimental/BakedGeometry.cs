@@ -45,6 +45,7 @@ namespace Mixture
 
 		protected override void Enable()
 		{
+            base.Enable();
 			UpdateTempRenderTexture(ref preview);
 
 			// Update temp RT after process in case RTSettings have been modified in Process()

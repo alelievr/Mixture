@@ -33,6 +33,7 @@ Output a random float between the min and max values.
 
 		protected override void Enable()
 		{
+            base.Enable();
 			generator = new Random(seed);
 		}
 
