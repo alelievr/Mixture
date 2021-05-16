@@ -109,6 +109,14 @@ namespace Mixture
 				DrawDefaultInspector(fromInspector);
         }
 
+        public override void Disable()
+        {
+			foreach (var materialEditor in materialEditors.Values)
+				UnityEngine.Object.DestroyImmediate(materialEditor);
+			materialEditors.Clear();
+            base.Disable();
+        }
+
 		~MixtureNodeView()
 		{
 			MixturePropertyDrawer.UnregisterGraph(owner.graph);

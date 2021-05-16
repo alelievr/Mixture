@@ -88,7 +88,6 @@ namespace Mixture
 			}
 
 			outputTextureSettings.Add(output);
-			Debug.Log("Add output texture!");
 
 #if UNITY_EDITOR
 			if (graph.type == MixtureGraphType.Realtime)
@@ -101,7 +100,6 @@ namespace Mixture
 		public void RemoveTextureOutput(OutputTextureSettings settings)
 		{
 			outputTextureSettings.Remove(settings);
-			Debug.Log("Remove output texture!");
 
 #if UNITY_EDITOR
 			// When the graph is realtime, we don't have the save all button, so we call is automatically
@@ -154,7 +152,8 @@ namespace Mixture
 						onTempRenderTextureUpdated?.Invoke();
 					output.finalCopyRT = finalCopyRT;
 
-					UpdateTempRenderTexture(ref output.finalCopyRT, output.hasMipMaps);
+					UpdateTempRenderTexture(ref output.finalCopyRT, output.hasMipMaps, hideAsset: false);
+					output.finalCopyRT.material = null;
 
 					// Only the main output CRT is marked as realtime because it's processing will automatically
 					// trigger the processing of it's graph, and thus all the outputs in the graph.
@@ -162,6 +161,10 @@ namespace Mixture
 						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.Realtime;
 					else
 						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.OnDemand;
+					
+					// Sync output texture properties:
+					output.finalCopyRT.wrapMode = settings.GetWrapMode(graph);
+					output.finalCopyRT.filterMode = settings.GetFilterMode(graph);
 				}
 				else
 				{

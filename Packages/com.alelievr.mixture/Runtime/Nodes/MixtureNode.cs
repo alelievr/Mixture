@@ -154,7 +154,7 @@ namespace Mixture
 
 		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false,
 			CustomRenderTextureUpdateMode updateMode = CustomRenderTextureUpdateMode.OnDemand, bool depthBuffer = false,
-			GraphicsFormat overrideGraphicsFormat = GraphicsFormat.None)
+			GraphicsFormat overrideGraphicsFormat = GraphicsFormat.None, bool hideAsset = true)
 		{
 			if (graph.mainOutputTexture == null)
 				return false;
@@ -195,7 +195,7 @@ namespace Mixture
                     useMipMap = hasMips,
 					autoGenerateMips = autoGenerateMips,
 					enableRandomWrite = true,
-					hideFlags = HideFlags.HideAndDontSave,
+					hideFlags = hideAsset ? HideFlags.HideAndDontSave : HideFlags.None,
 					updatePeriod = GetUpdatePeriod(),
 				};
 				target.Create();
@@ -254,7 +254,7 @@ namespace Mixture
 				}
 			}
 
-			if (target.IsCreated())
+			if (!target.IsCreated())
 				target.Create();
 
 			return changed;
