@@ -161,7 +161,7 @@ namespace Mixture
 						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.Realtime;
 					else
 						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.OnDemand;
-					
+
 					// Sync output texture properties:
 					output.finalCopyRT.wrapMode = settings.GetWrapMode(graph);
 					output.finalCopyRT.filterMode = settings.GetFilterMode(graph);

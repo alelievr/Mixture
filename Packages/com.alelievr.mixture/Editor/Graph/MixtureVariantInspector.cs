@@ -266,7 +266,7 @@ namespace Mixture
 
                 // Refresh the preview in the inspector:
                 var graphicsFormat = graph.outputNode.settings.GetGraphicsFormat(graph);
-                var width = graph.outputNode.settings.GetWidth(graph);
+                var width = graph.outputNode.settings.GetResolvedWidth(graph);
                 var height = graph.outputNode.settings.GetHeight(graph);
                 var depth = graph.outputNode.settings.GetDepth(graph);
                 var filterMode = graph.outputNode.settings.GetFilterMode(graph);

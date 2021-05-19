@@ -13,6 +13,49 @@ namespace Mixture
 {
 	public class MixtureSettingsView : VisualElement
 	{
+        // Keep a second version of enums from MixtureNode.cs without the Inherit fields for the graph settings:
+
+        public enum GraphOutputDimension
+        {
+            Texture2D = TextureDimension.Tex2D,
+            CubeMap = TextureDimension.Cube,
+            Texture3D = TextureDimension.Tex3D,
+        }
+
+        public enum GraphOutputSizeMode
+        {
+            Absolute = OutputSizeMode.Absolute,
+        }
+
+        public enum GraphOutputPrecision
+        {
+            LDR				= OutputPrecision.LDR,
+            Half			= OutputPrecision.Half,
+            Full			= OutputPrecision.Full,
+        }
+
+        public enum GraphOutputChannel
+        {
+            RGBA = OutputChannel.RGBA,
+            RG = OutputChannel.RG,
+            R = OutputChannel.R,
+        }
+
+        public enum GraphOutputWrapMode
+        {
+            Repeat = OutputWrapMode.Repeat,
+            Clamp = OutputWrapMode.Clamp,
+            Mirror = OutputWrapMode.Mirror,
+            MirrorOnce = OutputWrapMode.MirrorOnce,
+        }
+
+        public enum GraphOutputFilterMode
+        {
+            Point = OutputFilterMode.Point,
+            Bilinear = OutputFilterMode.Bilinear,
+            Trilinear = OutputFilterMode.Trilinear,
+        }
+
         public const string headerStyleClass = "PropertyEditorHeader";
         Label sizeHeader;
         Label smpHeader;
@@ -88,10 +131,8 @@ namespace Mixture
             smpHeader.AddToClassList(headerStyleClass);
             this.Add(smpHeader);
 
-            wrapMode = new EnumField(settings.wrapMode)
-            {
-                label = "Wrap Mode",
-            };
+            wrapMode = showInheritanceValue ? new EnumField(settings.wrapMode) : new EnumField((GraphOutputWrapMode)settings.wrapMode);
+            wrapMode.label = "Wrap Mode";
             wrapMode.RegisterValueChangedCallback(e =>
             {
                 owner.RegisterCompleteObjectUndo("Updated Wrap Mode " + e.newValue);
@@ -99,10 +140,8 @@ namespace Mixture
                 onChanged?.Invoke();
             });
 
-            filterMode = new EnumField(settings.filterMode)
-            {
-                label = "Filter Mode",
-            };
+            filterMode = showInheritanceValue ? new EnumField(settings.filterMode) : new EnumField((GraphOutputFilterMode)settings.filterMode);
+            filterMode.label = "Filter Mode";
             filterMode.RegisterValueChangedCallback(e =>
             {
                 owner.RegisterCompleteObjectUndo("Updated Filter Mode " + e.newValue);
@@ -118,9 +157,8 @@ namespace Mixture
             sizeHeader.AddToClassList(headerStyleClass);
             this.Add(sizeHeader);
 
-            outputSizeMode = new EnumField(settings.sizeMode) {
-                label = "Size Mode",
-            };
+            outputSizeMode = showInheritanceValue ? new EnumField(settings.sizeMode) : new EnumField((GraphOutputSizeMode)settings.sizeMode);
+            outputSizeMode.label = "Size Mode";
             outputSizeMode.RegisterValueChangedCallback((EventCallback<ChangeEvent<Enum>>)(e => {
                 owner.RegisterCompleteObjectUndo("Updated Size mode " + e.newValue);
                 settings.sizeMode = (OutputSizeMode)e.newValue;
@@ -255,16 +293,15 @@ namespace Mixture
             formatHeader.AddToClassList(headerStyleClass);
             this.Add(formatHeader);
 
-            outputDimension = new EnumField(settings.dimension) {
-                label = "Dimension",
-            };
+            outputDimension = showInheritanceValue ? new EnumField(settings.dimension) : new EnumField((GraphOutputDimension)settings.dimension);
+            outputDimension.label = "Dimension";
             outputDimension.RegisterValueChangedCallback(e => {
                 owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
                 // Check if the new texture is not too high res:
                 settings.dimension = (OutputDimension)e.newValue;
                 if (settings.dimension == OutputDimension.Texture3D)
                 {
-                    long pixelCount = settings.GetWidth(graph) * settings.GetHeight(graph) * settings.GetDepth(graph);
+                    long pixelCount = settings.GetResolvedWidth(graph) * settings.GetHeight(graph) * settings.GetDepth(graph);
 
                     // Above 16M pixels in a texture3D, processing can take too long and crash the GPU when a conversion happen
                     if (pixelCount > 16777216)
@@ -275,18 +312,16 @@ namespace Mixture
                 onChanged?.Invoke();
             });
 
-            outputChannels = new EnumField(settings.outputChannels) {
-                label = "Output Channels",
-            };
+            outputChannels = showInheritanceValue ? new EnumField(settings.outputChannels) : new EnumField((GraphOutputChannel)settings.outputChannels);
+            outputChannels.label = "Output Channels";
             outputChannels.RegisterValueChangedCallback(e => {
                 owner.RegisterCompleteObjectUndo("Updated Output Channels " + e.newValue);
                 settings.outputChannels = (OutputChannel)e.newValue;
                 onChanged?.Invoke();
             });
 
-            outputPrecision = new EnumField(settings.outputPrecision) {
-                label = "Output Precision",
-            };
+            outputPrecision = showInheritanceValue ? new EnumField(settings.outputPrecision) : new EnumField((GraphOutputPrecision)settings.outputPrecision);
+            outputPrecision.label = "Output Precision";
             outputPrecision.RegisterValueChangedCallback(e => {
                 owner.RegisterCompleteObjectUndo("Updated Output Precision " + e.newValue);
                 settings.outputPrecision = (OutputPrecision)e.newValue;
@@ -373,5 +408,28 @@ namespace Mixture
         }
 
         public void RegisterChangedCallback(Action callback) => onChanged += callback;
+
+		public void RefreshSettingsValues()
+		{
+            outputSizeMode?.SetValueWithoutNotify(settings.sizeMode);
+            outputDimension?.SetValueWithoutNotify(settings.dimension);
+            outputChannels?.SetValueWithoutNotify(settings.outputChannels);
+            outputPrecision?.SetValueWithoutNotify(settings.outputPrecision);
+            wrapMode?.SetValueWithoutNotify(settings.wrapMode);
+            filterMode?.SetValueWithoutNotify(settings.filterMode);
+            potSize?.SetValueWithoutNotify(settings.potSize);
+
+            outputWidth?.SetValueWithoutNotify(settings.width);
+            outputWidthPercentage?.SetValueWithoutNotify(settings.widthPercent);
+            outputHeight?.SetValueWithoutNotify(settings.height);
+            outputHeightPercentage?.SetValueWithoutNotify(settings.heightPercent);
+            outputDepth?.SetValueWithoutNotify(settings.depth);
+            outputDepthPercentage?.SetValueWithoutNotify(settings.depthPercent);
+
+            doubleBuffered?.SetValueWithoutNotify(settings.doubleBuffered);
+
+            refreshMode?.SetValueWithoutNotify(settings.refreshMode);
+            period?.SetValueWithoutNotify(settings.period);
+		}
     }
 }

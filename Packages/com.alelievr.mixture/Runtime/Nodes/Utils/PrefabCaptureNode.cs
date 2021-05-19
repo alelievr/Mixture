@@ -175,7 +175,7 @@ Note that this node is currently only available with HDRP.
                     graph.RemoveObjectFromGraph(savedTexture);
                     Object.DestroyImmediate(savedTexture, true);
                 }
-                savedTexture = new Texture2D(settings.GetWidth(graph), settings.GetHeight(graph), compressedFormat, TextureCreationFlags.None) { name = "SceneNode Rendering"};
+                savedTexture = new Texture2D(settings.GetResolvedWidth(graph), settings.GetHeight(graph), compressedFormat, TextureCreationFlags.None) { name = "SceneNode Rendering"};
                 savedTexture.hideFlags = HideFlags.NotEditable;
                 graph.AddObjectToGraph(savedTexture);
             }

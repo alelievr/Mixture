@@ -657,5 +657,7 @@ namespace Mixture
 				}
 			}).Every(200);
 		}
+
+		public void RefreshSettingsValues() => settingsView.RefreshSettingsValues();
 	}
 }

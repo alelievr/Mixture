@@ -21,6 +21,13 @@ namespace Mixture
         Behaviour,
     }
 
+    public enum NodeInheritanceMode
+    {
+        InheritFromGraph = -1,
+        InheritFromParent = -2,
+        InheritFromChild = -3,
+    }
+
 	[System.Serializable]
 	public class MixtureGraph : BaseGraph
 	{
@@ -47,6 +54,8 @@ namespace Mixture
         /// Add the mixture asset to the built player, note that it only works for static mixtures as realtime ones are always included.
         /// </summary>
         public bool             embedInBuild;
+
+        public NodeInheritanceMode defaultNodeInheritanceMode = NodeInheritanceMode.InheritFromParent;
 
         [System.NonSerialized]
 		OutputNode		        _outputNode;
@@ -202,16 +211,18 @@ namespace Mixture
         void SanitizeSettings()
         {
             // Avoid undefined values in settings
-            if ((int)settings.outputChannels <= 0)
+            if (settings.outputChannels.Inherits())
                 settings.outputChannels = OutputChannel.RGBA;
-            if ((int)settings.outputPrecision <= 0)
+            if (settings.outputPrecision.Inherits())
                 settings.outputPrecision = OutputPrecision.Half;
-            if ((int)settings.dimension <= 0)
+            if (settings.dimension.Inherits())
                 settings.dimension = OutputDimension.Texture2D;
-            if ((int)settings.wrapMode < 0)
+            if (settings.wrapMode.Inherits())
                 settings.wrapMode = OutputWrapMode.Mirror;
-            if ((int)settings.filterMode < 0)
+            if (settings.filterMode.Inherits())
                 settings.filterMode = OutputFilterMode.Trilinear;
+            if (settings.sizeMode.Inherits())
+                settings.sizeMode = OutputSizeMode.Absolute;
 
             settings.editFlags = EditFlags.TargetFormat;
         }
@@ -366,7 +377,7 @@ namespace Mixture
 		Texture UpdateOutputRealtimeTexture(OutputTextureSettings outputSettings)
 		{
 			var dimension = outputNode.settings.GetTextureDimension(this);
-            var width = outputNode.settings.GetWidth(this);
+            var width = outputNode.settings.GetResolvedWidth(this);
             var height = outputNode.settings.GetHeight(this);
             var depth = outputNode.settings.GetDepth(this);
             var graphicsFormat = outputNode.settings.GetGraphicsFormat(this);
@@ -412,7 +423,7 @@ namespace Mixture
 		Texture UpdateOutputStaticTexture(OutputTextureSettings outputSettings)
 		{
 			var dimension = outputNode.settings.GetTextureDimension(this);
-            var width = outputNode.settings.GetWidth(this);
+            var width = outputNode.settings.GetResolvedWidth(this);
             var height = outputNode.settings.GetHeight(this);
             var depth = outputNode.settings.GetDepth(this);
             var graphicsFormat = outputNode.settings.GetGraphicsFormat(this);
@@ -497,13 +508,13 @@ namespace Mixture
                 switch (dimension)
                 {
                     case TextureDimension.Tex2D:
-                        outputTexture = new Texture2D(rtSettings.GetWidth(this), rtSettings.GetHeight(this), format, TextureCreationFlags.MipChain);
+                        outputTexture = new Texture2D(rtSettings.GetResolvedWidth(this), rtSettings.GetHeight(this), format, TextureCreationFlags.MipChain);
                         break;
                     case TextureDimension.Cube:
-                        outputTexture = new Cubemap(rtSettings.GetWidth(this), format, TextureCreationFlags.MipChain);
+                        outputTexture = new Cubemap(rtSettings.GetResolvedWidth(this), format, TextureCreationFlags.MipChain);
                         break;
                     case TextureDimension.Tex3D:
-                        outputTexture = new Texture3D(rtSettings.GetWidth(this), rtSettings.GetHeight(this), rtSettings.GetDepth(this), format, TextureCreationFlags.MipChain);
+                        outputTexture = new Texture3D(rtSettings.GetResolvedWidth(this), rtSettings.GetHeight(this), rtSettings.GetDepth(this), format, TextureCreationFlags.MipChain);
                         break;
                 }
                 EditorUtility.DisplayProgressBar("Mixture", "Reading Back Data...", 0.1f);
@@ -909,5 +920,14 @@ namespace Mixture
         }
 
         internal void InvokeCommandBufferExecuted() => afterCommandBufferExecuted?.Invoke();
+
+        public void UpdateNodeInheritanceMode()
+        {
+            foreach (var node in nodes)
+            {
+                if (node is MixtureNode n)
+                    n.settings.SyncInheritanceMode(defaultNodeInheritanceMode);
+            }
+        }
     }
 }

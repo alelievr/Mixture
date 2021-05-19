@@ -104,7 +104,11 @@ namespace Mixture
 		
 		public bool CanEdit(EditFlags flag) => (this.editFlags & flag) != 0;
 
-		public int GetWidth(MixtureGraph graph)
+		public void Initialize(MixtureGraph graph)
+		{
+		}
+
+		public int GetResolvedWidth(MixtureGraph graph)
 		{
 			switch(sizeMode)
 			{
@@ -114,11 +118,11 @@ namespace Mixture
 				case OutputSizeMode.InheritFromParent:
 					if (node?.parentSettingsNode == null)
 						return graph.settings.width;
-					return node.parentSettingsNode.settings.GetWidth(graph);
+					return node.parentSettingsNode.settings.GetResolvedWidth(graph);
 				case OutputSizeMode.InheritFromChild:
 					if (node?.childSettingsNode == null)
 						return graph.settings.width;
-					return node.childSettingsNode.settings.GetWidth(graph);
+					return node.childSettingsNode.settings.GetResolvedWidth(graph);
 				case OutputSizeMode.Absolute:
 					return width;
 				case OutputSizeMode.ScaleOfParent:
@@ -281,7 +285,7 @@ namespace Mixture
 		public bool NeedsUpdate(MixtureGraph graph, Texture t, bool checkFormat = true)
 		{
 			return (GetGraphicsFormat(graph) != t.graphicsFormat && checkFormat)
-				|| GetWidth(graph) != t.width
+				|| GetResolvedWidth(graph) != t.width
 				|| GetHeight(graph) != t.height
 				|| GetFilterMode(graph) != t.filterMode
 				|| GetWrapMode(graph) != t.wrapMode;
@@ -315,6 +319,22 @@ namespace Mixture
 				refreshMode = refreshMode,
 				period = period,
 			};
+		}
+
+		public void SyncInheritanceMode(NodeInheritanceMode mode)
+		{
+			if (outputChannels.Inherits())
+				outputChannels = (OutputChannel)mode;
+			if (outputPrecision.Inherits())
+				outputPrecision = (OutputPrecision)mode;
+			if (dimension.Inherits())
+				dimension = (OutputDimension)mode;
+			if (wrapMode.Inherits())
+				wrapMode = (OutputWrapMode)mode;
+			if (filterMode.Inherits())
+				filterMode = (OutputFilterMode)mode;
+			if (sizeMode.Inherits())
+				sizeMode = (OutputSizeMode)mode;
 		}
 	}
 }

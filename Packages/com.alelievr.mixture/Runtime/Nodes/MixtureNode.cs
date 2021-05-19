@@ -124,6 +124,9 @@ namespace Mixture
 			base.OnNodeCreated();
 			settings = defaultSettings;
 			previewMode = defaultPreviewChannels;
+
+			// Patch up inheritance mode with default value in graph
+			settings.SyncInheritanceMode(graph.defaultNodeInheritanceMode);
 		}
 
         protected override void Enable()
@@ -150,6 +153,7 @@ namespace Mixture
 			childSettingsNode = GetOutputNodes().FirstOrDefault(n => n is MixtureNode) as MixtureNode;
 
 			settings.ResolveAndUpdate(this);
+			settings.Initialize(graph);
 		}
 
 		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false,
@@ -160,7 +164,7 @@ namespace Mixture
 				return false;
 
 			bool changed = false;
-			int outputWidth = settings.GetWidth(graph);
+			int outputWidth = settings.GetResolvedWidth(graph);
 			int outputHeight = settings.GetHeight(graph);
 			int outputDepth = settings.GetDepth(graph);
 			var filterMode = settings.GetFilterMode(graph);
@@ -534,7 +538,7 @@ namespace Mixture
 					break;
 			}
 		}
-		
+
 		public Material GetTempMaterial(string shaderName)
 		{
 			temporaryMaterials.TryGetValue(shaderName, out var material);
@@ -610,20 +614,18 @@ namespace Mixture
 
 	public enum OutputSizeMode
 	{
-		InheritFromGraph = 0,
-		InheritFromParent = -1,
-		InheritFromChild = -2,
+		InheritFromGraph = NodeInheritanceMode.InheritFromGraph,
+		InheritFromParent = NodeInheritanceMode.InheritFromParent,
+		InheritFromChild = NodeInheritanceMode.InheritFromChild,
 		Absolute = 1,
 		ScaleOfParent = 2
 	}
 
 	public enum OutputDimension
 	{
-		// TODO: replace all same as output by `inherit from parent`, `inherit from child` and `inherit from graph`
-		// `inherit from parent` by default!
-		InheritFromGraph = TextureDimension.None,
-		InheritFromParent = -2,
-		InheritFromChild = -3,
+		InheritFromGraph = NodeInheritanceMode.InheritFromGraph,
+		InheritFromParent = NodeInheritanceMode.InheritFromParent,
+		InheritFromChild = NodeInheritanceMode.InheritFromChild,
 		Texture2D = TextureDimension.Tex2D,
 		CubeMap = TextureDimension.Cube,
 		Texture3D = TextureDimension.Tex3D,
@@ -632,9 +634,9 @@ namespace Mixture
 
 	public enum OutputPrecision
 	{
-		InheritFromGraph = 0,
-		InheritFromParent = -1,
-		InheritFromChild = -2,
+		InheritFromGraph = NodeInheritanceMode.InheritFromGraph,
+		InheritFromParent = NodeInheritanceMode.InheritFromParent,
+		InheritFromChild = NodeInheritanceMode.InheritFromChild,
 		LDR				= 2,
 		Half			= 3,
 		Full			= 4,
@@ -642,9 +644,9 @@ namespace Mixture
 
 	public enum OutputChannel
 	{
-		InheritFromGraph = 0,
-		InheritFromParent = -1,
-		InheritFromChild = -2,
+		InheritFromGraph = NodeInheritanceMode.InheritFromGraph,
+		InheritFromParent = NodeInheritanceMode.InheritFromParent,
+		InheritFromChild = NodeInheritanceMode.InheritFromChild,
 		RGBA = 1,
 		RG = 2,
 		R = 3,
@@ -652,9 +654,9 @@ namespace Mixture
 
 	public enum OutputWrapMode
 	{
-		InheritFromGraph = -1,
-		InheritFromParent = -2,
-		InheritFromChild = -3,
+		InheritFromGraph = NodeInheritanceMode.InheritFromGraph,
+		InheritFromParent = NodeInheritanceMode.InheritFromParent,
+		InheritFromChild = NodeInheritanceMode.InheritFromChild,
 		Repeat = TextureWrapMode.Repeat,
 		Clamp = TextureWrapMode.Clamp,
 		Mirror = TextureWrapMode.Mirror,
@@ -663,9 +665,9 @@ namespace Mixture
 
 	public enum OutputFilterMode
 	{
-		InheritFromGraph = -1,
-		InheritFromParent = -2,
-		InheritFromChild = -3,
+		InheritFromGraph = NodeInheritanceMode.InheritFromGraph,
+		InheritFromParent = NodeInheritanceMode.InheritFromParent,
+		InheritFromChild = NodeInheritanceMode.InheritFromChild,
 		Point = FilterMode.Point,
 		Bilinear = FilterMode.Bilinear,
 		Trilinear = FilterMode.Trilinear,
@@ -699,5 +701,15 @@ namespace Mixture
 		EveryXFrame,
 		EveryXMillis,
 		EveryXSeconds,
+	}
+
+	public static class MixtureEnumExtension 
+	{
+		public static bool Inherits(this OutputSizeMode mode) => (int)mode <= 0;
+		public static bool Inherits(this OutputChannel mode) => (int)mode <= 0;
+		public static bool Inherits(this OutputPrecision mode) => (int)mode <= 0;
+		public static bool Inherits(this OutputDimension mode) => (int)mode <= 0;
+		public static bool Inherits(this OutputWrapMode mode) => (int)mode < 0;
+		public static bool Inherits(this OutputFilterMode mode) => (int)mode < 0;
 	}
 }

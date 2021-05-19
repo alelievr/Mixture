@@ -95,7 +95,7 @@ namespace Mixture
 		public class SettingsMixturePopupWindow : PopupWindowContent
 		{
 			public static readonly int width = 300;
-			public int height = 300;
+			public int height = 240;
 
 			MixtureGraphView graphView;
 
@@ -121,6 +121,22 @@ namespace Mixture
 				var settingsView = new MixtureSettingsView(graphView.graph.settings, graphView, "Graph Settings", false);
 				settingsView.AddToClassList("RTSettingsView");
 				settingsView.style.height = new StyleLength(new Length(100, LengthUnit.Percent));
+
+				var defaultInheritanceMode = new EnumField(graphView.graph.defaultNodeInheritanceMode)
+				{
+					label = "Node Inheritance Mode"
+				};
+				defaultInheritanceMode.RegisterValueChangedCallback(e => {
+					graphView.RegisterCompleteObjectUndo("Changed node inheritance mode");
+					graphView.graph.defaultNodeInheritanceMode = (NodeInheritanceMode)e.newValue;
+
+					graphView.graph.UpdateNodeInheritanceMode();
+					graphView.RefreshNodeSettings();
+
+					graphView.ProcessGraph();
+				});
+				settingsView.Add(defaultInheritanceMode);
+
 				editorWindow.rootVisualElement.Add(settingsView);
             }
 		}
@@ -212,7 +228,7 @@ namespace Mixture
 
 				if (newDimension == OutputDimension.Texture3D)
                 {
-                    long pixelCount = graph.settings.GetWidth(graph) * graph.settings.GetHeight(graph) * graph.settings.GetDepth(graph);
+                    long pixelCount = graph.settings.GetResolvedWidth(graph) * graph.settings.GetHeight(graph) * graph.settings.GetDepth(graph);
 
                     // Above 16M pixels in a texture3D, processing can take too long and crash the GPU when a conversion happen
                     if (pixelCount > 16777216)

@@ -129,7 +129,7 @@ Note that this node tries to generate input / output based on the declared prope
 			}
 			else if (typeof(Texture).IsAssignableFrom(t))
 			{
-				int expectedWidth = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? settings.GetWidth(graph) : (int)desc.textureAllocMode;
+				int expectedWidth = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? settings.GetResolvedWidth(graph) : (int)desc.textureAllocMode;
 				int expectedHeight = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? settings.GetHeight(graph) : (int)desc.textureAllocMode;
 				int expectedDepth = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? settings.GetDepth(graph) : (int)desc.textureAllocMode;
 
@@ -192,7 +192,7 @@ Note that this node tries to generate input / output based on the declared prope
 			if (desc.allocatedTexture != null)
 			{
 				var t = desc.allocatedTexture;
-				int expectedWidth = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? settings.GetWidth(graph) : (int)desc.textureAllocMode;
+				int expectedWidth = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? settings.GetResolvedWidth(graph) : (int)desc.textureAllocMode;
 				int expectedHeight = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? settings.GetHeight(graph) : (int)desc.textureAllocMode;
 				int expectedDepth = desc.textureAllocMode == TextureAllocMode.SameAsOutput ? settings.GetDepth(graph) : (int)desc.textureAllocMode;
 				if (t.width != expectedWidth || t.height != expectedHeight || t.volumeDepth != expectedDepth)
@@ -316,7 +316,7 @@ Note that this node tries to generate input / output based on the declared prope
             BindManagedResources(kernelIndex);
 
 			cmd.SetComputeVectorParam(computeShader, "_Time", new Vector4(Time.realtimeSinceStartup, Mathf.Sin(Time.realtimeSinceStartup), Mathf.Cos(Time.realtimeSinceStartup), Time.deltaTime));
-			DispatchCompute(cmd, kernelIndex, settings.GetWidth(graph), settings.GetHeight(graph), settings.GetDepth(graph));
+			DispatchCompute(cmd, kernelIndex, settings.GetResolvedWidth(graph), settings.GetHeight(graph), settings.GetDepth(graph));
 
             if (!String.IsNullOrEmpty(previewKernel))
             {
