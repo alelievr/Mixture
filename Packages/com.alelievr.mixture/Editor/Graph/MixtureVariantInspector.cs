@@ -267,10 +267,10 @@ namespace Mixture
                 // Refresh the preview in the inspector:
                 var graphicsFormat = graph.outputNode.settings.GetGraphicsFormat(graph);
                 var width = graph.outputNode.settings.GetResolvedWidth(graph);
-                var height = graph.outputNode.settings.GetHeight(graph);
-                var depth = graph.outputNode.settings.GetDepth(graph);
-                var filterMode = graph.outputNode.settings.GetFilterMode(graph);
-                var wrapMode = graph.outputNode.settings.GetWrapMode(graph);
+                var height = graph.outputNode.settings.GetResolvedHeight(graph);
+                var depth = graph.outputNode.settings.GetResolvedDepth(graph);
+                var filterMode = graph.outputNode.settings.GetResolvedFilterMode(graph);
+                var wrapMode = graph.outputNode.settings.GetResolvedWrapMode(graph);
                 var dimension = graph.outputNode.settings.GetTextureDimension(graph);
 
                 if (variantPreview.graphicsFormat != graphicsFormat

@@ -19,7 +19,7 @@ namespace Mixture
 {
 	public abstract class MixtureNode : BaseNode
 	{
-		protected new MixtureGraph			graph => base.graph as MixtureGraph;
+		public new MixtureGraph			graph => base.graph as MixtureGraph;
 
 		[HideInInspector, FormerlySerializedAs("rtSettings")]
 		public MixtureSettings				settings;
@@ -153,7 +153,6 @@ namespace Mixture
 			childSettingsNode = GetOutputNodes().FirstOrDefault(n => n is MixtureNode) as MixtureNode;
 
 			settings.ResolveAndUpdate(this);
-			settings.Initialize(graph);
 		}
 
 		protected bool UpdateTempRenderTexture(ref CustomRenderTexture target, bool hasMips = false, bool autoGenerateMips = false,
@@ -165,10 +164,10 @@ namespace Mixture
 
 			bool changed = false;
 			int outputWidth = settings.GetResolvedWidth(graph);
-			int outputHeight = settings.GetHeight(graph);
-			int outputDepth = settings.GetDepth(graph);
-			var filterMode = settings.GetFilterMode(graph);
-			var wrapMode = settings.GetWrapMode(graph);
+			int outputHeight = settings.GetResolvedHeight(graph);
+			int outputDepth = settings.GetResolvedDepth(graph);
+			var filterMode = settings.GetResolvedFilterMode(graph);
+			var wrapMode = settings.GetResolvedWrapMode(graph);
 			GraphicsFormat targetFormat = overrideGraphicsFormat != GraphicsFormat.None ? overrideGraphicsFormat : settings.GetGraphicsFormat(graph);
 			TextureDimension dimension = GetTempTextureDimension();
 
@@ -216,7 +215,7 @@ namespace Mixture
 				|| target.graphicsFormat != targetFormat
 				|| target.dimension != dimension
 				|| target.volumeDepth != outputDepth
-				|| target.filterMode != settings.GetFilterMode(graph)
+				|| target.filterMode != settings.GetResolvedFilterMode(graph)
 				|| target.doubleBuffered != settings.doubleBuffered
                 || target.wrapMode != wrapMode
 				|| target.useMipMap != hasMips
@@ -285,6 +284,8 @@ namespace Mixture
 		public void OnProcess(CommandBuffer cmd)
 		{
 			inputPorts.PullDatas();
+
+			settings.ResolveAndUpdate(this);
 
 			ExceptionToLog.Call(() => Process(cmd));
 

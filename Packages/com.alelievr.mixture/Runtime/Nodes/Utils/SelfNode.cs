@@ -90,8 +90,8 @@ Currently only the first output texture of the output node can be retrieved.
 			{
 				output.Release();
 				output.width = settings.GetResolvedWidth(graph);
-				output.height = settings.GetHeight(graph);
-				output.volumeDepth = settings.GetDepth(graph);
+				output.height = settings.GetResolvedHeight(graph);
+				output.volumeDepth = settings.GetResolvedDepth(graph);
 				output.graphicsFormat = settings.GetGraphicsFormat(graph);
 				output.enableRandomWrite = true;
 				output.Create();

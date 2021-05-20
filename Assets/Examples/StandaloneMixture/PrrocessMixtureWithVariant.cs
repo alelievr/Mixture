@@ -31,7 +31,7 @@ public class ProcessMixtureWithVariant : MonoBehaviour
         var settings = graph.outputNode.settings;
         Texture2D destination = new Texture2D(
             settings.GetResolvedWidth(graph),
-            settings.GetHeight(graph),
+            settings.GetResolvedHeight(graph),
             settings.GetGraphicsFormat(graph),
             TextureCreationFlags.None
         );

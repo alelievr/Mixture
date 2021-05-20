@@ -59,7 +59,7 @@ namespace Mixture
                             break;
                     }
 
-                    long pixelCount = nodeTarget.settings.GetResolvedWidth(graph) * nodeTarget.settings.GetHeight(graph) * nodeTarget.settings.GetDepth(graph);
+                    long pixelCount = nodeTarget.settings.GetResolvedWidth(graph) * nodeTarget.settings.GetResolvedHeight(graph) * nodeTarget.settings.GetResolvedDepth(graph);
                     // Above 16M pixels in a texture3D, processing can take too long and crash the GPU when a conversion happen
                     if (pixelCount > 16777216)
                     {

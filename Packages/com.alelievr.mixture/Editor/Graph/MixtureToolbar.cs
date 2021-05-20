@@ -122,6 +122,10 @@ namespace Mixture
 				settingsView.AddToClassList("RTSettingsView");
 				settingsView.style.height = new StyleLength(new Length(100, LengthUnit.Percent));
 
+				var otherHeader = new Label("Advanced Settings");
+				otherHeader.AddToClassList(MixtureSettingsView.headerStyleClass);
+				settingsView.Add(otherHeader);
+
 				var defaultInheritanceMode = new EnumField(graphView.graph.defaultNodeInheritanceMode)
 				{
 					label = "Node Inheritance Mode"
@@ -228,7 +232,7 @@ namespace Mixture
 
 				if (newDimension == OutputDimension.Texture3D)
                 {
-                    long pixelCount = graph.settings.GetResolvedWidth(graph) * graph.settings.GetHeight(graph) * graph.settings.GetDepth(graph);
+                    long pixelCount = graph.settings.GetResolvedWidth(graph) * graph.settings.GetResolvedHeight(graph) * graph.settings.GetResolvedDepth(graph);
 
                     // Above 16M pixels in a texture3D, processing can take too long and crash the GPU when a conversion happen
                     if (pixelCount > 16777216)

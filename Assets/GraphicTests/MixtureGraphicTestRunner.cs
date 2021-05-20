@@ -72,7 +72,7 @@ Please re-run the test to ensure the reference image validity.");
                 var settings = testCase.graph.outputNode.settings;
                 Texture2D destination = new Texture2D(
                     settings.GetResolvedWidth(testCase.graph),
-                    settings.GetHeight(testCase.graph),
+                    settings.GetResolvedHeight(testCase.graph),
                     settings.GetGraphicsFormat(testCase.graph), // We only use this format for tests
                     TextureCreationFlags.None
                 );
@@ -104,7 +104,7 @@ Please re-run the test to ensure the reference image validity.");
             var settings = graph.outputNode.settings;
             Texture2D destination = new Texture2D(
                 settings.GetResolvedWidth(graph),
-                settings.GetHeight(graph),
+                settings.GetResolvedHeight(graph),
                 settings.GetGraphicsFormat(graph),
                 TextureCreationFlags.None
             );

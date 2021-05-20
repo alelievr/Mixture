@@ -378,8 +378,8 @@ namespace Mixture
 		{
 			var dimension = outputNode.settings.GetTextureDimension(this);
             var width = outputNode.settings.GetResolvedWidth(this);
-            var height = outputNode.settings.GetHeight(this);
-            var depth = outputNode.settings.GetDepth(this);
+            var height = outputNode.settings.GetResolvedHeight(this);
+            var depth = outputNode.settings.GetResolvedDepth(this);
             var graphicsFormat = outputNode.settings.GetGraphicsFormat(this);
 
             var oldTexture = FindOutputTexture(outputSettings.name, outputSettings.isMain);
@@ -424,8 +424,8 @@ namespace Mixture
 		{
 			var dimension = outputNode.settings.GetTextureDimension(this);
             var width = outputNode.settings.GetResolvedWidth(this);
-            var height = outputNode.settings.GetHeight(this);
-            var depth = outputNode.settings.GetDepth(this);
+            var height = outputNode.settings.GetResolvedHeight(this);
+            var depth = outputNode.settings.GetResolvedDepth(this);
             var graphicsFormat = outputNode.settings.GetGraphicsFormat(this);
             var creationFlags = outputSettings.hasMipMaps ? TextureCreationFlags.MipChain : TextureCreationFlags.None;
 
@@ -508,13 +508,13 @@ namespace Mixture
                 switch (dimension)
                 {
                     case TextureDimension.Tex2D:
-                        outputTexture = new Texture2D(rtSettings.GetResolvedWidth(this), rtSettings.GetHeight(this), format, TextureCreationFlags.MipChain);
+                        outputTexture = new Texture2D(rtSettings.GetResolvedWidth(this), rtSettings.GetResolvedHeight(this), format, TextureCreationFlags.MipChain);
                         break;
                     case TextureDimension.Cube:
                         outputTexture = new Cubemap(rtSettings.GetResolvedWidth(this), format, TextureCreationFlags.MipChain);
                         break;
                     case TextureDimension.Tex3D:
-                        outputTexture = new Texture3D(rtSettings.GetResolvedWidth(this), rtSettings.GetHeight(this), rtSettings.GetDepth(this), format, TextureCreationFlags.MipChain);
+                        outputTexture = new Texture3D(rtSettings.GetResolvedWidth(this), rtSettings.GetResolvedHeight(this), rtSettings.GetResolvedDepth(this), format, TextureCreationFlags.MipChain);
                         break;
                 }
                 EditorUtility.DisplayProgressBar("Mixture", "Reading Back Data...", 0.1f);
@@ -839,8 +839,8 @@ namespace Mixture
         
         protected void WriteRequestResult(AsyncGPUReadbackRequest request, ReadbackData data)
         {
-            var outputPrecision = data.node.settings.GetOutputPrecision(this);
-            var outputChannels = data.node.settings.GetOutputChannels(this);
+            var outputPrecision = data.node.settings.GetResolvedPrecision(this);
+            var outputChannels = data.node.settings.GetResolvedChannels(this);
 
             if (request.hasError)
             {

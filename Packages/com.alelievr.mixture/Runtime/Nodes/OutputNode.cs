@@ -163,8 +163,9 @@ namespace Mixture
 						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.OnDemand;
 
 					// Sync output texture properties:
-					output.finalCopyRT.wrapMode = settings.GetWrapMode(graph);
-					output.finalCopyRT.filterMode = settings.GetFilterMode(graph);
+					output.finalCopyRT.wrapMode = settings.GetResolvedWrapMode(graph);
+					output.finalCopyRT.filterMode = settings.GetResolvedFilterMode(graph);
+					output.finalCopyRT.hideFlags = HideFlags.None;
 				}
 				else
 				{
