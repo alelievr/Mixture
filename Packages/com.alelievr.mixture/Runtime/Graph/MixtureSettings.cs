@@ -81,7 +81,7 @@ namespace Mixture
 
 			int ResolveWidth(MixtureNode node, MixtureGraph graph)
 			{
-				switch(sizeMode)
+				switch(node.settings.sizeMode)
 				{
 					default:
 					case OutputSizeMode.InheritFromGraph:
@@ -101,7 +101,7 @@ namespace Mixture
 
 			int ResolveHeight(MixtureNode node, MixtureGraph graph)
 			{
-				switch(sizeMode)
+				switch(node.settings.sizeMode)
 				{
 					default:
 					case OutputSizeMode.InheritFromGraph:
@@ -121,7 +121,7 @@ namespace Mixture
 
 			int ResolveDepth(MixtureNode node, MixtureGraph graph)
 			{
-				switch(sizeMode)
+				switch(node.settings.sizeMode)
 				{
 					default:
 					case OutputSizeMode.InheritFromGraph:
@@ -141,7 +141,7 @@ namespace Mixture
 
 			OutputPrecision ResolveOutputPrecision(MixtureNode node, MixtureGraph graph)
 			{
-				switch (outputPrecision)
+				switch (node.settings.outputPrecision)
 				{
 					case OutputPrecision.InheritFromGraph:
 						return graph.settings.outputPrecision;
@@ -160,7 +160,7 @@ namespace Mixture
 
 			OutputChannel ResolveOutputChannels(MixtureNode node, MixtureGraph graph)
 			{
-				switch (outputChannels)
+				switch (node.settings.outputChannels)
 				{
 					case OutputChannel.InheritFromGraph:
 						return graph.settings.outputChannels;
@@ -180,7 +180,7 @@ namespace Mixture
 			OutputDimension ResolveTextureDimension(MixtureNode node, MixtureGraph graph)
 			{
 				// if this function is called from the output node and the dimension is default, then we set it to a default value
-				switch (dimension)
+				switch (node.settings.dimension)
 				{
 					case OutputDimension.InheritFromGraph:
 						return graph.settings.dimension;
@@ -201,7 +201,7 @@ namespace Mixture
 			OutputWrapMode ResolveWrapMode(MixtureNode node, MixtureGraph graph)
 			{
 				// if this function is called from the output node and the dimension is default, then we set it to a default value
-				switch (wrapMode)
+				switch (node.settings.wrapMode)
 				{
 					case OutputWrapMode.InheritFromGraph:
 						return graph.settings.wrapMode;
@@ -221,7 +221,7 @@ namespace Mixture
 			OutputFilterMode ResolveFilterMode(MixtureNode node, MixtureGraph graph)
 			{
 				// if this function is called from the output node and the dimension is default, then we set it to a default value
-				switch (filterMode)
+				switch (node.settings.filterMode)
 				{
 					case OutputFilterMode.InheritFromGraph:
 						return graph.settings.filterMode;
