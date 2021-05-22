@@ -92,7 +92,7 @@ Generate mipmaps for the input texture. You can choose between 4 modes to genera
 			else
 			{
 				var props = new MaterialPropertyBlock();
-				MixtureUtils.SetupDimensionKeyword(mipmapGenMat, settings.GetTextureDimension(graph));
+				MixtureUtils.SetupDimensionKeyword(mipmapGenMat, settings.GetResolvedTextureDimension(graph));
 				mipmapGenMat.SetFloat("_Mode", (int)mode);
 				MixtureUtils.SetTextureWithDimension(props, "_PreviousMip", input);
 				// Manually generate mips:

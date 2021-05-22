@@ -15,12 +15,14 @@ namespace Mixture
 	[System.Serializable]
 	public class MixtureSettings
 	{
-		[Range(0.0001f, 1.0f)]
-		public float widthPercent;
-		[Range(0.0001f, 1.0f)]
-		public float heightPercent;
-		[Range(0.0001f, 1.0f)]
-		public float depthPercent;
+        public const int k_MaxTextureResolution = 16384;
+
+		[Range(0.0001f, 1.0f), FormerlySerializedAs("widthPercent")]
+		public float widthScale;
+		[Range(0.0001f, 1.0f), FormerlySerializedAs("heightPercent")]
+		public float heightScale;
+		[Range(0.0001f, 1.0f), FormerlySerializedAs("depthPercent")]
+		public float depthScale;
 		[Min(1)]
 		public int width;
 		[Min(1)]
@@ -62,12 +64,12 @@ namespace Mixture
 			if (resolvedSettings == this || resolvedSettings == null)
 				resolvedSettings = new MixtureSettings();
 
-			resolvedSettings.width = ResolveWidth(node, graph);
-			resolvedSettings.height = ResolveHeight(node, graph);
-			resolvedSettings.depth = ResolveDepth(node, graph);
-			resolvedSettings.widthPercent = widthPercent;
-			resolvedSettings.heightPercent = heightPercent;
-			resolvedSettings.depthPercent = depthPercent;
+			resolvedSettings.width = Mathf.Clamp(ResolveWidth(node, graph), 1, k_MaxTextureResolution);
+			resolvedSettings.height = Mathf.Clamp(ResolveHeight(node, graph), 1, k_MaxTextureResolution);
+			resolvedSettings.depth = Mathf.Clamp(ResolveDepth(node, graph), 1, k_MaxTextureResolution);
+			resolvedSettings.widthScale = widthScale;
+			resolvedSettings.heightScale = heightScale;
+			resolvedSettings.depthScale = depthScale;
 			resolvedSettings.potSize = potSize;
 			resolvedSettings.dimension = ResolveTextureDimension(node, graph);
 			resolvedSettings.outputChannels = ResolveOutputChannels(node, graph);
@@ -83,20 +85,17 @@ namespace Mixture
 				{
 					default:
 					case OutputSizeMode.InheritFromGraph:
-						return graph.settings.width;
+						return (int)(graph.settings.width * widthScale);
 					case OutputSizeMode.InheritFromParent:
 						if (node?.parentSettingsNode == null)
-							return graph.settings.width;
-						return ResolveWidth(node.parentSettingsNode, graph);
+							return (int)(graph.settings.width * widthScale);
+						return (int)(ResolveWidth(node.parentSettingsNode, graph) * widthScale);
 					case OutputSizeMode.InheritFromChild:
 						if (node?.childSettingsNode == null)
-							return graph.settings.width;
-						return ResolveWidth(node.childSettingsNode, graph);
+							return (int)(graph.settings.width * widthScale);
+						return (int)(ResolveWidth(node.childSettingsNode, graph) * widthScale);
 					case OutputSizeMode.Absolute:
 						return node.settings.width;
-					case OutputSizeMode.ScaleOfParent:
-						// TODO:
-						return (int)(graph.settings.width * widthPercent);
 				}
 			}
 
@@ -106,47 +105,37 @@ namespace Mixture
 				{
 					default:
 					case OutputSizeMode.InheritFromGraph:
-						return graph.settings.height;
+						return (int)(graph.settings.height * heightScale);
 					case OutputSizeMode.InheritFromParent:
 						if (node?.parentSettingsNode == null)
-							return graph.settings.height;
-						return ResolveWidth(node.parentSettingsNode, graph);
+							return (int)(graph.settings.height * heightScale);
+						return (int)(ResolveWidth(node.parentSettingsNode, graph) * heightScale);
 					case OutputSizeMode.InheritFromChild:
 						if (node?.childSettingsNode == null)
-							return graph.settings.height;
-						return ResolveWidth(node.childSettingsNode, graph);
+							return (int)(graph.settings.height * heightScale);
+						return (int)(ResolveWidth(node.childSettingsNode, graph) * heightScale);
 					case OutputSizeMode.Absolute:
 						return node.settings.height;
-					case OutputSizeMode.ScaleOfParent:
-						// TODO:
-						return (int)(graph.settings.height * heightPercent);
 				}
 			}
 
 			int ResolveDepth(MixtureNode node, MixtureGraph graph)
 			{
-				var d = GetTextureDimension(graph); 
-				if (d == TextureDimension.Tex2D || d == TextureDimension.Cube)
-					return 1;
-
 				switch(sizeMode)
 				{
 					default:
 					case OutputSizeMode.InheritFromGraph:
-						return graph.settings.depth;
+						return (int)(graph.settings.depth * depthScale);
 					case OutputSizeMode.InheritFromParent:
 						if (node?.parentSettingsNode == null)
-							return graph.settings.depth;
-						return ResolveDepth(node.parentSettingsNode, graph);
+							return (int)(graph.settings.depth * depthScale);
+						return (int)(ResolveDepth(node.parentSettingsNode, graph) * depthScale);
 					case OutputSizeMode.InheritFromChild:
 						if (node?.childSettingsNode == null)
-							return graph.settings.depth;
-						return ResolveDepth(node.childSettingsNode, graph);
+							return (int)(graph.settings.depth * depthScale);
+						return (int)(ResolveDepth(node.childSettingsNode, graph) * depthScale);
 					case OutputSizeMode.Absolute:
 						return node.settings.depth;
-					case OutputSizeMode.ScaleOfParent:
-						// TODO:
-						return (int)(graph.outputNode.settings.depth * widthPercent);
 				}
 			}
 
@@ -254,9 +243,9 @@ namespace Mixture
 		{
 			get => new MixtureSettings()
 			{
-				widthPercent = 1.0f,
-				heightPercent = 1.0f,
-				depthPercent = 1.0f,
+				widthScale = 1.0f,
+				heightScale = 1.0f,
+				depthScale = 1.0f,
 				width = 1024,
 				height = 1024,
 				depth = 1,
@@ -312,7 +301,7 @@ namespace Mixture
 		public int GetResolvedDepth(MixtureGraph graph) => resolvedSettings.depth;
 		public OutputPrecision GetResolvedPrecision(MixtureGraph graph) => resolvedSettings.outputPrecision;
 		public OutputChannel GetResolvedChannels(MixtureGraph graph) => resolvedSettings.outputChannels;
-		public TextureDimension GetTextureDimension(MixtureGraph graph) => (TextureDimension)resolvedSettings.dimension;
+		public TextureDimension GetResolvedTextureDimension(MixtureGraph graph) => (TextureDimension)resolvedSettings.dimension;
 		public TextureWrapMode GetResolvedWrapMode(MixtureGraph graph) => (TextureWrapMode)resolvedSettings.wrapMode;
 		public FilterMode GetResolvedFilterMode(MixtureGraph graph) => (FilterMode)resolvedSettings.filterMode;
 
@@ -335,9 +324,9 @@ namespace Mixture
 		{
 			return new MixtureSettings
 			{
-				widthPercent = widthPercent,
-				heightPercent = heightPercent,
-				depthPercent = depthPercent,
+				widthScale = widthScale,
+				heightScale = heightScale,
+				depthScale = depthScale,
 				width = width,
 				height = height,
 				depth = depth,

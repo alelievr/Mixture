@@ -84,9 +84,9 @@ Currently only the first output texture of the output node can be retrieved.
 			if (sourceTarget == null || !sourceTarget.IsCreated())
 				initialization = true;
 
-			var dim = settings.GetTextureDimension(graph);
+			var dim = settings.GetResolvedTextureDimension(graph);
 
-			if (output.width != settings.GetResolvedWidth(graph) || output.dimension != settings.GetTextureDimension(graph))
+			if (output.width != settings.GetResolvedWidth(graph) || output.dimension != settings.GetResolvedTextureDimension(graph))
 			{
 				output.Release();
 				output.width = settings.GetResolvedWidth(graph);

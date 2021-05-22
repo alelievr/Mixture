@@ -63,6 +63,7 @@ namespace Mixture
                     // Above 16M pixels in a texture3D, processing can take too long and crash the GPU when a conversion happen
                     if (pixelCount > 16777216)
                     {
+                        nodeTarget.settings.sizeMode = OutputSizeMode.Absolute;
                         nodeTarget.settings.SetPOTSize(64);
                     }
 

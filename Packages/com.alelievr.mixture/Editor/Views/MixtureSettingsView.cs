@@ -13,8 +13,9 @@ namespace Mixture
 {
 	public class MixtureSettingsView : VisualElement
 	{
-        // Keep a second version of enums from MixtureNode.cs without the Inherit fields for the graph settings:
+        const float k_MaxSizeScale = 64;
 
+        // Keep a second version of enums from MixtureNode.cs without the Inherit fields for the graph settings:
         public enum GraphOutputDimension
         {
             Texture2D = TextureDimension.Tex2D,
@@ -71,11 +72,11 @@ namespace Mixture
         EnumField potSize;
 
         IntegerField outputWidth;
-		FloatField outputWidthPercentage;
+		SliderInt outputWidthScale;
         IntegerField outputHeight;
-		FloatField outputHeightPercentage;
+		SliderInt outputHeightScale;
         IntegerField outputDepth;
-		FloatField outputDepthPercentage;
+		SliderInt outputDepthScale;
 
 		Toggle doubleBuffered;
 
@@ -108,8 +109,6 @@ namespace Mixture
 			var stylesheet = Resources.Load<StyleSheet>("MixtureCommon");
             styleSheets.Add(stylesheet);
             ReloadSettingsView();
-
-            onChanged += ReloadSettingsView;
         }
 
         void ReloadSettingsView()
@@ -124,7 +123,7 @@ namespace Mixture
                 this.Add(titleLabel);
             }
 
-            var dimension = settings.GetTextureDimension(graph);
+            var dimension = settings.GetResolvedTextureDimension(graph);
 
             // Wrap and Filter Modes
             smpHeader = new Label("Sampler States");
@@ -163,6 +162,7 @@ namespace Mixture
                 owner.RegisterCompleteObjectUndo("Updated Size mode " + e.newValue);
                 settings.sizeMode = (OutputSizeMode)e.newValue;
                 onChanged?.Invoke();
+                ReloadSettingsView();
                 UpdateFieldVisibility(settings);
             }));
             this.Add(outputSizeMode);
@@ -193,6 +193,7 @@ namespace Mixture
                 }
 
                 onChanged?.Invoke();
+                ReloadSettingsView();
                 UpdateFieldVisibility(settings);
             });
 
@@ -212,19 +213,8 @@ namespace Mixture
             });
             this.Add(outputWidth);
 
-            outputWidthPercentage = new FloatField()
-            {
-                value = settings.widthPercent,
-                label = "Width Percentage",
-                isDelayed = true,
-            };
-            outputWidthPercentage.RegisterValueChangedCallback(e =>
-            {
-                owner.RegisterCompleteObjectUndo("Updated Width " + e.newValue);
-                settings.widthPercent = e.newValue;
-                onChanged?.Invoke();
-            });
-            this.Add(outputWidthPercentage);
+            outputWidthScale = CreateSizeScaleSlider(settings.widthScale, (v) => settings.widthScale = v, "Width Scale");
+            this.Add(outputWidthScale);
 
             if (dimension != TextureDimension.Cube)
             {
@@ -242,19 +232,8 @@ namespace Mixture
                 });
                 this.Add(outputHeight);
 
-                outputHeightPercentage = new FloatField()
-                {
-                    value = settings.heightPercent,
-                    label = "Height Percentage",
-                    isDelayed = true,
-                };
-                outputHeightPercentage.RegisterValueChangedCallback(e =>
-                {
-                    owner.RegisterCompleteObjectUndo("Updated Height " + e.newValue);
-                    settings.heightPercent = e.newValue;
-                    onChanged?.Invoke();
-                });
-                this.Add(outputHeightPercentage);
+                outputHeightScale = CreateSizeScaleSlider(settings.heightScale, v => settings.heightScale = v, "Height Scale");
+                this.Add(outputHeightScale);
 
                 if (dimension == TextureDimension.Tex3D)
                 {
@@ -272,20 +251,26 @@ namespace Mixture
                     });
                     this.Add(outputDepth);
 
-                    outputDepthPercentage = new FloatField()
-                    {
-                        value = settings.depthPercent,
-                        label = "Depth Percentage",
-                        isDelayed = true,
-                    };
-                    outputDepthPercentage.RegisterValueChangedCallback(e =>
-                    {
-                        owner.RegisterCompleteObjectUndo("Updated Depth " + e.newValue);
-                        settings.depthPercent = e.newValue;
-                        onChanged?.Invoke();
-                    });
-                    this.Add(outputDepthPercentage);
+                    outputDepthScale = CreateSizeScaleSlider(settings.depthScale, v => settings.depthScale = v, "Depth Scale");
+                    this.Add(outputDepthScale);
                 }
+            }
+
+            SliderInt CreateSizeScaleSlider(float defaultValue, Action<float> setter, string propertyName)
+            {
+                var slider = new SliderInt(0, (int)(Mathf.Log(k_MaxSizeScale, 2) * 2))
+                {
+                    value = SizeScaleToInt(settings.heightScale),
+                    label = propertyName,
+                };
+                outputHeightScale.RegisterValueChangedCallback(e =>
+                {
+                    owner.RegisterCompleteObjectUndo(propertyName + " " + e.newValue);
+                    setter(IntToSizeScale(e.newValue));
+                    onChanged?.Invoke();
+                });
+
+                return slider;
             }
 
             // Dimension and Pixel Format
@@ -306,10 +291,12 @@ namespace Mixture
                     // Above 16M pixels in a texture3D, processing can take too long and crash the GPU when a conversion happen
                     if (pixelCount > 16777216)
                     {
+                        settings.sizeMode = OutputSizeMode.Absolute;
                         settings.SetPOTSize(64);
                     }
                 }
                 onChanged?.Invoke();
+                ReloadSettingsView();
             });
 
             outputChannels = showInheritanceValue ? new EnumField(settings.outputChannels) : new EnumField((GraphOutputChannel)settings.outputChannels);
@@ -393,11 +380,11 @@ namespace Mixture
             SetVisible(outputSizeMode, settings.CanEdit(EditFlags.SizeMode));
             SetVisible(potSize, settings.CanEdit(EditFlags.POTSize) && settings.sizeMode == OutputSizeMode.Absolute);
             SetVisible(outputWidth, settings.CanEdit(EditFlags.Width) && settings.sizeMode == OutputSizeMode.Absolute && (settings.potSize == POTSize.Custom || !settings.CanEdit(EditFlags.POTSize)));
-            SetVisible(outputWidthPercentage, settings.CanEdit(EditFlags.Width) && settings.sizeMode == OutputSizeMode.ScaleOfParent);
+            SetVisible(outputWidthScale, settings.CanEdit(EditFlags.Width) && settings.sizeMode != OutputSizeMode.Absolute);
 			SetVisible(outputHeight, settings.CanEdit(EditFlags.Height) && settings.sizeMode == OutputSizeMode.Absolute && (settings.potSize == POTSize.Custom || !settings.CanEdit(EditFlags.POTSize)));
-            SetVisible(outputHeightPercentage, settings.CanEdit(EditFlags.Height) && settings.sizeMode == OutputSizeMode.ScaleOfParent);
+            SetVisible(outputHeightScale, settings.CanEdit(EditFlags.Height) && settings.sizeMode != OutputSizeMode.Absolute);
 			SetVisible(outputDepth, settings.CanEdit(EditFlags.Depth) && settings.sizeMode == OutputSizeMode.Absolute && (settings.potSize == POTSize.Custom || !settings.CanEdit(EditFlags.POTSize)));
-            SetVisible(outputDepthPercentage, settings.CanEdit(EditFlags.Depth) && settings.sizeMode == OutputSizeMode.ScaleOfParent);
+            SetVisible(outputDepthScale, settings.CanEdit(EditFlags.Depth) && settings.sizeMode != OutputSizeMode.Absolute);
             SetVisible(outputDimension, settings.CanEdit(EditFlags.Dimension));
             SetVisible(outputChannels, settings.CanEdit(EditFlags.TargetFormat));
             SetVisible(outputPrecision, settings.CanEdit(EditFlags.TargetFormat));
@@ -408,6 +395,20 @@ namespace Mixture
         }
 
         public void RegisterChangedCallback(Action callback) => onChanged += callback;
+
+        int SizeScaleToInt(float scale)
+        {
+            if (scale <= 0)
+                scale = 1;
+            scale *= k_MaxSizeScale;
+            return (int)Mathf.Log(scale, 2);
+        }
+
+        float IntToSizeScale(int i)
+        {
+            float f = Mathf.Pow(2, i);
+            return f / k_MaxSizeScale;
+        }
 
 		public void RefreshSettingsValues()
 		{
@@ -420,11 +421,11 @@ namespace Mixture
             potSize?.SetValueWithoutNotify(settings.potSize);
 
             outputWidth?.SetValueWithoutNotify(settings.width);
-            outputWidthPercentage?.SetValueWithoutNotify(settings.widthPercent);
+            outputWidthScale?.SetValueWithoutNotify(SizeScaleToInt(settings.widthScale));
             outputHeight?.SetValueWithoutNotify(settings.height);
-            outputHeightPercentage?.SetValueWithoutNotify(settings.heightPercent);
+            outputHeightScale?.SetValueWithoutNotify(SizeScaleToInt(settings.heightScale));
             outputDepth?.SetValueWithoutNotify(settings.depth);
-            outputDepthPercentage?.SetValueWithoutNotify(settings.depthPercent);
+            outputDepthScale?.SetValueWithoutNotify(SizeScaleToInt(settings.depthScale));
 
             doubleBuffered?.SetValueWithoutNotify(settings.doubleBuffered);
 

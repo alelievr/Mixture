@@ -376,7 +376,7 @@ namespace Mixture
 
 		Texture UpdateOutputRealtimeTexture(OutputTextureSettings outputSettings)
 		{
-			var dimension = outputNode.settings.GetTextureDimension(this);
+			var dimension = outputNode.settings.GetResolvedTextureDimension(this);
             var width = outputNode.settings.GetResolvedWidth(this);
             var height = outputNode.settings.GetResolvedHeight(this);
             var depth = outputNode.settings.GetResolvedDepth(this);
@@ -402,8 +402,8 @@ namespace Mixture
 			{
 				if (crt.IsCreated())
 					crt.Release();
-				crt.width = width;
-				crt.height = height;
+				crt.width = Mathf.Max(1, width);
+				crt.height = Mathf.Max(1, height);
 				crt.graphicsFormat = graphicsFormat;
 				crt.useMipMap = outputSettings.hasMipMaps;
 				crt.autoGenerateMips = false;
@@ -422,7 +422,7 @@ namespace Mixture
 
 		Texture UpdateOutputStaticTexture(OutputTextureSettings outputSettings)
 		{
-			var dimension = outputNode.settings.GetTextureDimension(this);
+			var dimension = outputNode.settings.GetResolvedTextureDimension(this);
             var width = outputNode.settings.GetResolvedWidth(this);
             var height = outputNode.settings.GetResolvedHeight(this);
             var depth = outputNode.settings.GetResolvedDepth(this);
@@ -501,7 +501,7 @@ namespace Mixture
                 Texture outputTexture = null;
                 bool isHDR = external.settings.IsHDR(this);
 
-                TextureDimension dimension = external.settings.GetTextureDimension(this);
+                TextureDimension dimension = external.settings.GetResolvedTextureDimension(this);
                 GraphicsFormat format = (GraphicsFormat)external.settings.GetGraphicsFormat(this);
                 var rtSettings = external.settings;
 

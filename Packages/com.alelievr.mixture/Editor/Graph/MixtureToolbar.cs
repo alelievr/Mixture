@@ -201,7 +201,7 @@ namespace Mixture
 				graph.settings.width = EditorGUILayout.IntField(graph.settings.width, GUILayout.Width(50));
 				EditorGUILayout.LabelField("x", GUILayout.Width(10));
 				graph.settings.height = EditorGUILayout.IntField(graph.settings.height, GUILayout.Width(50));
-				if (graph.settings.GetTextureDimension(graph) == TextureDimension.Tex3D)
+				if (graph.settings.GetResolvedTextureDimension(graph) == TextureDimension.Tex3D)
 				{
 					EditorGUILayout.LabelField("x", GUILayout.Width(10));
 					graph.settings.depth = EditorGUILayout.IntField(graph.settings.depth, GUILayout.Width(50));

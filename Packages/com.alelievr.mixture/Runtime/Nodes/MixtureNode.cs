@@ -44,6 +44,8 @@ namespace Mixture
 		public event Action					beforeProcessSetup;
 		public event Action					afterProcessCleanup;
 
+		internal event Action				onEnabled;
+
 		public override bool				showControlsOnHover => false; // Disable this feature for now
 
 		public override bool				needsInspector => true;
@@ -126,7 +128,7 @@ namespace Mixture
 			previewMode = defaultPreviewChannels;
 
 			// Patch up inheritance mode with default value in graph
-			settings.SyncInheritanceMode(graph.defaultNodeInheritanceMode);
+			onEnabled += () => settings.SyncInheritanceMode(graph.defaultNodeInheritanceMode);
 		}
 
         protected override void Enable()
@@ -134,7 +136,9 @@ namespace Mixture
             base.Enable();
 			onAfterEdgeConnected += UpdateSettings;
 			onAfterEdgeDisconnected += UpdateSettings;
-			UpdateSettings(null);
+			onSettingsChanged += UpdateSettings;
+			UpdateSettings();
+			onEnabled?.Invoke();
         }
 
 		protected override void Disable()
@@ -144,8 +148,10 @@ namespace Mixture
 			base.Disable();
 			onAfterEdgeConnected -= UpdateSettings;
 			onAfterEdgeDisconnected -= UpdateSettings;
+			onSettingsChanged -= UpdateSettings;
 		}
 
+		void UpdateSettings() => UpdateSettings(null);
 		void UpdateSettings(SerializableEdge edge)
 		{
 			// Update nodes used to infere settings values
@@ -174,6 +180,9 @@ namespace Mixture
 			outputWidth = Mathf.Max(outputWidth, 1);
 			outputHeight = Mathf.Max(outputHeight, 1);
 			outputDepth = Mathf.Max(outputDepth, 1);
+
+			if (dimension != TextureDimension.Tex3D)
+				outputDepth = 1;
 			
 			if (dimension == TextureDimension.Cube)
 				outputHeight = outputDepth = outputWidth; // we only use the width for cubemaps
@@ -210,8 +219,8 @@ namespace Mixture
 			// TODO: check if format is supported by current system
 
 			// Warning: here we use directly the settings from the 
-			if (target.width != Math.Max(1, outputWidth)
-				|| target.height != Math.Max(1, outputHeight)
+			if (target.width != outputWidth
+				|| target.height != outputHeight
 				|| target.graphicsFormat != targetFormat
 				|| target.dimension != dimension
 				|| target.volumeDepth != outputDepth
@@ -223,8 +232,8 @@ namespace Mixture
 				|| target.updatePeriod != GetUpdatePeriod())
 			{
 				target.Release();
-				target.width = Math.Max(1, outputWidth);
-				target.height = Math.Max(1, outputHeight);
+				target.width = outputWidth;
+				target.height = outputHeight;
 				target.graphicsFormat = (GraphicsFormat)targetFormat;
 				target.dimension = dimension;
 				target.volumeDepth = outputDepth;
@@ -263,7 +272,7 @@ namespace Mixture
 			return changed;
 		}
 
-		protected virtual TextureDimension GetTempTextureDimension() => settings.GetTextureDimension(graph);
+		protected virtual TextureDimension GetTempTextureDimension() => settings.GetResolvedTextureDimension(graph);
 
 		float GetUpdatePeriod()
 		{
@@ -298,7 +307,7 @@ namespace Mixture
 
 		void Process(CommandBuffer cmd)
 		{
-			var outputDimension = settings.GetTextureDimension(graph);
+			var outputDimension = settings.GetResolvedTextureDimension(graph);
 
 			if (!supportedDimensions.Contains((OutputDimension)outputDimension))
 			{
@@ -360,7 +369,7 @@ namespace Mixture
 			if (material == null)
 				yield break;
 
-			var currentDimension = settings.GetTextureDimension(graph);
+			var currentDimension = settings.GetResolvedTextureDimension(graph);
 
 			var s = material.shader;
 			for (int i = 0; i < material.shader.GetPropertyCount(); i++)
@@ -570,7 +579,7 @@ namespace Mixture
 			yield return new PortData
 			{
 				displayName = displayName,
-				displayType = TextureUtils.GetTypeFromDimension(settings.GetTextureDimension(graph)),
+				displayType = TextureUtils.GetTypeFromDimension(settings.GetResolvedTextureDimension(graph)),
 				identifier = fieldName,
 				acceptMultipleEdges = input ? false : true,
 			};
@@ -619,7 +628,6 @@ namespace Mixture
 		InheritFromParent = NodeInheritanceMode.InheritFromParent,
 		InheritFromChild = NodeInheritanceMode.InheritFromChild,
 		Absolute = 1,
-		ScaleOfParent = 2
 	}
 
 	public enum OutputDimension

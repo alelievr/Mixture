@@ -48,6 +48,7 @@ namespace Mixture
 					// We delay the port refresh to let the settings finish it's update 
 					schedule.Execute(() =>{ 
 						{
+							Debug.Log("Refresh: " + nodeTarget.settings.GetResolvedTextureDimension(owner.graph));
 							// Refresh ports on all the nodes in the graph
 							nodeTarget.UpdateAllPortsLocal();
 							RefreshPorts();
@@ -276,7 +277,7 @@ namespace Mixture
 				}
 
 				// Hide all the properties that are not supported in the current dimension
-				var currentDimension = nodeTarget.settings.GetTextureDimension(owner.graph);
+				var currentDimension = nodeTarget.settings.GetResolvedTextureDimension(owner.graph);
 				string displayName = property.displayName;
 
 				bool is2D = displayName.Contains(MixtureUtils.texture2DPrefix);

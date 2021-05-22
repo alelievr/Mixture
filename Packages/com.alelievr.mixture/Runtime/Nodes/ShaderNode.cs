@@ -97,6 +97,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 			beforeProcessSetup += BeforeProcessSetup;
 
 			UpdateShader();
+			UpdateExposedProperties();
 			UpdateTempRenderTexture(ref output, hasMips: hasMips);
 			output.material = material;
 
@@ -207,8 +208,6 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 				return false;
 			}
 
-			UpdateExposedProperties();
-
 #if UNITY_EDITOR // IsShaderCompiled is editor only
 			if (!IsShaderCompiled(material.shader))
 			{
@@ -252,7 +251,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 			if (output == null)
 				return false;
 
-			var outputDimension = settings.GetTextureDimension(graph);
+			var outputDimension = settings.GetResolvedTextureDimension(graph);
 			MixtureUtils.SetupDimensionKeyword(material, outputDimension);
 
 			var s = material.shader;
@@ -284,7 +283,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 
 			output.material = material;
 
-            bool useCustomUV = material.HasTextureBound("_UV", settings.GetTextureDimension(graph));
+            bool useCustomUV = material.HasTextureBound("_UV", settings.GetResolvedTextureDimension(graph));
             material.SetKeywordEnabled("USE_CUSTOM_UV", useCustomUV);
 
 			return true;

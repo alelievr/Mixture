@@ -271,7 +271,7 @@ namespace Mixture
                 var depth = graph.outputNode.settings.GetResolvedDepth(graph);
                 var filterMode = graph.outputNode.settings.GetResolvedFilterMode(graph);
                 var wrapMode = graph.outputNode.settings.GetResolvedWrapMode(graph);
-                var dimension = graph.outputNode.settings.GetTextureDimension(graph);
+                var dimension = graph.outputNode.settings.GetResolvedTextureDimension(graph);
 
                 if (variantPreview.graphicsFormat != graphicsFormat
                     || variantPreview.height != height

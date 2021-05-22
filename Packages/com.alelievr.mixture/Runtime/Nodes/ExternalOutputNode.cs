@@ -45,7 +45,7 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
         {
             get
             {
-                POTSize size = (settings.GetTextureDimension(graph) == TextureDimension.Tex3D) ? POTSize._32 : POTSize._1024;
+                POTSize size = (settings.GetResolvedTextureDimension(graph) == TextureDimension.Tex3D) ? POTSize._32 : POTSize._1024;
                 return new MixtureSettings
                 {
                     sizeMode = OutputSizeMode.Absolute,
@@ -79,7 +79,7 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
 
             if(graph.type != MixtureGraphType.Realtime)
             {
-                if(settings.GetTextureDimension(graph) != TextureDimension.Cube)
+                if(settings.GetResolvedTextureDimension(graph) != TextureDimension.Cube)
                     return base.ProcessNode(cmd);
                 else
                 {
