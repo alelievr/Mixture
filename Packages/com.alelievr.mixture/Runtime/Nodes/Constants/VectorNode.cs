@@ -29,7 +29,7 @@ Constant vector value.
 		[Output(name = "W")]
 		public float w = 0;
 
-		public override float nodeWidth => MixtureUtils.smallNodeWidth;
+		public override float nodeWidth => MixtureUtils.defaultNodeWidth;
 
 		public override string	name => "Vector";
 
