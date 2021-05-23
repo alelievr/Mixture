@@ -38,6 +38,7 @@ namespace Mixture
 
 		protected override void Enable()
 		{
+            base.Enable();
 			if (!String.IsNullOrEmpty(computeShaderResourcePath) && computeShader == null)
 				computeShader = LoadComputeShader(computeShaderResourcePath);
 

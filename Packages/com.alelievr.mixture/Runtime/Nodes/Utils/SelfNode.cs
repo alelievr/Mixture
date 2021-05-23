@@ -84,15 +84,15 @@ Currently only the first output texture of the output node can be retrieved.
 			if (sourceTarget == null || !sourceTarget.IsCreated())
 				initialization = true;
 
-			var dim = rtSettings.GetTextureDimension(graph);
+			var dim = settings.GetResolvedTextureDimension(graph);
 
-			if (output.width != rtSettings.GetWidth(graph) || output.dimension != rtSettings.GetTextureDimension(graph))
+			if (output.width != settings.GetResolvedWidth(graph) || output.dimension != settings.GetResolvedTextureDimension(graph))
 			{
 				output.Release();
-				output.width = rtSettings.GetWidth(graph);
-				output.height = rtSettings.GetHeight(graph);
-				output.volumeDepth = rtSettings.GetDepth(graph);
-				output.graphicsFormat = rtSettings.GetGraphicsFormat(graph);
+				output.width = settings.GetResolvedWidth(graph);
+				output.height = settings.GetResolvedHeight(graph);
+				output.volumeDepth = settings.GetResolvedDepth(graph);
+				output.graphicsFormat = settings.GetGraphicsFormat(graph);
 				output.enableRandomWrite = true;
 				output.Create();
 				initialization = true;

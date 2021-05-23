@@ -49,21 +49,22 @@ namespace Mixture
                     switch(outputDimension)
                     {
                         case ExternalOutputNode.ExternalOutputDimension.Texture2D:
-                            externalOutputNode.rtSettings.dimension = OutputDimension.Texture2D;
+                            externalOutputNode.settings.dimension = OutputDimension.Texture2D;
                             break;
                         case ExternalOutputNode.ExternalOutputDimension.Texture3D:
-                            externalOutputNode.rtSettings.dimension = OutputDimension.Texture3D;
+                            externalOutputNode.settings.dimension = OutputDimension.Texture3D;
                             break;
                         case ExternalOutputNode.ExternalOutputDimension.Cubemap:
-                            externalOutputNode.rtSettings.dimension = OutputDimension.CubeMap;
+                            externalOutputNode.settings.dimension = OutputDimension.CubeMap;
                             break;
                     }
 
-                    long pixelCount = nodeTarget.rtSettings.GetWidth(graph) * nodeTarget.rtSettings.GetHeight(graph) * nodeTarget.rtSettings.GetDepth(graph);
+                    long pixelCount = nodeTarget.settings.GetResolvedWidth(graph) * nodeTarget.settings.GetResolvedHeight(graph) * nodeTarget.settings.GetResolvedDepth(graph);
                     // Above 16M pixels in a texture3D, processing can take too long and crash the GPU when a conversion happen
                     if (pixelCount > 16777216)
                     {
-                        nodeTarget.rtSettings.SetPOTSize(64);
+                        nodeTarget.settings.sizeMode = OutputSizeMode.Absolute;
+                        nodeTarget.settings.SetPOTSize(64);
                     }
 
                     externalOutputNode.OnSettingsChanged();

@@ -279,5 +279,12 @@ namespace Mixture
 					break ;
 			}
 		}
+
+		public void RefreshNodeSettings()
+		{
+			foreach (var nodeView in nodeViews)
+				if (nodeView is MixtureNodeView v)
+					v.RefreshSettingsValues();
+		}
 	}
 }

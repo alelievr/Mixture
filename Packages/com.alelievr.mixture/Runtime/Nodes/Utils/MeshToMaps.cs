@@ -46,7 +46,7 @@ This process is done using the UV of the mesh to flatten it and output it's attr
 
 		public override bool	showDefaultInspector => true;
 		public override Texture previewTexture => output;
-		protected override MixtureSettings defaultRTSettings => Get2DOnlyRTSettings(base.defaultRTSettings);
+		protected override MixtureSettings defaultSettings => Get2DOnlyRTSettings(base.defaultSettings);
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
 			OutputDimension.Texture2D,
 		};
@@ -55,6 +55,7 @@ This process is done using the UV of the mesh to flatten it and output it's attr
 
 		protected override void Enable()
 		{
+            base.Enable();
 			UpdateTempRenderTexture(ref output);
 			materialProperties = new MaterialPropertyBlock();
 		}

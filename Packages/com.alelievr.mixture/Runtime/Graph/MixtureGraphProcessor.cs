@@ -304,7 +304,7 @@ namespace Mixture
 			{
 				UpdateComputeOrder();
 
-				var cmd = CommandBufferPool.Get("Mixture");
+				var cmd = CommandBufferPool.Get("Mixture: " + graph.name);
 				ProcessGraphOutputs(cmd, graph.graphOutputs);
 
 				Graphics.ExecuteCommandBuffer(cmd);

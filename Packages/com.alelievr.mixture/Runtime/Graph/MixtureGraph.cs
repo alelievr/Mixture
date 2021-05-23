@@ -21,12 +21,20 @@ namespace Mixture
         Behaviour,
     }
 
+    public enum NodeInheritanceMode
+    {
+        InheritFromGraph = -1,
+        InheritFromParent = -2,
+        InheritFromChild = -3,
+    }
+
 	[System.Serializable]
 	public class MixtureGraph : BaseGraph
 	{
         public enum Version
         {
             Initial,
+            SettingsRefactor,
         }
 
         public Version          version = MixtureUtils.GetLastEnumValue<Version>();
@@ -46,6 +54,8 @@ namespace Mixture
         /// Add the mixture asset to the built player, note that it only works for static mixtures as realtime ones are always included.
         /// </summary>
         public bool             embedInBuild;
+
+        public NodeInheritanceMode defaultNodeInheritanceMode = NodeInheritanceMode.InheritFromParent;
 
         [System.NonSerialized]
 		OutputNode		        _outputNode;
@@ -127,6 +137,17 @@ namespace Mixture
 			base.onEnabled += Enabled;
 		}
 
+        public MixtureSettings settings = new MixtureSettings()
+        {
+            // Default graph values:
+            width = 1024,
+            height = 1024,
+            depth = 1,
+            dimension = OutputDimension.Texture2D,
+            outputChannels = OutputChannel.RGBA,
+            outputPrecision = OutputPrecision.Half,
+        };
+
 		void Enabled()
 		{
             // Migrate the graph if needed
@@ -135,6 +156,8 @@ namespace Mixture
 			// We should have only one OutputNode per graph
 			if (type != MixtureGraphType.Behaviour && outputNode == null)
 				outputNode = AddNode(BaseNode.CreateFromType< OutputNode >(Vector2.zero)) as OutputNode;
+
+            SanitizeSettings();
 
 #if UNITY_EDITOR
             // TODO: check if the asset is in a Resources folder for realtime and put a warning if it's not the case
@@ -162,6 +185,46 @@ namespace Mixture
                 isRealtime = false;
             }
 #pragma warning restore CS0618
+
+            if (version == Version.Initial)
+            {
+                if (outputNode?.settings != null)
+                {
+                    // migrate output node settings to graph settings:
+                    settings = outputNode.settings.Clone();
+
+                    // Patch output node settings to inherit graph settings (old behavior)
+                    outputNode.settings.editFlags |= EditFlags.Size;
+                    outputNode.settings.sizeMode = OutputSizeMode.InheritFromGraph;
+                    outputNode.settings.outputPrecision = OutputPrecision.InheritFromGraph;
+                    outputNode.settings.outputChannels = OutputChannel.InheritFromGraph;
+                    outputNode.settings.dimension = OutputDimension.InheritFromGraph;
+                    Debug.Log(outputNode.settings);
+
+                    version = Version.SettingsRefactor;
+                }
+            }
+
+            version = MixtureUtils.GetLastEnumValue<Version>();
+        }
+
+        void SanitizeSettings()
+        {
+            // Avoid undefined values in settings
+            if (settings.outputChannels.Inherits())
+                settings.outputChannels = OutputChannel.RGBA;
+            if (settings.outputPrecision.Inherits())
+                settings.outputPrecision = OutputPrecision.Half;
+            if (settings.dimension.Inherits())
+                settings.dimension = OutputDimension.Texture2D;
+            if (settings.wrapMode.Inherits())
+                settings.wrapMode = OutputWrapMode.Mirror;
+            if (settings.filterMode.Inherits())
+                settings.filterMode = OutputFilterMode.Trilinear;
+            if (settings.sizeMode.Inherits())
+                settings.sizeMode = OutputSizeMode.Absolute;
+
+            settings.editFlags = EditFlags.TargetFormat;
         }
 
 		public List< Object >		GetObjectsReferences()
@@ -313,35 +376,39 @@ namespace Mixture
 
 		Texture UpdateOutputRealtimeTexture(OutputTextureSettings outputSettings)
 		{
-			var s = outputNode.rtSettings;
+			var dimension = outputNode.settings.GetResolvedTextureDimension(this);
+            var width = outputNode.settings.GetResolvedWidth(this);
+            var height = outputNode.settings.GetResolvedHeight(this);
+            var depth = outputNode.settings.GetResolvedDepth(this);
+            var graphicsFormat = outputNode.settings.GetGraphicsFormat(this);
 
             var oldTexture = FindOutputTexture(outputSettings.name, outputSettings.isMain);
             Texture newTexture = oldTexture;
 
 			if (!(oldTexture is CustomRenderTexture))
 			{
-				newTexture = new CustomRenderTexture(s.width, s.height, s.graphicsFormat) { name = "Realtime Final Copy", enableRandomWrite = true };
+				newTexture = new CustomRenderTexture(width, height, graphicsFormat) { name = "Realtime Final Copy", enableRandomWrite = true };
 			}
 
 			var crt = newTexture as CustomRenderTexture;
-			bool needsUpdate = crt.width != s.width
-				|| crt.height != s.height
+			bool needsUpdate = crt.width != width
+				|| crt.height != height
 				|| crt.useMipMap != outputSettings.hasMipMaps
-				|| crt.volumeDepth != s.sliceCount
-				|| crt.graphicsFormat != (GraphicsFormat)s.graphicsFormat
+				|| crt.volumeDepth != depth
+				|| crt.graphicsFormat != graphicsFormat
 				|| crt.updateMode != CustomRenderTextureUpdateMode.Realtime;
 
 			if (needsUpdate)
 			{
 				if (crt.IsCreated())
 					crt.Release();
-				crt.width = s.width;
-				crt.height = s.height;
-				crt.graphicsFormat = (GraphicsFormat)s.graphicsFormat;
+				crt.width = Mathf.Max(1, width);
+				crt.height = Mathf.Max(1, height);
+				crt.graphicsFormat = graphicsFormat;
 				crt.useMipMap = outputSettings.hasMipMaps;
 				crt.autoGenerateMips = false;
 				crt.updateMode = CustomRenderTextureUpdateMode.Realtime;
-				crt.volumeDepth = s.sliceCount;
+				crt.volumeDepth = depth;
 				crt.Create();
 			}
 
@@ -355,7 +422,11 @@ namespace Mixture
 
 		Texture UpdateOutputStaticTexture(OutputTextureSettings outputSettings)
 		{
-			var s = outputNode.rtSettings;
+			var dimension = outputNode.settings.GetResolvedTextureDimension(this);
+            var width = outputNode.settings.GetResolvedWidth(this);
+            var height = outputNode.settings.GetResolvedHeight(this);
+            var depth = outputNode.settings.GetResolvedDepth(this);
+            var graphicsFormat = outputNode.settings.GetGraphicsFormat(this);
             var creationFlags = outputSettings.hasMipMaps ? TextureCreationFlags.MipChain : TextureCreationFlags.None;
 
             // Check if we need to re-create the texture:
@@ -363,13 +434,22 @@ namespace Mixture
 
             if (currentTexture != null)
             {
-                bool matchTextureSettings = currentTexture.dimension == (TextureDimension)s.dimension
-                    && currentTexture.width == s.width && currentTexture.height == s.height
+                bool matchTextureSettings = currentTexture.dimension == dimension 
+                    && currentTexture.width == width && currentTexture.height == height
                     && (currentTexture.mipmapCount > 1) == outputSettings.hasMipMaps
-                    && currentTexture.GetType() == s.GetType();
+                    && MatchTextureTypeWithGraphType(currentTexture);
+
+                bool MatchTextureTypeWithGraphType(Texture t)
+                {
+                    bool realtimeTexture = typeof(RenderTexture).IsAssignableFrom(t.GetType());
+                    if (type == MixtureGraphType.Baked)
+                        return !realtimeTexture;
+                    else
+                        return realtimeTexture;
+                }
 
                 bool conversionOrCompression = outputSettings.IsCompressionEnabled() || outputSettings.IsConversionEnabled();
-                matchTextureSettings &= conversionOrCompression || (!conversionOrCompression && currentTexture.graphicsFormat == s.graphicsFormat);
+                matchTextureSettings &= conversionOrCompression || (!conversionOrCompression && currentTexture.graphicsFormat == graphicsFormat);
 
                 // Note that here we don't check the graphic format of the texture, because the current texture
                 // can use a compressed format which will be different compared to the one in the graph.
@@ -378,7 +458,7 @@ namespace Mixture
                     return currentTexture;
                 else if (!conversionOrCompression && matchTextureSettings) // Otherwise if the format is not compressed, we want to compare the format because it directly affects the data on disk
                 {
-                    if (currentTexture.graphicsFormat == s.graphicsFormat)
+                    if (currentTexture.graphicsFormat == graphicsFormat)
                         return currentTexture;
                 }
             }
@@ -387,22 +467,22 @@ namespace Mixture
 
             Texture newTexture = null;
 
-            switch (s.dimension)
+            switch (dimension)
             {
-                case OutputDimension.Texture2D:
-                    newTexture = new Texture2D(s.width, s.height, (GraphicsFormat)s.graphicsFormat, creationFlags);
+                case TextureDimension.Tex2D:
+                    newTexture = new Texture2D(width, height, graphicsFormat, creationFlags);
                     onOutputTextureUpdated?.Invoke();
                     break;
-                case OutputDimension.Texture3D:
-                    newTexture = new Texture3D(s.width, s.height, s.sliceCount, (GraphicsFormat)s.graphicsFormat, creationFlags);
+                case TextureDimension.Tex3D:
+                    newTexture = new Texture3D(width, height, depth, graphicsFormat, creationFlags);
                     onOutputTextureUpdated?.Invoke();
                     break;
-                case OutputDimension.CubeMap:
-                    newTexture = new Cubemap(s.width, (GraphicsFormat)s.graphicsFormat, creationFlags);
+                case TextureDimension.Cube:
+                    newTexture = new Cubemap(width, graphicsFormat, creationFlags);
                     onOutputTextureUpdated?.Invoke();
                     break;
                 default:
-                    Debug.LogError("Texture format " + s.dimension + " is not supported");
+                    Debug.LogError("Texture format " + dimension + " is not supported");
                     return null;
             }
 
@@ -419,23 +499,22 @@ namespace Mixture
             try
             {
                 Texture outputTexture = null;
-                bool isHDR = external.rtSettings.IsHDR(this);
+                bool isHDR = external.settings.IsHDR(this);
 
-                OutputDimension dimension = (OutputDimension)external.rtSettings.GetTextureDimension(this);
-                GraphicsFormat format = (GraphicsFormat)external.rtSettings.GetGraphicsFormat(this);
-                var rtSettings = external.rtSettings;
+                TextureDimension dimension = external.settings.GetResolvedTextureDimension(this);
+                GraphicsFormat format = (GraphicsFormat)external.settings.GetGraphicsFormat(this);
+                var rtSettings = external.settings;
 
                 switch (dimension)
                 {
-                    case OutputDimension.SameAsOutput:
-                    case OutputDimension.Texture2D:
-                        outputTexture = new Texture2D(rtSettings.GetWidth(this), rtSettings.GetHeight(this), format, TextureCreationFlags.MipChain);
+                    case TextureDimension.Tex2D:
+                        outputTexture = new Texture2D(rtSettings.GetResolvedWidth(this), rtSettings.GetResolvedHeight(this), format, TextureCreationFlags.MipChain);
                         break;
-                    case OutputDimension.CubeMap:
-                        outputTexture = new Cubemap(rtSettings.GetWidth(this), format, TextureCreationFlags.MipChain);
+                    case TextureDimension.Cube:
+                        outputTexture = new Cubemap(rtSettings.GetResolvedWidth(this), format, TextureCreationFlags.MipChain);
                         break;
-                    case OutputDimension.Texture3D:
-                        outputTexture = new Texture3D(rtSettings.GetWidth(this), rtSettings.GetHeight(this), rtSettings.GetDepth(this), format, TextureCreationFlags.MipChain);
+                    case TextureDimension.Tex3D:
+                        outputTexture = new Texture3D(rtSettings.GetResolvedWidth(this), rtSettings.GetResolvedHeight(this), rtSettings.GetResolvedDepth(this), format, TextureCreationFlags.MipChain);
                         break;
                 }
                 EditorUtility.DisplayProgressBar("Mixture", "Reading Back Data...", 0.1f);
@@ -450,7 +529,7 @@ namespace Mixture
                 {
                     string extension = "asset";
 
-                    if (dimension == OutputDimension.Texture2D)
+                    if (dimension == TextureDimension.Tex2D)
                     {
                         if (isHDR)
                             extension = "exr";
@@ -468,18 +547,18 @@ namespace Mixture
                 }
                 EditorUtility.DisplayProgressBar("Mixture", $"Writing to {assetPath}...", 0.3f);
 
-                if (dimension == OutputDimension.Texture3D)
+                if (dimension == TextureDimension.Tex3D)
                 {
                     var volume = AssetDatabase.LoadAssetAtPath<Texture3D>(assetPath);
                     if (volume == null)
                     {
-                        volume = new Texture3D(external.rtSettings.width, external.rtSettings.height, external.rtSettings.sliceCount, (TextureFormat)external.external3DFormat, true);
+                        volume = new Texture3D(external.settings.width, external.settings.height, external.settings.depth, (TextureFormat)external.external3DFormat, true);
                         AssetDatabase.CreateAsset(volume, assetPath);
                     }
                     // TODO: check resolution
                     if (volume.format != (TextureFormat)external.external3DFormat)
                     {
-                        var newTexture = new Texture3D(external.rtSettings.width, external.rtSettings.height, external.rtSettings.sliceCount, (TextureFormat)external.external3DFormat, true);
+                        var newTexture = new Texture3D(external.settings.width, external.settings.height, external.settings.depth, (TextureFormat)external.external3DFormat, true);
                         EditorUtility.CopySerialized(newTexture, volume);
                         Object.DestroyImmediate(newTexture);
                     }
@@ -490,7 +569,7 @@ namespace Mixture
 
                     external.asset = volume;
                 }
-                else if (dimension == OutputDimension.Texture2D)
+                else if (dimension == TextureDimension.Tex2D)
                 {
                     byte[] contents = null;
 
@@ -544,18 +623,18 @@ namespace Mixture
                         external.asset = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
 
                 }
-                else if (dimension == OutputDimension.CubeMap)
+                else if (dimension == TextureDimension.Cube)
                 {
                     var cube = AssetDatabase.LoadAssetAtPath<Cubemap>(assetPath);
                     if (cube == null)
                     {
-                        cube = new Cubemap(external.rtSettings.width, (TextureFormat)external.external3DFormat, true);
+                        cube = new Cubemap(external.settings.width, (TextureFormat)external.external3DFormat, true);
                         AssetDatabase.CreateAsset(cube, assetPath);
                     }
                     // TODO: check resolution
                     if (cube.format != (TextureFormat)external.external3DFormat)
                     {
-                        var newTexture = new Cubemap(external.rtSettings.width, (TextureFormat)external.external3DFormat, true);
+                        var newTexture = new Cubemap(external.settings.width, (TextureFormat)external.external3DFormat, true);
                         EditorUtility.CopySerialized(newTexture, cube);
                         Object.DestroyImmediate(newTexture);
                     }
@@ -682,7 +761,7 @@ namespace Mixture
         // Write the rendertexture value to the graph main texture asset, or to an external Texture
         public void ReadBackTexture(OutputNode node, RenderTexture source, bool enableCompression = false, TextureFormat compressionFormat = TextureFormat.DXT5, MixtureCompressionQuality compressionQuality = MixtureCompressionQuality.Best, Texture externalTexture = null)
         {
-            var outputFormat = node.rtSettings.GetGraphicsFormat(this);
+            var outputFormat = node.settings.GetGraphicsFormat(this);
             var target = externalTexture == null ? mainOutputTexture : externalTexture;
             string name = target.name;
 
@@ -760,8 +839,8 @@ namespace Mixture
         
         protected void WriteRequestResult(AsyncGPUReadbackRequest request, ReadbackData data)
         {
-            var outputPrecision = data.node.rtSettings.GetOutputPrecision(this);
-            var outputChannels = data.node.rtSettings.GetOutputChannels(this);
+            var outputPrecision = data.node.settings.GetResolvedPrecision(this);
+            var outputChannels = data.node.settings.GetResolvedChannels(this);
 
             if (request.hasError)
             {
@@ -802,8 +881,8 @@ namespace Mixture
         unsafe void ConvertOutput3DTexture(Texture3D source, Texture3D destination, TextureFormat compressionFormat)
         {
 #if UNITY_EDITOR
-            OutputPrecision inputPrecision = outputNode.rtSettings.outputPrecision;
-            OutputChannel inputChannels = outputNode.rtSettings.outputChannels;
+            OutputPrecision inputPrecision = outputNode.settings.outputPrecision;
+            OutputChannel inputChannels = outputNode.settings.outputChannels;
 
             // We allocate the final texture in the correct format, that we'll they swap with the destination texture.
             var finalCompressedTexture = new Texture3D(source.width, source.height, source.depth, compressionFormat, destination.mipmapCount);
@@ -841,5 +920,14 @@ namespace Mixture
         }
 
         internal void InvokeCommandBufferExecuted() => afterCommandBufferExecuted?.Invoke();
+
+        public void UpdateNodeInheritanceMode()
+        {
+            foreach (var node in nodes)
+            {
+                if (node is MixtureNode n)
+                    n.settings.SyncInheritanceMode(defaultNodeInheritanceMode);
+            }
+        }
     }
 }

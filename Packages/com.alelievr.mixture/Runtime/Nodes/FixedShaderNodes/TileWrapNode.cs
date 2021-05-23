@@ -119,7 +119,7 @@ Make the input texture tile by wrapping and blending the borders of the texture.
                     break;
             }
 
-            rtSettings.doubleBuffered = true;
+            settings.doubleBuffered = true;
 
             // Setup the successive passes needed or the blur
             output.SetUpdateZones(updateZones);

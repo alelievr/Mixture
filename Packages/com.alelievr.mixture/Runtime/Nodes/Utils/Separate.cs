@@ -32,8 +32,9 @@ Separates the 4 components (RGBA) of the input texture into 4 R channel texture.
 
 		protected override void Enable()
 		{
-			rtSettings.outputChannels = OutputChannel.R;
-			rtSettings.editFlags &= ~EditFlags.Format;
+            base.Enable();
+			settings.outputChannels = OutputChannel.R;
+			settings.editFlags &= ~EditFlags.Format;
 
 			UpdateTempRenderTexture(ref outputR);
 			UpdateTempRenderTexture(ref outputG);

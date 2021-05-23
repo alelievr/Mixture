@@ -108,14 +108,14 @@ namespace Mixture
 		{
 			var sv = base.CreateSettingsView();
 
-			OutputDimension currentDim = nodeTarget.rtSettings.dimension;
+			OutputDimension currentDim = nodeTarget.settings.dimension;
 			settingsView.RegisterChangedCallback(() => {
 				// Reflect the changes on the graph output texture but not on the asset to avoid stalls.
 				graph.UpdateOutputTextures();
 				RefreshOutputPortSettings();
 
 				// When the dimension is updated, we need to update all the node ports in the graph
-				var newDim = nodeTarget.rtSettings.dimension;
+				var newDim = nodeTarget.settings.dimension;
 				if (currentDim != newDim)
 				{
 					// We delay the port refresh to let the settings finish it's update 

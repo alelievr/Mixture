@@ -48,7 +48,7 @@ namespace Mixture
                 return false;
             
             Color32[] colors = null;
-            cache = new Texture2D(rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), rtSettings.GetGraphicsFormat(graph), TextureCreationFlags.None);
+            cache = new Texture2D(settings.GetWidth(graph), settings.GetHeight(graph), settings.GetGraphicsFormat(graph), TextureCreationFlags.None);
             cache.filterMode = FilterMode.Point;
 
             if (input is RenderTexture rt)

@@ -93,7 +93,7 @@ public class MixtureDocumentationWindow : EditorWindow
                 continue;
 
             // We'll suport loops after
-            if (node.type == typeof(ForeachStart) || node.type == typeof(ForStart))
+            if (typeof(ILoopStart).IsAssignableFrom(node.type) || typeof(ILoopEnd).IsAssignableFrom(node.type))
                 continue;
 
             window.InitializeGraph(docGraph);

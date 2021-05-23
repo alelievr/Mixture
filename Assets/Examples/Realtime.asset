@@ -36,7 +36,7 @@ Material:
     - _Frequency: 2
     - _Lacunarity: 2
     - _Octaves: 4
-    - _Persistance: 0.54992366
+    - _Persistance: 0.11338062
     - _Seed: 42
     - _TilingMode: 1
     - _UVMode: 0
@@ -105,7 +105,7 @@ MonoBehaviour:
   stickyNotes: []
   position: {x: 789, y: 410, z: 0}
   scale: {x: 0.7561437, y: 0.7561437, z: 1}
-  version: 0
+  version: 1
   type: 1
   realtimePreview: 1
   isRealtime: 0
@@ -119,6 +119,24 @@ MonoBehaviour:
   _outputTextures:
   - {fileID: 5628935143906128194}
   - {fileID: 5628935143906128194}
+  settings:
+    widthPercent: 0
+    heightPercent: 0
+    depthPercent: 0
+    width: 64
+    height: 64
+    depth: 64
+    potSize: 64
+    sizeMode: 1
+    dimension: 2
+    outputChannels: 1
+    outputPrecision: 3
+    editFlags: 128
+    doubleBuffered: 0
+    wrapMode: 0
+    filterMode: 0
+    refreshMode: 0
+    period: 0
   references:
     version: 1
     00000000:
@@ -136,21 +154,19 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
+        settings:
           widthPercent: 0
           heightPercent: 0
           depthPercent: 0
           width: 64
           height: 64
-          sliceCount: 64
+          depth: 64
           potSize: 64
-          widthMode: 1
-          heightMode: 1
-          depthMode: 1
-          dimension: 2
-          outputChannels: 1
-          outputPrecision: 3
-          editFlags: 469
+          sizeMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: 471
           doubleBuffered: 0
           wrapMode: 0
           filterMode: 0
@@ -190,17 +206,15 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
+        settings:
           widthPercent: 1
           heightPercent: 1
           depthPercent: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
+          sizeMode: 0
           dimension: 0
           outputChannels: 0
           outputPrecision: 0
@@ -298,17 +312,15 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
+        settings:
           widthPercent: 1
           heightPercent: 1
           depthPercent: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
+          sizeMode: 0
           dimension: 0
           outputChannels: 0
           outputPrecision: 0
@@ -340,17 +352,15 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
+        settings:
           widthPercent: 1
           heightPercent: 1
           depthPercent: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
+          sizeMode: 0
           dimension: 0
           outputChannels: 0
           outputPrecision: 0
@@ -367,8 +377,8 @@ MonoBehaviour:
         previewEV100: 0
         previewSlice: 0
         isPinned: 0
-        a: {x: 0.5712105, y: 0.5712105, z: 0.5712105, w: 0.5712105}
-        o: {x: 0.54992366, y: 0.54992366, z: 0.54992366, w: 0.54992366}
+        a: {x: -0.6760554, y: -0.6760554, z: -0.6760554, w: -0.6760554}
+        o: {x: 0.11338062, y: 0.11338062, z: 0.11338062, w: 0.11338062}
         inputMin: -1
         inputMax: 1
         outputMin: 0

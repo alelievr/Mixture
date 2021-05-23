@@ -265,24 +265,31 @@ namespace Mixture
                     output = graph.outputNode.outputTextureSettings.First();
 
                 // Refresh the preview in the inspector:
-                var s = graph.outputNode.rtSettings;
-                if (variantPreview.graphicsFormat != s.graphicsFormat
-                    || variantPreview.height != s.height
-                    || variantPreview.width != s.width
-                    || variantPreview.volumeDepth != s.sliceCount
-                    || variantPreview.filterMode != s.filterMode
-                    || variantPreview.wrapMode != s.wrapMode
-                    || variantPreview.dimension != (TextureDimension)s.dimension
+                var graphicsFormat = graph.outputNode.settings.GetGraphicsFormat(graph);
+                var width = graph.outputNode.settings.GetResolvedWidth(graph);
+                var height = graph.outputNode.settings.GetResolvedHeight(graph);
+                var depth = graph.outputNode.settings.GetResolvedDepth(graph);
+                var filterMode = graph.outputNode.settings.GetResolvedFilterMode(graph);
+                var wrapMode = graph.outputNode.settings.GetResolvedWrapMode(graph);
+                var dimension = graph.outputNode.settings.GetResolvedTextureDimension(graph);
+
+                if (variantPreview.graphicsFormat != graphicsFormat
+                    || variantPreview.height != height
+                    || variantPreview.width != width
+                    || variantPreview.volumeDepth != depth
+                    || variantPreview.filterMode != filterMode
+                    || variantPreview.wrapMode != wrapMode
+                    || variantPreview.dimension != dimension
                     || variantPreview.useMipMap != output.hasMipMaps)
                 {
                     variantPreview.Release();
-                    variantPreview.graphicsFormat = s.graphicsFormat;
-                    variantPreview.width = s.width;
-                    variantPreview.height = s.height;
-                    variantPreview.volumeDepth = s.sliceCount;
-                    variantPreview.filterMode = s.filterMode;
-                    variantPreview.wrapMode = s.wrapMode;
-                    variantPreview.dimension = (TextureDimension)s.dimension;
+                    variantPreview.graphicsFormat = graphicsFormat;
+                    variantPreview.width = width;
+                    variantPreview.height = height;
+                    variantPreview.volumeDepth = depth;
+                    variantPreview.filterMode = filterMode;
+                    variantPreview.wrapMode = wrapMode;
+                    variantPreview.dimension = dimension;
                     variantPreview.name = target.name + "*";
                     variantPreview.useMipMap = output.hasMipMaps;
                     variantPreview.Create();

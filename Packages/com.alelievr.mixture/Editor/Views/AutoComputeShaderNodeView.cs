@@ -94,7 +94,7 @@ namespace Mixture
 			var settings = base.CreateSettingsView();
 
 			var allocResourceHeader = new Label("Auto Alloc Resources");
-			allocResourceHeader.AddToClassList(MixtureRTSettingsView.headerStyleClass);
+			allocResourceHeader.AddToClassList(MixtureSettingsView.headerStyleClass);
 			settings.Add(allocResourceHeader);
 
 			allocList = new VisualElement();

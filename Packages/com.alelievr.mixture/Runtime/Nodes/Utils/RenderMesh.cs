@@ -41,7 +41,7 @@ Renders a mesh using the material specified in the 'material' field.
 
 		public override bool	showDefaultInspector => true;
 		public override Texture previewTexture => output;
-		protected override MixtureSettings defaultRTSettings => Get2DOnlyRTSettings(base.defaultRTSettings);
+		protected override MixtureSettings defaultSettings => Get2DOnlyRTSettings(base.defaultSettings);
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
 			OutputDimension.Texture2D,
 		};
@@ -50,6 +50,7 @@ Renders a mesh using the material specified in the 'material' field.
 
 		protected override void Enable()
 		{
+            base.Enable();
 			UpdateTempRenderTexture(ref output);
 			materialProperties = new MaterialPropertyBlock();
 		}
