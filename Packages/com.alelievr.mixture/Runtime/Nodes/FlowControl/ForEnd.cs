@@ -86,7 +86,7 @@ namespace Mixture
 					loopStartGUID = loopStart.GUID;
 				UpdateAllPorts();
 			}
-			else if (loopStart != null && edge.inputPort == loopStart.inputPorts[0])
+			else if (loopStart != null && loopStart.inputPorts.Count > 0 && edge.inputPort == loopStart.inputPorts[0])
 			{
 				UpdateAllPorts();
 			}

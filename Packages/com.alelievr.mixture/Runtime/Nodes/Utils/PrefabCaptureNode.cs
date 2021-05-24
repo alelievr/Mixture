@@ -80,6 +80,9 @@ Note that this node is currently only available with HDRP.
 
         protected override void Enable()
         {
+            tmpRenderTexture = null;
+            savedTexture = null;
+            // TODO: copy saved texture when duplicated instead of setting it to null
             base.Enable();
             UpdateRenderTextures();
         }

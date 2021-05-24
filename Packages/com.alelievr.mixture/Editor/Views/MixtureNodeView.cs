@@ -48,7 +48,6 @@ namespace Mixture
 					// We delay the port refresh to let the settings finish it's update 
 					schedule.Execute(() =>{ 
 						{
-							Debug.Log("Refresh: " + nodeTarget.settings.GetResolvedTextureDimension(owner.graph));
 							// Refresh ports on all the nodes in the graph
 							nodeTarget.UpdateAllPortsLocal();
 							RefreshPorts();

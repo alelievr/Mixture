@@ -348,6 +348,8 @@ Note that this node tries to generate input / output based on the declared prope
 		{
 			base.Disable();
 
+			tempRenderTexture?.Release();
+
 			foreach (var res in managedResources)
 			{
 				FreeResource(res);

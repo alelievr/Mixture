@@ -40,7 +40,8 @@ namespace Mixture
             base.OnNodeCreated();
 
 #if UNITY_EDITOR
-            createNewPrefab = true;
+            if (!createdFromDuplication)
+                createNewPrefab = true;
 #endif
         }
 
