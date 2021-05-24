@@ -175,12 +175,13 @@ MonoBehaviour:
     - 2dca82ed-5783-4184-b6a1-98022176f45f
     - daa69e9e-84fc-4d1a-b858-469912d19ce0
     - 35b85344-35e5-4157-9741-cd3201b9f3db
+    - 60b2f432-ca18-47f7-9299-0e7de6fbefc9
   stackNodes: []
   pinnedElements:
   - position:
       serializedVersion: 2
-      x: 68
-      y: 236
+      x: 62
+      y: 216
       width: 206
       height: 219
     opened: 1
@@ -202,9 +203,9 @@ MonoBehaviour:
     settings:
       id: 14
   stickyNotes: []
-  position: {x: 709, y: 115, z: 0}
+  position: {x: 731, y: 125, z: 0}
   scale: {x: 1, y: 1, z: 1}
-  version: 0
+  version: 1
   type: 0
   realtimePreview: 0
   isRealtime: 0
@@ -225,15 +226,15 @@ MonoBehaviour:
     widthScale: 0
     heightScale: 0
     depthScale: 0
-    width: 0
-    height: 0
-    depth: 0
-    potSize: 0
-    sizeMode: 0
-    dimension: 0
-    outputChannels: 0
-    outputPrecision: 0
-    editFlags: 0
+    width: 512
+    height: 512
+    depth: 512
+    potSize: 512
+    sizeMode: 1
+    dimension: 2
+    outputChannels: 1
+    outputPrecision: 3
+    editFlags: 128
     doubleBuffered: 0
     wrapMode: 0
     filterMode: 0
@@ -257,9 +258,9 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthScale: 0
-          heightScale: 0
-          depthScale: 0
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 0
           height: 0
           depth: 0
@@ -309,9 +310,9 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthScale: 0
-          heightScale: 0
-          depthScale: 0
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 0
           height: 0
           depth: 0
@@ -336,7 +337,104 @@ MonoBehaviour:
         output: {fileID: 0}
         shader: {fileID: 4800000, guid: da55f2393d0f8384db177010fad4c19c, type: 3}
         material: {fileID: 4907696088465233005}
-        exposedProperties: []
+        exposedProperties:
+        - displayName: UVs
+          referenceName: _UV_2D
+          tooltip: Custom Noise UV
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Tiling Mode
+          referenceName: _TilingMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: UV Mode
+          referenceName: _UVMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Distance Mode
+          referenceName: _DistanceMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Output Range
+          referenceName: _OutputRange
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Lacunarity
+          referenceName: _Lacunarity
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Frequency
+          referenceName: _Frequency
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Persistance
+          referenceName: _Persistance
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Octaves
+          referenceName: _Octaves
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cell Size
+          referenceName: _CellSize
+          tooltip: Act as a multiplier for the distance function
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Seed
+          referenceName: _Seed
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Channels
+          referenceName: _Channels
+          tooltip: Select how many noise to genereate and on which channel. The more
+            different channel you use the more expensive it is (max 4 noise evaluation).
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cells Mode R
+          referenceName: _CellsModeR
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cells Mode G
+          referenceName: _CellsModeG
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cells Mode B
+          referenceName: _CellsModeB
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Cells Mode A
+          referenceName: _CellsModeA
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
         shaderGUID: da55f2393d0f8384db177010fad4c19c
     00000002:
       type: {class: ForStart, ns: Mixture, asm: Mixture.Runtime}
@@ -354,9 +452,9 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthScale: 0
-          heightScale: 0
-          depthScale: 0
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 0
           height: 0
           depth: 0
@@ -399,9 +497,9 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthScale: 0
-          heightScale: 0
-          depthScale: 0
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 0
           height: 0
           depth: 0
@@ -441,9 +539,9 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthScale: 0
-          heightScale: 0
-          depthScale: 0
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 0
           height: 0
           depth: 0
@@ -482,9 +580,9 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthScale: 0
-          heightScale: 0
-          depthScale: 0
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 0
           height: 0
           depth: 0
@@ -525,9 +623,9 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthScale: 0
-          heightScale: 0
-          depthScale: 0
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 0
           height: 0
           depth: 0
@@ -566,9 +664,9 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthScale: 0
-          heightScale: 0
-          depthScale: 0
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 0
           height: 0
           depth: 0
@@ -606,9 +704,9 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthScale: 0
-          heightScale: 0
-          depthScale: 0
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 0
           height: 0
           depth: 0
@@ -647,9 +745,9 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthScale: 0
-          heightScale: 0
-          depthScale: 0
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 0
           height: 0
           depth: 0
@@ -683,17 +781,17 @@ MonoBehaviour:
         computeOrder: 9
         position:
           serializedVersion: 2
-          x: -440
-          y: 905
-          width: 250
-          height: 101
+          x: -445
+          y: 910.5
+          width: 120
+          height: 99
         expanded: 0
         debug: 0
         nodeLock: 0
         settings:
-          widthScale: 0
-          heightScale: 0
-          depthScale: 0
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 0
           height: 0
           depth: 0
@@ -806,6 +904,10 @@ Material:
     m_Floats:
     - _CellSize: 1
     - _CellsMode: 0
+    - _CellsModeA: 0
+    - _CellsModeB: 0
+    - _CellsModeG: 0
+    - _CellsModeR: 0
     - _Channels: 4
     - _DistanceMode: 0
     - _Frequency: 5
@@ -814,6 +916,7 @@ Material:
     - _Persistance: 0.81
     - _Seed: 42
     - _TilingMode: 0
+    - _UVMode: 0
     m_Colors:
     - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []

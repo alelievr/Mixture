@@ -216,6 +216,12 @@ namespace Mixture
                             n.settings.dimension = OutputDimension.InheritFromGraph;
                         if (n.settings.sizeMode == 0)
                             n.settings.sizeMode = OutputSizeMode.InheritFromGraph;
+                        if (n.settings.widthScale == 0)
+                            n.settings.widthScale = 1;
+                        if (n.settings.heightScale == 0)
+                            n.settings.heightScale = 1;
+                        if (n.settings.depthScale == 0)
+                            n.settings.depthScale = 1;
                     }
                 }
 

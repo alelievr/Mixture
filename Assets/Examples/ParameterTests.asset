@@ -19,7 +19,39 @@ MonoBehaviour:
   - id: 2
   - id: 3
   - id: 4
-  edges: []
+  edges:
+  - GUID: f2d226fc-d911-40ca-83bf-e61a9edeb2e5
+    owner: {fileID: 11400000}
+    inputNodeGUID: 29bf348b-6ccb-4d71-98aa-903ee7d3ca01
+    outputNodeGUID: b16725de-60df-4faf-bb05-00ec5565d1d5
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Mask_2D
+    outputPortIdentifier: output
+  - GUID: 2fba1d94-6f2c-47a6-b536-5ebaf11d6f6c
+    owner: {fileID: 11400000}
+    inputNodeGUID: 29bf348b-6ccb-4d71-98aa-903ee7d3ca01
+    outputNodeGUID: e8a16d0f-f8ed-4e38-8b0f-05dcc3244355
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Target_2D
+    outputPortIdentifier: output
+  - GUID: 5ac186c5-2212-4272-b105-bac460a48bad
+    owner: {fileID: 11400000}
+    inputNodeGUID: 29bf348b-6ccb-4d71-98aa-903ee7d3ca01
+    outputNodeGUID: 14ddba92-33fc-4897-9675-58061aa5e5f0
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Source_2D
+    outputPortIdentifier: output
+  - GUID: 94d31013-d102-463a-9f7b-86c06a41be5c
+    owner: {fileID: 11400000}
+    inputNodeGUID: 20aad9a2-f45b-443d-9f30-0287577d108c
+    outputNodeGUID: 29bf348b-6ccb-4d71-98aa-903ee7d3ca01
+    inputFieldName: outputTextureSettings
+    outputFieldName: output
+    inputPortIdentifier: Main Texture
+    outputPortIdentifier: output
   groups: []
   stackNodes: []
   pinnedElements:
@@ -62,9 +94,9 @@ MonoBehaviour:
     settings:
       id: 7
   stickyNotes: []
-  position: {x: 694, y: 164, z: 0}
+  position: {x: 907, y: 151, z: 0}
   scale: {x: 0.7561437, y: 0.7561437, z: 1}
-  version: 0
+  version: 1
   type: 0
   realtimePreview: 0
   isRealtime: 0
@@ -84,8 +116,8 @@ MonoBehaviour:
     depthScale: 0
     width: 1024
     height: 1024
-    depth: 1
-    potSize: 0
+    depth: 1024
+    potSize: 1024
     sizeMode: 1
     dimension: 2
     outputChannels: 1
@@ -103,7 +135,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 20aad9a2-f45b-443d-9f30-0287577d108c
-        computeOrder: 0
+        computeOrder: 4
         position:
           serializedVersion: 2
           x: 40.250015
@@ -114,18 +146,18 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthScale: 0
-          heightScale: 0
-          depthScale: 0
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 1024
           height: 1024
           depth: 1
           potSize: 1024
-          sizeMode: 1
-          dimension: 2
-          outputChannels: 1
-          outputPrecision: 3
-          editFlags: 981
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 983
           doubleBuffered: 0
           wrapMode: 0
           filterMode: 0
@@ -155,7 +187,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 14ddba92-33fc-4897-9675-58061aa5e5f0
-        computeOrder: 1
+        computeOrder: 0
         position:
           serializedVersion: 2
           x: -365.52206
@@ -172,7 +204,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: e8a16d0f-f8ed-4e38-8b0f-05dcc3244355
-        computeOrder: 2
+        computeOrder: 1
         position:
           serializedVersion: 2
           x: -367.7176
@@ -207,10 +239,10 @@ MonoBehaviour:
           height: 512
           depth: 1
           potSize: 0
-          sizeMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: -257
           doubleBuffered: 0
           wrapMode: 0
@@ -227,14 +259,51 @@ MonoBehaviour:
         output: {fileID: 0}
         shader: {fileID: 4800000, guid: 5d69ff00d9a32944ea012824393d489a, type: 3}
         material: {fileID: 8881339453642487381}
-        exposedProperties: []
+        exposedProperties:
+        - displayName: Source
+          referenceName: _Source_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Target
+          referenceName: _Target_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Mask
+          referenceName: _Mask_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Opacity
+          referenceName: _Opacity
+          tooltip: Opacity of the Blend, 0 means that only Source is visible and
+            1 that only Target is visible
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Blend Mode
+          referenceName: _BlendMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Mask Mode
+          referenceName: _MaskMode
+          tooltip: Select which channel is used to sample the mask value
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
         shaderGUID: 5d69ff00d9a32944ea012824393d489a
     00000004:
       type: {class: GradienMattetNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
         GUID: b16725de-60df-4faf-bb05-00ec5565d1d5
-        computeOrder: 4
+        computeOrder: 2
         position:
           serializedVersion: 2
           x: -623.75006
@@ -252,10 +321,10 @@ MonoBehaviour:
           height: 512
           depth: 1
           potSize: 0
-          sizeMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: -257
           doubleBuffered: 0
           wrapMode: 0
@@ -272,7 +341,50 @@ MonoBehaviour:
         output: {fileID: 0}
         shader: {fileID: 4800000, guid: 46c02ba1b0b63954bab0afcd9e828ac6, type: 3}
         material: {fileID: 8863259401849859601}
-        exposedProperties: []
+        exposedProperties:
+        - displayName: Color 1
+          referenceName: _Color1
+          tooltip: Outer color
+          type:
+            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Color 2
+          referenceName: _Color2
+          tooltip: Inner color
+          type:
+            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Gradient Type
+          referenceName: _Mode
+          tooltip: Style of the gradient
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Direction
+          referenceName: _Direction
+          tooltip: Direction of the gradient, only visible on the Linear and exponential
+            gradients
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Turn Count
+          referenceName: _SpiralTurnCount
+          tooltip: Turn count of the spiral
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Branch Count
+          referenceName: _SpiralBranchCount
+          tooltip: Turn count of the spiral
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Falloff
+          referenceName: _Falloff
+          tooltip: Exponential falloff of the gradient
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
         shaderGUID: 46c02ba1b0b63954bab0afcd9e828ac6
     00000005:
       type: {class: Texture2DParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
@@ -325,7 +437,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Hidden/Mixture/FinalCopy
   m_Shader: {fileID: 4800000, guid: 513c040fbfb854aebb92cf147e30125a, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: CRT_2D
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0

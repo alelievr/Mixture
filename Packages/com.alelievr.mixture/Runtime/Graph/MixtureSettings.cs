@@ -18,11 +18,11 @@ namespace Mixture
         public const int k_MaxTextureResolution = 16384;
 
 		[Range(0.0001f, 1.0f), FormerlySerializedAs("widthPercent")]
-		public float widthScale;
+		public float widthScale = 1.0f;
 		[Range(0.0001f, 1.0f), FormerlySerializedAs("heightPercent")]
-		public float heightScale;
+		public float heightScale = 1.0f;
 		[Range(0.0001f, 1.0f), FormerlySerializedAs("depthPercent")]
-		public float depthScale;
+		public float depthScale = 1.0f;
 		[Min(1)]
 		public int width;
 		[Min(1)]
