@@ -61,31 +61,7 @@ MonoBehaviour:
   - id: 1
   - id: 2
   - id: 3
-  edges:
-  - GUID: a036f0bd-ea59-43a6-849e-214a768ed5a4
-    owner: {fileID: 11400000}
-    inputNodeGUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
-    outputNodeGUID: 3fd32b5b-8edd-4948-a1ef-e34f4d5d42dc
-    inputFieldName: a
-    outputFieldName: sinTime
-    inputPortIdentifier: 
-    outputPortIdentifier: 
-  - GUID: 76114e24-b403-4111-be12-2af3703487ec
-    owner: {fileID: 11400000}
-    inputNodeGUID: 45b55e43-50ed-49df-b940-105b197c4bb0
-    outputNodeGUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
-    inputFieldName: materialInputs
-    outputFieldName: o
-    inputPortIdentifier: _Persistance
-    outputPortIdentifier: 
-  - GUID: e72d951d-7b9e-46f6-a11a-e7bb0556d641
-    owner: {fileID: 11400000}
-    inputNodeGUID: 691aa737-9a89-40dd-b56d-201a248e396d
-    outputNodeGUID: 45b55e43-50ed-49df-b940-105b197c4bb0
-    inputFieldName: outputTextureSettings
-    outputFieldName: output
-    inputPortIdentifier: Main Texture
-    outputPortIdentifier: output
+  edges: []
   groups: []
   stackNodes: []
   pinnedElements:
@@ -103,7 +79,7 @@ MonoBehaviour:
   - id: 4
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 789, y: 410, z: 0}
+  position: {x: 727, y: 278, z: 0}
   scale: {x: 0.7561437, y: 0.7561437, z: 1}
   version: 1
   type: 1
@@ -111,6 +87,7 @@ MonoBehaviour:
   isRealtime: 0
   isParameterViewOpen: 1
   embedInBuild: 0
+  defaultNodeInheritanceMode: -2
   objectReferences:
   - {fileID: 3598281741535884985}
   - {fileID: -4439709439935007901}
@@ -120,9 +97,9 @@ MonoBehaviour:
   - {fileID: 5628935143906128194}
   - {fileID: 5628935143906128194}
   settings:
-    widthPercent: 0
-    heightPercent: 0
-    depthPercent: 0
+    widthScale: 0
+    heightScale: 0
+    depthScale: 0
     width: 64
     height: 64
     depth: 64
@@ -144,7 +121,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 691aa737-9a89-40dd-b56d-201a248e396d
-        computeOrder: 3
+        computeOrder: 0
         position:
           serializedVersion: 2
           x: 162.25218
@@ -155,17 +132,17 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthPercent: 0
-          heightPercent: 0
-          depthPercent: 0
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
           width: 64
           height: 64
           depth: 64
           potSize: 64
-          sizeMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: 471
           doubleBuffered: 0
           wrapMode: 0
@@ -196,7 +173,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 45b55e43-50ed-49df-b940-105b197c4bb0
-        computeOrder: 2
+        computeOrder: 1
         position:
           serializedVersion: 2
           x: -194.60869
@@ -207,17 +184,17 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
           depth: 1
           potSize: 0
-          sizeMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: 255
           doubleBuffered: 0
           wrapMode: 0
@@ -302,7 +279,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 3fd32b5b-8edd-4948-a1ef-e34f4d5d42dc
-        computeOrder: 0
+        computeOrder: 2
         position:
           serializedVersion: 2
           x: -842.65234
@@ -313,17 +290,17 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
           depth: 1
           potSize: 0
-          sizeMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: 0
           doubleBuffered: 0
           wrapMode: 0
@@ -342,7 +319,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
-        computeOrder: 1
+        computeOrder: 3
         position:
           serializedVersion: 2
           x: -705.6523
@@ -353,17 +330,17 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         settings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
           depth: 1
           potSize: 0
-          sizeMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: 0
           doubleBuffered: 0
           wrapMode: 0
@@ -454,8 +431,8 @@ CustomRenderTexture:
   m_DownscaleFallback: 0
   m_IsAlphaChannelOptional: 0
   serializedVersion: 3
-  m_Width: 64
-  m_Height: 64
+  m_Width: 1
+  m_Height: 1
   m_AntiAliasing: 1
   m_MipCount: -1
   m_DepthFormat: 0
@@ -468,14 +445,14 @@ CustomRenderTexture:
   m_EnableCompatibleFormat: 1
   m_TextureSettings:
     serializedVersion: 2
-    m_FilterMode: 1
+    m_FilterMode: 0
     m_Aniso: 1
     m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
   m_Dimension: 2
-  m_VolumeDepth: 64
+  m_VolumeDepth: 1
   m_Material: {fileID: 3598281741535884985}
   m_InitSource: 0
   m_InitMaterial: {fileID: 0}

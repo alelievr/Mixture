@@ -91,14 +91,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b113f958e0564f309164e29c24b042d, type: 3}
   m_Name: New Static Mixture Graph
   m_EditorClassIdentifier: 
-  serializedNodes:
-  - type: Mixture.OutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"20aad9a2-f45b-443d-9f30-0287577d108c","computeOrder":1,"position":{"serializedVersion":"2","x":0.0,"y":0.0,"width":100.0,"height":100.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":1024,"height":1024,"sliceCount":1,"potSize":1024,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"outputChannels":1,"outputPrecision":4,"editFlags":981,"doubleBuffered":false,"wrapMode":0,"filterMode":0,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"outputTextureSettings":[{"inputTexture":{"instanceID":0},"name":"Main
-      Texture","enableCompression":true,"compressionFormat":25,"compressionQuality":100,"hasMipMaps":false,"customMipMapShader":{"instanceID":0},"isMain":true,"finalCopyMaterial":{"fileID":-331865322639772240,"guid":"455c151df45d9ed4fa3cc0aba93775d1","type":2}}]}'
-  - type: Mixture.CellularNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"9f3f98b3-ff74-41f4-a2cb-7db36effd2ac","computeOrder":0,"position":{"serializedVersion":"2","x":-250.00001525878907,"y":-0.000003814697265625,"width":250.0,"height":645.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":255,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"da55f2393d0f8384db177010fad4c19c","type":3},"material":{"fileID":-5343435858538129746,"guid":"455c151df45d9ed4fa3cc0aba93775d1","type":2}}'
+  serializedNodes: []
+  nodes:
+  - id: 0
+  - id: 1
   edges:
   - GUID: 2bafc552-82ed-4b41-8eea-184e315ae4c7
     owner: {fileID: 11400000}
@@ -112,20 +108,142 @@ MonoBehaviour:
   stackNodes: []
   pinnedElements: []
   exposedParameters: []
+  serializedParameterList: []
+  stickyNotes: []
   position: {x: 901, y: 9, z: 0}
   scale: {x: 1, y: 1, z: 1}
+  version: 0
+  type: 0
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 0
+  embedInBuild: 0
+  defaultNodeInheritanceMode: -2
   objectReferences:
   - {fileID: 3387734314612896896}
   - {fileID: -5343435858538129746}
   - {fileID: -331865322639772240}
+  variants: []
   _mainOutputTexture: {fileID: 9166622889416058200}
   _outputTextures:
   - {fileID: 9166622889416058200}
+  settings:
+    widthScale: 0
+    heightScale: 0
+    depthScale: 0
+    width: 0
+    height: 0
+    depth: 0
+    potSize: 0
+    sizeMode: 0
+    dimension: 0
+    outputChannels: 0
+    outputPrecision: 0
+    editFlags: 0
+    doubleBuffered: 0
+    wrapMode: 0
+    filterMode: 0
+    refreshMode: 0
+    period: 0
   references:
     version: 1
+    00000000:
+      type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 20aad9a2-f45b-443d-9f30-0287577d108c
+        computeOrder: 1
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 100
+          height: 100
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 23
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        outputTextureSettings:
+        - inputTexture: {fileID: 0}
+          name: Main Texture
+          enableCompression: 1
+          compressionFormat: 25
+          compressionQuality: 100
+          hasMipMaps: 0
+          isMain: 1
+          enableConversion: 0
+          conversionFormat: 0
+          sRGB: 0
+          finalCopyMaterial: {fileID: -331865322639772240}
+    00000001:
+      type: {class: CellularNoise, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 9f3f98b3-ff74-41f4-a2cb-7db36effd2ac
+        computeOrder: 0
+        position:
+          serializedVersion: 2
+          x: -250.00002
+          y: -0.0000038146973
+          width: 250
+          height: 645
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: da55f2393d0f8384db177010fad4c19c, type: 3}
+        material: {fileID: -5343435858538129746}
+        exposedProperties: []
+        shaderGUID: da55f2393d0f8384db177010fad4c19c
 --- !u!21 &3387734314612896896
 Material:
   serializedVersion: 6

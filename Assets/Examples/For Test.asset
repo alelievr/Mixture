@@ -80,43 +80,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b113f958e0564f309164e29c24b042d, type: 3}
   m_Name: For Test
   m_EditorClassIdentifier: 
-  serializedNodes:
-  - type: Mixture.OutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"20aad9a2-f45b-443d-9f30-0287577d108c","computeOrder":1,"position":{"serializedVersion":"2","x":0.0,"y":0.0,"width":100.0,"height":100.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":1024,"height":1024,"sliceCount":1,"potSize":1024,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":2,"outputChannels":1,"outputPrecision":4,"editFlags":981,"doubleBuffered":false,"wrapMode":0,"filterMode":0,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"outputTextureSettings":[{"inputTexture":{"instanceID":0},"name":"Main
-      Texture","enableCompression":true,"compressionFormat":25,"compressionQuality":100,"hasMipMaps":false,"customMipMapShader":{"instanceID":0},"isMain":true,"finalCopyMaterial":{"fileID":-7137777371795007557,"guid":"5b3b7e509c10dc844befef19e36253cb","type":2}}]}'
-  - type: Mixture.CellularNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"9f3f98b3-ff74-41f4-a2cb-7db36effd2ac","computeOrder":0,"position":{"serializedVersion":"2","x":-345.6499938964844,"y":-20.39999771118164,"width":250.0,"height":645.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":255,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"da55f2393d0f8384db177010fad4c19c","type":3},"material":{"fileID":4907696088465233005,"guid":"5b3b7e509c10dc844befef19e36253cb","type":2}}'
-  - type: Mixture.ForStart, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"daa69e9e-84fc-4d1a-b858-469912d19ce0","computeOrder":4,"position":{"serializedVersion":"2","x":-874.5499877929688,"y":697.0,"width":141.0,"height":140.0},"expanded":true,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"inputCount":20,"outputCount":20,"inputType":{"serializedType":"System.Single,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}'
-  - type: Mixture.ForEnd, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"2dca82ed-5783-4184-b6a1-98022176f45f","computeOrder":7,"position":{"serializedVersion":"2","x":-445.00006103515627,"y":744.0001220703125,"width":250.0,"height":103.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"mode":0,"loopStartGUID":"daa69e9e-84fc-4d1a-b858-469912d19ce0"}'
-  - type: Mixture.FloatNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"075d3640-e782-4f6d-9374-3987d9ce8889","computeOrder":3,"position":{"serializedVersion":"2","x":-1175.0,"y":664.0,"width":200.0,"height":103.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"Float":1.0}'
-  - type: Mixture.VectorAddNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"f62a49f1-394b-4ce7-92d7-37bd8b3e4773","computeOrder":6,"position":{"serializedVersion":"2","x":-648.2001953125,"y":869.9002075195313,"width":100.0,"height":106.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"a":{"x":20.0,"y":20.0,"z":20.0,"w":20.0},"b":{"x":1.0,"y":1.0,"z":1.0,"w":1.0},"o":{"x":21.0,"y":21.0,"z":21.0,"w":21.0}}'
-  - type: Mixture.FloatNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"35b85344-35e5-4157-9741-cd3201b9f3db","computeOrder":5,"position":{"serializedVersion":"2","x":-893.4002075195313,"y":959.5001220703125,"width":200.0,"height":103.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"Float":1.0}'
-  - type: Mixture.DebugLogNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"eb7c8930-f0bd-4c7c-af6b-76ab16200657","computeOrder":8,"position":{"serializedVersion":"2","x":-145.0,"y":723.0,"width":250.0,"height":82.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false}'
-  - type: Mixture.FloatNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"a4301686-8bee-4943-b37e-d5bd69d6fff8","computeOrder":2,"position":{"serializedVersion":"2","x":-1200.1500244140625,"y":846.5001220703125,"width":200.0,"height":103.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"Float":20.0}'
-  - type: Mixture.Branch, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"09f776b2-13de-444d-abef-3dd33bc96566","computeOrder":10,"position":{"serializedVersion":"2","x":100.00016021728516,"y":863.0001220703125,"width":250.0,"height":130.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"condition":false,"inputType":{"serializedType":"System.Object,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"}}'
-  - type: Mixture.ToggleNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"60b2f432-ca18-47f7-9299-0e7de6fbefc9","computeOrder":9,"position":{"serializedVersion":"2","x":-440.0,"y":905.0,"width":250.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"state":false}'
-  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"c8dd28d5-bf9d-49cc-b222-e4dd3e0da7bf","computeOrder":11,"position":{"serializedVersion":"2","x":143.0,"y":743.0,"width":100.0,"height":100.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"71f91ac7-4221-4c0a-b92c-a297e90d3b5c","accessor":0}'
-  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"c8cd7856-cb73-4b36-9a7f-89d44e3c772f","computeOrder":12,"position":{"serializedVersion":"2","x":188.0,"y":663.0,"width":100.0,"height":100.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"71f91ac7-4221-4c0a-b92c-a297e90d3b5c","accessor":0}'
+  serializedNodes: []
+  nodes:
+  - id: 0
+  - id: 1
+  - id: 2
+  - id: 3
+  - id: 4
+  - id: 5
+  - id: 6
+  - id: 7
+  - id: 8
+  - id: 9
+  - id: 10
+  - id: 11
+  - id: 12
   edges:
   - GUID: d87c7a56-97ef-4050-9fb3-53a25417d6ff
     owner: {fileID: 11400000}
@@ -210,6 +188,8 @@ MonoBehaviour:
       serializedType: Mixture.MixtureParameterView, Unity.ShaderGraph.GraphicsTests,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters:
+  - id: 13
+  serializedParameterList:
   - guid: 71f91ac7-4221-4c0a-b92c-a297e90d3b5c
     name: New BooleanParam
     type: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
@@ -220,23 +200,578 @@ MonoBehaviour:
       serializedValue: False
     input: 1
     settings:
-      isHidden: 0
+      id: 14
+  stickyNotes: []
   position: {x: 709, y: 115, z: 0}
   scale: {x: 1, y: 1, z: 1}
+  version: 0
+  type: 0
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 1
+  embedInBuild: 0
+  defaultNodeInheritanceMode: -2
   objectReferences:
   - {fileID: 4907696088465233005}
   - {fileID: -150126937088181233}
   - {fileID: -7137777371795007557}
+  variants: []
   _mainOutputTexture: {fileID: 7183138375868842772}
   _outputTextures:
   - {fileID: 7183138375868842772}
   - {fileID: 7183138375868842772}
   - {fileID: 7183138375868842772}
+  settings:
+    widthScale: 0
+    heightScale: 0
+    depthScale: 0
+    width: 0
+    height: 0
+    depth: 0
+    potSize: 0
+    sizeMode: 0
+    dimension: 0
+    outputChannels: 0
+    outputPrecision: 0
+    editFlags: 0
+    doubleBuffered: 0
+    wrapMode: 0
+    filterMode: 0
+    refreshMode: 0
+    period: 0
   references:
     version: 1
+    00000000:
+      type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 20aad9a2-f45b-443d-9f30-0287577d108c
+        computeOrder: 1
+        position:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 100
+          height: 100
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 23
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        outputTextureSettings:
+        - inputTexture: {fileID: 0}
+          name: Main Texture
+          enableCompression: 1
+          compressionFormat: 25
+          compressionQuality: 100
+          hasMipMaps: 0
+          isMain: 1
+          enableConversion: 0
+          conversionFormat: 0
+          sRGB: 0
+          finalCopyMaterial: {fileID: -7137777371795007557}
+    00000001:
+      type: {class: CellularNoise, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 9f3f98b3-ff74-41f4-a2cb-7db36effd2ac
+        computeOrder: 0
+        position:
+          serializedVersion: 2
+          x: -345.65
+          y: -20.399998
+          width: 250
+          height: 645
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: da55f2393d0f8384db177010fad4c19c, type: 3}
+        material: {fileID: 4907696088465233005}
+        exposedProperties: []
+        shaderGUID: da55f2393d0f8384db177010fad4c19c
+    00000002:
+      type: {class: ForStart, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: daa69e9e-84fc-4d1a-b858-469912d19ce0
+        computeOrder: 4
+        position:
+          serializedVersion: 2
+          x: -874.55
+          y: 697
+          width: 141
+          height: 140
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        inputCount: 20
+        outputCount: 20
+        inputType:
+          serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+    00000003:
+      type: {class: ForEnd, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 2dca82ed-5783-4184-b6a1-98022176f45f
+        computeOrder: 7
+        position:
+          serializedVersion: 2
+          x: -445.00006
+          y: 744.0001
+          width: 250
+          height: 103
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        mode: 0
+        loopStartGUID: daa69e9e-84fc-4d1a-b858-469912d19ce0
+    00000004:
+      type: {class: FloatNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 075d3640-e782-4f6d-9374-3987d9ce8889
+        computeOrder: 3
+        position:
+          serializedVersion: 2
+          x: -1175
+          y: 664
+          width: 200
+          height: 103
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        Float: 1
+    00000005:
+      type: {class: VectorAddNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: f62a49f1-394b-4ce7-92d7-37bd8b3e4773
+        computeOrder: 6
+        position:
+          serializedVersion: 2
+          x: -648.2002
+          y: 869.9002
+          width: 100
+          height: 106
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        a: {x: 20, y: 20, z: 20, w: 20}
+        b: {x: 1, y: 1, z: 1, w: 1}
+        o: {x: 21, y: 21, z: 21, w: 21}
+    00000006:
+      type: {class: FloatNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 35b85344-35e5-4157-9741-cd3201b9f3db
+        computeOrder: 5
+        position:
+          serializedVersion: 2
+          x: -893.4002
+          y: 959.5001
+          width: 200
+          height: 103
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        Float: 1
+    00000007:
+      type: {class: DebugLogNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: eb7c8930-f0bd-4c7c-af6b-76ab16200657
+        computeOrder: 8
+        position:
+          serializedVersion: 2
+          x: -145
+          y: 723
+          width: 250
+          height: 82
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+    00000008:
+      type: {class: FloatNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: a4301686-8bee-4943-b37e-d5bd69d6fff8
+        computeOrder: 2
+        position:
+          serializedVersion: 2
+          x: -1200.15
+          y: 846.5001
+          width: 200
+          height: 103
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        Float: 20
+    00000009:
+      type: {class: Branch, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 09f776b2-13de-444d-abef-3dd33bc96566
+        computeOrder: 10
+        position:
+          serializedVersion: 2
+          x: 100.00016
+          y: 863.0001
+          width: 250
+          height: 130
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        condition: 0
+        inputType:
+          serializedType: System.Object, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+    0000000A:
+      type: {class: ToggleNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 60b2f432-ca18-47f7-9299-0e7de6fbefc9
+        computeOrder: 9
+        position:
+          serializedVersion: 2
+          x: -440
+          y: 905
+          width: 250
+          height: 101
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        state: 0
+    0000000B:
+      type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: c8dd28d5-bf9d-49cc-b222-e4dd3e0da7bf
+        computeOrder: 11
+        position:
+          serializedVersion: 2
+          x: 143
+          y: 743
+          width: 100
+          height: 100
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        parameterGUID: 71f91ac7-4221-4c0a-b92c-a297e90d3b5c
+        accessor: 0
+    0000000C:
+      type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: c8cd7856-cb73-4b36-9a7f-89d44e3c772f
+        computeOrder: 12
+        position:
+          serializedVersion: 2
+          x: 188
+          y: 663
+          width: 100
+          height: 100
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        parameterGUID: 71f91ac7-4221-4c0a-b92c-a297e90d3b5c
+        accessor: 0
+    0000000D:
+      type: {class: BoolParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        guid: 71f91ac7-4221-4c0a-b92c-a297e90d3b5c
+        name: New BooleanParam
+        type: 
+        serializedValue:
+          serializedType: 
+          serializedName: 
+          serializedValue: 
+        input: 1
+        settings:
+          id: 15
+        val: 0
+    0000000E:
+      type: {class: , ns: , asm: }
+    0000000F:
+      type: {class: ExposedParameter/Settings, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        isHidden: 0
+        expanded: 0
+        guid: 71f91ac7-4221-4c0a-b92c-a297e90d3b5c
 --- !u!21 &4907696088465233005
 Material:
   serializedVersion: 6

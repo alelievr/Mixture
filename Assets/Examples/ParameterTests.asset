@@ -19,31 +19,7 @@ MonoBehaviour:
   - id: 2
   - id: 3
   - id: 4
-  edges:
-  - GUID: d6b76e87-68f6-42d1-bf73-34cd0b04d73c
-    owner: {fileID: 11400000}
-    inputNodeGUID: 29bf348b-6ccb-4d71-98aa-903ee7d3ca01
-    outputNodeGUID: 14ddba92-33fc-4897-9675-58061aa5e5f0
-    inputFieldName: materialInputs
-    outputFieldName: output
-    inputPortIdentifier: _Source_2D
-    outputPortIdentifier: output
-  - GUID: 9c48ce06-9cfb-4a21-a0a8-3b17cc707dfc
-    owner: {fileID: 11400000}
-    inputNodeGUID: 29bf348b-6ccb-4d71-98aa-903ee7d3ca01
-    outputNodeGUID: e8a16d0f-f8ed-4e38-8b0f-05dcc3244355
-    inputFieldName: materialInputs
-    outputFieldName: output
-    inputPortIdentifier: _Target_2D
-    outputPortIdentifier: output
-  - GUID: e3952680-4a4a-486e-a779-6aa813fad3fc
-    owner: {fileID: 11400000}
-    inputNodeGUID: 29bf348b-6ccb-4d71-98aa-903ee7d3ca01
-    outputNodeGUID: b16725de-60df-4faf-bb05-00ec5565d1d5
-    inputFieldName: materialInputs
-    outputFieldName: output
-    inputPortIdentifier: _Mask_2D
-    outputPortIdentifier: output
+  edges: []
   groups: []
   stackNodes: []
   pinnedElements:
@@ -88,10 +64,13 @@ MonoBehaviour:
   stickyNotes: []
   position: {x: 694, y: 164, z: 0}
   scale: {x: 0.7561437, y: 0.7561437, z: 1}
+  version: 0
+  type: 0
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 1
   embedInBuild: 0
+  defaultNodeInheritanceMode: -2
   objectReferences:
   - {fileID: 8881339453642487381}
   - {fileID: 8863259401849859601}
@@ -99,11 +78,30 @@ MonoBehaviour:
   variants: []
   _mainOutputTexture: {fileID: 8565236597386114494}
   _outputTextures: []
+  settings:
+    widthScale: 0
+    heightScale: 0
+    depthScale: 0
+    width: 1024
+    height: 1024
+    depth: 1
+    potSize: 0
+    sizeMode: 1
+    dimension: 2
+    outputChannels: 1
+    outputPrecision: 3
+    editFlags: 128
+    doubleBuffered: 0
+    wrapMode: 0
+    filterMode: 0
+    refreshMode: 0
+    period: 0
   references:
     version: 1
     00000000:
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 20aad9a2-f45b-443d-9f30-0287577d108c
         computeOrder: 0
         position:
@@ -115,17 +113,15 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 0
-          heightPercent: 0
-          depthPercent: 0
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
           width: 1024
           height: 1024
-          sliceCount: 1
+          depth: 1
           potSize: 1024
-          widthMode: 1
-          heightMode: 1
-          depthMode: 1
+          sizeMode: 1
           dimension: 2
           outputChannels: 1
           outputPrecision: 3
@@ -149,7 +145,6 @@ MonoBehaviour:
           compressionFormat: 25
           compressionQuality: 100
           hasMipMaps: 0
-          customMipMapShader: {fileID: 0}
           isMain: 1
           enableConversion: 0
           conversionFormat: 0
@@ -158,6 +153,7 @@ MonoBehaviour:
     00000001:
       type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
       data:
+        nodeCustomName: 
         GUID: 14ddba92-33fc-4897-9675-58061aa5e5f0
         computeOrder: 1
         position:
@@ -174,6 +170,7 @@ MonoBehaviour:
     00000002:
       type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
       data:
+        nodeCustomName: 
         GUID: e8a16d0f-f8ed-4e38-8b0f-05dcc3244355
         computeOrder: 2
         position:
@@ -190,8 +187,9 @@ MonoBehaviour:
     00000003:
       type: {class: BlendNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 29bf348b-6ccb-4d71-98aa-903ee7d3ca01
-        computeOrder: 4
+        computeOrder: 3
         position:
           serializedVersion: 2
           x: -297.9206
@@ -201,17 +199,15 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
+          sizeMode: 0
           dimension: 0
           outputChannels: 0
           outputPrecision: 0
@@ -231,50 +227,14 @@ MonoBehaviour:
         output: {fileID: 0}
         shader: {fileID: 4800000, guid: 5d69ff00d9a32944ea012824393d489a, type: 3}
         material: {fileID: 8881339453642487381}
-        exposedProperties:
-        - displayName: Source
-          referenceName: _Source_2D
-          tooltip: 
-          type:
-            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
-              Culture=neutral, PublicKeyToken=null
-        - displayName: Target
-          referenceName: _Target_2D
-          tooltip: 
-          type:
-            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
-              Culture=neutral, PublicKeyToken=null
-        - displayName: Mask
-          referenceName: _Mask_2D
-          tooltip: 
-          type:
-            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
-              Culture=neutral, PublicKeyToken=null
-        - displayName: Opacity
-          referenceName: _Opacity
-          tooltip: Opacity of the Blend, 0 means that only Source is visible and
-            1 that only Target is visible
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        - displayName: Blend Mode
-          referenceName: _BlendMode
-          tooltip: 
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        - displayName: Mask Mode
-          referenceName: _MaskMode
-          tooltip: Select which channel is used to sample the mask value
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
+        exposedProperties: []
         shaderGUID: 5d69ff00d9a32944ea012824393d489a
     00000004:
       type: {class: GradienMattetNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: b16725de-60df-4faf-bb05-00ec5565d1d5
-        computeOrder: 3
+        computeOrder: 4
         position:
           serializedVersion: 2
           x: -623.75006
@@ -284,17 +244,15 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
+          sizeMode: 0
           dimension: 0
           outputChannels: 0
           outputPrecision: 0
@@ -314,50 +272,7 @@ MonoBehaviour:
         output: {fileID: 0}
         shader: {fileID: 4800000, guid: 46c02ba1b0b63954bab0afcd9e828ac6, type: 3}
         material: {fileID: 8863259401849859601}
-        exposedProperties:
-        - displayName: Color 1
-          referenceName: _Color1
-          tooltip: Outer color
-          type:
-            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
-              Culture=neutral, PublicKeyToken=null
-        - displayName: Color 2
-          referenceName: _Color2
-          tooltip: Inner color
-          type:
-            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
-              Culture=neutral, PublicKeyToken=null
-        - displayName: Gradient Type
-          referenceName: _Mode
-          tooltip: Style of the gradient
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        - displayName: Direction
-          referenceName: _Direction
-          tooltip: Direction of the gradient, only visible on the Linear and exponential
-            gradients
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        - displayName: Turn Count
-          referenceName: _SpiralTurnCount
-          tooltip: Turn count of the spiral
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        - displayName: Branch Count
-          referenceName: _SpiralBranchCount
-          tooltip: Turn count of the spiral
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
-        - displayName: Falloff
-          referenceName: _Falloff
-          tooltip: Exponential falloff of the gradient
-          type:
-            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-              PublicKeyToken=b77a5c561934e089
+        exposedProperties: []
         shaderGUID: 46c02ba1b0b63954bab0afcd9e828ac6
     00000005:
       type: {class: Texture2DParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
