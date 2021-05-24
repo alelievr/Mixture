@@ -148,16 +148,18 @@ namespace Mixture
             outputPrecision = OutputPrecision.Half,
         };
 
+        protected override void OnEnable()
+        {
+            MigrateGraph();
+            SanitizeSettings();
+            base.OnEnable();
+        }
+
 		void Enabled()
 		{
-            // Migrate the graph if needed
-            MigrateGraph();
-
 			// We should have only one OutputNode per graph
 			if (type != MixtureGraphType.Behaviour && outputNode == null)
 				outputNode = AddNode(BaseNode.CreateFromType< OutputNode >(Vector2.zero)) as OutputNode;
-
-            SanitizeSettings();
 
 #if UNITY_EDITOR
             // TODO: check if the asset is in a Resources folder for realtime and put a warning if it's not the case
@@ -199,10 +201,25 @@ namespace Mixture
                     outputNode.settings.outputPrecision = OutputPrecision.InheritFromGraph;
                     outputNode.settings.outputChannels = OutputChannel.InheritFromGraph;
                     outputNode.settings.dimension = OutputDimension.InheritFromGraph;
-                    Debug.Log(outputNode.settings);
-
-                    version = Version.SettingsRefactor;
                 }
+
+                foreach (var node in nodes)
+                {
+                    // Migrate node settings
+                    if (node is MixtureNode n && n != null)
+                    {
+                        if (n.settings.outputChannels == 0)
+                            n.settings.outputChannels = OutputChannel.InheritFromGraph;
+                        if (n.settings.outputPrecision == 0)
+                            n.settings.outputPrecision = OutputPrecision.InheritFromGraph;
+                        if (n.settings.dimension == 0)
+                            n.settings.dimension = OutputDimension.InheritFromGraph;
+                        if (n.settings.sizeMode == 0)
+                            n.settings.sizeMode = OutputSizeMode.InheritFromGraph;
+                    }
+                }
+
+                version = Version.SettingsRefactor;
             }
 
             version = MixtureUtils.GetLastEnumValue<Version>();
