@@ -319,14 +319,16 @@ MonoBehaviour:
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 123, y: 218, z: 0}
+  nodeInspectorReference: {fileID: 0}
+  position: {x: 383, y: 109, z: 0}
   scale: {x: 1, y: 1, z: 1}
-  version: 0
+  version: 1
   type: 0
-  realtimePreview: 0
+  realtimePreview: 1
   isRealtime: 0
   isParameterViewOpen: 0
   embedInBuild: 0
+  defaultNodeInheritanceMode: -2
   objectReferences:
   - {fileID: -4669079401508530959}
   - {fileID: -1846115201198172389}
@@ -342,13 +344,32 @@ MonoBehaviour:
   _mainOutputTexture: {fileID: -5970564961653884076}
   _outputTextures:
   - {fileID: -5970564961653884076}
+  settings:
+    widthScale: 0
+    heightScale: 0
+    depthScale: 0
+    width: 64
+    height: 64
+    depth: 64
+    potSize: 64
+    sizeMode: 1
+    dimension: 3
+    outputChannels: 1
+    outputPrecision: 3
+    editFlags: 128
+    doubleBuffered: 0
+    wrapMode: 0
+    filterMode: 0
+    refreshMode: 0
+    period: 0
   references:
     version: 1
     00000000:
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: fe1498a4-a4fa-47bb-9e16-c48c89682618
-        computeOrder: 0
+        computeOrder: 1
         position:
           serializedVersion: 2
           x: 440.73566
@@ -358,21 +379,19 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 0
-          heightPercent: 0
-          depthPercent: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 64
           height: 64
-          sliceCount: 64
+          depth: 64
           potSize: 64
-          widthMode: 1
-          heightMode: 1
-          depthMode: 1
-          dimension: 3
-          outputChannels: 1
-          outputPrecision: 3
-          editFlags: 981
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 983
           doubleBuffered: 0
           wrapMode: 0
           filterMode: 0
@@ -400,31 +419,30 @@ MonoBehaviour:
     00000001:
       type: {class: RidgedPerlinNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 638196b4-8c19-418f-85a7-5d3485a6a871
-        computeOrder: 1
+        computeOrder: 0
         position:
           serializedVersion: 2
-          x: -64.84274
+          x: -67
           y: -7
           width: 250
-          height: 587
+          height: 602
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: 255
           doubleBuffered: 0
           wrapMode: 0
@@ -443,10 +461,10 @@ MonoBehaviour:
         material: {fileID: 5134733757221539014}
         exposedProperties:
         - displayName: UVs
-          referenceName: _UV_2D
+          referenceName: _UV_3D
           tooltip: 
           type:
-            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+            serializedType: UnityEngine.Texture3D, UnityEngine.CoreModule, Version=0.0.0.0,
               Culture=neutral, PublicKeyToken=null
         - displayName: Tiling Mode
           referenceName: _TilingMode

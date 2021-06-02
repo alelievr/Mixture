@@ -918,20 +918,30 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: _Mask_2D
     outputPortIdentifier: output
+  - GUID: f7b81972-68c9-46f4-91c1-e7e8a50fccb0
+    owner: {fileID: 11400000}
+    inputNodeGUID: 3e7de3c4-f999-4e18-93de-0787ab6dbc95
+    outputNodeGUID: b3922bf1-eb94-4a15-9eac-06bbbbb02516
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: input
+    outputPortIdentifier: output
   groups: []
   stackNodes: []
   pinnedElements: []
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 1246, y: 86, z: 0}
-  scale: {x: 0.7561437, y: 0.7561437, z: 1}
-  version: 0
+  nodeInspectorReference: {fileID: 0}
+  position: {x: 1071, y: 55, z: 0}
+  scale: {x: 0.65751624, y: 0.65751624, z: 1}
+  version: 1
   type: 0
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 0
   embedInBuild: 0
+  defaultNodeInheritanceMode: -2
   objectReferences:
   - {fileID: -3874243763610398798}
   - {fileID: -1677795019230367846}
@@ -945,6 +955,24 @@ MonoBehaviour:
   _mainOutputTexture: {fileID: 4080923148082904020}
   _outputTextures:
   - {fileID: 4080923148082904020}
+  settings:
+    widthScale: 0
+    heightScale: 0
+    depthScale: 0
+    width: 1024
+    height: 1024
+    depth: 1024
+    potSize: 1024
+    sizeMode: 1
+    dimension: 2
+    outputChannels: 1
+    outputPrecision: 3
+    editFlags: 128
+    doubleBuffered: 0
+    wrapMode: 1
+    filterMode: 0
+    refreshMode: 0
+    period: 0
   references:
     version: 1
     00000000:
@@ -952,7 +980,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 20aad9a2-f45b-443d-9f30-0287577d108c
-        computeOrder: 1
+        computeOrder: 7
         position:
           serializedVersion: 2
           x: 70.99994
@@ -962,21 +990,19 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 0
-          heightPercent: 0
-          depthPercent: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 1024
           height: 1024
-          sliceCount: 1024
+          depth: 1024
           potSize: 1024
-          widthMode: 1
-          heightMode: 1
-          depthMode: 1
-          dimension: 2
-          outputChannels: 1
-          outputPrecision: 3
-          editFlags: 469
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 471
           doubleBuffered: 0
           wrapMode: 1
           filterMode: 0
@@ -1006,7 +1032,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 92d543ea-1d0b-4a13-bf9a-a4c61ddfdf3b
-        computeOrder: 2
+        computeOrder: 0
         position:
           serializedVersion: 2
           x: -916.015
@@ -1016,20 +1042,18 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: 255
           doubleBuffered: 0
           wrapMode: 0
@@ -1150,7 +1174,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: b3922bf1-eb94-4a15-9eac-06bbbbb02516
-        computeOrder: 7
+        computeOrder: 5
         position:
           serializedVersion: 2
           x: -428.99994
@@ -1160,20 +1184,18 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: 255
           doubleBuffered: 0
           wrapMode: 0
@@ -1234,7 +1256,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 420ef7e6-e511-49dc-8428-678c6120fe42
-        computeOrder: 5
+        computeOrder: 3
         position:
           serializedVersion: 2
           x: -847.24713
@@ -1244,20 +1266,18 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: 255
           doubleBuffered: 0
           wrapMode: 0
@@ -1299,7 +1319,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 9097a571-4def-421b-8558-10979fce09e5
-        computeOrder: 4
+        computeOrder: 2
         position:
           serializedVersion: 2
           x: -1161.2876
@@ -1309,20 +1329,18 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: 0
           doubleBuffered: 0
           wrapMode: 0
@@ -1371,7 +1389,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 8c49c2e6-cce1-48c9-9393-4b197d2ad02d
-        computeOrder: 3
+        computeOrder: 1
         position:
           serializedVersion: 2
           x: -1475.4445
@@ -1381,20 +1399,18 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: -257
           doubleBuffered: 0
           wrapMode: 0
@@ -1479,7 +1495,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 44aa8b44-8be0-4714-b596-3ca011265fbb
-        computeOrder: 6
+        computeOrder: 4
         position:
           serializedVersion: 2
           x: -1183.1305
@@ -1489,20 +1505,18 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: -257
           doubleBuffered: 0
           wrapMode: 0
@@ -1557,7 +1571,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 3e7de3c4-f999-4e18-93de-0787ab6dbc95
-        computeOrder: 0
+        computeOrder: 6
         position:
           serializedVersion: 2
           x: -179
@@ -1567,21 +1581,19 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
+          sizeMode: -1
+          dimension: -1
           outputChannels: 1
           outputPrecision: 3
-          editFlags: 127
+          editFlags: 87
           doubleBuffered: 1
           wrapMode: 0
           filterMode: 1
