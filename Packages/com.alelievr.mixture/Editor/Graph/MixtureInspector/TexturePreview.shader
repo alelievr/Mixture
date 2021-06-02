@@ -150,7 +150,15 @@ Shader "Hidden/MixtureInspectorPreview"
                 float4 color0, color1;
 
                 if (_PreserveAspect > 0)
-                    uv.y *= _YRatio;
+                {
+                    if (_YRatio > 1)
+                        uv.y *= _YRatio;
+                    else
+                    {
+                        uv.x -= (1 - _YRatio)/2;
+                        uv.x *= rcp(_YRatio);
+                    }
+                }
 
                 switch (_FilterMode)
                 {
