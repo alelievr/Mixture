@@ -73,13 +73,16 @@ namespace Mixture
                 enableRandomWrite = true,
                 hideFlags = HideFlags.HideAndDontSave
             };
-            var cmd = CommandBufferPool.Get();
+            rt.Create();
 
+            var cmd = CommandBufferPool.Get();
             for (int i = 0; i < GetSliceCount(rt); i++)
             {
                 cmd.SetRenderTarget(rt, 0, (CubemapFace)i, i);
                 cmd.ClearRenderTarget(false, true, color);
             }
+
+            Graphics.ExecuteCommandBuffer(cmd);
 
             return rt;
         }
