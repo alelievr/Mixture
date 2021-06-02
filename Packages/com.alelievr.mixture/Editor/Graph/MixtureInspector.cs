@@ -75,7 +75,13 @@ namespace Mixture
 			=> DrawMixtureSmallIcon(rect, graph.type == MixtureGraphType.Realtime ? MixtureUtils.realtimeIcon32 : MixtureUtils.icon32, focused);
 
 		static void DrawMixtureSmallIcon(Rect rect, MixtureVariant variant, bool focused)
-			=> DrawMixtureSmallIcon(rect, variant.parentGraph.type == MixtureGraphType.Realtime ? MixtureUtils.realtimeVariantIcon32 : MixtureUtils.iconVariant32, focused);
+		{
+			// Show an error icon if the variant graph was destroyed
+			if (variant.parentGraph == null)
+				DrawMixtureSmallIcon(rect, EditorGUIUtility.IconContent("console.erroricon").image as Texture2D, focused);
+			else
+				DrawMixtureSmallIcon(rect, variant.parentGraph.type == MixtureGraphType.Realtime ? MixtureUtils.realtimeVariantIcon32 : MixtureUtils.iconVariant32, focused);
+		}
 
 		static void DrawMixtureSmallIcon(Rect rect, Texture2D mixtureIcon, bool focused)
 		{
