@@ -47,8 +47,8 @@ namespace Mixture
             {
                 texture = new Texture2D(SIZE, 1, GraphicsFormat.R32G32B32A32_SFloat, TextureCreationFlags.None);
                 texture.wrapMode = TextureWrapMode.Clamp;
-                texture.filterMode = FilterMode.Bilinear;
             }
+            texture.filterMode = gradient.mode == GradientMode.Blend ? FilterMode.Bilinear : FilterMode.Point;
 
             for(int i = 0; i<SIZE; i++)
             {
