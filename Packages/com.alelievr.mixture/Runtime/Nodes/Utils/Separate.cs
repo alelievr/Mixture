@@ -12,6 +12,14 @@ Separates the 4 components (RGBA) of the input texture into 4 R channel texture.
 	[System.Serializable, NodeMenuItem("Operators/Separate"), NodeMenuItem("Operators/Split")]
 	public class Separate : MixtureNode, IUseCustomRenderTextureProcessing
 	{
+		public enum Mode
+		{
+			[InspectorName("Use RGBA Channels")]
+			AllChannels,
+			[InspectorName("Use R Channel Only")]
+			RChannelOnly
+		}
+
         [Input]
         public Texture input;
 
@@ -24,17 +32,23 @@ Separates the 4 components (RGBA) of the input texture into 4 R channel texture.
         [Output("A")]
         public CustomRenderTexture outputA;
 
+		[Tooltip("Select the output mode for the render texture. The R Channel Only mode uses 4 times less memory.")]
+		public Mode mode;
+
+		public Color neutralColor = new Color(0, 0, 0, 0);
+
 		public override string	name => "Separate";
 
         public override bool hasPreview => false;
+		public override bool showDefaultInspector => true;
 
 		Material outputRMat, outputGMat, outputBMat, outputAMat;
 
 		protected override void Enable()
 		{
+			SyncSettings();
+
             base.Enable();
-			settings.outputChannels = OutputChannel.R;
-			settings.editFlags &= ~EditFlags.Format;
 
 			UpdateTempRenderTexture(ref outputR);
 			UpdateTempRenderTexture(ref outputG);
@@ -57,22 +71,33 @@ Separates the 4 components (RGBA) of the input texture into 4 R channel texture.
 		{
             if (!base.ProcessNode(cmd) || input == null)
                 return false;
+			
+			SyncSettings();
 
 			UpdateTempRenderTexture(ref outputR);
 			UpdateTempRenderTexture(ref outputG);
 			UpdateTempRenderTexture(ref outputB);
 			UpdateTempRenderTexture(ref outputA);
 
-			MixtureUtils.SetTextureWithDimension(outputRMat, "_Source", input);
-			MixtureUtils.SetTextureWithDimension(outputGMat, "_Source", input);
-			MixtureUtils.SetTextureWithDimension(outputBMat, "_Source", input);
-			MixtureUtils.SetTextureWithDimension(outputAMat, "_Source", input);
-			outputRMat.SetInt("_Component", 0);
-			outputGMat.SetInt("_Component", 1);
-			outputBMat.SetInt("_Component", 2);
-			outputAMat.SetInt("_Component", 3);
+			SetMaterialParams(outputRMat, 0);
+			SetMaterialParams(outputGMat, 1);
+			SetMaterialParams(outputBMat, 2);
+			SetMaterialParams(outputAMat, 3);
 
+			void SetMaterialParams(Material m, int component)
+			{
+				MixtureUtils.SetTextureWithDimension(m, "_Source", input);
+				m.SetColor("_NeutralColor", neutralColor);
+				m.SetFloat("_Mode", (int)mode);
+				m.SetInt("_Component", component);
+			}
 			return true;
+		}
+
+		void SyncSettings()
+		{
+			settings.outputChannels = mode == Mode.RChannelOnly ? OutputChannel.R : OutputChannel.RGBA;
+			settings.editFlags &= ~EditFlags.Format;
 		}
 
         protected override void Disable()

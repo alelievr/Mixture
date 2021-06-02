@@ -17,6 +17,7 @@ Shader "Hidden/Mixture/Separate"
 		Pass
 		{
 			HLSLPROGRAM
+
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
@@ -29,12 +30,40 @@ Shader "Hidden/Mixture/Separate"
 			// This macro will declare a version for each dimention (2D, 3D and Cube)
 			TEXTURE_SAMPLER_X(_Source);
 			uint _Component;
+			float4 _NeutralColor;
+			float _Mode;
+
+			float4 SetComponent(float4 color, float component)
+			{
+				switch (_Component)
+				{
+					default:
+					case 0:
+						return float4(component, color.gba);
+					case 1:
+						return float4(color.r, component, color.ba);
+					case 2:
+						return float4(color.rg, component, color.a);
+					case 3:
+						return float4(color.rgb, component);
+				}
+			}
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
 				// The SAMPLE_X macro handles sampling for 2D, 3D and cube textures
-				return SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction)[_Component];
+				float c = SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction)[_Component];
+
+				switch (_Mode)
+				{
+					default:
+					case 0: // RGBA
+						return SetComponent(_NeutralColor, c);
+					case 1: // R
+						return c;
+				}
 			}
+
 			ENDHLSL
 		}
 	}
