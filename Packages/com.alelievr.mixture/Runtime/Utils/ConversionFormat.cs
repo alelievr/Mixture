@@ -11,7 +11,6 @@ namespace Mixture
         ARGB4444 = TextureFormat.ARGB4444,
         RGB24 = TextureFormat.RGB24,
         RGBA32 = TextureFormat.RGBA32,
-        ARGB32 = TextureFormat.ARGB32,
         RGB565 = TextureFormat.RGB565,
         R16 = TextureFormat.R16,
         RGBA4444 = TextureFormat.RGBA4444,
