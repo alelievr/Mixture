@@ -10,7 +10,7 @@ namespace Mixture
 Generate a texture from an HDR color.
 ")]
 
-	[System.Serializable, NodeMenuItem("Color/Uniform Color"), NodeMenuItem("Color/Color Matte")]
+	[System.Serializable, NodeMenuItem("Color/Uniform Color"), NodeMenuItem("Color/Color Matte"), NodeMenuItem("Operators/Color To Texture")]
 	public class ColorMatteNode : FixedShaderNode
 	{
 		public override string name => "Color Matte";

@@ -415,9 +415,9 @@ namespace Mixture
         internal float exposure;
         internal PreviewChannels channels = PreviewChannels.RGB;
         internal CompareMode compareMode;
-        internal bool alwaysRefresh;
+        internal bool alwaysRefresh = true;
         internal float mipLevel;
-        internal bool preserveAspect;
+        internal bool preserveAspect = true;
         internal Texture3DPreviewMode texture3DPreviewMode;
         internal float texture3DDensity = 1;
         internal float texture3DDistanceFieldOffset = 0;

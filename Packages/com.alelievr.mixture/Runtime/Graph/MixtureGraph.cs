@@ -188,6 +188,14 @@ namespace Mixture
             }
 #pragma warning restore CS0618
 
+            // Check if the version didn't exist in the graph we're migrating, in this case, we set the version to intiial.
+            if (nodes.Count == 0 && version == MixtureUtils.GetLastEnumValue<Version>())
+            {
+                // Migrate nodes, so we can do the rest of the migration
+                base.MigrateGraphIfNeeded();
+                version = Version.Initial;
+            }
+
             if (version == Version.Initial)
             {
                 if (outputNode?.settings != null)
@@ -246,6 +254,8 @@ namespace Mixture
                 settings.filterMode = OutputFilterMode.Trilinear;
             if (settings.sizeMode.Inherits())
                 settings.sizeMode = OutputSizeMode.Absolute;
+            if (settings.potSize == 0)
+                settings.SetPOTSize(1024);
 
             settings.editFlags = EditFlags.TargetFormat;
         }
