@@ -98,6 +98,14 @@ Note that this node is currently only available with HDRP.
             };
         }
 
+        protected override void Destroy()
+        {
+            if (savedTexture != null)
+            {
+                graph.RemoveObjectFromGraph(savedTexture);
+                Object.DestroyImmediate(savedTexture);
+            }
+        }
 
         protected override void Disable()
         {
