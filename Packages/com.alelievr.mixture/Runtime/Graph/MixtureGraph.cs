@@ -267,6 +267,9 @@ namespace Mixture
 
 		public void					AddObjectToGraph(Object obj)
 		{
+            if (objectReferences.Contains(obj))
+                return;
+
 			objectReferences.Add(obj);
 
 #if UNITY_EDITOR
