@@ -38,7 +38,7 @@ namespace Mixture
                 if (view.graph == null)
                     continue;
                 // TODO: check if view is visible
-                if (view.graph.type == MixtureGraphType.Realtime || view.graph.realtimePreview || needsProcess.Contains(view.graph))
+                if ((view.graph.type != MixtureGraphType.Realtime && view.graph.realtimePreview) || needsProcess.Contains(view.graph))
                 {
                     view.processor.Run();
                     view.MarkDirtyRepaint();

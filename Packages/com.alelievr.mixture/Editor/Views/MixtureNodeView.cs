@@ -643,7 +643,6 @@ namespace Mixture
 
 			Add(processTimeLabel);
 
-
 			schedule.Execute(() => {
 				// Update processing time every 200 millis
 
