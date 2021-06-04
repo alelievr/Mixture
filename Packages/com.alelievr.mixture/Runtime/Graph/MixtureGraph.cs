@@ -480,6 +480,7 @@ namespace Mixture
             {
                 bool matchTextureSettings = currentTexture.dimension == dimension 
                     && currentTexture.width == width && currentTexture.height == height
+                    && TextureUtils.GetSliceCount(currentTexture) == depth
                     && (currentTexture.mipmapCount > 1) == outputSettings.hasMipMaps
                     && MatchTextureTypeWithGraphType(currentTexture);
 
