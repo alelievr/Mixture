@@ -89,7 +89,7 @@ namespace Mixture
         MixtureSettings     settings;
         MixtureGraph        graph;
         string              title;
-        bool                showInheritanceValue;
+        bool                showSettingsForNode;
 
         // TODO: Avoid user to pick unavailable texture formats:
         enum SRGBOutputChannels
@@ -98,13 +98,13 @@ namespace Mixture
             // R = OutputChannel.R,
         }
 
-        public MixtureSettingsView(MixtureSettings settings, MixtureGraphView owner, string title = "Node Output Settings", bool showInheritanceValue = true)
+        public MixtureSettingsView(MixtureSettings settings, MixtureGraphView owner, string title = "Node Output Settings", bool showSettingsForNode = true)
         {
             this.graph = owner.graph as MixtureGraph;
             this.settings = settings;
             this.owner = owner;
             this.title = title;
-            this.showInheritanceValue = showInheritanceValue;
+            this.showSettingsForNode = showSettingsForNode;
 
 			var stylesheet = Resources.Load<StyleSheet>("MixtureCommon");
             styleSheets.Add(stylesheet);
@@ -130,7 +130,7 @@ namespace Mixture
             smpHeader.AddToClassList(headerStyleClass);
             this.Add(smpHeader);
 
-            wrapMode = showInheritanceValue ? new EnumField(settings.wrapMode) : new EnumField((GraphOutputWrapMode)settings.wrapMode);
+            wrapMode = showSettingsForNode ? new EnumField(settings.wrapMode) : new EnumField((GraphOutputWrapMode)settings.wrapMode);
             wrapMode.label = "Wrap Mode";
             wrapMode.RegisterValueChangedCallback(e =>
             {
@@ -139,7 +139,7 @@ namespace Mixture
                 onChanged?.Invoke();
             });
 
-            filterMode = showInheritanceValue ? new EnumField(settings.filterMode) : new EnumField((GraphOutputFilterMode)settings.filterMode);
+            filterMode = showSettingsForNode ? new EnumField(settings.filterMode) : new EnumField((GraphOutputFilterMode)settings.filterMode);
             filterMode.label = "Filter Mode";
             filterMode.RegisterValueChangedCallback(e =>
             {
@@ -156,7 +156,7 @@ namespace Mixture
             sizeHeader.AddToClassList(headerStyleClass);
             this.Add(sizeHeader);
 
-            outputSizeMode = showInheritanceValue ? new EnumField(settings.sizeMode) : new EnumField((GraphOutputSizeMode)settings.sizeMode);
+            outputSizeMode = showSettingsForNode ? new EnumField(settings.sizeMode) : new EnumField((GraphOutputSizeMode)settings.sizeMode);
             outputSizeMode.label = "Size Mode";
             outputSizeMode.RegisterValueChangedCallback((EventCallback<ChangeEvent<Enum>>)(e => {
                 owner.RegisterCompleteObjectUndo("Updated Size mode " + e.newValue);
@@ -263,9 +263,10 @@ namespace Mixture
                     value = SizeScaleToInt(settings.heightScale),
                     label = propertyName,
                 };
-                outputHeightScale.RegisterValueChangedCallback(e =>
+                slider.RegisterValueChangedCallback(e =>
                 {
                     owner.RegisterCompleteObjectUndo(propertyName + " " + e.newValue);
+                    Debug.Log("outputDepthScale: " + IntToSizeScale(e.newValue));
                     setter(IntToSizeScale(e.newValue));
                     onChanged?.Invoke();
                 });
@@ -278,7 +279,7 @@ namespace Mixture
             formatHeader.AddToClassList(headerStyleClass);
             this.Add(formatHeader);
 
-            outputDimension = showInheritanceValue ? new EnumField(settings.dimension) : new EnumField((GraphOutputDimension)settings.dimension);
+            outputDimension = showSettingsForNode ? new EnumField(settings.dimension) : new EnumField((GraphOutputDimension)settings.dimension);
             outputDimension.label = "Dimension";
             outputDimension.RegisterValueChangedCallback(e => {
                 owner.RegisterCompleteObjectUndo("Updated Texture Dimension " + e.newValue);
@@ -299,7 +300,7 @@ namespace Mixture
                 ReloadSettingsView();
             });
 
-            outputChannels = showInheritanceValue ? new EnumField(settings.outputChannels) : new EnumField((GraphOutputChannel)settings.outputChannels);
+            outputChannels = showSettingsForNode ? new EnumField(settings.outputChannels) : new EnumField((GraphOutputChannel)settings.outputChannels);
             outputChannels.label = "Output Channels";
             outputChannels.RegisterValueChangedCallback(e => {
                 owner.RegisterCompleteObjectUndo("Updated Output Channels " + e.newValue);
@@ -307,7 +308,7 @@ namespace Mixture
                 onChanged?.Invoke();
             });
 
-            outputPrecision = showInheritanceValue ? new EnumField(settings.outputPrecision) : new EnumField((GraphOutputPrecision)settings.outputPrecision);
+            outputPrecision = showSettingsForNode ? new EnumField(settings.outputPrecision) : new EnumField((GraphOutputPrecision)settings.outputPrecision);
             outputPrecision.label = "Output Precision";
             outputPrecision.RegisterValueChangedCallback(e => {
                 owner.RegisterCompleteObjectUndo("Updated Output Precision " + e.newValue);
@@ -322,10 +323,27 @@ namespace Mixture
 
             UpdateFieldVisibility(settings);
 
-			if (owner.graph.type == MixtureGraphType.Realtime && showInheritanceValue)
+			if (showSettingsForNode)
             {
                 // Realtime fields and refresh mode
                 otherHeader = new Label("Other");
+                otherHeader.AddToClassList(headerStyleClass);
+                this.Add(otherHeader);
+
+                doubleBuffered = new Toggle("Double Buffered") {
+                    value = settings.doubleBuffered,
+                };
+                doubleBuffered.RegisterValueChangedCallback(e => {
+                    owner.RegisterCompleteObjectUndo("Set Double Buffered " + e.newValue);
+                    settings.doubleBuffered = e.newValue;
+                    onChanged?.Invoke();
+                });
+
+                Add(doubleBuffered);
+            }
+            else
+            {
+                otherHeader = new Label("Realtime");
                 otherHeader.AddToClassList(headerStyleClass);
                 this.Add(otherHeader);
 
@@ -335,17 +353,6 @@ namespace Mixture
 
 		void AddRealtimeFields(MixtureGraphView owner)
 		{
-			doubleBuffered = new Toggle("Double Buffered") {
-				value = settings.doubleBuffered,
-			};
-			doubleBuffered.RegisterValueChangedCallback(e => {
-				owner.RegisterCompleteObjectUndo("Set Double Buffered " + e.newValue);
-				settings.doubleBuffered = e.newValue;
-                onChanged?.Invoke();
-			});
-
-			Add(doubleBuffered);
-
 			refreshMode = new EnumField("Refresh Mode", settings.refreshMode);
 			refreshMode.RegisterValueChangedCallback(e => {
 				owner.RegisterCompleteObjectUndo("Set Refresh Mode " + e.newValue);
@@ -388,10 +395,6 @@ namespace Mixture
             SetVisible(outputDimension, settings.CanEdit(EditFlags.Dimension));
             SetVisible(outputChannels, settings.CanEdit(EditFlags.TargetFormat));
             SetVisible(outputPrecision, settings.CanEdit(EditFlags.TargetFormat));
-
-            // GraphicsFormatUtility.GetComponentCount((GraphicsFormat)settings.targetFormat);
-            // GraphicsFormatUtility.Get((GraphicsFormat)settings.targetFormat);
-            // GraphicsFormatUtility.GetBlockWidth()
         }
 
         public void RegisterChangedCallback(Action callback) => onChanged += callback;

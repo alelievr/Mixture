@@ -143,6 +143,9 @@ namespace Mixture
             width = 1024,
             height = 1024,
             depth = 1,
+            widthScale = 1,
+            heightScale = 1,
+            depthScale = 1,
             dimension = OutputDimension.Texture2D,
             outputChannels = OutputChannel.RGBA,
             outputPrecision = OutputPrecision.Half,
@@ -211,6 +214,8 @@ namespace Mixture
                     outputNode.settings.dimension = OutputDimension.InheritFromGraph;
                 }
 
+                settings.refreshMode = RefreshMode.EveryXMillis;
+
                 foreach (var node in nodes)
                 {
                     // Migrate node settings
@@ -256,6 +261,12 @@ namespace Mixture
                 settings.sizeMode = OutputSizeMode.Absolute;
             if (settings.potSize == 0)
                 settings.SetPOTSize(1024);
+            if (settings.widthScale == 0)
+                settings.widthScale = 1;
+            if (settings.heightScale == 0)
+                settings.heightScale = 1;
+            if (settings.depthScale == 0)
+                settings.depthScale = 1;
 
             settings.editFlags = EditFlags.TargetFormat;
         }

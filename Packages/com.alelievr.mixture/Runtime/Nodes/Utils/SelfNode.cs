@@ -16,20 +16,21 @@ Currently only the first output texture of the output node can be retrieved.
 ")]
 
 	[System.Serializable, NodeMenuItem("Utils/Self")]
-	public class SelfNode : ComputeShaderNode 
+	public class SelfNode : MixtureNode 
 	{
 		[Output(name = "Out"), Tooltip("Output Texture"), NonSerialized]
-		public RenderTexture	output = null;
+		public CustomRenderTexture	output = null;
 
 		[Input, ShowAsDrawer]
-		public Color			initialColor;
+		public Texture			initialTexture;
+
+		[Input, ShowAsDrawer]
+		public Color			initialColor = Color.white;
 
 		public override Texture previewTexture => output;
 		public override bool	hasSettings => false;
 		public override bool	showDefaultInspector => true;
-		public override string			name => "Self";
-
-        protected override string computeShaderResourcePath => "Mixture/SelfInitialization";
+		public override string	name => "Self";
 
         [NonSerialized]
 		bool					initialization = true;
@@ -43,7 +44,7 @@ Currently only the first output texture of the output node can be retrieved.
 			// Update output rt:
 			if (output == null)
 			{
-				output = new RenderTexture(1, 1, 0, GraphicsFormat.R16G16B16A16_SFloat);
+				output = new CustomRenderTexture(1, 1, GraphicsFormat.R16G16B16A16_SFloat);
 				output.enableRandomWrite = true;
 				output.hideFlags = HideFlags.HideAndDontSave;
 			}
@@ -60,19 +61,9 @@ Currently only the first output texture of the output node can be retrieved.
 		static bool IsCompatibleWithRealtimeGraph(BaseGraph graph)
 			=> (graph as MixtureGraph).type == MixtureGraphType.Realtime;
 
-		// [CustomPortBehavior(nameof(output))]
-		// protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
-		// {
-		// 	yield return new PortData{
-		// 		displayName = "output",
-		// 		displayType = TextureUtils.GetTypeFromDimension(rtSettings.GetTextureDimension(graph)),
-		// 		identifier = "output",
-		// 		acceptMultipleEdges = true,
-		// 	};
-		// }
-
 		public void ResetOutputTexture() => initialization = true;
 
+		int i = 0;
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			if (output == null)
@@ -86,43 +77,23 @@ Currently only the first output texture of the output node can be retrieved.
 
 			var dim = settings.GetResolvedTextureDimension(graph);
 
-			if (output.width != settings.GetResolvedWidth(graph) || output.dimension != settings.GetResolvedTextureDimension(graph))
-			{
-				output.Release();
-				output.width = settings.GetResolvedWidth(graph);
-				output.height = settings.GetResolvedHeight(graph);
-				output.volumeDepth = settings.GetResolvedDepth(graph);
-				output.graphicsFormat = settings.GetGraphicsFormat(graph);
-				output.enableRandomWrite = true;
-				output.Create();
+			if (UpdateTempRenderTexture(ref output, hasMips: graph.mainOutputTexture.mipmapCount > 1))
 				initialization = true;
-			}
-
-			// TODO: support mip maps
 
 			if (initialization)
 			{
-				cmd.SetComputeVectorParam(computeShader, "_ClearColor", initialColor);
-				// We can't clear a cubemap from a compute shader :(
-				switch (dim)
-				{
-					case TextureDimension.Cube:
-						cmd.SetRenderTarget(output);
-						break;
-					case TextureDimension.Tex2D:
-						cmd.SetComputeTextureParam(computeShader, 0, MixtureUtils.texture2DPrefix, output);
-						DispatchCompute(cmd, 0, output.width, output.height);
-						break;
-					case TextureDimension.Tex3D:
-						cmd.SetComputeTextureParam(computeShader, 0, MixtureUtils.texture3DPrefix, output);
-						DispatchCompute(cmd, 1, output.width, output.height, output.volumeDepth);
-						break;
-				}
+				i = 0;
+				var initTexture = initialTexture == null ? TextureUtils.GetWhiteTexture(settings.GetResolvedTextureDimension(graph)) : initialTexture;
+				output.material = GetTempMaterial("Hidden/Mixture/SelfInitialization");
+				output.material.SetColor("_InitializationColor", initialColor);
+				MixtureUtils.SetTextureWithDimension(output.material, "_InitializationTexture", initTexture);
+				output.Update();
+				CustomTextureManager.UpdateCustomRenderTexture(cmd, output);
 				initialization = false;
 			}
 			else
 			{
-				cmd.CopyTexture(graph.outputNode.mainOutput.finalCopyRT, output);
+				TextureUtils.CopyTexture(cmd, graph.mainOutputTexture, output, true);
 			}
 
 			return true;

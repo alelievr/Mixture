@@ -26,8 +26,10 @@ public static class CustomTextureManager
 
     static Dictionary<CustomRenderTexture, int> computeOrder = new Dictionary<CustomRenderTexture, int>();
     static Dictionary<CustomRenderTexture, CustomSampler> customRenderTextureSamplers = new Dictionary<CustomRenderTexture, CustomSampler>();
+    static Dictionary<CustomRenderTexture, double> customRenderTextureLastUpdateTime = new Dictionary<CustomRenderTexture, double>();
 
     public static event Action<CommandBuffer, CustomRenderTexture> onBeforeCustomTextureUpdated;
+    public static event Action<CommandBuffer, CustomRenderTexture> onAfterCustomTextureUpdated;
 
     [RuntimeInitializeOnLoadMethod]
     static void SetupManager()
@@ -71,6 +73,9 @@ public static class CustomTextureManager
 #if UNITY_EDITOR
     static void UpdateCRTsEditor()
     {
+        // TODO: limit crt updates to the screen refresh rate (EditorApplication.update runs at 200 fps by default)
+        Debug.Log(Screen.currentResolution.refreshRate);
+
         if (!GraphicsSettings.disableBuiltinCustomRenderTextureUpdate)
             return;
 
@@ -155,7 +160,11 @@ public static class CustomTextureManager
     }
 
     // CustomRenderTexture.Initialize have been called by the user
-    static void OnInitializeCalled(CustomRenderTexture crt) => needsInitialization.Add(crt);
+    static void OnInitializeCalled(CustomRenderTexture crt)
+    {
+        needsInitialization.Add(crt);
+        customRenderTextureLastUpdateTime.Remove(crt);
+    }
 
     static void OnCRTLoaded(CustomRenderTexture crt)
     {
@@ -171,7 +180,11 @@ public static class CustomTextureManager
         // Debug.Log("Load: " + crt + " | " + crt.updateMode);
     }
 
-    static void OnCRTUnloaded(CustomRenderTexture crt) => customRenderTextures.Remove(crt);
+    static void OnCRTUnloaded(CustomRenderTexture crt)
+    {
+        customRenderTextures.Remove(crt);
+        customRenderTextureLastUpdateTime.Remove(crt);
+    }
 
     static void UpdateDependencies()
     {
@@ -333,7 +346,7 @@ public static class CustomTextureManager
 
         needsUpdate.TryGetValue(crt, out int updateCount);
 
-        if (crt.material != null && (crt.updateMode == CustomRenderTextureUpdateMode.Realtime || updateCount > 0 || (firstPass && crt.updateMode == CustomRenderTextureUpdateMode.OnLoad)))
+        if (crt.material != null && CustomRenderTextureNeedsUpdate(crt, updateCount, firstPass))
         {
             onBeforeCustomTextureUpdated?.Invoke(cmd, crt);
 
@@ -364,6 +377,33 @@ public static class CustomTextureManager
             cmd.EndSample(sampler);
 #endif
             crt.IncrementUpdateCount();
+
+            onAfterCustomTextureUpdated?.Invoke(cmd, crt);
+        }
+    }
+
+    static bool CustomRenderTextureNeedsUpdate(CustomRenderTexture crt, int updateCount, bool firstPass)
+    {
+        if (crt.updateMode == CustomRenderTextureUpdateMode.Realtime)
+        {
+            bool update = true;
+
+            if (customRenderTextureLastUpdateTime.TryGetValue(crt, out var lastUpdate))
+            {
+                // In case the Unity time resets, we discard the saved time and update the texture
+                if (lastUpdate > Time.realtimeSinceStartupAsDouble)
+                    customRenderTextureLastUpdateTime.Remove(crt);
+                else
+                    update = Time.realtimeSinceStartupAsDouble - lastUpdate >= crt.updatePeriod;
+            }
+            if (update)
+                customRenderTextureLastUpdateTime[crt] = Time.realtimeSinceStartupAsDouble;
+
+            return update;
+        }
+        else
+        {
+            return updateCount > 0 || (firstPass && crt.updateMode == CustomRenderTextureUpdateMode.OnLoad);
         }
     }
 

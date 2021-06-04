@@ -158,7 +158,10 @@ namespace Mixture
 					// Only the main output CRT is marked as realtime because it's processing will automatically
 					// trigger the processing of it's graph, and thus all the outputs in the graph.
 					if (output.isMain)
-						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.Realtime;
+					{
+						output.finalCopyRT.updateMode = graph.settings.refreshMode == RefreshMode.OnLoad ? CustomRenderTextureUpdateMode.OnLoad : CustomRenderTextureUpdateMode.Realtime;
+						output.finalCopyRT.updatePeriod = graph.settings.GetUpdatePeriod();
+					}
 					else
 						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.OnDemand;
 

@@ -21,7 +21,13 @@ namespace Mixture
 			base.Enable(fromInspector);
 			selfNode = nodeTarget as SelfNode;
 
-            controlsContainer.Add(new Button(selfNode.ResetOutputTexture) { text = "Reset"});
+            controlsContainer.Add(new Button(ResetTexture) { text = "Reset"});
+		}
+
+		void ResetTexture()
+		{
+			selfNode.ResetOutputTexture();
+			NotifyNodeChanged();
 		}
 	}
 }
