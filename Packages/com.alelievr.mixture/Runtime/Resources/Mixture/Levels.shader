@@ -28,6 +28,9 @@ Shader "Hidden/Mixture/Levels"
             TEXTURE_X(_Input);
 
             Texture2D<float> _InterpolationCurve;
+            Texture2D<float> _InterpolationCurveR;
+            Texture2D<float> _InterpolationCurveG;
+            Texture2D<float> _InterpolationCurveB;
             float3 _RcpTextureSize;
 
             StructuredBuffer<LuminanceData> _Luminance;
@@ -94,6 +97,12 @@ Shader "Hidden/Mixture/Levels"
                     float luminanceOffset = correctedLuminance - clampedLuminance;
 
                     input.rgb *= 1 + luminanceOffset;
+                }
+                else // Per channel remap curves
+                {
+                    input.r = _InterpolationCurveR.SampleLevel(s_linear_clamp_sampler, input.r, 0);
+                    input.g = _InterpolationCurveG.SampleLevel(s_linear_clamp_sampler, input.g, 0);
+                    input.b = _InterpolationCurveB.SampleLevel(s_linear_clamp_sampler, input.b, 0);
                 }
 
                 return input;

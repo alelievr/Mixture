@@ -81,7 +81,6 @@ Note that this node is currently only available with HDRP.
         protected override void Enable()
         {
             tmpRenderTexture = null;
-            savedTexture = null;
             // TODO: copy saved texture when duplicated instead of setting it to null
             base.Enable();
             UpdateRenderTextures();
@@ -99,6 +98,14 @@ Note that this node is currently only available with HDRP.
             };
         }
 
+        protected override void Destroy()
+        {
+            if (savedTexture != null)
+            {
+                graph.RemoveObjectFromGraph(savedTexture);
+                Object.DestroyImmediate(savedTexture);
+            }
+        }
 
         protected override void Disable()
         {
@@ -142,6 +149,8 @@ Note that this node is currently only available with HDRP.
             Texture2D tmp = new Texture2D(savedTexture.width, savedTexture.height, GraphicsFormat.R32G32B32A32_SFloat, TextureCreationFlags.None);
             // Radback color & depth:
             RenderTexture.active = tmpRenderTexture;
+            tmp.filterMode = settings.GetResolvedFilterMode(graph);
+            tmp.wrapMode = settings.GetResolvedWrapMode(graph);
             tmp.ReadPixels(new Rect(0, 0, savedTexture.width, savedTexture.height), 0, 0);
             RenderTexture.active = null; 
             tmp.Apply();
@@ -149,9 +158,9 @@ Note that this node is currently only available with HDRP.
 #if UNITY_EDITOR
             if (GraphicsFormatUtility.IsCompressedFormat(savedTexture.graphicsFormat))
             {
+                EditorUtility.CompressTexture(tmp, compressionFormat, TextureCompressionQuality.Best);
                 EditorUtility.CopySerialized(tmp, savedTexture);
                 Object.DestroyImmediate(tmp);
-                EditorUtility.CompressTexture(savedTexture, compressionFormat, TextureCompressionQuality.Best);
             }
             else
             {
@@ -179,6 +188,8 @@ Note that this node is currently only available with HDRP.
                     Object.DestroyImmediate(savedTexture, true);
                 }
                 savedTexture = new Texture2D(settings.GetResolvedWidth(graph), settings.GetResolvedHeight(graph), compressedFormat, TextureCreationFlags.None) { name = "SceneNode Rendering"};
+                savedTexture.filterMode = settings.GetResolvedFilterMode(graph);
+                savedTexture.wrapMode = settings.GetResolvedWrapMode(graph);
                 savedTexture.hideFlags = HideFlags.NotEditable;
                 graph.AddObjectToGraph(savedTexture);
             }

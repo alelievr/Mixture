@@ -14,6 +14,8 @@ namespace Mixture
         PrefabCaptureNode.OutputMode    mode;
         Camera                  targetCamera;
 
+        protected override bool executeInSceneView => false;
+
         internal void SetOutputSettings(PrefabCaptureNode.OutputMode mode, Camera targetCamera)
         {
             this.mode = mode;
