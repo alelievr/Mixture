@@ -35,6 +35,8 @@ Separates the 4 components (RGBA) of the input texture into 4 R channel texture.
 		[Tooltip("Select the output mode for the render texture. The R Channel Only mode uses 4 times less memory.")]
 		public Mode mode;
 
+		[VisibleIf(nameof(mode), Mode.AllChannels)]
+		[Tooltip("Default color that will be used to initialize the channels when using the RGBA channels mode.")]
 		public Color neutralColor = new Color(0, 0, 0, 0);
 
 		public override string	name => "Separate";

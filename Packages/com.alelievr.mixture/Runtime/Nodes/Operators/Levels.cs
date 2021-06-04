@@ -109,6 +109,9 @@ namespace Mixture
 			MixtureUtils.SetTextureWithDimension(mat, "_Input", input);
 			mat.SetBuffer("_Luminance", minMaxBuffer);
 			mat.SetTexture("_InterpolationCurve", curveTexture);
+			mat.SetTexture("_InterpolationCurveR", curveTextureR);
+			mat.SetTexture("_InterpolationCurveG", curveTextureG);
+			mat.SetTexture("_InterpolationCurveB", curveTextureB);
 
 			tempRenderTexture.Update();
 			CustomTextureManager.UpdateCustomRenderTexture(cmd, tempRenderTexture);
