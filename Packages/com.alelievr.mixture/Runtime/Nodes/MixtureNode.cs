@@ -155,8 +155,8 @@ namespace Mixture
 		void UpdateSettings(SerializableEdge edge)
 		{
 			// Update nodes used to infere settings values
-			parentSettingsNode = GetInputNodes().FirstOrDefault(n => n is MixtureNode) as MixtureNode;
-			childSettingsNode = GetOutputNodes().FirstOrDefault(n => n is MixtureNode) as MixtureNode;
+			parentSettingsNode = GetInputNodes().FirstOrDefault(n => n is MixtureNode m && m.hasSettings) as MixtureNode;
+			childSettingsNode = GetOutputNodes().FirstOrDefault(n => n is MixtureNode m && m.hasSettings) as MixtureNode;
 
 			settings.ResolveAndUpdate(this);
 		}
@@ -205,13 +205,13 @@ namespace Mixture
                     name = $"Mixture Temp {name}",
                     updateMode = CustomRenderTextureUpdateMode.OnDemand,
                     doubleBuffered = settings.doubleBuffered,
-                    wrapMode = wrapMode,
-                    filterMode = filterMode,
+                    wrapMode = settings.GetResolvedWrapMode(graph),
+                    filterMode = settings.GetResolvedFilterMode(graph),
                     useMipMap = hasMips,
 					autoGenerateMips = autoGenerateMips,
 					enableRandomWrite = true,
 					hideFlags = hideAsset ? HideFlags.HideAndDontSave : HideFlags.None,
-					updatePeriod = GetUpdatePeriod(),
+					updatePeriod = settings.GetUpdatePeriod(),
 				};
 				target.Create();
 				target.material = MixtureUtils.dummyCustomRenderTextureMaterial;
@@ -227,12 +227,9 @@ namespace Mixture
 				|| target.graphicsFormat != targetFormat
 				|| target.dimension != dimension
 				|| target.volumeDepth != outputDepth
-				|| target.filterMode != settings.GetResolvedFilterMode(graph)
 				|| target.doubleBuffered != settings.doubleBuffered
-                || target.wrapMode != wrapMode
 				|| target.useMipMap != hasMips
-				|| target.autoGenerateMips != autoGenerateMips
-				|| target.updatePeriod != GetUpdatePeriod())
+				|| target.autoGenerateMips != autoGenerateMips)
 			{
 				target.Release();
 				target.width = outputWidth;
@@ -242,21 +239,21 @@ namespace Mixture
 				target.volumeDepth = outputDepth;
 				target.depth = depthBuffer ? 32 : 0;
 				target.doubleBuffered = settings.doubleBuffered;
-                target.wrapMode = wrapMode;
-                target.filterMode = filterMode;
                 target.useMipMap = hasMips;
 				target.autoGenerateMips = autoGenerateMips;
 				target.enableRandomWrite = true;
-				target.updatePeriod = GetUpdatePeriod();
-				target.hideFlags = HideFlags.HideAndDontSave;
+				target.hideFlags = hideAsset ? HideFlags.HideAndDontSave : HideFlags.None;
 				target.Create();
 				if (target.material == null)
 					target.material = MixtureUtils.dummyCustomRenderTextureMaterial;
 				changed = true;
 			}
 
-			// Patch update mode based on graph type
+			// Patch settings that don't require to re-create the texture
 			target.updateMode = updateMode;
+			target.updatePeriod = settings.GetUpdatePeriod();
+			target.wrapMode = settings.GetResolvedWrapMode(graph);
+			target.filterMode = settings.GetResolvedFilterMode(graph);
 
 			if (target.doubleBuffered)
 			{
@@ -277,22 +274,6 @@ namespace Mixture
 		}
 
 		protected virtual TextureDimension GetTempTextureDimension() => settings.GetResolvedTextureDimension(graph);
-
-		float GetUpdatePeriod()
-		{
-			switch (settings.refreshMode)
-			{
-				case RefreshMode.EveryXFrame:
-					return (1.0f / Application.targetFrameRate) * settings.period;
-				case RefreshMode.EveryXMillis:
-					return settings.period / 1000.0f;
-				case RefreshMode.EveryXSeconds:
-					return settings.period;
-				default:
-				case RefreshMode.OnLoad:
-					return 0;
-			}
-		}
 
 		public void OnProcess(CommandBuffer cmd)
 		{

@@ -176,13 +176,14 @@ namespace Mixture
 					void DelayedProcess()
 					{
 						ProcessGraph(changes.nodeChanged ?? changes.addedNode);
-						MarkDirtyRepaint();
 						delayQueued = false;
 						EditorApplication.update -= DelayedProcess;
 					}
 					delayQueued = true;
 				}
 			}
+
+			SetupRepaintChecker();
 		}
 
 		public void ProcessGraph(BaseNode sourceNode = null)
@@ -209,6 +210,8 @@ namespace Mixture
 						win.Repaint();
 				}
 			}
+
+			MarkDirtyRepaint();
 		}
 
 		void ReloadGraph()
@@ -285,6 +288,41 @@ namespace Mixture
 			foreach (var nodeView in nodeViews)
 				if (nodeView is MixtureNodeView v)
 					v.RefreshSettingsValues();
+		}
+
+		void SetupRepaintChecker()
+		{
+			if (!Application.runInBackground && !UnityEditorInternal.InternalEditorUtility.isApplicationActive)
+				return;
+
+			int hash = ComputeCRTHash();
+
+			schedule.Execute(CheckNeedRepaint).Every(16);
+
+			int ComputeCRTHash()
+			{
+				int hash = 0;
+
+				foreach (var n in graph.nodes)
+				{
+					if (n is IUseCustomRenderTextureProcessing i)
+						foreach (var t in i.GetCustomRenderTextures())
+							if (t != null)
+								hash = hash * 23 + (int)t.updateCount;
+				}
+
+				return hash;
+			}
+
+			void CheckNeedRepaint()
+			{
+				int newHash = ComputeCRTHash();
+				if (hash != newHash)
+				{
+					hash = newHash;
+					MarkDirtyRepaint();
+				}
+			}
 		}
 	}
 }

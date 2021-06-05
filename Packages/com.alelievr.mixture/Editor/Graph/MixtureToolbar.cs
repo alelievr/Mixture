@@ -95,13 +95,14 @@ namespace Mixture
 		public class SettingsMixturePopupWindow : PopupWindowContent
 		{
 			public static readonly int width = 300;
-			public int height = 240;
+			public int height;
 
 			MixtureGraphView graphView;
 
 			public SettingsMixturePopupWindow(MixtureGraphView graphView)
 			{
 				this.graphView = graphView;
+				height = graphView.graph.type == MixtureGraphType.Realtime ? 310 : 240;
 			}
 
 			public override Vector2 GetWindowSize()
@@ -121,6 +122,7 @@ namespace Mixture
 				var settingsView = new MixtureSettingsView(graphView.graph.settings, graphView, "Graph Settings", false);
 				settingsView.AddToClassList("RTSettingsView");
 				settingsView.style.height = new StyleLength(new Length(100, LengthUnit.Percent));
+				settingsView.RegisterChangedCallback(() => graphView.ProcessGraph());
 
 				var otherHeader = new Label("Advanced Settings");
 				otherHeader.AddToClassList(MixtureSettingsView.headerStyleClass);
@@ -322,7 +324,7 @@ namespace Mixture
 
 		void Process()
 		{
-			EditorApplication.delayCall += graphView.processor.Run;
+			EditorApplication.delayCall += () => graphView.ProcessGraph();
 		}
 	}
 }

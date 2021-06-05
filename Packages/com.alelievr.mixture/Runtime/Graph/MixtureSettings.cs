@@ -50,6 +50,28 @@ namespace Mixture
 		[NonSerialized]
 		internal MixtureSettings resolvedSettings;
 
+		public static MixtureSettings defaultValue
+		{
+			get => new MixtureSettings()
+			{
+				widthScale = 1.0f,
+				heightScale = 1.0f,
+				depthScale = 1.0f,
+				width = 1024,
+				height = 1024,
+				depth = 1,
+				sizeMode = OutputSizeMode.InheritFromParent,
+				dimension = OutputDimension.InheritFromParent,
+				outputChannels = OutputChannel.InheritFromParent,
+				outputPrecision = OutputPrecision.InheritFromParent,
+				editFlags = ~EditFlags.POTSize,
+				doubleBuffered = false,
+                wrapMode = OutputWrapMode.InheritFromParent,
+                filterMode = OutputFilterMode.InheritFromParent,
+				refreshMode = RefreshMode.OnLoad,
+			};
+		}
+
 		public MixtureSettings()
 		{
 			// By default we mirror the settings, but if we call resolve, the reference will change.
@@ -85,15 +107,15 @@ namespace Mixture
 				{
 					default:
 					case OutputSizeMode.InheritFromGraph:
-						return (int)(graph.settings.width * widthScale);
+						return (int)(graph.settings.width * node.settings.widthScale);
 					case OutputSizeMode.InheritFromParent:
 						if (node?.parentSettingsNode == null)
-							return (int)(graph.settings.width * widthScale);
-						return (int)(ResolveWidth(node.parentSettingsNode, graph) * widthScale);
+							return (int)(graph.settings.width * node.settings.widthScale);
+						return (int)(ResolveWidth(node.parentSettingsNode, graph) * node.settings.widthScale);
 					case OutputSizeMode.InheritFromChild:
 						if (node?.childSettingsNode == null)
-							return (int)(graph.settings.width * widthScale);
-						return (int)(ResolveWidth(node.childSettingsNode, graph) * widthScale);
+							return (int)(graph.settings.width * node.settings.widthScale);
+						return (int)(ResolveWidth(node.childSettingsNode, graph) * node.settings.widthScale);
 					case OutputSizeMode.Absolute:
 						return node.settings.width;
 				}
@@ -105,15 +127,15 @@ namespace Mixture
 				{
 					default:
 					case OutputSizeMode.InheritFromGraph:
-						return (int)(graph.settings.height * heightScale);
+						return (int)(graph.settings.height * node.settings.heightScale);
 					case OutputSizeMode.InheritFromParent:
 						if (node?.parentSettingsNode == null)
-							return (int)(graph.settings.height * heightScale);
-						return (int)(ResolveWidth(node.parentSettingsNode, graph) * heightScale);
+							return (int)(graph.settings.height * node.settings.heightScale);
+						return (int)(ResolveWidth(node.parentSettingsNode, graph) * node.settings.heightScale);
 					case OutputSizeMode.InheritFromChild:
 						if (node?.childSettingsNode == null)
-							return (int)(graph.settings.height * heightScale);
-						return (int)(ResolveWidth(node.childSettingsNode, graph) * heightScale);
+							return (int)(graph.settings.height * node.settings.heightScale);
+						return (int)(ResolveWidth(node.childSettingsNode, graph) * node.settings.heightScale);
 					case OutputSizeMode.Absolute:
 						return node.settings.height;
 				}
@@ -128,15 +150,15 @@ namespace Mixture
 				{
 					default:
 					case OutputSizeMode.InheritFromGraph:
-						return (int)(graph.settings.depth * depthScale);
+						return (int)(graph.settings.depth * node.settings.depthScale);
 					case OutputSizeMode.InheritFromParent:
 						if (node?.parentSettingsNode == null)
-							return (int)(graph.settings.depth * depthScale);
-						return (int)(ResolveDepth(node.parentSettingsNode, graph) * depthScale);
+							return (int)(graph.settings.depth * node.settings.depthScale);
+						return (int)(ResolveDepth(node.parentSettingsNode, graph) * node.settings.depthScale);
 					case OutputSizeMode.InheritFromChild:
 						if (node?.childSettingsNode == null)
-							return (int)(graph.settings.depth * depthScale);
-						return (int)(ResolveDepth(node.childSettingsNode, graph) * depthScale);
+							return (int)(graph.settings.depth * node.settings.depthScale);
+						return (int)(ResolveDepth(node.childSettingsNode, graph) * node.settings.depthScale);
 					case OutputSizeMode.Absolute:
 						return node.settings.depth;
 				}
@@ -242,26 +264,20 @@ namespace Mixture
 			}
 		}
 
-		public static MixtureSettings defaultValue
+		public float GetUpdatePeriod()
 		{
-			get => new MixtureSettings()
+			switch (refreshMode)
 			{
-				widthScale = 1.0f,
-				heightScale = 1.0f,
-				depthScale = 1.0f,
-				width = 1024,
-				height = 1024,
-				depth = 1,
-				sizeMode = OutputSizeMode.InheritFromParent,
-				dimension = OutputDimension.InheritFromParent,
-				outputChannels = OutputChannel.InheritFromParent,
-				outputPrecision = OutputPrecision.InheritFromParent,
-				editFlags = ~EditFlags.POTSize,
-				doubleBuffered = false,
-                wrapMode = OutputWrapMode.InheritFromParent,
-                filterMode = OutputFilterMode.InheritFromParent,
-				refreshMode = RefreshMode.OnLoad,
-			};
+				case RefreshMode.EveryXFrame:
+					return (1.0f / Application.targetFrameRate) * period;
+				case RefreshMode.EveryXMillis:
+					return period / 1000.0f;
+				case RefreshMode.EveryXSeconds:
+					return period;
+				default:
+				case RefreshMode.OnLoad:
+					return 0;
+			}
 		}
 
 		internal static GraphicsFormat ConvertToGraphicsFormat(OutputChannel channels, OutputPrecision precisions)
