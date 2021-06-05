@@ -266,7 +266,6 @@ namespace Mixture
                 slider.RegisterValueChangedCallback(e =>
                 {
                     owner.RegisterCompleteObjectUndo(propertyName + " " + e.newValue);
-                    Debug.Log("outputDepthScale: " + IntToSizeScale(e.newValue));
                     setter(IntToSizeScale(e.newValue));
                     onChanged?.Invoke();
                 });

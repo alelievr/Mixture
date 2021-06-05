@@ -83,9 +83,18 @@ namespace Mixture
 			this.node = node;
 			var graph = node.graph;
 
+			// Fixup scale issue that wasn't catch by the migration:
+			if (widthScale == 0)
+				widthScale = 1;
+			if (heightScale == 0)
+				heightScale = 1;
+			if (depthScale == 0)
+				depthScale = 1;
+
 			if (resolvedSettings == this || resolvedSettings == null)
 				resolvedSettings = new MixtureSettings();
 
+			resolvedSettings.dimension = ResolveTextureDimension(node, graph);
 			resolvedSettings.width = Mathf.Clamp(ResolveWidth(node, graph), 1, k_MaxTextureResolution);
 			resolvedSettings.height = Mathf.Clamp(ResolveHeight(node, graph), 1, k_MaxTextureResolution);
 			resolvedSettings.depth = Mathf.Clamp(ResolveDepth(node, graph), 1, k_MaxTextureResolution);
@@ -93,7 +102,6 @@ namespace Mixture
 			resolvedSettings.heightScale = heightScale;
 			resolvedSettings.depthScale = depthScale;
 			resolvedSettings.potSize = potSize;
-			resolvedSettings.dimension = ResolveTextureDimension(node, graph);
 			resolvedSettings.outputChannels = ResolveOutputChannels(node, graph);
 			resolvedSettings.outputPrecision = ResolveOutputPrecision(node, graph);
 			resolvedSettings.wrapMode = ResolveWrapMode(node, graph);
@@ -143,7 +151,7 @@ namespace Mixture
 
 			int ResolveDepth(MixtureNode node, MixtureGraph graph)
 			{
-				if (dimension != OutputDimension.Texture3D)
+				if (resolvedSettings.dimension != OutputDimension.Texture3D)
 					return 1;
 
 				switch(node.settings.sizeMode)

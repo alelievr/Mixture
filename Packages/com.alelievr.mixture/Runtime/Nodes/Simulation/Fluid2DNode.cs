@@ -137,9 +137,6 @@ namespace Mixture
 
 			ComputeObstacles(cmd, m_obstacles);
 
-			// TODO: exposed parameter (time step)
-			float dt = 0.1f;
-			
 			//First off advect any buffers that contain physical quantities like density or temperature by the 
 			//velocity field. Advection is what moves values around.
 			ApplyAdvection(cmd, m_temperatureDissipation, 0.0f, m_temperature, m_velocity[READ], m_obstacles);

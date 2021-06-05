@@ -131,9 +131,6 @@ namespace Mixture
 
 			ComputeObstacles(cmd, m_obstacles);
 
-			// TODO: exposed parameter (time step)
-			float dt = 0.1f;
-			
 			//First off advect any buffers that contain physical quantities like density or temperature by the 
 			//velocity field. Advection is what moves values around.
 			ApplyAdvection(cmd, m_temperatureDissipation, 0.0f, m_temperature, m_velocity[READ], m_obstacles);
@@ -147,9 +144,8 @@ namespace Mixture
 			
 			//Adds a certain amount of density (the visible smoke) and temperate
 			InjectDensity(cmd, m_densityAmount, inputDensity, m_density);
-			// ApplyImpulse(cmd, dt, m_densityAmount, m_density);
-			// ApplyImpulse(cmd, dt,  m_temperatureAmount, m_temperature);
-			
+			InjectDensity(cmd, m_densityAmount, inputDensity, m_temperature);
+
 			//The fuild sim math tends to remove the swirling movement of fluids.
 			//This step will try and add it back in
 			ComputeVorticityAndConfinement(cmd, m_temp3f, m_velocity, m_vorticityStrength);

@@ -94,18 +94,6 @@ void ApplyBuoyancy(int3 id : SV_DispatchThreadID)
     _Write[id] = V;
 }
 
-void ComputeNeighbourPositions(int3 id, out int3 idxL, out int3 idxR, out int3 idxB, out int3 idxT, out int3 idxD, out int3 idxU)
-{
-    idxL = int3(max(0, id.x-1), id.y, id.z);
-    idxR = int3(min(_Size.x-1, id.x+1), id.y, id.z);
-
-    idxB = int3(id.x, max(0, id.y-1), id.z);
-    idxT = int3(id.x, min(_Size.y-1, id.y+1), id.z);
-
-    idxD = int3(id.x, id.y, max(0, id.z-1));
-    idxU = int3(id.x, id.y, min(_Size.z-1, id.z+1));
-}
-
 [numthreads(8,8,1)]
 void ComputeVorticity(int3 id : SV_DispatchThreadID)
 {
@@ -145,5 +133,5 @@ void InjectDensity(uint3 id : SV_DispatchThreadID)
 {
     float amount = _InputDensity.SampleLevel(s_linear_clamp_sampler, id / _Size.xyz, 0);
 	amount *= _Amount * _DeltaTime;
-    _Write[id] = _Read[id] + amount;
+    _Write[id] = _Density[id] + amount;
 }
