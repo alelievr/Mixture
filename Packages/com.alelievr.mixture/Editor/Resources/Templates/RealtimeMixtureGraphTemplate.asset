@@ -77,6 +77,57 @@ Material:
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
+--- !u!86 &-5453263755918737541
+CustomRenderTexture:
+  m_ObjectHideFlags: 61
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Color
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 3
+  m_Width: 512
+  m_Height: 512
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthFormat: 2
+  m_ColorFormat: 48
+  m_MipMap: 0
+  m_GenerateMips: 0
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 0
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_Material: {fileID: 7450754376728729919}
+  m_InitSource: 0
+  m_InitMaterial: {fileID: 0}
+  m_InitColor: {r: 1, g: 1, b: 1, a: 1}
+  m_InitTexture: {fileID: 0}
+  m_UpdateMode: 2
+  m_InitializationMode: 2
+  m_UpdateZoneSpace: 0
+  m_CurrentUpdateZoneSpace: 0
+  m_UpdateZones: []
+  m_UpdatePeriod: 0
+  m_ShaderPass: 0
+  m_CubemapFaceMask: 4294967295
+  m_DoubleBuffered: 0
+  m_WrapUpdateZones: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -114,26 +165,57 @@ MonoBehaviour:
     outputPortIdentifier: output
   groups: []
   stackNodes: []
-  pinnedElements: []
+  pinnedElements:
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 99
+      width: 244
+      height: 461
+    opened: 0
+    editorType:
+      serializedType: Mixture.MixtureParameterView, Unity.ShaderGraph.GraphicsTests,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 872, y: 230, z: 0}
+  position: {x: 729, y: 115, z: 0}
   scale: {x: 1, y: 1, z: 1}
-  version: 0
+  version: 1
   type: 1
   realtimePreview: 1
   isRealtime: 0
   isParameterViewOpen: 0
   embedInBuild: 0
+  defaultNodeInheritanceMode: -2
   objectReferences:
   - {fileID: -6286007035632309462}
   - {fileID: -5711246096604925849}
+  - {fileID: 7450754376728729919}
   variants: []
   _mainOutputTexture: {fileID: 6585799614466207341}
   _outputTextures:
+  - {fileID: -5453263755918737541}
   - {fileID: 6585799614466207341}
   - {fileID: 6585799614466207341}
+  settings:
+    widthScale: 0
+    heightScale: 0
+    depthScale: 0
+    width: 512
+    height: 512
+    depth: 512
+    potSize: 512
+    sizeMode: 1
+    dimension: 2
+    outputChannels: 1
+    outputPrecision: 3
+    editFlags: 128
+    doubleBuffered: 0
+    wrapMode: 0
+    filterMode: 0
+    refreshMode: 0
+    period: 0
   references:
     version: 1
     00000000:
@@ -151,24 +233,22 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 0
-          heightPercent: 0
-          depthPercent: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 0
           width: 512
           height: 512
-          sliceCount: 512
+          depth: 1
           potSize: 512
-          widthMode: 1
-          heightMode: 1
-          depthMode: 1
-          dimension: 2
-          outputChannels: 1
-          outputPrecision: 3
-          editFlags: 469
+          sizeMode: -2
+          dimension: -2
+          outputChannels: -2
+          outputPrecision: -2
+          editFlags: 471
           doubleBuffered: 0
-          wrapMode: 0
-          filterMode: 0
+          wrapMode: -2
+          filterMode: -2
           refreshMode: 0
           period: 0
         isPreviewCollapsed: 0
@@ -205,24 +285,22 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 0
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -2
+          dimension: 2
+          outputChannels: 1
+          outputPrecision: 3
           editFlags: 255
           doubleBuffered: 0
-          wrapMode: 0
-          filterMode: 1
+          wrapMode: -2
+          filterMode: -2
           refreshMode: 0
           period: 0
         isPreviewCollapsed: 0
@@ -313,20 +391,18 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -2
+          dimension: 2
+          outputChannels: 1
+          outputPrecision: 3
           editFlags: 0
           doubleBuffered: 0
           wrapMode: 0
@@ -355,20 +431,18 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 0
+          heightScale: 0
+          depthScale: 0
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -2
+          dimension: 2
+          outputChannels: 1
+          outputPrecision: 3
           editFlags: 0
           doubleBuffered: 0
           wrapMode: 0
@@ -382,8 +456,8 @@ MonoBehaviour:
         previewEV100: 0
         previewSlice: 0
         isPinned: 0
-        a: {x: 0.9467061, y: 0.9467061, z: 0.9467061, w: 0.9467061}
-        o: {x: 0.68134713, y: 0.68134713, z: 0.68134713, w: 0.68134713}
+        a: {x: 0.99597216, y: 0.99597216, z: 0.99597216, w: 0.99597216}
+        o: {x: 0.6985902, y: 0.6985902, z: 0.6985902, w: 0.6985902}
         inputMin: -1
         inputMax: 1
         outputMin: 0
@@ -423,7 +497,7 @@ CustomRenderTexture:
     m_WrapV: 0
     m_WrapW: 0
   m_Dimension: 2
-  m_VolumeDepth: 512
+  m_VolumeDepth: 1
   m_Material: {fileID: -5711246096604925849}
   m_InitSource: 0
   m_InitMaterial: {fileID: 0}
@@ -439,3 +513,37 @@ CustomRenderTexture:
   m_CubemapFaceMask: 4294967295
   m_DoubleBuffered: 0
   m_WrapUpdateZones: 0
+--- !u!21 &7450754376728729919
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/FinalCopy
+  m_Shader: {fileID: 4800000, guid: 513c040fbfb854aebb92cf147e30125a, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []

@@ -13,13 +13,17 @@ namespace Mixture
 
         public override void OnCreated()
         {
-			var pos = nodeTarget.position.position + new Vector2(300, 0);
-            var endView = owner.AddNode(BaseNode.CreateFromType(typeof(ForEnd), pos));
-			var group = new Group("For Loop", pos);
-			group.innerNodeGUIDs.Add(nodeTarget.GUID);
-			group.innerNodeGUIDs.Add(endView.nodeTarget.GUID);
-			owner.AddGroup(group);
-			owner.Connect(endView.inputPortViews[0], outputPortViews.FirstOrDefault(p => p.portName == "Output"));
+			// Avoid creating useless for end nodes
+			if (!forNode.createWithinGroup || (forNode.createWithinGroup && !forNode.createWithinGroup))
+			{
+				var pos = nodeTarget.position.position + new Vector2(300, 0);
+				var endView = owner.AddNode(BaseNode.CreateFromType(typeof(ForEnd), pos));
+				var group = new Group("For Loop", pos);
+				group.innerNodeGUIDs.Add(nodeTarget.GUID);
+				group.innerNodeGUIDs.Add(endView.nodeTarget.GUID);
+				owner.AddGroup(group);
+				owner.Connect(endView.inputPortViews[0], outputPortViews.FirstOrDefault(p => p.portName == "Output"));
+			}
         }
 
 		public override void Enable(bool fromInspector)

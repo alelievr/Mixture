@@ -12,36 +12,9 @@ namespace Mixture
     [CustomEditor(typeof(MixtureNodeInspectorObject))]
     public class MixtureNodeInspectorObjectEditor : NodeInspectorObjectEditor
     {
-        internal enum CompareMode
-        {
-            SideBySide,
-            OnionSkin,
-            Difference,
-            Swap,
-        }
-
-        internal enum Texture3DPreviewMode
-        {
-            Volumetric,
-            DistanceFieldNormal,
-            DistanceFieldColor,
-        }
-
-        internal enum SDFChannel
-        {
-            R,
-            G,
-            B,
-            A
-        }
-
-        // TODO
-        // internal enum PreviewMode
-        // {
-        //     Color,
-        //     Normal,
-        //     Height,
-        // }
+        const float maxZoom = 512;
+        const float minZoom = 0.05f;
+        const int buttonWidth = 25;
 
         Event e => Event.current;
 
@@ -53,50 +26,6 @@ namespace Mixture
         NodeInspectorSettingsPopupWindow comparisonWindow;
 
         Material previewMaterial;
-
-        // Preview params:
-        Vector2 middleClickMousePosition;
-        Vector2 middleClickCameraPosition;
-        Vector2 positionOffset;
-        Vector2 positionOffsetTarget;
-        Vector2 lastMousePosition;
-        float zoomTarget = 1;
-        float zoom = 1;
-        float zoomSpeed = 20f;
-        double timeSinceStartup, latestTime, deltaTime;
-
-        const float maxZoom = 512;
-        const float minZoom = 0.05f;
-        const int buttonWidth = 25;
-
-        float compareSlider = 0.5f;
-        float compareSlider3D = 0.5f;
-        Vector2 mouseUV;
-        Matrix4x4 volumeCameraMatrix = Matrix4x4.identity;
-        float cameraZoom;
-        float cameraXAxis;
-        float cameraYAxis;
-        bool compareEnabled = false;
-        bool lockFirstPreview = false;
-        bool lockSecondPreview = false;
-        MixtureNode firstLockedPreviewTarget;
-        MixtureNode secondLockedPreviewTarget;
-        Vector2 shaderPos;
-        bool needsRepaint;
-
-        // Preview settings
-        internal FilterMode filterMode;
-        internal float exposure;
-        internal PreviewChannels channels = PreviewChannels.RGB;
-        internal CompareMode compareMode;
-        internal bool alwaysRefresh;
-        internal float mipLevel;
-        internal bool preserveAspect;
-        internal Texture3DPreviewMode texture3DPreviewMode;
-        internal float texture3DDensity = 1;
-        internal float texture3DDistanceFieldOffset = 0;
-        internal SDFChannel sdfChannel = SDFChannel.R;
-        float comparisonOffset;
 
         VisualTreeAsset nodeInspectorFoldout;
 
@@ -111,6 +40,11 @@ namespace Mixture
             mixtureInspector = target as MixtureNodeInspectorObject;
 
             nodeInspectorFoldout = Resources.Load("UI Blocks/InspectorNodeFoldout") as VisualTreeAsset;
+
+            // There is a really weird issue where the resources.Load returns null when building a player
+            if (nodeInspectorFoldout == null)
+                return;
+
             nodeInspectorFoldout.hideFlags = HideFlags.HideAndDontSave;
 
             base.OnEnable();
@@ -139,10 +73,10 @@ namespace Mixture
 
             // Handle the always refresh option
             root.Add(new IMGUIContainer(() => {
-                if (!Application.runInBackground && !UnityEditorInternal.InternalEditorUtility.isApplicationActive && alwaysRefresh)
+                if (!Application.runInBackground && !UnityEditorInternal.InternalEditorUtility.isApplicationActive && mixtureInspector.alwaysRefresh)
                     return;
 
-                if (alwaysRefresh)
+                if (mixtureInspector.alwaysRefresh)
                 {
                     if (Event.current.type == EventType.Layout)
                         Repaint();
@@ -253,28 +187,28 @@ namespace Mixture
 
             GUILayout.Space(2);
             
-            if (!lockFirstPreview)
-                firstLockedPreviewTarget = nodeWithPreviews.FirstOrDefault();
-            if (!lockSecondPreview)
+            if (!mixtureInspector.lockFirstPreview)
+                mixtureInspector.firstLockedPreviewTarget = nodeWithPreviews.FirstOrDefault();
+            if (!mixtureInspector.lockSecondPreview)
             {
-                if (lockFirstPreview)
-                    secondLockedPreviewTarget = nodeWithPreviews.FirstOrDefault();
+                if (mixtureInspector.lockFirstPreview)
+                    mixtureInspector.secondLockedPreviewTarget = nodeWithPreviews.FirstOrDefault();
                 else
-                    secondLockedPreviewTarget = nodeWithPreviews.Count > 1 ? nodeWithPreviews[1] : nodeWithPreviews.FirstOrDefault();
+                    mixtureInspector.secondLockedPreviewTarget = nodeWithPreviews.Count > 1 ? nodeWithPreviews[1] : nodeWithPreviews.FirstOrDefault();
             }
 
-            GUILayout.Label(firstLockedPreviewTarget.name, EditorStyles.toolbarButton);
-            lockFirstPreview = GUILayout.Toggle(lockFirstPreview, GetLockIcon(lockFirstPreview), EditorStyles.toolbarButton, buttonLayout);
-            if (compareEnabled)
+            GUILayout.Label(mixtureInspector.firstLockedPreviewTarget.name, EditorStyles.toolbarButton);
+            mixtureInspector.lockFirstPreview = GUILayout.Toggle(mixtureInspector.lockFirstPreview, GetLockIcon(mixtureInspector.lockFirstPreview), EditorStyles.toolbarButton, buttonLayout);
+            if (mixtureInspector.compareEnabled)
             {
                 var style = EditorStyles.toolbarButton;
                 style.alignment = TextAnchor.MiddleLeft;
-                compareMode = (CompareMode)EditorGUILayout.Popup((int)compareMode, new string[]{" 1  -  Side By Side", " 2  -  Onion Skin", " 3  -  Difference", " 4  -  Swap"}, style, buttonLayout, GUILayout.Width(24));
-                GUILayout.Label(secondLockedPreviewTarget.name, EditorStyles.toolbarButton);
-                lockSecondPreview = GUILayout.Toggle(lockSecondPreview, GetLockIcon(lockSecondPreview), EditorStyles.toolbarButton, buttonLayout);
+                mixtureInspector.compareMode = (MixtureNodeInspectorObject.CompareMode)EditorGUILayout.Popup((int)mixtureInspector.compareMode, new string[]{" 1  -  Side By Side", " 2  -  Onion Skin", " 3  -  Difference", " 4  -  Swap"}, style, buttonLayout, GUILayout.Width(24));
+                GUILayout.Label(mixtureInspector.secondLockedPreviewTarget.name, EditorStyles.toolbarButton);
+                mixtureInspector.lockSecondPreview = GUILayout.Toggle(mixtureInspector.lockSecondPreview, GetLockIcon(mixtureInspector.lockSecondPreview), EditorStyles.toolbarButton, buttonLayout);
             }
 
-            compareEnabled = GUILayout.Toggle(compareEnabled, MixtureEditorUtils.compareIcon, EditorStyles.toolbarButton, buttonLayout);
+            mixtureInspector.compareEnabled = GUILayout.Toggle(mixtureInspector.compareEnabled, MixtureEditorUtils.compareIcon, EditorStyles.toolbarButton, buttonLayout);
 
             GUILayout.Space(2);
 
@@ -290,49 +224,49 @@ namespace Mixture
         void Fit()
         {
             // position offset is wrong?
-            zoomTarget = 1;
-            positionOffsetTarget = Vector2.zero;
-            cameraXAxis = 30;
-            cameraYAxis = 15;
-            cameraZoom = 6;
+            mixtureInspector.zoomTarget = 1;
+            mixtureInspector.positionOffsetTarget = Vector2.zero;
+            mixtureInspector.cameraXAxis = 30;
+            mixtureInspector.cameraYAxis = 15;
+            mixtureInspector.cameraZoom = 6;
         }
 
         public override void OnInteractivePreviewGUI(Rect previewRect, GUIStyle background)
         {
             HandleZoomAndPan(previewRect);
 
-            if (firstLockedPreviewTarget?.previewTexture != null && e.type == EventType.Repaint)
+            if (mixtureInspector.firstLockedPreviewTarget?.previewTexture != null && e.type == EventType.Repaint)
             {
-                volumeCameraMatrix = Matrix4x4.Rotate(Quaternion.Euler(cameraYAxis, cameraXAxis, 0));
+                mixtureInspector.volumeCameraMatrix = Matrix4x4.Rotate(Quaternion.Euler(mixtureInspector.cameraYAxis, mixtureInspector.cameraXAxis, 0));
 
-                MixtureUtils.SetupDimensionKeyword(previewMaterial, firstLockedPreviewTarget.previewTexture.dimension);
+                MixtureUtils.SetupDimensionKeyword(previewMaterial, mixtureInspector.firstLockedPreviewTarget.previewTexture.dimension);
 
                 // Set texture property based on the dimension
-                MixtureUtils.SetTextureWithDimension(previewMaterial, "_MainTex0", firstLockedPreviewTarget.previewTexture);
-                MixtureUtils.SetTextureWithDimension(previewMaterial, "_MainTex1", secondLockedPreviewTarget.previewTexture);
+                MixtureUtils.SetTextureWithDimension(previewMaterial, "_MainTex0", mixtureInspector.firstLockedPreviewTarget.previewTexture);
+                MixtureUtils.SetTextureWithDimension(previewMaterial, "_MainTex1", mixtureInspector.secondLockedPreviewTarget.previewTexture);
 
-                previewMaterial.SetFloat("_ComparisonSlider", compareSlider);
-                previewMaterial.SetFloat("_ComparisonSlider3D", compareSlider3D);
-                previewMaterial.SetVector("_MouseUV", mouseUV);
-                previewMaterial.SetMatrix("_CameraMatrix", volumeCameraMatrix);
-                previewMaterial.SetFloat("_CameraZoom", cameraZoom);
-                previewMaterial.SetFloat("_ComparisonEnabled", compareEnabled ? 1 : 0);
-                previewMaterial.SetFloat("_CompareMode", (int)compareMode);
-                previewMaterial.SetFloat("_PreviewMip", mipLevel);
+                previewMaterial.SetFloat("_ComparisonSlider", mixtureInspector.compareSlider);
+                previewMaterial.SetFloat("_ComparisonSlider3D", mixtureInspector.compareSlider3D);
+                previewMaterial.SetVector("_MouseUV", mixtureInspector.mouseUV);
+                previewMaterial.SetMatrix("_CameraMatrix", mixtureInspector.volumeCameraMatrix);
+                previewMaterial.SetFloat("_CameraZoom", mixtureInspector.cameraZoom);
+                previewMaterial.SetFloat("_ComparisonEnabled", mixtureInspector.compareEnabled ? 1 : 0);
+                previewMaterial.SetFloat("_CompareMode", (int)mixtureInspector.compareMode);
+                previewMaterial.SetFloat("_PreviewMip", mixtureInspector.mipLevel);
                 previewMaterial.SetFloat("_YRatio", previewRect.height / previewRect.width);
-                previewMaterial.SetFloat("_Zoom", zoom);
-                previewMaterial.SetVector("_Pan", shaderPos / previewRect.size);
-                previewMaterial.SetFloat("_FilterMode", (int)filterMode);
-                previewMaterial.SetFloat("_Exp", exposure);
-                previewMaterial.SetVector("_TextureSize", new Vector4(firstLockedPreviewTarget.previewTexture.width, firstLockedPreviewTarget.previewTexture.height, 1.0f / firstLockedPreviewTarget.previewTexture.width, 1.0f / firstLockedPreviewTarget.previewTexture.height));
-                previewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(channels));
-                previewMaterial.SetFloat("_IsSRGB0", firstLockedPreviewTarget is OutputNode o0 && o0.mainOutput.sRGB ? 1 : 0);
-                previewMaterial.SetFloat("_IsSRGB1", secondLockedPreviewTarget is OutputNode o1 && o1.mainOutput.sRGB ? 1 : 0);
-                previewMaterial.SetFloat("_PreserveAspect", preserveAspect ? 1 : 0);
-                previewMaterial.SetFloat("_Texture3DMode", (int)texture3DPreviewMode);
-                previewMaterial.SetFloat("_Density", texture3DDensity);
-                previewMaterial.SetFloat("_SDFOffset", texture3DDistanceFieldOffset);
-                previewMaterial.SetFloat("_SDFChannel", (int)sdfChannel);
+                previewMaterial.SetFloat("_Zoom", mixtureInspector.zoom);
+                previewMaterial.SetVector("_Pan", mixtureInspector.shaderPos / previewRect.size);
+                previewMaterial.SetFloat("_FilterMode", (int)mixtureInspector.filterMode);
+                previewMaterial.SetFloat("_Exp", mixtureInspector.exposure);
+                previewMaterial.SetVector("_TextureSize", new Vector4(mixtureInspector.firstLockedPreviewTarget.previewTexture.width, mixtureInspector.firstLockedPreviewTarget.previewTexture.height, 1.0f / mixtureInspector.firstLockedPreviewTarget.previewTexture.width, 1.0f / mixtureInspector.firstLockedPreviewTarget.previewTexture.height));
+                previewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(mixtureInspector.channels));
+                previewMaterial.SetFloat("_IsSRGB0", mixtureInspector.firstLockedPreviewTarget is OutputNode o0 && o0.mainOutput.sRGB ? 1 : 0);
+                previewMaterial.SetFloat("_IsSRGB1", mixtureInspector.secondLockedPreviewTarget is OutputNode o1 && o1.mainOutput.sRGB ? 1 : 0);
+                previewMaterial.SetFloat("_PreserveAspect", mixtureInspector.preserveAspect ? 1 : 0);
+                previewMaterial.SetFloat("_Texture3DMode", (int)mixtureInspector.texture3DPreviewMode);
+                previewMaterial.SetFloat("_Density", mixtureInspector.texture3DDensity);
+                previewMaterial.SetFloat("_SDFOffset", mixtureInspector.texture3DDistanceFieldOffset);
+                previewMaterial.SetFloat("_SDFChannel", (int)mixtureInspector.sdfChannel);
                 EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, previewMaterial);
             }
             else
@@ -341,8 +275,8 @@ namespace Mixture
 
         Vector2 LocalToWorld(Vector2 pos)
         {
-            pos *= zoom;
-            pos += positionOffset;
+            pos *= mixtureInspector.zoom;
+            pos += mixtureInspector.positionOffset;
             return pos;
         }
 
@@ -350,82 +284,154 @@ namespace Mixture
 
         public void HandleZoomAndPan(Rect previewRect)
         {
-            timeSinceStartup = EditorApplication.timeSinceStartup;
-            deltaTime = timeSinceStartup - latestTime;
-            latestTime = timeSinceStartup;
+            mixtureInspector.timeSinceStartup = EditorApplication.timeSinceStartup;
+            mixtureInspector.deltaTime = mixtureInspector.timeSinceStartup - mixtureInspector.latestTime;
+            mixtureInspector.latestTime = mixtureInspector.timeSinceStartup;
 
-            lastMousePosition = e.mousePosition;
+            mixtureInspector.lastMousePosition = e.mousePosition;
             switch (e.type)
             {
                 case EventType.MouseDown:
                     if (IsMoveMouse(e.button, e.modifiers))
                     {
-                        middleClickMousePosition = lastMousePosition;
-                        middleClickCameraPosition = positionOffset;
-                        needsRepaint = true;
+                        mixtureInspector.middleClickMousePosition = mixtureInspector.lastMousePosition;
+                        mixtureInspector.middleClickCameraPosition = mixtureInspector.positionOffset;
+                        mixtureInspector.needsRepaint = true;
                     }
-                    Vector2 t = (e.mousePosition - positionOffset) / zoom;
-                    comparisonOffset = Mathf.Floor(t.x / (float)previewRect.width);
+                    Vector2 t = (e.mousePosition - mixtureInspector.positionOffset) / mixtureInspector.zoom;
+                    mixtureInspector.comparisonOffset = Mathf.Floor(t.x / (float)previewRect.width);
                     break;
                 case EventType.MouseDrag:
                     if (IsMoveMouse(e.button, e.modifiers))
                     {
-                        positionOffset = middleClickCameraPosition + (lastMousePosition - middleClickMousePosition);
-                        positionOffsetTarget = positionOffset;
-                        needsRepaint = true;
+                        mixtureInspector.positionOffset = mixtureInspector.middleClickCameraPosition + (mixtureInspector.lastMousePosition - mixtureInspector.middleClickMousePosition);
+                        mixtureInspector.positionOffsetTarget = mixtureInspector.positionOffset;
+                        mixtureInspector.needsRepaint = true;
 
-                        cameraXAxis += e.delta.x / 4.0f;
-                        cameraYAxis += e.delta.y / 4.0f;
-                        cameraXAxis = Mathf.Repeat(cameraXAxis, 360);
-                        cameraYAxis = Mathf.Repeat(cameraYAxis, 360);
+                        mixtureInspector.cameraXAxis += e.delta.x / 4.0f;
+                        mixtureInspector.cameraYAxis += e.delta.y / 4.0f;
+                        mixtureInspector.cameraXAxis = Mathf.Repeat(mixtureInspector.cameraXAxis, 360);
+                        mixtureInspector.cameraYAxis = Mathf.Repeat(mixtureInspector.cameraYAxis, 360);
                     }
                     if (e.button == 1)
                     {
-                        float pos = (e.mousePosition.x - positionOffsetTarget.x) / zoom / (float)previewRect.width;
-                        compareSlider = Mathf.Clamp01(pos - comparisonOffset);
-                        compareSlider3D = Mathf.Clamp01(e.mousePosition.x / (float)previewRect.width);
-                        needsRepaint = true;
-                        mouseUV = new Vector2(e.mousePosition.x / previewRect.width, e.mousePosition.y / previewRect.height);
+                        float pos = (e.mousePosition.x - mixtureInspector.positionOffsetTarget.x) / mixtureInspector.zoom / (float)previewRect.width;
+                        mixtureInspector.compareSlider = Mathf.Clamp01(pos - mixtureInspector.comparisonOffset);
+                        mixtureInspector.compareSlider3D = Mathf.Clamp01(e.mousePosition.x / (float)previewRect.width);
+                        mixtureInspector.needsRepaint = true;
+                        mixtureInspector.mouseUV = new Vector2(e.mousePosition.x / previewRect.width, e.mousePosition.y / previewRect.height);
                     }
                     break;
                 case EventType.ScrollWheel:
                     float delta = Mathf.Clamp(1f + Mathf.Abs((float)e.delta.y * 0.1f), 0.1f, 2f);
                     delta = e.delta.y > 0 ? 1f / delta : delta;
-                    if (zoomTarget * delta > maxZoom || zoomTarget * delta < minZoom)
+                    if (mixtureInspector.zoomTarget * delta > maxZoom || mixtureInspector.zoomTarget * delta < minZoom)
                         delta = 1;
-                    zoomTarget *= delta;
-                    positionOffsetTarget = lastMousePosition + (positionOffsetTarget - lastMousePosition) * delta;
+                    mixtureInspector.zoomTarget *= delta;
+                    mixtureInspector.positionOffsetTarget = mixtureInspector.lastMousePosition + (mixtureInspector.positionOffsetTarget - mixtureInspector.lastMousePosition) * delta;
 
-                    cameraZoom *= 1.0f / delta;
+                    mixtureInspector.cameraZoom *= 1.0f / delta;
                     break;
             }
 
-            float zoomDiff = zoomTarget - zoom;
-            Vector2 offsetDiff = positionOffsetTarget - positionOffset;
+            float zoomDiff = mixtureInspector.zoomTarget - mixtureInspector.zoom;
+            Vector2 offsetDiff = mixtureInspector.positionOffsetTarget - mixtureInspector.positionOffset;
 
             if (Mathf.Abs(zoomDiff) > 0.01f || offsetDiff.magnitude > 0.01f)
             {
-                zoom += zoomDiff * zoomSpeed * (float)deltaTime;
-                positionOffset += offsetDiff * zoomSpeed * (float)deltaTime;
-                needsRepaint = true;
+                mixtureInspector.zoom += zoomDiff * mixtureInspector.zoomSpeed * (float)mixtureInspector.deltaTime;
+                mixtureInspector.positionOffset += offsetDiff * mixtureInspector.zoomSpeed * (float)mixtureInspector.deltaTime;
+                mixtureInspector.needsRepaint = true;
             }
             else
             {
-               zoom = zoomTarget;
-               positionOffset = positionOffsetTarget;
+               mixtureInspector.zoom = mixtureInspector.zoomTarget;
+               mixtureInspector.positionOffset = mixtureInspector.positionOffsetTarget;
             }
-            shaderPos = LocalToWorld(Vector2.zero);
+            mixtureInspector.shaderPos = LocalToWorld(Vector2.zero);
 
-            if (needsRepaint)
+            if (mixtureInspector.needsRepaint)
             {
                 Repaint();
-                needsRepaint = false;
+                mixtureInspector.needsRepaint = false;
             }
         }
     }
 
+    [Serializable]
     public class MixtureNodeInspectorObject : NodeInspectorObject
     {
+        internal enum CompareMode
+        {
+            SideBySide,
+            OnionSkin,
+            Difference,
+            Swap,
+        }
+
+        internal enum Texture3DPreviewMode
+        {
+            Volumetric,
+            DistanceFieldNormal,
+            DistanceFieldColor,
+        }
+
+        internal enum SDFChannel
+        {
+            R,
+            G,
+            B,
+            A
+        }
+
+        // Preview params:
+        internal Vector2 middleClickMousePosition;
+        internal Vector2 middleClickCameraPosition;
+        internal Vector2 positionOffset;
+        internal Vector2 positionOffsetTarget;
+        internal Vector2 lastMousePosition;
+        internal float zoomTarget = 1;
+        internal float zoom = 1;
+        internal float zoomSpeed = 20f;
+        internal double timeSinceStartup, latestTime, deltaTime;
+
+        internal float compareSlider = 0.5f;
+        internal float compareSlider3D = 0.5f;
+        internal Vector2 mouseUV;
+        internal Matrix4x4 volumeCameraMatrix = Matrix4x4.identity;
+        internal float cameraZoom;
+        internal float cameraXAxis;
+        internal float cameraYAxis;
+        internal bool compareEnabled = false;
+        internal bool lockFirstPreview = false;
+        internal bool lockSecondPreview = false;
+        internal MixtureNode firstLockedPreviewTarget;
+        internal MixtureNode secondLockedPreviewTarget;
+        internal Vector2 shaderPos;
+        internal bool needsRepaint;
+
+        // Preview settings
+        internal FilterMode filterMode;
+        internal float exposure;
+        internal PreviewChannels channels = PreviewChannels.RGB;
+        internal CompareMode compareMode;
+        internal bool alwaysRefresh = true;
+        internal float mipLevel;
+        internal bool preserveAspect = true;
+        internal Texture3DPreviewMode texture3DPreviewMode;
+        internal float texture3DDensity = 1;
+        internal float texture3DDistanceFieldOffset = 0;
+        internal SDFChannel sdfChannel = SDFChannel.R;
+        internal float comparisonOffset;
+
+        // TODO
+        // internal enum PreviewMode
+        // {
+        //     Color,
+        //     Normal,
+        //     Height,
+        // }
+
         public event Action pinnedNodeUpdate;
 
         public List<BaseNodeView> pinnedNodes = new List<BaseNodeView>();

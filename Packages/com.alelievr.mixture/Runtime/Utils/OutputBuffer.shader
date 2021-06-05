@@ -75,6 +75,10 @@
 
     SubShader
     {
+        // TODO: enable this for 2021.2
+        // PackageRequirements {
+        //     "com.unity.render-pipelines.high-definition"
+        // }
         Pass
         {
             Name "Custom Pass 0"

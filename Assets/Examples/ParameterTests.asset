@@ -20,15 +20,15 @@ MonoBehaviour:
   - id: 3
   - id: 4
   edges:
-  - GUID: d6b76e87-68f6-42d1-bf73-34cd0b04d73c
+  - GUID: f2d226fc-d911-40ca-83bf-e61a9edeb2e5
     owner: {fileID: 11400000}
     inputNodeGUID: 29bf348b-6ccb-4d71-98aa-903ee7d3ca01
-    outputNodeGUID: 14ddba92-33fc-4897-9675-58061aa5e5f0
+    outputNodeGUID: b16725de-60df-4faf-bb05-00ec5565d1d5
     inputFieldName: materialInputs
     outputFieldName: output
-    inputPortIdentifier: _Source_2D
+    inputPortIdentifier: _Mask_2D
     outputPortIdentifier: output
-  - GUID: 9c48ce06-9cfb-4a21-a0a8-3b17cc707dfc
+  - GUID: 2fba1d94-6f2c-47a6-b536-5ebaf11d6f6c
     owner: {fileID: 11400000}
     inputNodeGUID: 29bf348b-6ccb-4d71-98aa-903ee7d3ca01
     outputNodeGUID: e8a16d0f-f8ed-4e38-8b0f-05dcc3244355
@@ -36,13 +36,21 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: _Target_2D
     outputPortIdentifier: output
-  - GUID: e3952680-4a4a-486e-a779-6aa813fad3fc
+  - GUID: 5ac186c5-2212-4272-b105-bac460a48bad
     owner: {fileID: 11400000}
     inputNodeGUID: 29bf348b-6ccb-4d71-98aa-903ee7d3ca01
-    outputNodeGUID: b16725de-60df-4faf-bb05-00ec5565d1d5
+    outputNodeGUID: 14ddba92-33fc-4897-9675-58061aa5e5f0
     inputFieldName: materialInputs
     outputFieldName: output
-    inputPortIdentifier: _Mask_2D
+    inputPortIdentifier: _Source_2D
+    outputPortIdentifier: output
+  - GUID: 94d31013-d102-463a-9f7b-86c06a41be5c
+    owner: {fileID: 11400000}
+    inputNodeGUID: 20aad9a2-f45b-443d-9f30-0287577d108c
+    outputNodeGUID: 29bf348b-6ccb-4d71-98aa-903ee7d3ca01
+    inputFieldName: outputTextureSettings
+    outputFieldName: output
+    inputPortIdentifier: Main Texture
     outputPortIdentifier: output
   groups: []
   stackNodes: []
@@ -86,12 +94,16 @@ MonoBehaviour:
     settings:
       id: 7
   stickyNotes: []
-  position: {x: 694, y: 164, z: 0}
+  nodeInspectorReference: {fileID: 0}
+  position: {x: 907, y: 151, z: 0}
   scale: {x: 0.7561437, y: 0.7561437, z: 1}
+  version: 1
+  type: 0
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 1
   embedInBuild: 0
+  defaultNodeInheritanceMode: -2
   objectReferences:
   - {fileID: 8881339453642487381}
   - {fileID: 8863259401849859601}
@@ -99,13 +111,32 @@ MonoBehaviour:
   variants: []
   _mainOutputTexture: {fileID: 8565236597386114494}
   _outputTextures: []
+  settings:
+    widthScale: 0
+    heightScale: 0
+    depthScale: 0
+    width: 1024
+    height: 1024
+    depth: 1024
+    potSize: 1024
+    sizeMode: 1
+    dimension: 2
+    outputChannels: 1
+    outputPrecision: 3
+    editFlags: 128
+    doubleBuffered: 0
+    wrapMode: 0
+    filterMode: 0
+    refreshMode: 0
+    period: 0
   references:
     version: 1
     00000000:
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 20aad9a2-f45b-443d-9f30-0287577d108c
-        computeOrder: 0
+        computeOrder: 4
         position:
           serializedVersion: 2
           x: 40.250015
@@ -115,21 +146,19 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 0
-          heightPercent: 0
-          depthPercent: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 1024
           height: 1024
-          sliceCount: 1
+          depth: 1
           potSize: 1024
-          widthMode: 1
-          heightMode: 1
-          depthMode: 1
-          dimension: 2
-          outputChannels: 1
-          outputPrecision: 3
-          editFlags: 981
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 983
           doubleBuffered: 0
           wrapMode: 0
           filterMode: 0
@@ -149,7 +178,6 @@ MonoBehaviour:
           compressionFormat: 25
           compressionQuality: 100
           hasMipMaps: 0
-          customMipMapShader: {fileID: 0}
           isMain: 1
           enableConversion: 0
           conversionFormat: 0
@@ -158,8 +186,9 @@ MonoBehaviour:
     00000001:
       type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
       data:
+        nodeCustomName: 
         GUID: 14ddba92-33fc-4897-9675-58061aa5e5f0
-        computeOrder: 1
+        computeOrder: 0
         position:
           serializedVersion: 2
           x: -365.52206
@@ -174,8 +203,9 @@ MonoBehaviour:
     00000002:
       type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
       data:
+        nodeCustomName: 
         GUID: e8a16d0f-f8ed-4e38-8b0f-05dcc3244355
-        computeOrder: 2
+        computeOrder: 1
         position:
           serializedVersion: 2
           x: -367.7176
@@ -190,8 +220,9 @@ MonoBehaviour:
     00000003:
       type: {class: BlendNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 29bf348b-6ccb-4d71-98aa-903ee7d3ca01
-        computeOrder: 4
+        computeOrder: 3
         position:
           serializedVersion: 2
           x: -297.9206
@@ -201,20 +232,18 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: -257
           doubleBuffered: 0
           wrapMode: 0
@@ -273,8 +302,9 @@ MonoBehaviour:
     00000004:
       type: {class: GradienMattetNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: b16725de-60df-4faf-bb05-00ec5565d1d5
-        computeOrder: 3
+        computeOrder: 2
         position:
           serializedVersion: 2
           x: -623.75006
@@ -284,20 +314,18 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: -257
           doubleBuffered: 0
           wrapMode: 0
@@ -410,7 +438,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Hidden/Mixture/FinalCopy
   m_Shader: {fileID: 4800000, guid: 513c040fbfb854aebb92cf147e30125a, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: CRT_2D
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0

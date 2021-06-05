@@ -16,11 +16,11 @@ namespace Mixture
 
         protected abstract string defaultPrefabName { get; }
 
-		protected override MixtureSettings defaultRTSettings
+		protected override MixtureSettings defaultSettings
         {
             get
             {
-                var settings = base.defaultRTSettings;
+                var settings = base.defaultSettings;
                 settings.editFlags = EditFlags.All ^ EditFlags.POTSize;
                 return Get2DOnlyRTSettings(settings);
             }
@@ -40,7 +40,8 @@ namespace Mixture
             base.OnNodeCreated();
 
 #if UNITY_EDITOR
-            createNewPrefab = true;
+            if (!createdFromDuplication)
+                createNewPrefab = true;
 #endif
         }
 
@@ -61,6 +62,7 @@ namespace Mixture
 
         protected override void Enable()
         {
+            base.Enable();
 #if UNITY_EDITOR
             if (createNewPrefab)
             {

@@ -25,7 +25,7 @@ namespace Mixture
 		protected virtual string header => string.Empty;
 		protected override bool hasSettings => nodeTarget.hasSettings;
 
-		protected MixtureRTSettingsView settingsView;
+		protected MixtureSettingsView settingsView;
 
 		Label processTimeLabel;
 		Image pinIcon;
@@ -34,15 +34,15 @@ namespace Mixture
 
 		protected override VisualElement CreateSettingsView()
 		{
-			settingsView = new MixtureRTSettingsView(nodeTarget, owner);
+			settingsView = new MixtureSettingsView(nodeTarget.settings, owner);
             settingsView.AddToClassList("RTSettingsView");
 
-			var currentDim = nodeTarget.rtSettings.dimension;
+			var currentDim = nodeTarget.settings.dimension;
             settingsView.RegisterChangedCallback(() => {
 				nodeTarget.OnSettingsChanged();
 
 				// When the dimension is updated, we need to update all the node ports in the graph
-				var newDim = nodeTarget.rtSettings.dimension;
+				var newDim = nodeTarget.settings.dimension;
 				if (currentDim != newDim)
 				{
 					// We delay the port refresh to let the settings finish it's update 
@@ -107,6 +107,14 @@ namespace Mixture
 
 			if (nodeTarget.showDefaultInspector)
 				DrawDefaultInspector(fromInspector);
+        }
+
+        public override void Disable()
+        {
+			foreach (var materialEditor in materialEditors.Values)
+				UnityEngine.Object.DestroyImmediate(materialEditor);
+			materialEditors.Clear();
+            base.Disable();
         }
 
 		~MixtureNodeView()
@@ -268,7 +276,7 @@ namespace Mixture
 				}
 
 				// Hide all the properties that are not supported in the current dimension
-				var currentDimension = nodeTarget.rtSettings.GetTextureDimension(owner.graph);
+				var currentDimension = nodeTarget.settings.GetResolvedTextureDimension(owner.graph);
 				string displayName = property.displayName;
 
 				bool is2D = displayName.Contains(MixtureUtils.texture2DPrefix);
@@ -500,7 +508,7 @@ namespace Mixture
 				// Shadow
 				GUI.color = Color.white;
 				int slices = (texture.dimension == TextureDimension.Cube) ? 6 : TextureUtils.GetSliceCount(texture);
-				GUI.Label(infoRect, $"{texture.width}x{texture.height}{(slices > 1 ? "x" + slices.ToString() : "")} - {nodeTarget.rtSettings.GetGraphicsFormat(owner.graph)}", EditorStyles.boldLabel);
+				GUI.Label(infoRect, $"{texture.width}x{texture.height}{(slices > 1 ? "x" + slices.ToString() : "")} - {nodeTarget.settings.GetGraphicsFormat(owner.graph)}", EditorStyles.boldLabel);
 			}
 		}
 
@@ -590,7 +598,7 @@ namespace Mixture
 					MixtureUtils.texture3DPreviewMaterial.SetTexture("_Texture3D", node.previewTexture);
 					MixtureUtils.texture3DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(nodeTarget.previewMode));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
-					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", currentSlice / nodeTarget.rtSettings.GetDepth(owner.graph));
+					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", currentSlice / nodeTarget.settings.GetResolvedDepth(owner.graph));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_IsSRGB", outputNode != null && outputNode.mainOutput.sRGB ? 1 : 0);
 
@@ -649,5 +657,7 @@ namespace Mixture
 				}
 			}).Every(200);
 		}
+
+		public void RefreshSettingsValues() => settingsView.RefreshSettingsValues();
 	}
 }

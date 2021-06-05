@@ -79,7 +79,7 @@ Shader "Hidden/MixtureInspectorPreview"
 
                 float3 target = float3(0., 0., 0.);
                 float3 ro = mul(_CameraMatrix, float4(0, 0, -_CameraZoom, 0)).xyz;
-                float3 rd = normalize(mul(_CameraMatrix, float3(uv.x * 2 - 1, uv.y * 2 + 1, 4)));
+                float3 rd = normalize(mul(_CameraMatrix, float4(uv.x * 2 - 1, uv.y * 2 + 1, 4, 0))).xyz;
 
                 float2 boxIntersection = RayBoxIntersection(ro, rd, 1 - 0.000001);
 
@@ -150,7 +150,15 @@ Shader "Hidden/MixtureInspectorPreview"
                 float4 color0, color1;
 
                 if (_PreserveAspect > 0)
-                    uv.y *= _YRatio;
+                {
+                    if (_YRatio > 1)
+                        uv.y *= _YRatio;
+                    else
+                    {
+                        uv.x -= (1 - _YRatio)/2;
+                        uv.x *= rcp(_YRatio);
+                    }
+                }
 
                 switch (_FilterMode)
                 {

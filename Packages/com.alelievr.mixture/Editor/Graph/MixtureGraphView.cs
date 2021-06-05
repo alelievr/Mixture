@@ -23,6 +23,10 @@ namespace Mixture
 			Undo.undoRedoPerformed += ReloadGraph;
 			nodeDuplicated += OnNodeDuplicated;
 
+			RegisterCallback<DetachFromPanelEvent>(e => {
+				Undo.undoRedoPerformed -= ReloadGraph;
+			});
+
 			SetupZoom(0.05f, 32f);
 		}
 
@@ -274,6 +278,13 @@ namespace Mixture
 					ProcessGraph();
 					break ;
 			}
+		}
+
+		public void RefreshNodeSettings()
+		{
+			foreach (var nodeView in nodeViews)
+				if (nodeView is MixtureNodeView v)
+					v.RefreshSettingsValues();
 		}
 	}
 }

@@ -10,6 +10,13 @@ All notable changes to this project template will be documented in this file.
 https://user-images.githubusercontent.com/6877923/115990868-e8ee3e00-a5c5-11eb-9467-ef8470e74066.mp4
 - Curl Noise (divergence free noise)
 
+### Changed
+- Separate Node now keeps the separated texture channels in their respective channels (G -> G instead of G -> R) but takes 4 times more memory.
+
+### Fixes
+- Fixed the internal texture filter mode of the gradient node when using "Fixed" gradient mode.
+- Fixed mixture when text Mesh Pro is installed
+
 ## 0.2.1
 
 ### Fixed

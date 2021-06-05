@@ -28,11 +28,15 @@ Shader "Hidden/Mixture/Levels"
             TEXTURE_X(_Input);
 
             Texture2D<float> _InterpolationCurve;
+            Texture2D<float> _InterpolationCurveR;
+            Texture2D<float> _InterpolationCurveG;
+            Texture2D<float> _InterpolationCurveB;
             float3 _RcpTextureSize;
 
             StructuredBuffer<LuminanceData> _Luminance;
 
             float _Mode;
+            float _ChannelMode;
             float _ManualMin;
             float _ManualMax;
 
@@ -75,24 +79,31 @@ Shader "Hidden/Mixture/Levels"
                 input.rgb -= minRemapLum;
                 input.rgb /= (maxRemapLum - minRemapLum);
 
-                // remap luminance between 0 and 1 to sample the curve:
-                float clampedLuminance = clamp(Luminance(input.rgb), totalMinLum, totalMaxLum);
-                // TODO: this 01 remap doesn't work because totalMinLum and totalMaxLum aren't the min and max lum of the iamge in manual mode
-                float luminance01 = (clampedLuminance - totalMinLum) * rcp(totalMaxLum - totalMinLum);
+                // TODO: use the channel mode to separate the remap of 3 channels
 
-                // Remap luminance with curve
-                float t = luminance01;
-                luminance01 = _InterpolationCurve.SampleLevel(s_linear_clamp_sampler, luminance01, 0).r;
+                if (_ChannelMode == 0) // RGB remap
+                {
+                    // remap luminance between 0 and 1 to sample the curve:
+                    float clampedLuminance = clamp(Luminance(input.rgb), totalMinLum, totalMaxLum);
+                    float luminance01 = (clampedLuminance - totalMinLum) * rcp(totalMaxLum - totalMinLum);
 
-                // Remap luminance between min and max
-                float correctedLuminance = luminance01 * (totalMaxLum - totalMinLum) + totalMinLum;
-                // Correct the color with the new luminance
-                float luminanceOffset = correctedLuminance - clampedLuminance;
-                // float3 D65 = float3(0.2126729, 0.7151522, 0.0721750);
+                    // Remap luminance with curve
+                    float t = luminance01;
+                    luminance01 = _InterpolationCurve.SampleLevel(s_linear_clamp_sampler, luminance01, 0).r;
 
-                input.rgb *= 1 + luminanceOffset;
+                    // Remap luminance between min and max
+                    float correctedLuminance = luminance01 * (totalMaxLum - totalMinLum) + totalMinLum;
+                    // Correct the color with the new luminance
+                    float luminanceOffset = correctedLuminance - clampedLuminance;
 
-                float4 color = luminanceOffset; //saturate(1 - abs(3 * luminance01 / 3 - float4(0, 1, 2, 3)));
+                    input.rgb *= 1 + luminanceOffset;
+                }
+                else // Per channel remap curves
+                {
+                    input.r = _InterpolationCurveR.SampleLevel(s_linear_clamp_sampler, input.r, 0);
+                    input.g = _InterpolationCurveG.SampleLevel(s_linear_clamp_sampler, input.g, 0);
+                    input.b = _InterpolationCurveB.SampleLevel(s_linear_clamp_sampler, input.b, 0);
+                }
 
                 return input;
 			}

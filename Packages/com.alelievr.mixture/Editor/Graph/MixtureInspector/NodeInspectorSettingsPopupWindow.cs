@@ -8,6 +8,7 @@ namespace Mixture
     public class NodeInspectorSettingsPopupWindow : PopupWindowContent
     {
         MixtureNodeInspectorObjectEditor inspector;
+        MixtureNodeInspectorObject target;
 
         public static readonly int width = 260;
         public static readonly int height = 200;
@@ -20,6 +21,7 @@ namespace Mixture
         public NodeInspectorSettingsPopupWindow(MixtureNodeInspectorObjectEditor inspector)
         {
             this.inspector = inspector;
+            this.target = inspector.mixtureInspector;
         }
 
         public override void OnGUI(Rect rect)
@@ -28,14 +30,14 @@ namespace Mixture
             var options = inspector.nodeWithPreviews.Select(n => n.name).ToArray();
 
             EditorGUIUtility.labelWidth = 90;
-            inspector.filterMode = (FilterMode)EditorGUILayout.EnumPopup("Filter Mode", inspector.filterMode);
-            inspector.exposure = EditorGUILayout.Slider("Exposure", inspector.exposure, -12, 12);
+            target.filterMode = (FilterMode)EditorGUILayout.EnumPopup("Filter Mode", target.filterMode);
+            target.exposure = EditorGUILayout.Slider("Exposure", target.exposure, -12, 12);
             EditorGUILayout.BeginHorizontal();
-            bool r = GUILayout.Toggle((inspector.channels & PreviewChannels.R) != 0, "R", EditorStyles.toolbarButton);
-            bool g = GUILayout.Toggle((inspector.channels & PreviewChannels.G) != 0, "G", EditorStyles.toolbarButton);
-            bool b = GUILayout.Toggle((inspector.channels & PreviewChannels.B) != 0, "B", EditorStyles.toolbarButton);
-            bool a = GUILayout.Toggle((inspector.channels & PreviewChannels.A) != 0, "A", EditorStyles.toolbarButton);
-            inspector.channels = (r ? PreviewChannels.R : 0) |
+            bool r = GUILayout.Toggle((target.channels & PreviewChannels.R) != 0, "R", EditorStyles.toolbarButton);
+            bool g = GUILayout.Toggle((target.channels & PreviewChannels.G) != 0, "G", EditorStyles.toolbarButton);
+            bool b = GUILayout.Toggle((target.channels & PreviewChannels.B) != 0, "B", EditorStyles.toolbarButton);
+            bool a = GUILayout.Toggle((target.channels & PreviewChannels.A) != 0, "A", EditorStyles.toolbarButton);
+            target.channels = (r ? PreviewChannels.R : 0) |
 					             (g ? PreviewChannels.G : 0) |
 					             (b ? PreviewChannels.B : 0) |
 					             (a ? PreviewChannels.A : 0);
@@ -44,29 +46,29 @@ namespace Mixture
             var previewTexture = inspector.nodeWithPreviews.FirstOrDefault();
             int maxMip = previewTexture != null ? previewTexture.previewTexture.mipmapCount : 1;
             EditorGUI.BeginDisabledGroup(maxMip == 1);
-            inspector.mipLevel = EditorGUILayout.Slider("Mip Level", inspector.mipLevel, 0, maxMip - 1);
+            target.mipLevel = EditorGUILayout.Slider("Mip Level", target.mipLevel, 0, maxMip - 1);
             EditorGUI.EndDisabledGroup();
 
-            inspector.alwaysRefresh = EditorGUILayout.Toggle("Always Refresh", inspector.alwaysRefresh);
+            target.alwaysRefresh = EditorGUILayout.Toggle("Always Refresh", target.alwaysRefresh);
 
-            inspector.preserveAspect = EditorGUILayout.Toggle("Keep Aspect", inspector.preserveAspect);
+            target.preserveAspect = EditorGUILayout.Toggle("Keep Aspect", target.preserveAspect);
             
             EditorGUILayout.LabelField("3D view", EditorStyles.boldLabel);
 
-            inspector.texture3DPreviewMode = (MixtureNodeInspectorObjectEditor.Texture3DPreviewMode)EditorGUILayout.EnumPopup("Mode", inspector.texture3DPreviewMode);
+            target.texture3DPreviewMode = (MixtureNodeInspectorObject.Texture3DPreviewMode)EditorGUILayout.EnumPopup("Mode", target.texture3DPreviewMode);
 
-            switch (inspector.texture3DPreviewMode)
+            switch (target.texture3DPreviewMode)
             {
                 default:
-                case MixtureNodeInspectorObjectEditor.Texture3DPreviewMode.Volumetric:
-                    inspector.texture3DDensity = EditorGUILayout.Slider("Density", inspector.texture3DDensity, 0, 1);
+                case MixtureNodeInspectorObject.Texture3DPreviewMode.Volumetric:
+                    target.texture3DDensity = EditorGUILayout.Slider("Density", target.texture3DDensity, 0, 1);
                     break;
-                case MixtureNodeInspectorObjectEditor.Texture3DPreviewMode.DistanceFieldNormal:
-                    inspector.texture3DDistanceFieldOffset = EditorGUILayout.FloatField("SDF Offset", inspector.texture3DDistanceFieldOffset);
+                case MixtureNodeInspectorObject.Texture3DPreviewMode.DistanceFieldNormal:
+                    target.texture3DDistanceFieldOffset = EditorGUILayout.FloatField("SDF Offset", target.texture3DDistanceFieldOffset);
                     break;
-                case MixtureNodeInspectorObjectEditor.Texture3DPreviewMode.DistanceFieldColor:
-                    inspector.texture3DDistanceFieldOffset = EditorGUILayout.FloatField("SDF Offset", inspector.texture3DDistanceFieldOffset);
-                    inspector.sdfChannel = (MixtureNodeInspectorObjectEditor.SDFChannel)EditorGUILayout.EnumPopup("SDF Offset", inspector.sdfChannel);
+                case MixtureNodeInspectorObject.Texture3DPreviewMode.DistanceFieldColor:
+                    target.texture3DDistanceFieldOffset = EditorGUILayout.FloatField("SDF Offset", target.texture3DDistanceFieldOffset);
+                    target.sdfChannel = (MixtureNodeInspectorObject.SDFChannel)EditorGUILayout.EnumPopup("SDF Offset", target.sdfChannel);
                     break;
             }
 

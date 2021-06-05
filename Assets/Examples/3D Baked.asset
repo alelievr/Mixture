@@ -180,14 +180,16 @@ MonoBehaviour:
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 875, y: 101, z: 0}
-  scale: {x: 0.6598695, y: 0.6598695, z: 1}
-  version: 0
+  nodeInspectorReference: {fileID: 0}
+  position: {x: 582, y: 212, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  version: 1
   type: 0
-  realtimePreview: 0
+  realtimePreview: 1
   isRealtime: 0
   isParameterViewOpen: 0
   embedInBuild: 0
+  defaultNodeInheritanceMode: -2
   objectReferences:
   - {fileID: 270355723382673585}
   - {fileID: 5795681583352597514}
@@ -199,11 +201,30 @@ MonoBehaviour:
   _outputTextures:
   - {fileID: 0}
   - {fileID: 0}
+  settings:
+    widthScale: 0
+    heightScale: 0
+    depthScale: 0
+    width: 128
+    height: 128
+    depth: 128
+    potSize: 128
+    sizeMode: 1
+    dimension: 3
+    outputChannels: 1
+    outputPrecision: 3
+    editFlags: 128
+    doubleBuffered: 0
+    wrapMode: 0
+    filterMode: 0
+    refreshMode: 0
+    period: 0
   references:
     version: 1
     00000000:
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 5d8ff63b-158a-4c22-a651-55a6e5c995ff
         computeOrder: 1
         position:
@@ -215,21 +236,19 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 0
-          heightPercent: 0
-          depthPercent: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 128
           height: 128
-          sliceCount: 128
+          depth: 128
           potSize: 128
-          widthMode: 1
-          heightMode: 1
-          depthMode: 1
-          dimension: 3
-          outputChannels: 1
-          outputPrecision: 3
-          editFlags: 469
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 471
           doubleBuffered: 0
           wrapMode: 0
           filterMode: 0
@@ -257,6 +276,7 @@ MonoBehaviour:
     00000001:
       type: {class: CellularNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 65d5e15a-04e2-40b6-b391-6434965b56c6
         computeOrder: 2
         position:
@@ -268,20 +288,18 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: -257
           doubleBuffered: 0
           wrapMode: 0
@@ -400,31 +418,30 @@ MonoBehaviour:
     00000002:
       type: {class: HSVNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 48f12219-7ffb-4471-98e9-9d558c9d2032
         computeOrder: 4
         position:
           serializedVersion: 2
-          x: -166.08704
-          y: 314.56528
+          x: -166.65752
+          y: 315
           width: 250
-          height: 606
+          height: 591
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: -257
           doubleBuffered: 0
           wrapMode: 0
@@ -483,6 +500,7 @@ MonoBehaviour:
     00000003:
       type: {class: CellularNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 3cc1a081-ce1a-4a7b-8fcd-14318fabe4b6
         computeOrder: 3
         position:
@@ -494,20 +512,18 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: -257
           doubleBuffered: 0
           wrapMode: 0
@@ -626,6 +642,7 @@ MonoBehaviour:
     00000004:
       type: {class: GradienMattetNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 22c54796-fa81-4d7b-805d-34632b639fa1
         computeOrder: 0
         position:
@@ -637,20 +654,18 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 1024
           height: 1024
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
-          outputChannels: 0
-          outputPrecision: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
           editFlags: -257
           doubleBuffered: 0
           wrapMode: 0
@@ -715,6 +730,7 @@ MonoBehaviour:
     00000005:
       type: {class: MeshToUDF, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: b878997c-64e5-4e25-89c8-9344d5888c79
         computeOrder: 5
         position:
@@ -726,21 +742,19 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 256
           height: 256
-          sliceCount: 256
+          depth: 256
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
+          sizeMode: -1
           dimension: 3
           outputChannels: 1
           outputPrecision: 3
-          editFlags: 127
+          editFlags: 87
           doubleBuffered: 1
           wrapMode: 0
           filterMode: 0
@@ -779,6 +793,7 @@ MonoBehaviour:
     00000006:
       type: {class: MeshToUDF, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: b62fdbe9-0fcc-4c9d-a8b2-1a13da62623f
         computeOrder: 6
         position:
@@ -790,21 +805,19 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 1024
           height: 1024
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
+          sizeMode: -1
           dimension: 3
           outputChannels: 1
           outputPrecision: 3
-          editFlags: 127
+          editFlags: 87
           doubleBuffered: 1
           wrapMode: 0
           filterMode: 0
@@ -843,6 +856,7 @@ MonoBehaviour:
     00000007:
       type: {class: MeshToUDF, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 2129cd7d-c6a6-4599-9b80-135222848f53
         computeOrder: 7
         position:
@@ -854,21 +868,19 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 1024
           height: 1024
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
+          sizeMode: -1
           dimension: 3
           outputChannels: 1
           outputPrecision: 3
-          editFlags: 127
+          editFlags: 87
           doubleBuffered: 1
           wrapMode: 0
           filterMode: 0
@@ -907,6 +919,7 @@ MonoBehaviour:
     00000008:
       type: {class: MeshToUDF, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: ec771b43-02dc-4c7b-841a-0e522ef649dd
         computeOrder: 8
         position:
@@ -918,21 +931,19 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 1024
           height: 1024
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
+          sizeMode: -1
           dimension: 3
           outputChannels: 1
           outputPrecision: 3
-          editFlags: 127
+          editFlags: 87
           doubleBuffered: 1
           wrapMode: 0
           filterMode: 0

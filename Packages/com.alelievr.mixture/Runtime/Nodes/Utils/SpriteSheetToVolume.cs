@@ -19,7 +19,16 @@ namespace Mixture
 
         protected override TextureDimension GetTempTextureDimension() => TextureDimension.Tex3D;
 
-		protected override MixtureSettings defaultRTSettings => Get3DOnlyRTSettings(base.defaultRTSettings);
+		protected override MixtureSettings defaultSettings
+		{
+			get
+			{
+				var settings = Get3DOnlyRTSettings(base.defaultSettings);
+				settings.sizeMode = OutputSizeMode.Absolute;
+				settings.editFlags = EditFlags.Width | EditFlags.Height;
+				return settings;
+			}
+		}
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
@@ -27,8 +36,11 @@ namespace Mixture
 
 			if (sliceCount > 0)
 			{
-				rtSettings.depthMode = OutputSizeMode.Fixed;
-				rtSettings.sliceCount = (int)sliceCount;
+				// Ensure that nodes previously created have correct settings
+				settings.sizeMode = OutputSizeMode.Absolute;
+				settings.editFlags = EditFlags.Width | EditFlags.Height;
+
+				settings.depth = (int)sliceCount;
 			}
 
 			return base.ProcessNode(cmd);

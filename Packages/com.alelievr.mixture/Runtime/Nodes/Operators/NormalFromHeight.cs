@@ -22,7 +22,7 @@ Generate a Normal map from an Height map. This node uses the surface gradient te
 		// Enumerate the list of material properties that you don't want to be turned into a connectable port.
 		protected override IEnumerable<string> filteredOutProperties => new string[]{};
 
-		protected override MixtureSettings defaultRTSettings => Get2DOnlyRTSettings(base.defaultRTSettings);
+		protected override MixtureSettings defaultSettings => Get2DOnlyRTSettings(base.defaultSettings);
 
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
 			OutputDimension.Texture2D,

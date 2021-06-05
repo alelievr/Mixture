@@ -131,7 +131,8 @@ namespace Mixture
 					// TODO: cache node dependencies
 					foreach (var dep in GetNodeDependencies(node))
 					{
-						finalNodes.Add(dep);
+						if (graph.nodes.Contains(dep))
+							finalNodes.Add(dep);
 					}
 				}
 
@@ -151,7 +152,8 @@ namespace Mixture
 					// TODO: cache node dependencies
 					foreach (var dep in GetNodeChildren(node))
 					{
-						finalNodes.Add(dep);
+						if (graph.nodes.Contains(dep))
+							finalNodes.Add(dep);
 					}
 				}
 
@@ -304,7 +306,7 @@ namespace Mixture
 			{
 				UpdateComputeOrder();
 
-				var cmd = CommandBufferPool.Get("Mixture");
+				var cmd = CommandBufferPool.Get("Mixture: " + graph.name);
 				ProcessGraphOutputs(cmd, graph.graphOutputs);
 
 				Graphics.ExecuteCommandBuffer(cmd);

@@ -129,30 +129,30 @@ void ComputeNeighbourPositions(int3 id, out int3 idxL, out int3 idxR, out int3 i
 void ComputeVorticity(int3 id : SV_DispatchThreadID)
 {
     // TODO: remove epsilon as param
-    Vorticity(id, _Size, _VelocityR, _Write, _DeltaTime, _Epsilon);
+    Vorticity(id, _Size.xyz, _VelocityR, _Write, _DeltaTime, _Epsilon);
 }
 
 [numthreads(8,8,1)]
 void ComputeConfinement(int3 id : SV_DispatchThreadID)
 {
-    VelocityConfinment(id, _Size, _Vorticity, _Read, _Write, _DeltaTime, _Epsilon);
+    VelocityConfinment(id, _Size.xyz, _Vorticity, _Read, _Write, _DeltaTime, _Epsilon);
 }
 
 // TODO: move that to another file, and maybe we can merge all those similar functions
 [numthreads(8,8,1)]
 void ComputeDivergence(int3 id : SV_DispatchThreadID)
 {
-    Divergence(id, _Size, _VelocityR, _ObstaclesR, _Write1f);
+    Divergence(id, _Size.xyz, _VelocityR, _ObstaclesR, _Write1f);
 }
 
 [numthreads(8,8,1)]
 void ComputePressure(int3 id : SV_DispatchThreadID)
 {
-    Pressure(id, _Size, _Pressure, _ObstaclesR, _Divergence, _Write1f);
+    Pressure(id, _Size.xyz, _Pressure, _ObstaclesR, _Divergence, _Write1f);
 }
 
 [numthreads(8,8,1)]
 void ComputeProjection(int3 id : SV_DispatchThreadID)
 {
-    Project(id, _Size, _Pressure, _ObstaclesR, _VelocityR, _Write);
+    Project(id, _Size.xyz, _Pressure, _ObstaclesR, _VelocityR, _Write);
 }

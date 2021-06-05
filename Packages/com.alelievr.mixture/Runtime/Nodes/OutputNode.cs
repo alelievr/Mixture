@@ -19,38 +19,28 @@ namespace Mixture
 		public event Action			onTempRenderTextureUpdated;
 
 		public override string		name => "Output Texture Asset";
-		public override Texture 	previewTexture => graph.type == MixtureGraphType.Realtime ? graph.mainOutputTexture : outputTextureSettings.Count > 0 ? outputTextureSettings[0].finalCopyRT : null;
+		public override Texture 	previewTexture => graph?.type == MixtureGraphType.Realtime ? graph.mainOutputTexture : outputTextureSettings.Count > 0 ? outputTextureSettings[0].finalCopyRT : null;
 		public override float		nodeWidth => 350;
 
 		// TODO: move this to NodeGraphProcessor
 		[NonSerialized]
 		protected HashSet< string > uniqueMessages = new HashSet< string >();
 
-		protected override MixtureSettings defaultRTSettings
+		protected override MixtureSettings defaultSettings
         {
             get => new MixtureSettings()
             {
-                widthMode = OutputSizeMode.Fixed,
-                heightMode = OutputSizeMode.Fixed,
-                depthMode = OutputSizeMode.Fixed,
+                sizeMode = OutputSizeMode.Absolute,
 				outputChannels = OutputChannel.RGBA,
 				outputPrecision = OutputPrecision.Half,
 				potSize = POTSize._1024,
-                editFlags = EditFlags.POTSize | EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat
+                editFlags = EditFlags.POTSize | EditFlags.Width | EditFlags.Height | EditFlags.Depth | EditFlags.Dimension | EditFlags.TargetFormat | EditFlags.SizeMode
             };
         }
 
         protected override void Enable()
         {
-			// Sanitize the RT Settings for the output node, they must contains only valid information for the output node
-			if (rtSettings.outputChannels == OutputChannel.SameAsOutput)
-				rtSettings.outputChannels = OutputChannel.RGBA;
-			if (rtSettings.outputPrecision == OutputPrecision.SameAsOutput)
-				rtSettings.outputPrecision = OutputPrecision.Half;
-			if (rtSettings.dimension == OutputDimension.SameAsOutput)
-				rtSettings.dimension = OutputDimension.Texture2D;
-			rtSettings.editFlags |= EditFlags.POTSize;
-
+            base.Enable();
 			// Checks that the output have always at least one element:
 			if (outputTextureSettings.Count == 0)
 				AddTextureOutput(OutputTextureSettings.Preset.Color);
@@ -144,9 +134,6 @@ namespace Mixture
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			if (graph == null) // Not good but, waiting to render graph refactor to clean up
-				return false;
-
 			if (graph.mainOutputTexture == null)
 			{
 				Debug.LogError("Output Node can't write to target texture, Graph references a null output texture");
@@ -165,20 +152,20 @@ namespace Mixture
 						onTempRenderTextureUpdated?.Invoke();
 					output.finalCopyRT = finalCopyRT;
 
+					UpdateTempRenderTexture(ref output.finalCopyRT, output.hasMipMaps, hideAsset: false);
+					output.finalCopyRT.material = null;
+
 					// Only the main output CRT is marked as realtime because it's processing will automatically
 					// trigger the processing of it's graph, and thus all the outputs in the graph.
 					if (output.isMain)
 						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.Realtime;
 					else
 						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.OnDemand;
-					
-					if (output.finalCopyRT.dimension != rtSettings.GetTextureDimension(graph))
-					{
-						output.finalCopyRT.Release();
-						output.finalCopyRT.depth = 0;
-						output.finalCopyRT.dimension = rtSettings.GetTextureDimension(graph);
-						output.finalCopyRT.Create();
-					}
+
+					// Sync output texture properties:
+					output.finalCopyRT.wrapMode = settings.GetResolvedWrapMode(graph);
+					output.finalCopyRT.filterMode = settings.GetResolvedFilterMode(graph);
+					output.finalCopyRT.hideFlags = HideFlags.None;
 				}
 				else
 				{
@@ -239,9 +226,9 @@ namespace Mixture
 			var input = targetOutput.inputTexture;
 			if (input != null)
 			{
-				if (input.dimension != (TextureDimension)rtSettings.dimension)
+				if (input.dimension != settings.GetResolvedTextureDimension(graph))
 				{
-					Debug.LogError("Error: Expected texture type input for the OutputNode is " + graph.mainOutputTexture.dimension + " but " + input?.dimension + " was provided");
+					Debug.LogError("Error: Expected texture type input for the OutputNode is " + settings.GetResolvedTextureDimension(graph) + " but " + input?.dimension + " was provided");
 					return false;
 				}
 
@@ -266,8 +253,7 @@ namespace Mixture
 		[CustomPortBehavior(nameof(outputTextureSettings))]
 		protected IEnumerable< PortData > ChangeOutputPortType(List< SerializableEdge > edges)
 		{
-			TextureDimension dim = (GetType() == typeof(ExternalOutputNode)) ? rtSettings.GetTextureDimension(graph) : (TextureDimension)rtSettings.dimension;
-			Type displayType = TextureUtils.GetTypeFromDimension(dim);
+			Type displayType = TextureUtils.GetTypeFromDimension(settings.GetResolvedTextureDimension(graph));
 
 			foreach (var output in outputTextureSettings)
 			{

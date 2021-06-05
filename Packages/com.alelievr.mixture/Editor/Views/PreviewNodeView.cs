@@ -95,8 +95,11 @@ namespace Mixture
 
 		protected override void DrawPreviewSettings(Texture texture)
 		{
+			if (node.material == null)
+				return;
+
 			// Try to get the input texture from material:
-			var inputTexture = node.material.GetTextureWithDimension("_Source", node.rtSettings.GetTextureDimension(owner.graph));
+			var inputTexture = node.material.GetTextureWithDimension("_Source", node.settings.GetResolvedTextureDimension(owner.graph));
 
 			EditorGUI.BeginChangeCheck();
 			base.DrawPreviewSettings(inputTexture ?? texture);

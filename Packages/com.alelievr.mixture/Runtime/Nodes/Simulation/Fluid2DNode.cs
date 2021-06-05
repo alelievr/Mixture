@@ -19,8 +19,6 @@ namespace Mixture
 		[Output]
 		public Texture output;
 
-		public BorderMode borderMode;
-
 		public float viscosity;
 
 		// TODO: expose these settings as presets (water, smoke, ect...)
@@ -55,7 +53,6 @@ namespace Mixture
 		// 	{
 		// 		var settings = Get2DOnlyRTSettings(base.defaultRTSettings);
 		// 		settings.editFlags &= ~(EditFlags.Format);
-
 		// 		return settings;
 		// 	}
 		// }
@@ -87,16 +84,16 @@ namespace Mixture
 
 		RenderTexture AllocateRenderTexture(string name, GraphicsFormat format)
 		{
-			var rt = new RenderTexture(rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), 0, format)
+			var rt = new RenderTexture(settings.GetResolvedWidth(graph), settings.GetResolvedHeight(graph), 0, format)
 			{
 				name = name,
 				enableRandomWrite = true,
-				volumeDepth = rtSettings.GetDepth(graph),
+				volumeDepth = settings.GetResolvedDepth(graph),
 				dimension = TextureDimension.Tex3D,
 				hideFlags = HideFlags.HideAndDontSave,
 			};
 
-			for (int i = 0; i < rtSettings.GetDepth(graph); i++)
+			for (int i = 0; i < settings.GetResolvedDepth(graph); i++)
 				Graphics.Blit(Texture2D.blackTexture, rt, 0, i);
 
 			return rt;
@@ -106,8 +103,8 @@ namespace Mixture
         {
 			base.Enable();
 
-			rtSettings.doubleBuffered = true;
-			rtSettings.outputChannels = OutputChannel.RGBA;
+			settings.doubleBuffered = true;
+			settings.outputChannels = OutputChannel.RGBA;
 			UpdateTempRenderTexture(ref fluidBuffer);
 
 			m_density = new RenderTexture[2];
@@ -173,7 +170,7 @@ namespace Mixture
 
 			output = m_density[READ];
 
-			m_size = new Vector3(rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), rtSettings.GetDepth(graph));
+			m_size = new Vector3(settings.GetResolvedWidth(graph), settings.GetResolvedHeight(graph), settings.GetResolvedDepth(graph));
 
 			UpdateTempRenderTexture(ref fluidBuffer);
 

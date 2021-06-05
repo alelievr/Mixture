@@ -47,16 +47,7 @@ namespace Mixture
         static readonly int dispatchGroupSizeX = 512;
 
         // Temp buffer to store the luminance of the input image
-        static ComputeBuffer _luminanceBuffer;
-        static ComputeBuffer luminanceBuffer
-        {
-            get
-            {
-                if (_luminanceBuffer == null || !_luminanceBuffer.IsValid())
-                    _luminanceBuffer = new ComputeBuffer(1048576, sizeof(float) * 2, ComputeBufferType.Structured);
-                return _luminanceBuffer;
-            }
-        }
+        static ComputeBuffer luminanceBuffer;
 
         static int _dataCount;
 
@@ -68,6 +59,11 @@ namespace Mixture
 			data.histogram = new ComputeBuffer(histogramBucketCount, sizeof(uint) * 4, ComputeBufferType.Structured);
             data.histogramData = new ComputeBuffer(1, sizeof(uint) * 2, ComputeBufferType.Structured);
             data.previewMaterial = new Material(Shader.Find("Hidden/HistogramPreview")) {hideFlags = HideFlags.HideAndDontSave};
+
+            if (luminanceBuffer == null || !luminanceBuffer.IsValid())
+            {
+                luminanceBuffer = new ComputeBuffer(1048576, sizeof(float) * 2, ComputeBufferType.Structured);
+            }
             _dataCount++;
         }
 
@@ -190,7 +186,9 @@ namespace Mixture
             CoreUtils.Destroy(data.previewMaterial);
 
             if (_dataCount == 0)
+            {
                 luminanceBuffer.Dispose();
+            }
         }
     }
 }

@@ -378,7 +378,7 @@ namespace Mixture
         public static T GetLastEnumValue<T>() where T : Enum 
             => typeof(T).GetEnumValues().Cast<T>().Last();
 		
-		public static void Blit(CommandBuffer cmd, Material material, Texture source, RenderTexture target)
+		public static void Blit(CommandBuffer cmd, Material material, Texture source, RenderTexture target, int shaderPass = 0)
 		{
 			int sliceCount = source.dimension == TextureDimension.Cube ? 6 : TextureUtils.GetSliceCount(source);
 			var props = new MaterialPropertyBlock();
@@ -395,7 +395,7 @@ namespace Mixture
 					int depthSlice = source.dimension == TextureDimension.Tex3D ? i : 0;
 					props.SetFloat("_Mip", mip);
 					cmd.SetRenderTarget(target, mip, face, depthSlice);
-					cmd.DrawProcedural(Matrix4x4.identity, material, 0, MeshTopology.Triangles, 6, 1, props);
+					cmd.DrawProcedural(Matrix4x4.identity, material, shaderPass, MeshTopology.Triangles, 6, 1, props);
 				}
 			}
 		}

@@ -8,7 +8,7 @@ using GraphProcessor;
 namespace Mixture
 {
 	[System.Serializable]
-	public class BaseFluidSimulationNode : ComputeShaderNode 
+	public abstract class BaseFluidSimulationNode : ComputeShaderNode 
 	{
 		public enum BorderMode
 		{
@@ -27,12 +27,12 @@ namespace Mixture
 		public override string name => "2D Fluid";
 
 		public override bool showDefaultInspector => true;
-		public override Texture previewTexture => output;
 
-		protected override MixtureSettings defaultRTSettings {
+		protected override MixtureSettings defaultSettings
+		{
 			get
 			{
-				var settings = base.defaultRTSettings;
+				var settings = base.defaultSettings;
 				settings.editFlags &= ~(EditFlags.Format);
 
 				return settings;
@@ -67,8 +67,8 @@ namespace Mixture
 			base.Enable();
 
             // TODO: use this buffer!
-			rtSettings.doubleBuffered = true;
-			rtSettings.outputChannels = OutputChannel.RGBA;
+			settings.doubleBuffered = true;
+			settings.outputChannels = OutputChannel.RGBA;
 			UpdateTempRenderTexture(ref fluidBuffer);
         }
 
@@ -77,13 +77,15 @@ namespace Mixture
 			if (!base.ProcessNode(cmd))
 				return false;
 
-			m_size = new Vector3(rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), rtSettings.GetDepth(graph));
+			m_size = new Vector3(settings.GetResolvedWidth(graph), settings.GetResolvedHeight(graph), settings.GetResolvedDepth(graph));
 
             // Set size and epsilon
             cmd.SetComputeVectorParam(computeShader, "_Size", m_size);
 
 			return true;
 		}
+
+		protected virtual float GetDeltaTime() => 0.1f; // TODO: expose setting
 
 		const int READ = 0;
 		const int WRITE = 1;
@@ -104,7 +106,7 @@ namespace Mixture
 			DispatchCompute(cmd, setBoundsKernel, (int)m_size.x, (int)m_size.y, (int)m_size.z);
 		}
 	
-		void ApplyAdvection(CommandBuffer cmd, float dt, float dissipation, float decay, RenderTexture[] buffer)
+		void ApplyAdvection(CommandBuffer cmd, float dt, float dissipation, float decay, RenderTexture[] bufferToAdvect, RenderTexture velocity, RenderTexture obstacles)
 		{
 			cmd.BeginSample("ApplyAdvection");
 
@@ -113,15 +115,15 @@ namespace Mixture
 			cmd.SetComputeFloatParam(computeShader, "_Dissipate", dissipation);
 			cmd.SetComputeFloatParam(computeShader, "_Decay", decay);
 			
-			cmd.SetComputeTextureParam(computeShader, advectKernel, "_Read1f", buffer[READ]);
-			cmd.SetComputeTextureParam(computeShader, advectKernel, "_Write1f", buffer[WRITE]);
-			cmd.SetComputeTextureParam(computeShader, advectKernel, "_VelocityR", m_velocity[READ]);
-			cmd.SetComputeTextureParam(computeShader, advectKernel, "_Obstacles", m_obstacles);
+			cmd.SetComputeTextureParam(computeShader, advectKernel, "_Read1f", bufferToAdvect[READ]);
+			cmd.SetComputeTextureParam(computeShader, advectKernel, "_Write1f", bufferToAdvect[WRITE]);
+			cmd.SetComputeTextureParam(computeShader, advectKernel, "_VelocityR", velocity);
+			cmd.SetComputeTextureParam(computeShader, advectKernel, "_Obstacles", obstacles);
 			
 			DispatchCompute(cmd, advectKernel, (int)m_size.x, (int)m_size.y, (int)m_size.z);
 			
 			cmd.EndSample("ApplyAdvection");
-			Swap(buffer);
+			Swap(bufferToAdvect);
 		}
 
 		void ApplyAdvectionVelocity(CommandBuffer cmd, float dt)

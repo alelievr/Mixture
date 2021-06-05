@@ -12,35 +12,36 @@ namespace Mixture
 
 		public override void InitializePorts()
 		{
+			UpdateShaderAndMaterial();
+			base.InitializePorts();
+		}
+
+        protected override void Enable()
+        {
+			UpdateShaderAndMaterial();
+            base.Enable();
+        }
+
+		void UpdateShaderAndMaterial()
+		{
 			if (shader == null)
-				FindShader();
+				shader = Shader.Find(shaderName);
+
+			if (material != null && material.shader != shader)
+				material.shader = shader;
 
 			if (material == null)
 			{
 				material = new Material(shader);
 				material.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
 			}
-
-			base.InitializePorts();
-		}
-
-		void FindShader()
-		{
-			shader = Shader.Find(shaderName);
-			if (material != null && material.shader != shader)
-				material.shader = shader;
 		}
 
 		public override bool canProcess
 		{
 			get
 			{
-				if (shader == null)
-				{
-					FindShader();
-					material.shader = shader;
-				}
-			
+				UpdateShaderAndMaterial();
 				return base.canProcess;
 			}
 		}

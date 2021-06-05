@@ -14,11 +14,11 @@ namespace Mixture
 {
     [Documentation(@"
 Renders the content of the prefab using the camera at the root of the prefab.
-You can use choose to output different buffers from the prefab: Color, Depth, World Normal, Tangent or World Position.
+You can use choose to output different buffers from the prefab: Color, Depth, World Normal, Tangent, or World Position.
 The alpha channel is used to know whether an object is here or not (0 means nothing and 1 object).
 
 Opening the prefab will switch to a render texture so you can visualize the changes in real-time in the graph.
-When you are satisfied with the setup in the prefab, click on 'Save Current View' to save the texture as sub-asset of the graph, you cna the close the prefab and the scene node will use this baked texture as output.
+When you are satisfied with the setup in the prefab, click on 'Save Current View' to save the texture as a sub-asset of the graph, you can close the prefab and the scene node will use this baked texture as output.
 
 Note that this node is currently only available with HDRP.
 ")]
@@ -80,6 +80,8 @@ Note that this node is currently only available with HDRP.
 
         protected override void Enable()
         {
+            tmpRenderTexture = null;
+            // TODO: copy saved texture when duplicated instead of setting it to null
             base.Enable();
             UpdateRenderTextures();
         }
@@ -96,6 +98,14 @@ Note that this node is currently only available with HDRP.
             };
         }
 
+        protected override void Destroy()
+        {
+            if (savedTexture != null)
+            {
+                graph.RemoveObjectFromGraph(savedTexture);
+                Object.DestroyImmediate(savedTexture);
+            }
+        }
 
         protected override void Disable()
         {
@@ -139,6 +149,8 @@ Note that this node is currently only available with HDRP.
             Texture2D tmp = new Texture2D(savedTexture.width, savedTexture.height, GraphicsFormat.R32G32B32A32_SFloat, TextureCreationFlags.None);
             // Radback color & depth:
             RenderTexture.active = tmpRenderTexture;
+            tmp.filterMode = settings.GetResolvedFilterMode(graph);
+            tmp.wrapMode = settings.GetResolvedWrapMode(graph);
             tmp.ReadPixels(new Rect(0, 0, savedTexture.width, savedTexture.height), 0, 0);
             RenderTexture.active = null; 
             tmp.Apply();
@@ -146,9 +158,9 @@ Note that this node is currently only available with HDRP.
 #if UNITY_EDITOR
             if (GraphicsFormatUtility.IsCompressedFormat(savedTexture.graphicsFormat))
             {
+                EditorUtility.CompressTexture(tmp, compressionFormat, TextureCompressionQuality.Best);
                 EditorUtility.CopySerialized(tmp, savedTexture);
                 Object.DestroyImmediate(tmp);
-                EditorUtility.CompressTexture(savedTexture, compressionFormat, TextureCompressionQuality.Best);
             }
             else
             {
@@ -168,14 +180,16 @@ Note that this node is currently only available with HDRP.
             UpdateTempRenderTexture(ref tmpRenderTexture);
             var compressedFormat = GraphicsFormatUtility.GetGraphicsFormat(compressionFormat, false);
 
-            if (savedTexture == null || rtSettings.NeedsUpdate(graph, savedTexture, false))
+            if (savedTexture == null || settings.NeedsUpdate(graph, savedTexture, false))
             {
                 if (graph.IsObjectInGraph(savedTexture))
                 {
                     graph.RemoveObjectFromGraph(savedTexture);
                     Object.DestroyImmediate(savedTexture, true);
                 }
-                savedTexture = new Texture2D(rtSettings.GetWidth(graph), rtSettings.GetHeight(graph), compressedFormat, TextureCreationFlags.None) { name = "SceneNode Rendering"};
+                savedTexture = new Texture2D(settings.GetResolvedWidth(graph), settings.GetResolvedHeight(graph), compressedFormat, TextureCreationFlags.None) { name = "SceneNode Rendering"};
+                savedTexture.filterMode = settings.GetResolvedFilterMode(graph);
+                savedTexture.wrapMode = settings.GetResolvedWrapMode(graph);
                 savedTexture.hideFlags = HideFlags.NotEditable;
                 graph.AddObjectToGraph(savedTexture);
             }

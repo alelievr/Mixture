@@ -40,6 +40,7 @@ namespace Mixture
 
 		protected override void Enable()
 		{
+            base.Enable();
 			onAfterEdgeConnected += EdgeConnectionCallback;
 			onAfterEdgeDisconnected += EdgeConnectionCallback;
 			RegisterLoopStart();
@@ -85,7 +86,7 @@ namespace Mixture
 					loopStartGUID = loopStart.GUID;
 				UpdateAllPorts();
 			}
-			else if (loopStart != null && edge.inputPort == loopStart.inputPorts[0])
+			else if (loopStart != null && loopStart.inputPorts.Count > 0 && edge.inputPort == loopStart.inputPorts[0])
 			{
 				UpdateAllPorts();
 			}
