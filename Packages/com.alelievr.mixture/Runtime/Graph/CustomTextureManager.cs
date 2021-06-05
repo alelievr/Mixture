@@ -71,10 +71,14 @@ public static class CustomTextureManager
     }
 
 #if UNITY_EDITOR
+    static double updateEditorTime = 0;
     static void UpdateCRTsEditor()
     {
-        // TODO: limit crt updates to the screen refresh rate (EditorApplication.update runs at 200 fps by default)
-        Debug.Log(Screen.currentResolution.refreshRate);
+        float updateTimeMillis = 1.0f / Screen.currentResolution.refreshRate;
+        if (updateEditorTime > Time.realtimeSinceStartupAsDouble)
+            updateEditorTime = 0;
+        if (Time.realtimeSinceStartupAsDouble - updateEditorTime < updateTimeMillis && updateEditorTime > 0)
+            return;
 
         if (!GraphicsSettings.disableBuiltinCustomRenderTextureUpdate)
             return;
@@ -86,6 +90,7 @@ public static class CustomTextureManager
 
         UpdateDependencies();
 
+        updateEditorTime = Time.realtimeSinceStartupAsDouble;
         Graphics.ExecuteCommandBuffer(MakeCRTCommandBuffer());
     }
 #endif
