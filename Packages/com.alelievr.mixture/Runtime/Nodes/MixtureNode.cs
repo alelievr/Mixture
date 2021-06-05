@@ -155,8 +155,8 @@ namespace Mixture
 		void UpdateSettings(SerializableEdge edge)
 		{
 			// Update nodes used to infere settings values
-			parentSettingsNode = GetInputNodes().FirstOrDefault(n => n is MixtureNode) as MixtureNode;
-			childSettingsNode = GetOutputNodes().FirstOrDefault(n => n is MixtureNode) as MixtureNode;
+			parentSettingsNode = GetInputNodes().FirstOrDefault(n => n is MixtureNode m && m.hasSettings) as MixtureNode;
+			childSettingsNode = GetOutputNodes().FirstOrDefault(n => n is MixtureNode m && m.hasSettings) as MixtureNode;
 
 			settings.ResolveAndUpdate(this);
 		}
