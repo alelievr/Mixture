@@ -79,7 +79,7 @@ Material:
   m_BuildTextureStacks: []
 --- !u!86 &-5453263755918737541
 CustomRenderTexture:
-  m_ObjectHideFlags: 61
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -147,14 +147,6 @@ MonoBehaviour:
   - id: 2
   - id: 3
   edges:
-  - GUID: a036f0bd-ea59-43a6-849e-214a768ed5a4
-    owner: {fileID: 11400000}
-    inputNodeGUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
-    outputNodeGUID: 3fd32b5b-8edd-4948-a1ef-e34f4d5d42dc
-    inputFieldName: a
-    outputFieldName: sinTime
-    inputPortIdentifier: 
-    outputPortIdentifier: 
   - GUID: 0d196eb0-5c4c-4c50-a338-e78cebc405c4
     owner: {fileID: 11400000}
     inputNodeGUID: 691aa737-9a89-40dd-b56d-201a248e396d
@@ -163,6 +155,14 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: Main Texture
     outputPortIdentifier: output
+  - GUID: a43ae23d-06c7-43f1-a76c-fe178d38d5c0
+    owner: {fileID: 11400000}
+    inputNodeGUID: 53394fb9-8c03-43a5-8bb5-bb79a92340bc
+    outputNodeGUID: 3fd32b5b-8edd-4948-a1ef-e34f4d5d42dc
+    inputFieldName: a
+    outputFieldName: sinTime
+    inputPortIdentifier: 
+    outputPortIdentifier: 
   groups: []
   stackNodes: []
   pinnedElements:
@@ -180,11 +180,11 @@ MonoBehaviour:
   serializedParameterList: []
   stickyNotes: []
   nodeInspectorReference: {fileID: 0}
-  position: {x: 729, y: 115, z: 0}
-  scale: {x: 1, y: 1, z: 1}
+  position: {x: 912, y: 121.99999, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}
   version: 1
   type: 1
-  realtimePreview: 1
+  realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 0
   embedInBuild: 0
@@ -200,9 +200,9 @@ MonoBehaviour:
   - {fileID: 6585799614466207341}
   - {fileID: 6585799614466207341}
   settings:
-    widthScale: 0
-    heightScale: 0
-    depthScale: 0
+    widthScale: 1
+    heightScale: 1
+    depthScale: 1
     width: 512
     height: 512
     depth: 512
@@ -215,8 +215,8 @@ MonoBehaviour:
     doubleBuffered: 0
     wrapMode: 0
     filterMode: 0
-    refreshMode: 0
-    period: 0
+    refreshMode: 2
+    period: 17
   references:
     version: 1
     00000000:
@@ -227,10 +227,10 @@ MonoBehaviour:
         computeOrder: 1
         position:
           serializedVersion: 2
-          x: -44
-          y: -44.5
-          width: 320
-          height: 463
+          x: -62
+          y: -44
+          width: 350
+          height: 500
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -295,9 +295,9 @@ MonoBehaviour:
           depth: 1
           potSize: 0
           sizeMode: -2
-          dimension: 2
-          outputChannels: 1
-          outputPrecision: 3
+          dimension: -2
+          outputChannels: -2
+          outputPrecision: -2
           editFlags: 255
           doubleBuffered: 0
           wrapMode: -2
@@ -385,10 +385,10 @@ MonoBehaviour:
         computeOrder: 2
         position:
           serializedVersion: 2
-          x: -707
-          y: 4
+          x: -716.7828
+          y: 3.999991
           width: 120
-          height: 178
+          height: 176
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -421,33 +421,33 @@ MonoBehaviour:
       type: {class: VectorRemapNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
-        GUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
+        GUID: 53394fb9-8c03-43a5-8bb5-bb79a92340bc
         computeOrder: 3
         position:
           serializedVersion: 2
-          x: -570
-          y: 28
+          x: -596.7828
+          y: 27.999996
           width: 250
-          height: 166
+          height: 164
         expanded: 0
         debug: 0
         nodeLock: 0
         settings:
-          widthScale: 0
-          heightScale: 0
-          depthScale: 0
-          width: 512
-          height: 512
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 1024
+          height: 1024
           depth: 1
           potSize: 0
           sizeMode: -2
-          dimension: 2
-          outputChannels: 1
-          outputPrecision: 3
-          editFlags: 0
+          dimension: -2
+          outputChannels: -2
+          outputPrecision: -2
+          editFlags: -257
           doubleBuffered: 0
-          wrapMode: 0
-          filterMode: 1
+          wrapMode: -2
+          filterMode: -2
           refreshMode: 0
           period: 0
         isPreviewCollapsed: 0
@@ -457,8 +457,8 @@ MonoBehaviour:
         previewEV100: 0
         previewSlice: 0
         isPinned: 0
-        a: {x: 0.99597216, y: 0.99597216, z: 0.99597216, w: 0.99597216}
-        o: {x: 0.6985902, y: 0.6985902, z: 0.6985902, w: 0.6985902}
+        a: {x: 0.8882955, y: 0.8882955, z: 0.8882955, w: 0.8882955}
+        o: {x: 0.6609034, y: 0.6609034, z: 0.6609034, w: 0.6609034}
         inputMin: -1
         inputMax: 1
         outputMin: 0
@@ -509,7 +509,7 @@ CustomRenderTexture:
   m_UpdateZoneSpace: 0
   m_CurrentUpdateZoneSpace: 0
   m_UpdateZones: []
-  m_UpdatePeriod: 0
+  m_UpdatePeriod: 0.017
   m_ShaderPass: 0
   m_CubemapFaceMask: 4294967295
   m_DoubleBuffered: 0
