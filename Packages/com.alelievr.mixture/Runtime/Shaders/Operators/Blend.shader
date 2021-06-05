@@ -22,6 +22,10 @@ Shader "Hidden/Mixture/Blend"
 		// Common parameters
 		[MixtureBlend]_BlendMode("Blend Mode", Float) = 0
 		[Tooltip(Select which channel is used to sample the mask value)][Enum(PerChannel, 0, R, 1, G, 2, B, 3, A, 4)]_MaskMode("Mask Mode", Float) = 4
+
+		[ShowInInspector]
+		[Tooltip(Avoids having negative values in the output texture)]
+		_RemoveNegative("Remove Negative Values", Float) = 1
 	}
 	SubShader
 	{
@@ -47,6 +51,7 @@ Shader "Hidden/Mixture/Blend"
 			float _MaskMode;
 			bool _UseMask;
 			float _Opacity;
+			float _RemoveNegative;
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
@@ -65,7 +70,12 @@ Shader "Hidden/Mixture/Blend"
 
 				mask *= _Opacity;
 
-				return Blend(source, target, mask, (uint)_BlendMode);
+				float4 result = Blend(source, target, mask, (uint)_BlendMode);
+
+				if (_RemoveNegative)
+					result = max(0, result);
+
+				return result;
 			}
 			ENDHLSL
 		}
