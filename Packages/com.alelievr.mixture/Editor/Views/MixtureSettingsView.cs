@@ -341,7 +341,7 @@ namespace Mixture
 
                 Add(doubleBuffered);
             }
-            else
+            else if (graph.type == MixtureGraphType.Realtime)
             {
                 otherHeader = new Label("Realtime");
                 otherHeader.AddToClassList(headerStyleClass);

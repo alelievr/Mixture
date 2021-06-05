@@ -63,7 +63,6 @@ Currently only the first output texture of the output node can be retrieved.
 
 		public void ResetOutputTexture() => initialization = true;
 
-		int i = 0;
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			if (output == null)
@@ -82,7 +81,6 @@ Currently only the first output texture of the output node can be retrieved.
 
 			if (initialization)
 			{
-				i = 0;
 				var initTexture = initialTexture == null ? TextureUtils.GetWhiteTexture(settings.GetResolvedTextureDimension(graph)) : initialTexture;
 				output.material = GetTempMaterial("Hidden/Mixture/SelfInitialization");
 				output.material.SetColor("_InitializationColor", initialColor);
@@ -93,7 +91,13 @@ Currently only the first output texture of the output node can be retrieved.
 			}
 			else
 			{
-				TextureUtils.CopyTexture(cmd, graph.mainOutputTexture, output, true);
+				if (graph.outputNode.outputTextureSettings.Count > 0)
+				{
+					// We don't take the result of the output node because we want to avoid the sRRB conversion;
+					var graphOutputTexture = graph.outputNode.outputTextureSettings[0].inputTexture;
+					if (graphOutputTexture != null)
+						TextureUtils.CopyTexture(cmd, graphOutputTexture, output, true);
+				}
 			}
 
 			return true;
