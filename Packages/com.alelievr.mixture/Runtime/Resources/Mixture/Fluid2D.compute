@@ -1,25 +1,20 @@
 #pragma kernel Advect 
 #pragma kernel AdvectVelocity 
 #pragma kernel ApplyBuoyancy 
-#pragma kernel GaussImpulse 
 #pragma kernel ComputeVorticity 
 #pragma kernel ComputeConfinement 
 #pragma kernel ComputeDivergence 
 #pragma kernel ComputePressure 
 #pragma kernel ComputeProjection 
 #pragma kernel SetBounds 
+#pragma kernel InjectDensity 
 
 #pragma enable_d3d11_debug_symbols
 
 // Include utility stuff to handle multi-dimension input textures
 #include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureComputeUtils.hlsl"
-#define FLUID_3D
+#define FLUID_2D
 #include "Packages/com.alelievr.mixture/Runtime/Shaders/FluidSimulation.hlsl"
-
-RWTexture2D<float4> _Fluid;
-Texture2D<float4> _FluidPreviousFrame;
-uint3 _TextureSize;
-
 
 float4 _Size, _Up, _Pos;
 float _DeltaTime, _Dissipate, _Decay;
@@ -31,41 +26,41 @@ float _Epsilon;
 // Cubemap not supported because we can't write to a cubemap with compute shaders :(
 
 // TODO: simplify all those textures
-Texture3D<float3> _VelocityR;
-RWTexture3D<float3> _VelocityW;
-RWTexture3D<float> _Obstacles;
-Texture3D<float> _ObstaclesR;
-Texture3D<float> _Pressure;
-Texture3D<float> _Divergence;
+Texture2D<float2> _VelocityR;
+RWTexture2D<float2> _VelocityW;
+RWTexture2D<float> _Obstacles;
+Texture2D<float> _ObstaclesR;
+Texture2D<float> _Pressure;
+Texture2D<float> _Divergence;
 
-RWTexture3D<float> _Write1f;
-Texture3D<float> _Read1f;
+RWTexture2D<float> _Write1f;
+Texture2D<float> _Read1f;
 
-RWTexture3D<float3> _Write3f;
-Texture3D<float3> _Read3f;
+RWTexture2D<float2> _Write3f;
+Texture2D<float2> _Read3f;
 
-RWTexture3D<float3> _Write;
-Texture3D<float> _Density, _Temperature;
+RWTexture2D<float2> _Write;
+Texture2D<float> _Density, _Temperature;
 
-Texture3D<float3> _Read, _Reaction;
+Texture2D<float2> _Read, _Reaction;
 
-Texture3D<float3> _Vorticity;
+Texture2D<float2> _Vorticity;
 
 [numthreads(8,8,1)]
-void AdvectVelocity(uint3 id : SV_DispatchThreadID)
+void AdvectVelocity(uint2 id : SV_DispatchThreadID)
 {
 	if(_Obstacles[id] > 0.1)
 	{
-		 _Write3f[id] = float3(0,0,0);
+		 _Write3f[id] = float2(0,0);
 		 return;
 	}
 
-    AdvectBuffer(_Read3f, _VelocityR, _Write3f, id, _Dissipate, _DeltaTime, _Size.xyz);
+    AdvectBuffer(_Read3f, _VelocityR, _Write3f, id, _Dissipate, _DeltaTime, _Size.xy);
 }
 
 // TODO: add other types of advection (BFECC amd Mac Cormack)
 [numthreads(8,8,1)]
-void Advect(uint3 id : SV_DispatchThreadID)
+void Advect(uint2 id : SV_DispatchThreadID)
 {
 	if(_Obstacles[id] > 0.1)
 	{
@@ -73,27 +68,13 @@ void Advect(uint3 id : SV_DispatchThreadID)
 		 return;
 	}
 
-    AdvectBuffer(_Read1f, _VelocityR, _Write1f, id, _Dissipate - _Decay, _DeltaTime, _Size.xyz);
-}
-
-// This adds density into the simulation
-// TODO: make this an input of the node (density)
-[numthreads(8,8,1)]
-void GaussImpulse(uint3 id : SV_DispatchThreadID)
-{
-
-	float3 pos = id/(_Size.xyz-1.0f) - _Pos.xyz;
-	float mag = pos.x*pos.x + pos.y*pos.y + pos.z*pos.z;
-	float rad2 = _Radius*_Radius;
-	
-	float amount = exp(-mag/rad2) * _Amount * _DeltaTime;
-    _Write[id] = _Read[id] + amount;
+    AdvectBuffer(_Read1f, _VelocityR, _Write1f, id, _Dissipate - _Decay, _DeltaTime, _Size.xy);
 }
 
 [numthreads(8,8,1)]
-void SetBounds(uint3 id : SV_DispatchThreadID)
+void SetBounds(uint2 id : SV_DispatchThreadID)
 {
-    if (any(id == 0 || id == uint3(_Size.xyz - 1)))
+    if (any(id == 0 || id == uint2(_Size.xy - 1)))
         _Obstacles[id] = 1;
     else
         _Obstacles[id] = 0;
@@ -101,58 +82,56 @@ void SetBounds(uint3 id : SV_DispatchThreadID)
 
 // TODO: make this optional
 [numthreads(8,8,1)]
-void ApplyBuoyancy(int3 id : SV_DispatchThreadID)
+void ApplyBuoyancy(uint2 id : SV_DispatchThreadID)
 {
     float T = _Temperature[id];
     float D = _Density[id];
-    float3 V = _VelocityR[id];
+    float2 V = _VelocityR[id];
     
     if(T > _AmbientTemperature)
-    	V += (_DeltaTime * (T - _AmbientTemperature) * _Buoyancy - D * _Weight) * _Up.xyz;
+    	V += (_DeltaTime * (T - _AmbientTemperature) * _Buoyancy - D * _Weight) * _Up.xy;
     
     _Write[id] = V;
 }
 
-void ComputeNeighbourPositions(int3 id, out int3 idxL, out int3 idxR, out int3 idxB, out int3 idxT, out int3 idxD, out int3 idxU)
-{
-    idxL = int3(max(0, id.x-1), id.y, id.z);
-    idxR = int3(min(_Size.x-1, id.x+1), id.y, id.z);
-
-    idxB = int3(id.x, max(0, id.y-1), id.z);
-    idxT = int3(id.x, min(_Size.y-1, id.y+1), id.z);
-
-    idxD = int3(id.x, id.y, max(0, id.z-1));
-    idxU = int3(id.x, id.y, min(_Size.z-1, id.z+1));
-}
-
 [numthreads(8,8,1)]
-void ComputeVorticity(int3 id : SV_DispatchThreadID)
+void ComputeVorticity(uint2 id : SV_DispatchThreadID)
 {
     // TODO: remove epsilon as param
-    Vorticity(id, _Size.xyz, _VelocityR, _Write, _DeltaTime, _Epsilon);
+    Vorticity(id, _Size.xy, _VelocityR, _Write, _DeltaTime, _Epsilon);
 }
 
 [numthreads(8,8,1)]
-void ComputeConfinement(int3 id : SV_DispatchThreadID)
+void ComputeConfinement(uint2 id : SV_DispatchThreadID)
 {
-    VelocityConfinment(id, _Size.xyz, _Vorticity, _Read, _Write, _DeltaTime, _Epsilon);
+    VelocityConfinment(id, _Size.xy, _Vorticity, _Read, _Write, _DeltaTime, _Epsilon);
 }
 
 // TODO: move that to another file, and maybe we can merge all those similar functions
 [numthreads(8,8,1)]
-void ComputeDivergence(int3 id : SV_DispatchThreadID)
+void ComputeDivergence(uint2 id : SV_DispatchThreadID)
 {
-    Divergence(id, _Size.xyz, _VelocityR, _ObstaclesR, _Write1f);
+    Divergence(id, _Size.xy, _VelocityR, _ObstaclesR, _Write1f);
 }
 
 [numthreads(8,8,1)]
-void ComputePressure(int3 id : SV_DispatchThreadID)
+void ComputePressure(uint2 id : SV_DispatchThreadID)
 {
-    Pressure(id, _Size.xyz, _Pressure, _ObstaclesR, _Divergence, _Write1f);
+    Pressure(id, _Size.xy, _Pressure, _ObstaclesR, _Divergence, _Write1f);
 }
 
 [numthreads(8,8,1)]
-void ComputeProjection(int3 id : SV_DispatchThreadID)
+void ComputeProjection(uint2 id : SV_DispatchThreadID)
 {
-    Project(id, _Size.xyz, _Pressure, _ObstaclesR, _VelocityR, _Write);
+    Project(id, _Size.xy, _Pressure, _ObstaclesR, _VelocityR, _Write);
+}
+
+Texture2D<float> _InputDensity;
+
+[numthreads(8,8,1)]
+void InjectDensity(uint2 id : SV_DispatchThreadID)
+{
+    float amount = _InputDensity.SampleLevel(s_linear_clamp_sampler, id / _Size.xy, 0);
+	amount *= _Amount * _DeltaTime;
+    _Write[id] = _Read[id] + amount;
 }

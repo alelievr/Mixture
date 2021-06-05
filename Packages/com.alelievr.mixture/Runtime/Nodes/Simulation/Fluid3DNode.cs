@@ -7,8 +7,8 @@ using GraphProcessor;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Simulation/2D Fluid")]
-	public class Fluid2DNode : BaseFluidSimulationNode 
+	[System.Serializable, NodeMenuItem("Simulation/3D Fluid")]
+	public class Fluid3DNode : BaseFluidSimulationNode 
 	{
 		[Input("Density")]
 		public Texture inputDensity;
@@ -23,22 +23,24 @@ namespace Mixture
 		[Output("Output Pressure")]
 		public Texture outputPressure;
 
+		public float viscosity;
+
 		public int m_iterations = 10;
 		public float m_vorticityStrength = 1.0f;
 		public float m_densityAmount = 1.0f;
-		public float m_densityDissipation = 0.99f;
+		public float m_densityDissipation = 0.999f;
 		public float m_densityBuoyancy = 1.0f;
 		public float m_densityWeight = 0.0125f;
 		public float m_temperatureAmount = 10.0f;
 		public float m_temperatureDissipation = 0.995f;
-		public float m_velocityDissipation = 0.95f;
+		public float m_velocityDissipation = 0.995f;
 		public float m_inputRadius = 0.04f;
 		float m_ambientTemperature = 0.0f;
 		public Vector4 m_inputPos = new Vector4(0.5f,0.1f,0.5f,0.0f);
 
-		public override string name => "2D Fluid";
+		public override string name => "3D Fluid";
 
-		protected override string computeShaderResourcePath => "Mixture/Fluid2D";
+		protected override string computeShaderResourcePath => "Mixture/Fluid3D";
 
 		public override bool showDefaultInspector => true;
 		public override Texture previewTexture => outputDensity;
@@ -48,13 +50,13 @@ namespace Mixture
 			get
 			{
 				var settings = base.defaultSettings;
-				settings.dimension = OutputDimension.Texture2D;
+				settings.dimension = OutputDimension.Texture3D;
 				return settings;
 			}
 		}
 
 		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
-			OutputDimension.Texture2D,
+			OutputDimension.Texture3D,
 		};
 
 		// For now only available in realtime mixtures, we'll see later for static with a spritesheet mode maybe
@@ -63,8 +65,6 @@ namespace Mixture
 			=> (graph as MixtureGraph).type == MixtureGraphType.Realtime;
 
 		int gaussImpulseKernel;
-
-		Vector3 m_size;
 
 		RenderTexture[] m_density, m_velocity, m_pressure, m_temperature;
 		RenderTexture m_temp3f, m_obstacles;
@@ -95,8 +95,6 @@ namespace Mixture
 			m_obstacles = AllocateRenderTexture("Obstacles", GraphicsFormat.R8_SNorm);
 
 			m_temp3f = AllocateRenderTexture("Temp", GraphicsFormat.R16G16B16A16_SFloat);
-
-			gaussImpulseKernel = computeShader.FindKernel("InjectDensity");
         }
 
         protected override void Disable()
@@ -130,10 +128,6 @@ namespace Mixture
 			outputDensity = m_density[READ];
 			outputVelocity = m_velocity[READ];
 			outputPressure = m_pressure[READ];
-
-			m_size = new Vector3(settings.GetResolvedWidth(graph), settings.GetResolvedHeight(graph), settings.GetResolvedDepth(graph));
-
-			// UpdateTempRenderTexture(ref fluidBuffer);
 
 			ComputeObstacles(cmd, m_obstacles);
 
@@ -177,7 +171,7 @@ namespace Mixture
 		void ApplyImpulse(CommandBuffer cmd, float dt, float amount, RenderTexture[] buffer)
 		{
 			cmd.BeginSample("ApplyImpulse");
-			cmd.SetComputeVectorParam(computeShader, "_Size", m_size);
+			cmd.SetComputeVectorParam(computeShader, "_Size", size);
 			cmd.SetComputeFloatParam(computeShader, "_Radius", m_inputRadius);
 			cmd.SetComputeFloatParam(computeShader, "_Amount", amount);
 			cmd.SetComputeFloatParam(computeShader, "_DeltaTime", dt);
@@ -186,7 +180,7 @@ namespace Mixture
 			cmd.SetComputeTextureParam(computeShader, gaussImpulseKernel, "_Read", buffer[READ]);
 			cmd.SetComputeTextureParam(computeShader, gaussImpulseKernel, "_Write", buffer[WRITE]);
 			
-			DispatchCompute(cmd, gaussImpulseKernel, (int)m_size.x, (int)m_size.y, (int)m_size.z);
+			DispatchCompute(cmd, gaussImpulseKernel, (int)size.x, (int)size.y, (int)size.z);
 			cmd.EndSample("ApplyImpulse");
 			
 			Swap(buffer);

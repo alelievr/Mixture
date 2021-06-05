@@ -192,6 +192,9 @@ namespace Mixture
 			if (dimension == TextureDimension.None)
 				dimension = TextureDimension.Tex2D;
 
+			if (dimension == TextureDimension.Tex3D)
+				depthBuffer = false;
+
 			if (target == null)
 			{
                 target = new CustomRenderTexture(outputWidth, outputHeight, targetFormat)
@@ -237,6 +240,7 @@ namespace Mixture
 				target.graphicsFormat = (GraphicsFormat)targetFormat;
 				target.dimension = dimension;
 				target.volumeDepth = outputDepth;
+				target.depth = depthBuffer ? 32 : 0;
 				target.doubleBuffered = settings.doubleBuffered;
                 target.wrapMode = wrapMode;
                 target.filterMode = filterMode;

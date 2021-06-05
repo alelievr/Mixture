@@ -121,6 +121,9 @@ namespace Mixture
 
 			int ResolveDepth(MixtureNode node, MixtureGraph graph)
 			{
+				if (dimension != OutputDimension.Texture3D)
+					return 1;
+
 				switch(node.settings.sizeMode)
 				{
 					default:

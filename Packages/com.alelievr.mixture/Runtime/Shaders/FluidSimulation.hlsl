@@ -247,12 +247,12 @@ void Pressure(int3 id, int3 size, Texture3D<float> pressureR, Texture3D<float> o
 
 void Pressure(int2 id, int2 size, Texture2D<float> pressureR, Texture2D<float> obstacles, Texture2D<float> divergence, RWTexture2D<float> pressureW)
 {
-    float L, R, B, T, D, U;
+    float L, R, B, T;
     float2 unused;
     LoadPressureNeighbours(id, size, pressureR, obstacles, L, R, B, T, unused);
 
     float divergenceF = divergence[id];
-    pressureW[id] = ( L + R + B + T + U + D - divergenceF ) / 6.0;
+    pressureW[id] = ( L + R + B + T - divergenceF ) / 4.0;
 }
 
 void Project(int3 id, int3 size, Texture3D<float> pressureR, Texture3D<float> obstacles, Texture3D<float3> velocityR, RWTexture3D<float3> velocityW)
