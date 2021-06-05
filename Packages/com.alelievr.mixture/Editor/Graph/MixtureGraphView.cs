@@ -307,7 +307,8 @@ namespace Mixture
 				{
 					if (n is IUseCustomRenderTextureProcessing i)
 						foreach (var t in i.GetCustomRenderTextures())
-							hash = hash * 23 + (int)t.updateCount;
+							if (t != null)
+								hash = hash * 23 + (int)t.updateCount;
 				}
 
 				return hash;
