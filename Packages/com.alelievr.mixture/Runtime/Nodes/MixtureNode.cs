@@ -22,7 +22,7 @@ namespace Mixture
 		public new MixtureGraph			graph => base.graph as MixtureGraph;
 
 		[HideInInspector, FormerlySerializedAs("rtSettings")]
-		public MixtureSettings				settings;
+		public MixtureSettings				settings = MixtureSettings.defaultValue;
 
 		protected virtual MixtureSettings	defaultSettings => MixtureSettings.defaultValue;
 		public virtual float   				nodeWidth => MixtureUtils.defaultNodeWidth;

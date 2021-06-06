@@ -4,11 +4,12 @@
 Port Name | Description
 --- | ---
 initialColor | 
+initialTexture | 
 
 ## Output
 Port Name | Description
 --- | ---
-output | 
+Out | 
 
 ## Description
 The self node holds a copy of the output node last processing texture.

@@ -14,7 +14,7 @@ namespace Mixture
 		[Input, SerializeField, HideInInspector]
 		public List<OutputTextureSettings> outputTextureSettings = new List<OutputTextureSettings>();
 
-		public OutputTextureSettings mainOutput => outputTextureSettings[0];
+		public OutputTextureSettings mainOutput => outputTextureSettings.Count > 0 ? outputTextureSettings[0] : null;
 
 		public event Action			onTempRenderTextureUpdated;
 

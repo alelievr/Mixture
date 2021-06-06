@@ -34,7 +34,11 @@ namespace Mixture
 
 			void UpdatePOTSettingsVisibility(Texture t)
 			{
-				bool isPOT = textureNode.IsPowerOf2(t);
+				bool isPOT = true;
+
+				if (t != null)
+					isPOT = textureNode.IsPowerOf2(t);
+
 				potConversionSettings.style.display = isPOT ? DisplayStyle.None : DisplayStyle.Flex;
 			}
 		}

@@ -1,3 +1,7 @@
+- name: 2D Fluid
+  href: Mixture.Fluid2DNode.md
+- name: 3D Fluid
+  href: Mixture.Fluid3DNode.md
 - name: Abs
   href: Mixture.VectorAbsNode.md
 - name: Add
@@ -12,12 +16,8 @@
   href: Mixture.Blur.md
 - name: Branch
   href: Mixture.Branch.md
-- name: Branch
-  href: Mixture.Branch.md
 - name: Break Vector
   href: Mixture.BreakVectorNode.md
-- name: Cellular Noise
-  href: Mixture.CellularNoise.md
 - name: Cellular Noise
   href: Mixture.CellularNoise.md
 - name: CheckerBoard
@@ -36,12 +36,12 @@
   href: Mixture.HDRPMaskCombine.md
 - name: Contrast
   href: Mixture.Contrast.md
-- name: Contrast
-  href: Mixture.Contrast.md
 - name: Cross Section
   href: Mixture.CrossSection.md
 - name: Cube to 2D LatLon
   href: Mixture.CubeTo2DLatLonNode.md
+- name: Curl Noise
+  href: Mixture.CurlNoise.md
 - name: Curve
   href: Mixture.CurveNode.md
 - name: Debug Log
@@ -54,8 +54,6 @@
   href: Mixture.DirectionalBlur.md
 - name: Discretize
   href: Mixture.Discretize.md
-- name: Disk
-  href: Mixture.Circles.md
 - name: Disk
   href: Mixture.Circles.md
 - name: Distance
@@ -102,8 +100,6 @@
   href: Mixture.LinearToSRGB.md
 - name: Lines
   href: Mixture.Lines.md
-- name: Lines
-  href: Mixture.Lines.md
 - name: Make Vector
   href: Mixture.MakeVectorNode.md
 - name: Mandelbrot
@@ -120,16 +116,14 @@
   href: Mixture.MeshNode.md
 - name: Mesh To Distance Field
   href: Mixture.MeshToUDF.md
-- name: Mesh To Distance Field
-  href: Mixture.MeshToUDF.md
 - name: Mesh To Maps
   href: Mixture.MeshToMaps.md
-- name: Mesh To Maps
-  href: Mixture.MeshToMaps.md
-- name: Mod
-  href: Mixture.ModNode.md
+- name: Mirror
+  href: Mixture.Mirror.md
 - name: Mod
   href: Mixture.VectorModNode.md
+- name: Mod
+  href: Mixture.ModNode.md
 - name: Mul
   href: Mixture.VectorMulNode.md
 - name: Mul
@@ -140,8 +134,6 @@
   href: Mixture.NormalBlend.md
 - name: Normal From Height
   href: Mixture.NormalFromHeight.md
-- name: Normal From Height
-  href: Mixture.NormalFromHeight.md
 - name: Normal Mul
   href: Mixture.NormalMul.md
 - name: Normal Rotate
@@ -150,6 +142,8 @@
   href: Mixture.PerlinNoise.md
 - name: Ping Pong
   href: Mixture.VectorPingPongNode.md
+- name: Polygon 2D
+  href: Mixture.Polygon2D.md
 - name: Pow
   href: Mixture.VectorPowNode.md
 - name: Prefab Capture (HDRP)
@@ -164,8 +158,6 @@
   href: Mixture.Rasterize3D.md
 - name: Rectangles
   href: Mixture.RectanglesNode.md
-- name: Rectangles
-  href: Mixture.RectanglesNode.md
 - name: Remap
   href: Mixture.VectorRemapNode.md
 - name: Remap
@@ -174,28 +166,22 @@
   href: Mixture.RenderMesh.md
 - name: Ridged Cellular Noise
   href: Mixture.RidgedCellularNoise.md
-- name: Ridged Cellular Noise
-  href: Mixture.RidgedCellularNoise.md
 - name: Ridged Perlin Noise
   href: Mixture.RidgedPerlinNoise.md
-- name: Rings
-  href: Mixture.RingsNode.md
 - name: Rings
   href: Mixture.RingsNode.md
 - name: Sample Gradient
   href: Mixture.SampleGradientNode.md
 - name: Scale & Bias
   href: Mixture.ScaleBiasNode.md
-- name: Separate
-  href: Mixture.Separate.md
+- name: Self
+  href: Mixture.SelfNode.md
 - name: Separate
   href: Mixture.Separate.md
 - name: Shader
   href: Mixture.ShaderNode.md
 - name: Sharpen
   href: Mixture.Sharpen.md
-- name: Splatter
-  href: Mixture.SplatterNode.md
 - name: Splatter
   href: Mixture.SplatterNode.md
 - name: Sprite Sheet To Volume
@@ -212,10 +198,6 @@
   href: Mixture.SubNode.md
 - name: Swap Color
   href: Mixture.ColorSwapNode.md
-- name: Swap Color
-  href: Mixture.ColorSwapNode.md
-- name: Switch
-  href: Mixture.Switch.md
 - name: Switch
   href: Mixture.Switch.md
 - name: Swizzle
@@ -246,10 +228,10 @@
   href: Mixture.VectorNode.md
 - name: Vector Swizzle
   href: Mixture.VectorSwizzle.md
+- name: Vector To Texture
+  href: Mixture.VectorToTexture.md
 - name: Volume To Sprite Sheet
   href: Mixture.VolumeToSpriteSheet.md
-- name: Volume To Vector Field
-  href: Mixture.VolumeToVectorField.md
 - name: Volume To Vector Field
   href: Mixture.VolumeToVectorField.md
 - name: Warp

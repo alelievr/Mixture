@@ -1,3 +1,7 @@
+[2D Fluid](Mixture.Fluid2DNode.md)  
+
+[3D Fluid](Mixture.Fluid3DNode.md)  
+
 [Abs](Mixture.VectorAbsNode.md)  
 
 [Add](Mixture.AddNode.md)  
@@ -12,11 +16,7 @@
 
 [Branch](Mixture.Branch.md)  
 
-[Branch](Mixture.Branch.md)  
-
 [Break Vector](Mixture.BreakVectorNode.md)  
-
-[Cellular Noise](Mixture.CellularNoise.md)  
 
 [Cellular Noise](Mixture.CellularNoise.md)  
 
@@ -36,11 +36,11 @@
 
 [Contrast](Mixture.Contrast.md)  
 
-[Contrast](Mixture.Contrast.md)  
-
 [Cross Section](Mixture.CrossSection.md)  
 
 [Cube to 2D LatLon](Mixture.CubeTo2DLatLonNode.md)  
+
+[Curl Noise](Mixture.CurlNoise.md)  
 
 [Curve](Mixture.CurveNode.md)  
 
@@ -53,8 +53,6 @@
 [DirectionalBlur](Mixture.DirectionalBlur.md)  
 
 [Discretize](Mixture.Discretize.md)  
-
-[Disk](Mixture.Circles.md)  
 
 [Disk](Mixture.Circles.md)  
 
@@ -102,8 +100,6 @@
 
 [Lines](Mixture.Lines.md)  
 
-[Lines](Mixture.Lines.md)  
-
 [Make Vector](Mixture.MakeVectorNode.md)  
 
 [Mandelbrot](Mixture.Mandelbrot.md)  
@@ -120,15 +116,13 @@
 
 [Mesh To Distance Field](Mixture.MeshToUDF.md)  
 
-[Mesh To Distance Field](Mixture.MeshToUDF.md)  
-
 [Mesh To Maps](Mixture.MeshToMaps.md)  
 
-[Mesh To Maps](Mixture.MeshToMaps.md)  
-
-[Mod](Mixture.ModNode.md)  
+[Mirror](Mixture.Mirror.md)  
 
 [Mod](Mixture.VectorModNode.md)  
+
+[Mod](Mixture.ModNode.md)  
 
 [Mul](Mixture.VectorMulNode.md)  
 
@@ -140,8 +134,6 @@
 
 [Normal From Height](Mixture.NormalFromHeight.md)  
 
-[Normal From Height](Mixture.NormalFromHeight.md)  
-
 [Normal Mul](Mixture.NormalMul.md)  
 
 [Normal Rotate](Mixture.NormalRotate.md)  
@@ -149,6 +141,8 @@
 [Perlin Noise](Mixture.PerlinNoise.md)  
 
 [Ping Pong](Mixture.VectorPingPongNode.md)  
+
+[Polygon 2D](Mixture.Polygon2D.md)  
 
 [Pow](Mixture.VectorPowNode.md)  
 
@@ -164,8 +158,6 @@
 
 [Rectangles](Mixture.RectanglesNode.md)  
 
-[Rectangles](Mixture.RectanglesNode.md)  
-
 [Remap](Mixture.VectorRemapNode.md)  
 
 [Remap](Mixture.RemapNode.md)  
@@ -174,11 +166,7 @@
 
 [Ridged Cellular Noise](Mixture.RidgedCellularNoise.md)  
 
-[Ridged Cellular Noise](Mixture.RidgedCellularNoise.md)  
-
 [Ridged Perlin Noise](Mixture.RidgedPerlinNoise.md)  
-
-[Rings](Mixture.RingsNode.md)  
 
 [Rings](Mixture.RingsNode.md)  
 
@@ -186,15 +174,13 @@
 
 [Scale & Bias](Mixture.ScaleBiasNode.md)  
 
-[Separate](Mixture.Separate.md)  
+[Self](Mixture.SelfNode.md)  
 
 [Separate](Mixture.Separate.md)  
 
 [Shader](Mixture.ShaderNode.md)  
 
 [Sharpen](Mixture.Sharpen.md)  
-
-[Splatter](Mixture.SplatterNode.md)  
 
 [Splatter](Mixture.SplatterNode.md)  
 
@@ -211,10 +197,6 @@
 [Sub](Mixture.SubNode.md)  
 
 [Swap Color](Mixture.ColorSwapNode.md)  
-
-[Swap Color](Mixture.ColorSwapNode.md)  
-
-[Switch](Mixture.Switch.md)  
 
 [Switch](Mixture.Switch.md)  
 
@@ -246,9 +228,9 @@
 
 [Vector Swizzle](Mixture.VectorSwizzle.md)  
 
-[Volume To Sprite Sheet](Mixture.VolumeToSpriteSheet.md)  
+[Vector To Texture](Mixture.VectorToTexture.md)  
 
-[Volume To Vector Field](Mixture.VolumeToVectorField.md)  
+[Volume To Sprite Sheet](Mixture.VolumeToSpriteSheet.md)  
 
 [Volume To Vector Field](Mixture.VolumeToVectorField.md)  
 

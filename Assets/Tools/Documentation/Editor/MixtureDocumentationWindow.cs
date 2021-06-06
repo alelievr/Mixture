@@ -83,22 +83,28 @@ public class MixtureDocumentationWindow : EditorWindow
         window.maxSize = new Vector2(1024, 1024);
 
         var nodeViews = new List<BaseNodeView>();
-        foreach (var node in NodeProvider.GetNodeMenuEntries(docGraph))
+        
+        foreach (var nodeType in TypeCache.GetTypesWithAttribute<NodeMenuItemAttribute>())
         {
-            if (node.path.Contains("Experimental"))
+            if (nodeType.IsAbstract)
+                continue;
+
+            Debug.Log("Generating documentation for " + nodeType);
+            var pathes = nodeType.GetCustomAttributes<NodeMenuItemAttribute>();
+            if (pathes.Any(p => p.menuTitle.Contains("Experimental")))
                 continue;
 
             // Skip non-mixture nodes:
-            if (!node.type.FullName.Contains("Mixture"))
+            if (!nodeType.FullName.Contains("Mixture"))
                 continue;
 
             // We'll suport loops after
-            if (typeof(ILoopStart).IsAssignableFrom(node.type) || typeof(ILoopEnd).IsAssignableFrom(node.type))
+            if (typeof(ILoopStart).IsAssignableFrom(nodeType) || typeof(ILoopEnd).IsAssignableFrom(nodeType))
                 continue;
 
             window.InitializeGraph(docGraph);
             var graphView = window.view;
-            var newNode = BaseNode.CreateFromType(node.type, new Vector2(0, toolbarHeight));
+            var newNode = BaseNode.CreateFromType(nodeType, new Vector2(0, toolbarHeight));
             var nodeView = graphView.AddNode(newNode);
             nodeViews.Add(nodeView);
             graphView.Add(nodeView);
@@ -115,6 +121,7 @@ public class MixtureDocumentationWindow : EditorWindow
             if (window == null)
                 yield break;
 
+            graphView.MarkDirtyRepaint();
             TakeAndSaveNodeScreenshot(window, nodeView);
 
             GenerateNodeMarkdownDoc(nodeView);
