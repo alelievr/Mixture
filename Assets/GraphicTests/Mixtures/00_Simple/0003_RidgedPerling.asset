@@ -78,25 +78,46 @@ MonoBehaviour:
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
+  nodeInspectorReference: {fileID: 0}
   position: {x: 375, y: 125, z: 0}
   scale: {x: 1.15, y: 1.15, z: 1}
-  version: 0
+  version: 1
   type: 0
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 0
   embedInBuild: 0
+  defaultNodeInheritanceMode: -2
   objectReferences:
   - {fileID: 3266943031866261498}
   - {fileID: 4571988263994566613}
   variants: []
   _mainOutputTexture: {fileID: -7590930830209787619}
   _outputTextures: []
+  settings:
+    widthScale: 1
+    heightScale: 1
+    depthScale: 1
+    width: 1024
+    height: 1024
+    depth: 1
+    potSize: 1024
+    sizeMode: 1
+    dimension: 2
+    outputChannels: 1
+    outputPrecision: 2
+    editFlags: 128
+    doubleBuffered: 0
+    wrapMode: 0
+    filterMode: 0
+    refreshMode: 2
+    period: 0
   references:
     version: 1
     00000000:
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: 20aad9a2-f45b-443d-9f30-0287577d108c
         computeOrder: 1
         position:
@@ -108,21 +129,19 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 0
-          heightPercent: 0
-          depthPercent: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 1024
           height: 1024
-          sliceCount: 1
+          depth: 1
           potSize: 1024
-          widthMode: 1
-          heightMode: 1
-          depthMode: 1
-          dimension: 2
-          outputChannels: 1
-          outputPrecision: 2
-          editFlags: 981
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 983
           doubleBuffered: 0
           wrapMode: 0
           filterMode: 0
@@ -150,6 +169,7 @@ MonoBehaviour:
     00000001:
       type: {class: RidgedPerlinNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
+        nodeCustomName: 
         GUID: b3d08297-7cd7-47a0-9cff-524dfea68290
         computeOrder: 0
         position:
@@ -161,18 +181,16 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-        rtSettings:
-          widthPercent: 1
-          heightPercent: 1
-          depthPercent: 1
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
           width: 512
           height: 512
-          sliceCount: 1
+          depth: 1
           potSize: 0
-          widthMode: 0
-          heightMode: 0
-          depthMode: 0
-          dimension: 0
+          sizeMode: -1
+          dimension: -1
           outputChannels: 1
           outputPrecision: 4
           editFlags: -257
