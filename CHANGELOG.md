@@ -9,15 +9,24 @@ All notable changes to this project template will be documented in this file.
 - Particles Node (Experimental)
 https://user-images.githubusercontent.com/6877923/115990868-e8ee3e00-a5c5-11eb-9467-ef8470e74066.mp4
 - Curl Noise (divergence free noise)
+- Added an "initial texture" input for the self node.
+- Added a Vector To Texture node, similar to the Color To Texture node but takes a vector as input.
+- Polygon node (generate 2D distance field shapes)
+![image](https://user-images.githubusercontent.com/6877923/120940697-d287e600-c71e-11eb-9505-a15b3d5befa8.png)
 
 ### Changed
 - Separate Node now keeps the separated texture channels in their respective channels (G -> G instead of G -> R) but takes 4 times more memory.
 - Added an option in the Blend node to remove negative values.
 - Completely refactored how settings are working in graphs.
+- The node inspector preview settings are now serialized per graph within the editor session (not saved between sessions).
+- Texture, Shader, Compute Shader, Mesh and Prefab Capture nodes are now renamable.
+- You can directly drag and drop Texture, Shaders, Compute Shader and GameObject into the graph to create nodes.
 
 ### Fixes
 - Fixed the internal texture filter mode of the gradient node when using "Fixed" gradient mode.
 - Fixed mixture when text Mesh Pro is installed
+- Fixed sRGB copy issues with the self node.
+- Fixed graph inconsistencies related to undo-redo.
 
 ## 0.2.1
 
