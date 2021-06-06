@@ -434,7 +434,7 @@ namespace Mixture
 
 			if (!(oldTexture is CustomRenderTexture))
 			{
-				newTexture = new CustomRenderTexture(width, height, graphicsFormat) { name = "Realtime Final Copy", enableRandomWrite = true };
+				newTexture = new CustomRenderTexture(width, height, graphicsFormat) { name = "Realtime Final Copy", enableRandomWrite = true, depth = 0};
 			}
 
 			var crt = newTexture as CustomRenderTexture;
@@ -443,12 +443,15 @@ namespace Mixture
 				|| crt.useMipMap != outputSettings.hasMipMaps
 				|| crt.volumeDepth != depth
 				|| crt.graphicsFormat != graphicsFormat
-				|| crt.updateMode != CustomRenderTextureUpdateMode.Realtime;
+				|| crt.updateMode != CustomRenderTextureUpdateMode.Realtime
+                || crt.dimension != dimension;
 
 			if (needsUpdate)
 			{
 				if (crt.IsCreated())
 					crt.Release();
+                crt.depth = 0;
+                crt.dimension = dimension;
 				crt.width = Mathf.Max(1, width);
 				crt.height = Mathf.Max(1, height);
 				crt.graphicsFormat = graphicsFormat;

@@ -497,6 +497,22 @@ namespace Mixture
 			isMixture = RealtimeMixtureReferences.realtimeMixtureCRTs.Contains(crt);
 		}
 
+		public override VisualElement CreateInspectorGUI()
+		{
+			if (isMixture)
+				return base.CreateInspectorGUI();
+			else
+				return defaultTextureEditor.CreateInspectorGUI();
+		}
+
+        public override void OnInspectorGUI()
+		{
+			if (isMixture)
+				base.OnInspectorGUI();
+			else
+				defaultTextureEditor.OnInspectorGUI();
+		}
+
         public override bool RequiresConstantRepaint() => true;
 
 		public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)

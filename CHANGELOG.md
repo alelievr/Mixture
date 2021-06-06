@@ -12,6 +12,8 @@ https://user-images.githubusercontent.com/6877923/115990868-e8ee3e00-a5c5-11eb-9
 
 ### Changed
 - Separate Node now keeps the separated texture channels in their respective channels (G -> G instead of G -> R) but takes 4 times more memory.
+- Added an option in the Blend node to remove negative values.
+- Completely refactored how settings are working in graphs.
 
 ### Fixes
 - Fixed the internal texture filter mode of the gradient node when using "Fixed" gradient mode.

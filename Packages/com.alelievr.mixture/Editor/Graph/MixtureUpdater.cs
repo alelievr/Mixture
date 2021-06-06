@@ -27,11 +27,18 @@ namespace Mixture
 
         public static void EnqueueGraphProcessing(MixtureGraph graph) => needsProcess.Add(graph);
 
+        static double updateEditorTime = 0;
         public static void Update()
         {
             // When the editor is not focused we disable the realtime preview
 			if (!InternalEditorUtility.isApplicationActive)
 				return;
+
+            float updateTimeMillis = 1.0f / Screen.currentResolution.refreshRate;
+            if (updateEditorTime > Time.realtimeSinceStartupAsDouble)
+                updateEditorTime = 0;
+            if (Time.realtimeSinceStartupAsDouble - updateEditorTime < updateTimeMillis && updateEditorTime > 0)
+                return;
 
             foreach (var view in views)
             {
