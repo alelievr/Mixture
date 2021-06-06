@@ -1,3 +1,4 @@
+#if MIXTURE_EXPERIMENTAL
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,18 +13,17 @@ namespace Mixture
 	{
 		[Input("Density")]
 		public Texture inputDensity;
-
 		[Input("Velocity")]
 		public Texture inputVelocity;
-		
+		[Input("Obstacles")]
+		public Texture inputObstacles;
+
 		[Output("Output Density")]
 		public Texture outputDensity;
 		[Output("Output Velocity")]
 		public Texture outputVelocity;
 		[Output("Output Pressure")]
 		public Texture outputPressure;
-
-		public float viscosity;
 
 		public int m_iterations = 10;
 		public float m_vorticityStrength = 1.0f;
@@ -183,3 +183,4 @@ namespace Mixture
 		}
 	}
 }
+#endif

@@ -1,3 +1,4 @@
+#if MIXTURE_EXPERIMENTAL
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -150,6 +151,7 @@ namespace Mixture
 			
 			//Adds a certain amount of density (the visible smoke) and temperate
 			InjectDensity(cmd, m_densityAmount, inputDensity, m_density);
+			InjectDensity(cmd, m_densityAmount, inputDensity, m_temperature);
 			// ApplyImpulse(cmd, dt, m_densityAmount, m_density);
 			// ApplyImpulse(cmd, dt,  m_temperatureAmount, m_temperature);
 			
@@ -190,3 +192,4 @@ namespace Mixture
 		}
 	}
 }
+#endif
