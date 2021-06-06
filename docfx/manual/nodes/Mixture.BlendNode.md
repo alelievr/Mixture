@@ -6,6 +6,7 @@ Port Name | Description
 Source | 
 Target | 
 Mask | 
+Remove Negative Values | Avoids having negative values in the output texture
 
 ## Output
 Port Name | Description
