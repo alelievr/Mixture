@@ -14,7 +14,7 @@ namespace Mixture
         public override void OnCreated()
         {
 			// Avoid creating useless for end nodes
-			if (!forNode.createWithinGroup || (forNode.createWithinGroup && !forNode.createWithinGroup))
+			if (!forNode.createdWithinGroup)
 			{
 				var pos = nodeTarget.position.position + new Vector2(300, 0);
 				var endView = owner.AddNode(BaseNode.CreateFromType(typeof(ForEnd), pos));
