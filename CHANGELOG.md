@@ -5,8 +5,10 @@ All notable changes to this project template will be documented in this file.
 
 ### Added
 - Mirror Node
+
 ![image](https://user-images.githubusercontent.com/6877923/114311850-b554e380-9af0-11eb-896d-46df72f6e06e.png)
 - Particles Node (Experimental)
+
 https://user-images.githubusercontent.com/6877923/115990868-e8ee3e00-a5c5-11eb-9467-ef8470e74066.mp4
 - Curl Noise (divergence free noise)
 - Added an "initial texture" input for the self node.
