@@ -7,18 +7,16 @@ assignees: alelievr
 
 ---
 
-**Describe the bug**
+**What happened?**
 A clear and concise description of what the bug is, screenshots are welcomed.
 
 **To Reproduce**
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-4. See error
 
-**Setup (please complete the following information):**
+**Setup:**
  - OS: [e.g. Windows]
  - Unity Version: [e.g. 2020.2.0a13]
+- Mixture Version [0.3.0]
 
 **Additional informations**
 Add any other context about the problem here.
