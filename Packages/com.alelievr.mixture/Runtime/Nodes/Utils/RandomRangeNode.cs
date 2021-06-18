@@ -13,7 +13,7 @@ namespace Mixture
 Output a random float between the min and max values.
 ")]
 
-	[System.Serializable, NodeMenuItem("Utils/Random Range")]
+	[System.Serializable, NodeMenuItem("Math/Random Range")]
 	public class RandomRangeNode : MixtureNode
 	{
 		[Output("Random")]

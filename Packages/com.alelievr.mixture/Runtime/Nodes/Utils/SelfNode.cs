@@ -15,7 +15,7 @@ When the node is executed for the first time, the initialization color is used i
 Currently only the first output texture of the output node can be retrieved.
 ")]
 
-	[System.Serializable, NodeMenuItem("Utils/Self")]
+	[System.Serializable, NodeMenuItem("Realtime/Self")]
 	public class SelfNode : MixtureNode 
 	{
 		[Output(name = "Out"), Tooltip("Output Texture"), NonSerialized]

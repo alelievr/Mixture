@@ -11,7 +11,7 @@ namespace Mixture
 Combine up to 4 float values into a Vector4.
 ")]
 
-    [System.Serializable, NodeMenuItem("Utils/Make Vector")]
+    [System.Serializable, NodeMenuItem("Math/Make Vector")]
     public class MakeVectorNode : MixtureNode
     {
 		public override bool showDefaultInspector => true;

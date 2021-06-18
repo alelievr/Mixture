@@ -15,7 +15,7 @@ Generate mipmaps for the input texture. You can choose between 4 modes to genera
 - Custom, you can create a new shader that will be used to generate the mipmaps. Click on the ""New Shader"" button to create a new mipmap shader. If you add properties to your shader, they will be displayed as input of the node.
 ")]
 
-	[System.Serializable, NodeMenuItem("Utils/Generate MipMaps")]
+	[System.Serializable, NodeMenuItem("Textures/Generate MipMaps")]
 	public class GenerateMipMaps : ShaderNode
 	{
 		public enum Mode

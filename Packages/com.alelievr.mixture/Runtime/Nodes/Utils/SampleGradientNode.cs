@@ -11,7 +11,7 @@ namespace Mixture
 Sample a gradient using a float value between 0 and 1.
 ")]
 
-	[System.Serializable, NodeMenuItem("Utils/Sample Gradient")]
+	[System.Serializable, NodeMenuItem("Operators/Sample Gradient")]
 	public class SampleGradientNode : MixtureNode
 	{
         [Input("x"),Range(0.0f,1.0f)]

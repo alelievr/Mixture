@@ -14,7 +14,7 @@ The Difference Node can be used to detect differences between two textures. You 
 - Onion Skin, let you interpolate between the two textures using a slider.
 ")]
 
-	[System.Serializable, NodeMenuItem("Utils/Difference")]
+	[System.Serializable, NodeMenuItem("Textures/Difference")]
 	public class DifferenceNode : FixedShaderNode
 	{
 		public override string name => "Difference";

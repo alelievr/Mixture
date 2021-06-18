@@ -11,7 +11,7 @@ namespace Mixture
 Output a random color based on the HSV parameters.
 ")]
 
-	[System.Serializable, NodeMenuItem("Utils/Random Color")]
+	[System.Serializable, NodeMenuItem("Math/Random Color")]
 	public class RandomColorNode : MixtureNode
 	{
 		public override bool hasSettings => false;

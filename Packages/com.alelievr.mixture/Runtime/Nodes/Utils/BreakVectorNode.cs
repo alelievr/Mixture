@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
-    [System.Serializable, NodeMenuItem("Utils/Break Vector")]
+    [System.Serializable, NodeMenuItem("Math/Break Vector")]
     public class BreakVectorNode : MixtureNode
     {
         [Input("Vector")]

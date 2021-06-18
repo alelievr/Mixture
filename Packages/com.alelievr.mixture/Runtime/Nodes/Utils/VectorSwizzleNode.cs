@@ -11,7 +11,7 @@ namespace Mixture
 Swizzle the input vector, you can also choose tou output a custom value instead of a vector component.
 ")]
 
-	[System.Serializable, NodeMenuItem("Utils/Vector Swizzle")]
+	[System.Serializable, NodeMenuItem("Math/Vector Swizzle")]
 	public class VectorSwizzle : MixtureNode
 	{
 		[Input("Input")]
