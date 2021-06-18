@@ -554,7 +554,7 @@ namespace Mixture
 			previewContainer.Add(previewImageSlice);
 		}
 
-		protected Vector2 GetPreviewMousePositionRatio(Vector2 mousePosition)
+		protected Vector2 GetPreviewMousePositionBetween01(Vector2 mousePosition)
 		{
 			if (nodeTarget.previewTexture == null)
 				return Vector2.zero;

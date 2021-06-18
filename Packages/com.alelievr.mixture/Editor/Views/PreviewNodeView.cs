@@ -76,7 +76,7 @@ namespace Mixture
 			var preview = previewContainer.Q("ImGUIPreview");
 
 			preview.RegisterCallback<MouseMoveEvent>(e => {
-				var localPos = GetPreviewMousePositionRatio(e.mousePosition);
+				var localPos = GetPreviewMousePositionBetween01(e.mousePosition);
 				node.mousePosition = localPos;
 				UpdateColorPickerValues();
 
