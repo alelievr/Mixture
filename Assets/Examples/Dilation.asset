@@ -522,6 +522,7 @@ Material:
     - _BlendMode: 0
     - _MaskMode: 4
     - _Opacity: 0.5
+    - _RemoveNegative: 1
     m_Colors: []
   m_BuildTextureStacks: []
 --- !u!21 &-2514408217180612068
@@ -933,7 +934,7 @@ MonoBehaviour:
   serializedParameterList: []
   stickyNotes: []
   nodeInspectorReference: {fileID: 0}
-  position: {x: 1002, y: 120, z: 0}
+  position: {x: 1372, y: 120.00001, z: 0}
   scale: {x: 0.7561437, y: 0.7561437, z: 1}
   version: 1
   type: 0
@@ -956,9 +957,9 @@ MonoBehaviour:
   _outputTextures:
   - {fileID: 4080923148082904020}
   settings:
-    widthScale: 0
-    heightScale: 0
-    depthScale: 0
+    widthScale: 1
+    heightScale: 1
+    depthScale: 1
     width: 1024
     height: 1024
     depth: 1024
@@ -1247,6 +1248,12 @@ MonoBehaviour:
         - displayName: Mask Mode
           referenceName: _MaskMode
           tooltip: Select which channel is used to sample the mask value
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Remove Negative Values
+          referenceName: _RemoveNegative
+          tooltip: Avoids having negative values in the output texture
           type:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
