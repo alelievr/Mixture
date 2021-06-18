@@ -16,9 +16,11 @@ namespace Mixture
 		public override string	name => "#NAME#";
 
 		public override Texture previewTexture => output;
+		public override bool	showDefaultInspector => true; // Make the serializable field visible in the node UI.
 
 		protected override void Enable()
 		{
+			base.Enable();
 			UpdateTempRenderTexture(ref output);
 		}
 
