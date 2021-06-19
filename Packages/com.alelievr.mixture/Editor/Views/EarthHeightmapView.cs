@@ -68,10 +68,6 @@ namespace Mixture
 
 				if (tileTexture != null)
 				{
-					// node.AddTextureInPreviewCache(tile, tileTexture);
-					// TODO: render all the tiles individually in node.previewHeightmap
-					float cameraSize = 1.0f / Mathf.Pow(2, node.zoomLevel);
-
 					// Calculate the position on screen based on tile coords:
 					var local = node.WorldToLocal(tile);
 					Vector2 scale = new Vector2(local.size.x, local.size.y);
@@ -79,7 +75,6 @@ namespace Mixture
 					offset += node.center;
 					offset *= Mathf.Pow(2, node.zoomLevel);
 					scale *= Mathf.Pow(2, node.zoomLevel);
-
 
 					// remap offset
 					offset = offset * 0.5f + Vector2.one * 0.5f;
@@ -101,13 +96,17 @@ namespace Mixture
 			var preview = previewContainer.Q("ImGUIPreview");
 
 			preview.RegisterCallback<WheelEvent>(e => {
-				Debug.Log(e.delta.y);
-
+				float cameraSizeBeforeZoom = 1.0f / Mathf.Pow(2, node.zoomLevel);
 				node.zoomLevel += -e.delta.y / 100 * zoomSpeed;
 				node.zoomLevel = Mathf.Clamp(node.zoomLevel, EarthHeightmap.k_MinZoom, EarthHeightmap.k_MaxZoom);
 
-				// TODO: Offset the center to simulate zoom on the cursor
-				// node.center = Vector2.Lerp(node.center, mousePosition * 2 - Vector2.one * 1, e.delta.y / 100 * zoomSpeed);
+				float cameraSizeAfterZoom = 1.0f / Mathf.Pow(2, node.zoomLevel);
+				float diff = (cameraSizeAfterZoom - cameraSizeBeforeZoom);
+				var centeredMousePos = (mousePosition * 2.0f - Vector2.one);
+				// Calculate mouse position on the map:
+				Vector2 worldPos = node.center + centeredMousePos * cameraSizeAfterZoom;
+				var movement = diff * centeredMousePos;
+				node.center += movement;
 
 				NotifyNodeChanged();
 				e.StopImmediatePropagation();
@@ -120,9 +119,13 @@ namespace Mixture
 				if (e.imguiEvent.button == 1)
 				{
 					NotifyNodeChanged();
-					Debug.Log("Move: " + mousePosition);
-					// TODO: take zoom in account to compute the position (windowing)
-					node.center = mousePosition * 2.0f - Vector2.one;
+
+					// adjust movement ratio based on the screen size of the preview
+					var delta = e.mouseDelta / preview.worldBound.size;
+					// Scale the delta to it fits the -1 1 size of the canvas
+					delta *= 2;
+
+					node.center += delta / Mathf.Pow(2, node.zoomLevel);
 				}
 			});
 

@@ -27,19 +27,36 @@ Retrieves the heightmap data of earth. This node is using the mapzen dataset, to
             public override string ToString() => $"({zoom}, {x}, {y})";
         }
 
+		public enum HeightMode
+		{
+			Raw,
+			AutoRemap,
+			ScaleOffset,
+		}
+
 		public const int			k_HeightmapTileSize = 256;
 		public const int			k_MinZoom = 0;
 		public const int			k_MaxZoom = 15;
 
-		public Texture2D			savedHeightmap;
-		public CustomRenderTexture	previewHeightmap;
+		[Input]
+		public Vector2				positionOffset;
 
 		[Output("Heightmap")]
 		public Texture				output;
 
-		// TODO: replace that with float zoom + interpolation
-		public float				zoomLevel = 0;
-		public Vector2				center = Vector2.zero;
+		[Output("Min Height")]
+		public float				minHeight;
+
+		[Output("Max Height")]
+		public float				maxHeight;
+
+		public Texture2D			savedHeightmap;
+		public CustomRenderTexture	previewHeightmap;
+
+		public float				heightOffset;
+
+		internal float				zoomLevel = 0;
+		internal Vector2			center = Vector2.zero;
 
 		[NonSerialized]
 		List<HeightmapTile>			loadedTiles = new List<HeightmapTile>();
@@ -141,10 +158,7 @@ Retrieves the heightmap data of earth. This node is using the mapzen dataset, to
 			{
 				for (int y = -1; y <= tileCount.y; y++)
 				{
-					// Rect tileArea = new Rect(x * tileSize + offset.x, y * tileSize + offset.y, tileSize, tileSize);
-					// HeightmapTile tile = LocalToWorld(tileArea);
 					var tile = new HeightmapTile{ x = minTile.x + x, y = minTile.y + y, zoom = minTile.zoom };
-					Debug.Log("Loading tile area: " + tile);
 
 					if (IsOutOfBounds(tile))
 						continue;
