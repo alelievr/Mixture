@@ -17,8 +17,32 @@ namespace Mixture
 		static readonly string localCachePath = Application.temporaryCachePath;
 		static readonly float zoomSpeed = 3;
 
+		class HeightmapTileData
+		{
+			public Texture2D heightmap;
+			public float minHeight;
+			public float maxHeight;
+
+			public HeightmapTileData(Texture2D heightmap)
+			{
+				this.heightmap = heightmap;
+				minHeight = 1e20f;
+				maxHeight = -1e20f;
+
+				// Calculate the min and max height inside this tile:
+				var pixels = heightmap.GetPixels32(0);
+				for (int i = 0; i < pixels.Length; i++)
+				{
+					var heightColor = pixels[i];
+					float height = heightColor.r * 256 + heightColor.g + (float)heightColor.b / 256.0f - 32768;
+					minHeight = Mathf.Min(height, minHeight);
+					maxHeight = Mathf.Max(height, maxHeight);
+				}
+			}
+		}
+
 		EarthHeightmap node;
-		Dictionary<HeightmapTile, Texture2D> cache = new Dictionary<HeightmapTile, Texture2D>();
+		Dictionary<HeightmapTile, HeightmapTileData> cache = new Dictionary<HeightmapTile, HeightmapTileData>();
 		List<(HeightmapTile tile, UnityWebRequest request)> requests = new List<(HeightmapTile, UnityWebRequest)>();
 		List<HeightmapTile> failedRequestLocations = new List<HeightmapTile>();
 		Vector2 mousePosition;
@@ -30,11 +54,11 @@ namespace Mixture
 
 			node = nodeTarget as EarthHeightmap;
 
-            controlsContainer.Add(new Label("Hello World"));
-
 			if (!fromInspector)
 			{
-				schedule.Execute(UpdateEarthMap).Every(17);
+				var heightDataLabel = new Label();
+				controlsContainer.Add(heightDataLabel);
+				schedule.Execute(() => UpdateEarthMap(heightDataLabel)).Every(17);
 				nodeContainer = controlsContainer;
 
 				SetupPreviewEvents();
@@ -47,12 +71,13 @@ namespace Mixture
 			if (nodeContainer == this.controlsContainer)
 			{
 				foreach (var kp in cache)
-					CoreUtils.Destroy(kp.Value);
+					if (kp.Value.heightmap != null)
+						CoreUtils.Destroy(kp.Value.heightmap);
 				cache.Clear();
 			}
 		}
 
-		void UpdateEarthMap()
+		void UpdateEarthMap(Label heightDataLabel)
 		{
 			// TODO: check if the node is in find map mode
 
@@ -61,12 +86,21 @@ namespace Mixture
 			cmd.ClearRenderTarget(false, true, Color.clear);
 			var props = new MaterialPropertyBlock();
 			var material = node.GetTempMaterial("Hidden/Mixture/EarthHeightmap");
+			
+			props.SetFloat("_MinHeight", node.minHeight);
+			props.SetFloat("_MaxHeight", node.maxHeight);
+			props.SetFloat("_Scale", 1.0f / node.inverseScale);
+			props.SetFloat("_RemapMin", node.remapMin);
+			props.SetFloat("_RemapMax", node.remapMax);
+			props.SetFloat("_Mode", (int)node.mode);
 
+			node.minHeight = 1e20f;
+			node.maxHeight = -1e20f;
 			foreach (var tile in node.GetVisibleTiles())
 			{
-				var tileTexture = LoadTile(tile);
+				var tileData = LoadTile(tile);
 
-				if (tileTexture != null)
+				if (tileData?.heightmap != null)
 				{
 					// Calculate the position on screen based on tile coords:
 					var local = node.WorldToLocal(tile);
@@ -79,13 +113,36 @@ namespace Mixture
 					// remap offset
 					offset = offset * 0.5f + Vector2.one * 0.5f;
 
-					props.SetTexture("_Heightmap", tileTexture);
+					props.SetTexture("_Heightmap", tileData.heightmap);
 					props.SetVector("_DestinationOffset", offset);
 					props.SetVector("_DestinationScale", scale);
 
 					cmd.DrawProcedural(Matrix4x4.identity, material, 0, MeshTopology.Quads, 4, 1, props);
+
+					// Update the node min and max height
+					node.minHeight = Mathf.Min(node.minHeight, tileData.minHeight);
+					node.maxHeight = Mathf.Max(node.maxHeight, tileData.maxHeight);
+					node.savedHeightmap = tileData.heightmap;
 				}
 			}
+
+			heightDataLabel.MarkDirtyRepaint();
+
+			// TODO: auto remap mode
+			if (node.mode == EarthHeightmap.HeightMode.Remap)
+			{
+				// TODO
+			}
+			else if (node.mode == EarthHeightmap.HeightMode.Scale)
+			{
+				node.minHeight *= 1.0f / node.inverseScale;
+				node.maxHeight *= 1.0f / node.inverseScale;
+			}
+
+			node.minHeight += node.heightOffset;
+			node.maxHeight += node.heightOffset;
+
+			heightDataLabel.text = $" Height between {node.minHeight} and {node.maxHeight} meters";
 
 			MarkDirtyRepaint();
 			Graphics.ExecuteCommandBuffer(cmd);
@@ -137,7 +194,7 @@ namespace Mixture
 			previewContainer.AddManipulator(new ContextualMenuManipulator(evt => {}));
 		}
 
-		Texture2D LoadTile(HeightmapTile tile)
+		HeightmapTileData LoadTile(HeightmapTile tile)
 		{
 			// Avoid spamming the API with invalid / wrong positions
 			if (failedRequestLocations.Contains(tile))
@@ -150,9 +207,11 @@ namespace Mixture
 				{
 					if (request.request.result == UnityWebRequest.Result.Success)
 					{
-						cache[request.tile] = DownloadHandlerTexture.GetContent(request.request);
+						var tileData = new HeightmapTileData(DownloadHandlerTexture.GetContent(request.request));
+						tileData.heightmap.hideFlags = HideFlags.HideAndDontSave;
+						cache[request.tile] = tileData;
 						var filePath = GetCachePath(request.tile);
-						File.WriteAllBytes(filePath, cache[request.tile].EncodeToPNG());
+						File.WriteAllBytes(filePath, tileData.heightmap.EncodeToPNG());
 					}
 					else
 					{
@@ -163,9 +222,9 @@ namespace Mixture
 				}
 			}
 
-			if (cache.TryGetValue(tile, out var heightmap))
+			if (cache.TryGetValue(tile, out var heightmapData))
 			{
-				return heightmap;
+				return heightmapData;
 			}
 			else if (!requests.Any(r => r.tile.Equals(tile)))
 			{
@@ -174,11 +233,11 @@ namespace Mixture
 				if (File.Exists(cachedFilePath))
 				{
 					var textureData = File.ReadAllBytes(cachedFilePath);
-					heightmap = new Texture2D(1, 1);
+					var heightmap = new Texture2D(1, 1);
+					heightmap.hideFlags = HideFlags.HideAndDontSave;
 					heightmap.LoadImage(textureData);
-					cache[tile] = heightmap;
-					// TODO: compute the min and max height in this tile
-					return heightmap;
+					cache[tile] = new HeightmapTileData(heightmap);
+					return cache[tile];
 				}
 				else
 				{

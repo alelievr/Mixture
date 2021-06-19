@@ -30,8 +30,8 @@ Retrieves the heightmap data of earth. This node is using the mapzen dataset, to
 		public enum HeightMode
 		{
 			Raw,
-			AutoRemap,
-			ScaleOffset,
+			Remap,
+			Scale,
 		}
 
 		public const int			k_HeightmapTileSize = 256;
@@ -39,7 +39,7 @@ Retrieves the heightmap data of earth. This node is using the mapzen dataset, to
 		public const int			k_MaxZoom = 15;
 
 		[Input]
-		public Vector2				positionOffset;
+		public Vector4				positionOffset;
 
 		[Output("Heightmap")]
 		public Texture				output;
@@ -50,16 +50,21 @@ Retrieves the heightmap data of earth. This node is using the mapzen dataset, to
 		[Output("Max Height")]
 		public float				maxHeight;
 
+		[HideInInspector]
 		public Texture2D			savedHeightmap;
-		public CustomRenderTexture	previewHeightmap;
 
+		public HeightMode			mode = HeightMode.Remap;
+		[VisibleIf(nameof(mode), HeightMode.Remap)]
+		public float				remapMin = 0;
+		[VisibleIf(nameof(mode), HeightMode.Remap)]
+		public float				remapMax = 1;
+		[VisibleIf(nameof(mode), HeightMode.Scale)]
+		public float				inverseScale = 4000;
 		public float				heightOffset;
 
 		internal float				zoomLevel = 0;
 		internal Vector2			center = Vector2.zero;
-
-		[NonSerialized]
-		List<HeightmapTile>			loadedTiles = new List<HeightmapTile>();
+		internal CustomRenderTexture previewHeightmap;
 
 		public override string	name => "Earth Heightmap";
 
