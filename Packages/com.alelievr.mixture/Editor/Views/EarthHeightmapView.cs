@@ -61,9 +61,41 @@ namespace Mixture
 				schedule.Execute(() => UpdateEarthMap(heightDataLabel)).Every(17);
 				nodeContainer = controlsContainer;
 
+				AddViewButtons();
 				SetupPreviewEvents();
 			}
-			// TODO: add custom preview
+			else
+			{
+				controlsContainer.Add(new Button(ResetView) { text = "Reset View"});
+
+				void ResetView()
+				{
+					node.ResetView();
+					NotifyNodeChanged();
+				}
+			}
+		}
+
+		void AddViewButtons()
+		{
+			var buttons = new VisualElement();
+			buttons.style.flexDirection = FlexDirection.Row;
+			Button explorerButton = null, saveCurrentViewButton = null;
+			explorerButton = new Button(ExplorerButton) { text = "Open Explorer" };
+			saveCurrentViewButton = new Button(SaveCurrentView) { text = "Save View" };
+			buttons.Add(explorerButton);
+			buttons.Add(saveCurrentViewButton);
+			controlsContainer.Add(buttons);
+
+			void ExplorerButton()
+			{
+				explorerButton.text = "Close Explorer";
+			}
+
+			void SaveCurrentView()
+			{
+
+			}
 		}
 
         public override void Disable()
@@ -87,15 +119,15 @@ namespace Mixture
 			var props = new MaterialPropertyBlock();
 			var material = node.GetTempMaterial("Hidden/Mixture/EarthHeightmap");
 			
-			props.SetFloat("_MinHeight", node.minHeight);
-			props.SetFloat("_MaxHeight", node.maxHeight);
+			props.SetFloat("_MinHeight", node.rawMinHeight);
+			props.SetFloat("_MaxHeight", node.rawMaxHeight);
 			props.SetFloat("_Scale", 1.0f / node.inverseScale);
 			props.SetFloat("_RemapMin", node.remapMin);
 			props.SetFloat("_RemapMax", node.remapMax);
 			props.SetFloat("_Mode", (int)node.mode);
 
-			node.minHeight = 1e20f;
-			node.maxHeight = -1e20f;
+			node.rawMinHeight = 1e20f;
+			node.rawMaxHeight = -1e20f;
 			foreach (var tile in node.GetVisibleTiles())
 			{
 				var tileData = LoadTile(tile);
@@ -113,6 +145,10 @@ namespace Mixture
 					// remap offset
 					offset = offset * 0.5f + Vector2.one * 0.5f;
 
+					// Check if the is in the screen:
+					if (offset.x > 1 || offset.y > 1 || offset.x + scale.x < 0 || offset.y + scale.y < 0)
+						continue;
+
 					props.SetTexture("_Heightmap", tileData.heightmap);
 					props.SetVector("_DestinationOffset", offset);
 					props.SetVector("_DestinationScale", scale);
@@ -120,29 +156,29 @@ namespace Mixture
 					cmd.DrawProcedural(Matrix4x4.identity, material, 0, MeshTopology.Quads, 4, 1, props);
 
 					// Update the node min and max height
-					node.minHeight = Mathf.Min(node.minHeight, tileData.minHeight);
-					node.maxHeight = Mathf.Max(node.maxHeight, tileData.maxHeight);
+					node.rawMinHeight = Mathf.Min(node.rawMinHeight, tileData.minHeight);
+					node.rawMaxHeight = Mathf.Max(node.rawMaxHeight, tileData.maxHeight);
 					node.savedHeightmap = tileData.heightmap;
 				}
 			}
 
 			heightDataLabel.MarkDirtyRepaint();
 
-			// TODO: auto remap mode
 			if (node.mode == EarthHeightmap.HeightMode.Remap)
 			{
-				// TODO
+				node.minHeight = node.remapMin;
+				node.maxHeight = node.remapMax;
 			}
 			else if (node.mode == EarthHeightmap.HeightMode.Scale)
 			{
-				node.minHeight *= 1.0f / node.inverseScale;
-				node.maxHeight *= 1.0f / node.inverseScale;
+				node.minHeight = node.rawMinHeight * 1.0f / node.inverseScale;
+				node.maxHeight = node.rawMaxHeight * 1.0f / node.inverseScale;
 			}
 
 			node.minHeight += node.heightOffset;
 			node.maxHeight += node.heightOffset;
 
-			heightDataLabel.text = $" Height between {node.minHeight} and {node.maxHeight} meters";
+			heightDataLabel.text = $" Height between {node.rawMinHeight} and {node.rawMaxHeight} meters";
 
 			MarkDirtyRepaint();
 			Graphics.ExecuteCommandBuffer(cmd);
@@ -207,9 +243,8 @@ namespace Mixture
 				{
 					if (request.request.result == UnityWebRequest.Result.Success)
 					{
-						var tileData = new HeightmapTileData(DownloadHandlerTexture.GetContent(request.request));
-						tileData.heightmap.hideFlags = HideFlags.HideAndDontSave;
-						cache[request.tile] = tileData;
+						var tileData = AddHeightmap(DownloadHandlerTexture.GetContent(request.request), request.tile);
+						NotifyNodeChanged();
 						var filePath = GetCachePath(request.tile);
 						File.WriteAllBytes(filePath, tileData.heightmap.EncodeToPNG());
 					}
@@ -234,18 +269,24 @@ namespace Mixture
 				{
 					var textureData = File.ReadAllBytes(cachedFilePath);
 					var heightmap = new Texture2D(1, 1);
-					heightmap.hideFlags = HideFlags.HideAndDontSave;
 					heightmap.LoadImage(textureData);
-					cache[tile] = new HeightmapTileData(heightmap);
-					return cache[tile];
+					return AddHeightmap(heightmap, tile);
 				}
 				else
 				{
-					Debug.Log("API CALL!");
 					var request = UnityWebRequestTexture.GetTexture($"{endPoint}{tile.zoom}/{tile.x}/{tile.y}.png");
 					request.SendWebRequest();
 					requests.Add((tile, request));
 				}
+			}
+
+			HeightmapTileData AddHeightmap(Texture2D heightmap, HeightmapTile tile)
+			{
+				var tileData = new HeightmapTileData(heightmap);
+				heightmap.hideFlags = HideFlags.HideAndDontSave;
+				cache[tile] = tileData;
+				NotifyNodeChanged();
+				return tileData;
 			}
 
 			return null;

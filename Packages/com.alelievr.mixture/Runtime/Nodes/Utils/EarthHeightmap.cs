@@ -9,6 +9,7 @@ namespace Mixture
 {
 	[Documentation(@"
 Retrieves the heightmap data of earth. This node is using the mapzen dataset, to learn more about it check out this page: https://www.mapzen.com/blog/elevation/.
+Hold the right click button of you mouse to move in the map and zoom with the scroll wheel.
 ")]
 
 	[System.Serializable, NodeMenuItem("Utils/Earth Heightmap")]
@@ -38,9 +39,6 @@ Retrieves the heightmap data of earth. This node is using the mapzen dataset, to
 		public const int			k_MinZoom = 0;
 		public const int			k_MaxZoom = 15;
 
-		[Input]
-		public Vector4				positionOffset;
-
 		[Output("Heightmap")]
 		public Texture				output;
 
@@ -53,6 +51,10 @@ Retrieves the heightmap data of earth. This node is using the mapzen dataset, to
 		[HideInInspector]
 		public Texture2D			savedHeightmap;
 
+		[Tooltip(@"
+Select a modifier to apply on the heightmap. By default this option is using Remap which automatically remap the heights in the view between the remap min and max (0 and 1 by default).
+The Raw mode outputs the height in meter without any modifier.
+The Scale mode divides the height by the `inverse scale` parameter.")]
 		public HeightMode			mode = HeightMode.Remap;
 		[VisibleIf(nameof(mode), HeightMode.Remap)]
 		public float				remapMin = 0;
@@ -60,9 +62,13 @@ Retrieves the heightmap data of earth. This node is using the mapzen dataset, to
 		public float				remapMax = 1;
 		[VisibleIf(nameof(mode), HeightMode.Scale)]
 		public float				inverseScale = 4000;
+		[Tooltip("A global offset applied after all height modifiers.")]
 		public float				heightOffset;
 
-		internal float				zoomLevel = 0;
+		[SerializeField, HideInInspector]
+		internal float rawMaxHeight, rawMinHeight;
+
+		internal float				zoomLevel = 0.0001f; // small zoom offset avoids seeing the zoom level 0 (it have some data problem around poles)
 		internal Vector2			center = Vector2.zero;
 		internal CustomRenderTexture previewHeightmap;
 
@@ -149,19 +155,20 @@ Retrieves the heightmap data of earth. This node is using the mapzen dataset, to
 		public IEnumerable<HeightmapTile> GetVisibleTiles()
 		{
 			// calculate visible rect between -1 and 1
-			float size = 1.0f / Mathf.Pow(2, zoomLevel);
+			float size = 1.0f / Mathf.Pow(2, Mathf.CeilToInt(zoomLevel));
 			Rect visibleArea = new Rect(-center.x, -center.y, size, size);
 
 			// Calculate all visible tiles from the visible area:
 			Vector2 resolution = new Vector2(settings.GetResolvedWidth(graph), settings.GetResolvedHeight(graph));
-			Vector2Int tileCount = new Vector2Int(Mathf.CeilToInt(resolution.x / 256.0f), Mathf.CeilToInt(resolution.y / 256.0f));
+			float scaledResolution = Mathf.Lerp(256, 128, 1 - (Mathf.CeilToInt(zoomLevel) - zoomLevel));
+			Vector2Int tileCount = new Vector2Int(Mathf.CeilToInt(resolution.x / scaledResolution), Mathf.CeilToInt(resolution.y / scaledResolution));
+			Vector2 offset = visibleArea.position - Vector2.one * (1 / Mathf.Pow(2, zoomLevel));
 
-			Vector2 offset = visibleArea.position - new Vector2(size, size) / 2.0f;
-			float tileSize = Mathf.Min(size / tileCount.x, size / tileCount.y);
-			var minTile = LocalToWorld(new Rect(offset.x, offset.y, tileSize, tileSize));
-			for (int x = -1; x <= tileCount.x; x++)
+			// Iterate over possibly visible tiles
+			var minTile = LocalToWorld(new Rect(offset.x, offset.y, size, size));
+			for (int x = 0; x < tileCount.x; x++)
 			{
-				for (int y = -1; y <= tileCount.y; y++)
+				for (int y = 0; y < tileCount.y; y++)
 				{
 					var tile = new HeightmapTile{ x = minTile.x + x, y = minTile.y + y, zoom = minTile.zoom };
 
@@ -171,6 +178,12 @@ Retrieves the heightmap data of earth. This node is using the mapzen dataset, to
 					yield return tile;
 				}
 			}
+		}
+
+		public void ResetView()
+		{
+			zoomLevel = 0.0001f;
+			center = Vector2.zero;
 		}
 
         protected override void Disable()
