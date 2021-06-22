@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project template will be documented in this file.
 
+## 0.4.0
+
+### Added
+- Earth Heightmap node, directly fetches real world height data into a texture.
+
+https://user-images.githubusercontent.com/6877923/123006036-64e2e780-d3b7-11eb-922e-018994b32da5.mov
+
+
 ## 0.3.0
 
 ### Added
