@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UnityEngine.Experimental.Rendering;
 using System;
 
+using Object = UnityEngine.Object;
+
 namespace Mixture
 {
 	[Documentation(@"
@@ -67,14 +69,16 @@ The Scale mode divides the height by the `inverse scale` parameter.")]
 
 		[SerializeField, HideInInspector]
 		internal float rawMaxHeight, rawMinHeight;
+		[SerializeField, HideInInspector]
+		internal bool editMap = true;
 
 		internal float				zoomLevel = 0.0001f; // small zoom offset avoids seeing the zoom level 0 (it have some data problem around poles)
 		internal Vector2			center = Vector2.zero;
 		internal CustomRenderTexture previewHeightmap;
 
 		public override string	name => "Earth Heightmap";
-
-		public override Texture previewTexture => previewHeightmap;
+        public override bool isRenamable => true;
+		public override Texture previewTexture => editMap || savedHeightmap == null ? (Texture)previewHeightmap : savedHeightmap;
 		public override bool showDefaultInspector => true;
 		protected override MixtureSettings defaultSettings => Get2DOnlyRTSettings(base.defaultSettings);
 		public override PreviewChannels	defaultPreviewChannels => PreviewChannels.RGB;
@@ -180,6 +184,30 @@ The Scale mode divides the height by the `inverse scale` parameter.")]
 			}
 		}
 
+		public void SaveCurrentView()
+		{
+			if (savedHeightmap == null)
+				savedHeightmap = new Texture2D(1, 1, DefaultFormat.LDR, TextureCreationFlags.None);
+			
+			if (savedHeightmap.width != settings.GetResolvedWidth(graph)
+				|| savedHeightmap.height != settings.GetResolvedHeight(graph))
+				savedHeightmap.Resize(settings.GetResolvedWidth(graph), settings.GetResolvedHeight(graph), settings.GetGraphicsFormat(graph), false);
+
+            RenderTexture.active = previewHeightmap;
+            savedHeightmap.filterMode = settings.GetResolvedFilterMode(graph);
+            savedHeightmap.wrapMode = settings.GetResolvedWrapMode(graph);
+			savedHeightmap.hideFlags = HideFlags.NotEditable;
+            savedHeightmap.ReadPixels(new Rect(0, 0, savedHeightmap.width, savedHeightmap.height), 0, 0);
+            savedHeightmap.Apply();
+			savedHeightmap.name = GetCustomName();
+            RenderTexture.active = null; 
+
+            graph.NotifyNodeChanged(this);
+
+            if (!graph.IsObjectInGraph(savedHeightmap))
+                graph.AddObjectToGraph(savedHeightmap);
+		}
+
 		public void ResetView()
 		{
 			zoomLevel = 0.0001f;
@@ -191,5 +219,14 @@ The Scale mode divides the height by the `inverse scale` parameter.")]
 			CoreUtils.Destroy(previewHeightmap);
 			base.Disable();
 		}
+
+        protected override void Destroy()
+        {
+            if (savedHeightmap != null)
+            {
+                graph.RemoveObjectFromGraph(savedHeightmap);
+                Object.DestroyImmediate(savedHeightmap);
+            }
+        }
     }
 }

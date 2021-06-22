@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using System.Linq;
 using System.IO;
 using HeightmapTile = Mixture.EarthHeightmap.HeightmapTile;
+using UnityEditor;
 
 namespace Mixture
 {
@@ -47,6 +48,7 @@ namespace Mixture
 		List<HeightmapTile> failedRequestLocations = new List<HeightmapTile>();
 		Vector2 mousePosition;
 		VisualElement nodeContainer;
+		Button saveCurrentViewButton;
 
 		public override void Enable(bool fromInspector)
 		{
@@ -78,24 +80,22 @@ namespace Mixture
 
 		void AddViewButtons()
 		{
-			var buttons = new VisualElement();
-			buttons.style.flexDirection = FlexDirection.Row;
-			Button explorerButton = null, saveCurrentViewButton = null;
-			explorerButton = new Button(ExplorerButton) { text = "Open Explorer" };
 			saveCurrentViewButton = new Button(SaveCurrentView) { text = "Save View" };
-			buttons.Add(explorerButton);
-			buttons.Add(saveCurrentViewButton);
-			controlsContainer.Add(buttons);
-
-			void ExplorerButton()
-			{
-				explorerButton.text = "Close Explorer";
-			}
+			// Add the button just after the preview
+			controlsContainer.Insert(1, saveCurrentViewButton);
 
 			void SaveCurrentView()
 			{
-
+				node.editMap = false;
+				node.SaveCurrentView();
 			}
+		}
+
+		protected override void DrawPreviewToolbar(Texture texture)
+		{
+			base.DrawPreviewToolbar(texture);
+			node.editMap = GUILayout.Toggle(node.editMap, "Edit", EditorStyles.toolbarButton);
+			saveCurrentViewButton.style.display = node.editMap ? DisplayStyle.Flex : DisplayStyle.None;
 		}
 
         public override void Disable()
@@ -111,7 +111,8 @@ namespace Mixture
 
 		void UpdateEarthMap(Label heightDataLabel)
 		{
-			// TODO: check if the node is in find map mode
+			if (!node.editMap)
+				return;
 
 			var cmd = new CommandBuffer{ name = "Update Earth Heightmap View" };
 			cmd.SetRenderTarget(node.previewHeightmap);
@@ -158,7 +159,6 @@ namespace Mixture
 					// Update the node min and max height
 					node.rawMinHeight = Mathf.Min(node.rawMinHeight, tileData.minHeight);
 					node.rawMaxHeight = Mathf.Max(node.rawMaxHeight, tileData.maxHeight);
-					node.savedHeightmap = tileData.heightmap;
 				}
 			}
 
@@ -189,6 +189,9 @@ namespace Mixture
 			var preview = previewContainer.Q("ImGUIPreview");
 
 			preview.RegisterCallback<WheelEvent>(e => {
+				if (!node.editMap)
+					return;
+
 				float cameraSizeBeforeZoom = 1.0f / Mathf.Pow(2, node.zoomLevel);
 				node.zoomLevel += -e.delta.y / 100 * zoomSpeed;
 				node.zoomLevel = Mathf.Clamp(node.zoomLevel, EarthHeightmap.k_MinZoom, EarthHeightmap.k_MaxZoom);
@@ -206,6 +209,9 @@ namespace Mixture
 			});
 
 			preview.RegisterCallback<MouseMoveEvent>(e => {
+				if (!node.editMap)
+					return;
+
 				var localPos = GetPreviewMousePositionBetween01(e.mousePosition);
 				mousePosition = localPos;
 
@@ -224,8 +230,8 @@ namespace Mixture
 
 			// Stop right click when the mouse is over the preview because we use it for moving the world pos
 			previewContainer.RegisterCallback<ContextualMenuPopulateEvent>(e => {
-				// TODO: check if the node is in preview mode
-				e.StopImmediatePropagation();
+				if (node.editMap)
+					e.StopImmediatePropagation();
 			}, TrickleDown.TrickleDown);
 			previewContainer.AddManipulator(new ContextualMenuManipulator(evt => {}));
 		}

@@ -457,34 +457,37 @@ namespace Mixture
 			}
 
 			using(new GUILayout.HorizontalScope(EditorStyles.toolbar, GUILayout.Height(12)))
+				DrawPreviewToolbar(texture);
+		}
+
+		protected virtual void DrawPreviewToolbar(Texture texture)
+		{
+			EditorGUI.BeginChangeCheck();
+
+			bool r = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.R) != 0,"R", EditorStyles.toolbarButton);
+			bool g = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.G) != 0,"G", EditorStyles.toolbarButton);
+			bool b = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.B) != 0,"B", EditorStyles.toolbarButton);
+			bool a = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.A) != 0,"A", EditorStyles.toolbarButton);
+
+			if (EditorGUI.EndChangeCheck())
 			{
-				EditorGUI.BeginChangeCheck();
-
-				bool r = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.R) != 0,"R", EditorStyles.toolbarButton);
-				bool g = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.G) != 0,"G", EditorStyles.toolbarButton);
-				bool b = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.B) != 0,"B", EditorStyles.toolbarButton);
-				bool a = GUILayout.Toggle( (nodeTarget.previewMode & PreviewChannels.A) != 0,"A", EditorStyles.toolbarButton);
-
-				if (EditorGUI.EndChangeCheck())
-				{
-					owner.RegisterCompleteObjectUndo("Updated Preview Masks");
-					nodeTarget.previewMode =
-					(r ? PreviewChannels.R : 0) |
-					(g ? PreviewChannels.G : 0) |
-					(b ? PreviewChannels.B : 0) |
-					(a ? PreviewChannels.A : 0);
-				}
-
-				if (texture.mipmapCount > 1)
-				{
-					GUILayout.Space(8);
-
-					nodeTarget.previewMip = GUILayout.HorizontalSlider(nodeTarget.previewMip, 0.0f, texture.mipmapCount - 1, GUILayout.Width(64));
-					GUILayout.Label($"Mip #{Mathf.RoundToInt(nodeTarget.previewMip)}", EditorStyles.toolbarButton);
-				}
-
-				GUILayout.FlexibleSpace();
+				owner.RegisterCompleteObjectUndo("Updated Preview Masks");
+				nodeTarget.previewMode =
+				(r ? PreviewChannels.R : 0) |
+				(g ? PreviewChannels.G : 0) |
+				(b ? PreviewChannels.B : 0) |
+				(a ? PreviewChannels.A : 0);
 			}
+
+			if (texture.mipmapCount > 1)
+			{
+				GUILayout.Space(8);
+
+				nodeTarget.previewMip = GUILayout.HorizontalSlider(nodeTarget.previewMip, 0.0f, texture.mipmapCount - 1, GUILayout.Width(64));
+				GUILayout.Label($"Mip #{Mathf.RoundToInt(nodeTarget.previewMip)}", EditorStyles.toolbarButton);
+			}
+
+			GUILayout.FlexibleSpace();
 		}
 
 		void DrawTextureInfoHover(Rect previewRect, Texture texture)

@@ -16,6 +16,8 @@ namespace Mixture
 
         protected abstract string defaultPrefabName { get; }
 
+        public override bool isRenamable => true;
+
 		protected override MixtureSettings defaultSettings
         {
             get
