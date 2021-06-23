@@ -178,7 +178,7 @@ namespace Mixture
 			node.minHeight += node.heightOffset;
 			node.maxHeight += node.heightOffset;
 
-			heightDataLabel.text = $" Height between {node.rawMinHeight} and {node.rawMaxHeight} meters";
+			heightDataLabel.text = $" Height between {node.rawMinHeight:F2} and {node.rawMaxHeight:F2} meters";
 
 			MarkDirtyRepaint();
 			Graphics.ExecuteCommandBuffer(cmd);

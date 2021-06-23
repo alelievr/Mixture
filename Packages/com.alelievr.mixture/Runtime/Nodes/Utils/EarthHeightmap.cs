@@ -92,8 +92,6 @@ The Scale mode divides the height by the `inverse scale` parameter.")]
 		{
 			base.Enable();
 			UpdateTempRenderTexture(ref previewHeightmap);
-			// if (!graph.IsObjectInGraph(savedHeightmap))
-			// 	graph.AddObjectToGraph(savedHeightmap);
 		}
 
 		protected override bool ProcessNode(CommandBuffer cmd)
@@ -109,8 +107,7 @@ The Scale mode divides the height by the `inverse scale` parameter.")]
 			previewHeightmap.material = heightmapConvertMaterial;
 			CustomTextureManager.UpdateCustomRenderTexture(cmd, previewHeightmap, 1);
 
-			// TODO: check preview mode
-			output = previewHeightmap;
+			output = editMap || savedHeightmap == null ? (Texture)previewHeightmap : savedHeightmap;
 
 			return true;
 		}

@@ -13,6 +13,8 @@ namespace Mixture
     {
         List<(Button save, Button update)> buttons = new List<(Button, Button)>();
 
+		protected override bool showPreviewTextureEnum => false;
+
 		public override void Enable(bool fromInspector)
         {
             var stylesheet = Resources.Load<StyleSheet>("ExternalOutputNodeView");

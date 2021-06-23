@@ -18,6 +18,8 @@ namespace Mixture
 
 		protected Dictionary<string, OutputTextureView> inputPortElements = new Dictionary<string, OutputTextureView>();
 
+		protected virtual bool showPreviewTextureEnum => true;
+
 		public override void Enable(bool fromInspector)
 		{
 			capabilities &= ~Capabilities.Deletable;
@@ -102,6 +104,21 @@ namespace Mixture
 			bool result = base.RefreshPorts();
 			UpdatePortView();
 			return result;
+		}
+
+		protected override void DrawPreviewToolbar(Texture texture)
+		{
+			base.DrawPreviewToolbar(texture);
+
+			if (showPreviewTextureEnum)
+			{
+				outputNode.selectedPreviewIndex = EditorGUILayout.Popup(
+					outputNode.selectedPreviewIndex,
+					outputNode.outputTextureSettings.Select(t => t.name).ToArray(),
+					EditorStyles.toolbarDropDown,
+					GUILayout.Width(150)
+				);
+			}
 		}
 
 		protected override VisualElement CreateSettingsView()

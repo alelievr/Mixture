@@ -19,8 +19,16 @@ namespace Mixture
 		public event Action			onTempRenderTextureUpdated;
 
 		public override string		name => "Output Texture Asset";
-		public override Texture 	previewTexture => graph?.type == MixtureGraphType.Realtime ? graph.mainOutputTexture : outputTextureSettings.Count > 0 ? outputTextureSettings[0].finalCopyRT : null;
+		public override Texture 	previewTexture => graph?.type == MixtureGraphType.Realtime ? graph.mainOutputTexture : outputTextureSettings.Count > 0 ? outputTextureSettings[selectedPreviewIndex].finalCopyRT : null;
 		public override float		nodeWidth => 350;
+
+		[SerializeField, HideInInspector]
+		int _selectedPreviewIndex;
+		internal int selectedPreviewIndex
+		{
+			get => Mathf.Clamp(_selectedPreviewIndex, 0, outputTextureSettings.Count);
+			set => _selectedPreviewIndex = value;
+		}
 
 		// TODO: move this to NodeGraphProcessor
 		[NonSerialized]
