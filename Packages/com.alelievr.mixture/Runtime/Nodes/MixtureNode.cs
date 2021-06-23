@@ -151,6 +151,12 @@ namespace Mixture
 			onSettingsChanged -= UpdateSettings;
 		}
 
+		public override void InitializePorts()
+		{
+			settings.ResolveAndUpdate(this);
+			base.InitializePorts();
+		}
+
 		void UpdateSettings() => UpdateSettings(null);
 		void UpdateSettings(SerializableEdge edge)
 		{
@@ -479,6 +485,7 @@ namespace Mixture
 #if UNITY_EDITOR
 		protected bool IsShaderCompiled(Shader s)
 		{
+			// TODO: replace with ShaderUtil.ShaderHasError when available
 			return !ShaderUtil.GetShaderMessages(s).Any(m => m.severity == ShaderCompilerMessageSeverity.Error);
 		}
 

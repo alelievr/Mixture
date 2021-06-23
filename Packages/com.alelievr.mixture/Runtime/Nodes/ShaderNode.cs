@@ -134,6 +134,7 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 			{
 				UpdateShader();
 				ValidateShader();
+				UpdateExposedProperties();
 			}
 			else
 				UpdateExposedProperties();
@@ -211,7 +212,8 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 #if UNITY_EDITOR // IsShaderCompiled is editor only
 			if (!IsShaderCompiled(material.shader))
 			{
-				output.material = null;
+				if (output != null)
+					output.material = null;
 				foreach (var m in UnityEditor.ShaderUtil.GetShaderMessages(material.shader).Where(m => m.severity == UnityEditor.Rendering.ShaderCompilerMessageSeverity.Error))
 				{
 					string file = String.IsNullOrEmpty(m.file) ? material.shader.name : m.file;

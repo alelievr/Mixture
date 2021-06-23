@@ -8,6 +8,11 @@ All notable changes to this project template will be documented in this file.
 
 https://user-images.githubusercontent.com/6877923/123006036-64e2e780-d3b7-11eb-922e-018994b32da5.mov
 
+## 0.3.1
+
+### Fixed
+- Fixed missing nodes in the list of nodes proposed when dragging an edge.
+
 
 ## 0.3.0
 
