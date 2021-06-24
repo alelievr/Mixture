@@ -153,7 +153,7 @@ namespace Mixture
 
 		public override void InitializePorts()
 		{
-			settings.ResolveAndUpdate(this);
+			UpdateSettings();
 			base.InitializePorts();
 		}
 
