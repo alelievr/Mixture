@@ -29,6 +29,22 @@ public class MixtureConversions : ITypeAdapter
     public static Vector2 ConvertIntToVector2(int from) => new Vector2(from, from);
     public static int ConvertVector2ToInt(Vector2 from) => (int)from.x;
 
+    // Vector to Vector:
+    public static Vector2 ConvertVector4ToVector2(Vector4 v) => new Vector2(v.x, v.y);
+    public static Vector4 ConvertVector2ToVector4(Vector2 from) => new Vector4(from.x, from.y, 0, 0);
+    public static Vector3 ConvertVector4ToVector3(Vector4 v) => new Vector3(v.x, v.y, v.z);
+    public static Vector4 ConvertVector3ToVector4(Vector3 from) => new Vector4(from.x, from.y, from.z, 0);
+    public static Vector2 ConvertVector3ToVector2(Vector3 v) => new Vector2(v.x, v.y);
+    public static Vector3 ConvertVector2ToVector3(Vector2 from) => new Vector3(from.x, from.y, 0);
+    
+    public static Vector2Int ConvertVector3IntToVector2Int(Vector3Int v) => new Vector2Int(v.x, v.y);
+    public static Vector3Int ConvertVector2IntToVector3Int(Vector2Int from) => new Vector3Int(from.x, from.y, 0);
+
+    public static Vector2 ConvertVector2IntToVector2(Vector2Int from) => new Vector2(from.x, from.y);
+    public static Vector2Int ConvertVector2ToVector2Int(Vector2 from) => new Vector2Int((int)from.x, (int)from.y);
+    public static Vector3 ConvertVector3IntToVector3(Vector3Int from) => new Vector3(from.x, from.y, from.z);
+    public static Vector3Int ConvertVector3ToVector3Int(Vector3 from) => new Vector3Int((int)from.x, (int)from.y, (int)from.z);
+
     // Utils function for the custom material property assignation (AssignMaterialPropertiesFromEdges)
     public static Vector4 ConvertObjectToVector4(object o)
     {
