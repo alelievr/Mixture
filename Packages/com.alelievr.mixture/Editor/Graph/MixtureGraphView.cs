@@ -23,9 +23,7 @@ namespace Mixture
 			Undo.undoRedoPerformed += ReloadGraph;
 			nodeDuplicated += OnNodeDuplicated;
 
-			RegisterCallback<DetachFromPanelEvent>(e => {
-				Undo.undoRedoPerformed -= ReloadGraph;
-			});
+			RegisterCallback<DetachFromPanelEvent>(e => Disable());
 
 			SetupZoom(0.05f, 32f);
 		}
@@ -158,32 +156,40 @@ namespace Mixture
 			};
 			graph.onOutputTextureUpdated += () => ProcessGraph();
 
-			bool delayQueued = false;
+			graph.onGraphChanges -= ProcessGraphWhenChanged;
 			graph.onGraphChanges += ProcessGraphWhenChanged;
 
 			// Run the processor when we open the graph
 			ProcessGraph();
 
-			void ProcessGraphWhenChanged(GraphChanges changes)
-			{
-				if (delayQueued)
-					return;
-
-				if (changes.addedEdge != null || changes.removedEdge != null
-					|| changes.addedNode != null || changes.removedNode != null || changes.nodeChanged != null)
-				{
-					EditorApplication.update += DelayedProcess;
-					void DelayedProcess()
-					{
-						ProcessGraph(changes.nodeChanged ?? changes.addedNode);
-						delayQueued = false;
-						EditorApplication.update -= DelayedProcess;
-					}
-					delayQueued = true;
-				}
-			}
 
 			SetupRepaintChecker();
+		}
+
+		bool delayQueued = false;
+		void ProcessGraphWhenChanged(GraphChanges changes)
+		{
+			if (delayQueued)
+				return;
+
+			if (changes.addedEdge != null || changes.removedEdge != null
+				|| changes.addedNode != null || changes.removedNode != null || changes.nodeChanged != null)
+			{
+				EditorApplication.update += DelayedProcess;
+				void DelayedProcess()
+				{
+					ProcessGraph(changes.nodeChanged ?? changes.addedNode);
+					delayQueued = false;
+					EditorApplication.update -= DelayedProcess;
+				}
+				delayQueued = true;
+			}
+		}
+
+		void Disable()
+		{
+			Undo.undoRedoPerformed -= ReloadGraph;
+			graph.onGraphChanges -= ProcessGraphWhenChanged;
 		}
 
 		public void ProcessGraph(BaseNode sourceNode = null)
