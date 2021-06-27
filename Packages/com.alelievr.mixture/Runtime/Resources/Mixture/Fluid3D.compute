@@ -8,6 +8,8 @@
 #pragma kernel ComputePressure 
 #pragma kernel ComputeProjection 
 #pragma kernel SetObstacles 
+#pragma kernel InjectVelocity 
+#pragma kernel InjectObstacles 
 
 #pragma enable_d3d11_debug_symbols
 
@@ -134,4 +136,22 @@ void InjectDensity(uint3 id : SV_DispatchThreadID)
     float amount = _InputDensity.SampleLevel(s_linear_clamp_sampler, id / _Size.xyz, 0);
 	amount *= _Amount * _DeltaTime;
     _Write[id] = _Density[id] + amount;
+}
+
+Texture3D<float3> _InputVelocity;
+
+[numthreads(8,8,1)]
+void InjectVelocity(uint3 id : SV_DispatchThreadID)
+{
+    float3 targetVelocity = _InputVelocity.SampleLevel(s_linear_clamp_sampler, id / _Size.xyz, 0);
+    _Write[id] = _VelocityR[id] + targetVelocity; // TODO:param amount
+}
+
+Texture3D<float> _InputObstacles;
+
+[numthreads(8,8,1)]
+void InjectObstacles(uint3 id : SV_DispatchThreadID)
+{
+    float isBlocking = _InputObstacles.SampleLevel(s_linear_clamp_sampler, id / _Size.xyz, 0);
+    _Write[id] += isBlocking;
 }

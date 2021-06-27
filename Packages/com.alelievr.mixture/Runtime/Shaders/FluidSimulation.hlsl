@@ -312,31 +312,32 @@ static float pressureKernelWeights[PRESSURE_KERNEL_LENGTH + 1] =
 
 void Pressure(int2 id, int2 size, Texture2D<float> pressureR, Texture2D<float> obstacles, Texture2D<float> divergence, RWTexture2D<float> pressureW)
 {
-    int2 direction = int2(1, 0);
-    float result = 0;
+    // TODO: finish this optimization
+    // int2 direction = int2(1, 0);
+    // float result = 0;
 
-    for (int x = -PRESSURE_KERNEL_LENGTH; x <= PRESSURE_KERNEL_LENGTH; x++)
-    {
-        for (int y = -PRESSURE_KERNEL_LENGTH; y <= PRESSURE_KERNEL_LENGTH; y++)
-        {
-            float f1 = x < 0 ? -1 : 1;
-            float f2 = y < 0 ? -1 : 1;
-            float weight = f1 * pressureKernelWeights[abs(x)] * f2 * pressureKernelWeights[abs(y)];
-            int2 fetchId = CalculateBorderCoord(id + int2(x, y));
-            float div = divergence[fetchId];
+    // for (int x = -PRESSURE_KERNEL_LENGTH; x <= PRESSURE_KERNEL_LENGTH; x++)
+    // {
+    //     for (int y = -PRESSURE_KERNEL_LENGTH; y <= PRESSURE_KERNEL_LENGTH; y++)
+    //     {
+    //         float f1 = x < 0 ? -1 : 1;
+    //         float f2 = y < 0 ? -1 : 1;
+    //         float weight = f1 * pressureKernelWeights[abs(x)] * f2 * pressureKernelWeights[abs(y)];
+    //         int2 fetchId = CalculateBorderCoord(id + int2(x, y));
+    //         float div = divergence[fetchId];
 
-            result += weight * div;
-        }
-    }
+    //         result += weight * div;
+    //     }
+    // }
 
-    pressureW[id] = result;
+    // pressureW[id] = result;
 
-    // float L, R, B, T;
-    // float2 unused;
-    // LoadPressureNeighbours(id, size, pressureR, obstacles, L, R, B, T, unused);
+    float L, R, B, T;
+    float2 unused;
+    LoadPressureNeighbours(id, size, pressureR, obstacles, L, R, B, T, unused);
 
-    // float divergenceF = divergence[id];
-    // pressureW[id] = ( L + R + B + T - divergenceF ) / 4.0;
+    float divergenceF = divergence[id];
+    pressureW[id] = ( L + R + B + T - divergenceF ) / 4.0;
 }
 
 void Pressure(int3 id, int3 size, Texture3D<float> pressureR, Texture3D<float> obstacles, Texture3D<float> divergence, RWTexture3D<float> pressureW)
