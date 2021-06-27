@@ -16,7 +16,7 @@ Currently only the first output texture of the output node can be retrieved.
 ")]
 
 	[System.Serializable, NodeMenuItem("Realtime/Self")]
-	public class SelfNode : MixtureNode 
+	public class SelfNode : MixtureNode, IRealtimeReset
 	{
 		[Output(name = "Out"), Tooltip("Output Texture"), NonSerialized]
 		public CustomRenderTexture	output = null;
@@ -26,6 +26,14 @@ Currently only the first output texture of the output node can be retrieved.
 
 		[Input, ShowAsDrawer]
 		public Color			initialColor = Color.white;
+
+		[SerializeField, HideInInspector]
+		int						_outputIndex;
+		public int				outputIndex
+		{
+			get => Mathf.Clamp(_outputIndex, 0, graph.outputNode.outputTextureSettings.Count);
+			set => _outputIndex = value;
+		}
 
 		public override Texture previewTexture => output;
 		public override bool	hasSettings => false;
@@ -63,6 +71,8 @@ Currently only the first output texture of the output node can be retrieved.
 
 		public void ResetOutputTexture() => initialization = true;
 
+		public void RealtimeReset() => ResetOutputTexture();
+
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
 			if (output == null)
@@ -94,7 +104,7 @@ Currently only the first output texture of the output node can be retrieved.
 				if (graph.outputNode.outputTextureSettings.Count > 0)
 				{
 					// We don't take the result of the output node because we want to avoid the sRRB conversion;
-					var graphOutputTexture = graph.outputNode.outputTextureSettings[0].inputTexture;
+					var graphOutputTexture = graph.outputNode.outputTextureSettings[outputIndex].inputTexture;
 					if (graphOutputTexture != null)
 						TextureUtils.CopyTexture(cmd, graphOutputTexture, output, true);
 				}
