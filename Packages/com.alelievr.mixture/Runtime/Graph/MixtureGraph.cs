@@ -631,10 +631,11 @@ namespace Mixture
                         var colors = (outputTexture as Texture2D).GetPixels();
 
                         // We only do the conversion for whe the graph uses SRGB images
-                        if (external.mainOutput.sRGB)
+                        if (external.external2DOoutputType == ExternalOutputNode.External2DOutputType.Color
+                            || external.external2DOoutputType == ExternalOutputNode.External2DOutputType.LatLongCubemapColor)
                         {
                             for (int i = 0; i < colors.Length; i++)
-                                colors[i] = colors[i].linear;
+                                colors[i] = colors[i].gamma;
                         }
 
                         (outputTexture as Texture2D).SetPixels(colors);
@@ -661,14 +662,20 @@ namespace Mixture
                         case ExternalOutputNode.External2DOutputType.Normal:
                             importer.textureType = TextureImporterType.NormalMap;
                             break;
-                        case ExternalOutputNode.External2DOutputType.LatLonCubemap:
+                        case ExternalOutputNode.External2DOutputType.LatLongCubemapColor:
                             importer.textureShape = TextureImporterShape.TextureCube;
                             importer.generateCubemap = TextureImporterGenerateCubemap.Cylindrical;
+                            importer.sRGBTexture = true;
+                            break;
+                        case ExternalOutputNode.External2DOutputType.LatLongCubemapLinear:
+                            importer.textureShape = TextureImporterShape.TextureCube;
+                            importer.generateCubemap = TextureImporterGenerateCubemap.Cylindrical;
+                            importer.sRGBTexture = false;
                             break;
                     }
                     importer.SaveAndReimport();
 
-                    if(external.external2DOoutputType == ExternalOutputNode.External2DOutputType.LatLonCubemap)
+                    if(external.external2DOoutputType == ExternalOutputNode.External2DOutputType.LatLongCubemapColor)
                         external.asset = AssetDatabase.LoadAssetAtPath<Cubemap>(assetPath);
                     else
                         external.asset = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);

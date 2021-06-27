@@ -27,7 +27,8 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
             Color,
             Normal,
             Linear,
-        LatLonCubemap
+            LatLongCubemapColor,
+            LatLongCubemapLinear,
         }
 
         public override string name => "External Output";
