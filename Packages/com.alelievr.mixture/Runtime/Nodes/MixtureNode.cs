@@ -151,18 +151,23 @@ namespace Mixture
 			onSettingsChanged -= UpdateSettings;
 		}
 
-		public override void InitializePorts()
+		bool IsNodeUsingSettings(BaseNode n)
 		{
-			UpdateSettings();
-			base.InitializePorts();
+			bool settings = n is MixtureNode m && m.hasSettings;
+
+			// There are some exception where node don't have settings but we still inherit from them
+			settings |= n is TextureNode;
+			settings |= n is SelfNode;
+
+			return true;
 		}
 
 		void UpdateSettings() => UpdateSettings(null);
 		void UpdateSettings(SerializableEdge edge)
 		{
 			// Update nodes used to infere settings values
-			parentSettingsNode = GetInputNodes().FirstOrDefault(n => n is MixtureNode m && m.hasSettings) as MixtureNode;
-			childSettingsNode = GetOutputNodes().FirstOrDefault(n => n is MixtureNode m && m.hasSettings) as MixtureNode;
+			parentSettingsNode = GetInputNodes().FirstOrDefault(n => IsNodeUsingSettings(n)) as MixtureNode;
+			childSettingsNode = GetOutputNodes().FirstOrDefault(n => IsNodeUsingSettings(n)) as MixtureNode;
 
 			settings.ResolveAndUpdate(this);
 		}
@@ -285,7 +290,7 @@ namespace Mixture
 		{
 			inputPorts.PullDatas();
 
-			settings.ResolveAndUpdate(this);
+			UpdateSettings();
 
 			ExceptionToLog.Call(() => Process(cmd));
 
@@ -485,7 +490,6 @@ namespace Mixture
 #if UNITY_EDITOR
 		protected bool IsShaderCompiled(Shader s)
 		{
-			// TODO: replace with ShaderUtil.ShaderHasError when available
 			return !ShaderUtil.GetShaderMessages(s).Any(m => m.severity == ShaderCompilerMessageSeverity.Error);
 		}
 
