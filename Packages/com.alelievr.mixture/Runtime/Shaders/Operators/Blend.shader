@@ -23,9 +23,9 @@ Shader "Hidden/Mixture/Blend"
 		[MixtureBlend]_BlendMode("Blend Mode", Float) = 0
 		[Tooltip(Select which channel is used to sample the mask value)][Enum(PerChannel, 0, R, 1, G, 2, B, 3, A, 4)]_MaskMode("Mask Mode", Float) = 4
 
-		[ShowInInspector]
+		[ShowInInspector][Toggle]
 		[Tooltip(Avoids having negative values in the output texture)]
-		_RemoveNegative("Remove Negative Values", Float) = 1
+		_RemoveNegative("Clamp Negative", Float) = 1
 	}
 	SubShader
 	{
