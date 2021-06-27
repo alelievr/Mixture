@@ -22,7 +22,8 @@ The Preview node allows you to visualize your texture data differently using 3 m
 		{
 			Color,
 			Normal,
-			Heightmap
+			Heightmap,
+			VectorField,
 		}
 
 		public override string name => "Preview";

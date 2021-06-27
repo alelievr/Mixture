@@ -8,7 +8,7 @@ Shader "Hidden/Mixture/PreviewNode"
 		[InlineTexture]_Source_Cube("Source", Cube) = "white" {}
 
 		// Other parameters
-		[Enum(Color, 0, Normal, 1, Heightmap, 2)]_Mode("Mode", Int) = 0
+		[Enum(Color, 0, Normal, 1, Heightmap, 2, Vector Field, 3)]_Mode("Mode", Int) = 0
 
 		[VisibleIf(_Mode, 0)]_ColorMin("Min Remap Color", Vector) = (0, 0, 0, 0)
 		[VisibleIf(_Mode, 0)]_ColorMax("Max Remap Color", Vector) = (1, 1, 1, 1)
@@ -22,6 +22,10 @@ Shader "Hidden/Mixture/PreviewNode"
 		[VisibleIf(_Mode, 2)]_HeightMin("Min", Float) = 0
 		[VisibleIf(_Mode, 2)]_HeightMax("Max", Float) = 1
 
+		[VisibleIf(_Mode, 3)]_ArrowSize("Arrow Size", Range(0.01, 10)) = 1
+		[ShowInInspector][VisibleIf(_Mode, 3)]_ArrowCount("Arrow Count", Range(8, 11)) = 9
+		[VisibleIf(_Mode, 3)]_VectorScale("Vector Scale", Range(0.01, 10)) = 1
+
 		_Tiling("Tiling", Range(1, 3)) = 1
 	}
 	SubShader
@@ -32,6 +36,7 @@ Shader "Hidden/Mixture/PreviewNode"
 		Pass
 		{
 			HLSLPROGRAM
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureFixed.hlsl"
 			#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureSRGB.hlsl"
             #pragma vertex CustomRenderTextureVertexShader
@@ -57,6 +62,9 @@ Shader "Hidden/Mixture/PreviewNode"
 			float _HeightChannel;
 			float _HeightMin;
 			float _HeightMax;
+			float _ArrowSize;
+			float _VectorScale;
+			uint _ArrowCount;
 
 			float _Tiling;
 
@@ -162,6 +170,85 @@ Shader "Hidden/Mixture/PreviewNode"
 				return value;
 			}
 
+
+			// Sopurce: https://www.shadertoy.com/view/4s23DG
+
+			#define ARROW_V_STYLE 1
+			#define ARROW_LINE_STYLE 2
+
+			// Choose your arrow head style
+			#define ARROW_STYLE ARROW_LINE_STYLE
+			#define ARROW_TILE_SIZE 64.0
+
+			// How sharp should the arrow head be? Used
+			#define ARROW_HEAD_ANGLE 45.0 * PI / 180.0
+
+			// Used for ARROW_LINE_STYLE
+			#define ARROW_HEAD_LENGTH ARROW_TILE_SIZE / 6.0
+			#define ARROW_SHAFT_THICKNESS 3.0
+				
+			// Computes the center pixel of the tile containing pixel pos
+			float2 arrowTileCenterCoord(float2 pos) {
+				return (floor(pos / ARROW_TILE_SIZE) + 0.5) * ARROW_TILE_SIZE;
+			}
+
+			// v = field sampled at tileCenterCoord(p), scaled by the length
+			// desired in pixels for arrows
+			// Returns 1.0 where there is an arrow pixel.
+			float arrow(float2 p, float2 v) {
+				// Make everything relative to the center, which may be fractional
+				p -= arrowTileCenterCoord(p);
+					
+				float mag_v = length(v), mag_p = length(p);
+				
+				if (mag_v > 0.0) {
+					// Non-zero velocity case
+					float2 dir_p = p / mag_p, dir_v = v / mag_v;
+					
+					// We can't draw arrows larger than the tile radius, so clamp magnitude.
+					// Enforce a minimum length to help see direction
+					mag_v = clamp(mag_v, 5.0, ARROW_TILE_SIZE / 2.0);
+
+					// Arrow tip location
+					v = dir_v * mag_v;
+					
+					// Define a 2D implicit surface so that the arrow is antialiased.
+					// In each line, the left expression defines a shape and the right controls
+					// how quickly it fades in or out.
+
+					float dist;		
+					// Signed distance from a line segment based on https://www.shadertoy.com/view/ls2GWG by 
+					// Matthias Reitinger, @mreitinger
+					
+					// Line arrow style
+					dist = 
+						max(
+							// Shaft
+							ARROW_SHAFT_THICKNESS / 4.0 - 
+								max(abs(dot(p, float2(dir_v.y, -dir_v.x))), // Width
+									abs(dot(p, dir_v)) - mag_v + ARROW_HEAD_LENGTH / 2.0), // Length
+								
+							// Arrow head
+							min(0.0, dot(v - p, dir_v) - cos(ARROW_HEAD_ANGLE / 2.0) * length(v - p)) * 2.0 + // Front sides
+							min(0.0, dot(p, dir_v) + ARROW_HEAD_LENGTH - mag_v)); // Back
+					
+					return clamp(1.0 + dist, 0.0, 1.0);
+				} else {
+					// Center of the pixel is always on the arrow
+					return max(0.0, 1.2 - mag_p);
+				}
+			}
+
+			float4 PreviewVectorField(float4 backgroundValue, float4 vectorValue, float3 uv)
+			{
+				// return float4(uv.xy, 0, 1);
+				float arrowCellSize = exp2(_ArrowCount);
+				float4 arrowColor = 1;
+				if (Luminance(backgroundValue) > 0.5)
+					arrowColor = float4(0, 0, 0, 1);
+				return lerp(backgroundValue, arrowColor, arrow(round(uv.xy * arrowCellSize), vectorValue.xy * ARROW_TILE_SIZE * _ArrowSize * 0.4));
+			}
+
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
 				float3 uv = (i.localTexcoord.xyz - 0.5) * _Tiling + 0.5;
@@ -178,6 +265,13 @@ Shader "Hidden/Mixture/PreviewNode"
 						break;
 					case 2: //Heightmap 
 						value = PreviewHeightmap(value);
+						break;
+					case 3: // vector field
+						float arrowCellSize = exp2(_ArrowCount);
+						float4 multiplier = float4(_VectorScale.xxx, 1);
+						float4 vectorValue = SAMPLE_LOD_X(_Source, arrowTileCenterCoord(uv * arrowCellSize).xyx / arrowCellSize, i.direction, _SourceMip) * multiplier;
+						value *= multiplier;
+						value = PreviewVectorField(value, vectorValue, uv);
 						break;
 				}
 

@@ -11,6 +11,9 @@ https://user-images.githubusercontent.com/6877923/123006036-64e2e780-d3b7-11eb-9
 - Added conversion methods for Vector3 and Vector2 to Vector4.
 - Added a popup to select which preview texture is visible in the output node.
 - Added an option in the self node to select the output texture.
+- Added a Vector Field node to generate simple vector field patterns.
+- Added a button in the toolbar to restart a realtime effect.
+- Added a vector field preview mode in the Preview node.
 
 ### Fixed
 - Fixed missing nodes in the list of nodes proposed when dragging an edge.
