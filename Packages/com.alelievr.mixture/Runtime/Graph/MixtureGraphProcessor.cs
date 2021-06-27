@@ -101,11 +101,15 @@ namespace Mixture
 				// Trigger the graph processing from a CRT update if we weren't processing
 				BaseNode node = graph.nodes.FirstOrDefault(n => n is IUseCustomRenderTextureProcessing i && i.GetCustomRenderTextures().Any(c => c == crt));
 
+				// Hack to process nodes that are not connected to the output in realtime mode
+				if (graph.type == MixtureGraphType.Realtime)
+					node = null;
+
 				// node can be null if the CRT doesn't belong to the graph.
 				if (node != null)
 					ProcessGraphOutputs(cmd, new List<BaseNode>{ node });
 				else // In that case we process the graph output
-					ProcessGraphOutputs(cmd, new List<BaseNode>{ graph.outputNode });
+					ProcessGraphOutputs(cmd, graph.graphOutputs);
 			}
 			else
 			{

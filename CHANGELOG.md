@@ -16,6 +16,7 @@ https://user-images.githubusercontent.com/6877923/123006036-64e2e780-d3b7-11eb-9
 - Fixed missing nodes in the list of nodes proposed when dragging an edge.
 - Fixed gamma mismatch when exporting a 2D texture with the External Output node.
 - Fixed incorrect create node list when opened from an edge.
+- Fixed processing of nodes not connected to the output in realtime mixtures.
 
 ## 0.3.0
 
