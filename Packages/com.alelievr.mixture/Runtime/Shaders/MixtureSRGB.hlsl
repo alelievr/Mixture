@@ -3,6 +3,8 @@
 
 int _IsSRGB;
 
+#ifndef UNITY_COLOR_INCLUDED
+
 float3 SRGBToLinear(float3 c)
 {
     float3 linearRGBLo  = c / 12.92;
@@ -18,6 +20,8 @@ float3 LinearToSRGB(float3 c)
     float3 sRGB   = (c <= 0.0031308) ? sRGBLo : sRGBHi;
     return sRGB;
 }
+
+#endif
 
 float3 ConvertToSRGBIfNeeded(float3 color)
 {
