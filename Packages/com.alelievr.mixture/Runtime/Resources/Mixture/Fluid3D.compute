@@ -7,7 +7,7 @@
 #pragma kernel ComputeDivergence 
 #pragma kernel ComputePressure 
 #pragma kernel ComputeProjection 
-#pragma kernel SetBounds 
+#pragma kernel SetObstacles 
 
 #pragma enable_d3d11_debug_symbols
 
@@ -16,7 +16,7 @@
 #define FLUID_3D
 #include "Packages/com.alelievr.mixture/Runtime/Shaders/FluidSimulation.hlsl"
 
-float4 _Size, _Up, _Pos;
+float4 _Up, _Pos;
 float _DeltaTime, _Dissipate, _Decay;
 float _AmbientTemperature, _Buoyancy, _Weight;
 float _Radius, _Amount;
@@ -72,7 +72,7 @@ void Advect(uint3 id : SV_DispatchThreadID)
 }
 
 [numthreads(8,8,1)]
-void SetBounds(uint3 id : SV_DispatchThreadID)
+void SetObstacles(uint3 id : SV_DispatchThreadID)
 {
     if (any(id == 0 || id == uint3(_Size.xyz - 1)))
         _Obstacles[id] = 1;

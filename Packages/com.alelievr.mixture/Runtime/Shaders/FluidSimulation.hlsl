@@ -1,54 +1,118 @@
 #ifndef FLUID_SIMULATION
 # define FLUID_SIMULATION
 
-// template for 2D and 3D fluid simulations
-#ifdef FLUID_2D
-# define TEXTURE_TYPE Texture2D
-# define RW_TEXTURE_TYPE RWTexture2D
-# define FLOAT_X float2
-# define FLOAT_X_OR_FLOAT float2
-# define INT_X int2
-# define SWIZZLE_X xy
-# include "Packages/com.alelievr.mixture/Runtime/Shaders/FluidSimulationTemplate.hlsl"
-#elif defined(FLUID_3D)
-# define TEXTURE_TYPE Texture3D
-# define RW_TEXTURE_TYPE RWTexture3D
-# define FLOAT_X float3
-# define FLOAT_X_OR_FLOAT float3
-# define INT_X int3
-# define SWIZZLE_X xyz
-# include "Packages/com.alelievr.mixture/Runtime/Shaders/FluidSimulationTemplate.hlsl"
-#else
-# error Fluid dimension not defined!
-#endif
+float _BorderMode;
+float4 _Size;
 
-// Generate functions override with float parameters
-#undef FLOAT_X_OR_FLOAT
-#define FLOAT_X_OR_FLOAT float
-#define SECOND_PASS
-# include "Packages/com.alelievr.mixture/Runtime/Shaders/FluidSimulationTemplate.hlsl"
+float2 GetAdvectedPosTexCoords(Texture2D<float2> velocity, float2 pos, int2 id, float deltaTime, int2 size)
+{
+    pos -= deltaTime * velocity[id];
+    // position to UV
+    float2 uv = pos / size + 0.5 / size;
 
-// Utility functions (that doesn't require templates)
+    // Warp pos
+    if (_BorderMode == 2)
+    {
+        uv %= 1;
+        uv += size * -min(0, sign(uv));
+    }
+
+    return uv;
+}
+
+float3 GetAdvectedPosTexCoords(Texture3D<float3> velocity, float3 pos, int3 id, float deltaTime, int3 size)
+{
+    pos -= deltaTime * velocity[id];
+    // position to UV
+    float3 uv = pos / size + 0.5 / size;
+
+    // Warp pos
+    if (_BorderMode == 2)
+    {
+        uv %= 1;
+        uv += size * -min(0, sign(uv));
+    }
+
+    return uv;
+}
+
+void AdvectBuffer(Texture2D<float2> source, Texture2D<float2> velocity, RWTexture2D<float2> destination, int2 id, float dissipation, float deltaTime, int2 size)
+{
+	float2 uv = GetAdvectedPosTexCoords(velocity, id, id, deltaTime, size);
+
+   	destination[id] = source.SampleLevel(s_linear_clamp_sampler, uv, 0) * dissipation;
+}
+
+void AdvectBuffer(Texture2D<float> source, Texture2D<float2> velocity, RWTexture2D<float> destination, int2 id, float dissipation, float deltaTime, int2 size)
+{
+	float2 uv = GetAdvectedPosTexCoords(velocity, id, id, deltaTime, size);
+
+   	destination[id] = source.SampleLevel(s_linear_clamp_sampler, uv, 0) * dissipation;
+}
+
+void AdvectBuffer(Texture3D<float3> source, Texture3D<float3> velocity, RWTexture3D<float3> destination, int3 id, float dissipation, float deltaTime, int3 size)
+{
+	float3 uv = GetAdvectedPosTexCoords(velocity, id, id, deltaTime, size);
+
+   	destination[id] = source.SampleLevel(s_linear_clamp_sampler, uv, 0) * dissipation;
+}
+
+void AdvectBuffer(Texture3D<float> source, Texture3D<float3> velocity, RWTexture3D<float> destination, int3 id, float dissipation, float deltaTime, int3 size)
+{
+	float3 uv = GetAdvectedPosTexCoords(velocity, id, id, deltaTime, size);
+
+   	destination[id] = source.SampleLevel(s_linear_clamp_sampler, uv, 0) * dissipation;
+}
+
+int3 CalculateBorderCoord(int3 coord)
+{
+    if (_BorderMode == 2)
+    {
+        coord = coord % uint3(_Size.xyz);
+        coord += _Size.xyz * -min(0, sign(coord));
+    }
+    else
+    {
+        coord = clamp(coord, 0, int3(_Size.xyz) - 1);
+    }
+
+    return coord;
+}
+
+int2 CalculateBorderCoord(int2 coord)
+{
+    if (_BorderMode == 2)
+    {
+        coord = coord % uint2(_Size.xy);
+        coord += _Size.xy * -min(0, sign(coord));
+    }
+    else
+    {
+        coord = clamp(coord, 0, int2(_Size.xy) - 1);
+    }
+
+    return coord;
+}
 
 void ComputeNeighbourPositions(int3 id, int3 size, out int3 idxL, out int3 idxR, out int3 idxB, out int3 idxT, out int3 idxD, out int3 idxU)
 {
-    idxL = int3(max(0, id.x-1), id.y, id.z);
-    idxR = int3(min(size.x-1, id.x+1), id.y, id.z);
+    idxL = CalculateBorderCoord(int3(id.x - 1, id.y, id.z));
+    idxR = CalculateBorderCoord(int3(id.x + 1, id.y, id.z));
 
-    idxB = int3(id.x, max(0, id.y-1), id.z);
-    idxT = int3(id.x, min(size.y-1, id.y+1), id.z);
+    idxB = CalculateBorderCoord(int3(id.x, id.y - 1, id.z));
+    idxT = CalculateBorderCoord(int3(id.x, id.y + 1, id.z));
 
-    idxD = int3(id.x, id.y, max(0, id.z-1));
-    idxU = int3(id.x, id.y, min(size.z-1, id.z+1));
+    idxD = CalculateBorderCoord(int3(id.x, id.y, id.z - 1));
+    idxU = CalculateBorderCoord(int3(id.x, id.y, id.z + 1));
 }
 
 void ComputeNeighbourPositions(int2 id, int2 size, out int2 idxL, out int2 idxR, out int2 idxB, out int2 idxT)
 {
-    idxL = int2(max(0, id.x-1), id.y);
-    idxR = int2(min(size.x-1, id.x+1), id.y);
+    idxL = CalculateBorderCoord(int2(id.x - 1, id.y));
+    idxR = CalculateBorderCoord(int2(id.x + 1, id.y));
 
-    idxB = int2(id.x, max(0, id.y-1));
-    idxT = int2(id.x, min(size.y-1, id.y+1));
+    idxB = CalculateBorderCoord(int2(id.x, id.y - 1));
+    idxT = CalculateBorderCoord(int2(id.x, id.y + 1));
 }
 
 void LoadPressureNeighbours(int3 id, int3 size, Texture3D<float> pressure, Texture3D<float> obstacles, out float L, out float R, out float B, out float T, out float D, out float U, inout float3 mask)
@@ -235,6 +299,46 @@ void Divergence(int2 id, int2 size, Texture2D<float2> velocity, Texture2D<float>
     divergence[id] = finalDivergence;
 }
 
+// Optimized pressure solver with poisson kernel: https://www.shahinrabbani.ca/torch2pd.html
+#define PRESSURE_KERNEL_LENGTH 4
+static float pressureKernelWeights[PRESSURE_KERNEL_LENGTH + 1] =
+{
+    0.57843719174047891762313611252466216683387756f,
+    0.36519596949351723624843657489691395312547684f,
+    0.23187988879520388119104268298542592674493790f,
+    0.14529589353342881041797340913035441190004349f,
+    0.08816487385701117507341706414081272669136524f
+};
+
+void Pressure(int2 id, int2 size, Texture2D<float> pressureR, Texture2D<float> obstacles, Texture2D<float> divergence, RWTexture2D<float> pressureW)
+{
+    int2 direction = int2(1, 0);
+    float result = 0;
+
+    for (int x = -PRESSURE_KERNEL_LENGTH; x <= PRESSURE_KERNEL_LENGTH; x++)
+    {
+        for (int y = -PRESSURE_KERNEL_LENGTH; y <= PRESSURE_KERNEL_LENGTH; y++)
+        {
+            float f1 = x < 0 ? -1 : 1;
+            float f2 = y < 0 ? -1 : 1;
+            float weight = f1 * pressureKernelWeights[abs(x)] * f2 * pressureKernelWeights[abs(y)];
+            int2 fetchId = CalculateBorderCoord(id + int2(x, y));
+            float div = divergence[fetchId];
+
+            result += weight * div;
+        }
+    }
+
+    pressureW[id] = result;
+
+    // float L, R, B, T;
+    // float2 unused;
+    // LoadPressureNeighbours(id, size, pressureR, obstacles, L, R, B, T, unused);
+
+    // float divergenceF = divergence[id];
+    // pressureW[id] = ( L + R + B + T - divergenceF ) / 4.0;
+}
+
 void Pressure(int3 id, int3 size, Texture3D<float> pressureR, Texture3D<float> obstacles, Texture3D<float> divergence, RWTexture3D<float> pressureW)
 {
     float L, R, B, T, D, U;
@@ -245,15 +349,15 @@ void Pressure(int3 id, int3 size, Texture3D<float> pressureR, Texture3D<float> o
     pressureW[id] = ( L + R + B + T + U + D - divergenceF ) / 6.0;
 }
 
-void Pressure(int2 id, int2 size, Texture2D<float> pressureR, Texture2D<float> obstacles, Texture2D<float> divergence, RWTexture2D<float> pressureW)
-{
-    float L, R, B, T;
-    float2 unused;
-    LoadPressureNeighbours(id, size, pressureR, obstacles, L, R, B, T, unused);
+// void Pressure(int2 id, int2 size, Texture2D<float> pressureR, Texture2D<float> obstacles, Texture2D<float> divergence, RWTexture2D<float> pressureW)
+// {
+//     float L, R, B, T;
+//     float2 unused;
+//     LoadPressureNeighbours(id, size, pressureR, obstacles, L, R, B, T, unused);
 
-    float divergenceF = divergence[id];
-    pressureW[id] = ( L + R + B + T - divergenceF ) / 4.0;
-}
+//     float divergenceF = divergence[id];
+//     pressureW[id] = ( L + R + B + T - divergenceF ) / 4.0;
+// }
 
 void Project(int3 id, int3 size, Texture3D<float> pressureR, Texture3D<float> obstacles, Texture3D<float3> velocityR, RWTexture3D<float3> velocityW)
 {

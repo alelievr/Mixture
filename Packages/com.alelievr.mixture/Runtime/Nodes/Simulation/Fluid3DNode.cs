@@ -34,9 +34,7 @@ namespace Mixture
 		public float m_temperatureAmount = 10.0f;
 		public float m_temperatureDissipation = 0.995f;
 		public float m_velocityDissipation = 0.995f;
-		public float m_inputRadius = 0.04f;
 		float m_ambientTemperature = 0.0f;
-		public Vector4 m_inputPos = new Vector4(0.5f,0.1f,0.5f,0.0f);
 
 		public override string name => "3D Fluid";
 
@@ -96,6 +94,17 @@ namespace Mixture
 
 			m_temp3f = AllocateRenderTexture("Temp", GraphicsFormat.R16G16B16A16_SFloat);
         }
+	
+		public override void RealtimeReset()
+		{
+			// Reset all temp textures
+
+			ClearRenderTexture(m_density[READ]);
+			ClearRenderTexture(m_velocity[READ]);
+			ClearRenderTexture(m_temperature[READ]);
+			ClearRenderTexture(m_pressure[READ]);
+			ClearRenderTexture(m_obstacles);
+		}
 
         protected override void Disable()
         {
@@ -162,24 +171,6 @@ namespace Mixture
 			ComputeProjection(cmd, m_obstacles, m_pressure[READ], m_velocity);
 
 			return true;
-		}
-
-		void ApplyImpulse(CommandBuffer cmd, float dt, float amount, RenderTexture[] buffer)
-		{
-			cmd.BeginSample("ApplyImpulse");
-			cmd.SetComputeVectorParam(computeShader, "_Size", size);
-			cmd.SetComputeFloatParam(computeShader, "_Radius", m_inputRadius);
-			cmd.SetComputeFloatParam(computeShader, "_Amount", amount);
-			cmd.SetComputeFloatParam(computeShader, "_DeltaTime", dt);
-			cmd.SetComputeVectorParam(computeShader, "_Pos", m_inputPos);
-			
-			cmd.SetComputeTextureParam(computeShader, gaussImpulseKernel, "_Read", buffer[READ]);
-			cmd.SetComputeTextureParam(computeShader, gaussImpulseKernel, "_Write", buffer[WRITE]);
-			
-			DispatchCompute(cmd, gaussImpulseKernel, (int)size.x, (int)size.y, (int)size.z);
-			cmd.EndSample("ApplyImpulse");
-			
-			Swap(buffer);
 		}
 	}
 }

@@ -8,23 +8,20 @@ using GraphProcessor;
 namespace Mixture
 {
 	[System.Serializable]
-	public abstract class BaseFluidSimulationNode : ComputeShaderNode 
+	public abstract class BaseFluidSimulationNode : ComputeShaderNode, IRealtimeReset
 	{
 		public enum BorderMode
 		{
-			Borders,
-			NoBorders,
-			Tile,
+			Borders = 0,
+			NoBorders = 1,
+			Tile = 2,
 		}
 
-		public float simulationSpeed;
+		public float simulationSpeed = 1;
 
-		[ShowInInspector]
 		public BorderMode borderMode;
 
 		CustomRenderTexture fluidBuffer;
-
-		public override string name => "2D Fluid";
 
 		public override bool showDefaultInspector => true;
 
@@ -57,8 +54,10 @@ namespace Mixture
 		int computeDivergenceKernel;
 		int computePressureKernel;
 		int computeProjectionKernel;
-		int setBoundsKernel;
+		int SetObstaclesKernel;
 		int injectDensityKernel;
+		int injectVelocityKernel;
+		int injectObstaclesKernel;
 
 		protected Vector3 size;
 
@@ -79,9 +78,16 @@ namespace Mixture
 			computeDivergenceKernel = computeShader.FindKernel("ComputeDivergence");
 			computePressureKernel = computeShader.FindKernel("ComputePressure");
 			computeProjectionKernel = computeShader.FindKernel("ComputeProjection");
-			setBoundsKernel = computeShader.FindKernel("SetBounds");
+			SetObstaclesKernel = computeShader.FindKernel("SetObstacles");
 			injectDensityKernel = computeShader.FindKernel("InjectDensity");
+			injectVelocityKernel = computeShader.FindKernel("InjectVelocity");
+			injectObstaclesKernel = computeShader.FindKernel("InjectObstacles");
+
+			if (simulationSpeed == 0)
+				simulationSpeed = 1;
         }
+
+		public virtual void RealtimeReset() {}
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
@@ -96,7 +102,7 @@ namespace Mixture
 			return true;
 		}
 
-		protected virtual float GetDeltaTime() => 0.1f; // TODO: expose setting
+		protected virtual float GetDeltaTime() => simulationSpeed / 10f; // TODO: expose setting
 
 		protected RenderTexture AllocateRenderTexture(string name, GraphicsFormat format)
 		{
@@ -109,10 +115,15 @@ namespace Mixture
 				hideFlags = HideFlags.HideAndDontSave,
 			};
 
-			for (int i = 0; i < settings.GetResolvedDepth(graph); i++)
-				Graphics.Blit(Texture2D.blackTexture, rt, 0, i);
+			ClearRenderTexture(rt);
 
 			return rt;
+		}
+
+		protected void ClearRenderTexture(RenderTexture rt)
+		{
+			for (int i = 0; i < settings.GetResolvedDepth(graph); i++)
+				Graphics.Blit(Texture2D.blackTexture, rt, 0, i);
 		}
 
 		protected const int READ = 0;
@@ -131,8 +142,9 @@ namespace Mixture
 		{
 			cmd.BeginSample("ComputeObstacles");
 			cmd.SetComputeVectorParam(computeShader, "_Size", size);
-			cmd.SetComputeTextureParam(computeShader, setBoundsKernel, "_Obstacles", obstacles);
-			DispatchCompute(cmd, setBoundsKernel, (int)size.x, (int)size.y, (int)size.z);
+			cmd.SetComputeTextureParam(computeShader, SetObstaclesKernel, "_Obstacles", obstacles);
+			cmd.SetComputeFloatParam(computeShader, "_BorderMode", (int)borderMode);
+			DispatchCompute(cmd, SetObstaclesKernel, (int)size.x, (int)size.y, (int)size.z);
 			cmd.EndSample("ComputeObstacles");
 		}
 	
@@ -291,6 +303,41 @@ namespace Mixture
 			cmd.EndSample("InjectDensity");
 			
 			Swap(density);
+		}
+
+		protected void InjectVelocity(CommandBuffer cmd, Texture inputVelocity, RenderTexture[] velocity)
+		{
+			if (inputVelocity == null)
+				return;
+
+			cmd.BeginSample("InjectVelocity");
+			cmd.SetComputeVectorParam(computeShader, "_Size", size);
+			cmd.SetComputeFloatParam(computeShader, "_DeltaTime", GetDeltaTime());
+
+			cmd.SetComputeTextureParam(computeShader, injectVelocityKernel, "_InputVelocity", inputVelocity);
+			cmd.SetComputeTextureParam(computeShader, injectVelocityKernel, "_VelocityR", velocity[READ]);
+			cmd.SetComputeTextureParam(computeShader, injectVelocityKernel, "_Write", velocity[WRITE]);
+			
+			DispatchCompute(cmd, injectVelocityKernel, (int)size.x, (int)size.y, (int)size.z);
+			cmd.EndSample("InjectVelocity");
+
+			Swap(velocity);
+		}
+
+		protected void InjectObstacles(CommandBuffer cmd, Texture inputObstacles, RenderTexture obstacles)
+		{
+			if (inputObstacles == null)
+				return;
+
+			cmd.BeginSample("InjectObstacles");
+			cmd.SetComputeVectorParam(computeShader, "_Size", size);
+			cmd.SetComputeFloatParam(computeShader, "_DeltaTime", GetDeltaTime());
+
+			cmd.SetComputeTextureParam(computeShader, injectObstaclesKernel, "_InputObstacles", inputObstacles);
+			cmd.SetComputeTextureParam(computeShader, injectObstaclesKernel, "_Write", obstacles);
+			
+			DispatchCompute(cmd, injectObstaclesKernel, (int)size.x, (int)size.y, (int)size.z);
+			cmd.EndSample("InjectObstacles");
 		}
 	}
 }

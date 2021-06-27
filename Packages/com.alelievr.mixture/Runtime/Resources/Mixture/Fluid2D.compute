@@ -6,8 +6,10 @@
 #pragma kernel ComputeDivergence 
 #pragma kernel ComputePressure 
 #pragma kernel ComputeProjection 
-#pragma kernel SetBounds 
+#pragma kernel SetObstacles 
 #pragma kernel InjectDensity 
+#pragma kernel InjectVelocity 
+#pragma kernel InjectObstacles 
 
 #pragma enable_d3d11_debug_symbols
 
@@ -16,7 +18,9 @@
 #define FLUID_2D
 #include "Packages/com.alelievr.mixture/Runtime/Shaders/FluidSimulation.hlsl"
 
-float4 _Size, _Up, _Pos;
+#line 21
+
+float4 _Up, _Pos;
 float _DeltaTime, _Dissipate, _Decay;
 float _AmbientTemperature, _Buoyancy, _Weight;
 float _Radius, _Amount;
@@ -49,7 +53,7 @@ Texture2D<float2> _Vorticity;
 [numthreads(8,8,1)]
 void AdvectVelocity(uint2 id : SV_DispatchThreadID)
 {
-	if(_Obstacles[id] > 0.1)
+	if (_Obstacles[id] > 0.1)
 	{
 		 _Write3f[id] = float2(0,0);
 		 return;
@@ -62,7 +66,7 @@ void AdvectVelocity(uint2 id : SV_DispatchThreadID)
 [numthreads(8,8,1)]
 void Advect(uint2 id : SV_DispatchThreadID)
 {
-	if(_Obstacles[id] > 0.1)
+	if (_Obstacles[id] > 0.1)
 	{
 		 _Write1f[id] = 0;
 		 return;
@@ -72,9 +76,9 @@ void Advect(uint2 id : SV_DispatchThreadID)
 }
 
 [numthreads(8,8,1)]
-void SetBounds(uint2 id : SV_DispatchThreadID)
+void SetObstacles(uint2 id : SV_DispatchThreadID)
 {
-    if (any(id == 0 || id == uint2(_Size.xy - 1)))
+    if (_BorderMode == 0 && any(id == 0 || id == uint2(_Size.xy - 1)))
         _Obstacles[id] = 1;
     else
         _Obstacles[id] = 0;
@@ -88,7 +92,7 @@ void ApplyBuoyancy(uint2 id : SV_DispatchThreadID)
     float D = _Density[id];
     float2 V = _VelocityR[id];
     
-    if(T > _AmbientTemperature)
+    if (T > _AmbientTemperature)
     	V += (_DeltaTime * (T - _AmbientTemperature) * _Buoyancy - D * _Weight) * _Up.xy;
     
     _Write[id] = V;
@@ -134,4 +138,22 @@ void InjectDensity(uint2 id : SV_DispatchThreadID)
     float amount = _InputDensity.SampleLevel(s_linear_clamp_sampler, id / _Size.xy, 0);
 	amount *= _Amount * _DeltaTime;
     _Write[id] = _Density[id] + amount;
+}
+
+Texture2D<float2> _InputVelocity;
+
+[numthreads(8,8,1)]
+void InjectVelocity(uint2 id : SV_DispatchThreadID)
+{
+    float2 targetVelocity = _InputVelocity.SampleLevel(s_linear_clamp_sampler, id / _Size.xy, 0);
+    _Write[id] = _VelocityR[id] + targetVelocity; // TODO:param amount
+}
+
+Texture2D<float> _InputObstacles;
+
+[numthreads(8,8,1)]
+void InjectObstacles(uint2 id : SV_DispatchThreadID)
+{
+    float isBlocking = _InputObstacles.SampleLevel(s_linear_clamp_sampler, id / _Size.xy, 0);
+    _Write[id] += isBlocking;
 }
