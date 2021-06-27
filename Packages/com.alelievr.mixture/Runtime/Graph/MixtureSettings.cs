@@ -139,11 +139,11 @@ namespace Mixture
 					case OutputSizeMode.InheritFromParent:
 						if (node?.parentSettingsNode == null)
 							return (int)(graph.settings.height * node.settings.heightScale);
-						return (int)(ResolveWidth(node.parentSettingsNode, graph) * node.settings.heightScale);
+						return (int)(ResolveHeight(node.parentSettingsNode, graph) * node.settings.heightScale);
 					case OutputSizeMode.InheritFromChild:
 						if (node?.childSettingsNode == null)
 							return (int)(graph.settings.height * node.settings.heightScale);
-						return (int)(ResolveWidth(node.childSettingsNode, graph) * node.settings.heightScale);
+						return (int)(ResolveHeight(node.childSettingsNode, graph) * node.settings.heightScale);
 					case OutputSizeMode.Absolute:
 						return node.settings.height;
 				}
