@@ -10,7 +10,7 @@ namespace Mixture
 Generate a rectangle pattern. In 3D this node generates cuboid shapes.
 ")]
 
-	[System.Serializable, NodeMenuItem("Procedural/Rectangles"), NodeMenuItem("Procedural/Boxes")]
+	[System.Serializable, NodeMenuItem("Procedural/Rectangles"), NodeMenuItem("Procedural/Boxes"), NodeMenuItem("Procedural/Square")]
 	public class RectanglesNode : FixedShaderNode
 	{
 		public override string name => "Rectangles";
