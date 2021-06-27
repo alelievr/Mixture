@@ -24,6 +24,7 @@ namespace Mixture
 			public const string realtimePreviewToggleText = "Always Update";
 			public const string processButtonText = "Process";
             public const string saveAllText = "Save";
+            public const string restart = "Restart";
 			public const string parameterViewsText = "Parameters";
 			public static GUIContent documentation = new GUIContent("Documentation", MixtureEditorUtils.documentationIcon);
 			public static GUIContent bugReport = new GUIContent("Bug Report", MixtureEditorUtils.bugIcon);
@@ -157,6 +158,8 @@ namespace Mixture
 
 			if (graph.type != MixtureGraphType.Realtime)
 				AddButton(Styles.saveAllText, SaveAll);
+			if (graph.type == MixtureGraphType.Realtime)
+				AddButton(Styles.restart, Restart);
 			
 			AddSeparator(5);
 
@@ -261,6 +264,12 @@ namespace Mixture
 			rect.yMin = 21;
 			rect.size = Vector2.zero;
 			PopupWindow.Show(rect, new SettingsMixturePopupWindow(graphView));
+		}
+
+		void Restart()
+		{
+			// Reset all the nodes in the realtime graph
+			graph.RestartRealtime();
 		}
 
         void SaveAll()

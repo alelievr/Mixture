@@ -987,5 +987,17 @@ namespace Mixture
                     n.settings.SyncInheritanceMode(defaultNodeInheritanceMode);
             }
         }
+
+        /// <summary>
+        /// Restart the realtime simulation by reseting nodes that can be reset (Self, Fluid Simulations, ect.)
+        /// </summary>
+        public void RestartRealtime()
+        {
+            foreach (var node in nodes)
+            {
+                if (node is IRealtimeReset r)
+                    r.RealtimeReset();
+            }
+        }
     }
 }
