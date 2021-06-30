@@ -41,11 +41,11 @@ Note that sometimes, the package manager can be slow to update the list of avail
 
 ## Documentation
 
-You can consult the getting started guide here: https://alelievr.github.io/Mixture/manual/GettingStarted.html
-
-As well as the Node Library here: https://alelievr.github.io/Mixture/manual/nodes/NodeLibraryIndex.html
-
-And finally, you can find some Mixture examples here: https://alelievr.github.io/Mixture/manual/Examples.html
+Here are some useful documentation links:
+- Getting started guide:  https://alelievr.github.io/Mixture/manual/GettingStarted.html
+- Node library: https://alelievr.github.io/Mixture/manual/nodes/NodeLibraryIndex.html
+- Mixture graph examples: https://alelievr.github.io/Mixture/manual/Examples.html
+- Known issues: https://alelievr.github.io/Mixture/manual/KnownIssues.html
 
 ## Roadmap
 
