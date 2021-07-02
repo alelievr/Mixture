@@ -411,7 +411,7 @@ namespace Mixture
         internal bool needsRepaint;
 
         // Preview settings
-        internal FilterMode filterMode;
+        internal FilterMode filterMode = FilterMode.Trilinear;
         internal float exposure;
         internal PreviewChannels channels = PreviewChannels.RGB;
         internal CompareMode compareMode;
