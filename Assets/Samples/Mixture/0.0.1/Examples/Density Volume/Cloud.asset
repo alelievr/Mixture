@@ -39,6 +39,8 @@ Material:
     - _Mode: 0
     - _OpaqueCullMode: 2
     - _RenderQueueType: 1
+    - _SpiralBranchCount: 1
+    - _SpiralTurnCount: 1
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 0
@@ -327,35 +329,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b113f958e0564f309164e29c24b042d, type: 3}
   m_Name: Fog
   m_EditorClassIdentifier: 
-  serializedNodes:
-  - type: Mixture.OutputNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"20aad9a2-f45b-443d-9f30-0287577d108c","computeOrder":8,"position":{"serializedVersion":"2","x":-368.2391052246094,"y":-317.72515869140627,"width":350.0,"height":547.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":0.0,"heightPercent":0.0,"depthPercent":0.0,"width":32,"height":32,"sliceCount":32,"potSize":32,"widthMode":1,"heightMode":1,"depthMode":1,"dimension":3,"outputChannels":1,"outputPrecision":4,"editFlags":981,"doubleBuffered":false,"wrapMode":0,"filterMode":0,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":8,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":18.5,"isPinned":false,"outputTextureSettings":[{"inputTexture":{"instanceID":0},"name":"Main
-      Texture","enableCompression":true,"compressionFormat":1,"compressionQuality":100,"hasMipMaps":false,"customMipMapShader":{"instanceID":0},"isMain":true,"enableConversion":true,"conversionFormat":1,"finalCopyMaterial":{"fileID":7333470367267672487,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}]}'
-  - type: Mixture.FloatNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"ff6032f0-e0af-40d9-8719-2b7cf4a9dba7","computeOrder":9,"position":{"serializedVersion":"2","x":1187.650146484375,"y":1842.5,"width":150.0,"height":103.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":0,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"Float":5.0}'
-  - type: Mixture.GradienMattetNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"6e47049e-fa8a-4a60-9924-ae1a20176703","computeOrder":3,"position":{"serializedVersion":"2","x":-1433.775390625,"y":-116.67745208740235,"width":250.0,"height":565.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":1,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":15.5,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"46c02ba1b0b63954bab0afcd9e828ac6","type":3},"material":{"fileID":6806248943353258335,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
-  - type: Mixture.TextureSampleNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"c2b6b46d-ef68-4c37-a01d-e94ca36ffb65","computeOrder":7,"position":{"serializedVersion":"2","x":-618.2391967773438,"y":-317.72515869140627,"width":250.0,"height":434.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":2,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":8,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":15.100000381469727,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"2177843ae41a2a34f8dc46594eb788fa","type":3},"material":{"fileID":-3557398881216321503,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
-  - type: Mixture.UVDistortNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"685cec31-ed37-42de-8faa-5ab0dcd8ed17","computeOrder":6,"position":{"serializedVersion":"2","x":-902.0001220703125,"y":49.99995422363281,"width":250.0,"height":540.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"794c459144faa3b43a4c9da4903a7635","type":3},"material":{"fileID":1574907562520179703,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
-  - type: Mixture.PerlinNoise, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"c73210f9-4cb8-4fce-b8ba-1d5222371491","computeOrder":5,"position":{"serializedVersion":"2","x":-1151.5999755859375,"y":49.649993896484378,"width":250.0,"height":624.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":7,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"3ff8d72a4c500ad4093607671bcd9097","type":3},"material":{"fileID":2876627228097206782,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
-  - type: Mixture.GradienMattetNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"ec11d94e-ea38-41ef-9a08-de7fb10da131","computeOrder":0,"position":{"serializedVersion":"2","x":-1711.0,"y":-559.0,"width":250.0,"height":580.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":1,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"46c02ba1b0b63954bab0afcd9e828ac6","type":3},"material":{"fileID":-8996275261335473255,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
-  - type: Mixture.MulNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"66127d37-26aa-4833-8e92-1765db2cbbbc","computeOrder":4,"position":{"serializedVersion":"2","x":-1152.000244140625,"y":-445.9999084472656,"width":250.0,"height":479.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":8,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":14.899999618530274,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"535eef2511f2f5540b6c9cc7430067f4","type":3},"material":{"fileID":1914548650597762019,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
-  - type: Mixture.TextureSampleNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"ba45071a-b064-4cda-af53-3581bb294092","computeOrder":2,"position":{"serializedVersion":"2","x":-1433.775390625,"y":-558.677490234375,"width":250.0,"height":419.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":10.300000190734864,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"2177843ae41a2a34f8dc46594eb788fa","type":3},"material":{"fileID":-8714689716455238176,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
-  - type: Mixture.UVNode, Mixture.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"38e67bb2-372e-456d-a7ce-bd78c37a1506","computeOrder":1,"position":{"serializedVersion":"2","x":-1711.0,"y":21.0,"width":250.0,"height":472.0},"expanded":false,"debug":false,"nodeLock":false,"rtSettings":{"widthPercent":1.0,"heightPercent":1.0,"depthPercent":1.0,"width":512,"height":512,"sliceCount":1,"potSize":0,"widthMode":0,"heightMode":0,"depthMode":0,"dimension":0,"outputChannels":0,"outputPrecision":0,"editFlags":-257,"doubleBuffered":false,"wrapMode":0,"filterMode":1,"refreshMode":0,"period":0.0},"isPreviewCollapsed":false,"previewMode":15,"previewMip":0.0,"previewVisible":true,"previewEV100":0.0,"previewSlice":0.0,"isPinned":false,"output":{"instanceID":0},"shader":{"fileID":4800000,"guid":"0e57459cc2eca8e4eb3e062b8ed60321","type":3},"material":{"fileID":-3883966768190223496,"guid":"b83fe2c028e2778448a94ae5de58f23e","type":2}}'
+  serializedNodes: []
+  nodes:
+  - id: 0
+  - id: 1
+  - id: 2
+  - id: 3
+  - id: 4
+  - id: 5
+  - id: 6
+  - id: 7
+  - id: 8
+  - id: 9
   edges:
   - GUID: 9d552649-6391-4dcb-8ec6-d3935f887a2c
     owner: {fileID: 11400000}
@@ -425,13 +410,18 @@ MonoBehaviour:
   stackNodes: []
   pinnedElements: []
   exposedParameters: []
+  serializedParameterList: []
   stickyNotes: []
-  position: {x: 1231, y: 423, z: 0}
+  nodeInspectorReference: {fileID: 0}
+  position: {x: 875, y: 418, z: 0}
   scale: {x: 0.65751624, y: 0.65751624, z: 1}
+  version: 1
+  type: 0
   realtimePreview: 0
   isRealtime: 0
   isParameterViewOpen: 0
   embedInBuild: 0
+  defaultNodeInheritanceMode: -2
   objectReferences:
   - {fileID: 7333470367267672487}
   - {fileID: 6806248943353258335}
@@ -442,13 +432,891 @@ MonoBehaviour:
   - {fileID: 1914548650597762019}
   - {fileID: -8714689716455238176}
   - {fileID: -3883966768190223496}
+  variants: []
   _mainOutputTexture: {fileID: 6091485087088655365}
   _outputTextures:
   - {fileID: 6091485087088655365}
   - {fileID: 6091485087088655365}
   - {fileID: 6091485087088655365}
+  settings:
+    widthScale: 1
+    heightScale: 1
+    depthScale: 1
+    width: 32
+    height: 32
+    depth: 32
+    potSize: 32
+    sizeMode: 1
+    dimension: 3
+    outputChannels: 1
+    outputPrecision: 4
+    editFlags: 128
+    doubleBuffered: 0
+    wrapMode: 0
+    filterMode: 0
+    refreshMode: 2
+    period: 0
   references:
     version: 1
+    00000000:
+      type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 20aad9a2-f45b-443d-9f30-0287577d108c
+        computeOrder: 8
+        position:
+          serializedVersion: 2
+          x: -368.2391
+          y: -317.72516
+          width: 350
+          height: 547
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 32
+          height: 32
+          depth: 0
+          potSize: 32
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 983
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 32
+          height: 32
+          depth: 0
+          potSize: 32
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 983
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 8
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        outputTextureSettings:
+        - inputTexture: {fileID: 0}
+          name: Main Texture
+          enableCompression: 1
+          compressionFormat: 1
+          compressionQuality: 100
+          hasMipMaps: 0
+          isMain: 1
+          enableConversion: 1
+          conversionFormat: 1
+          sRGB: 0
+          finalCopyMaterial: {fileID: 7333470367267672487}
+        _selectedPreviewIndex: 0
+    00000001:
+      type: {class: FloatNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: ff6032f0-e0af-40d9-8719-2b7cf4a9dba7
+        computeOrder: 9
+        position:
+          serializedVersion: 2
+          x: 1187.6501
+          y: 1842.5
+          width: 150
+          height: 103
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        Float: 5
+    00000002:
+      type: {class: GradienMattetNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 6e47049e-fa8a-4a60-9924-ae1a20176703
+        computeOrder: 3
+        position:
+          serializedVersion: 2
+          x: -1433.7754
+          y: -116.67745
+          width: 250
+          height: 565
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 1
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 1
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 46c02ba1b0b63954bab0afcd9e828ac6, type: 3}
+        material: {fileID: 6806248943353258335}
+        exposedProperties:
+        - displayName: Color 1
+          referenceName: _Color1
+          tooltip: Outer color
+          type:
+            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Color 2
+          referenceName: _Color2
+          tooltip: Inner color
+          type:
+            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Gradient Type
+          referenceName: _Mode
+          tooltip: Style of the gradient
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Direction
+          referenceName: _Direction
+          tooltip: Direction of the gradient, only visible on the Linear and exponential
+            gradients
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Turn Count
+          referenceName: _SpiralTurnCount
+          tooltip: Turn count of the spiral
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Branch Count
+          referenceName: _SpiralBranchCount
+          tooltip: Turn count of the spiral
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Falloff
+          referenceName: _Falloff
+          tooltip: Exponential falloff of the gradient
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: 46c02ba1b0b63954bab0afcd9e828ac6
+    00000003:
+      type: {class: TextureSampleNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: c2b6b46d-ef68-4c37-a01d-e94ca36ffb65
+        computeOrder: 7
+        position:
+          serializedVersion: 2
+          x: -618.2392
+          y: -317.72516
+          width: 250
+          height: 434
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 2
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 2
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 8
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 2177843ae41a2a34f8dc46594eb788fa, type: 3}
+        material: {fileID: -3557398881216321503}
+        exposedProperties:
+        - displayName: Texture
+          referenceName: _Texture_3D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture3D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: UV
+          referenceName: _UV_3D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture3D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        shaderGUID: 2177843ae41a2a34f8dc46594eb788fa
+    00000004:
+      type: {class: UVDistortNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 685cec31-ed37-42de-8faa-5ab0dcd8ed17
+        computeOrder: 6
+        position:
+          serializedVersion: 2
+          x: -902.0001
+          y: 49.999954
+          width: 250
+          height: 540
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 794c459144faa3b43a4c9da4903a7635, type: 3}
+        material: {fileID: 1574907562520179703}
+        exposedProperties:
+        - displayName: Distort Map
+          referenceName: _Texture_3D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture3D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: UV
+          referenceName: _UV_3D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture3D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Distort Scale
+          referenceName: _Scale
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Distort Bias
+          referenceName: _Bias
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        shaderGUID: 794c459144faa3b43a4c9da4903a7635
+    00000005:
+      type: {class: PerlinNoise, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: c73210f9-4cb8-4fce-b8ba-1d5222371491
+        computeOrder: 5
+        position:
+          serializedVersion: 2
+          x: -1151.6
+          y: 49.649994
+          width: 250
+          height: 624
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 3ff8d72a4c500ad4093607671bcd9097, type: 3}
+        material: {fileID: 2876627228097206782}
+        exposedProperties:
+        - displayName: UVs
+          referenceName: _UV_3D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture3D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Tiling Mode
+          referenceName: _TilingMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: UV Mode
+          referenceName: _UVMode
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Output Range
+          referenceName: _OutputRange
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Lacunarity
+          referenceName: _Lacunarity
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Frequency
+          referenceName: _Frequency
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Persistance
+          referenceName: _Persistance
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Octaves
+          referenceName: _Octaves
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Seed
+          referenceName: _Seed
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Channels
+          referenceName: _Channels
+          tooltip: Select how many noise to genereate and on which channel. The more
+            different channel you use the more expensive it is (max 4 noise evaluation).
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: 3ff8d72a4c500ad4093607671bcd9097
+    00000006:
+      type: {class: GradienMattetNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: ec11d94e-ea38-41ef-9a08-de7fb10da131
+        computeOrder: 0
+        position:
+          serializedVersion: 2
+          x: -1711
+          y: -559
+          width: 250
+          height: 580
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 1
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 1
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 46c02ba1b0b63954bab0afcd9e828ac6, type: 3}
+        material: {fileID: -8996275261335473255}
+        exposedProperties:
+        - displayName: Color 1
+          referenceName: _Color1
+          tooltip: Outer color
+          type:
+            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Color 2
+          referenceName: _Color2
+          tooltip: Inner color
+          type:
+            serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Gradient Type
+          referenceName: _Mode
+          tooltip: Style of the gradient
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Direction
+          referenceName: _Direction
+          tooltip: Direction of the gradient, only visible on the Linear and exponential
+            gradients
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Turn Count
+          referenceName: _SpiralTurnCount
+          tooltip: Turn count of the spiral
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Branch Count
+          referenceName: _SpiralBranchCount
+          tooltip: Turn count of the spiral
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Falloff
+          referenceName: _Falloff
+          tooltip: Exponential falloff of the gradient
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: 46c02ba1b0b63954bab0afcd9e828ac6
+    00000007:
+      type: {class: MulNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 66127d37-26aa-4833-8e92-1765db2cbbbc
+        computeOrder: 4
+        position:
+          serializedVersion: 2
+          x: -1152.0002
+          y: -445.9999
+          width: 250
+          height: 479
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 8
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 535eef2511f2f5540b6c9cc7430067f4, type: 3}
+        material: {fileID: 1914548650597762019}
+        exposedProperties:
+        - displayName: Source A
+          referenceName: _SourceA_3D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture3D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Source B
+          referenceName: _SourceB_3D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture3D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Value
+          referenceName: _Value
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        shaderGUID: 535eef2511f2f5540b6c9cc7430067f4
+    00000008:
+      type: {class: TextureSampleNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: ba45071a-b064-4cda-af53-3581bb294092
+        computeOrder: 2
+        position:
+          serializedVersion: 2
+          x: -1433.7754
+          y: -558.6775
+          width: 250
+          height: 419
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 2177843ae41a2a34f8dc46594eb788fa, type: 3}
+        material: {fileID: -8714689716455238176}
+        exposedProperties:
+        - displayName: Texture
+          referenceName: _Texture_3D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture3D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: UV
+          referenceName: _UV_3D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture3D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        shaderGUID: 2177843ae41a2a34f8dc46594eb788fa
+    00000009:
+      type: {class: UVNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 38e67bb2-372e-456d-a7ce-bd78c37a1506
+        computeOrder: 1
+        position:
+          serializedVersion: 2
+          x: -1711
+          y: 21
+          width: 250
+          height: 472
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 0
+          potSize: 0
+          sizeMode: -1
+          dimension: -1
+          outputChannels: -1
+          outputPrecision: -1
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 1
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: 0e57459cc2eca8e4eb3e062b8ed60321, type: 3}
+        material: {fileID: -3883966768190223496}
+        exposedProperties:
+        - displayName: UV Scale
+          referenceName: _Scale
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: UV Bias
+          referenceName: _Bias
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        shaderGUID: 0e57459cc2eca8e4eb3e062b8ed60321
 --- !u!21 &1574907562520179703
 Material:
   serializedVersion: 6
@@ -704,6 +1572,7 @@ Material:
     - _TransparentSortPriority: 0
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
+    - _UVMode: 0
     - _UseShadowThreshold: 0
     - _ZTestDepthEqualForOpaque: 4
     - _ZTestGBuffer: 4
@@ -792,6 +1661,8 @@ Material:
     - _Mode: 2
     - _OpaqueCullMode: 2
     - _RenderQueueType: 1
+    - _SpiralBranchCount: 1
+    - _SpiralTurnCount: 1
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 0
