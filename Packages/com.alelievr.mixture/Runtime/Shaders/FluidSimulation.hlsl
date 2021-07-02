@@ -4,6 +4,8 @@
 float _BorderMode;
 float4 _Size;
 
+// TODO: replac all 0.5 by cell size
+
 float2 GetAdvectedPosTexCoords(Texture2D<float2> velocity, float2 pos, int2 id, float deltaTime, int2 size)
 {
     pos -= deltaTime * velocity[id];
@@ -36,32 +38,42 @@ float3 GetAdvectedPosTexCoords(Texture3D<float3> velocity, float3 pos, int3 id, 
     return uv;
 }
 
+float getDeltaTimeDissipation(float dissipation, float deltaTime)
+{
+    float f = saturate(1.0f - dissipation);
+
+    f *= deltaTime * 10;
+
+    // return saturate(rcp(deltaTime * 10));
+    return saturate(1.0f - f);
+}
+
 void AdvectBuffer(Texture2D<float2> source, Texture2D<float2> velocity, RWTexture2D<float2> destination, int2 id, float dissipation, float deltaTime, int2 size)
 {
 	float2 uv = GetAdvectedPosTexCoords(velocity, id, id, deltaTime, size);
 
-   	destination[id] = source.SampleLevel(s_linear_clamp_sampler, uv, 0) * dissipation;
+   	destination[id] = source.SampleLevel(s_linear_clamp_sampler, uv, 0) * getDeltaTimeDissipation(dissipation, deltaTime);
 }
 
 void AdvectBuffer(Texture2D<float> source, Texture2D<float2> velocity, RWTexture2D<float> destination, int2 id, float dissipation, float deltaTime, int2 size)
 {
 	float2 uv = GetAdvectedPosTexCoords(velocity, id, id, deltaTime, size);
 
-   	destination[id] = source.SampleLevel(s_linear_clamp_sampler, uv, 0) * dissipation;
+   	destination[id] = source.SampleLevel(s_linear_clamp_sampler, uv, 0) * getDeltaTimeDissipation(dissipation, deltaTime);
 }
 
 void AdvectBuffer(Texture3D<float3> source, Texture3D<float3> velocity, RWTexture3D<float3> destination, int3 id, float dissipation, float deltaTime, int3 size)
 {
 	float3 uv = GetAdvectedPosTexCoords(velocity, id, id, deltaTime, size);
 
-   	destination[id] = source.SampleLevel(s_linear_clamp_sampler, uv, 0) * dissipation;
+   	destination[id] = source.SampleLevel(s_linear_clamp_sampler, uv, 0) * getDeltaTimeDissipation(dissipation, deltaTime);
 }
 
 void AdvectBuffer(Texture3D<float> source, Texture3D<float3> velocity, RWTexture3D<float> destination, int3 id, float dissipation, float deltaTime, int3 size)
 {
 	float3 uv = GetAdvectedPosTexCoords(velocity, id, id, deltaTime, size);
 
-   	destination[id] = source.SampleLevel(s_linear_clamp_sampler, uv, 0) * dissipation;
+   	destination[id] = source.SampleLevel(s_linear_clamp_sampler, uv, 0) * getDeltaTimeDissipation(dissipation, deltaTime);
 }
 
 int3 CalculateBorderCoord(int3 coord)
@@ -300,37 +312,73 @@ void Divergence(int2 id, int2 size, Texture2D<float2> velocity, Texture2D<float>
 }
 
 // Optimized pressure solver with poisson kernel: https://www.shahinrabbani.ca/torch2pd.html
-#define PRESSURE_KERNEL_LENGTH 4
+#define PRESSURE_KERNEL_LENGTH 31
 static float pressureKernelWeights[PRESSURE_KERNEL_LENGTH + 1] =
 {
-    0.57843719174047891762313611252466216683387756f,
-    0.36519596949351723624843657489691395312547684f,
-    0.23187988879520388119104268298542592674493790f,
-    0.14529589353342881041797340913035441190004349f,
-    0.08816487385701117507341706414081272669136524f
+    // 0.642708,
+    // 0.405773,
+    // 0.257644,
+    // 0.16144,
+    // 0.097961,
+    // 0.0576097,
+    // 0.032294,
+    // 0.0174269
+        -0.57843719174047891762313611252466216683387756,
+        -0.36519596949351723624843657489691395312547684,
+        -0.23187988879520393670219391424325294792652130,
+        -0.14529589353342881041797340913035441190004349,
+        -0.08816487385701118895120487195526948198676109,
+        -0.05184872885140315995622373179685382638126612,
+        -0.02906462467884733322232015950703498674556613,
+        -0.01568417195708781547436316827770497184246778,
+        -0.00797551194591553797019756189001782331615686,
+        -0.00389324328050090267758220896610055206110701,
+        -0.00177144992084785437604088631502463613287546,
+        -0.00077326180913540193146565870918607288331259,
+        -0.00031094371809950585106366305332414867734769,
+        -0.00012005971084960072336501879508574575083912,
+        -0.00004212915051050346369569676863164886526647,
+        -0.00001422423213116925993983619830318687604631,
+        -0.00000429414617778126274816753032981253568323,
+        -0.00000125119726480673493973678773311108969324,
+        -0.00000031947214210228772767906010865424093481,
+        -0.00000007904055391492848047027151760918206591,
+        -0.00000001670294209444911564530304173229607878,
+        -0.00000000343568697107984592759899747577752999,
+        -0.00000000058356643720489347685487130885993549,
+        -0.00000000009692335621185182294609988560099047,
+        -0.00000000001268654430582195306026822187324998,
+        -0.00000000000162885588824899855173069786019885,
+        -0.00000000000015374438965028492391092588224910,
+        -0.00000000000001419579825262500523490893301566,
+        -0.00000000000000085625738754467783860438162309,
+        -0.00000000000000004924476449361170701159838477,
+        -0.00000000000000000141513942892312597724531791,
+        -0.00000000000000000003280063287919295937777096
 };
 
 void Pressure(int2 id, int2 size, Texture2D<float> pressureR, Texture2D<float> obstacles, Texture2D<float> divergence, RWTexture2D<float> pressureW)
 {
-    // TODO: finish this optimization
+#if 0 // This is not working
+
     // int2 direction = int2(1, 0);
-    // float result = 0;
+    float result = 0;
 
-    // for (int x = -PRESSURE_KERNEL_LENGTH; x <= PRESSURE_KERNEL_LENGTH; x++)
-    // {
-    //     for (int y = -PRESSURE_KERNEL_LENGTH; y <= PRESSURE_KERNEL_LENGTH; y++)
-    //     {
-    //         float f1 = x < 0 ? -1 : 1;
-    //         float f2 = y < 0 ? -1 : 1;
-    //         float weight = f1 * pressureKernelWeights[abs(x)] * f2 * pressureKernelWeights[abs(y)];
-    //         int2 fetchId = CalculateBorderCoord(id + int2(x, y));
-    //         float div = divergence[fetchId];
+    for (int x = -PRESSURE_KERNEL_LENGTH; x <= PRESSURE_KERNEL_LENGTH; x++)
+    {
+        for (int y = -PRESSURE_KERNEL_LENGTH; y <= PRESSURE_KERNEL_LENGTH; y++)
+        {
+            float weight = -(pressureKernelWeights[abs(x)] * pressureKernelWeights[abs(y)]);
+            int2 fetchId = CalculateBorderCoord(id + int2(x, y));
+            float div = divergence[fetchId];
 
-    //         result += weight * div;
-    //     }
-    // }
+            result += weight * div;
+        }
+    }
 
-    // pressureW[id] = result;
+    pressureW[id] = result;
+
+#else // this is working
 
     float L, R, B, T;
     float2 unused;
@@ -338,6 +386,8 @@ void Pressure(int2 id, int2 size, Texture2D<float> pressureR, Texture2D<float> o
 
     float divergenceF = divergence[id];
     pressureW[id] = ( L + R + B + T - divergenceF ) / 4.0;
+
+#endif
 }
 
 void Pressure(int3 id, int3 size, Texture3D<float> pressureR, Texture3D<float> obstacles, Texture3D<float> divergence, RWTexture3D<float> pressureW)
@@ -372,9 +422,7 @@ void Project(int3 id, int3 size, Texture3D<float> pressureR, Texture3D<float> ob
     float3 mask = float3(1,1,1);
     LoadPressureNeighbours(id, size, pressureR, obstacles, L, R, B, T, D, U, mask);
 
-    float3 v = velocityR[id] - float3( R - L, T - B, U - D ) * 0.5;
-    
-    velocityW[id] = v * mask;
+    velocityW[id] = velocityR[id] - float3( R - L, T - B, U - D ) * 0.5;
 }
 
 void Project(int2 id, int2 size, Texture2D<float> pressureR, Texture2D<float> obstacles, Texture2D<float2> velocityR, RWTexture2D<float2> velocityW)
@@ -389,9 +437,7 @@ void Project(int2 id, int2 size, Texture2D<float> pressureR, Texture2D<float> ob
     float2 mask = float2(1,1);
     LoadPressureNeighbours(id, size, pressureR, obstacles, L, R, B, T, mask);
 
-    float2 v = velocityR[id] - float2( R - L, T - B ) * 0.5;
-
-    velocityW[id] = v * mask;
+    velocityW[id] = velocityR[id] - float2( R - L, T - B ) * 0.5;
 }
 
 

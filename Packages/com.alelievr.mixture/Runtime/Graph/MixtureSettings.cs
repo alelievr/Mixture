@@ -272,7 +272,7 @@ namespace Mixture
 			}
 		}
 
-		public float GetUpdatePeriod()
+		public float GetUpdatePeriodInMilliseconds()
 		{
 			switch (refreshMode)
 			{

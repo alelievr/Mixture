@@ -187,7 +187,7 @@ namespace Mixture
 					if (output.isMain)
 					{
 						output.finalCopyRT.updateMode = graph.settings.refreshMode == RefreshMode.OnLoad ? CustomRenderTextureUpdateMode.OnLoad : CustomRenderTextureUpdateMode.Realtime;
-						output.finalCopyRT.updatePeriod = graph.settings.GetUpdatePeriod();
+						output.finalCopyRT.updatePeriod = graph.settings.GetUpdatePeriodInMilliseconds();
 					}
 					else
 						output.finalCopyRT.updateMode = CustomRenderTextureUpdateMode.OnDemand;

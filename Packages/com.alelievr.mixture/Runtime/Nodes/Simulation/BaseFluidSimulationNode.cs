@@ -17,8 +17,6 @@ namespace Mixture
 			Tile = 2,
 		}
 
-		public float simulationSpeed = 1;
-
 		public BorderMode borderMode;
 
 		CustomRenderTexture fluidBuffer;
@@ -82,9 +80,6 @@ namespace Mixture
 			injectDensityKernel = computeShader.FindKernel("InjectDensity");
 			injectVelocityKernel = computeShader.FindKernel("InjectVelocity");
 			injectObstaclesKernel = computeShader.FindKernel("InjectObstacles");
-
-			if (simulationSpeed == 0)
-				simulationSpeed = 1;
         }
 
 		public virtual void RealtimeReset() {}
@@ -102,7 +97,8 @@ namespace Mixture
 			return true;
 		}
 
-		protected virtual float GetDeltaTime() => simulationSpeed / 10f; // TODO: expose setting
+		// delta time in ms
+		protected virtual float GetDeltaTime() => graph.settings.GetUpdatePeriodInMilliseconds();
 
 		protected RenderTexture AllocateRenderTexture(string name, GraphicsFormat format)
 		{

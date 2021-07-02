@@ -18,11 +18,11 @@ namespace Mixture
 		[Input("Obstacles")]
 		public Texture inputObstacles;
 
-		[Output("Output Density")]
+		[Output("Density")]
 		public Texture outputDensity;
-		[Output("Output Velocity")]
+		[Output("Velocity")]
 		public Texture outputVelocity;
-		[Output("Output Pressure")]
+		[Output("Pressure")]
 		public Texture outputPressure;
 
 		public int m_iterations = 10;

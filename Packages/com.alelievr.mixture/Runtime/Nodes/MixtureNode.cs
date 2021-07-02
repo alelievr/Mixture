@@ -222,7 +222,7 @@ namespace Mixture
 					autoGenerateMips = autoGenerateMips,
 					enableRandomWrite = true,
 					hideFlags = hideAsset ? HideFlags.HideAndDontSave : HideFlags.None,
-					updatePeriod = settings.GetUpdatePeriod(),
+					updatePeriod = settings.GetUpdatePeriodInMilliseconds(),
 				};
 				target.Create();
 				target.material = MixtureUtils.dummyCustomRenderTextureMaterial;
@@ -262,7 +262,7 @@ namespace Mixture
 
 			// Patch settings that don't require to re-create the texture
 			target.updateMode = updateMode;
-			target.updatePeriod = settings.GetUpdatePeriod();
+			target.updatePeriod = settings.GetUpdatePeriodInMilliseconds();
 			target.wrapMode = settings.GetResolvedWrapMode(graph);
 			target.filterMode = settings.GetResolvedFilterMode(graph);
 

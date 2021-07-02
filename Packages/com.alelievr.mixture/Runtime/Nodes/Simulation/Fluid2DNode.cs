@@ -20,12 +20,14 @@ namespace Mixture
 		[Input]
 		public Texture inputObstacles;
 		
-		[Output("Output Density")]
+		[Output("Density")]
 		public Texture outputDensity;
-		[Output("Output Velocity")]
+		[Output("Velocity")]
 		public Texture outputVelocity;
-		[Output("Output Pressure")]
+		[Output("Pressure")]
 		public Texture outputPressure;
+		[Output("Divergence")]
+		public Texture outputDivergence;
 
 		public int m_iterations = 10;
 		public float m_vorticityStrength = 1.0f;
@@ -143,6 +145,7 @@ namespace Mixture
 			outputDensity = m_density[READ];
 			outputVelocity = m_velocity[READ];
 			outputPressure = m_pressure[READ];
+			outputDivergence = m_temp3f;
 
 			m_size = new Vector3(settings.GetResolvedWidth(graph), settings.GetResolvedHeight(graph), settings.GetResolvedDepth(graph));
 
