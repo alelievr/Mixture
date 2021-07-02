@@ -201,26 +201,16 @@ namespace Mixture
 
             if (version == Version.Initial)
             {
-                if (outputNode?.settings != null)
-                {
-                    // migrate output node settings to graph settings:
-                    settings = outputNode.settings.Clone();
-
-                    // Patch output node settings to inherit graph settings (old behavior)
-                    outputNode.settings.editFlags |= EditFlags.Size;
-                    outputNode.settings.sizeMode = OutputSizeMode.InheritFromGraph;
-                    outputNode.settings.outputPrecision = OutputPrecision.InheritFromGraph;
-                    outputNode.settings.outputChannels = OutputChannel.InheritFromGraph;
-                    outputNode.settings.dimension = OutputDimension.InheritFromGraph;
-                }
-
-                settings.refreshMode = RefreshMode.EveryXMillis;
-
                 foreach (var node in nodes)
                 {
                     // Migrate node settings
                     if (node is MixtureNode n && n != null)
                     {
+#pragma warning disable CS0612
+                        // FromerlySerializedAs is not supported when using JSON serialization :(
+                        if (n.rtSettings != null)
+                            n.settings = n.rtSettings;
+#pragma warning restore  CS0612
                         if (n.settings.outputChannels == 0)
                             n.settings.outputChannels = OutputChannel.InheritFromGraph;
                         if (n.settings.outputPrecision == 0)
@@ -237,6 +227,21 @@ namespace Mixture
                             n.settings.depthScale = 1;
                     }
                 }
+
+                if (outputNode?.settings != null)
+                {
+                    // migrate output node settings to graph settings:
+                    settings = outputNode.settings.Clone();
+
+                    // Patch output node settings to inherit graph settings (old behavior)
+                    outputNode.settings.editFlags |= EditFlags.Size;
+                    outputNode.settings.sizeMode = OutputSizeMode.InheritFromGraph;
+                    outputNode.settings.outputPrecision = OutputPrecision.InheritFromGraph;
+                    outputNode.settings.outputChannels = OutputChannel.InheritFromGraph;
+                    outputNode.settings.dimension = OutputDimension.InheritFromGraph;
+                }
+
+                settings.refreshMode = RefreshMode.EveryXMillis;
 
                 version = Version.SettingsRefactor;
             }
@@ -997,6 +1002,17 @@ namespace Mixture
             {
                 if (node is IRealtimeReset r)
                     r.RealtimeReset();
+            }
+        }
+
+        public override void OnAssetDeleted()
+        {
+            // TODO: delete remaining assets?
+            foreach (var node in nodes)
+            {
+                if (node is MixtureNode m)
+                {
+                }
             }
         }
     }

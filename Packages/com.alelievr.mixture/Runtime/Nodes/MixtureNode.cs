@@ -23,6 +23,8 @@ namespace Mixture
 
 		[HideInInspector, FormerlySerializedAs("rtSettings")]
 		public MixtureSettings				settings = MixtureSettings.defaultValue;
+		[HideInInspector, Obsolete]
+		public MixtureSettings				rtSettings;
 
 		protected virtual MixtureSettings	defaultSettings => MixtureSettings.defaultValue;
 		public virtual float   				nodeWidth => MixtureUtils.defaultNodeWidth;
