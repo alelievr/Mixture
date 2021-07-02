@@ -353,8 +353,6 @@ public static class CustomTextureManager
 
         if (crt.material != null && CustomRenderTextureNeedsUpdate(crt, updateCount, firstPass))
         {
-            onBeforeCustomTextureUpdated?.Invoke(cmd, crt);
-
 #if CUSTOM_TEXTURE_PROFILING
             customRenderTextureSamplers.TryGetValue(crt, out var sampler);
             if (sampler == null)
@@ -364,6 +362,8 @@ public static class CustomTextureManager
             }
             cmd.BeginSample(sampler);
 #endif
+
+            onBeforeCustomTextureUpdated?.Invoke(cmd, crt);
 
             // using (new ProfilingScope(cmd, new ProfilingSampler($"Update {crt.name}")))
             {

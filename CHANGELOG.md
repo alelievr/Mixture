@@ -14,6 +14,7 @@ https://user-images.githubusercontent.com/6877923/123006036-64e2e780-d3b7-11eb-9
 - Added a Vector Field node to generate simple vector field patterns.
 - Added a button in the toolbar to restart a realtime effect.
 - Added a vector field preview mode in the Preview node.
+- Added total processing time in realtime mixture output node.
 
 ### Fixed
 - Fixed missing nodes in the list of nodes proposed when dragging an edge.

@@ -652,13 +652,15 @@ namespace Mixture
 				float time = nodeTarget.processingTimeInMillis;
 				if (time > 0.1f)
 				{
-					processTimeLabel.text = time.ToString("F2") + " ms";
+					processTimeLabel.text = FormatProcessingTime(time);
 					// Color range based on the time:
 					float weight = time / 30; // We consider 30 ms as slow
 					processTimeLabel.style.color = new Color(2.0f * weight, 2.0f * (1 - weight), 0);
 				}
 			}).Every(200);
 		}
+
+		internal virtual string FormatProcessingTime(float time) => time.ToString("F2") + " ms";
 
 		public void RefreshSettingsValues() => settingsView.RefreshSettingsValues();
 	}

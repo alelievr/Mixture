@@ -66,7 +66,9 @@ namespace Mixture
 
 		Vector3 m_size;
 
+		[SerializeField, HideInInspector]
 		RenderTexture[] m_density, m_velocity, m_pressure, m_temperature;
+		[SerializeField, HideInInspector]
 		RenderTexture m_temp3f, m_obstacles;
 
         protected override void Enable()

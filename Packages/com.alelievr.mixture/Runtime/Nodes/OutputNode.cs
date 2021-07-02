@@ -64,7 +64,26 @@ namespace Mixture
 		// Disable reset on output texture settings
 		protected override bool CanResetPort(NodePort port) => false;
 
-		// TODO: output texture setting presets when adding a new output
+		internal override float processingTimeInMillis
+		{
+			get
+			{
+				if (graph.type == MixtureGraphType.Realtime)
+				{
+					MixtureGraphProcessor.processorInstances.TryGetValue(graph, out var processors);
+					var processor = processors.FirstOrDefault();
+					if (processor != null)
+					{
+						var sampler = CustomTextureManager.GetCustomTextureProfilingSampler(graph.mainOutputTexture as CustomRenderTexture);
+						return sampler.GetRecorder().gpuElapsedNanoseconds / 1000000f;
+					}
+					else
+						return base.processingTimeInMillis;
+				}
+				else
+					return base.processingTimeInMillis;
+			}
+		}
 
 		public OutputTextureSettings AddTextureOutput(OutputTextureSettings.Preset preset)
 		{

@@ -226,5 +226,7 @@ namespace Mixture
 		}
 
 		void UpdatePreviewImage() => CreateTexturePreview(previewContainer, outputNode);
+
+		internal override string FormatProcessingTime(float time) => "total: " + time.ToString("F2") + " ms";
 	}
 }
