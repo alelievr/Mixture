@@ -304,6 +304,7 @@ namespace Mixture
 			wrapMode.RegisterValueChangedCallback(e => {
 				Undo.RegisterCompleteObjectUndo(t, "Changed wrap mode");
 				t.wrapMode = (TextureWrapMode)e.newValue;
+				graph.settings.wrapMode = (OutputWrapMode)t.wrapMode;
 			});
 			settings.Add(wrapMode);
 
@@ -311,6 +312,7 @@ namespace Mixture
 			filterMode.RegisterValueChangedCallback(e => {
 				Undo.RegisterCompleteObjectUndo(t, "Changed filter mode");
 				t.filterMode = (FilterMode)e.newValue;
+				graph.settings.filterMode = (OutputFilterMode)t.filterMode;
 			});
 			settings.Add(filterMode);
 
