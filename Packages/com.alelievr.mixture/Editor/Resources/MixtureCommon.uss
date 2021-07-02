@@ -59,7 +59,9 @@
     display: flex;
 }
 
-.ControlsContainer > * > Label {
+.ControlsContainer > PropertyField > * > Label,
+.ControlsContainer > * > Label
+{
     min-width: 80px;
 }
 
