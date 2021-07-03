@@ -61,7 +61,7 @@ namespace Mixture
 				texturePosX = Mathf.Clamp(texturePosX, 0, node.output.width - 1);
 				texturePosY = Mathf.Clamp(texturePosY, 0, node.output.height - 1);
 
-				var a = AsyncGPUReadback.Request(node.output, 0, texturePosX, 1, texturePosY, 1, 0, 1, (data) => {
+				var a = AsyncGPUReadback.Request(node.output, 0, texturePosX, 1, texturePosY, 1, 0, 1, TextureFormat.RGBAFloat, (data) => {
 					var colors = data.GetData<Color>();
 					if (data.hasError || colors.Length == 0)
 						return;
