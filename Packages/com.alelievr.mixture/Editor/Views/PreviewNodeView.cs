@@ -56,7 +56,7 @@ namespace Mixture
 			void UpdateColorPickerValues()
 			{
 				int texturePosX = Mathf.RoundToInt(node.mousePosition.x * node.output.width);
-				int texturePosY = Mathf.RoundToInt(node.mousePosition.y * node.output.height);
+				int texturePosY = Mathf.RoundToInt((1 - node.mousePosition.y) * node.output.height);
 
 				texturePosX = Mathf.Clamp(texturePosX, 0, node.output.width - 1);
 				texturePosY = Mathf.Clamp(texturePosY, 0, node.output.height - 1);

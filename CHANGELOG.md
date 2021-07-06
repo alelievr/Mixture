@@ -23,6 +23,7 @@ https://user-images.githubusercontent.com/6877923/123006036-64e2e780-d3b7-11eb-9
 - Fixed processing of nodes not connected to the output in realtime mixtures.
 - Fixed a setting inheritance bug when a node inherited from a Texture node.
 - Fixed migration of old mixture graphs to the new settings system.
+- Fixed preview node not showing pixel value
 
 ## 0.3.0
 
