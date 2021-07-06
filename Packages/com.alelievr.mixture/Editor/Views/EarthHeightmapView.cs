@@ -278,8 +278,8 @@ namespace Mixture
 				if (File.Exists(cachedFilePath))
 				{
 					var textureData = File.ReadAllBytes(cachedFilePath);
-					var heightmap = new Texture2D(1, 1);
-					heightmap.LoadImage(textureData);
+					var heightmap = new Texture2D(1, 1, GraphicsFormat.R8G8B8A8_UNorm, TextureCreationFlags.None);
+					ImageConversion.LoadImage(heightmap, textureData);
 					return AddHeightmap(heightmap, tile);
 				}
 				else
