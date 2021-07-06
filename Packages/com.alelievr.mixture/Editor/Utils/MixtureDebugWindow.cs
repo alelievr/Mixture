@@ -104,6 +104,9 @@ namespace Mixture
                 {
                     var graph = kp.Key;
 
+                    if (graph == null)
+                        continue;
+
                     foreach (var processor in kp.Value)
                     {
                         using (new EditorGUILayout.HorizontalScope())

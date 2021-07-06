@@ -140,3 +140,15 @@ float2 RayBoxIntersection(float3 ro, float3 rd, float3 boxSize)
     else
         return float2(tN, tF);
 }
+
+// sphere of size ra centered at point ce
+float2 RaySphereIntersection( in float3 ro, in float3 rd, in float3 ce, float ra )
+{
+    float3 oc = ro - ce;
+    float b = dot( oc, rd );
+    float c = dot( oc, oc ) - ra*ra;
+    float h = b*b - c;
+    if( h<0.0 ) return -1.0; // no intersection
+    h = sqrt( h );
+    return float2( -b-h, -b+h );
+}

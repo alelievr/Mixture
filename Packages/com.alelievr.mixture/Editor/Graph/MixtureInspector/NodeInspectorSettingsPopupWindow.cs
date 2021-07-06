@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Mixture
 {
@@ -53,23 +53,37 @@ namespace Mixture
 
             target.preserveAspect = EditorGUILayout.Toggle("Keep Aspect", target.preserveAspect);
             
-            EditorGUILayout.LabelField("3D view", EditorStyles.boldLabel);
-
-            target.texture3DPreviewMode = (MixtureNodeInspectorObject.Texture3DPreviewMode)EditorGUILayout.EnumPopup("Mode", target.texture3DPreviewMode);
-
-            switch (target.texture3DPreviewMode)
+            if (previewTexture != null && previewTexture.previewTexture != null)
             {
-                default:
-                case MixtureNodeInspectorObject.Texture3DPreviewMode.Volumetric:
-                    target.texture3DDensity = EditorGUILayout.Slider("Density", target.texture3DDensity, 0, 1);
-                    break;
-                case MixtureNodeInspectorObject.Texture3DPreviewMode.DistanceFieldNormal:
-                    target.texture3DDistanceFieldOffset = EditorGUILayout.FloatField("SDF Offset", target.texture3DDistanceFieldOffset);
-                    break;
-                case MixtureNodeInspectorObject.Texture3DPreviewMode.DistanceFieldColor:
-                    target.texture3DDistanceFieldOffset = EditorGUILayout.FloatField("SDF Offset", target.texture3DDistanceFieldOffset);
-                    target.sdfChannel = (MixtureNodeInspectorObject.SDFChannel)EditorGUILayout.EnumPopup("SDF Offset", target.sdfChannel);
-                    break;
+                var dim = previewTexture.previewTexture.dimension;
+
+                if (dim == TextureDimension.Tex3D)
+                {
+                    EditorGUILayout.LabelField("3D View", EditorStyles.boldLabel);
+
+                    target.texture3DPreviewMode = (MixtureNodeInspectorObject.Texture3DPreviewMode)EditorGUILayout.EnumPopup("Mode", target.texture3DPreviewMode);
+
+                    switch (target.texture3DPreviewMode)
+                    {
+                        default:
+                        case MixtureNodeInspectorObject.Texture3DPreviewMode.Volumetric:
+                            target.texture3DDensity = EditorGUILayout.Slider("Density", target.texture3DDensity, 0, 1);
+                            break;
+                        case MixtureNodeInspectorObject.Texture3DPreviewMode.DistanceFieldNormal:
+                            target.texture3DDistanceFieldOffset = EditorGUILayout.FloatField("SDF Offset", target.texture3DDistanceFieldOffset);
+                            break;
+                        case MixtureNodeInspectorObject.Texture3DPreviewMode.DistanceFieldColor:
+                            target.texture3DDistanceFieldOffset = EditorGUILayout.FloatField("SDF Offset", target.texture3DDistanceFieldOffset);
+                            target.sdfChannel = (MixtureNodeInspectorObject.SDFChannel)EditorGUILayout.EnumPopup("SDF Offset", target.sdfChannel);
+                            break;
+                    }
+                }
+                else if (dim == TextureDimension.Cube)
+                {
+                    EditorGUILayout.LabelField("Cubemap View", EditorStyles.boldLabel);
+
+                    target.showCubeBackface = EditorGUILayout.Toggle("Show Backface", target.showCubeBackface);
+                }
             }
 
             if (EditorGUI.EndChangeCheck())

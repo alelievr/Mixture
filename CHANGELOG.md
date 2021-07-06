@@ -15,6 +15,10 @@ https://user-images.githubusercontent.com/6877923/123006036-64e2e780-d3b7-11eb-9
 - Added a button in the toolbar to restart a realtime effect.
 - Added a vector field preview mode in the Preview node.
 - Added total processing time in realtime mixture output node.
+- Added support of cubemap in the node inspector.
+
+https://user-images.githubusercontent.com/6877923/124649079-535e0d00-de98-11eb-9e85-13c3a5d987ca.mov
+
 
 ### Fixed
 - Fixed missing nodes in the list of nodes proposed when dragging an edge.

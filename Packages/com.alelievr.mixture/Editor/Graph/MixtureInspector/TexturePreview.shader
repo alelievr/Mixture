@@ -53,6 +53,7 @@ Shader "Hidden/MixtureInspectorPreview"
             float _Density;
             float _SDFOffset;
             float _Texture3DMode;
+            float _ShowCubeBackface;
 
             #define MERGE_NAME(x, y) x##y
 
@@ -79,7 +80,7 @@ Shader "Hidden/MixtureInspectorPreview"
 
                 float3 target = float3(0., 0., 0.);
                 float3 ro = mul(_CameraMatrix, float4(0, 0, -_CameraZoom, 0)).xyz;
-                float3 rd = normalize(mul(_CameraMatrix, float4(uv.x * 2 - 1, uv.y * 2 + 1, 4, 0))).xyz;
+                float3 rd = normalize(mul(_CameraMatrix, float4(uv.x * 2 - 1, uv.y * 2 - 1, 4, 0))).xyz;
 
                 float2 boxIntersection = RayBoxIntersection(ro, rd, 1 - 0.000001);
 
@@ -107,7 +108,36 @@ Shader "Hidden/MixtureInspectorPreview"
 			TextureCube _MainTex1_Cube;
             #define TEXTURE_TYPE TextureCube
 
-            #define SAMPLE_LEVEL(tex, samp, uv, mip) MERGE_NAME(tex,_Cube).SampleLevel(samp, 0, 0)
+            #define SAMPLE_LEVEL(tex, samp, uv, mip) SampleCubemap(MERGE_NAME(tex,_Cube), samp, uv, mip)
+
+            float4 SampleCubemap(TextureCube cube, SamplerState samp, float3 uv, float mip)
+            {
+                // UV can be seen as 3D object space pos
+                float3 objectCenter = float3(0, 0, 0);
+
+                if (_ShowCubeBackface)
+                    uv = float3(1 - uv.x, 1 - uv.y, 0);
+                
+                float3 target = float3(0., 0., 0.);
+                float3 ro = mul(_CameraMatrix, float4(0, 0, -_CameraZoom, 0)).xyz;
+                float3 rd = normalize(mul(_CameraMatrix, float4(uv.x * 2 - 1, uv.y * 2 - 1, 4, 0))).xyz;
+
+                float2 sphereIntersection = RaySphereIntersection(ro, rd, 0, 1 - 0.000001);
+
+                if (all(sphereIntersection == -1))
+                    return 0;
+                else
+                {
+                    float3 hit;
+
+                    if (_ShowCubeBackface)
+                        hit = ro + rd * sphereIntersection.y;
+                    else
+                        hit = ro + rd * sphereIntersection.x;
+
+                    return cube.SampleLevel(samp, hit, mip);
+                }
+            }
 #endif
 
             float4 ApplyComparison(float2 uv, float4 c0, float4 c1)
@@ -119,9 +149,9 @@ Shader "Hidden/MixtureInspectorPreview"
                 else
                 {
                     float comparisonSlider = _ComparisonSlider;
-    #if CRT_3D
+#if defined(CRT_3D) || defined(CRT_CUBE)
                     comparisonSlider = _ComparisonSlider3D;
-    #endif
+#endif
 
                     switch (_CompareMode)
                     {
@@ -141,13 +171,13 @@ Shader "Hidden/MixtureInspectorPreview"
             float4 frag (v2f i) : SV_Target
             {
                 float2 uv = i.uv;
-#ifndef CRT_3D // 3D texture have the camera zoom instead of UV zoom
+                float4 color0, color1;
+
+// 3D and cube texture have the camera zoom instead of UV zoom
+#ifdef CRT_2D 
                 uv += float2(-_Pan.x, _Pan.y - 1);
                 uv *= rcp(_Zoom.xx);
-#else
-                uv.y = uv.y - 1;
 #endif
-                float4 color0, color1;
 
                 if (_PreserveAspect > 0)
                 {
