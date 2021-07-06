@@ -30,15 +30,16 @@ Shader "Hidden/Mixture/EarthHeightmap"
 			float _RemapMin;
 			float _RemapMax;
 			float _Scale;
+			float _HeightOffset;
 
 			float4 Fragment(Varyings i) : SV_Target
 			{
-				// Unfortunately, the texture is marked SRGB
-				float3 encodedHeight = LinearToSRGB(SAMPLE_TEXTURE2D(_Heightmap, s_linear_clamp_sampler, i.uv.xy).rgb) * 256;
-				// return encodedHeight.r / 256;
+				float3 encodedHeight = saturate(LOAD_TEXTURE2D(_Heightmap, i.uv.xy * 256).rgb) * 256;
 
 				// Conversion formula: https://www.mapzen.com/blog/elevation/
 				float height = (encodedHeight.r * 256 + encodedHeight.g + encodedHeight.b / 256) - 32768;
+
+				height += _HeightOffset;
 
 				switch (_Mode)
 				{

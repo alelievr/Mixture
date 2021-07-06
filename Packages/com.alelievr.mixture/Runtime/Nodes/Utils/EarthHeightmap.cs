@@ -96,7 +96,7 @@ The Scale mode divides the height by the `inverse scale` parameter.")]
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-            if (!base.ProcessNode(cmd) || savedHeightmap == null)
+            if (!base.ProcessNode(cmd))
                 return false;
 
             // Update temp target in case settings changes
@@ -107,7 +107,7 @@ The Scale mode divides the height by the `inverse scale` parameter.")]
 			previewHeightmap.material = heightmapConvertMaterial;
 			CustomTextureManager.UpdateCustomRenderTexture(cmd, previewHeightmap, 1);
 
-			output = editMap || savedHeightmap == null ? (Texture)previewHeightmap : savedHeightmap;
+			output = (editMap || savedHeightmap == null) ? (Texture)previewHeightmap : savedHeightmap;
 
 			return true;
 		}

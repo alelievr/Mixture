@@ -8,6 +8,7 @@ using System.Linq;
 using System.IO;
 using HeightmapTile = Mixture.EarthHeightmap.HeightmapTile;
 using UnityEditor;
+using UnityEngine.Experimental.Rendering;
 
 namespace Mixture
 {
@@ -31,7 +32,7 @@ namespace Mixture
 				maxHeight = -1e20f;
 
 				// Calculate the min and max height inside this tile:
-				var pixels = heightmap.GetPixels32(0);
+				var pixels = heightmap.GetPixels32();
 				for (int i = 0; i < pixels.Length; i++)
 				{
 					var heightColor = pixels[i];
@@ -126,6 +127,7 @@ namespace Mixture
 			props.SetFloat("_RemapMin", node.remapMin);
 			props.SetFloat("_RemapMax", node.remapMax);
 			props.SetFloat("_Mode", (int)node.mode);
+			props.SetFloat("_HeightOffset", node.heightOffset);
 
 			node.rawMinHeight = 1e20f;
 			node.rawMaxHeight = -1e20f;
@@ -249,7 +251,9 @@ namespace Mixture
 				{
 					if (request.request.result == UnityWebRequest.Result.Success)
 					{
-						var tileData = AddHeightmap(DownloadHandlerTexture.GetContent(request.request), request.tile);
+						var heightmapTexture = new Texture2D(1, 1, GraphicsFormat.R8G8B8A8_UNorm, TextureCreationFlags.None);
+						ImageConversion.LoadImage(heightmapTexture, request.request.downloadHandler.data);
+						var tileData = AddHeightmap(heightmapTexture, request.tile);
 						NotifyNodeChanged();
 						var filePath = GetCachePath(request.tile);
 						File.WriteAllBytes(filePath, tileData.heightmap.EncodeToPNG());
@@ -280,7 +284,7 @@ namespace Mixture
 				}
 				else
 				{
-					var request = UnityWebRequestTexture.GetTexture($"{endPoint}{tile.zoom}/{tile.x}/{tile.y}.png");
+					var request = UnityWebRequest.Get($"{endPoint}{tile.zoom}/{tile.x}/{tile.y}.png");
 					request.SendWebRequest();
 					requests.Add((tile, request));
 				}
