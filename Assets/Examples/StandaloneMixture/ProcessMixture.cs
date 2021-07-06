@@ -49,9 +49,5 @@ public class ProcessMixture : MonoBehaviour
         // Write the file at the target destination
         var bytes = ImageConversion.EncodeToPNG(destination);
         File.WriteAllBytes(outputPath, bytes);
-
-        // Reset graph parameters to avoid serialization issues:
-        graph.SetParameterValue("Source", null);
-        graph.SetParameterValue("Target", null);
     }
 }
