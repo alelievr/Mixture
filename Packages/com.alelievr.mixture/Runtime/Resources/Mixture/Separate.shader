@@ -22,7 +22,7 @@ Shader "Hidden/Mixture/Separate"
             #pragma vertex CustomRenderTextureVertexShader
 			#pragma fragment MixtureFragment
 			#pragma target 3.0
-            #pragma enable_d3d11_debug_symbols
+            // #pragma enable_d3d11_debug_symbols
 
 			// The list of defines that will be active when processing the node with a certain dimension
             #pragma shader_feature CRT_2D CRT_3D CRT_CUBE

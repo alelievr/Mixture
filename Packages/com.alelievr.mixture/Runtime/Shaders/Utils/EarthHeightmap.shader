@@ -18,7 +18,7 @@ Shader "Hidden/Mixture/EarthHeightmap"
 			#pragma fragment Fragment
 			#pragma target 3.0
 
-			#pragma enable_d3d11_debug_symbols
+			// #pragma enable_d3d11_debug_symbols
 
 			#define MIN_EARTH_HEIGHT -11000
 			#define MAX_EARTH_HEIGHT 8900
