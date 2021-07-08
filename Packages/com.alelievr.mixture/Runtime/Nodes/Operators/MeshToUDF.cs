@@ -25,7 +25,7 @@ Note that the unsigned distance field is faster to compute.
         }
 
 		[Input("Input Mesh"), ShowAsDrawer]
-		public MixtureMesh inputMesh;
+		public MixtureMesh inputMesh = new MixtureMesh();
 
         [Output("Volume")]
         public CustomRenderTexture outputVolume;
@@ -41,6 +41,7 @@ Note that the unsigned distance field is faster to compute.
 
 		public override Texture previewTexture => outputVolume;
 		public override bool showDefaultInspector => true;
+		protected override MixtureSettings defaultSettings => Get3DOnlyRTSettings(base.defaultSettings);
 
         CustomRenderTexture rayMapBuffer;
 
