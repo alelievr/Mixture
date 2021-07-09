@@ -118,7 +118,7 @@ Gaussian blur filter in two passes. You might see some artifacts with large blur
 		// Code to generate the gaussian weights:
 		// public Blur()
 		// {
-		// 	int weightsCount = 32;
+		// 	int weightsCount = 64;
 
 		// 	string weightsArray = $"static float gaussianWeights[{weightsCount}] = {{";
 		// 	float p = 0;

@@ -7,7 +7,7 @@
 		[Tooltip(Source Texture)][InlineTexture]_Source_3D("Source", 3D) = "white" {}
 		[Tooltip(Source Texture)][InlineTexture]_Source_Cube("Source", Cube) = "white" {}
 
-		[Tooltip(Blur radius in pixels)]_Radius("Radius", Float) = 0
+		[Tooltip(Blur radius in percent)]_Radius("Radius", Range(0, 100)) = 0
 		// Other parameters
 	}
 
@@ -22,7 +22,8 @@
 	#pragma fragment MixtureFragment
 
 	#define SAMPLE_COUNT 32
-	static float gaussianWeights[SAMPLE_COUNT] = {0.03740084,
+	static float gaussianWeights[SAMPLE_COUNT] = {
+		0.03740084,
 		0.03723684,
 		0.03674915,
 		0.03595048,
@@ -72,12 +73,14 @@
 		if (_Radius == 0)
 			return color;
 
+		float3 radius = _Radius * 0.01 / SAMPLE_COUNT;
+
 		color *= gaussianWeights[0];
 
 		for (int j = 1; j < SAMPLE_COUNT; j++)
 		{
-			float3 uvOffset = direction * j * (_Radius / _CustomRenderTextureWidth) / SAMPLE_COUNT;
-			float cubemapDirectionOffset = j * (_Radius / (1.0 * _CustomRenderTextureWidth)) / SAMPLE_COUNT * 360; // humm ?
+			float3 uvOffset = direction * j * radius;
+			float cubemapDirectionOffset = j * radius.x * 360; // humm ?
 			float3 positiveDirectionOffset = Rotate(direction, i.direction, cubemapDirectionOffset);
 			float3 negativeDirectionOffset = Rotate(direction, i.direction, -cubemapDirectionOffset);
 

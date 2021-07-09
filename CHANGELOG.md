@@ -29,6 +29,9 @@ https://user-images.githubusercontent.com/6877923/124649079-535e0d00-de98-11eb-9
 - Fixed migration of old mixture graphs to the new settings system.
 - Fixed preview node not showing pixel value
 
+### Changed
+- Blur now works with percentage rather than pixels
+
 ## 0.3.0
 
 ### Added
