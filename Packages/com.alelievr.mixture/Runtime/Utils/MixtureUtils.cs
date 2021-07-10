@@ -423,5 +423,12 @@ namespace Mixture
 				cmd.DrawMesh(mesh.mesh, mesh.localToWorld, material, 0, shaderPass: 0, props);
 			}
 		}
+
+		public static bool IsRealtimeGraph(BaseGraph graph)
+		{
+			if (graph is MixtureGraph g && g != null)
+				return g.type == MixtureGraphType.Realtime;
+			return false;
+		}
     }
 }
