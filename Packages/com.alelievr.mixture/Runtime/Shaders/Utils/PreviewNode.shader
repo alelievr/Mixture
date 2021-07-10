@@ -269,7 +269,7 @@ Shader "Hidden/Mixture/PreviewNode"
 					case 3: // vector field
 						float arrowCellSize = exp2(_ArrowCount);
 						float4 multiplier = float4(_VectorScale.xxx, 1);
-						float4 vectorValue = SAMPLE_LOD_X(_Source, arrowTileCenterCoord(uv * arrowCellSize).xyx / arrowCellSize, i.direction, _SourceMip) * multiplier;
+						float4 vectorValue = SAMPLE_LOD_X(_Source, arrowTileCenterCoord(uv.xy * arrowCellSize).xyx / arrowCellSize, i.direction, _SourceMip) * multiplier;
 						value *= multiplier;
 						value = PreviewVectorField(value, vectorValue, uv);
 						break;
