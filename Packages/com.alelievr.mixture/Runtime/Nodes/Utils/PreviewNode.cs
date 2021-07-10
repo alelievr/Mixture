@@ -33,7 +33,7 @@ The Preview node allows you to visualize your texture data differently using 3 m
 		public override bool displayMaterialInspector => true;
 
         // Enumerate the list of material properties that you don't want to be turned into a connectable port.
-		protected override IEnumerable<string> filteredOutProperties => new string[]{ "_Mode", "_ColorMin", "_ColorMax", "_Tiling", "_Gamma", "_NormalMode", "_LightPosition", "_HeightColorSet", "_HeightChannel", "_HeightMin", "_HeightMax"};
+		protected override IEnumerable<string> filteredOutProperties => new string[]{ "_Mode", "_ColorMin", "_ColorMax", "_Tiling", "_Gamma", "_NormalMode", "_LightPosition", "_HeightColorSet", "_HeightChannel", "_HeightMin", "_HeightMax", "_ArrowSize", "_ArrowCount", "_VectorScale"};
 
 		[CustomPortBehavior(nameof(output))]
 		public IEnumerable< PortData > HideOutput(List< SerializableEdge > edges) { yield break; }

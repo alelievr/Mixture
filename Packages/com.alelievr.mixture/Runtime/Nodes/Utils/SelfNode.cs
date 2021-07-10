@@ -66,8 +66,7 @@ Currently only the first output texture of the output node can be retrieved.
 		}
 
 		[IsCompatibleWithGraph]
-		static bool IsCompatibleWithRealtimeGraph(BaseGraph graph)
-			=> (graph as MixtureGraph).type == MixtureGraphType.Realtime;
+		static bool IsCompatibleWithRealtimeGraph(BaseGraph graph) => MixtureUtils.IsRealtimeGraph(graph);
 
 		public void ResetOutputTexture() => initialization = true;
 

@@ -35,7 +35,7 @@ This node can be used in a realtime graph for time based effects.
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			time = Time.time;
+			time = Time.realtimeSinceStartup;
 			sinTime = Mathf.Sin(Time.time);
 			cosTime = Mathf.Cos(Time.time);
 			deltaTime = Time.deltaTime;

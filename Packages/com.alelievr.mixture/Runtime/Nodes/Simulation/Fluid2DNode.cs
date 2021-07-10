@@ -1,4 +1,3 @@
-#if MIXTURE_EXPERIMENTAL
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +7,7 @@ using GraphProcessor;
 
 namespace Mixture
 {
-	[System.Serializable, NodeMenuItem("Simulation/2D Fluid")]
+	[System.Serializable, NodeMenuItem("Simulation/2D Fluid (Experimental)")]
 	public class Fluid2DNode : BaseFluidSimulationNode 
 	{
 		[Input("Density")]
@@ -17,7 +16,7 @@ namespace Mixture
 		[Input("Velocity")]
 		public Texture inputVelocity;
 
-		[Input]
+		[Input("Obstacles")]
 		public Texture inputObstacles;
 		
 		[Output("Density")]
@@ -34,13 +33,10 @@ namespace Mixture
 		public float m_densityAmount = 1.0f;
 		public float m_densityDissipation = 0.99f;
 		public float m_densityBuoyancy = 1.0f;
-		public float m_densityWeight = 0.0125f;
-		public float m_temperatureAmount = 10.0f;
-		public float m_temperatureDissipation = 0.995f;
+		public float m_densityWeight = 9.807f;
 		public float m_velocityDissipation = 0.95f;
-		float m_ambientTemperature = 0.0f;
 
-		public override string name => "2D Fluid";
+		public override string name => "2D Fluid (Experimental)";
 
 		protected override string computeShaderResourcePath => "Mixture/Fluid2D";
 
@@ -63,8 +59,7 @@ namespace Mixture
 
 		// For now only available in realtime mixtures, we'll see later for static with a spritesheet mode maybe
 		[IsCompatibleWithGraph]
-		static bool IsCompatibleWithRealtimeGraph(BaseGraph graph)
-			=> (graph as MixtureGraph).type == MixtureGraphType.Realtime;
+		static bool IsCompatibleWithRealtimeGraph(BaseGraph graph) => MixtureUtils.IsRealtimeGraph(graph);
 
 		Vector3 m_size;
 
@@ -149,8 +144,6 @@ namespace Mixture
 
 			m_size = new Vector3(settings.GetResolvedWidth(graph), settings.GetResolvedHeight(graph), settings.GetResolvedDepth(graph));
 
-			// UpdateTempRenderTexture(ref fluidBuffer);
-
 			ComputeObstacles(cmd, m_obstacles);
 
 			InjectObstacles(cmd, inputObstacles, m_obstacles);
@@ -159,20 +152,16 @@ namespace Mixture
 
 			//First off advect any buffers that contain physical quantities like density or temperature by the 
 			//velocity field. Advection is what moves values around.
-			ApplyAdvection(cmd, m_temperatureDissipation, 0.0f, m_temperature, m_velocity[READ], m_obstacles);
 			ApplyAdvection(cmd, m_densityDissipation, 0.0f, m_density, m_velocity[READ], m_obstacles);
 
 			//The velocity field also advects its self. 
-			ApplyAdvectionVelocity(cmd, m_velocityDissipation, m_velocity, m_obstacles);
-			
-			//Apply the effect the sinking colder smoke has on the velocity field
-			ApplyBuoyancy(cmd, m_density[READ], m_temperature[READ], m_velocity, m_densityBuoyancy, m_ambientTemperature, m_densityWeight);
+			ApplyAdvectionVelocity(cmd, m_velocityDissipation, m_velocity, m_obstacles, m_density[READ], m_densityWeight);
 			
 			//Adds a certain amount of density (the visible smoke) and temperate
 			InjectDensity(cmd, m_densityAmount, inputDensity, m_density);
-			InjectDensity(cmd, m_densityAmount, inputDensity, m_temperature);
+			// InjectDensity(cmd, m_temperatureAmount, inputTemperature, m_temperature);
 			
-			//The fuild sim math tends to remove the swirling movement of fluids.
+			//The fluid sim math tends to remove the swirling movement of fluids.
 			//This step will try and add it back in
 			ComputeVorticityAndConfinement(cmd, m_temp3f, m_velocity, m_vorticityStrength);
 			
@@ -191,4 +180,3 @@ namespace Mixture
 		}
 	}
 }
-#endif
