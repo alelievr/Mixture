@@ -90,6 +90,8 @@ float4 Blend(float4 source, float4 target, float4 mask, uint blendMode)
 			zeroOrOne = step(0.5, source);
 			tmp = result2 * zeroOrOne + (1 - zeroOrOne) * result1;
 			return lerp(source, tmp, mask);
+		case 24: // Transparent
+			return source.a * source + (1 - source.a) * target;
 	}
 }
 

@@ -32,7 +32,8 @@ namespace Mixture
             PinLight = 19,
             Screen = 20,
             SoftLight = 21,
-            VividLight = 23
+            VividLight = 23,
+            Transparent = 24,
         }
 
         protected override void DrawerGUI(Rect position, MaterialProperty prop, string label, MaterialEditor editor, MixtureGraph graph, MixtureNodeView nodeView)
