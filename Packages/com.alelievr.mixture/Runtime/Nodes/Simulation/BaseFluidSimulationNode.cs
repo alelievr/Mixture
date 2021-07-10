@@ -17,8 +17,6 @@ namespace Mixture
 			Tile = 2,
 		}
 
-		public BorderMode borderMode;
-
 		CustomRenderTexture fluidBuffer;
 
 		public override bool showDefaultInspector => true;
@@ -83,6 +81,7 @@ namespace Mixture
 			injectVelocityKernel = computeShader.FindKernel("InjectVelocity");
 			injectObstaclesKernel = computeShader.FindKernel("InjectObstacles");
 
+			// non mandatory kernels
 			if (computeShader.HasKernel("ExtinguishmentImpulse"))
 				extinguishmentImpulseKernel = computeShader.FindKernel("ExtinguishmentImpulse");
         }
@@ -159,7 +158,7 @@ namespace Mixture
 			buffer[WRITE] = tmp;
 		}
 
-		protected void ComputeObstacles(CommandBuffer cmd, RenderTexture obstacles)
+		protected void ComputeObstacles(CommandBuffer cmd, RenderTexture obstacles, BorderMode borderMode)
 		{
 			cmd.BeginSample("ComputeObstacles");
 			cmd.SetComputeTextureParam(computeShader, SetObstaclesKernel, "_Obstacles", obstacles);

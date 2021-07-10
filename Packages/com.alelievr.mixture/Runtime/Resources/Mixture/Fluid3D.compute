@@ -24,7 +24,6 @@ float _AmbientTemperature, _Buoyancy, _Weight;
 float _Radius, _Amount;
 float _Epsilon;
 
-// TODO: move this to 2D and make a macro file that can work with both 2D and 3D maybe?
 // Cubemap not supported because we can't write to a cubemap with compute shaders :(
 
 // TODO: simplify all those textures
@@ -58,6 +57,9 @@ void AdvectVelocity(uint3 id : SV_DispatchThreadID)
 	}
 
     AdvectBuffer(_Read3f, _VelocityR, _Write3f, id, _Dissipate, _DeltaTime, _Size.xyz);
+
+    // Add density weight gravity vector
+    _Write3f[id] += (_Density[id] * _Weight) * float3(0, -1, 0);
 }
 
 // TODO: add other types of advection (BFECC amd Mac Cormack)
@@ -76,7 +78,7 @@ void Advect(uint3 id : SV_DispatchThreadID)
 [numthreads(8,8,1)]
 void SetObstacles(uint3 id : SV_DispatchThreadID)
 {
-    if (any(id == 0 || id == uint3(_Size.xyz - 1)))
+    if (_BorderMode == 0 && any(id == 0 || id == uint2(_Size.xy - 1)))
         _Obstacles[id] = 1;
     else
         _Obstacles[id] = 0;

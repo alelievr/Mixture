@@ -23,17 +23,20 @@ namespace Mixture
 		public Texture outputVelocity;
 		[Output("Pressure")]
 		public Texture outputPressure;
+		[Output("Divergence")]
+		public Texture outputDivergence;
 
-		public int m_iterations = 10;
-		public float m_vorticityStrength = 1.0f;
-		public float m_densityAmount = 1.0f;
-		public float m_densityDissipation = 0.999f;
-		public float m_densityBuoyancy = 1.0f;
-		public float m_densityWeight = 0.0125f;
-		public float m_temperatureAmount = 10.0f;
-		public float m_temperatureDissipation = 0.995f;
-		public float m_velocityDissipation = 0.995f;
-		float m_ambientTemperature = 0.0f;
+		public BorderMode borderMode;
+		public int iterations = 10;
+		public float vorticityStrength = 1.0f;
+		public float densityAmount = 1.0f;
+		public float densityDissipation = 0.999f;
+		// public float densityBuoyancy = 1.0f;
+		public float densityWeight = 0.0125f;
+		// public float temperatureAmount = 10.0f;
+		// public float temperatureDissipation = 0.995f;
+		public float velocityDissipation = 0.995f;
+		float ambientTemperature = 0.0f;
 
 		public override string name => "3D Fluid (Experimental)";
 
@@ -62,8 +65,8 @@ namespace Mixture
 
 		int gaussImpulseKernel;
 
-		RenderTexture[] m_density, m_velocity, m_pressure, m_temperature;
-		RenderTexture m_temp3f, m_obstacles;
+		RenderTexture[] density, velocity, pressure;
+		RenderTexture temp3f, obstacles;
 
         protected override void Enable()
         {
@@ -72,57 +75,57 @@ namespace Mixture
 			settings.doubleBuffered = true;
 			settings.outputChannels = OutputChannel.RGBA;
 
-			m_density = new RenderTexture[2];
-			m_density[READ] = AllocateRenderTexture("densityR", GraphicsFormat.R16_SFloat);
-			m_density[WRITE] = AllocateRenderTexture("densityW", GraphicsFormat.R16_SFloat);
+			density = new RenderTexture[2];
+			density[READ] = AllocateRenderTexture("densityR", GraphicsFormat.R16_SFloat);
+			density[WRITE] = AllocateRenderTexture("densityW", GraphicsFormat.R16_SFloat);
 			
-			m_temperature = new RenderTexture[2];
-			m_temperature[READ] = AllocateRenderTexture("temperatureR", GraphicsFormat.R16_SFloat);
-			m_temperature[WRITE] = AllocateRenderTexture("temperatureW", GraphicsFormat.R16_SFloat);
+			// temperature = new RenderTexture[2];
+			// temperature[READ] = AllocateRenderTexture("temperatureR", GraphicsFormat.R16_SFloat);
+			// temperature[WRITE] = AllocateRenderTexture("temperatureW", GraphicsFormat.R16_SFloat);
 			
-			m_velocity = new RenderTexture[2];
-			m_velocity[READ] = AllocateRenderTexture("velocityR", GraphicsFormat.R16G16B16A16_SFloat);
-			m_velocity[WRITE] = AllocateRenderTexture("velocityW", GraphicsFormat.R16G16B16A16_SFloat);
+			velocity = new RenderTexture[2];
+			velocity[READ] = AllocateRenderTexture("velocityR", GraphicsFormat.R16G16B16A16_SFloat);
+			velocity[WRITE] = AllocateRenderTexture("velocityW", GraphicsFormat.R16G16B16A16_SFloat);
 			
-			m_pressure = new RenderTexture[2];
-			m_pressure[READ] = AllocateRenderTexture("pressureR", GraphicsFormat.R16_SFloat);
-			m_pressure[WRITE] = AllocateRenderTexture("pressureW", GraphicsFormat.R16_SFloat);
+			pressure = new RenderTexture[2];
+			pressure[READ] = AllocateRenderTexture("pressureR", GraphicsFormat.R16_SFloat);
+			pressure[WRITE] = AllocateRenderTexture("pressureW", GraphicsFormat.R16_SFloat);
 			
-			m_obstacles = AllocateRenderTexture("Obstacles", GraphicsFormat.R8_SNorm);
+			obstacles = AllocateRenderTexture("Obstacles", GraphicsFormat.R8_SNorm);
 
-			m_temp3f = AllocateRenderTexture("Temp", GraphicsFormat.R16G16B16A16_SFloat);
+			temp3f = AllocateRenderTexture("Temp", GraphicsFormat.R16G16B16A16_SFloat);
         }
 	
 		public override void RealtimeReset()
 		{
 			// Reset all temp textures
 
-			ClearRenderTexture(m_density[READ]);
-			ClearRenderTexture(m_velocity[READ]);
-			ClearRenderTexture(m_temperature[READ]);
-			ClearRenderTexture(m_pressure[READ]);
-			ClearRenderTexture(m_obstacles);
+			ClearRenderTexture(density[READ]);
+			ClearRenderTexture(velocity[READ]);
+			// ClearRenderTexture(temperature[READ]);
+			ClearRenderTexture(pressure[READ]);
+			ClearRenderTexture(obstacles);
 		}
 
         protected override void Disable()
         {
 			base.Disable();
 
-			m_density[READ].Release();
-			m_density[WRITE].Release();
+			density[READ].Release();
+			density[WRITE].Release();
 			
-			m_temperature[READ].Release();
-			m_temperature[WRITE].Release();
+			// temperature[READ].Release();
+			// temperature[WRITE].Release();
 			
-			m_velocity[READ].Release();
-			m_velocity[WRITE].Release();
+			velocity[READ].Release();
+			velocity[WRITE].Release();
 			
-			m_pressure[READ].Release();
-			m_pressure[WRITE].Release();
+			pressure[READ].Release();
+			pressure[WRITE].Release();
 			
-			m_obstacles.Release();
+			obstacles.Release();
 			
-			m_temp3f.Release();
+			temp3f.Release();
         }
 
 		// Source: GPU Gems 3 ch 38: Fast Fluid Dynamics Simulation on the GPU
@@ -132,41 +135,46 @@ namespace Mixture
 			if (!base.ProcessNode(cmd))
 				return false;
 
-			outputDensity = m_density[READ];
-			outputVelocity = m_velocity[READ];
-			outputPressure = m_pressure[READ];
+			outputDensity = density[READ];
+			outputVelocity = velocity[READ];
+			outputPressure = pressure[READ];
+			outputDivergence = temp3f;
 
-			ComputeObstacles(cmd, m_obstacles);
+			ComputeObstacles(cmd, obstacles, borderMode);
+
+			InjectObstacles(cmd, inputObstacles, obstacles);
+
+			InjectVelocity(cmd, inputVelocity, velocity);
 
 			//First off advect any buffers that contain physical quantities like density or temperature by the 
 			//velocity field. Advection is what moves values around.
-			ApplyAdvection(cmd, m_temperatureDissipation, 0.0f, m_temperature, m_velocity[READ], m_obstacles);
-			ApplyAdvection(cmd, m_densityDissipation, 0.0f, m_density, m_velocity[READ], m_obstacles);
+			// ApplyAdvection(cmd, temperatureDissipation, 0.0f, temperature, velocity[READ], obstacles);
+			ApplyAdvection(cmd, densityDissipation, 0.0f, density, velocity[READ], obstacles);
 
 			//The velocity field also advects its self. 
-			ApplyAdvectionVelocity(cmd, m_velocityDissipation, m_velocity, m_obstacles, m_density[READ], m_densityWeight);
+			ApplyAdvectionVelocity(cmd, velocityDissipation, velocity, obstacles, density[READ], densityWeight);
 			
 			//Apply the effect the sinking colder smoke has on the velocity field
-			ApplyBuoyancy(cmd, m_temperature[READ], m_velocity, m_densityBuoyancy, m_ambientTemperature);
+			// ApplyBuoyancy(cmd, temperature[READ], velocity, densityBuoyancy, ambientTemperature);
 			
 			//Adds a certain amount of density (the visible smoke) and temperate
-			InjectDensity(cmd, m_densityAmount, inputDensity, m_density);
-			InjectDensity(cmd, m_densityAmount, inputDensity, m_temperature);
+			InjectDensity(cmd, densityAmount, inputDensity, density);
+			// InjectDensity(cmd, densityAmount, inputDensity, temperature);
 
 			//The fuild sim math tends to remove the swirling movement of fluids.
 			//This step will try and add it back in
-			ComputeVorticityAndConfinement(cmd, m_temp3f, m_velocity, m_vorticityStrength);
+			ComputeVorticityAndConfinement(cmd, temp3f, velocity, vorticityStrength);
 			
 			//Compute the divergence of the velocity field. In fluid simulation the
 			//fluid is modelled as being incompressible meaning that the volume of the fluid
 			//does not change over time. The divergence is the amount the field has deviated from being divergence free
-			ComputeDivergence(cmd, m_velocity[READ], m_obstacles, m_temp3f);
+			ComputeDivergence(cmd, velocity[READ], obstacles, temp3f);
 			
 			//This computes the pressure need return the fluid to a divergence free condition
-			ComputePressure(cmd, m_temp3f, m_obstacles, m_pressure, m_iterations);
+			ComputePressure(cmd, temp3f, obstacles, pressure, iterations);
 			
 			//Subtract the pressure field from the velocity field enforcing the divergence free conditions
-			ComputeProjection(cmd, m_obstacles, m_pressure[READ], m_velocity);
+			ComputeProjection(cmd, obstacles, pressure[READ], velocity);
 
 			return true;
 		}
