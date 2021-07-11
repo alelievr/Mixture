@@ -118,7 +118,7 @@ Shader "Hidden/MixtureInspectorPreview"
                 float3 objectCenter = float3(0, 0, 0);
 
                 if (_ShowCubeBackface)
-                    uv = float3(1 - uv.x, 1 - uv.y, 0);
+                    uv = float3(1 - uv.x, uv.y, 0);
                 
                 float3 target = float3(0., 0., 0.);
                 float3 ro = mul(_CameraMatrix, float4(0, 0, -_CameraZoom, 0)).xyz;
