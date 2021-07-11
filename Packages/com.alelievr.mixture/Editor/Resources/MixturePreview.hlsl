@@ -51,6 +51,7 @@ float4 MakePreviewColor(v2f i, float2 texelSize, float4 imageColor)
     imageColor.xyz = ConvertToSRGBIfNeeded(imageColor.xyz);
     // Then checkerboard
     imageColor.xyz = lerp(checkerboard, imageColor.xyz, imageColor.a);
+    imageColor.a = 1;
 
     // Preview exposure offset
     imageColor.xyz *= pow(2, _EV100);
@@ -58,7 +59,7 @@ float4 MakePreviewColor(v2f i, float2 texelSize, float4 imageColor)
     return imageColor * tex2D(_GUIClipTexture, i.clipUV).a;
 }
 
-float4 RayMarchVolume(float3 ro, float3 rd, Texture3D volume, SamplerState samp, float mip, float startDistance = 0, float stopDistance = 1, float densityMultiplier = 1)
+float4 RayMarchVolume(float3 ro, float3 rd, Texture3D volume, SamplerState samp, float mip, float startDistance = 0, float stopDistance = 1, float densityMultiplier = 1, int densityChannel = 3)
 {
     float dist = 0;
     float4 accumulation = 0;
@@ -71,7 +72,7 @@ float4 RayMarchVolume(float3 ro, float3 rd, Texture3D volume, SamplerState samp,
     {
         float3 ray = (ro + rd * dist) * 0.5 + 0.5;
         float4 c = volume.SampleLevel(samp, ray, mip);
-        c.a = max(c.a * densityMultiplier*densityMultiplier, FLT_MIN);
+        c.a = max(c[densityChannel] * densityMultiplier*densityMultiplier, FLT_MIN);
         c.rgb *= c.a;
         accumulation += c * (1 - accumulation.a);
         dist += step;
@@ -83,7 +84,7 @@ float4 RayMarchVolume(float3 ro, float3 rd, Texture3D volume, SamplerState samp,
     return accumulation;
 }
 
-float4 RayMarchSDF(float3 ro, float3 rd, Texture3D volume, SamplerState samp, float mip, float startDistance = 0, float stopDistance = 1, float offset = 0, bool outputNormal = true)
+float4 RayMarchSDF(float3 ro, float3 rd, Texture3D volume, SamplerState samp, float mip, float startDistance = 0, float stopDistance = 1, float offset = 0, bool outputNormal = true, bool invertSurface = false)
 {
     float dist = 0;
     float4 accumulation = 0;
@@ -97,7 +98,7 @@ float4 RayMarchSDF(float3 ro, float3 rd, Texture3D volume, SamplerState samp, fl
     for (stepCount = 0; dist + startDistance < stopDistance; stepCount++)
     {
         float3 ray = (ro + rd * dist) * 0.5 + 0.5;
-        float4 c = volume.SampleLevel(samp, ray , mip);
+        float4 c = (invertSurface ? -1 : 1) * volume.SampleLevel(samp, ray , mip);
         if (c.r + offset < 0.0)
         {
             if (outputNormal)
@@ -108,6 +109,9 @@ float4 RayMarchSDF(float3 ro, float3 rd, Texture3D volume, SamplerState samp, fl
                     volume.SampleLevel(samp, ray + epsylon.yxy, mip).x - volume.SampleLevel(samp, ray - epsylon.yxy, mip).x,
                     volume.SampleLevel(samp, ray + epsylon.yyx, mip).x - volume.SampleLevel(samp, ray - epsylon.yyx, mip).x
                 ));
+
+                if (invertSurface)
+                    normal = -normal;
     
                 return float4(normal * 0.5 + 0.5, 1);
             }

@@ -54,6 +54,8 @@ Shader "Hidden/MixtureInspectorPreview"
             float _SDFOffset;
             float _Texture3DMode;
             float _ShowCubeBackface;
+            float _InvertSurface;
+            float _VolumetricDensityChannel;
 
             #define MERGE_NAME(x, y) x##y
 
@@ -94,11 +96,11 @@ Shader "Hidden/MixtureInspectorPreview"
                     {
                         default:
                         case 0: // Volume
-                            return RayMarchVolume(ro, rd, volume, samp, mip, boxIntersection.x, boxIntersection.y, _Density);
+                            return RayMarchVolume(ro, rd, volume, samp, mip, boxIntersection.x, boxIntersection.y, _Density, _VolumetricDensityChannel);
                         case 1: // SDF
-                            return RayMarchSDF(ro, rd, volume, samp, mip, boxIntersection.x, boxIntersection.y, _SDFOffset, true);
+                            return RayMarchSDF(ro, rd, volume, samp, mip, boxIntersection.x, boxIntersection.y, _SDFOffset, true, _InvertSurface);
                         case 2: // SDF
-                            return RayMarchSDF(ro, rd, volume, samp, mip, boxIntersection.x, boxIntersection.y, _SDFOffset, false);
+                            return RayMarchSDF(ro, rd, volume, samp, mip, boxIntersection.x, boxIntersection.y, _SDFOffset, false, _InvertSurface);
                     }
                     // TODO: send max distance to raymarcher
                 }

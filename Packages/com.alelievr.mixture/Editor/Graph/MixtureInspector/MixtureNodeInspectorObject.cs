@@ -268,6 +268,8 @@ namespace Mixture
                 previewMaterial.SetFloat("_SDFOffset", mixtureInspector.texture3DDistanceFieldOffset);
                 previewMaterial.SetFloat("_SDFChannel", (int)mixtureInspector.sdfChannel);
                 previewMaterial.SetFloat("_ShowCubeBackface", mixtureInspector.showCubeBackface ? 1 : 0);
+                previewMaterial.SetFloat("_InvertSurface", mixtureInspector.invertSurface ? 1 : 0);
+                previewMaterial.SetFloat("_VolumetricDensityChannel", mixtureInspector.volumetricDensityChannel);
                 EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, previewMaterial);
             }
             else
@@ -425,6 +427,8 @@ namespace Mixture
         internal SDFChannel sdfChannel = SDFChannel.R;
         internal float comparisonOffset;
         internal bool showCubeBackface = true;
+        internal bool invertSurface = false;
+        internal int volumetricDensityChannel = 3;
 
         // TODO
         // internal enum PreviewMode

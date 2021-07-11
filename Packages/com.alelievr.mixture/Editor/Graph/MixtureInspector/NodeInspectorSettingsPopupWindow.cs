@@ -11,7 +11,7 @@ namespace Mixture
         MixtureNodeInspectorObject target;
 
         public static readonly int width = 260;
-        public static readonly int height = 200;
+        public static readonly int height = 230;
 
         public override Vector2 GetWindowSize()
         {
@@ -68,13 +68,16 @@ namespace Mixture
                         default:
                         case MixtureNodeInspectorObject.Texture3DPreviewMode.Volumetric:
                             target.texture3DDensity = EditorGUILayout.Slider("Density", target.texture3DDensity, 0, 1);
+                            target.volumetricDensityChannel = EditorGUILayout.Popup("Density Channel", target.volumetricDensityChannel, new string[] { "R", "G", "B", "A" });
                             break;
                         case MixtureNodeInspectorObject.Texture3DPreviewMode.DistanceFieldNormal:
                             target.texture3DDistanceFieldOffset = EditorGUILayout.FloatField("SDF Offset", target.texture3DDistanceFieldOffset);
+                            target.invertSurface = EditorGUILayout.Toggle("Invert Surface", target.invertSurface);
                             break;
                         case MixtureNodeInspectorObject.Texture3DPreviewMode.DistanceFieldColor:
                             target.texture3DDistanceFieldOffset = EditorGUILayout.FloatField("SDF Offset", target.texture3DDistanceFieldOffset);
                             target.sdfChannel = (MixtureNodeInspectorObject.SDFChannel)EditorGUILayout.EnumPopup("SDF Offset", target.sdfChannel);
+                            target.invertSurface = EditorGUILayout.Toggle("Invert Surface", target.invertSurface);
                             break;
                     }
                 }
