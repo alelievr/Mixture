@@ -200,46 +200,61 @@ float3 fade(float3 t) { return (t * t * t) * (t * (t * 6 - 15) + 10); }
 float3 mod(float3 x, float3 y) { return x - y * floor(x / y); }
 float4 mod(float4 x, float4 y) { return x - y * floor(x / y); }
 
-float tiledPerlinNoise2D(float2 coordinate, float2 period, float seed)
+float3 tiledPerlinNoise2D(float2 pos, float2 scale, float seed)
 {
-    float4 Pi = floor(float4(coordinate.x, coordinate.y, coordinate.x, coordinate.y)) + float4(0.0, 0.0, 1.0, 1.0);
-    float4 Pf = frac(float4(coordinate.x, coordinate.y, coordinate.x, coordinate.y)) - float4(0.0, 0.0, 1.0, 1.0);
-    Pi += (seed * 97.9568) % 1000;
-    Pi = mod(Pi, float4(period.x, period.y, period.x, period.y)); // To create noise with explicit period
-    Pi = mod(Pi, 289); // To avoid truncation effects in permutation
-    float4 ix = float4(Pi.x, Pi.z, Pi.x, Pi.z);
-    float4 iy = float4(Pi.y, Pi.y, Pi.w, Pi.w);
-    float4 fx = float4(Pf.x, Pf.z, Pf.x, Pf.z);
-    float4 fy = float4(Pf.y, Pf.y, Pf.w, Pf.w);
+    float rotation = 0.56746; // We can expose this if needed
 
-    float4 i = permute(permute(ix) + iy);
+    float2 sinCos = float2(sin(rotation), cos(rotation));
+    float2x2 transform = float2x2(sinCos.y, sinCos.x, sinCos.x, sinCos.y);
 
-    float4 gx = 2 * frac(i / float(41)) - float(1);
-    float4 gy = abs(gx) - 0.5;
-    float4 tx = floor(gx + 0.5);
-    gx = gx - tx;
+    // based on Modifications to Classic Perlin Noise by Brian Sharpe: https://archive.is/cJtlS
+    pos *= scale;
+    float4 i = floor(pos).xyxy + float2(0.0, 1.0).xxyy;
+    float4 f = (pos.xyxy - i.xyxy) - float2(0.0, 1.0).xxyy;
+    i = mod(i, scale.xyxy) + seed;
 
-    float2 g00 = float2(gx.x, gy.x);
-    float2 g10 = float2(gx.y, gy.y);
-    float2 g01 = float2(gx.z, gy.z);
-    float2 g11 = float2(gx.w, gy.w);
+    // grid gradients
+    float4 gradientX, gradientY;
+    multiHash2D(i, gradientX, gradientY);
+    gradientX -= 0.49999;
+    gradientY -= 0.49999;
 
-    float4 norm = taylorInvSqrt(float4(dot(g00, g00), dot(g01, g01), dot(g10, g10), dot(g11, g11)));
-    g00 *= norm.x;
-    g01 *= norm.y;
-    g10 *= norm.z;
-    g11 *= norm.w;
+    // transform gradients
+    float4 mt = float4(transform);
+    float4 rg = float4(gradientX.x, gradientY.x, gradientX.y, gradientY.y);
+    rg = rg.xxzz * mt.xyxy + rg.yyww * mt.zwzw;
+    gradientX.xy = rg.xz;
+    gradientY.xy = rg.yw;
 
-    float n00 = dot(g00, float2(fx.x, fy.x));
-    float n10 = dot(g10, float2(fx.y, fy.y));
-    float n01 = dot(g01, float2(fx.z, fy.z));
-    float n11 = dot(g11, float2(fx.w, fy.w));
+    rg = float4(gradientX.z, gradientY.z, gradientX.w, gradientY.w);
+    rg = rg.xxzz * mt.xyxy + rg.yyww * mt.zwzw;
+    gradientX.zw = rg.xz;
+    gradientY.zw = rg.yw;
 
-    float2 fade_xy = fade(float2(Pf.x, Pf.y));
-    float2 n_x = lerp(float2(n00, n01), float2(n10, n11), fade_xy.x);
-    float n_xy = lerp(n_x.x, n_x.y, fade_xy.y);
-    return float(2.3) * n_xy;
+    // perlin surflet
+    float4 gradients = rsqrt(gradientX * gradientX + gradientY * gradientY) * (gradientX * f.xzxz + gradientY * f.yyww);
+    float4 m = f * f;
+    m = m.xzxz + m.yyww;
+    m = max(1.0 - m, 0.0);
+    float4 m2 = m * m;
+    float4 m3 = m * m2;
+    // compute the derivatives
+    float4 m2Gradients = -6.0 * m2 * gradients;
+    float2 grad = float2(dot(m2Gradients, f.xzxz), dot(m2Gradients, f.yyww)) + float2(dot(m3, gradientX), dot(m3, gradientY));
+    // sum the surflets and normalize: 1.0 / 0.75^3
+    return float3(dot(m3, gradients), grad) * 2.3703703703703703703703703703704;
 }
+
+// In case we need derivatives in tiled perlin noise 3D one day
+// float smoothstepDeriv(float t) 
+// { 
+//     return t * (6 - 6 * t); 
+// }
+
+// float smoothstep(float t) 
+// { 
+//     return t * t * (3 - 2 * t); 
+// } 
 
 float tiledPerlinNoise3D(float3 coordinate, float3 period, float seed)
 {
@@ -276,6 +291,14 @@ float tiledPerlinNoise3D(float3 coordinate, float3 period, float seed)
     gx1 -= sz1 * (step(0, gx1) - 0.5);
     gy1 -= sz1 * (step(0, gy1) - 0.5);
 
+    // float u = smoothstep(Pf1.x); 
+    // float v = smoothstep(Pf1.y); 
+    // float w = smoothstep(Pf1.z); 
+ 
+    // float du = smoothstepDeriv(Pf1.x); 
+    // float dv = smoothstepDeriv(Pf1.y); 
+    // float dw = smoothstepDeriv(Pf1.z); 
+
     float3 g000 = float3(gx0.x, gy0.x, gz0.x);
     float3 g100 = float3(gx0.y, gy0.y, gz0.y);
     float3 g010 = float3(gx0.z, gy0.z, gz0.z);
@@ -305,6 +328,20 @@ float tiledPerlinNoise3D(float3 coordinate, float3 period, float seed)
     float n011 = dot(g011, float3(Pf0.x, Pf1.y, Pf1.z));
     float n111 = dot(g111, Pf1);
 
+    // // Calculate derivatives: https://www.scratchapixel.com/lessons/procedural-generation-virtual-worlds/perlin-noise-part-2/perlin-noise-computing-derivatives
+    // float k0 = (n100 - n000); 
+    // float k1 = (n010 - n000); 
+    // float k2 = (n001 - n000); 
+    // float k3 = (n000 + n110 - n100 - n010); 
+    // float k4 = (n000 + n101 - n100 - n001); 
+    // float k5 = (n000 + n011 - n010 - n001); 
+    // float k6 = (n100 + n010 + n001 + n111 - n000 - n110 - n101 - n011); 
+ 
+    // float3 derivs;
+    // derivs.x = du *(k0 + v * k3 + w * k4 + v * w * k6); 
+    // derivs.y = dv *(k1 + u * k3 + w * k5 + u * w * k6); 
+    // derivs.z = dw *(k2 + u * k4 + v * k5 + u * v * k6); 
+
     float3 fade_xyz = fade(Pf0);
     float4 n_z = lerp(float4(n000, n100, n010, n110), float4(n001, n101, n011, n111), fade_xyz.z);
     float2 n_yz = lerp(float2(n_z.x, n_z.y), float2(n_z.z, n_z.w), fade_xyz.y);
@@ -314,16 +351,13 @@ float tiledPerlinNoise3D(float3 coordinate, float3 period, float seed)
 
 #ifdef _TILINGMODE_TILED
 
-NOISE_TEMPLATE(Perlin2D, float2, float, tiledPerlinNoise2D(coordinate * frequency, frequency, seed));
+NOISE_TEMPLATE(Perlin2D, float2, float3, tiledPerlinNoise2D(coordinate * frequency, frequency, seed));
 NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D(coordinate * frequency, frequency, seed));
-RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float, tiledPerlinNoise2D(coordinate * frequency, frequency, seed));
+RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float3, tiledPerlinNoise2D(coordinate * frequency, frequency, seed));
 RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D(coordinate * frequency, frequency, seed));
 
-// TODO: implement derivatives in the tiled perlin noise
-// CURL_NOISE_2D_TEMPLATE(Perlin2D, tiledPerlinNoise2D(coordinate * frequency, frequency, seed));
-// CURL_NOISE_3D_TEMPLATE(Perlin3D, tiledPerlinNoise2D(coordinate * frequency, frequency, seed));
-CURL_NOISE_2D_TEMPLATE(Perlin2D, perlinNoise2D(coordinate * frequency, seed));
-CURL_NOISE_3D_TEMPLATE(Perlin3D, perlinNoise2D(coordinate * frequency, seed));
+CURL_NOISE_2D_TEMPLATE(Perlin2D, tiledPerlinNoise2D(coordinate, frequency, seed));
+CURL_NOISE_3D_TEMPLATE(Perlin3D, tiledPerlinNoise2D(coordinate, frequency, seed));
 
 #else
 
