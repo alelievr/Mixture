@@ -20,6 +20,10 @@ https://user-images.githubusercontent.com/6877923/123006036-64e2e780-d3b7-11eb-9
 https://user-images.githubusercontent.com/6877923/124649079-535e0d00-de98-11eb-9e85-13c3a5d987ca.mov
 
 
+- Added an option to select the density channel in the node inspector volumetric preview.
+- Added an option to invert the surface in the node inspector SDF preview.
+- Added a tileable curl noise option.
+
 ### Fixed
 - Fixed missing nodes in the list of nodes proposed when dragging an edge.
 - Fixed gamma mismatch when exporting a 2D texture with the External Output node.
@@ -28,6 +32,7 @@ https://user-images.githubusercontent.com/6877923/124649079-535e0d00-de98-11eb-9
 - Fixed a setting inheritance bug when a node inherited from a Texture node.
 - Fixed migration of old mixture graphs to the new settings system.
 - Fixed preview node not showing pixel value
+- Fixed the rounding in frequency and lacunarity of noise nodes.
 
 ### Changed
 - Blur now works with percentage rather than pixels
