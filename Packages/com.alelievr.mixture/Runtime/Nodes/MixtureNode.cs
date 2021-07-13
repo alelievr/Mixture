@@ -123,6 +123,16 @@ namespace Mixture
 			return rtSettings;
 		}
 
+		protected MixtureSettings	GetCubeOnlyRTSettings(MixtureSettings defaultSettings)
+		{
+			var rtSettings = defaultSettings;
+
+			rtSettings.editFlags &= ~EditFlags.Dimension;
+			rtSettings.dimension = OutputDimension.CubeMap;
+
+			return rtSettings;
+		}
+
         public override void OnNodeCreated()
 		{
 			base.OnNodeCreated();
@@ -151,6 +161,13 @@ namespace Mixture
 			onAfterEdgeConnected -= UpdateSettings;
 			onAfterEdgeDisconnected -= UpdateSettings;
 			onSettingsChanged -= UpdateSettings;
+		}
+
+
+		public override void InitializePorts()
+		{
+			UpdateSettings();
+			base.InitializePorts();
 		}
 
 		bool IsNodeUsingSettings(BaseNode n)

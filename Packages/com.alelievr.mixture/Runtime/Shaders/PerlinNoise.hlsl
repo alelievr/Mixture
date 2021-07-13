@@ -351,9 +351,9 @@ float tiledPerlinNoise3D(float3 coordinate, float3 period, float seed)
 
 #ifdef _TILINGMODE_TILED
 
-NOISE_TEMPLATE(Perlin2D, float2, float3, tiledPerlinNoise2D(coordinate * frequency, frequency, seed));
+NOISE_TEMPLATE(Perlin2D, float2, float3, tiledPerlinNoise2D(coordinate, frequency, seed));
 NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D(coordinate * frequency, frequency, seed));
-RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float3, tiledPerlinNoise2D(coordinate * frequency, frequency, seed));
+RIDGED_NOISE_TEMPLATE(Perlin2D, float2, float3, tiledPerlinNoise2D(coordinate, frequency, seed));
 RIDGED_NOISE_TEMPLATE(Perlin3D, float3, float, tiledPerlinNoise3D(coordinate * frequency, frequency, seed));
 
 CURL_NOISE_2D_TEMPLATE(Perlin2D, tiledPerlinNoise2D(coordinate, frequency, seed));
