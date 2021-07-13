@@ -1,6 +1,5 @@
 #pragma kernel Advect 
 #pragma kernel AdvectVelocity 
-#pragma kernel ApplyBuoyancy 
 #pragma kernel ComputeVorticity 
 #pragma kernel ComputeConfinement 
 #pragma kernel ComputeDivergence 
@@ -22,7 +21,7 @@
 
 float4 _Up, _Pos;
 float _DeltaTime, _Dissipate, _Decay;
-float _AmbientTemperature, _Buoyancy, _Weight;
+float _Weight;
 float _Radius, _Amount;
 float _Epsilon;
 
@@ -43,9 +42,9 @@ RWTexture2D<float2> _Write3f;
 Texture2D<float2> _Read3f;
 
 RWTexture2D<float2> _Write;
-Texture2D<float> _Density, _Temperature;
+Texture2D<float> _Density;
 
-Texture2D<float2> _Read, _Reaction;
+Texture2D<float2> _Read;
 
 Texture2D<float2> _Vorticity;
 
@@ -84,18 +83,6 @@ void SetObstacles(uint2 id : SV_DispatchThreadID)
         _Obstacles[id] = 1;
     else
         _Obstacles[id] = 0;
-}
-
-[numthreads(8,8,1)]
-void ApplyBuoyancy(uint2 id : SV_DispatchThreadID)
-{
-    float T = _Temperature[id];
-    float2 V = _VelocityR[id];
-    
-    if (T > _AmbientTemperature)
-    	V += (_DeltaTime * (T - _AmbientTemperature) * _Buoyancy) * _Up.xy;
-    
-    _Write[id] = V;
 }
 
 [numthreads(8,8,1)]

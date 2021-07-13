@@ -1,6 +1,5 @@
 #pragma kernel Advect 
 #pragma kernel AdvectVelocity 
-#pragma kernel ApplyBuoyancy 
 #pragma kernel InjectDensity 
 #pragma kernel ComputeVorticity 
 #pragma kernel ComputeConfinement 
@@ -20,7 +19,7 @@
 
 float4 _Up, _Pos;
 float _DeltaTime, _Dissipate, _Decay;
-float _AmbientTemperature, _Buoyancy, _Weight;
+float _Weight;
 float _Radius, _Amount;
 float _Epsilon;
 
@@ -41,9 +40,9 @@ RWTexture3D<float3> _Write3f;
 Texture3D<float3> _Read3f;
 
 RWTexture3D<float3> _Write;
-Texture3D<float> _Density, _Temperature;
+Texture3D<float> _Density;
 
-Texture3D<float3> _Read, _Reaction;
+Texture3D<float3> _Read;
 
 Texture3D<float3> _Vorticity;
 
@@ -78,24 +77,10 @@ void Advect(uint3 id : SV_DispatchThreadID)
 [numthreads(8,8,1)]
 void SetObstacles(uint3 id : SV_DispatchThreadID)
 {
-    if (_BorderMode == 0 && any(id == 0 || id == uint2(_Size.xy - 1)))
+    if (_BorderMode == 0 && any(id == 0 || id == uint3(_Size.xyz - 1)))
         _Obstacles[id] = 1;
     else
         _Obstacles[id] = 0;
-}
-
-// TODO: make this optional
-[numthreads(8,8,1)]
-void ApplyBuoyancy(int3 id : SV_DispatchThreadID)
-{
-    float T = _Temperature[id];
-    float D = _Density[id];
-    float3 V = _VelocityR[id];
-    
-    if(T > _AmbientTemperature)
-    	V += (_DeltaTime * (T - _AmbientTemperature) * _Buoyancy - D * _Weight) * _Up.xyz;
-    
-    _Write[id] = V;
 }
 
 [numthreads(8,8,1)]

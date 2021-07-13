@@ -70,7 +70,6 @@ namespace Mixture
 
 			advectKernel = computeShader.FindKernel("Advect");
 			advectVelocityKernel = computeShader.FindKernel("AdvectVelocity");
-			applyBuoyancyKernel = computeShader.FindKernel("ApplyBuoyancy");
 			computeVorticityKernel = computeShader.FindKernel("ComputeVorticity");
 			computeConfinementKernel = computeShader.FindKernel("ComputeConfinement");
 			computeDivergenceKernel = computeShader.FindKernel("ComputeDivergence");
@@ -82,6 +81,8 @@ namespace Mixture
 			injectObstaclesKernel = computeShader.FindKernel("InjectObstacles");
 
 			// non mandatory kernels
+			if (computeShader.HasKernel("ApplyBuoyancy"))
+				applyBuoyancyKernel = computeShader.FindKernel("ApplyBuoyancy");
 			if (computeShader.HasKernel("ExtinguishmentImpulse"))
 				extinguishmentImpulseKernel = computeShader.FindKernel("ExtinguishmentImpulse");
         }

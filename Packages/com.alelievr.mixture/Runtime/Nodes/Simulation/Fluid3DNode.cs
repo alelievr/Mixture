@@ -31,12 +31,8 @@ namespace Mixture
 		public float vorticityStrength = 1.0f;
 		public float densityAmount = 1.0f;
 		public float densityDissipation = 0.999f;
-		// public float densityBuoyancy = 1.0f;
 		public float densityWeight = 0.0125f;
-		// public float temperatureAmount = 10.0f;
-		// public float temperatureDissipation = 0.995f;
 		public float velocityDissipation = 0.995f;
-		float ambientTemperature = 0.0f;
 
 		public override string name => "3D Fluid (Experimental)";
 
@@ -146,20 +142,15 @@ namespace Mixture
 
 			InjectVelocity(cmd, inputVelocity, velocity);
 
-			//First off advect any buffers that contain physical quantities like density or temperature by the 
+			//First off advect any buffers that contain physical quantities like density by the 
 			//velocity field. Advection is what moves values around.
-			// ApplyAdvection(cmd, temperatureDissipation, 0.0f, temperature, velocity[READ], obstacles);
 			ApplyAdvection(cmd, densityDissipation, 0.0f, density, velocity[READ], obstacles);
 
 			//The velocity field also advects its self. 
 			ApplyAdvectionVelocity(cmd, velocityDissipation, velocity, obstacles, density[READ], densityWeight);
 			
-			//Apply the effect the sinking colder smoke has on the velocity field
-			// ApplyBuoyancy(cmd, temperature[READ], velocity, densityBuoyancy, ambientTemperature);
-			
 			//Adds a certain amount of density (the visible smoke) and temperate
 			InjectDensity(cmd, densityAmount, inputDensity, density);
-			// InjectDensity(cmd, densityAmount, inputDensity, temperature);
 
 			//The fuild sim math tends to remove the swirling movement of fluids.
 			//This step will try and add it back in
