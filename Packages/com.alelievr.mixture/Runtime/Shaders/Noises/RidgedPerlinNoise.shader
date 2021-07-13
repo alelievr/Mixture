@@ -64,6 +64,7 @@
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
+				SetupNoiseTiling(_Lacunarity, _Frequency);
 				return GenerateNoiseForChannels(i, _Channels, _Seed);
 			}
 			ENDHLSL

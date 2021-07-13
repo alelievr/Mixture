@@ -24,8 +24,8 @@ namespace Mixture
 
 			if (material.IsKeywordEnabled("_TILINGMODE_TILED"))
 			{
-				material.SetFloat("_Lacunarity", Mathf.Round(material.GetFloat("_Lacunarity")));
-				material.SetFloat("_Frequency", Mathf.Round(material.GetFloat("_Frequency")));
+				// material.SetFloat("_Lacunarity", Mathf.Round(material.GetFloat("_Lacunarity")));
+				// material.SetFloat("_Frequency", Mathf.Round(material.GetFloat("_Frequency")));
 			}
 
 			return true;

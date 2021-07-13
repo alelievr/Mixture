@@ -8,7 +8,7 @@
 
         [KeywordEnum(None, Tiled)] _TilingMode("Tiling Mode", Float) = 1
 		[ShowInInspector][Enum(2D, 0, 3D, 1)]_UVMode("UV Mode", Float) = 0
-		[ShowInInspector][Enum(Euclidean, 0, Manhattan, 1, Minkowski, 2)] _DistanceMode("Distance Mode", Float) = 0
+		[ShowInInspector][Enum(Euclidean, 0, Manhattan, 1, Minkowski, 2, Triangle, 3)] _DistanceMode("Distance Mode", Float) = 0
 		[ShowInInspector][MixtureVector2]_OutputRange("Output Range", Vector) = (0, 1, 0, 0)
 		[ShowInInspector]_Lacunarity("Lacunarity", Float) = 2
 		
@@ -82,6 +82,7 @@
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
+				SetupNoiseTiling(_Lacunarity, _Frequency);
 				return GenerateCellularNoiseForChannels(i, _Seed);
 			}
 			ENDHLSL

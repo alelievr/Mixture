@@ -6,7 +6,7 @@ Shader "Hidden/Mixture/CurlNoise"
 		[InlineTexture(HideInNodeInspector)] _UV_3D("UVs", 3D) = "uv" {}
 		[InlineTexture(HideInNodeInspector)] _UV_Cube("UVs", Cube) = "uv" {}
 
-        // [KeywordEnum(None, Tiled)] _TilingMode("Tiling Mode", Float) = 1
+        [KeywordEnum(None, Tiled)] _TilingMode("Tiling Mode", Float) = 1
 		[ShowInInspector][Enum(2D, 0, 3D, 1)]_UVMode("UV Mode", Float) = 0
 		[ShowInInspector]_Lacunarity("Lacunarity", Float) = 2
 		_Frequency("Frequency", Float) = 5
@@ -44,6 +44,7 @@ Shader "Hidden/Mixture/CurlNoise"
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
 				float3 uvs = GetNoiseUVs(i, SAMPLE_X(_UV, i.localTexcoord.xyz, i.direction), _Seed);
+				SetupNoiseTiling(_Lacunarity, _Frequency);
 
 				float3 noise = 0;
 #ifdef CRT_2D
