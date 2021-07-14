@@ -4,7 +4,7 @@
 Port Name | Description
 --- | ---
 Source | Source Texture
-Radius | Blur radius in pixels
+Radius | Blur radius in percent
 
 ## Output
 Port Name | Description
