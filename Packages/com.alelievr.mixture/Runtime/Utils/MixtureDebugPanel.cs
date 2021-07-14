@@ -42,11 +42,10 @@ namespace Mixture
                     displayName = String.IsNullOrEmpty(graph.name) ? "(No Name)" : graph.name,
                 };
 
-                // One column
                 row.children.Add( new DebugUI.Value{ displayName = "Processor Count", getter = () => processors.Count.ToString() } );
-
-                // Another one
                 row.children.Add(new DebugUI.Value { displayName = "Update Count", getter = () => graph.mainOutputTexture.updateCount});
+                // Last Processing Time GPU
+                row.children.Add(new DebugUI.Value { displayName = "GPU Time (ms)", getter = () => (graph.outputNode as OutputNode).processingTimeInMillis});
     
                 table.children.Add(row);
             }
@@ -57,7 +56,6 @@ namespace Mixture
                         if (Time.time - timer < refreshRate)
                             return "";
                         timer = Time.time;
-                        RefreshMixtureDebug(null, false);
 
                         return "No Mixture Currently In Use";
                     }
@@ -70,14 +68,6 @@ namespace Mixture
             panel.flags = DebugUI.Flags.None;
             panel.children.Add(list.ToArray());
             mixtureDebugItems = list.ToArray();
-        }
-
-        static void RefreshMixtureDebug<T>(DebugUI.Field<T> field, T value)
-        {
-            var panel = DebugManager.instance.GetPanel(mixturePanel);
-            if (panel != null)
-                panel.children.Remove(mixtureDebugItems);
-            LoadDebugPanel();
         }
     }
 }
