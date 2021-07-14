@@ -62,8 +62,10 @@ namespace Mixture
 				texturePosY = Mathf.Clamp(texturePosY, 0, node.output.height - 1);
 
 				var a = AsyncGPUReadback.Request(node.output, 0, texturePosX, 1, texturePosY, 1, 0, 1, TextureFormat.RGBAFloat, (data) => {
+					if (data.hasError)
+						return;
 					var colors = data.GetData<Color>();
-					if (data.hasError || colors.Length == 0)
+					if (colors.Length == 0)
 						return;
 					var pixel = colors[0];
 					colorPickerValues.text = $"R: {pixel.r:F3} G: {pixel.g:F3} B: {pixel.b:F3} A: {pixel.a:F3}";

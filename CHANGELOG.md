@@ -23,6 +23,7 @@ https://user-images.githubusercontent.com/6877923/124649079-535e0d00-de98-11eb-9
 - Added an option to select the density channel in the node inspector volumetric preview.
 - Added an option to invert the surface in the node inspector SDF preview.
 - Added a tileable curl noise option.
+- Added a dedicated cylinder node instead of reusing the line node.
 
 ### Fixed
 - Fixed missing nodes in the list of nodes proposed when dragging an edge.
