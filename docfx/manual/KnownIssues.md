@@ -18,3 +18,9 @@ In some versions of Unity (above 2020.3.4f1 and 2021.1) the mixture package caus
 You can have more details about this issue here: https://issuetracker.unity3d.com/issues/texture-importer-inspector-throws-errors-when-a-built-in-texture-inspector-is-overwritten-in-c-number
 
 The only known workaround is to downgrade to Unity 2020.3.4f1 or remove the CustomEditor for 2D mixture asset (but you loose the mixture UI in the inspector).
+
+## Memory leak after Undo/Redo operation in the editor
+
+When using the Undo/Redo operation while a Mixture graph is open, a part of the RenderTexture and ComputeBuffers allocated for the processing of the Mixture will not be cleanup correctly, causing the memory to grow linearly.
+
+This is caused by the way Unity serialize classes with the [SerializeReference] attribute, hopefully it will be fixed someday. If not, we'll make a new system to avoid having managed memory inside serialized nodes.
