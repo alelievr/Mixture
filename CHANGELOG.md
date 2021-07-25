@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project template will be documented in this file.
 
+## 0.5.0
+
+### Added
+- Cloud layer encode / decode nodes.
+
 ## 0.4.0
 
 ### Added
