@@ -202,7 +202,7 @@ float4 mod(float4 x, float4 y) { return x - y * floor(x / y); }
 
 float3 tiledPerlinNoise2D(float2 pos, float2 scale, float seed)
 {
-    float rotation = 0.56746; // We can expose this if needed
+    float rotation = 0.0; // We can expose this if needed
 
     float2 sinCos = float2(sin(rotation), cos(rotation));
     float2x2 transform = float2x2(sinCos.y, sinCos.x, sinCos.x, sinCos.y);
