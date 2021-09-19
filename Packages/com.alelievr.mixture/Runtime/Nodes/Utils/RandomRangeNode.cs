@@ -14,10 +14,10 @@ Output a random float between the min and max values.
 ")]
 
 	[System.Serializable, NodeMenuItem("Math/Random Range")]
-	public class RandomRangeNode : MixtureNode
+	public class RandomRangeNode : MixtureNode, IRealtimeReset
 	{
 		[Output("Random")]
-		public float	random;
+		public Vector4	random;
 
 		[Input("Min"), SerializeField]
 		public float	min = 0.0f;
@@ -34,13 +34,20 @@ Output a random float between the min and max values.
 		protected override void Enable()
 		{
             base.Enable();
-			generator = new Random(seed);
+			InitSeed();
 		}
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			random = Mathf.Lerp(min, max, (float)generator.NextDouble());
+			random.x = Mathf.Lerp(min, max, (float)generator.NextDouble());
+			random.y = Mathf.Lerp(min, max, (float)generator.NextDouble());
+			random.z = Mathf.Lerp(min, max, (float)generator.NextDouble());
+			random.w = Mathf.Lerp(min, max, (float)generator.NextDouble());
 			return true;
 		}
+
+		void InitSeed() => generator = new Random(seed);
+
+		public void RealtimeReset() => InitSeed();
 	}
 }

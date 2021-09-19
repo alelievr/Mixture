@@ -6,6 +6,12 @@ All notable changes to this project template will be documented in this file.
 ### Added
 - Cloud layer encode / decode nodes.
 
+### Fixed
+- Fixed random color node not using the correct random system.
+
+### Changed
+- Random Range node now output a vector instead of a float.
+
 ## 0.4.0
 
 ### Added
