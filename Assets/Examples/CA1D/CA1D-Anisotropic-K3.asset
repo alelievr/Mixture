@@ -1,0 +1,700 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!86 &-3199567998685744038
+CustomRenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CA1D-Anisotropic-K3
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 3
+  m_Width: 256
+  m_Height: 512
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthFormat: 0
+  m_ColorFormat: 48
+  m_MipMap: 0
+  m_GenerateMips: 0
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 0
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_Material: {fileID: 3259513471442729582}
+  m_InitSource: 0
+  m_InitMaterial: {fileID: 0}
+  m_InitColor: {r: 1, g: 1, b: 1, a: 1}
+  m_InitTexture: {fileID: 0}
+  m_UpdateMode: 1
+  m_InitializationMode: 2
+  m_UpdateZoneSpace: 0
+  m_CurrentUpdateZoneSpace: 0
+  m_UpdateZones: []
+  m_UpdatePeriod: 1
+  m_ShaderPass: 0
+  m_CubemapFaceMask: 4294967295
+  m_DoubleBuffered: 0
+  m_WrapUpdateZones: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b113f958e0564f309164e29c24b042d, type: 3}
+  m_Name: CA1D-Anisotropic-K2
+  m_EditorClassIdentifier: 
+  serializedNodes: []
+  nodes:
+  - id: 0
+  - id: 1
+  - id: 2
+  - id: 3
+  - id: 4
+  - id: 5
+  - id: 6
+  edges:
+  - GUID: aba6fb36-d95b-4485-ad4e-8f1a0457fdc5
+    owner: {fileID: 11400000}
+    inputNodeGUID: bab64fb0-1183-4c24-8de1-c5f42c0db81e
+    outputNodeGUID: cb9d5aa9-4098-49ff-88f9-a33a1ea1441f
+    inputFieldName: stateCount
+    outputFieldName: Int
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 87181712-b207-405d-82aa-5920a3443731
+    owner: {fileID: 11400000}
+    inputNodeGUID: 736fd54e-8f89-4339-9358-ef8c8f3d9aa9
+    outputNodeGUID: cb9d5aa9-4098-49ff-88f9-a33a1ea1441f
+    inputFieldName: input
+    outputFieldName: Int
+    inputPortIdentifier: 0
+    outputPortIdentifier: 
+  - GUID: ae39fa0b-3d2f-43b5-b797-e704b78a0091
+    owner: {fileID: 11400000}
+    inputNodeGUID: da494020-dbcf-4da4-a87d-736dbcce59c7
+    outputNodeGUID: 736fd54e-8f89-4339-9358-ef8c8f3d9aa9
+    inputFieldName: stateCount
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 0
+  - GUID: 65a3238e-f209-468d-a2a6-1aa0be842fc5
+    owner: {fileID: 11400000}
+    inputNodeGUID: da494020-dbcf-4da4-a87d-736dbcce59c7
+    outputNodeGUID: dc634de4-9c9c-448b-8d04-3706a59cb4cb
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: input
+    outputPortIdentifier: output
+  - GUID: 5a8715d8-46a3-43bb-a7c3-db306f675c33
+    owner: {fileID: 11400000}
+    inputNodeGUID: c0b791ba-8804-4b4c-aa52-1b8907e390db
+    outputNodeGUID: da494020-dbcf-4da4-a87d-736dbcce59c7
+    inputFieldName: materialInputs
+    outputFieldName: output
+    inputPortIdentifier: _Source_2D
+    outputPortIdentifier: output
+  - GUID: 7c286ee9-dd11-4354-9364-2c15ff367e90
+    owner: {fileID: 11400000}
+    inputNodeGUID: 691aa737-9a89-40dd-b56d-201a248e396d
+    outputNodeGUID: c0b791ba-8804-4b4c-aa52-1b8907e390db
+    inputFieldName: outputTextureSettings
+    outputFieldName: output
+    inputPortIdentifier: Main Texture
+    outputPortIdentifier: output
+  - GUID: c099180d-919a-4036-8c87-9c6fd6094460
+    owner: {fileID: 11400000}
+    inputNodeGUID: da494020-dbcf-4da4-a87d-736dbcce59c7
+    outputNodeGUID: bab64fb0-1183-4c24-8de1-c5f42c0db81e
+    inputFieldName: rules
+    outputFieldName: rules
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  groups: []
+  stackNodes: []
+  pinnedElements:
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 99
+      width: 244
+      height: 461
+    opened: 0
+    editorType:
+      serializedType: Mixture.MixtureParameterView, Unity.ShaderGraph.GraphicsTests,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  exposedParameters: []
+  serializedParameterList: []
+  stickyNotes:
+  - position:
+      serializedVersion: 2
+      x: -711
+      y: 606
+      width: 619
+      height: 149
+    title: About the number of possible rule tables
+    content: "The number of possible cellular automata (or legal rule tables) can
+      be computed as \r\n- Anisotropic: k ^ (k ^ (2 * r + 1))\r\n- Totalistic: k
+      ^ ((2 * r + 1) * k - 2)\r\nwhere k - number of states, r - radius\r\n\r\nAs
+      you can see, with the anisotropic method and k=3 you will get 3^(3^3) = 7 625
+      597 484 987 possible cellular automata and requires a long type as a number
+      representation. \r\nNKS Explorer app is used as an assistant for discoveries
+      of this CA."
+  nodeInspectorReference: {fileID: 0}
+  position: {x: 302, y: 5, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  version: 1
+  type: 1
+  realtimePreview: 0
+  isRealtime: 0
+  isParameterViewOpen: 0
+  embedInBuild: 0
+  defaultNodeInheritanceMode: -2
+  objectReferences:
+  - {fileID: 3259513471442729582}
+  - {fileID: 1855177919407603362}
+  variants: []
+  _mainOutputTexture: {fileID: -3199567998685744038}
+  _outputTextures:
+  - {fileID: -3199567998685744038}
+  - {fileID: -3199567998685744038}
+  settings:
+    widthScale: 1
+    heightScale: 1
+    depthScale: 1
+    width: 256
+    height: 512
+    depth: 512
+    potSize: -1
+    sizeMode: 1
+    dimension: 2
+    outputChannels: 1
+    outputPrecision: 3
+    editFlags: 128
+    doubleBuffered: 0
+    wrapMode: 0
+    filterMode: 0
+    refreshMode: 3
+    period: 1
+  references:
+    version: 1
+    00000000:
+      type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 691aa737-9a89-40dd-b56d-201a248e396d
+        computeOrder: 6
+        position:
+          serializedVersion: 2
+          x: 176.31303
+          y: 36.999996
+          width: 350
+          height: 500
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 512
+          height: 512
+          depth: 1
+          potSize: 512
+          sizeMode: -2
+          dimension: -2
+          outputChannels: -2
+          outputPrecision: -2
+          editFlags: 471
+          doubleBuffered: 0
+          wrapMode: -2
+          filterMode: -2
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 7
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        outputTextureSettings:
+        - inputTexture: {fileID: 0}
+          name: Main Texture
+          enableCompression: 1
+          compressionFormat: 12
+          compressionQuality: 100
+          hasMipMaps: 0
+          isMain: 1
+          enableConversion: 0
+          conversionFormat: 0
+          sRGB: 1
+          finalCopyMaterial: {fileID: 3259513471442729582}
+        _selectedPreviewIndex: 0
+    00000001:
+      type: {class: InitialConditionsCA1DNode, ns: Mixture.ComplexSystems.CA1D, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: dc634de4-9c9c-448b-8d04-3706a59cb4cb
+        computeOrder: 3
+        position:
+          serializedVersion: 2
+          x: -971
+          y: 37
+          width: 250
+          height: 138
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 1024
+          height: 1024
+          depth: 1
+          potSize: 0
+          sizeMode: -2
+          dimension: 2
+          outputChannels: -2
+          outputPrecision: -2
+          editFlags: -321
+          doubleBuffered: 0
+          wrapMode: -2
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 1
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 0
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        computeShader: {fileID: 7200000, guid: 60e5882427665d94e8a2bffc89dc9d06, type: 3}
+        mode: 0
+        seed: 0
+        output: {fileID: 0}
+    00000002:
+      type: {class: HistoryStackCA1DNode, ns: Mixture.ComplexSystems.CA1D, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: da494020-dbcf-4da4-a87d-736dbcce59c7
+        computeOrder: 4
+        position:
+          serializedVersion: 2
+          x: -521.05
+          y: 36.99999
+          width: 250
+          height: 478
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 1024
+          height: 1024
+          depth: 1
+          potSize: 0
+          sizeMode: -2
+          dimension: 2
+          outputChannels: -2
+          outputPrecision: -2
+          editFlags: -321
+          doubleBuffered: 0
+          wrapMode: -2
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        computeShader: {fileID: 7200000, guid: ce71e42e98dfc5f4c8fc2839263692b3, type: 3}
+        input: {fileID: 0}
+        stateCount: 3
+        output: {fileID: 0}
+        timeMode: 1
+        evaluationMethod: 0
+    00000003:
+      type: {class: IntegerNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: cb9d5aa9-4098-49ff-88f9-a33a1ea1441f
+        computeOrder: 0
+        position:
+          serializedVersion: 2
+          x: -1199.8075
+          y: 303.00003
+          width: 150
+          height: 101
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 1024
+          height: 1024
+          depth: 1
+          potSize: 0
+          sizeMode: -2
+          dimension: -2
+          outputChannels: -2
+          outputPrecision: -2
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: -2
+          filterMode: -2
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        Int: 3
+    00000004:
+      type: {class: NumberBasedRuleTableCA1DNode, ns: Mixture.ComplexSystems.CA1D,
+        asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: bab64fb0-1183-4c24-8de1-c5f42c0db81e
+        computeOrder: 2
+        position:
+          serializedVersion: 2
+          x: -971
+          y: 181.00002
+          width: 250
+          height: 122
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 1024
+          height: 1024
+          depth: 1
+          potSize: 0
+          sizeMode: -2
+          dimension: -2
+          outputChannels: -2
+          outputPrecision: -2
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: -2
+          filterMode: -2
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        stateCount: 3
+        evaluationMethod: 0
+        rule: 6898287612060
+    00000005:
+      type: {class: RelayNode, ns: , asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 736fd54e-8f89-4339-9358-ef8c8f3d9aa9
+        computeOrder: 1
+        position:
+          serializedVersion: 2
+          x: -771
+          y: 346.62
+          width: 200
+          height: 200
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        unpackOutput: 0
+        packInput: 0
+        inputEdgeCount: 1
+    00000006:
+      type: {class: InvertNode, ns: Mixture, asm: Mixture.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: c0b791ba-8804-4b4c-aa52-1b8907e390db
+        computeOrder: 5
+        position:
+          serializedVersion: 2
+          x: -188.4999
+          y: 37.19998
+          width: 250
+          height: 476
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        settings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 1024
+          height: 1024
+          depth: 1
+          potSize: 0
+          sizeMode: -2
+          dimension: -2
+          outputChannels: -2
+          outputPrecision: -2
+          editFlags: -257
+          doubleBuffered: 0
+          wrapMode: -2
+          filterMode: -2
+          refreshMode: 0
+          period: 0
+        rtSettings:
+          widthScale: 1
+          heightScale: 1
+          depthScale: 1
+          width: 0
+          height: 0
+          depth: 0
+          potSize: 0
+          sizeMode: 0
+          dimension: 0
+          outputChannels: 0
+          outputPrecision: 0
+          editFlags: 0
+          doubleBuffered: 0
+          wrapMode: 0
+          filterMode: 0
+          refreshMode: 0
+          period: 0
+        isPreviewCollapsed: 0
+        previewMode: 15
+        previewMip: 0
+        previewVisible: 1
+        previewEV100: 0
+        previewSlice: 0
+        isPinned: 0
+        output: {fileID: 0}
+        shader: {fileID: 4800000, guid: f4d28858f82892b409a37c2b8f1746ab, type: 3}
+        material: {fileID: 1855177919407603362}
+        exposedProperties:
+        - displayName: Input
+          referenceName: _Source_2D
+          tooltip: 
+          type:
+            serializedType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+        - displayName: Hue
+          referenceName: _Hue
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Saturation
+          referenceName: _Saturation
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Value
+          referenceName: _Value
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        - displayName: Alpha
+          referenceName: _Alpha
+          tooltip: 
+          type:
+            serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+        shaderGUID: f4d28858f82892b409a37c2b8f1746ab
+--- !u!21 &1855177919407603362
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/Invert
+  m_Shader: {fileID: 4800000, guid: f4d28858f82892b409a37c2b8f1746ab, type: 3}
+  m_ShaderKeywords: CRT_2D _HUE_ON _SATURATION_ON _VALUE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Alpha: 0
+    - _Hue: 1
+    - _Saturation: 1
+    - _Value: 1
+    m_Colors: []
+  m_BuildTextureStacks: []
+--- !u!21 &3259513471442729582
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/Mixture/FinalCopy
+  m_Shader: {fileID: 4800000, guid: 513c040fbfb854aebb92cf147e30125a, type: 3}
+  m_ShaderKeywords: CRT_2D
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Source_2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_3D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Source_Cube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
