@@ -63,13 +63,13 @@
 
 			// This macro will declare a version for each dimention (2D, 3D and Cube)
 			TEXTURE_X(_Source);
-			sampler sampler_Clamp_Point_Source;
+			SAMPLER_X(sampler_Source);
 			float _Radius;
 			float2 _Direction;
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				float4 color = SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy, 0), i.direction);
+				float4 color = SAMPLE_X_SAMPLER(_Source, sampler_Source, float3(i.localTexcoord.xy, 0), i.direction);
 
 				if (_Radius == 0)
 					return color;
@@ -80,8 +80,8 @@
 				{
 					float2 uvOffset = _Direction * _Radius / _CustomRenderTextureWidth * j / 32;
 
-					color += SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy + uvOffset, 0), i.direction) * gaussianWeights[j];
-					color += SAMPLE_X_LINEAR_CLAMP(_Source, float3(i.localTexcoord.xy - uvOffset, 0), i.direction) * gaussianWeights[j];
+					color += SAMPLE_X_SAMPLER(_Source, sampler_Source, float3(i.localTexcoord.xy + uvOffset, 0), i.direction) * gaussianWeights[j];
+					color += SAMPLE_X_SAMPLER(_Source, sampler_Source, float3(i.localTexcoord.xy - uvOffset, 0), i.direction) * gaussianWeights[j];
 				}
 
 				return color;
