@@ -16,7 +16,7 @@ namespace Mixture
 		public Texture inputVelocity;
 		[Input("Obstacles")]
 		public Texture inputObstacles;
-		
+
 		[Output("Density")]
 		public Texture outputDensity;
 		[Output("Velocity")]
