@@ -25,7 +25,7 @@ Note that for normal blending, please use the Normal Blend node.
 
 		public override bool displayMaterialInspector => true;
 
-		protected override IEnumerable<string> filteredOutProperties => new string[]{"_BlendMode", "_MaskMode", "_Opacity", "_RemoveNegative"};
+		protected override IEnumerable<string> filteredOutProperties => new string[]{"_BlendMode", "_MaskMode", "_RemoveNegative"};
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
