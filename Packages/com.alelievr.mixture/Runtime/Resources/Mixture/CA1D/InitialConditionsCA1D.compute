@@ -1,0 +1,67 @@
+#pragma kernel Step
+
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/NoiseUtils.hlsl"
+
+#define INITMODE_RANDOM 0
+#define INITMODE_202 1
+#define INITMODE_212 2
+#define INITMODE_101 3
+#define INITMODE_121 4
+#define INITMODE_010 5
+#define INITMODE_020 6
+
+uint _InitMode;
+int _Seed;
+float3 _Size;
+
+RWTexture2D<float4> _Output;
+
+void WriteCellStates(uint2 center, float3 states)
+{
+    for (int i = -1; i <= 1; i++)
+    {
+        float3 state = float3(states[i + 1], states[i + 1], states[i + 1]);
+        _Output[center + int2(i, 0)] = float4(state, 1.);
+    }
+}
+
+float3 GetStates(uint mode)
+{
+    switch (mode)
+    {
+    case (INITMODE_202):
+        return float3(1., 0., 1.);
+    case (INITMODE_212):
+        return float3(1., 0.5, 1.);
+    case (INITMODE_101):
+        return float3(0.5, 0., 0.5);
+    case (INITMODE_121):
+        return float3(0.5, 1., 0.5);
+    case (INITMODE_020):
+        return float3(0., 1., 0.);
+    default:
+    case (INITMODE_010):
+        return float3(0., 0.5, 0.);
+    }
+}
+
+[numthreads(8, 1, 1)]
+void Step(uint3 id : SV_DispatchThreadID)
+{
+    [branch]
+    if (_InitMode == INITMODE_RANDOM)
+    {
+        float3 uv = float3(id.x, _Seed, 0.);
+        // generate 0..2 values and remap to 0..1
+        float state = floor(3 * WhiteNoise(uv)) / 2;
+        _Output[uint2(id.x, _Size.y - 1)] = float4(state, state, state, 1.);
+    }
+    else
+    {
+        uint2 center = uint2(floor(_Size.x / 2), _Size.y - 1);
+        float3 states = GetStates(_InitMode);
+
+        _Output[uint2(id.x, _Size.y - 1)] = float4(states[0], states[0], states[0], 1.);
+        WriteCellStates(center, states);
+    }
+}

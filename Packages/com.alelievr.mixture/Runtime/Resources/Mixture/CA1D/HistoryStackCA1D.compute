@@ -1,0 +1,86 @@
+#pragma kernel WriteInitialState
+#pragma kernel Step
+#pragma kernel ShiftInTime
+
+#define METHOD_SEQUENTIAL 0
+#define METHOD_TOTALISTIC 1
+
+float3 _Size;
+uint _StatesCount;
+uint _Method;
+uint _RowIndex;
+
+StructuredBuffer<uint> _Rules;
+
+Texture2D<float4> _Init;
+RWTexture2D<float4> _Output;
+
+
+float FetchCell(uint2 id)
+{
+    id = id.xy % uint2(_Size.x, _Size.y);
+
+    return _Output[id].r;
+}
+
+float3 FetchCellStates(uint2 id)
+{
+    float left = FetchCell(id.xy + int2(-1, 1));
+    float center = FetchCell(id.xy + int2(0, 1));
+    float right = FetchCell(id.xy + int2(1, 1));
+
+    return float3(left, center, right);
+}
+
+uint EvaluateRule(float3 states)
+{
+    switch (_Method)
+    {
+    default:
+    case METHOD_SEQUENTIAL:
+        {
+            states = ceil((_StatesCount - 1) * states);
+            return states[0] * (_StatesCount * _StatesCount) + states[1] * _StatesCount + states[2];
+        }
+    case METHOD_TOTALISTIC:
+        {
+            float total = states[0] + states[1] + states[2];
+            return ceil((_StatesCount - 1) * total);;
+        }
+    }
+}
+
+float GetState(uint code)
+{
+    return _Rules[code] / (float)(_StatesCount - 1.);
+}
+
+[numthreads(8, 1, 1)]
+void Step(uint3 id : SV_DispatchThreadID)
+{
+    uint x = id.x;
+    uint y = _RowIndex;
+
+    float3 states = FetchCellStates(uint2(x, y));
+    uint rule = EvaluateRule(states);
+    float state = GetState(rule);
+
+    float3 result = float3(state, state, state);
+
+    _Output[uint2(x, y)] = float4(result, 1.);
+}
+
+[numthreads(8, 1, 1)]
+void WriteInitialState(uint3 id : SV_DispatchThreadID)
+{
+    uint2 coord = uint2(id.x, _Size.y - 1);
+
+    _Output[coord] = _Init[coord];
+}
+
+[numthreads(8, 8, 1)]
+void ShiftInTime(uint2 id : SV_DispatchThreadID)
+{
+    // the time is y, so, it equals to position offset
+    _Output[id.xy] = _Output[uint2(id.x, id.y - 1)];
+}
