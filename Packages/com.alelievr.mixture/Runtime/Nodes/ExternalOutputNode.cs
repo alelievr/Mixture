@@ -81,7 +81,10 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
             if(graph.type != MixtureGraphType.Realtime)
             {
                 if(settings.GetResolvedTextureDimension(graph) != TextureDimension.Cube)
+                {
+                    outputTextureSettings.First().sRGB = (external2DOoutputType == ExternalOutputNode.External2DOutputType.Color || external2DOoutputType == ExternalOutputNode.External2DOutputType.LatLongCubemapColor);
                     return base.ProcessNode(cmd);
+                }
                 else
                 {
                     if (uniqueMessages.Add("CubemapNotSupported"))
