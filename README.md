@@ -14,7 +14,7 @@ Mixture is a powerful node-based tool crafted in unity to generate all kinds of 
 
 ## Installation
 
-You need at least a Unity 2020.2 beta to be able to use Mixture and if you are using a render pipeline like URP or HDRP, make sure to use the version 10.1.0 or above.
+You need at least Unity 2020.3 to be able to use Mixture and if you are using a render pipeline like URP or HDRP, make sure to use the version 10.1.0 or above.
 
 <details><summary>Instructions</summary>
 
