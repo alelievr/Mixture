@@ -83,6 +83,16 @@ namespace Mixture
                         externalOutputNode.external2DOoutputType = (ExternalOutputNode.External2DOutputType)outputType;
                         MarkDirtyRepaint();
                     }
+
+                    EditorGUI.BeginChangeCheck();
+                    var outputFileType = EditorGUILayout.EnumPopup("File Type", externalOutputNode.externalFileType);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        externalOutputNode.externalFileType = (ExternalOutputNode.ExternalFileType)outputFileType;
+                        UpdateButtons();
+                        MarkDirtyRepaint();
+                    }
+
                 }
                 else if (externalOutputNode.externalOutputDimension == ExternalOutputNode.ExternalOutputDimension.Texture3D)
                 {
@@ -94,6 +104,8 @@ namespace Mixture
                         MarkDirtyRepaint();
                     }
                 }
+
+
                 GUILayout.Space(8);
             }
             );
@@ -149,7 +161,14 @@ namespace Mixture
                     // Manage First save or Update
                     button.save.style.display = DisplayStyle.Flex;
                     button.update.style.display = DisplayStyle.Flex;
-                    button.update.SetEnabled(externalOutputNode.asset != null);
+
+                    bool valid = externalOutputNode.asset != null && (
+                        (AssetDatabase.GetAssetPath(externalOutputNode.asset).ToLower().EndsWith("exr") && externalOutputNode.externalFileType == ExternalOutputNode.ExternalFileType.EXR)
+                        || (AssetDatabase.GetAssetPath(externalOutputNode.asset).ToLower().EndsWith("png") && externalOutputNode.externalFileType == ExternalOutputNode.ExternalFileType.PNG)
+                        || (AssetDatabase.GetAssetPath(externalOutputNode.asset).ToLower().EndsWith("asset") && externalOutputNode.externalOutputDimension != ExternalOutputNode.ExternalOutputDimension.Texture2D)) ;
+
+                    button.update.SetEnabled(valid);
+
                 }
             }
         }

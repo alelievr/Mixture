@@ -30,6 +30,12 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
             LatLongCubemapColor,
             LatLongCubemapLinear,
         }
+        public enum ExternalFileType
+        {
+            PNG, 
+            EXR
+        }
+
 
         public override string name => "External Output";
 
@@ -37,6 +43,7 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
 
         public ExternalOutputDimension externalOutputDimension = ExternalOutputDimension.Texture2D;
         public External2DOutputType external2DOoutputType = External2DOutputType.Color;
+        public ExternalFileType externalFileType = ExternalFileType.PNG;
         public ConversionFormat external3DFormat = ConversionFormat.RGBA32;
 		public override Texture previewTexture => outputTextureSettings.Count > 0 ? (Texture)mainOutput.finalCopyRT : Texture2D.blackTexture;
 
