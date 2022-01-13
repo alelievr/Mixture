@@ -587,9 +587,9 @@ namespace Mixture
 
                     if (dimension == TextureDimension.Tex2D)
                     {
-                        if (isHDR)
+                        if (external.externalFileType == ExternalOutputNode.ExternalFileType.EXR)
                             extension = "exr";
-                        else
+                        else if (external.externalFileType == ExternalOutputNode.ExternalFileType.PNG)
                             extension = "png";
                     }
 
