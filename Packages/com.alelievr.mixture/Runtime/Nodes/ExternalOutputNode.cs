@@ -49,6 +49,8 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
 
         public override bool hasSettings => true;
 
+        public override bool canEditPreviewSRGB => false;
+
         protected override MixtureSettings defaultSettings
         {
             get
@@ -89,7 +91,7 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
             {
                 if(settings.GetResolvedTextureDimension(graph) != TextureDimension.Cube)
                 {
-                    outputTextureSettings.First().sRGB = (external2DOoutputType == ExternalOutputNode.External2DOutputType.Color || external2DOoutputType == ExternalOutputNode.External2DOutputType.LatLongCubemapColor);
+                    outputTextureSettings.First().sRGB = false;
                     return base.ProcessNode(cmd);
                 }
                 else

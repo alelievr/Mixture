@@ -488,6 +488,20 @@ namespace Mixture
 			}
 
 			GUILayout.FlexibleSpace();
+
+			if(nodeTarget.canEditPreviewSRGB)
+            {
+				EditorGUI.BeginChangeCheck();
+
+				bool srgb = GUILayout.Toggle(nodeTarget.previewSRGB, "sRGB", EditorStyles.toolbarButton);
+
+				if (EditorGUI.EndChangeCheck())
+				{
+					owner.RegisterCompleteObjectUndo("Updated Preview Masks");
+					nodeTarget.previewSRGB = srgb;
+				}
+			}
+
 		}
 
 		void DrawTextureInfoHover(Rect previewRect, Texture texture)
@@ -592,7 +606,7 @@ namespace Mixture
 					MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(nodeTarget.previewMode));
 					MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
 					MixtureUtils.texture2DPreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
-					MixtureUtils.texture2DPreviewMaterial.SetFloat("_IsSRGB", 0);
+					MixtureUtils.texture2DPreviewMaterial.SetFloat("_IsSRGB", nodeTarget.previewSRGB?1:0);
 
 					if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, node.previewTexture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);

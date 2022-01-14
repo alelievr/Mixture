@@ -22,7 +22,10 @@ namespace Mixture
 		public override Texture 	previewTexture => graph?.type == MixtureGraphType.Realtime ? outputTextureSettings[selectedPreviewIndex].finalCopyRT : outputTextureSettings.Count > 0 ? outputTextureSettings[selectedPreviewIndex].finalCopyRT : null;
 		public override float		nodeWidth => 350;
 
-		[SerializeField, HideInInspector]
+		public override bool canEditPreviewSRGB => false;
+		public override bool defaultPreviewSRGB => false;
+
+        [SerializeField, HideInInspector]
 		int _selectedPreviewIndex;
 		internal int selectedPreviewIndex
 		{
@@ -168,6 +171,9 @@ namespace Mixture
 			}
 
 			UpdateMessages();
+
+			// Never preview as sRGB, as output will be actually converted to sRGB (thus previewed as sRGB) if defined in settings.
+			previewSRGB = false;
 
 			foreach (var output in outputTextureSettings)
 			{

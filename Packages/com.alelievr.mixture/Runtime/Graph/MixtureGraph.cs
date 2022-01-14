@@ -631,25 +631,7 @@ namespace Mixture
                     if (external.externalFileType == ExternalOutputNode.ExternalFileType.EXR)
                         contents = ImageConversion.EncodeToEXR(outputTexture as Texture2D);
                     else if (external.externalFileType == ExternalOutputNode.ExternalFileType.PNG)
-                    {
-                        var colors = (outputTexture as Texture2D).GetPixels();
-
-                        // We only do the conversion for whe the graph uses SRGB images
-                        // (peeweek) TODO: Remove this, as it is an unnecessary reverse-conversion because we have both sRGB
-                        // conversion happening in the finalOutput material AND by the texture importer
-                        // However if we remove this, AND the conversion in finalOutput, the preview will not look like the expected result.
-
-                        if (external.external2DOoutputType == ExternalOutputNode.External2DOutputType.Color
-                            || external.external2DOoutputType == ExternalOutputNode.External2DOutputType.LatLongCubemapColor)
-                        {
-                            for (int i = 0; i < colors.Length; i++)
-                                colors[i] = colors[i].gamma;
-                        }
-
-                        (outputTexture as Texture2D).SetPixels(colors);
-
                         contents = ImageConversion.EncodeToPNG(outputTexture as Texture2D);
-                    }
 
                     System.IO.File.WriteAllBytes(System.IO.Path.GetDirectoryName(Application.dataPath) + "/" + assetPath, contents);
 

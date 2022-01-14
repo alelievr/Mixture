@@ -29,7 +29,9 @@ The output type of the node will update according to the type of texture provide
 		[Output(name = "Texture")]
 		public Texture outputTexture;
 
-		public override bool 	hasSettings => false;
+        public override bool canEditPreviewSRGB => !IsInputImportedTexture();
+
+        public override bool 	hasSettings => false;
 		public override string	name => "Texture";
         public override Texture previewTexture => outputTexture;
 		public override bool	showDefaultInspector => true;
@@ -82,7 +84,10 @@ The output type of the node will update according to the type of texture provide
 #if UNITY_EDITOR
 			var importer = UnityEditor.AssetImporter.GetAtPath(UnityEditor.AssetDatabase.GetAssetPath(textureAsset));
 			if (importer is UnityEditor.TextureImporter textureImporter)
+            {
 				normalMap = textureImporter.textureType == UnityEditor.TextureImporterType.NormalMap;
+				previewSRGB = textureImporter.sRGBTexture;
+			}
 #endif
 
 			int targetWidth = textureAsset.width;
@@ -165,6 +170,16 @@ The output type of the node will update according to the type of texture provide
 
 			return true;
         }
+
+		bool IsInputImportedTexture()
+        {
+#if UNITY_EDITOR
+			var importer = UnityEditor.AssetImporter.GetAtPath(UnityEditor.AssetDatabase.GetAssetPath(textureAsset));
+			return importer != null && importer is UnityEditor.TextureImporter;
+#else
+			return false;
+#endif
+		}
 
 		public bool InitializeNodeFromObject(Texture value)
 		{

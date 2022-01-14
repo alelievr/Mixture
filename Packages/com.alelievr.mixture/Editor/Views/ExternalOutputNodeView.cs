@@ -105,6 +105,13 @@ namespace Mixture
                     }
                 }
 
+                externalOutputNode.previewSRGB =
+
+                externalOutputNode.externalFileType == ExternalOutputNode.ExternalFileType.PNG &&
+                externalOutputNode.externalOutputDimension == ExternalOutputNode.ExternalOutputDimension.Texture2D &&
+                    (externalOutputNode.external2DOoutputType == ExternalOutputNode.External2DOutputType.Color ||
+                    externalOutputNode.external2DOoutputType == ExternalOutputNode.External2DOutputType.LatLongCubemapColor);
+
 
                 GUILayout.Space(8);
             }
