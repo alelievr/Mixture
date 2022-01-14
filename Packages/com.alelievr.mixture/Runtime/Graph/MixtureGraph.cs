@@ -555,8 +555,7 @@ namespace Mixture
             try
             {
                 Texture outputTexture = null;
-                bool isHDR = external.settings.IsHDR(this);
-
+                
                 TextureDimension dimension = external.settings.GetResolvedTextureDimension(this);
                 GraphicsFormat format = (GraphicsFormat)external.settings.GetGraphicsFormat(this);
                 var rtSettings = external.settings;
@@ -629,9 +628,9 @@ namespace Mixture
                 {
                     byte[] contents = null;
 
-                    if (isHDR)
+                    if (external.externalFileType == ExternalOutputNode.ExternalFileType.EXR)
                         contents = ImageConversion.EncodeToEXR(outputTexture as Texture2D);
-                    else
+                    else if (external.externalFileType == ExternalOutputNode.ExternalFileType.PNG)
                     {
                         var colors = (outputTexture as Texture2D).GetPixels();
 
@@ -659,10 +658,12 @@ namespace Mixture
                         case ExternalOutputNode.External2DOutputType.Color:
                             importer.textureType = TextureImporterType.Default;
                             importer.sRGBTexture = true;
+                            importer.alphaSource = TextureImporterAlphaSource.FromInput;
                             break;
                         case ExternalOutputNode.External2DOutputType.Linear:
                             importer.textureType = TextureImporterType.Default;
                             importer.sRGBTexture = false;
+                            importer.alphaSource = TextureImporterAlphaSource.FromInput;
                             break;
                         case ExternalOutputNode.External2DOutputType.Normal:
                             importer.textureType = TextureImporterType.NormalMap;
