@@ -635,6 +635,10 @@ namespace Mixture
                         var colors = (outputTexture as Texture2D).GetPixels();
 
                         // We only do the conversion for whe the graph uses SRGB images
+                        // (peeweek) TODO: Remove this, as it is an unnecessary reverse-conversion because we have both sRGB
+                        // conversion happening in the finalOutput material AND by the texture importer
+                        // However if we remove this, AND the conversion in finalOutput, the preview will not look like the expected result.
+
                         if (external.external2DOoutputType == ExternalOutputNode.External2DOutputType.Color
                             || external.external2DOoutputType == ExternalOutputNode.External2DOutputType.LatLongCubemapColor)
                         {
