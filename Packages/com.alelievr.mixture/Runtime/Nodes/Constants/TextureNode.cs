@@ -86,7 +86,6 @@ The output type of the node will update according to the type of texture provide
 			if (importer is UnityEditor.TextureImporter textureImporter)
             {
 				normalMap = textureImporter.textureType == UnityEditor.TextureImporterType.NormalMap;
-				previewSRGB = textureImporter.sRGBTexture;
 			}
 #endif
 
