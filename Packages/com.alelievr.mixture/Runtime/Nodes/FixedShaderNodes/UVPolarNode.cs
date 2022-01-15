@@ -7,7 +7,7 @@ using System.Linq;
 namespace Mixture
 {
 	[Documentation(@"
-Constant Polar UV. Note that for texture 2D, the z coordinate is set to 0.5.
+Constant Polar UV. Note that for texture 2D, the z coordinate is set to 0
 ")]
 
 	[System.Serializable, NodeMenuItem("Constants/UV Polar")]
