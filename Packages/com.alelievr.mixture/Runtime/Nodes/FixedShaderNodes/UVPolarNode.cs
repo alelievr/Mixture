@@ -19,5 +19,10 @@ Constant Polar UV. Note that for texture 2D, the z coordinate is set to 0.5.
 
 		public override bool displayMaterialInspector => true;
 
+		public override List<OutputDimension> supportedDimensions => new List<OutputDimension>() {
+			OutputDimension.Texture2D,
+			OutputDimension.Texture3D,
+		};
+
 	}
 }
