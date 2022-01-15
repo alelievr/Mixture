@@ -37,6 +37,10 @@ namespace Mixture
 			OutputDimension.CubeMap,
 		};
 		public virtual PreviewChannels		defaultPreviewChannels => PreviewChannels.RGBA;
+
+		public virtual bool					canEditPreviewSRGB => true;
+		public virtual bool					defaultPreviewSRGB => false;
+
 		public virtual bool					showDefaultInspector => false;
 		public virtual bool					showPreviewExposure => false;
 		[SerializeField, HideInInspector]
@@ -54,10 +58,13 @@ namespace Mixture
 
 		protected Dictionary<string, Material> temporaryMaterials = new Dictionary<string, Material>();
 
-        // UI Serialization
-        [SerializeField, HideInInspector]
-        public PreviewChannels previewMode;
-        [SerializeField, HideInInspector]
+		// UI Serialization
+		[SerializeField, HideInInspector]
+		public PreviewChannels previewMode;
+		[SerializeField, HideInInspector]
+		public bool previewSRGB;
+
+		[SerializeField, HideInInspector]
         public float previewMip = 0.0f;
         [SerializeField, HideInInspector]
         public bool previewVisible = true;
@@ -138,6 +145,7 @@ namespace Mixture
 			base.OnNodeCreated();
 			settings = defaultSettings;
 			previewMode = defaultPreviewChannels;
+			previewSRGB = defaultPreviewSRGB;
 
 			// Patch up inheritance mode with default value in graph
 			onEnabled += () => settings.SyncInheritanceMode(graph.defaultNodeInheritanceMode);

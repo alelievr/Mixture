@@ -488,6 +488,20 @@ namespace Mixture
 			}
 
 			GUILayout.FlexibleSpace();
+
+			if(nodeTarget.canEditPreviewSRGB)
+            {
+				EditorGUI.BeginChangeCheck();
+
+				bool srgb = GUILayout.Toggle(nodeTarget.previewSRGB, "sRGB", EditorStyles.toolbarButton);
+
+				if (EditorGUI.EndChangeCheck())
+				{
+					owner.RegisterCompleteObjectUndo("Updated Preview Masks");
+					nodeTarget.previewSRGB = srgb;
+				}
+			}
+
 		}
 
 		void DrawTextureInfoHover(Rect previewRect, Texture texture)
@@ -592,7 +606,7 @@ namespace Mixture
 					MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(nodeTarget.previewMode));
 					MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
 					MixtureUtils.texture2DPreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
-					MixtureUtils.texture2DPreviewMaterial.SetFloat("_IsSRGB", 0);
+					MixtureUtils.texture2DPreviewMaterial.SetFloat("_IsSRGB", nodeTarget.previewSRGB? 1 : 0);
 
 					if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, node.previewTexture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
@@ -603,7 +617,7 @@ namespace Mixture
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", currentSlice / nodeTarget.settings.GetResolvedDepth(owner.graph));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
-					MixtureUtils.texture3DPreviewMaterial.SetFloat("_IsSRGB", 0);
+					MixtureUtils.texture3DPreviewMaterial.SetFloat("_IsSRGB", nodeTarget.previewSRGB ? 1 : 0);
 
 					if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0, ColorWriteMask.Red);
@@ -613,7 +627,7 @@ namespace Mixture
 					MixtureUtils.textureCubePreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(nodeTarget.previewMode));
 					MixtureUtils.textureCubePreviewMaterial.SetFloat("_PreviewMip", nodeTarget.previewMip);
 					MixtureUtils.textureCubePreviewMaterial.SetFloat("_EV100", nodeTarget.previewEV100);
-					MixtureUtils.textureCubePreviewMaterial.SetFloat("_IsSRGB",  0);
+					MixtureUtils.textureCubePreviewMaterial.SetFloat("_IsSRGB", nodeTarget.previewSRGB ? 1 : 0);
 
 					if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial, ScaleMode.ScaleToFit, 0, 0);

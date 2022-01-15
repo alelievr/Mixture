@@ -13,6 +13,7 @@
                 <ui:VisualElement name="MipMapLow" style="background-image: resource(&apos;Icons/TextureMipMapLow&apos;); width: 16px; height: 16px; margin-top: 1px;" />
                 <ui:Label text="0" name="MipMapNumberText" style="-unity-text-align: middle-center; width: 20px;" />
             </ui:VisualElement>
+            <uie:ToolbarToggle label="sRGB" value="true" name="ToggleSRGB" style="width: 44px; font-size: 14px;" />
         </uie:Toolbar>
         <ui:VisualElement name="SliceInputs" style="flex-direction: row;">
             <ui:VisualElement name="LayersIcon" style="width: 18px; height: 16px; background-image: resource(&apos;Icons/LayersIcon&apos;); -unity-background-image-tint-color: rgb(127, 127, 127);" />

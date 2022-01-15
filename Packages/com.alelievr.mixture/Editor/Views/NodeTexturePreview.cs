@@ -19,7 +19,7 @@ namespace Mixture
         
         // Texture Preview elements
         VisualElement   previewContainer;
-        Toggle          rgb, r, g, b, a;
+        Toggle          rgb, r, g, b, a, srgb;
         VisualElement   mipmapInputs;
         SliderInt       mipmapSlider;
         Label           currentMipIndex;
@@ -52,7 +52,7 @@ namespace Mixture
             g = previewRoot.Q("ToggleG") as Toggle;
             b = previewRoot.Q("ToggleB") as Toggle;
             a = previewRoot.Q("ToggleA") as Toggle;
-
+            srgb = previewRoot.Q("ToggleSRGB") as Toggle;
             mipmapSlider = previewRoot.Q("MipMapSlider") as SliderInt;
             mipmapInputs = previewRoot.Q("MipMapInput") as VisualElement;
             currentMipIndex = previewRoot.Q("MipMapNumberText") as Label;
@@ -104,6 +104,7 @@ namespace Mixture
 					MixtureUtils.texture2DPreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(node.previewMode));
 					MixtureUtils.texture2DPreviewMaterial.SetFloat("_PreviewMip", node.previewMip);
 					MixtureUtils.texture2DPreviewMaterial.SetFloat("_EV100", node.previewEV100);
+                    MixtureUtils.texture2DPreviewMaterial.SetInt("_IsSRGB", node.previewSRGB ? 1 : 0);
 
 					if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, node.previewTexture, MixtureUtils.texture2DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
@@ -114,8 +115,9 @@ namespace Mixture
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_PreviewMip", node.previewMip);
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_Depth", (node.previewSlice + 0.5f) / node.settings.GetResolvedDepth(graphView.graph));
 					MixtureUtils.texture3DPreviewMaterial.SetFloat("_EV100", node.previewEV100);
+                    MixtureUtils.texture3DPreviewMaterial.SetInt("_IsSRGB", node.previewSRGB ? 1 : 0);
 
-					if (Event.current.type == EventType.Repaint)
+                    if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.texture3DPreviewMaterial, ScaleMode.ScaleToFit, 0, 0, ColorWriteMask.Red);
 					break;
 				case TextureDimension.Cube:
@@ -123,8 +125,9 @@ namespace Mixture
 					MixtureUtils.textureCubePreviewMaterial.SetVector("_Channels", MixtureEditorUtils.GetChannelsMask(node.previewMode));
 					MixtureUtils.textureCubePreviewMaterial.SetFloat("_PreviewMip", node.previewMip);
 					MixtureUtils.textureCubePreviewMaterial.SetFloat("_EV100", node.previewEV100);
+                    MixtureUtils.textureCubePreviewMaterial.SetInt("_IsSRGB", node.previewSRGB ? 1 : 0);
 
-					if (Event.current.type == EventType.Repaint)
+                    if (Event.current.type == EventType.Repaint)
 						EditorGUI.DrawPreviewTexture(previewRect, Texture2D.whiteTexture, MixtureUtils.textureCubePreviewMaterial, ScaleMode.ScaleToFit, 0, 0);
 					break;
 				default:
