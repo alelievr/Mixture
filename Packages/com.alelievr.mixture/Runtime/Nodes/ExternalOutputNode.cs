@@ -45,6 +45,8 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
         public External2DOutputType external2DOoutputType = External2DOutputType.Color;
         public ExternalFileType externalFileType = ExternalFileType.PNG;
         public ConversionFormat external3DFormat = ConversionFormat.RGBA32;
+        public bool exportAlpha = true;
+
 		public override Texture previewTexture => outputTextureSettings.Count > 0 ? (Texture)mainOutput.finalCopyRT : Texture2D.blackTexture;
 
         public override bool hasSettings => true;

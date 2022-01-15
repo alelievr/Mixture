@@ -105,13 +105,19 @@ namespace Mixture
                     }
                 }
 
+                EditorGUI.BeginChangeCheck();
+                var exportAlpha = EditorGUILayout.Toggle("Export Alpha", externalOutputNode.exportAlpha);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    externalOutputNode.exportAlpha = exportAlpha;
+                    MarkDirtyRepaint();
+                }
+
                 externalOutputNode.previewSRGB =
-
-                externalOutputNode.externalFileType == ExternalOutputNode.ExternalFileType.PNG &&
-                externalOutputNode.externalOutputDimension == ExternalOutputNode.ExternalOutputDimension.Texture2D &&
-                    (externalOutputNode.external2DOoutputType == ExternalOutputNode.External2DOutputType.Color ||
-                    externalOutputNode.external2DOoutputType == ExternalOutputNode.External2DOutputType.LatLongCubemapColor);
-
+                    externalOutputNode.externalFileType == ExternalOutputNode.ExternalFileType.PNG &&
+                    externalOutputNode.externalOutputDimension == ExternalOutputNode.ExternalOutputDimension.Texture2D &&
+                        (externalOutputNode.external2DOoutputType == ExternalOutputNode.External2DOutputType.Color ||
+                        externalOutputNode.external2DOoutputType == ExternalOutputNode.External2DOutputType.LatLongCubemapColor);
 
                 GUILayout.Space(8);
             }

@@ -642,27 +642,33 @@ namespace Mixture
                     switch (external.external2DOoutputType)
                     {
                         case ExternalOutputNode.External2DOutputType.Color:
+                            importer.textureShape = TextureImporterShape.Texture2D;
                             importer.textureType = TextureImporterType.Default;
                             importer.sRGBTexture = true;
-                            importer.alphaSource = TextureImporterAlphaSource.FromInput;
+                            importer.alphaSource = external.exportAlpha? TextureImporterAlphaSource.FromInput : TextureImporterAlphaSource.None;
                             break;
                         case ExternalOutputNode.External2DOutputType.Linear:
+                            importer.textureShape = TextureImporterShape.Texture2D;
                             importer.textureType = TextureImporterType.Default;
                             importer.sRGBTexture = false;
-                            importer.alphaSource = TextureImporterAlphaSource.FromInput;
+                            importer.alphaSource = external.exportAlpha ? TextureImporterAlphaSource.FromInput : TextureImporterAlphaSource.None;
                             break;
                         case ExternalOutputNode.External2DOutputType.Normal:
+                            importer.textureShape = TextureImporterShape.Texture2D;
                             importer.textureType = TextureImporterType.NormalMap;
+                            importer.alphaSource = TextureImporterAlphaSource.None;
                             break;
                         case ExternalOutputNode.External2DOutputType.LatLongCubemapColor:
                             importer.textureShape = TextureImporterShape.TextureCube;
                             importer.generateCubemap = TextureImporterGenerateCubemap.Cylindrical;
                             importer.sRGBTexture = true;
+                            importer.alphaSource = external.exportAlpha ? TextureImporterAlphaSource.FromInput : TextureImporterAlphaSource.None;
                             break;
                         case ExternalOutputNode.External2DOutputType.LatLongCubemapLinear:
                             importer.textureShape = TextureImporterShape.TextureCube;
                             importer.generateCubemap = TextureImporterGenerateCubemap.Cylindrical;
                             importer.sRGBTexture = false;
+                            importer.alphaSource = external.exportAlpha ? TextureImporterAlphaSource.FromInput : TextureImporterAlphaSource.None;
                             break;
                     }
                     importer.SaveAndReimport();
