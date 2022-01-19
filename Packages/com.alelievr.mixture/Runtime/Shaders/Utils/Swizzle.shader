@@ -2,9 +2,21 @@
 {	
 	Properties
 	{
-		[InlineTexture]_Source_2D("Input", 2D) = "white" {}
-		[InlineTexture]_Source_3D("Input", 3D) = "white" {}
-		[InlineTexture]_Source_Cube("Input", Cube) = "white" {}
+		[InlineTexture]_SourceA_2D("Input A", 2D) = "white" {}
+		[InlineTexture]_SourceA_3D("Input A", 3D) = "white" {}
+		[InlineTexture]_SourceA_Cube("Input A", Cube) = "white" {}
+
+		[InlineTexture]_SourceB_2D("Input B", 2D) = "white" {}
+		[InlineTexture]_SourceB_3D("Input B", 3D) = "white" {}
+		[InlineTexture]_SourceB_Cube("Input B", Cube) = "white" {}
+
+		[InlineTexture]_SourceC_2D("Input C", 2D) = "white" {}
+		[InlineTexture]_SourceC_3D("Input C", 3D) = "white" {}
+		[InlineTexture]_SourceC_Cube("Input C", Cube) = "white" {}
+
+		[InlineTexture]_SourceD_2D("Input D", 2D) = "white" {}
+		[InlineTexture]_SourceD_3D("Input D", 3D) = "white" {}
+		[InlineTexture]_SourceD_Cube("Input D", Cube) = "white" {}
 
 		[MixtureSwizzle]_RMode("Output Red", Float) = 0
 		[MixtureSwizzle]_GMode("Output Green", Float) = 1
@@ -28,7 +40,10 @@
 
             #pragma shader_feature CRT_2D CRT_3D CRT_CUBE
 
-			TEXTURE_SAMPLER_X(_Source);
+			TEXTURE_SAMPLER_X(_SourceA);
+			TEXTURE_SAMPLER_X(_SourceB);
+			TEXTURE_SAMPLER_X(_SourceC);
+			TEXTURE_SAMPLER_X(_SourceD);
 
 			float _RMode;
 			float _GMode;
@@ -38,11 +53,15 @@
 
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
-				float4 source = SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
-				float r = Swizzle(source, _RMode, _Custom.r);
-				float g = Swizzle(source, _GMode, _Custom.g);
-				float b = Swizzle(source, _BMode, _Custom.b);
-				float a = Swizzle(source, _AMode, _Custom.a);
+				float4 sourceA = SAMPLE_X(_SourceA, i.localTexcoord.xyz, i.direction);
+				float4 sourceB = SAMPLE_X(_SourceB, i.localTexcoord.xyz, i.direction);
+				float4 sourceC = SAMPLE_X(_SourceC, i.localTexcoord.xyz, i.direction);
+				float4 sourceD = SAMPLE_X(_SourceD, i.localTexcoord.xyz, i.direction);
+
+				float r = Swizzle(sourceA, sourceB, sourceC, sourceD, _RMode, _Custom.r);
+				float g = Swizzle(sourceA, sourceB, sourceC, sourceD, _GMode, _Custom.g);
+				float b = Swizzle(sourceA, sourceB, sourceC, sourceD, _BMode, _Custom.b);
+				float a = Swizzle(sourceA, sourceB, sourceC, sourceD, _AMode, _Custom.a);
 				return float4(r, g, b, a);
 			}
 			ENDHLSL

@@ -252,19 +252,35 @@ float3 ScaleBias(float3 uv, float3 scale, float3 bias)
 float4 ScaleBias(float4 uv, float4 scale, float4 bias) { return float4(ScaleBias(uv.xyz, scale.xyz, bias.xyz), uv.a); }
 float2 ScaleBias(float2 uv, float2 scale, float2 bias) { return ScaleBias(float3(uv.xy, 0), float3(scale.xy, 0), float3(bias.xy, 0)).xy; }
 
-float Swizzle(float4 sourceValue, uint mode, float custom)
+float Swizzle(float4 sourceValueA, float4 sourceValueB, float4 sourceValueC, float4 sourceValueD, uint mode, float custom)
 {
 	switch (mode)
 	{
-	case 0: return sourceValue.x;
-	case 1: return sourceValue.y;
-	case 2: return sourceValue.z;
-	case 3: return sourceValue.w;
+	case 0: return sourceValueA.x;
+	case 1: return sourceValueA.y;
+	case 2: return sourceValueA.z;
+	case 3: return sourceValueA.w;
+
 	default:
 	case 4: return 0.0f;
 	case 5: return 0.5f;
 	case 6: return 1.0f;
 	case 7: return custom;
+
+	case 8:  return sourceValueB.x;
+	case 9:  return sourceValueB.y;
+	case 10: return sourceValueB.z;
+	case 11: return sourceValueB.w;
+
+	case 12: return sourceValueC.x;
+	case 13: return sourceValueC.y;
+	case 14: return sourceValueC.z;
+	case 15: return sourceValueC.w;
+
+	case 16: return sourceValueD.x;
+	case 17: return sourceValueD.y;
+	case 18: return sourceValueD.z;
+	case 19: return sourceValueD.w;
 	}
 	return 0;
 }
