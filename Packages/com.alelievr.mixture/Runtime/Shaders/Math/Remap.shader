@@ -8,7 +8,7 @@
 
 		_Map("Map",2D) = "white" {}
 
-		[Enum(Brightness (Gradient),0,Alpha (Curve),1,Brightness (Curve),2,Saturation (Curve),3,Hue (Curve),4)]_Mode("Mode", Float) = 0
+		[MixtureRemapMode]_Mode("Mode", Float) = 0
 	}
 	SubShader
 	{
@@ -51,6 +51,21 @@
 				case 4: // Hue from Curve
 					hsv.x = SAMPLE_2D(_Map, hsv.xxx).r;
 					return float4(HSVtoRGB(hsv), sourceValue.a);
+				case 5: // Red from Curve
+					sourceValue.r = SAMPLE_2D(_Map, sourceValue.rrr).r;
+					return sourceValue;
+				case 6: // Green from Curve
+					sourceValue.g = SAMPLE_2D(_Map, sourceValue.ggg).r;
+					return sourceValue;
+				case 7: // Blue from Curve
+					sourceValue.b = SAMPLE_2D(_Map, sourceValue.bbb).r;
+					return sourceValue;
+				case 8: // Blue from Curve
+					sourceValue.r = SAMPLE_2D(_Map, sourceValue.rrr).r;
+					sourceValue.g = SAMPLE_2D(_Map, sourceValue.ggg).g;
+					sourceValue.b = SAMPLE_2D(_Map, sourceValue.bbb).b;
+					sourceValue.a = SAMPLE_2D(_Map, sourceValue.aaa).a;
+					return sourceValue;
 				}
 				return 0;
 			}
