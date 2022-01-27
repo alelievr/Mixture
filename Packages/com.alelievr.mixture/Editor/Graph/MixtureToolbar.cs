@@ -295,7 +295,9 @@ namespace Mixture
                 foreach(var node in externalOutputs)
                 {
                     EditorUtility.DisplayProgressBar("Mixture", $"Saving {node.asset.name}...", (float)i/externalOutputs.Count);
-                    (node as ExternalOutputNode).OnProcess();
+					var cmd = new CommandBuffer();
+                    (node as ExternalOutputNode).OnProcess(cmd);
+					Graphics.ExecuteCommandBuffer(cmd);
                     graph.SaveExternalTexture((node as ExternalOutputNode), false);
                     i++;
                 }
