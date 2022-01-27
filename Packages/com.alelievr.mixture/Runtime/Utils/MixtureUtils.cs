@@ -409,19 +409,31 @@ namespace Mixture
 			cmd.SetRandomWriteTarget(2, outputVolume);
 			cmd.GetTemporaryRT(42, (int)outputVolume.width, (int)outputVolume.height, 0);
 			cmd.SetRenderTarget(42);
-			RenderMesh(Quaternion.Euler(90, 0, 0));
-			RenderMesh(Quaternion.Euler(0, 90, 0));
-			RenderMesh(Quaternion.Euler(0, 0, 90));
+			// RenderMesh(Quaternion.Euler(90, 0, 0));
+			// RenderMesh(Quaternion.Euler(0, 90, 0));
+			// RenderMesh(Quaternion.Euler(0, 0, 90));
+
+			mesh.mesh.indexBufferTarget |= GraphicsBuffer.Target.Vertex | GraphicsBuffer.Target.Raw;
+
+			// TODO: implement first pass in a compute shader
+			var buffer = mesh.mesh.GetVertexBuffer(0);
+			Debug.Log(buffer.IsValid());
+			Debug.Log(mesh.mesh.GetVertexBuffer(0));
+
+			cmd.SetGlobalBuffer("_MeshVertices", mesh.mesh.GetVertexBuffer(0));
+			props.SetBuffer("_MeshIndices", mesh.mesh.GetIndexBuffer());
+			cmd.DrawProcedural(Matrix4x4.identity, material, 0, MeshTopology.Triangles, (int)mesh.mesh.GetIndexCount(0), 1, props);
+
 			cmd.ClearRandomWriteTargets();
 
-			void RenderMesh(Quaternion cameraRotation)
-			{
-				var worldToCamera = Matrix4x4.Rotate(cameraRotation);
-				var projection = Matrix4x4.Ortho(-1, 1, -1, 1, -1, 1);
-				var vp = projection * worldToCamera;
-				props.SetMatrix("_CameraMatrix", vp);
-				cmd.DrawMesh(mesh.mesh, mesh.localToWorld, material, 0, shaderPass: 0, props);
-			}
+			// void RenderMesh(Quaternion cameraRotation)
+			// {
+			// 	var worldToCamera = Matrix4x4.Rotate(cameraRotation);
+			// 	var projection = Matrix4x4.Ortho(-1, 1, -1, 1, -1, 1);
+			// 	var vp = projection * worldToCamera;
+			// 	props.SetMatrix("_CameraMatrix", vp);
+			// 	cmd.DrawMesh(mesh.mesh, mesh.localToWorld, material, 0, shaderPass: 0, props);
+			// }
 		}
 
 		public static bool IsRealtimeGraph(BaseGraph graph)
