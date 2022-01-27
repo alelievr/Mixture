@@ -249,8 +249,17 @@ float3 ScaleBias(float3 uv, float3 scale, float3 bias)
     return (uv * scale) + bias;
 }
 
+float3 BiasScale(float3 uv, float3 scale, float3 bias)
+{
+	return (uv + bias) * scale;
+}
+
 float4 ScaleBias(float4 uv, float4 scale, float4 bias) { return float4(ScaleBias(uv.xyz, scale.xyz, bias.xyz), uv.a); }
 float2 ScaleBias(float2 uv, float2 scale, float2 bias) { return ScaleBias(float3(uv.xy, 0), float3(scale.xy, 0), float3(bias.xy, 0)).xy; }
+
+float4 BiasScale(float4 uv, float4 scale, float4 bias) { return float4(BiasScale(uv.xyz, scale.xyz, bias.xyz), uv.a); }
+float2 BiasScale(float2 uv, float2 scale, float2 bias) { return BiasScale(float3(uv.xy, 0), float3(scale.xy, 0), float3(bias.xy, 0)).xy; }
+
 
 float Swizzle(float4 sourceValue, uint mode, float custom)
 {

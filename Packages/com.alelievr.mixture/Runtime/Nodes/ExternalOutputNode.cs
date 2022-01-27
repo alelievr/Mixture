@@ -30,6 +30,13 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
             LatLongCubemapColor,
             LatLongCubemapLinear,
         }
+        public enum ExternalFileType
+        {
+            PNG, 
+            EXR,
+            TGA
+        }
+
 
         public override string name => "External Output";
 
@@ -37,10 +44,15 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
 
         public ExternalOutputDimension externalOutputDimension = ExternalOutputDimension.Texture2D;
         public External2DOutputType external2DOoutputType = External2DOutputType.Color;
+        public ExternalFileType externalFileType = ExternalFileType.PNG;
         public ConversionFormat external3DFormat = ConversionFormat.RGBA32;
+        public bool exportAlpha = true;
+
 		public override Texture previewTexture => outputTextureSettings.Count > 0 ? (Texture)mainOutput.finalCopyRT : Texture2D.blackTexture;
 
         public override bool hasSettings => true;
+
+        public override bool canEditPreviewSRGB => false;
 
         protected override MixtureSettings defaultSettings
         {
@@ -81,7 +93,10 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
             if(graph.type != MixtureGraphType.Realtime)
             {
                 if(settings.GetResolvedTextureDimension(graph) != TextureDimension.Cube)
+                {
+                    outputTextureSettings.First().sRGB = false;
                     return base.ProcessNode(cmd);
+                }
                 else
                 {
                     if (uniqueMessages.Add("CubemapNotSupported"))

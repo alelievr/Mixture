@@ -555,8 +555,7 @@ namespace Mixture
             try
             {
                 Texture outputTexture = null;
-                bool isHDR = external.settings.IsHDR(this);
-
+                
                 TextureDimension dimension = external.settings.GetResolvedTextureDimension(this);
                 GraphicsFormat format = (GraphicsFormat)external.settings.GetGraphicsFormat(this);
                 var rtSettings = external.settings;
@@ -587,10 +586,14 @@ namespace Mixture
 
                     if (dimension == TextureDimension.Tex2D)
                     {
-                        if (isHDR)
+                        if (external.externalFileType == ExternalOutputNode.ExternalFileType.EXR)
                             extension = "exr";
-                        else
+                        else if (external.externalFileType == ExternalOutputNode.ExternalFileType.PNG)
                             extension = "png";
+                        else if (external.externalFileType == ExternalOutputNode.ExternalFileType.TGA)
+                            extension = "tga";
+                        else
+                            throw new NotImplementedException($"File type not handled : '{external.externalFileType}'");
                     }
 
                     assetPath = EditorUtility.SaveFilePanelInProject("Save Texture", external.name, extension, "Save Texture");
@@ -629,24 +632,15 @@ namespace Mixture
                 {
                     byte[] contents = null;
 
-                    if (isHDR)
+                    if (external.externalFileType == ExternalOutputNode.ExternalFileType.EXR)
                         contents = ImageConversion.EncodeToEXR(outputTexture as Texture2D);
-                    else
-                    {
-                        var colors = (outputTexture as Texture2D).GetPixels();
-
-                        // We only do the conversion for whe the graph uses SRGB images
-                        if (external.external2DOoutputType == ExternalOutputNode.External2DOutputType.Color
-                            || external.external2DOoutputType == ExternalOutputNode.External2DOutputType.LatLongCubemapColor)
-                        {
-                            for (int i = 0; i < colors.Length; i++)
-                                colors[i] = colors[i].gamma;
-                        }
-
-                        (outputTexture as Texture2D).SetPixels(colors);
-
+                    else if (external.externalFileType == ExternalOutputNode.ExternalFileType.PNG)
                         contents = ImageConversion.EncodeToPNG(outputTexture as Texture2D);
-                    }
+                    else if (external.externalFileType == ExternalOutputNode.ExternalFileType.TGA)
+                        contents = ImageConversion.EncodeToTGA(outputTexture as Texture2D);
+                    else
+                        throw new NotImplementedException($"File type not handled : '{external.externalFileType}'");
+
 
                     System.IO.File.WriteAllBytes(System.IO.Path.GetDirectoryName(Application.dataPath) + "/" + assetPath, contents);
 
@@ -657,25 +651,33 @@ namespace Mixture
                     switch (external.external2DOoutputType)
                     {
                         case ExternalOutputNode.External2DOutputType.Color:
+                            importer.textureShape = TextureImporterShape.Texture2D;
                             importer.textureType = TextureImporterType.Default;
                             importer.sRGBTexture = true;
+                            importer.alphaSource = external.exportAlpha? TextureImporterAlphaSource.FromInput : TextureImporterAlphaSource.None;
                             break;
                         case ExternalOutputNode.External2DOutputType.Linear:
+                            importer.textureShape = TextureImporterShape.Texture2D;
                             importer.textureType = TextureImporterType.Default;
                             importer.sRGBTexture = false;
+                            importer.alphaSource = external.exportAlpha ? TextureImporterAlphaSource.FromInput : TextureImporterAlphaSource.None;
                             break;
                         case ExternalOutputNode.External2DOutputType.Normal:
+                            importer.textureShape = TextureImporterShape.Texture2D;
                             importer.textureType = TextureImporterType.NormalMap;
+                            importer.alphaSource = TextureImporterAlphaSource.None;
                             break;
                         case ExternalOutputNode.External2DOutputType.LatLongCubemapColor:
                             importer.textureShape = TextureImporterShape.TextureCube;
                             importer.generateCubemap = TextureImporterGenerateCubemap.Cylindrical;
                             importer.sRGBTexture = true;
+                            importer.alphaSource = external.exportAlpha ? TextureImporterAlphaSource.FromInput : TextureImporterAlphaSource.None;
                             break;
                         case ExternalOutputNode.External2DOutputType.LatLongCubemapLinear:
                             importer.textureShape = TextureImporterShape.TextureCube;
                             importer.generateCubemap = TextureImporterGenerateCubemap.Cylindrical;
                             importer.sRGBTexture = false;
+                            importer.alphaSource = external.exportAlpha ? TextureImporterAlphaSource.FromInput : TextureImporterAlphaSource.None;
                             break;
                     }
                     importer.SaveAndReimport();

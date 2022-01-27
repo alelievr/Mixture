@@ -36,7 +36,7 @@ Material:
     - _Frequency: 3
     - _Lacunarity: 2
     - _Octaves: 4
-    - _Persistance: 0.5
+    - _Persistance: 0.008803293
     - _Seed: 42
     - _TilingMode: 1
     - _UVMode: 0
@@ -163,6 +163,14 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: Main Texture
     outputPortIdentifier: output
+  - GUID: 75c9deda-3134-4d77-b47e-ceee33446c98
+    owner: {fileID: 11400000}
+    inputNodeGUID: 45b55e43-50ed-49df-b940-105b197c4bb0
+    outputNodeGUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
+    inputFieldName: materialInputs
+    outputFieldName: o
+    inputPortIdentifier: _Persistance
+    outputPortIdentifier: 
   groups: []
   stackNodes: []
   pinnedElements:
@@ -180,11 +188,11 @@ MonoBehaviour:
   serializedParameterList: []
   stickyNotes: []
   nodeInspectorReference: {fileID: 0}
-  position: {x: 777, y: 165, z: 0}
-  scale: {x: 1, y: 1, z: 1}
+  position: {x: 1195, y: 303, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}
   version: 1
   type: 1
-  realtimePreview: 0
+  realtimePreview: 1
   isRealtime: 0
   isParameterViewOpen: 0
   embedInBuild: 0
@@ -203,10 +211,10 @@ MonoBehaviour:
     widthScale: 1
     heightScale: 1
     depthScale: 1
-    width: 512
-    height: 512
-    depth: 512
-    potSize: 512
+    width: 256
+    height: 256
+    depth: 256
+    potSize: 256
     sizeMode: 1
     dimension: 2
     outputChannels: 1
@@ -224,13 +232,13 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 691aa737-9a89-40dd-b56d-201a248e396d
-        computeOrder: 1
+        computeOrder: 3
         position:
           serializedVersion: 2
-          x: -44
-          y: -44.5
-          width: 320
-          height: 463
+          x: -42.26087
+          y: -44.000004
+          width: 350
+          height: 500
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -272,6 +280,7 @@ MonoBehaviour:
           period: 0
         isPreviewCollapsed: 0
         previewMode: 7
+        previewSRGB: 0
         previewMip: 0
         previewVisible: 1
         previewEV100: 0
@@ -295,7 +304,7 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 45b55e43-50ed-49df-b940-105b197c4bb0
-        computeOrder: 0
+        computeOrder: 2
         position:
           serializedVersion: 2
           x: -312
@@ -343,6 +352,7 @@ MonoBehaviour:
           period: 0
         isPreviewCollapsed: 0
         previewMode: 7
+        previewSRGB: 0
         previewMip: 0
         previewVisible: 1
         previewEV100: 0
@@ -419,13 +429,13 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 3fd32b5b-8edd-4948-a1ef-e34f4d5d42dc
-        computeOrder: 2
+        computeOrder: 0
         position:
           serializedVersion: 2
-          x: -707
-          y: 4
+          x: -742.00006
+          y: -44.000004
           width: 120
-          height: 178
+          height: 176
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -467,6 +477,7 @@ MonoBehaviour:
           period: 0
         isPreviewCollapsed: 0
         previewMode: 15
+        previewSRGB: 0
         previewMip: 0
         previewVisible: 1
         previewEV100: 0
@@ -477,13 +488,13 @@ MonoBehaviour:
       data:
         nodeCustomName: 
         GUID: 0f096cfa-9d5f-4086-9aaa-b326aaf6027b
-        computeOrder: 3
+        computeOrder: 1
         position:
           serializedVersion: 2
-          x: -570
-          y: 28
+          x: -594.8696
+          y: -43.82608
           width: 250
-          height: 166
+          height: 164
         expanded: 0
         debug: 0
         nodeLock: 0
@@ -525,13 +536,14 @@ MonoBehaviour:
           period: 0
         isPreviewCollapsed: 0
         previewMode: 15
+        previewSRGB: 0
         previewMip: 0
         previewVisible: 1
         previewEV100: 0
         previewSlice: 0
         isPinned: 0
-        a: {x: -0.9023228, y: -0.9023228, z: -0.9023228, w: -0.9023228}
-        o: {x: 0.034187008, y: 0.034187008, z: 0.034187008, w: 0.034187008}
+        a: {x: -0.97484773, y: -0.97484773, z: -0.97484773, w: -0.97484773}
+        o: {x: 0.008803293, y: 0.008803293, z: 0.008803293, w: 0.008803293}
         inputMin: -1
         inputMax: 1
         outputMin: 0
@@ -550,8 +562,8 @@ CustomRenderTexture:
   m_DownscaleFallback: 0
   m_IsAlphaChannelOptional: 0
   serializedVersion: 3
-  m_Width: 512
-  m_Height: 512
+  m_Width: 256
+  m_Height: 256
   m_AntiAliasing: 1
   m_MipCount: -1
   m_DepthFormat: 0
@@ -564,7 +576,7 @@ CustomRenderTexture:
   m_EnableCompatibleFormat: 1
   m_TextureSettings:
     serializedVersion: 2
-    m_FilterMode: 0
+    m_FilterMode: 1
     m_Aniso: 1
     m_MipBias: 0
     m_WrapU: 0

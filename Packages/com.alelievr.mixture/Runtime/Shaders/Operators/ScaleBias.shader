@@ -6,7 +6,7 @@
 		[InlineTexture]_Texture_3D("Texture", 3D) = "white" {}
 		[InlineTexture]_Texture_Cube("Texture", Cube) = "white" {}
 
-		[Enum(ScaleBias,0,BiasScale,1,Scale,2,Bias,3)]_Mode("Mode", Float) = 0
+		[ScaleBias]_Mode("Mode", Float) = 0
 		[MixtureVector3]_Scale("Scale", Vector) = (1.0,1.0,1.0,0.0)
 		[MixtureVector3]_Bias("Bias", Vector) = (0.0,0.0,0.0,0.0)
 	}
@@ -37,9 +37,11 @@
 				switch ((uint)_Mode)
 				{
 					case 0: col = ScaleBias(col, _Scale, _Bias); break;
-					case 1: col = ScaleBias(col, _Bias, _Scale); break;
+					case 1: col = BiasScale(col, _Scale, _Bias); break;
 					case 2: col = ScaleBias(col, _Scale, 0); break;
 					case 3: col = ScaleBias(col, 1, _Bias); break;
+					case 4: col = ScaleBias(col, 2, -1); break;
+					case 5: col = ScaleBias(col, 0.5, 0.5); break;
 				}
 				return col;
 			}
