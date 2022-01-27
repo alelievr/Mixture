@@ -33,7 +33,8 @@ For 3D and Cube textures, the file is exported as a .asset and can be use in ano
         public enum ExternalFileType
         {
             PNG, 
-            EXR
+            EXR,
+            TGA
         }
 
 

@@ -590,6 +590,10 @@ namespace Mixture
                             extension = "exr";
                         else if (external.externalFileType == ExternalOutputNode.ExternalFileType.PNG)
                             extension = "png";
+                        else if (external.externalFileType == ExternalOutputNode.ExternalFileType.TGA)
+                            extension = "tga";
+                        else
+                            throw new NotImplementedException($"File type not handled : '{external.externalFileType}'");
                     }
 
                     assetPath = EditorUtility.SaveFilePanelInProject("Save Texture", external.name, extension, "Save Texture");
@@ -632,6 +636,11 @@ namespace Mixture
                         contents = ImageConversion.EncodeToEXR(outputTexture as Texture2D);
                     else if (external.externalFileType == ExternalOutputNode.ExternalFileType.PNG)
                         contents = ImageConversion.EncodeToPNG(outputTexture as Texture2D);
+                    else if (external.externalFileType == ExternalOutputNode.ExternalFileType.TGA)
+                        contents = ImageConversion.EncodeToTGA(outputTexture as Texture2D);
+                    else
+                        throw new NotImplementedException($"File type not handled : '{external.externalFileType}'");
+
 
                     System.IO.File.WriteAllBytes(System.IO.Path.GetDirectoryName(Application.dataPath) + "/" + assetPath, contents);
 
