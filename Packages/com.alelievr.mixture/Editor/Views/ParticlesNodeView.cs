@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using GraphProcessor;
-using UnityEditor.Experimental.SceneManagement;
+
 
 namespace Mixture
 {
@@ -50,7 +50,7 @@ namespace Mixture
         {
         }
 
-        protected override bool OnPrefabOpened(PrefabStage stage, Button openPrefabButton)
+        protected override bool OnPrefabOpened(UnityEditor.SceneManagement.PrefabStage stage, Button openPrefabButton)
         {
             if (!base.OnPrefabOpened(stage, openPrefabButton))
                 return false;
@@ -58,7 +58,7 @@ namespace Mixture
             return true;
         }
 
-        protected override bool OnPrefabClosed(PrefabStage stage, Button openPrefabButton)
+        protected override bool OnPrefabClosed(UnityEditor.SceneManagement.PrefabStage stage, Button openPrefabButton)
         {
             if (!base.OnPrefabClosed(stage, openPrefabButton))
                 return false;
