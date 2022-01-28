@@ -29,8 +29,10 @@ Shader "Hidden/Mixture/Rasterize3D"
             float               _Dir;
             float4x4            _CameraMatrix;
 
-            ByteAddressBuffer _MeshVertices;
-            ByteAddressBuffer _MeshIndices;
+            int _VertexStride;
+            int _VertexPositionOffset;
+
+            StructuredBuffer<float3>  _OutputVertexPositions;
 
             struct VertexToFragment
             {
@@ -42,27 +44,27 @@ Shader "Hidden/Mixture/Rasterize3D"
             {
                 VertexToFragment o;
 
-                uint triangleId = vertexId - (vertexId % 3);
-                uint t0 = _MeshIndices.Load(triangleId + 0);
-                uint t1 = _MeshIndices.Load(triangleId + 1);
-                uint t2 = _MeshIndices.Load(triangleId + 2);
+                // uint triangleId = vertexId - (vertexId % 3);
+                // uint t0 = _MeshIndices.Load(triangleId + 0);
+                // uint t1 = _MeshIndices.Load(triangleId + 1);
+                // uint t2 = _MeshIndices.Load(triangleId + 2);
 
-                // Fetch triangle vertex data:
-                float3 v0 = _MeshVertices.Load3(t0);
-                float3 v1 = _MeshVertices.Load3(t1);
-                float3 v2 = _MeshVertices.Load3(t2);
+                // // Fetch triangle vertex data:
+                // float3 v0 = _MeshVertices.Load3(t0);
+                // float3 v1 = _MeshVertices.Load3(t1);
+                // float3 v2 = _MeshVertices.Load3(t2);
 
-                // Calculate centroid of the triangle
-                float3 c = (v0 + v1 + v2) / 3;
+                // // Calculate centroid of the triangle
+                // float3 c = (v0 + v1 + v2) / 3;
 
-                // TODO
-                // rotate the triangle towards -Z
-                float3 n = cross(v0, v1);
+                // // TODO
+                // // rotate the triangle towards -Z
+                // float3 n = cross(v0, v1);
 
                 // o.vertex = mul(_CameraMatrix, float4(vertex.xyz, 1.0));
                 // o.worldPos = mul (unity_ObjectToWorld, vertex);
 
-                float3 v = _MeshVertices.Load3(vertexId);
+                float3 v = _OutputVertexPositions.Load(vertexId);
                 o.vertex = mul(_CameraMatrix, float4(v.xyz, 1.0));
                 o.worldPos = mul (unity_ObjectToWorld, v);
 

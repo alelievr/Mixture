@@ -222,6 +222,12 @@ namespace Mixture
 			get => _clearCompute == null ? _clearCompute = Resources.Load< ComputeShader >("Mixture/Clear") : _clearCompute;
 		}
 
+		static ComputeShader			_voxelizePrepass;
+		public static ComputeShader		voxelizePrepass
+		{
+			get => _voxelizePrepass == null ? _voxelizePrepass = Resources.Load< ComputeShader >("Mixture/VoxelizePrepass") : _voxelizePrepass;
+		}
+
 		public static void SetupDimensionKeyword(Material material, TextureDimension dimension)
 		{
 			foreach (var keyword in material.shaderKeywords.Where(s => s.ToLower().Contains("crt")))
@@ -400,6 +406,8 @@ namespace Mixture
 			}
 		}
 
+		// static Dictionary<Mesh, GraphicsBuffer> bufferMap = new Dictionary<Mesh, GraphicsBuffer>();
+
 		public static void RasterizeMeshToTexture3D(CommandBuffer cmd, MixtureMesh mesh, RenderTexture outputVolume, bool conservative = false)
 		{
 			var props = new MaterialPropertyBlock();
@@ -413,16 +421,18 @@ namespace Mixture
 			// RenderMesh(Quaternion.Euler(0, 90, 0));
 			// RenderMesh(Quaternion.Euler(0, 0, 90));
 
-			mesh.mesh.indexBufferTarget |= GraphicsBuffer.Target.Vertex | GraphicsBuffer.Target.Raw;
+			GraphicsBuffer meshBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, (int)mesh.mesh.GetIndexCount(0), sizeof(float) * 3);
 
-			// TODO: implement first pass in a compute shader
-			var buffer = mesh.mesh.GetVertexBuffer(0);
-			Debug.Log(buffer.IsValid());
-			Debug.Log(mesh.mesh.GetVertexBuffer(0));
+			VoxelizePrepass(cmd, meshBuffer, mesh.mesh);
 
-			cmd.SetGlobalBuffer("_MeshVertices", mesh.mesh.GetVertexBuffer(0));
-			props.SetBuffer("_MeshIndices", mesh.mesh.GetIndexBuffer());
-			cmd.DrawProcedural(Matrix4x4.identity, material, 0, MeshTopology.Triangles, (int)mesh.mesh.GetIndexCount(0), 1, props);
+			material.SetBuffer("_OutputVertexPositions", meshBuffer);
+
+			var worldToCamera = Matrix4x4.Rotate(Quaternion.Euler(90, 0, 0));
+			var projection = Matrix4x4.Ortho(-1, 1, -1, 1, -1, 1);
+			var vp = projection * worldToCamera;
+			props.SetMatrix("_CameraMatrix", vp);
+
+			cmd.DrawProcedural(mesh.localToWorld, material, 0, MeshTopology.Triangles, meshBuffer.count, 1, props);
 
 			cmd.ClearRandomWriteTargets();
 
@@ -434,6 +444,31 @@ namespace Mixture
 			// 	props.SetMatrix("_CameraMatrix", vp);
 			// 	cmd.DrawMesh(mesh.mesh, mesh.localToWorld, material, 0, shaderPass: 0, props);
 			// }
+		}
+
+		static void VoxelizePrepass(CommandBuffer cmd, GraphicsBuffer vertexPositionBuffer, Mesh mesh)
+		{
+			// Calculate dispatch size:
+			const int groupThreadCount = 64;
+
+			mesh.indexBufferTarget |= GraphicsBuffer.Target.Raw;
+			mesh.vertexBufferTarget |= GraphicsBuffer.Target.Raw;
+			var vertexBuffer = mesh.GetVertexBuffer(0);
+			var indexBuffer = mesh.GetIndexBuffer();
+
+			int dispatchCount = indexBuffer.count / 3; // one compute thread will process one triangle
+			int groupNeededCount = (dispatchCount + groupThreadCount - 1) / groupThreadCount;
+			int dispatchSizeY = 1 + (groupNeededCount / 0xffff); // 0xffff is the max thread group size
+			int dispatchSizeX = groupNeededCount / dispatchSizeY;
+
+			cmd.SetComputeBufferParam(voxelizePrepass, 0, "_MeshVertexBuffer", vertexBuffer);
+			cmd.SetComputeBufferParam(voxelizePrepass, 0, "_MeshIndexBuffer", indexBuffer);
+			cmd.SetComputeBufferParam(voxelizePrepass, 0, "_OutputVertexPositions", vertexPositionBuffer);
+			cmd.SetComputeIntParam(voxelizePrepass, "_MeshVertexStride", mesh.GetVertexBufferStride(0));
+			cmd.SetComputeIntParam(voxelizePrepass, "_DispatchSizeX", dispatchSizeX * 64);
+			cmd.SetComputeIntParam(voxelizePrepass, "_MeshVertexCount", mesh.vertexCount);
+
+			cmd.DispatchCompute(voxelizePrepass, 0, dispatchSizeX, dispatchSizeY, 1);
 		}
 
 		public static bool IsRealtimeGraph(BaseGraph graph)
