@@ -32,7 +32,14 @@ Shader "Hidden/Mixture/Rasterize3D"
             int _VertexStride;
             int _VertexPositionOffset;
 
-            StructuredBuffer<float3>  _OutputVertexPositions;
+            struct OutputVertexData
+            {
+                float3 vertexPosition;
+                float3 originalPosition;
+            };
+
+            // TODO: half3 position + original position output for vertex shader
+            StructuredBuffer<OutputVertexData>  _OutputVertexPositions;
 
             struct VertexToFragment
             {
@@ -64,9 +71,15 @@ Shader "Hidden/Mixture/Rasterize3D"
                 // o.vertex = mul(_CameraMatrix, float4(vertex.xyz, 1.0));
                 // o.worldPos = mul (unity_ObjectToWorld, vertex);
 
-                float3 v = _OutputVertexPositions.Load(vertexId);
-                o.vertex = mul(_CameraMatrix, float4(v.xyz, 1.0));
-                o.worldPos = mul (unity_ObjectToWorld, v);
+                float2 texelSize = rcp(_OutputSize);
+
+                OutputVertexData v = _OutputVertexPositions.Load(vertexId);
+
+                // Apply manual conservative
+                // v.vertexPosition += normalize(v.vertexPosition) * texelSize.x*100;
+
+                o.vertex = mul(_CameraMatrix, float4(v.vertexPosition, 1.0));
+                o.worldPos = mul(unity_ObjectToWorld, v.originalPosition);
 
                 return o;
             }

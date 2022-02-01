@@ -8,8 +8,14 @@ int                         _MeshVertexStride;
 int                         _DispatchSizeX;
 int                         _MeshVertexCount;
 
+struct OutputVertexData
+{
+    float3 vertexPosition;
+    float3 originalPosition;
+};
+
 // TODO: half3 position + original position output for vertex shader
-RWStructuredBuffer<float3>  _OutputVertexPositions;
+RWStructuredBuffer<OutputVertexData>  _OutputVertexPositions;
 
 float3x3 rotationMatrix(float3 axis, float angle)
 {
@@ -38,6 +44,9 @@ void GenerateVertexPositionBuffer(uint2 id : SV_DispatchThreadID)
     float3 v0 = asfloat(_MeshVertexBuffer.Load3(i0 * _MeshVertexStride));
     float3 v1 = asfloat(_MeshVertexBuffer.Load3(i1 * _MeshVertexStride));
     float3 v2 = asfloat(_MeshVertexBuffer.Load3(i2 * _MeshVertexStride));
+    float3 o0 = v0;
+    float3 o1 = v1;
+    float3 o2 = v2;
 
     // Calculate trangle centroid:
     float3 c = (v0 + v1 + v2) / 3.0;
@@ -49,19 +58,25 @@ void GenerateVertexPositionBuffer(uint2 id : SV_DispatchThreadID)
 
     // Comput normal after centering the triangle to avoid cross resulting in 0
     // TODO: protection for completely flat triangle (will result in NaN in output)
-    float3 normal = cross(v0, v1);
+    float3 normal = normalize(cross(v0, v1));
     float3 cameraForward = float3(0, 0, -1);
 
     // TODO: transform the triangle vertices to face camera.
     float3 d = cross(normal, cameraForward);
-    float cosAngle = dot(d, d);
-    float3x3 m = rotationMatrix(normalize(d), acos(cosAngle));
-    v0 = mul(v0, m);
-    v1 = mul(v1, m);
-    v2 = mul(v2, m);
+    float cosAngle = dot(normal, cameraForward);
+    if (any(d != 0))
+    {
+        float3x3 m = rotationMatrix(normalize(d), acos(cosAngle) + 1.5708);
+        v0 = mul(v0, m);
+        v1 = mul(v1, m);
+        v2 = mul(v2, m);
+    }
 
     // Output transformed vertices
-    _OutputVertexPositions[indexBufferIndex + 0] = v0;
-    _OutputVertexPositions[indexBufferIndex + 1] = v1;
-    _OutputVertexPositions[indexBufferIndex + 2] = v2;
+    _OutputVertexPositions[indexBufferIndex + 0].vertexPosition = v0;
+    _OutputVertexPositions[indexBufferIndex + 0].originalPosition = o0;
+    _OutputVertexPositions[indexBufferIndex + 1].vertexPosition = v1;
+    _OutputVertexPositions[indexBufferIndex + 1].originalPosition = o1;
+    _OutputVertexPositions[indexBufferIndex + 2].vertexPosition = v2;
+    _OutputVertexPositions[indexBufferIndex + 2].originalPosition = o2;
 }

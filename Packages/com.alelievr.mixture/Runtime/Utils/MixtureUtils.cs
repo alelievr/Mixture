@@ -421,13 +421,13 @@ namespace Mixture
 			// RenderMesh(Quaternion.Euler(0, 90, 0));
 			// RenderMesh(Quaternion.Euler(0, 0, 90));
 
-			GraphicsBuffer meshBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, (int)mesh.mesh.GetIndexCount(0), sizeof(float) * 3);
+			GraphicsBuffer meshBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, (int)mesh.mesh.GetIndexCount(0), sizeof(float) * 6);
 
 			VoxelizePrepass(cmd, meshBuffer, mesh.mesh);
 
 			material.SetBuffer("_OutputVertexPositions", meshBuffer);
 
-			var worldToCamera = Matrix4x4.Rotate(Quaternion.Euler(90, 0, 0));
+			var worldToCamera = Matrix4x4.Rotate(Quaternion.Euler(0, 0, 0));
 			var projection = Matrix4x4.Ortho(-1, 1, -1, 1, -1, 1);
 			var vp = projection * worldToCamera;
 			props.SetMatrix("_CameraMatrix", vp);
