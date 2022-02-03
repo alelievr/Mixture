@@ -36,6 +36,8 @@ Note that the unsigned distance field is faster to compute.
 		[Tooltip("Enable Conservative rasterization when rendering the mesh. It can help to keep small details in the mesh."), ShowInInspector]
         public bool conservativeRaster = false;
 
+        public VoxelizeTechnique voxelizeTechnique;
+
 		public override string	name => "Mesh To Distance Field";
 		protected override string computeShaderResourcePath => "Mixture/MeshToSDF";
 
@@ -102,7 +104,7 @@ Note that the unsigned distance field is faster to compute.
 			DispatchCompute(cmd, clearKernel, outputVolume.width, outputVolume.height, outputVolume.volumeDepth);
 
             // Rasterize the mesh in the volume
-			MixtureUtils.RasterizeMeshToTexture3D(cmd, inputMesh, outputVolume, conservativeRaster);
+			MixtureUtils.RasterizeMeshToTexture3D(cmd, inputMesh, outputVolume, voxelizeTechnique);
 
             // Generate a distance field with JFA
             JumpFlooding(cmd);

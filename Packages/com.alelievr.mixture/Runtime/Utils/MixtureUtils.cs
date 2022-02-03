@@ -408,21 +408,57 @@ namespace Mixture
 
 		// static Dictionary<Mesh, GraphicsBuffer> bufferMap = new Dictionary<Mesh, GraphicsBuffer>();
 
-		public static void RasterizeMeshToTexture3D(CommandBuffer cmd, MixtureMesh mesh, RenderTexture outputVolume, bool conservative = false)
+
+		public static void RasterizeMeshToTexture3D(CommandBuffer cmd, MixtureMesh mesh, RenderTexture outputVolume, VoxelizeTechnique voxelizeTechnique)
 		{
 			var props = new MaterialPropertyBlock();
 
-			var material = conservative ? rasterize3DMaterialConservative : rasterize3DMaterial;
+			var material = false ? rasterize3DMaterialConservative : rasterize3DMaterial;
 			props.SetVector("_OutputSize", new Vector4(outputVolume.width, 1.0f / (float)outputVolume.width));
 			cmd.SetRandomWriteTarget(2, outputVolume);
-			cmd.GetTemporaryRT(42, (int)outputVolume.width, (int)outputVolume.height, 0);
-			cmd.SetRenderTarget(42);
-			// RenderMesh(Quaternion.Euler(90, 0, 0));
-			// RenderMesh(Quaternion.Euler(0, 90, 0));
-			// RenderMesh(Quaternion.Euler(0, 0, 90));
 
-			GraphicsBuffer meshBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, (int)mesh.mesh.GetIndexCount(0), sizeof(float) * 6);
+			// debug stuff
+			// cmd.GetTemporaryRT(42, (int)outputVolume.width, (int)outputVolume.height, 0);
+			// cmd.SetRenderTarget(42);
 
+			switch (voxelizeTechnique)
+			{
+				case VoxelizeTechnique.Standard:
+					StandardVoxelization(cmd, props, mesh, material);
+					break;
+				case VoxelizeTechnique.SinglePass:
+					SinglePassVoxelization(cmd, props, mesh, material);
+					break;
+				case VoxelizeTechnique.Blending:
+					HardwareBlendingVoxelization(cmd, props, mesh, material, outputVolume);
+					break;
+			}
+			// cmd.ReleaseTemporaryRT(42);
+
+			cmd.ClearRandomWriteTargets();
+		}
+
+		static void StandardVoxelization(CommandBuffer cmd, MaterialPropertyBlock props, MixtureMesh mesh, Material material)
+		{
+			RenderMesh(Quaternion.Euler(90, 0, 0));
+			RenderMesh(Quaternion.Euler(0, 90, 0));
+			RenderMesh(Quaternion.Euler(0, 0, 90));
+
+			void RenderMesh(Quaternion cameraRotation)
+			{
+				var worldToCamera = Matrix4x4.Rotate(cameraRotation);
+				var projection = Matrix4x4.Ortho(-1, 1, -1, 1, -1, 1);
+				var vp = projection * worldToCamera;
+				props.SetMatrix("_CameraMatrix", vp);
+				cmd.DrawMesh(mesh.mesh, mesh.localToWorld, material, 0, shaderPass: 0, props);
+			}
+		}
+
+		static GraphicsBuffer meshBuffer;
+		static void SinglePassVoxelization(CommandBuffer cmd, MaterialPropertyBlock props, MixtureMesh mesh, Material material)
+		{
+			if (meshBuffer == null)
+				meshBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, (int)mesh.mesh.GetIndexCount(0), sizeof(float) * 6);
 			VoxelizePrepass(cmd, meshBuffer, mesh.mesh);
 
 			material.SetBuffer("_OutputVertexPositions", meshBuffer);
@@ -432,18 +468,7 @@ namespace Mixture
 			var vp = projection * worldToCamera;
 			props.SetMatrix("_CameraMatrix", vp);
 
-			cmd.DrawProcedural(mesh.localToWorld, material, 0, MeshTopology.Triangles, meshBuffer.count, 1, props);
-
-			cmd.ClearRandomWriteTargets();
-
-			// void RenderMesh(Quaternion cameraRotation)
-			// {
-			// 	var worldToCamera = Matrix4x4.Rotate(cameraRotation);
-			// 	var projection = Matrix4x4.Ortho(-1, 1, -1, 1, -1, 1);
-			// 	var vp = projection * worldToCamera;
-			// 	props.SetMatrix("_CameraMatrix", vp);
-			// 	cmd.DrawMesh(mesh.mesh, mesh.localToWorld, material, 0, shaderPass: 0, props);
-			// }
+			cmd.DrawProcedural(mesh.localToWorld, material, 1, MeshTopology.Triangles, meshBuffer.count, 1, props);
 		}
 
 		static void VoxelizePrepass(CommandBuffer cmd, GraphicsBuffer vertexPositionBuffer, Mesh mesh)
@@ -469,6 +494,46 @@ namespace Mixture
 			cmd.SetComputeIntParam(voxelizePrepass, "_MeshVertexCount", mesh.vertexCount);
 
 			cmd.DispatchCompute(voxelizePrepass, 0, dispatchSizeX, dispatchSizeY, 1);
+		}
+
+		static void HardwareBlendingVoxelization(CommandBuffer cmd, MaterialPropertyBlock props, MixtureMesh mesh, Material material, RenderTexture volume)
+		{
+			// Calculate world space bounds
+			Bounds worldSpaceBounds = mesh.mesh.bounds;
+			worldSpaceBounds.min = mesh.localToWorld.MultiplyPoint(worldSpaceBounds.min);
+			worldSpaceBounds.max = mesh.localToWorld.MultiplyPoint(worldSpaceBounds.max);
+
+			// Calculate the number of slices hit by the mesh in the 3D texture:
+			float depth = Mathf.Abs(worldSpaceBounds.max.z - worldSpaceBounds.min.z) * volume.width;
+
+			// Workaround for not being able to bind 3D rendertexture that has the enableRandomWrite flag enabled
+			var desc = new RenderTextureDescriptor(volume.width, volume.height, volume.format, 0)
+			{
+				volumeDepth = volume.volumeDepth,
+				dimension = TextureDimension.Tex3D
+			};
+			// Debug.Log(volume.dimension);
+			// Debug.Log(volume.volumeDepth);
+			cmd.GetTemporaryRT(43, desc);
+
+			cmd.BeginSample("Copy Texture3D");
+			for (int slice = 0; slice < volume.volumeDepth; slice++)
+				cmd.CopyTexture(volume, slice, 0, 43, slice, 0);
+			cmd.EndSample("Copy Texture3D");
+
+			cmd.SetRenderTarget(43, 0, CubemapFace.Unknown, -1);
+			Debug.Log((int)depth);
+			props.SetVector("_MinBounds", worldSpaceBounds.min);
+			props.SetVector("_MaxBounds", worldSpaceBounds.max);
+			props.SetMatrix("_LocalToWorld", mesh.localToWorld);
+			cmd.DrawProcedural(mesh.localToWorld, material, 2, MeshTopology.Triangles, 6, (int)depth, props);
+
+			cmd.BeginSample("Copy Texture3D");
+			for (int slice = 0; slice < volume.volumeDepth; slice++)
+				cmd.CopyTexture(43, slice, 0, volume, slice, 0);
+			cmd.EndSample("Copy Texture3D");
+
+			cmd.ReleaseTemporaryRT(43);
 		}
 
 		public static bool IsRealtimeGraph(BaseGraph graph)

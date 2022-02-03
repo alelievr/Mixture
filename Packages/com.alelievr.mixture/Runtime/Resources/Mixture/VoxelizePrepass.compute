@@ -56,7 +56,7 @@ void GenerateVertexPositionBuffer(uint2 id : SV_DispatchThreadID)
     v1 -= c;
     v2 -= c;
 
-    // Comput normal after centering the triangle to avoid cross resulting in 0
+    // Compute normal after centering the triangle to avoid cross resulting in 0
     // TODO: protection for completely flat triangle (will result in NaN in output)
     float3 normal = normalize(cross(v0, v1));
     float3 cameraForward = float3(0, 0, -1);
@@ -64,13 +64,24 @@ void GenerateVertexPositionBuffer(uint2 id : SV_DispatchThreadID)
     // TODO: transform the triangle vertices to face camera.
     float3 d = cross(normal, cameraForward);
     float cosAngle = dot(normal, cameraForward);
-    if (any(d != 0))
+    float a = acos(cosAngle);
+    float3x3 m = rotationMatrix(normalize(d), a);
+    if (abs(a) > 0.001)
     {
-        float3x3 m = rotationMatrix(normalize(d), acos(cosAngle) + 1.5708);
-        v0 = mul(v0, m);
-        v1 = mul(v1, m);
-        v2 = mul(v2, m);
+        v0 = mul(m, v0);
+        v1 = mul(m, v1);
+        v2 = mul(m, v2);
     }
+
+    // Scale triangles to fit minimum size of 1 texel:
+    // TODO: send actual size of the texture or multiply in vertex
+    v0 += normalize(v0) * (1.0 / 128.0);
+    v1 += normalize(v1) * (1.0 / 128.0);
+    v2 += normalize(v2) * (1.0 / 128.0);
+
+    v0 += c;
+    v1 += c;
+    v2 += c;
 
     // Output transformed vertices
     _OutputVertexPositions[indexBufferIndex + 0].vertexPosition = v0;

@@ -4,12 +4,18 @@ using UnityEngine.Rendering;
 
 namespace Mixture
 {
+	public enum VoxelizeTechnique
+	{
+		Standard,
+		SinglePass,
+		Blending,
+	}
+
     [Documentation(@"
 Transform a Mesh into a distance field. The distance field can be either signed or unsigned depending on the mode.
 
 Note that the unsigned distance field is faster to compute.
 ")]
-
 	[System.Serializable, NodeMenuItem("Mesh/Rasterize 3D Mesh")]
 	public class Rasterize3D : ComputeShaderNode
 	{
@@ -19,8 +25,7 @@ Note that the unsigned distance field is faster to compute.
         [Output("Volume")]
         public CustomRenderTexture outputVolume;
 
-		[ShowInInspector, Tooltip("Enable Conservative rasterization when rendering the mesh. It can help to keep small details in the mesh.")]
-        public bool conservativeRaster = false;
+		public VoxelizeTechnique voxelizeTechnique = VoxelizeTechnique.SinglePass;
 
 		public override string	name => "Rasterize Mesh 3D";
 		protected override string computeShaderResourcePath => "Mixture/MeshToSDF";
@@ -57,7 +62,7 @@ Note that the unsigned distance field is faster to compute.
 			cmd.SetComputeTextureParam(computeShader, 0, "_Output", outputVolume);
 			DispatchCompute(cmd, 0, outputVolume.width, outputVolume.height, outputVolume.volumeDepth);
 
-			MixtureUtils.RasterizeMeshToTexture3D(cmd, inputMesh, outputVolume, conservativeRaster);
+			MixtureUtils.RasterizeMeshToTexture3D(cmd, inputMesh, outputVolume, voxelizeTechnique);
 
 			return true;
 		}
