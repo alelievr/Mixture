@@ -188,7 +188,11 @@ The Scale mode divides the height by the `inverse scale` parameter.")]
 			
 			if (savedHeightmap.width != settings.GetResolvedWidth(graph)
 				|| savedHeightmap.height != settings.GetResolvedHeight(graph))
+#if UNITY_2021_2_OR_NEWER
+				savedHeightmap.Reinitialize(settings.GetResolvedWidth(graph), settings.GetResolvedHeight(graph), settings.GetGraphicsFormat(graph), false);
+#else
 				savedHeightmap.Resize(settings.GetResolvedWidth(graph), settings.GetResolvedHeight(graph), settings.GetGraphicsFormat(graph), false);
+#endif
 
             RenderTexture.active = previewHeightmap;
             savedHeightmap.filterMode = settings.GetResolvedFilterMode(graph);
