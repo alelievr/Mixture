@@ -10,10 +10,10 @@ namespace Mixture
 Transform a cubemap into a 2D texture using the LatLong convertion function.
 ")]
 
-    [System.Serializable, NodeMenuItem("Utils/Cube to 2D LatLon")]
+    [System.Serializable, NodeMenuItem("Utils/Cube to 2D LatLong")]
     public class CubeTo2DLatLonNode : FixedShaderNode
     {
-        public override string name => "Cube to 2D LatLon";
+        public override string name => "Cube to 2D LatLong";
 
         public override string shaderName => "Hidden/Mixture/CubeTo2DLatLon";
 
