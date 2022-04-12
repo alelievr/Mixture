@@ -1,0 +1,146 @@
+﻿#pragma kernel Slope
+#pragma kernel Curvature
+#pragma kernel Aspect
+#pragma kernel Normal
+#pragma kernel Landform
+#pragma kernel Residual
+#pragma kernel Preview
+#pragma kernel FillWaterMap
+#pragma kernel OutFlow
+#pragma kernel UpdateWaterMapKernel
+#pragma kernel CalculateVelocityFieldKernel
+#pragma kernel SmoothHeightmap
+RWTexture2D<float4> _Output;
+
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureComputeUtils.hlsl"
+#include "TerrainTopologyUtils.hlsl"
+#include "TerrainCurvatureFunctions.hlsl"
+#include "TerrainLandformFunctions.hlsl"
+#include "TerrainResidualFunctions.hlsl"
+#include "TerrainFlowFunctions.hlsl"
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureSRGB.hlsl"
+
+#pragma multi_compile_local __ CURVATURE_PLAN CURVATURE_HORIZONTAL CURVATURE_VERTICAL CURVATURE_MEAN CURVATURE_GAUSSIAN CURVATURE_MINIMAL CURVATURE_MAXIMAL CURVATURE_UNSPHERICITY CURVATURE_ROTOR CURVATURE_DIFFERENCE CURVATURE_HORIZONTAL_EXCESS CURVATURE_VERTICAL_EXCESS CURVATURE_RING CURVATURE_ACCUMULATION
+#pragma multi_compile_local __ RESIDUAL_ELEVATION RESIDUAL_MEAN RESIDUAL_DIFFERENCE RESIDUAL_STDEV RESIDUAL_DEVIATION RESIDUAL_PERCENTILE
+#pragma multi_compile_local __ LANDFORM_GAUSSIAN LANDFORM_SHAPE_INDEX LANDFORM_ACCUMULATION
+
+#pragma warning(disable : 4000)
+
+
+[numthreads(16, 16, 1)]
+void Slope(uint3 id : SV_DispatchThreadID)
+{
+    float2 d1 = GetFirstDerivative((int)id.x, (int)id.y);
+    float slope = GetSlope(d1.x, d1.y);
+    float4 color = Colorize(slope, 0.4, true);
+    _Output[id.xy] = color;
+}
+
+[numthreads(8, 8, 8)]
+void Curvature(int3 id : SV_DispatchThreadID)
+{
+    _Output[id.xy] = ComputeCurvature(id.xy);
+}
+
+[numthreads(8,8,1)]
+void Aspect(uint3 id : SV_DispatchThreadID)
+{
+    float2 d1 = GetFirstDerivative((int)id.x, (int)id.y);
+    const float aspect = GetAspect(d1.x, d1.y);
+    const float4 color = Colorize(aspect, 0, true);
+    _Output[id.xy] = color;
+}
+
+[numthreads(8,8,1)]
+void Normal(uint3 id : SV_DispatchThreadID)
+{
+    float2 d1 = GetFirstDerivative(int(id.x), int(id.y));
+
+    float4 normal = GetNormal(d1);
+    _Output[id.xy] = normal;
+}
+
+[numthreads(8, 8, 1)]
+void Landform(uint3 id : SV_DispatchThreadID)
+{
+    _Output[id.xy] = GetLandform(id.xy);
+}
+
+[numthreads(8, 8, 1)]
+void Residual(uint3 id : SV_DispatchThreadID)
+{
+    _Output[id.xy] = GetResidual(id.xy);
+}
+
+[numthreads(8, 8, 1)]
+void FillWaterMap(uint3 id : SV_DispatchThreadID)
+{
+    _WaterMap[id.xy] = 0.0001;
+}
+
+[numthreads(8, 8, 1)]
+void OutFlow(uint3 id : SV_DispatchThreadID)
+{
+    ComputeOutFlow((int)id.x, (int)id.y);
+}
+
+[numthreads(8, 8, 1)]
+void UpdateWaterMapKernel(uint3 id : SV_DispatchThreadID)
+{
+    UpdateWaterMap((int)id.x, (int)id.y);
+}
+
+[numthreads(8, 8, 1)]
+void CalculateVelocityFieldKernel(uint3 id : SV_DispatchThreadID)
+{
+    _Output[id.xy] = CalculateVelocityField((int)id.x, (int)id.y);
+}
+
+const float gaussKernel[5][5] =
+{
+    {1, 4, 6, 4, 1},
+    {4, 16, 24, 16, 4},
+    {6, 24, 36, 24, 6},
+    {4, 16, 24, 16, 4},
+    {1, 4, 6, 4, 1},
+};
+#define GAUSS_SCALE 1.0 / 256
+
+[numthreads(8, 8, 1)]
+void SmoothHeightmap(uint3 id : SV_DispatchThreadID)
+{
+    const float gaussKernel[5][5] =
+    {
+        {1, 4, 6, 4, 1},
+        {4, 16, 24, 16, 4},
+        {6, 24, 36, 24, 6},
+        {4, 16, 24, 16, 4},
+        {1, 4, 6, 4, 1},
+    };
+
+
+    float sum = 0.0;
+    //int count = 0;
+    // 5x5 Radius
+    for (int i = -2; i < 3; i++)
+    {
+        for (int j = -2; j < 3; j++)
+        {
+            int x = id.x + i;
+            int y = id.y + j;
+
+            sum += GetNormalizedHeight(x, y) * gaussKernel[j + 2][i + 2] * (1.0 / 256.0);
+        }
+    }
+    _Output[id.xy] = sum;
+}
+
+RWTexture2D<float4> _Preview;
+float4 _PreviewResolution; // xy is the pixel resolution and zw is 1 / xy
+
+[numthreads(8, 8, 1)]
+void Preview(uint3 id : SV_DispatchThreadID)
+{
+    // You can insert custom preview code here
+    _Preview[id.xy] = _Output[id.xy];
+}
