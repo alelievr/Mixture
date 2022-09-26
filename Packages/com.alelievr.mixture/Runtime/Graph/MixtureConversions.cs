@@ -52,6 +52,8 @@ public class MixtureConversions : ITypeAdapter
         {
             case float f: return ConvertFloatToVector4(f);
             case Color c: return ConvertColorToVector4(c);
+            case Vector2 v: return v;
+            case Vector3 v: return v;
             case Vector4 v: return v;
             default: return default(Vector4);
         }

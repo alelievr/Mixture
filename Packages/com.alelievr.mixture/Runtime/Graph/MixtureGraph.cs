@@ -129,6 +129,9 @@ namespace Mixture
 			}
 		}
 
+    public MixtureGraph originalGraph { get; private set; }
+    public bool isCloned => originalGraph != null;
+
 		public event Action		onOutputTextureUpdated;
 		public event Action		afterCommandBufferExecuted;
 
@@ -180,6 +183,19 @@ namespace Mixture
             variants.RemoveAll(v => v == null);
 #endif
 		}
+
+    protected override void OnDisable()
+    {
+      if (isCloned) {
+        _outputTextures.ForEach(CoreUtils.Destroy);
+
+        foreach (var setting in outputNode.outputTextureSettings) {
+          CoreUtils.Destroy(setting.finalCopyMaterial);
+        }
+      }
+
+      base.OnDisable();
+    }
 
         void MigrateGraph()
         {
@@ -1016,6 +1032,30 @@ namespace Mixture
                 {
                 }
             }
+        }
+
+        /// <summary>
+        /// The cloned graph doesn't share ExposedParameter, Texture or Material references with the original graph.
+        /// This ensures the cloned graph process doesn't affect the original graph.
+        /// </summary>
+        public MixtureGraph Clone() {
+          var subgraph = Instantiate(this);
+          subgraph.originalGraph = this;
+          subgraph.exposedParameters = exposedParameters.Select(p => p.Clone()).ToList();
+          subgraph._outputTextures = outputTextures.Select(texture => {
+            var clonedTexture = Instantiate(texture);
+            // Cloned texture has "(clone)" suffix attached to its name.
+            // Preserve the original name because the texture is looked up by name.
+            clonedTexture.name = texture.name;
+            return clonedTexture;
+          }).ToList();
+          subgraph._mainOutputTexture = subgraph._outputTextures[outputTextures.IndexOf(mainOutputTexture)];
+
+          foreach (var setting in subgraph.outputNode.outputTextureSettings) {
+            setting.finalCopyMaterial = Instantiate(setting.finalCopyMaterial);
+          }
+
+          return subgraph;
         }
     }
 }

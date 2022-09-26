@@ -18,14 +18,16 @@ namespace Mixture
 		public override bool showDefaultInspector => true;
 		public override Texture previewTexture => null;
 
+    protected override void Enable()
+    {
+      output = new RenderTexture(1, 1, 0, GraphicsFormat.R16G16B16A16_SFloat, 0);
+    }
+
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
             if (!base.ProcessNode(cmd))
                 return false;
 
-			if (output == null)
-				output = new RenderTexture(1, 1, 0, GraphicsFormat.R16G16B16A16_SFloat, 0);
-			
 			cmd.SetRenderTarget(output);
 			cmd.ClearRenderTarget(false, true, (Color)input, 0);
 
@@ -34,7 +36,7 @@ namespace Mixture
 
         protected override void Disable()
 		{
-			output?.Release();
+			CoreUtils.Destroy(output);
 			base.Disable();
 		}
     }
