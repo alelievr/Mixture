@@ -1,4 +1,3 @@
-#if MIXTURE_SHADERGRAPH
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -64,10 +63,9 @@ namespace Mixture
                 generatesPreview = true,
                 passes = new PassCollection
                 {
-                    { FullscreePasses.CustomRenderTexture },
+                    { FullscreenPasses.CustomRenderTexture },
                 },
             };
         }
     }
 }
-#endif
