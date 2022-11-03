@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEditor;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using Object = UnityEngine.Object;
 using UnityEngine.UIElements;
@@ -104,8 +102,11 @@ namespace Mixture
 		}
 	}
 
-	class MixtureEditor : Editor
+	abstract class MixtureEditor : Editor
 	{
+		// All Unity texture editor types are internal, so we have to look it up by name via reflection.
+		// The editor name can be gotten from https://github.com/Unity-Technologies/UnityCsReference/tree/master/Editor/Mono/Inspector
+		protected abstract string defaultTextureEditorTypeName { get; }
 		protected Editor		defaultTextureEditor;
 		protected Editor		variantEditor;
 		protected MixtureGraph	graph;
@@ -141,36 +142,27 @@ namespace Mixture
 					Debug.LogError("Can't find parent graph for Mixture Variant " + variant);
 				}
 			}
+
+      CreateDefaultTextureEditor();
 		}
 
-		static Dictionary< Type, string > defaultTextureInspectors = new Dictionary< Type, string >()
+		void CreateDefaultTextureEditor()
 		{
-			{ typeof(Texture2D), "UnityEditor.TextureInspector"},
-			{ typeof(Texture3D), "UnityEditor.Texture3DInspector"},
-			{ typeof(Cubemap), "UnityEditor.CubemapInspector"},
-			{ typeof(CustomRenderTexture), "UnityEditor.CustomRenderTextureEditor"},
-			{ typeof(Material), "UnityEditor.MaterialEditor" },
-		};
-
-		protected virtual void LoadInspectorFor(Type typeForEditor, Object[] targets)
-		{
-			string editorTypeName;
-			if (defaultTextureInspectors.TryGetValue(typeForEditor, out editorTypeName))
+			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 			{
-				foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+				var editorType = assembly.GetType(defaultTextureEditorTypeName);
+				if (editorType != null)
 				{
-					var editorType = assembly.GetType(editorTypeName);
-					if (editorType != null)
-					{
-						Editor.CreateCachedEditor(targets, editorType, ref defaultTextureEditor);
+					Editor.CreateCachedEditor(targets, editorType, ref defaultTextureEditor);
 
-						if (variantEditor != null)
-							(variantEditor as MixtureVariantInspector).SetDefaultTextureEditor(defaultTextureEditor);
+					if (variantEditor != null)
+						(variantEditor as MixtureVariantInspector).SetDefaultTextureEditor(defaultTextureEditor);
 
-						return ;
-					}
+					return;
 				}
 			}
+
+			throw new Exception($"Cannot load default texture editor: {defaultTextureEditorTypeName}");
 		}
 
 		protected virtual void OnDisable()
@@ -192,7 +184,7 @@ namespace Mixture
 
 		// This block of functions allow us to use the default behavior of the texture inspector instead of re-writing
 		// the preview / static icon code for each texture type, we use the one from the default texture inspector.
-		Editor GetPreviewEditor() => variantEditor ?? defaultTextureEditor ?? this;
+		Editor GetPreviewEditor() => variantEditor ?? defaultTextureEditor;
 		public override string GetInfoString() => GetPreviewEditor().GetInfoString();
 		public override void ReloadPreviewInstances() => GetPreviewEditor().ReloadPreviewInstances();
 		public override bool RequiresConstantRepaint() => GetPreviewEditor().RequiresConstantRepaint();
@@ -393,16 +385,14 @@ namespace Mixture
 	[CustomEditor(typeof(Texture2D), false)]
 	class MixtureInspectorTexture2D : MixtureEditor
 	{
-		protected override void OnEnable()
-		{
-			base.OnEnable();
-			LoadInspectorFor(typeof(Texture2D), targets);
-		}
+		protected override string defaultTextureEditorTypeName => "UnityEditor.TextureInspector";
 	}
 
 	[CustomEditor(typeof(Texture2DArray), false)]
 	class MixtureInspectorTexture2DArray : MixtureEditor
 	{
+		protected override string defaultTextureEditorTypeName => "UnityEditor.Texture2DArrayInspector";
+
 		Texture2DArray	array;
 		int				slice;
 
@@ -439,11 +429,12 @@ namespace Mixture
 		Texture3D	volume;
 		int			slice = 0;
 
+		protected override string defaultTextureEditorTypeName => "UnityEditor.Texture3DInspector";
+
 		protected override void OnEnable()
 		{
 			base.OnEnable();
 			volume = target as Texture3D;
-			LoadInspectorFor(typeof(Texture3D), targets);
 		}
 
         public override void OnInspectorGUI()
@@ -474,11 +465,12 @@ namespace Mixture
 		Cubemap		cubemap;
 		int			slice;
 
+		protected override string defaultTextureEditorTypeName => "UnityEditor.CubemapInspector";
+
 		protected override void OnEnable()
 		{
 			base.OnEnable();
 			cubemap = target as Cubemap;
-			LoadInspectorFor(typeof(Cubemap), targets);
 		}
 	}
 	
@@ -488,10 +480,11 @@ namespace Mixture
 		CustomRenderTexture	crt;
 		bool				isMixture;
 
+		protected override string defaultTextureEditorTypeName => "UnityEditor.CustomRenderTextureEditor";
+
 		protected override void OnEnable()
 		{
 			base.OnEnable();
-			base.LoadInspectorFor(typeof(CustomRenderTexture), targets);
 			crt = target as CustomRenderTexture;
 
 			ReloadPreviewInstances();
