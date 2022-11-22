@@ -1,4 +1,9 @@
+#if MIXTURE_SHADERGRAPH
 using System;
+using System.Linq;
+using UnityEditor.Graphing;
+using UnityEditor.ShaderGraph.Drawing.Controls;
+using UnityEngine;
 using UnityEditor.ShaderGraph;
 using UnityEditor.ShaderGraph.Legacy;
 
@@ -20,3 +25,4 @@ namespace Mixture
         public const int ColorSlotId = 0;
     }
 }
+#endif

@@ -1,3 +1,4 @@
+#if MIXTURE_SHADERGRAPH
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -218,7 +219,7 @@ namespace Mixture
         public override bool WorksWithSRP(RenderPipelineAsset scriptableRenderPipeline) => true; 
     }
 
-    static class FullscreenPasses
+    static class FullscreePasses
     {
         public static PassDescriptor CustomRenderTexture = new PassDescriptor
         {
@@ -308,3 +309,4 @@ namespace Mixture
 
     }
 }
+#endif
