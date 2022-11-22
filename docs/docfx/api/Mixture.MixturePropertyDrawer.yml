@@ -28,7 +28,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
     startLine: 9
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: 'public class MixturePropertyDrawer : MaterialPropertyDrawer'
@@ -77,7 +77,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
     startLine: 19
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: public static void RegisterEditor(MaterialEditor editor, MixtureNodeView nodeView, MixtureGraph graph)
@@ -116,7 +116,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
     startLine: 24
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: public static void UnregisterGraph(MixtureGraph graph)
@@ -151,7 +151,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
     startLine: 33
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: protected MixtureGraph GetGraph(MaterialEditor editor)
@@ -186,7 +186,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
     startLine: 34
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: protected MixtureNodeView GetNodeView(MaterialEditor editor)
@@ -221,7 +221,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
     startLine: 36
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: public override sealed void OnGUI(Rect position, MaterialProperty prop, string label, MaterialEditor editor)
@@ -265,7 +265,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
     startLine: 51
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: public override float GetPropertyHeight(MaterialProperty prop, string label, MaterialEditor editor)
@@ -307,7 +307,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/MaterialPropertyDrawers/MixturePropertyDrawer.cs
     startLine: 59
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: protected virtual void DrawerGUI(Rect position, MaterialProperty prop, string label, MaterialEditor editor, MixtureGraph graph, MixtureNodeView nodeView)

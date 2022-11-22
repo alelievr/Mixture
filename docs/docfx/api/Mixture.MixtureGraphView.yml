@@ -30,7 +30,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
     startLine: 11
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: 'public class MixtureGraphView : BaseGraphView, IEventHandler, ITransform, ITransitionAnimations, IExperimentalFeatures, IVisualElementScheduler, IResolvedStyle, ISelection, IDisposable'
@@ -382,7 +382,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
     startLine: 14
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: public MixtureGraphProcessor processor { get; }
@@ -417,7 +417,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
     startLine: 15
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: public MixtureGraph graph { get; }
@@ -452,7 +452,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
     startLine: 17
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: public MixtureNodeInspectorObject mixtureNodeInspector { get; }
@@ -487,7 +487,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
     startLine: 19
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: public MixtureGraphView(EditorWindow window)
@@ -520,7 +520,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
     startLine: 28
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -560,7 +560,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
     startLine: 74
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: protected override NodeInspectorObject CreateNodeInspectorObject()
@@ -595,7 +595,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
     startLine: 83
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -631,7 +631,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
     startLine: 164
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: public void ProcessGraph()
@@ -661,7 +661,7 @@ items:
     path: ../../Packages/com.alelievr.mixture/Editor/Graph/MixtureGraphView.cs
     startLine: 231
   assemblies:
-  - Unity.ShaderGraph.GraphicsTests
+  - com.alelievr.Mixture.Editor
   namespace: Mixture
   syntax:
     content: public void CreateNodeOfType(Type type, Vector2 position)
