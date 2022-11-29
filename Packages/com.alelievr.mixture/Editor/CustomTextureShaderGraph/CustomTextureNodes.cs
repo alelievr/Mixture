@@ -1,3 +1,4 @@
+#if MIXTURE_SHADERGRAPH
 using UnityEngine;
 using UnityEditor.ShaderGraph;
 using UnityEditor.Graphing;
@@ -243,3 +244,4 @@ namespace Mixture
             => NeededCoordinateSpace.World;
     }
 }
+#endif
