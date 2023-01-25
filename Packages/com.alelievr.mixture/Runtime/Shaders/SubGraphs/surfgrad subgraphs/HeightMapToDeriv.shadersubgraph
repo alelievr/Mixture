@@ -1,5 +1,5 @@
 {
-    "m_SGVersion": 2,
+    "m_SGVersion": 3,
     "m_Type": "UnityEditor.ShaderGraph.GraphData",
     "m_ObjectId": "d2014786343242c0806228ca22b85c47",
     "m_Properties": [
@@ -20,6 +20,12 @@
         }
     ],
     "m_Keywords": [],
+    "m_Dropdowns": [],
+    "m_CategoryData": [
+        {
+            "m_Id": "088f9c3a880e4bcb8c49ddff6ce86be3"
+        }
+    ],
     "m_Nodes": [
         {
             "m_Id": "616acae22e724cc38d80886aa550b156"
@@ -266,10 +272,11 @@
         "serializedMesh": {
             "m_SerializedMesh": "{\"mesh\":{\"instanceID\":0}}",
             "m_Guid": ""
-        }
+        },
+        "preventRotation": false
     },
     "m_Path": "Misc Utils",
-    "m_ConcretePrecision": 0,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": "ae34fe99410e4d23ba9b00aa64e0068c"
@@ -288,6 +295,30 @@
     "m_ShaderOutputName": "samp",
     "m_StageCapability": 3,
     "m_BareResource": true
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "088f9c3a880e4bcb8c49ddff6ce86be3",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "7de8cdf7df37495799227d6aa3c1df07"
+        },
+        {
+            "m_Id": "41637c985b3c4d6fa0ef99c9cb9aeb17"
+        },
+        {
+            "m_Id": "c2da0085bc8e4821a13781b09800a24d"
+        },
+        {
+            "m_Id": "3883e225934747c3985cadf8f8ca332d"
+        },
+        {
+            "m_Id": "62d5cd0eaecb494abbfe8e804495a22d"
+        }
+    ]
 }
 
 {
@@ -344,6 +375,7 @@
     "synonyms": [],
     "m_Precision": 0,
     "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -412,6 +444,7 @@
     "synonyms": [],
     "m_Precision": 0,
     "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -555,6 +588,7 @@
     "synonyms": [],
     "m_Precision": 0,
     "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -572,9 +606,14 @@
         "m_GuidSerialized": "8bbcb587-cc16-4733-a853-b983486b86aa"
     },
     "m_Name": "Bump Scale",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_69A73678",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -697,6 +736,7 @@
     "synonyms": [],
     "m_Precision": 0,
     "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -704,27 +744,33 @@
     "m_SourceType": 1,
     "m_FunctionName": "smoothDeriv",
     "m_FunctionSource": "",
-    "m_FunctionBody": "#ifdef SHADERGRAPH_PREVIEW\r\n\tfloat lod = 0;\n#else\r\n\tfloat lod = hmap.CalculateLevelOfDetail(samp, texST);\r\n#endif\r\n\r\n\tuint2 dimension;\r\n\thmap.GetDimensions(dimension.x, dimension.y);\r\n\tfloat2 onePixOffs = float2(1.0/dimension.x, 1.0/dimension.y);\r\n\r\n\tfloat eoffs = exp2(lod);\r\n\tfloat2 actualOffs = onePixOffs*eoffs;\r\n\r\n\tfloat2 st_c = texST;\r\n\tfloat2 st_r = st_c+float2(actualOffs.x, 0.0);\r\n\tfloat2 st_u = st_c+float2(0.0, actualOffs.y);\r\n\r\n\tfloat Hr = hmap.Sample(samp, st_r).x;\r\n\tfloat Hu = hmap.Sample(samp, st_u).x;\r\n\tfloat Hc = hmap.Sample(samp, st_c).x;\r\n\r\n\tfloat2 dHduv = float2(Hr-Hc, Hu-Hc)/eoffs;\r\n\r\n\n\n#ifdef SHADERGRAPH_PREVIEW\n#else\r\n\tfloat start = 0.5;\t\t// smooth upscale fades in\r\n\tfloat end = 0.05;\t\t// 100% smooth method\r\n\t\r\n\tfloat mix = saturate( (lod-start) / (end - start) );\r\n\t\r\n\tif(isUpscaleHQ && mix>0.0)\r\n\t{\r\n\t\tfloat2 f2TexCoord = dimension*texST-float2(0.5,0.5);\r\n\t\tfloat2 f2FlTexCoord = floor(f2TexCoord);\r\n\t\tfloat2 t = saturate(f2TexCoord - f2FlTexCoord);\r\n\r\n\t\tconst float4 vSamplesUL = hmap.Gather( samp, (f2FlTexCoord+float2(-1.0,-1.0) + float2(0.5,0.5))/dimension );\r\n\t\tconst float4 vSamplesUR = hmap.Gather( samp, (f2FlTexCoord+float2(1.0,-1.0) + float2(0.5,0.5))/dimension );\r\n\t\tconst float4 vSamplesLL = hmap.Gather( samp, (f2FlTexCoord+float2(-1.0,1.0) + float2(0.5,0.5))/dimension );\r\n\t\tconst float4 vSamplesLR = hmap.Gather( samp, (f2FlTexCoord+float2(1.0,1.0) + float2(0.5,0.5))/dimension );\r\n\t\t\r\n\t\t// scanlines are given in the horizontal direction. For instance float4(UL.wz, UR.wz) represents a scanline\r\n\t\tfloat4x4 H = {  vSamplesUL.w, vSamplesUL.z, vSamplesUR.w, vSamplesUR.z,\r\n\t\t\t\t\t\tvSamplesUL.x, vSamplesUL.y, vSamplesUR.x, vSamplesUR.y,\r\n\t\t\t\t\t\tvSamplesLL.w, vSamplesLL.z, vSamplesLR.w, vSamplesLR.z,\r\n\t\t\t\t\t\tvSamplesLL.x, vSamplesLL.y, vSamplesLR.x, vSamplesLR.y };\r\n\n\n\t\tfloat2 A = float2((1.0-t.x), t.x);\r\n\t\tfloat2 B = float2((1.0-t.y), t.y);\r\n\r\n\t\t//float4x2 diffMat = 0.5 * float4x2( float2(-1.0, 0.0), float2(0.0, -1.0), float2(1.0, 0.0), float2(0.0, 1.0) );\r\n\t\t//float2x4 blurMat = 0.25 * float2x4( float4(1.0, 2.0, 1.0, 0.0), float4(0.0, 1.0, 2.0, 1.0) );\r\n\t\t//float2x2 matdHdu = mul(blurMat, mul( H, diffMat));\r\n\t\t//float2x2 matdHdv = mul(blurMat, mul( transpose(H), diffMat));\r\n\t\t//float2 dHduv = float2( dot(B, mul( matdHdu, A)), dot(A, mul( matdHdv, B)) );\r\n\r\n\t\tfloat4 X = 0.25*float4(A.x, 2*A.x+A.y, A.x+2*A.y, A.y);\t\t\t\t//\tmul(A, blurMat);\r\n\t\tfloat4 Y = 0.25*float4(B.x, 2*B.x+B.y, B.x+2*B.y, B.y);\t\t\t\t//\tmul(B, blurMat);\r\n\t\tfloat4 dX = 0.5*float4(-A.x, -A.y, A.x, A.y);\t\t\t\t\t\t//  mul(diffMat, A);\r\n\t\tfloat4 dY = 0.5*float4(-B.x, -B.y, B.x, B.y);\t\t\t\t\t\t//  mul(diffMat, B);\r\n\r\n\t\tfloat2 dHduv_smooth = float2( dot(Y, mul(H, dX)), dot(dY, mul(H, X)) );\n\n\t\tdHduv = lerp(dHduv, dHduv_smooth, mix);\r\n\t}\n#endif\t\n\n\tderiv = dHduv;"
+    "m_FunctionBody": "#pragma target 4.5\n\n#ifdef SHADERGRAPH_PREVIEW\r\n\tfloat lod = 0;\n#else\r\n\tfloat lod = hmap.CalculateLevelOfDetail(samp, texST);\r\n#endif\r\n\r\n\tuint2 dimension;\r\n\thmap.GetDimensions(dimension.x, dimension.y);\r\n\tfloat2 onePixOffs = float2(1.0/dimension.x, 1.0/dimension.y);\r\n\r\n\tfloat eoffs = exp2(lod);\r\n\tfloat2 actualOffs = onePixOffs*eoffs;\r\n\r\n\tfloat2 st_c = texST;\r\n\tfloat2 st_r = st_c+float2(actualOffs.x, 0.0);\r\n\tfloat2 st_u = st_c+float2(0.0, actualOffs.y);\r\n\r\n\tfloat Hr = hmap.Sample(samp, st_r).x;\r\n\tfloat Hu = hmap.Sample(samp, st_u).x;\r\n\tfloat Hc = hmap.Sample(samp, st_c).x;\r\n\r\n\tfloat2 dHduv = float2(Hr-Hc, Hu-Hc)/eoffs;\r\n\r\n\n\n#ifdef SHADERGRAPH_PREVIEW\n#else\r\n\tfloat start = 0.5;\t\t// smooth upscale fades in\r\n\tfloat end = 0.05;\t\t// 100% smooth method\r\n\t\r\n\tfloat mix = saturate( (lod-start) / (end - start) );\r\n\t\r\n\tif(isUpscaleHQ && mix>0.0)\r\n\t{\r\n\t\tfloat2 f2TexCoord = dimension*texST-float2(0.5,0.5);\r\n\t\tfloat2 f2FlTexCoord = floor(f2TexCoord);\r\n\t\tfloat2 t = saturate(f2TexCoord - f2FlTexCoord);\r\n\r\n\t\tconst float4 vSamplesUL = hmap.Gather( samp, (f2FlTexCoord+float2(-1.0,-1.0) + float2(0.5,0.5))/dimension );\r\n\t\tconst float4 vSamplesUR = hmap.Gather( samp, (f2FlTexCoord+float2(1.0,-1.0) + float2(0.5,0.5))/dimension );\r\n\t\tconst float4 vSamplesLL = hmap.Gather( samp, (f2FlTexCoord+float2(-1.0,1.0) + float2(0.5,0.5))/dimension );\r\n\t\tconst float4 vSamplesLR = hmap.Gather( samp, (f2FlTexCoord+float2(1.0,1.0) + float2(0.5,0.5))/dimension );\r\n\t\t\r\n\t\t// scanlines are given in the horizontal direction. For instance float4(UL.wz, UR.wz) represents a scanline\r\n\t\tfloat4x4 H = {  vSamplesUL.w, vSamplesUL.z, vSamplesUR.w, vSamplesUR.z,\r\n\t\t\t\t\t\tvSamplesUL.x, vSamplesUL.y, vSamplesUR.x, vSamplesUR.y,\r\n\t\t\t\t\t\tvSamplesLL.w, vSamplesLL.z, vSamplesLR.w, vSamplesLR.z,\r\n\t\t\t\t\t\tvSamplesLL.x, vSamplesLL.y, vSamplesLR.x, vSamplesLR.y };\r\n\n\n\t\tfloat2 A = float2((1.0-t.x), t.x);\r\n\t\tfloat2 B = float2((1.0-t.y), t.y);\r\n\r\n\t\t//float4x2 diffMat = 0.5 * float4x2( float2(-1.0, 0.0), float2(0.0, -1.0), float2(1.0, 0.0), float2(0.0, 1.0) );\r\n\t\t//float2x4 blurMat = 0.25 * float2x4( float4(1.0, 2.0, 1.0, 0.0), float4(0.0, 1.0, 2.0, 1.0) );\r\n\t\t//float2x2 matdHdu = mul(blurMat, mul( H, diffMat));\r\n\t\t//float2x2 matdHdv = mul(blurMat, mul( transpose(H), diffMat));\r\n\t\t//float2 dHduv = float2( dot(B, mul( matdHdu, A)), dot(A, mul( matdHdv, B)) );\r\n\r\n\t\tfloat4 X = 0.25*float4(A.x, 2*A.x+A.y, A.x+2*A.y, A.y);\t\t\t\t//\tmul(A, blurMat);\r\n\t\tfloat4 Y = 0.25*float4(B.x, 2*B.x+B.y, B.x+2*B.y, B.y);\t\t\t\t//\tmul(B, blurMat);\r\n\t\tfloat4 dX = 0.5*float4(-A.x, -A.y, A.x, A.y);\t\t\t\t\t\t//  mul(diffMat, A);\r\n\t\tfloat4 dY = 0.5*float4(-B.x, -B.y, B.x, B.y);\t\t\t\t\t\t//  mul(diffMat, B);\r\n\r\n\t\tfloat2 dHduv_smooth = float2( dot(Y, mul(H, dX)), dot(dY, mul(H, X)) );\n\n\t\tdHduv = lerp(dHduv, dHduv_smooth, mix);\r\n\t}\n#endif\t\n\n\tderiv = dHduv;"
 }
 
 {
-    "m_SGVersion": 0,
+    "m_SGVersion": 1,
     "m_Type": "UnityEditor.ShaderGraph.SamplerStateShaderProperty",
     "m_ObjectId": "41637c985b3c4d6fa0ef99c9cb9aeb17",
     "m_Guid": {
         "m_GuidSerialized": "8911fa15-2cf4-4688-aa1f-feb572ebcf15"
     },
     "m_Name": "SamplerState",
-    "m_DefaultReferenceName": "",
-    "m_OverrideReferenceName": "SamplerState_Trilinear_Repeat",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
+    "m_DefaultReferenceName": "SamplerState_41637c985b3c4d6fa0ef99c9cb9aeb17",
+    "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
         "m_filter": 2,
-        "m_wrap": 0
+        "m_wrap": 0,
+        "m_anisotropic": 0
     }
 }
 
@@ -798,6 +844,7 @@
     "synonyms": [],
     "m_Precision": 0,
     "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -896,6 +943,7 @@
     "synonyms": [],
     "m_Precision": 0,
     "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -910,9 +958,14 @@
         "m_GuidSerialized": "7c83c2d6-71e1-497f-9987-59fb56340a47"
     },
     "m_Name": "upscale HQ",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Boolean_C3CE8264",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -979,9 +1032,14 @@
         "m_GuidSerialized": "e579849d-c180-4451-8073-778c28e59092"
     },
     "m_Name": "Height Map",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Texture2D_63FC87EE",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -990,6 +1048,8 @@
         "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
         "m_Guid": ""
     },
+    "isMainTexture": false,
+    "useTilingAndOffset": false,
     "m_Modifiable": true,
     "m_DefaultType": 0
 }
@@ -1043,6 +1103,7 @@
     "synonyms": [],
     "m_Precision": 0,
     "m_PreviewExpanded": false,
+    "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -1115,6 +1176,7 @@
     "synonyms": [],
     "m_Precision": 0,
     "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -1148,6 +1210,7 @@
     "synonyms": [],
     "m_Precision": 0,
     "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -1247,6 +1310,7 @@
     "synonyms": [],
     "m_Precision": 0,
     "m_PreviewExpanded": false,
+    "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -1279,6 +1343,7 @@
     "synonyms": [],
     "m_Precision": 0,
     "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -1340,9 +1405,14 @@
         "m_GuidSerialized": "d81ca47b-cf57-4ee9-85bc-dc0906a0c5eb"
     },
     "m_Name": "st",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector2_63281F45",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -1419,6 +1489,7 @@
     "synonyms": [],
     "m_Precision": 0,
     "m_PreviewExpanded": false,
+    "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
