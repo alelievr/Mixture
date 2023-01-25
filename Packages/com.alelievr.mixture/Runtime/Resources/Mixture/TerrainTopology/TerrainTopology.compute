@@ -36,7 +36,7 @@ void Slope(uint3 id : SV_DispatchThreadID)
     _Output[id.xy] = color;
 }
 
-[numthreads(8, 8, 8)]
+[numthreads(8, 8, 1)]
 void Curvature(int3 id : SV_DispatchThreadID)
 {
     _Output[id.xy] = ComputeCurvature(id.xy);

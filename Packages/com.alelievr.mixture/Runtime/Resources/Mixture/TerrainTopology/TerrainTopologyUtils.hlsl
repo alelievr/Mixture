@@ -16,14 +16,6 @@ Texture2D<float4> _NegGradient;
 #define PI 3.141592653589793
 #define Deg2Rag 180.0 / PI
 
-
-float SafeSqrt(float v)
-{
-    if (v <= 0.0f)
-        return 0.0f;
-    return sqrt(v);
-}
-
 float2 GetUV(uint2 index)
 {
     return float2(index) / float2(_Heightmap.Length.xy);
