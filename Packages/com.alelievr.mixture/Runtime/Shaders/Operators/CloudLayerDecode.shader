@@ -31,7 +31,7 @@ Shader "Hidden/Mixture/CloudLayerDecode"
 			{
 				float2 uv = DirectionToLatLongCoordinate(i.direction);
 				if (_UpperHemisphereOnly)
-					uv.y = Remap(uv.y, 0, 1, -1, 1);
+					uv.y = MixtureRemap(uv.y, 0, 1, -1, 1);
 
 				if (uv.y < 0)
 					return 0;

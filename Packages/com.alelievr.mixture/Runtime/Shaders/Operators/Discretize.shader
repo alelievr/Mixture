@@ -40,11 +40,11 @@ Shader "Hidden/Mixture/Discretize"
 				float4 value = SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction);
 
 				// reamp value
-				value = Remap(value, _Min, _Max, 0, 1);
+				value = MixtureRemap(value, _Min, _Max, 0, 1);
 				// Postirize
 				value = round(value * _StepCount) / _StepCount;
 				
-				return Remap(value, 0, 1, _Min, _Max);
+				return MixtureRemap(value, 0, 1, _Min, _Max);
 			}
 			ENDHLSL
 		}

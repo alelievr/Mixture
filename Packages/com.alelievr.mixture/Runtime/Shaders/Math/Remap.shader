@@ -30,7 +30,7 @@
 
 			float _Mode;
 			
-			float4 Remap(float4 sourceValue, uint mode)
+			float4 MixtureRemap(float4 sourceValue, uint mode)
 			{
 				float3 hsv = RGBtoHSV(sourceValue.xyz);
 
@@ -73,7 +73,7 @@
 			float4 mixture (v2f_customrendertexture i) : SV_Target
 			{
 				float4 input = SAMPLE_X(_Input, i.localTexcoord.xyz, i.direction);
-				return Remap(input, _Mode);
+				return MixtureRemap(input, _Mode);
 			}
 			ENDHLSL
 		}

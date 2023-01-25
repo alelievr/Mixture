@@ -234,15 +234,15 @@ float2 functionName(float2 a, float2 b, float2 c, float2 d, float2 e) { body; } 
 float3 functionName(float3 a, float3 b, float3 c, float3 d, float3 e) { body; } \
 float4 functionName(float4 a, float4 b, float4 c, float4 d, float4 e) { body; }
 
-float4 Remap(float4 i, float4 inputMin, float4 inputMax, float4 outputMin, float4 outputMax) { return outputMin + (i - inputMin) * (outputMax - outputMin) / (inputMax - inputMin); }
-float3 Remap(float3 i, float3 inputMin, float3 inputMax, float3 outputMin, float3 outputMax) { return outputMin + (i - inputMin) * (outputMax - outputMin) / (inputMax - inputMin); }
-float2 Remap(float2 i, float2 inputMin, float2 inputMax, float2 outputMin, float2 outputMax) { return outputMin + (i - inputMin) * (outputMax - outputMin) / (inputMax - inputMin); }
-float Remap(float i, float inputMin, float inputMax, float outputMin, float outputMax) { return outputMin + (i - inputMin) * (outputMax - outputMin) / (inputMax - inputMin); }
+float4 MixtureRemap(float4 i, float4 inputMin, float4 inputMax, float4 outputMin, float4 outputMax) { return outputMin + (i - inputMin) * (outputMax - outputMin) / (inputMax - inputMin); }
+float3 MixtureRemap(float3 i, float3 inputMin, float3 inputMax, float3 outputMin, float3 outputMax) { return outputMin + (i - inputMin) * (outputMax - outputMin) / (inputMax - inputMin); }
+float2 MixtureRemap(float2 i, float2 inputMin, float2 inputMax, float2 outputMin, float2 outputMax) { return outputMin + (i - inputMin) * (outputMax - outputMin) / (inputMax - inputMin); }
+float MixtureRemap(float i, float inputMin, float inputMax, float outputMin, float outputMax) { return outputMin + (i - inputMin) * (outputMax - outputMin) / (inputMax - inputMin); }
 
 // Clamp function that can invert min and max if min is greater than max
 TEMPLATE_FLT_3(SmartClamp, x, a, b, if (any(a > b))	Swap(b, a); return clamp(x, a, b); )
 
-TEMPLATE_FLT_5(RemapClamp, i, inputMin, intputMax, outputMin, outputMax, return SmartClamp(Remap(i, inputMin, intputMax, outputMin, outputMax), outputMin, outputMax))
+TEMPLATE_FLT_5(RemapClamp, i, inputMin, intputMax, outputMin, outputMax, return SmartClamp(MixtureRemap(i, inputMin, intputMax, outputMin, outputMax), outputMin, outputMax))
 
 float3 ScaleBias(float3 uv, float3 scale, float3 bias)
 {

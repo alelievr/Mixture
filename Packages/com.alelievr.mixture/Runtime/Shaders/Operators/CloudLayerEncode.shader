@@ -31,7 +31,7 @@ Shader "Hidden/Mixture/CloudLayerEncode"
 				float2 uv = i.localTexcoord.xy;
 
 				if (_UpperHemisphereOnly)
-					uv.y = Remap(uv.y, 0, 1, 0.5, 1);
+					uv.y = MixtureRemap(uv.y, 0, 1, 0.5, 1);
 
 				float3 dir = LatlongToDirectionCoordinate(uv);
 				return _Source.SampleLevel(sampler_Source, dir, 0);

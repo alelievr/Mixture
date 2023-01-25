@@ -51,7 +51,7 @@
 				float4 noise = GeneratePerlin3DNoise(uvs, _Frequency, _Octaves, _Persistance, _Lacunarity, _Seed).r;
 #endif
 
-				return Remap(noise, 0, 1, _OutputRange.x, _OutputRange.y);
+				return MixtureRemap(noise, 0, 1, _OutputRange.x, _OutputRange.y);
 			}
 			ENDHLSL
 		}

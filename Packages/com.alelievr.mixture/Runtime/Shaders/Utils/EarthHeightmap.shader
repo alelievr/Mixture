@@ -47,7 +47,7 @@ Shader "Hidden/Mixture/EarthHeightmap"
 					case 0: // raw:
 						return height;
 					case 1: // remap:
-						return Remap(height, _MinHeight, _MaxHeight, _RemapMin, _RemapMax);
+						return MixtureRemap(height, _MinHeight, _MaxHeight, _RemapMin, _RemapMax);
 					case 2: // Scale:
 						return height * _Scale;
 				}
