@@ -1,6 +1,6 @@
 #if MIXTURE_EXPERIMENTAL
 using UnityEngine;
-using UnityEditor.UIElements;
+
 using GraphProcessor;
 
 namespace Mixture
@@ -23,11 +23,11 @@ namespace Mixture
 
 		public override void Enable(bool fromInspector)
 		{
-			var indexField = new IntegerField { label = "index", value = foreachNode.index };
+			var indexField = new UnityEngine.UIElements.IntegerField { label = "index", value = foreachNode.index };
 			foreachNode.onProcessed += () => indexField.SetValueWithoutNotify(foreachNode.index);
 			controlsContainer.Add(indexField);
 
-			var countField = new IntegerField { label = "count", value = foreachNode.count };
+			var countField = new UnityEngine.UIElements.IntegerField { label = "count", value = foreachNode.count };
 			foreachNode.onProcessed += () => countField.SetValueWithoutNotify(foreachNode.count);
 			controlsContainer.Add(countField);
 		}
