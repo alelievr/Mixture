@@ -8,6 +8,7 @@ using UnityEngine.Experimental.Rendering;
 using System;
 using Object = UnityEngine.Object;
 using UnityEngine.Serialization;
+using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -596,7 +597,8 @@ namespace Mixture
                             throw new NotImplementedException($"File type not handled : '{external.externalFileType}'");
                     }
 
-                    assetPath = EditorUtility.SaveFilePanelInProject("Save Texture", external.name, extension, "Save Texture");
+
+                    assetPath = EditorUtility.SaveFilePanelInProject("Save Texture", external.name, extension, "Save Texture", Path.GetDirectoryName(external.graph.mainAssetPath));
 
                     if (string.IsNullOrEmpty(assetPath))
                     {
