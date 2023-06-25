@@ -632,6 +632,21 @@ namespace Mixture
                 }
                 else if (dimension == TextureDimension.Tex2D)
                 {
+                    // Pre-process (fill alpha with 1s when export alpha is false)
+                    if(!external.exportAlpha)
+                    {
+                        var pixels = (outputTexture as Texture2D).GetPixels();
+                        for(int i = 0; i< pixels.Length; i++)
+                        {
+                            var c = pixels[i];
+                            c.a = 1f;
+                            pixels[i] = c;
+                        }
+                        (outputTexture as Texture2D).SetPixels(pixels);
+                        (outputTexture as Texture2D).Apply();
+                    }
+
+
                     byte[] contents = null;
 
                     if (external.externalFileType == ExternalOutputNode.ExternalFileType.EXR)
