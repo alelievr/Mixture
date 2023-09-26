@@ -8,6 +8,7 @@ using UnityEngine.Experimental.Rendering;
 using System;
 using Object = UnityEngine.Object;
 using UnityEngine.Serialization;
+using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -596,7 +597,8 @@ namespace Mixture
                             throw new NotImplementedException($"File type not handled : '{external.externalFileType}'");
                     }
 
-                    assetPath = EditorUtility.SaveFilePanelInProject("Save Texture", external.name, extension, "Save Texture");
+
+                    assetPath = EditorUtility.SaveFilePanelInProject("Save Texture", external.name, extension, "Save Texture", Path.GetDirectoryName(external.graph.mainAssetPath));
 
                     if (string.IsNullOrEmpty(assetPath))
                     {
@@ -630,6 +632,21 @@ namespace Mixture
                 }
                 else if (dimension == TextureDimension.Tex2D)
                 {
+                    // Pre-process (fill alpha with 1s when export alpha is false)
+                    if(!external.exportAlpha)
+                    {
+                        var pixels = (outputTexture as Texture2D).GetPixels();
+                        for(int i = 0; i< pixels.Length; i++)
+                        {
+                            var c = pixels[i];
+                            c.a = 1f;
+                            pixels[i] = c;
+                        }
+                        (outputTexture as Texture2D).SetPixels(pixels);
+                        (outputTexture as Texture2D).Apply();
+                    }
+
+
                     byte[] contents = null;
 
                     if (external.externalFileType == ExternalOutputNode.ExternalFileType.EXR)

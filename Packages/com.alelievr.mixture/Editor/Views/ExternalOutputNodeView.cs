@@ -33,7 +33,7 @@ namespace Mixture
             var externalOutputNode = nodeTarget as ExternalOutputNode;
             var nodeSettings = new IMGUIContainer(() =>
             {
-                if(externalOutputNode.asset == null)
+                if (externalOutputNode.asset == null)
                 {
                     EditorGUILayout.HelpBox("This output has not been saved yet, please click Save As to save the output texture.", MessageType.Info);
                 }
@@ -48,7 +48,7 @@ namespace Mixture
                 if (EditorGUI.EndChangeCheck())
                 {
                     externalOutputNode.externalOutputDimension = (ExternalOutputNode.ExternalOutputDimension)outputDimension;
-                    switch(outputDimension)
+                    switch (outputDimension)
                     {
                         case ExternalOutputNode.ExternalOutputDimension.Texture2D:
                             externalOutputNode.settings.dimension = OutputDimension.Texture2D;
@@ -78,7 +78,7 @@ namespace Mixture
                 {
                     EditorGUI.BeginChangeCheck();
                     var outputType = EditorGUILayout.EnumPopup("Type", externalOutputNode.external2DOoutputType);
-                    if(EditorGUI.EndChangeCheck())
+                    if (EditorGUI.EndChangeCheck())
                     {
                         externalOutputNode.external2DOoutputType = (ExternalOutputNode.External2DOutputType)outputType;
                         MarkDirtyRepaint();
@@ -105,12 +105,15 @@ namespace Mixture
                     }
                 }
 
-                EditorGUI.BeginChangeCheck();
-                var exportAlpha = EditorGUILayout.Toggle("Export Alpha", externalOutputNode.exportAlpha);
-                if (EditorGUI.EndChangeCheck())
+                if (externalOutputNode.externalOutputDimension == ExternalOutputNode.ExternalOutputDimension.Texture2D)
                 {
-                    externalOutputNode.exportAlpha = exportAlpha;
-                    MarkDirtyRepaint();
+                    EditorGUI.BeginChangeCheck();
+                    var exportAlpha = EditorGUILayout.Toggle("Export Alpha", externalOutputNode.exportAlpha);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        externalOutputNode.exportAlpha = exportAlpha;
+                        MarkDirtyRepaint();
+                    }
                 }
 
                 externalOutputNode.previewSRGB =
