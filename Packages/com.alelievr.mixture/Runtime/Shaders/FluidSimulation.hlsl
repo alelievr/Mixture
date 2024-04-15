@@ -289,22 +289,15 @@ void Divergence(int3 id, int3 size, Texture3D<float3> velocity, Texture3D<float>
 
 void Divergence(int2 id, int2 size, Texture2D<float2> velocity, Texture2D<float> obstacles, RWTexture2D<float> divergence)
 {
- //    int2 idxL, idxR, idxB, idxT;
- //    ComputeNeighbourPositions(id, size, idxL, idxR, idxB, idxT);
- //    
-	// float2 L = velocity[ idxL ];
- //    float2 R = velocity[ idxR ];
- //    
- //    float2 B = velocity[ idxB ];
- //    float2 T = velocity[ idxT ];
-
-    for (int x = -1; x <= 1; x++)
-        for (int y = -1; y <= 1; y++)
-        {
-            int2 coord = CalculateBorderCoord(id + int2(x, y));
-            float vel = velocity[coord];
-        }
+    int2 idxL, idxR, idxB, idxT;
+    ComputeNeighbourPositions(id, size, idxL, idxR, idxB, idxT);
     
+	float2 L = velocity[ idxL ];
+    float2 R = velocity[ idxR ];
+    
+    float2 B = velocity[ idxB ];
+    float2 T = velocity[ idxT ];
+
     float2 obstacleVelocity = float2(0,0);
     
     if(obstacles[idxL] > 0.1) L = obstacleVelocity;
@@ -334,7 +327,7 @@ static float pressureKernelWeights[PRESSURE_KERNEL_LENGTH + 1] =
 
 void Pressure(int2 id, int2 size, Texture2D<float> pressureR, Texture2D<float> obstacles, Texture2D<float> divergence, RWTexture2D<float> pressureW)
 {
-#if 1 // This is not working
+#if 1
 
     // int2 direction = int2(1, 0);
     float result = 0;
@@ -343,14 +336,13 @@ void Pressure(int2 id, int2 size, Texture2D<float> pressureR, Texture2D<float> o
     {
         for (int y = -PRESSURE_KERNEL_LENGTH; y <= PRESSURE_KERNEL_LENGTH; y++)
         {
-            float weight = -(pressureKernelWeights[abs(x)] * pressureKernelWeights[abs(y)]);
+            float weight = -pressureKernelWeights[abs(x)] * pressureKernelWeights[abs(y)];
             int2 fetchId = CalculateBorderCoord(id + int2(x, y));
 
             result += weight * divergence[fetchId];
         }
     }
 
-    // Supposed to be 1
     pressureW[id] = result;
 
 #else // this is working
