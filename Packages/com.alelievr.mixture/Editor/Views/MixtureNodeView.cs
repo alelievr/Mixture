@@ -596,8 +596,6 @@ namespace Mixture
 
 		protected virtual void DrawImGUIPreview(MixtureNode node, Rect previewRect, float currentSlice)
 		{
-			var outputNode = node as OutputNode;
-
 			switch (node.previewTexture.dimension)
 			{
 				case TextureDimension.Tex2D:

@@ -1,8 +1,7 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
-using System.Linq;
 using UnityEngine.Rendering;
 
 namespace Mixture
@@ -45,7 +44,7 @@ Smooth is only in alpha
 		[Input]
 		public Texture input;
 
-		[Output]
+		[Output, NonSerialized]
 		public CustomRenderTexture output;
 
 		[Tooltip("Output mode of the distance, by default a blend with the distance is performed")]
