@@ -10,7 +10,7 @@ public class RenderPipelineSwitcher : MonoBehaviour
 
     void Update()
     {
-        if (GraphicsSettings.renderPipelineAsset != renderPipeline)
-            GraphicsSettings.renderPipelineAsset = renderPipeline;
+        if (GraphicsSettings.defaultRenderPipeline != renderPipeline)
+            GraphicsSettings.defaultRenderPipeline = renderPipeline;
     }
 }

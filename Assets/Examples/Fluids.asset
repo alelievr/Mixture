@@ -2,20 +2,25 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &-4468193069962868948
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hidden/Mixture/FinalCopy
   m_Shader: {fileID: 4800000, guid: 513c040fbfb854aebb92cf147e30125a, type: 3}
-  m_ShaderKeywords: CRT_2D
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - CRT_2D
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -31,25 +36,32 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!21 &-4357314531034264938
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hidden/Mixture/Div
   m_Shader: {fileID: 4800000, guid: 4b76f30bb1f73674fb0e97f97cc0234d, type: 3}
-  m_ShaderKeywords: CRT_2D
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - CRT_2D
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -77,26 +89,34 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats: []
     m_Colors:
     - _Value: {r: 100, g: 100, b: 100, a: 100}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!21 &-2993937090771000496
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hidden/Mixture/Blend
   m_Shader: {fileID: 4800000, guid: 5d69ff00d9a32944ea012824393d489a, type: 3}
-  m_ShaderKeywords: CRT_2D _REMOVENEGATIVE_ON
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - CRT_2D
+  m_InvalidKeywords:
+  - _REMOVENEGATIVE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -136,6 +156,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _BlendMode: 24
     - _MaskMode: 4
@@ -143,6 +164,7 @@ Material:
     - _RemoveNegative: 1
     m_Colors: []
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -157,20 +179,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes: []
   nodes:
-  - id: 0
-  - id: 1
-  - id: 2
-  - id: 3
-  - id: 4
-  - id: 5
-  - id: 6
-  - id: 7
-  - id: 8
-  - id: 9
-  - id: 10
-  - id: 11
-  - id: 12
-  - id: 13
+  - rid: 0
+  - rid: 1
+  - rid: 2
+  - rid: 3
+  - rid: 4
+  - rid: 5
+  - rid: 6
+  - rid: 7
+  - rid: 8
+  - rid: 9
+  - rid: 10
+  - rid: 11
+  - rid: 12
+  - rid: 13
   edges:
   - GUID: 09d9952c-e751-4311-8aeb-29bc9d0deb8e
     owner: {fileID: 11400000}
@@ -328,8 +350,9 @@ MonoBehaviour:
     refreshMode: 2
     period: 17
   references:
-    version: 1
-    00000000:
+    version: 2
+    RefIds:
+    - rid: 0
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -401,7 +424,7 @@ MonoBehaviour:
           sRGB: 1
           finalCopyMaterial: {fileID: -4468193069962868948}
         _selectedPreviewIndex: 0
-    00000001:
+    - rid: 1
       type: {class: Fluid2DNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -489,7 +512,7 @@ MonoBehaviour:
         - {fileID: 0}
         temp3f: {fileID: 0}
         obstacles: {fileID: 0}
-    00000002:
+    - rid: 2
       type: {class: Fire2DNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -588,7 +611,7 @@ MonoBehaviour:
         - {fileID: 0}
         temp3f: {fileID: 0}
         obstacles: {fileID: 0}
-    00000003:
+    - rid: 3
       type: {class: RectanglesNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -683,7 +706,7 @@ MonoBehaviour:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
         shaderGUID: 92d8c97c0c0de6a41a986ea9d3291139
-    00000004:
+    - rid: 4
       type: {class: VectorField, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -807,7 +830,7 @@ MonoBehaviour:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
         shaderGUID: 288be71b6cdc21a4d9739f4474251e02
-    00000005:
+    - rid: 5
       type: {class: BlendNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -914,7 +937,7 @@ MonoBehaviour:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
         shaderGUID: 5d69ff00d9a32944ea012824393d489a
-    00000006:
+    - rid: 6
       type: {class: Cylinder, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -1021,7 +1044,7 @@ MonoBehaviour:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
         shaderGUID: 61a122264e36ddb4d84d00749f676ba2
-    00000007:
+    - rid: 7
       type: {class: RemapNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -1103,7 +1126,7 @@ MonoBehaviour:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
         shaderGUID: 4c38089cecadf714bbabc313d575804d
-    00000008:
+    - rid: 8
       type: {class: GradientNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -1190,9 +1213,10 @@ MonoBehaviour:
           atime6: 0
           atime7: 0
           m_Mode: 0
+          m_ColorSpace: -1
           m_NumColorKeys: 2
           m_NumAlphaKeys: 3
-    00000009:
+    - rid: 9
       type: {class: GradientNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -1279,9 +1303,10 @@ MonoBehaviour:
           atime6: 0
           atime7: 0
           m_Mode: 0
+          m_ColorSpace: -1
           m_NumColorKeys: 2
           m_NumAlphaKeys: 3
-    0000000A:
+    - rid: 10
       type: {class: FloatNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -1341,7 +1366,7 @@ MonoBehaviour:
         previewSlice: 0
         isPinned: 0
         Float: 100
-    0000000B:
+    - rid: 11
       type: {class: RemapNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -1423,7 +1448,7 @@ MonoBehaviour:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
         shaderGUID: 4c38089cecadf714bbabc313d575804d
-    0000000C:
+    - rid: 12
       type: {class: DivNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -1505,7 +1530,7 @@ MonoBehaviour:
             serializedType: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0,
               Culture=neutral, PublicKeyToken=null
         shaderGUID: 4b76f30bb1f73674fb0e97f97cc0234d
-    0000000D:
+    - rid: 13
       type: {class: PreviewNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -1676,22 +1701,22 @@ CustomRenderTexture:
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
   m_IsAlphaChannelOptional: 0
-  serializedVersion: 3
+  serializedVersion: 6
   m_Width: 1024
   m_Height: 1024
   m_AntiAliasing: 1
   m_MipCount: -1
-  m_DepthFormat: 0
+  m_DepthStencilFormat: 0
   m_ColorFormat: 48
   m_MipMap: 0
   m_GenerateMips: 0
   m_SRGB: 0
   m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
   m_BindMS: 0
   m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
   m_TextureSettings:
     serializedVersion: 2
     m_FilterMode: 0
@@ -1702,6 +1727,7 @@ CustomRenderTexture:
     m_WrapW: 0
   m_Dimension: 2
   m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
   m_Material: {fileID: -4468193069962868948}
   m_InitSource: 0
   m_InitMaterial: {fileID: 0}
@@ -1719,20 +1745,25 @@ CustomRenderTexture:
   m_WrapUpdateZones: 0
 --- !u!21 &1874547363554978982
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hidden/Mixture/Remap
   m_Shader: {fileID: 4800000, guid: 4c38089cecadf714bbabc313d575804d, type: 3}
-  m_ShaderKeywords: CRT_2D
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - CRT_2D
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -1752,26 +1783,33 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _Mode: 0
     m_Colors: []
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!21 &2064802844650763031
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hidden/Mixture/Remap
   m_Shader: {fileID: 4800000, guid: 4c38089cecadf714bbabc313d575804d, type: 3}
-  m_ShaderKeywords: CRT_2D
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - CRT_2D
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -1791,26 +1829,33 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _Mode: 0
     m_Colors: []
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!21 &4711184602544013371
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hidden/Mixture/VectorField
   m_Shader: {fileID: 4800000, guid: 288be71b6cdc21a4d9739f4474251e02, type: 3}
-  m_ShaderKeywords: CRT_2D
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - CRT_2D
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -1826,6 +1871,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _Frequency: 6
     - _Mode: 2
@@ -1838,9 +1884,10 @@ Material:
     - _Direction: {r: 1, g: 0, b: 0, a: 0}
     - _ScrollDirection: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!21 &5468414058970427946
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1848,13 +1895,18 @@ Material:
   m_Name: Hidden/Mixture/Cylinder
   m_Shader: {fileID: -6465566751694194690, guid: 61a122264e36ddb4d84d00749f676ba2,
     type: 3}
-  m_ShaderKeywords: CRT_2D
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - CRT_2D
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -1870,6 +1922,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - Vector1_557fe2158c17440fa91cf546c074fa13: 0.1
     - _Radius: 0.07
@@ -1881,22 +1934,28 @@ Material:
     - _Offset: {r: -0.39, g: 0, b: 0, a: 0}
     - _Scale: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!21 &5797609162157966656
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hidden/Mixture/PreviewNode
   m_Shader: {fileID: 4800000, guid: f53ca163880a74a4cb8940c1893f071f, type: 3}
-  m_ShaderKeywords: CRT_2D
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - CRT_2D
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -1912,6 +1971,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _ArrowCount: 9.187
     - _ArrowSize: 1
@@ -1929,9 +1989,10 @@ Material:
     - _ColorMin: {r: 0, g: 0, b: 0, a: 0}
     - _LightPosition: {r: 0, g: 0, b: 0.2, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!21 &9064464849671383943
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1939,13 +2000,18 @@ Material:
   m_Name: Hidden/Mixture/Rectangles
   m_Shader: {fileID: -6465566751694194690, guid: 92d8c97c0c0de6a41a986ea9d3291139,
     type: 3}
-  m_ShaderKeywords: CRT_2D
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - CRT_2D
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -1961,6 +2027,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - Vector1_80b6ea8c66f74c7b90cdad44939e757c: 0.49
     m_Colors:
@@ -1970,3 +2037,4 @@ Material:
     - Vector3_90ab8e0cfccc42ff933ee0f553788f88: {r: 0.4, g: 0.1, b: 0.1, a: 0}
     - Vector3_a3491b511b994ab49f51ac18605b5339: {r: 8, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
