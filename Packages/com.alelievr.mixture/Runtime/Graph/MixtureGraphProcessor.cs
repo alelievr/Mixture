@@ -306,16 +306,19 @@ namespace Mixture
 
 		public override void Run()
 		{
+			var cmd = CommandBufferPool.Get("Mixture: " + graph.name);
+			Run(cmd);
+			Graphics.ExecuteCommandBuffer(cmd);
+			graph.InvokeCommandBufferExecuted();
+		}
+
+		public void Run(CommandBuffer cmd)
+		{
 			using (new ProcessingScope(this))
 			{
 				UpdateComputeOrder();
 
-				var cmd = CommandBufferPool.Get("Mixture: " + graph.name);
 				ProcessGraphOutputs(cmd, graph.graphOutputs);
-
-				Graphics.ExecuteCommandBuffer(cmd);
-
-				graph.InvokeCommandBufferExecuted();
 			}
 		}
 

@@ -103,7 +103,7 @@ More information here: https://docs.unity3d.com/ScriptReference/ParticleSystem.h
                 passIndex = 4; // by default the Particle Unlit color pass is the 4th
 
             mesh.Clear();
-            renderer.BakeMesh(mesh, true);
+            renderer.BakeMesh(mesh, ParticleSystemBakeMeshOptions.BakeRotationAndScale | ParticleSystemBakeMeshOptions.BakePosition);
             cmd.SetViewMatrix(Matrix4x4.identity); // We can't apply any rotation otherwise the particle billboard won't follow :/ 
             cmd.SetProjectionMatrix(Matrix4x4.Ortho(-1, 1, -1, 1, -1, 1));
             cmd.DrawMesh(mesh, Matrix4x4.identity, renderer.sharedMaterial, 0, passIndex);

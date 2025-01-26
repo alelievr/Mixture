@@ -2,20 +2,26 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &-6286007035632309462
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hidden/Mixture/RidgedPerlinNoise
   m_Shader: {fileID: 4800000, guid: 49eed0c8b6dca3949a7864570e424043, type: 3}
-  m_ShaderKeywords: CRT_2D _TILINGMODE_TILED
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - CRT_2D
+  - _TILINGMODE_TILED
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -31,34 +37,41 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _Channels: 0
     - _Frequency: 3
     - _Lacunarity: 2
     - _Octaves: 4
-    - _Persistance: 0.019984186
+    - _Persistance: 0.20522058
     - _Seed: 42
     - _TilingMode: 1
     - _UVMode: 0
     m_Colors:
     - _OutputRange: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!21 &-5711246096604925849
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hidden/Mixture/FinalCopy
   m_Shader: {fileID: 4800000, guid: 513c040fbfb854aebb92cf147e30125a, type: 3}
-  m_ShaderKeywords: CRT_2D
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - CRT_2D
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -74,9 +87,11 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!86 &-5453263755918737541
 CustomRenderTexture:
   m_ObjectHideFlags: 3
@@ -87,32 +102,33 @@ CustomRenderTexture:
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
   m_IsAlphaChannelOptional: 0
-  serializedVersion: 3
+  serializedVersion: 6
   m_Width: 512
   m_Height: 512
   m_AntiAliasing: 1
   m_MipCount: -1
-  m_DepthFormat: 2
+  m_DepthStencilFormat: 92
   m_ColorFormat: 48
   m_MipMap: 0
   m_GenerateMips: 0
   m_SRGB: 0
   m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
   m_BindMS: 0
   m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
   m_TextureSettings:
     serializedVersion: 2
     m_FilterMode: 0
-    m_Aniso: 1
+    m_Aniso: 0
     m_MipBias: 0
     m_WrapU: 0
     m_WrapV: 0
     m_WrapW: 0
   m_Dimension: 2
   m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
   m_Material: {fileID: 7450754376728729919}
   m_InitSource: 0
   m_InitMaterial: {fileID: 0}
@@ -142,10 +158,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes: []
   nodes:
-  - id: 0
-  - id: 1
-  - id: 2
-  - id: 3
+  - rid: 0
+  - rid: 1
+  - rid: 2
+  - rid: 3
   edges:
   - GUID: a036f0bd-ea59-43a6-849e-214a768ed5a4
     owner: {fileID: 11400000}
@@ -223,11 +239,12 @@ MonoBehaviour:
     doubleBuffered: 0
     wrapMode: 0
     filterMode: 0
-    refreshMode: 2
-    period: 17
+    refreshMode: 1
+    period: 1
   references:
-    version: 1
-    00000000:
+    version: 2
+    RefIds:
+    - rid: 0
       type: {class: OutputNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -299,7 +316,7 @@ MonoBehaviour:
           sRGB: 1
           finalCopyMaterial: {fileID: -5711246096604925849}
         _selectedPreviewIndex: 0
-    00000001:
+    - rid: 1
       type: {class: RidgedPerlinNoise, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -424,7 +441,7 @@ MonoBehaviour:
             serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
               PublicKeyToken=b77a5c561934e089
         shaderGUID: 49eed0c8b6dca3949a7864570e424043
-    00000002:
+    - rid: 2
       type: {class: TimeNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -483,7 +500,7 @@ MonoBehaviour:
         previewEV100: 0
         previewSlice: 0
         isPinned: 0
-    00000003:
+    - rid: 3
       type: {class: VectorRemapNode, ns: Mixture, asm: Mixture.Runtime}
       data:
         nodeCustomName: 
@@ -542,8 +559,8 @@ MonoBehaviour:
         previewEV100: 0
         previewSlice: 0
         isPinned: 0
-        a: {x: -0.9429023, y: -0.9429023, z: -0.9429023, w: -0.9429023}
-        o: {x: 0.019984186, y: 0.019984186, z: 0.019984186, w: 0.019984186}
+        a: {x: -0.41365546, y: -0.41365546, z: -0.41365546, w: -0.41365546}
+        o: {x: 0.20522058, y: 0.20522058, z: 0.20522058, w: 0.20522058}
         inputMin: -1
         inputMax: 1
         outputMin: 0
@@ -558,22 +575,22 @@ CustomRenderTexture:
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
   m_IsAlphaChannelOptional: 0
-  serializedVersion: 3
+  serializedVersion: 6
   m_Width: 256
   m_Height: 256
   m_AntiAliasing: 1
   m_MipCount: -1
-  m_DepthFormat: 0
+  m_DepthStencilFormat: 0
   m_ColorFormat: 48
   m_MipMap: 0
   m_GenerateMips: 0
   m_SRGB: 0
   m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
   m_BindMS: 0
   m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
   m_TextureSettings:
     serializedVersion: 2
     m_FilterMode: 1
@@ -584,6 +601,7 @@ CustomRenderTexture:
     m_WrapW: 0
   m_Dimension: 2
   m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
   m_Material: {fileID: -5711246096604925849}
   m_InitSource: 0
   m_InitMaterial: {fileID: 0}
@@ -594,27 +612,31 @@ CustomRenderTexture:
   m_UpdateZoneSpace: 0
   m_CurrentUpdateZoneSpace: 0
   m_UpdateZones: []
-  m_UpdatePeriod: 0.017
+  m_UpdatePeriod: 0
   m_ShaderPass: 0
   m_CubemapFaceMask: 4294967295
   m_DoubleBuffered: 0
   m_WrapUpdateZones: 0
 --- !u!21 &7450754376728729919
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hidden/Mixture/FinalCopy
   m_Shader: {fileID: 4800000, guid: 513c040fbfb854aebb92cf147e30125a, type: 3}
-  m_ShaderKeywords: 
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -630,6 +652,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

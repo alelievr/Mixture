@@ -23,13 +23,13 @@ namespace Mixture
 
 		public override void Enable(bool fromInspector)
 		{
-			var indexField = new UnityEngine.UIElements.IntegerField { label = "index", value = foreachNode.index };
-			foreachNode.onProcessed += () => indexField.SetValueWithoutNotify(foreachNode.index);
-			controlsContainer.Add(indexField);
+			// var indexField = new UnityEngine.UIElements.IntegerField { label = "index", value = foreachNode.index };
+			// foreachNode.onProcessed += () => indexField.SetValueWithoutNotify(foreachNode.index);
+			// controlsContainer.Add(indexField);
 
-			var countField = new UnityEngine.UIElements.IntegerField { label = "count", value = foreachNode.count };
-			foreachNode.onProcessed += () => countField.SetValueWithoutNotify(foreachNode.count);
-			controlsContainer.Add(countField);
+			// var countField = new UnityEngine.UIElements.IntegerField { label = "count", value = foreachNode.count };
+			// foreachNode.onProcessed += () => countField.SetValueWithoutNotify(foreachNode.count);
+			// controlsContainer.Add(countField);
 		}
 	}
 }

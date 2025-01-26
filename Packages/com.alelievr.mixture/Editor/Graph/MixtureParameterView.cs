@@ -38,6 +38,7 @@ namespace Mixture
 			yield return typeof(MeshParameter);
 			yield return typeof(StringParameter);
 			yield return typeof(ComputeBufferParameter);
+			yield return typeof(RenderPipelineTextureParameter);
         }
 
 		protected override void UpdateParameterList()

@@ -74,7 +74,7 @@ public static class CustomTextureManager
     static double updateEditorTime = 0;
     static void UpdateCRTsEditor()
     {
-        float updateTimeMillis = 1.0f / Screen.currentResolution.refreshRate;
+        float updateTimeMillis = 1.0f / (float)Screen.currentResolution.refreshRateRatio.value;
         if (updateEditorTime > Time.realtimeSinceStartupAsDouble)
             updateEditorTime = 0;
         if (Time.realtimeSinceStartupAsDouble - updateEditorTime < updateTimeMillis && updateEditorTime > 0)

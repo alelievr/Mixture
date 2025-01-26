@@ -64,7 +64,9 @@
 		return 0;
 		// TODO
 #else
-		return Luminance(SAMPLE_X(_Source, uvs + direction * rcpSize * _Step, float3(0, 0, 0)).rgb);
+		float3 uv = uvs + direction * rcpSize * _Step;
+		uv = saturate(uv); // Avoid sampling outside the texture in case the viewport is smaller than the texture
+		return Luminance(SAMPLE_X(_Source, uv, float3(0, 0, 0)).rgb);
 #endif
 	}
 
