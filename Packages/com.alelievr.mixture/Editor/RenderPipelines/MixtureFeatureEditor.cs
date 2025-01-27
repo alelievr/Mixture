@@ -29,13 +29,14 @@ public class MixtureFeatureEditor : ScriptableRendererFeatureEditor
 
         serializedObject.ApplyModifiedProperties();
         
+        var rect = EditorGUILayout.GetControlRect(true);
         foreach (var p in graph.exposedParameters)
         {
             if (p.settings.isHidden)
                 continue;
 
-            var rect = EditorGUILayout.GetControlRect(true);
-            MixtureRenderPipelineEditorUtils.DrawExposedParameter(p, rect);
+            if (MixtureRenderPipelineEditorUtils.DrawExposedParameter(p, rect))
+                rect = EditorGUILayout.GetControlRect(true);
         }
         
         serializedObject.Update();
