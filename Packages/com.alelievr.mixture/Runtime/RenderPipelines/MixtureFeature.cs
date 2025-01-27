@@ -65,6 +65,10 @@ public class MixtureFeature : ScriptableRendererFeature
                 }
             }
 
+            RenderTexture outputRT = data.outputTarget;
+            data.graph.settings.width = outputRT.width;
+            data.graph.settings.height = outputRT.height;
+
             CommandBuffer cmd = wrappedCmd.GetValue(context.cmd) as CommandBuffer;
             data.processor.Run(cmd);
 
@@ -161,7 +165,7 @@ public class MixtureFeature : ScriptableRendererFeature
         pass = new CustomRenderPass(settings);
 
         // Configures where the render pass should be injected.
-        pass.renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
+        pass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
         runningFeatures.Add(this);
     }
 
