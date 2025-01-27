@@ -1,4 +1,5 @@
-﻿using Mixture;
+﻿#if MIXTURE_URP
+using Mixture;
 using UnityEditor;
 using UnityEditor.Rendering.Universal;
 using UnityEngine;
@@ -42,3 +43,4 @@ public class MixtureFeatureEditor : ScriptableRendererFeatureEditor
         serializedObject.Update();
     }
 }
+#endif

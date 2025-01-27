@@ -1,11 +1,10 @@
+#if MIXTURE_HDRP
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
-using UnityEngine.Experimental.Rendering;
 using Mixture;
 using System.Collections.Generic;
 using System;
-using UnityEngine.Experimental.Playables;
 
 class MixturePass : CustomPass
 {
@@ -107,3 +106,4 @@ class MixturePass : CustomPass
             p.temporaryRTs.ForEach(rt => RenderTexture.ReleaseTemporary(rt));
     }
 }
+#endif

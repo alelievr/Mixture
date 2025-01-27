@@ -1,3 +1,4 @@
+#if MIXTURE_HDRP
 using UnityEngine;
 using UnityEditor.Rendering.HighDefinition;
 using UnityEditor;
@@ -49,3 +50,4 @@ class MixturePassDrawer : CustomPassDrawer
         return lh * (paramCount + 1);
     }
 }
+#endif

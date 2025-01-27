@@ -1,3 +1,4 @@
+#if MIXTURE_URP
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -197,3 +198,4 @@ public class MixtureFeature : ScriptableRendererFeature
         base.Dispose(disposing);
     }
 }
+#endif
