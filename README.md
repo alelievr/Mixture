@@ -14,9 +14,11 @@ Mixture is a powerful node-based tool crafted in unity to generate all kinds of 
 
 ## Installation
 
-The current version is compatible with Unity 2022.2, for older versions you can use previous releases.
+The current version is compatible with Unity 6000.0, for older versions you can use previous releases.
 
 <details><summary>Instructions</summary>
+
+### Via OpenUPM
 
 Mixture is available on the [OpenUPM](https://openupm.com/packages/com.alelievr.mixture/) package registry, to install it in your project, follow the instructions below.
 
@@ -36,6 +38,11 @@ Scope(s): com.alelievr
 :warning: If you don't see `My Registries` in the dropdown for some reason, click on the `+` icon in the top left corner of the package manager window and select `Add package from Git URL`, then paste `com.alelievr.mixture` and click `Add`.
 
 Note that sometimes, the package manager can be slow to update the list of available packages. In that case, you can force it by clicking the circular arrow button at the bottom of the package list.
+
+### Via git directly
+
+In the Unity package manager, add a new package from git URL and paste `https://github.com/alelievr/Mixture.git?path=/Packages/com.alelievr.mixture`.  
+This will install the latest version of Mixture available on Github, be aware that it may not be compatible with the current version of Unity you're using.
 
 </details>
 
