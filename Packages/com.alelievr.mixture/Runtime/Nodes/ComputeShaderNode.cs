@@ -116,17 +116,14 @@ namespace Mixture
 		{
 			computeShader.GetKernelThreadGroupSizes(kernelIndex, out uint x, out uint y, out uint z);
 
-			if (width % x != 0 || height % y != 0 || depth % z != 0)
-				Debug.LogError("DispatchCompute size must be a multiple of the kernel group thread size defined in the computeShader shader");
-
 			// Bind the preview texture as well in case users write to it
 			cmd.SetComputeTextureParam(compute, kernelIndex, previewTexturePropertyName, previewTexture);
 			cmd.SetComputeVectorParam(compute, previewResolutionId, new Vector4(previewTexture.width, previewTexture.height, 1.0f / previewTexture.width, 1.0f / previewTexture.height));
 
 			cmd.DispatchCompute(computeShader, kernelIndex,
-				Mathf.Max(1, width / (int)x),
-				Mathf.Max(1, height / (int)y),
-				Mathf.Max(1, depth / (int)z)
+				Mathf.Max(1, CoreUtils.DivRoundUp(width, (int)x)),
+				Mathf.Max(1, CoreUtils.DivRoundUp(height, (int)y)),
+				Mathf.Max(1, CoreUtils.DivRoundUp(depth, (int)z))
 			);
 		}
 
