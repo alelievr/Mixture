@@ -27,7 +27,7 @@ namespace Mixture
 
         public virtual bool DoSmoothPass => false;
         //public float terrainHeight;
-        [Output("Output")] public CustomRenderTexture output;
+        [Output("Output"), NonSerialized] public CustomRenderTexture output;
 
         [HideInInspector] public Texture2D m_gradient;
         [HideInInspector] public Texture2D m_posGradient;
