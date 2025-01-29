@@ -253,7 +253,7 @@ namespace Mixture
                 previewMaterial.SetFloat("_ComparisonEnabled", mixtureInspector.compareEnabled ? 1 : 0);
                 previewMaterial.SetFloat("_CompareMode", (int)mixtureInspector.compareMode);
                 previewMaterial.SetFloat("_PreviewMip", mixtureInspector.mipLevel);
-                previewMaterial.SetFloat("_YRatio", previewRect.height / previewRect.width);
+                previewMaterial.SetFloat("_YRatio", (previewRect.height / previewRect.width) / (mixtureInspector.firstLockedPreviewTarget.previewTexture.height / (float)mixtureInspector.firstLockedPreviewTarget.previewTexture.width));
                 previewMaterial.SetFloat("_Zoom", mixtureInspector.zoom);
                 previewMaterial.SetVector("_Pan", mixtureInspector.shaderPos / previewRect.size);
                 previewMaterial.SetFloat("_FilterMode", (int)mixtureInspector.filterMode);
