@@ -8,8 +8,8 @@
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 #include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureComputeUtils.hlsl"
 
-float2 _Size;
-float _InputScaleFactor;
+float3 _Size;
+float3 _InputScaleFactor;
 
 TEXTURE_X(_Input);
 RWTEXTURE_X(float4, _Output);
@@ -48,7 +48,7 @@ void FillUVMap(uint3 id : SV_DispatchThreadID)
     float4 input = LoadInput(id);
 
     if (PassThreshold(input))
-        WriteOutput(id, float4(id / _Size.x, 1));
+        WriteOutput(id, float4(id / _Size, 1));
     else
         WriteOutput(id, 0); // mark UV as invalid with w = 0
     
@@ -130,17 +130,17 @@ void JumpFlooding(uint3 id : SV_DispatchThreadID)
         float3 o = id + (Is2D() ? float3(offset2D[i], 0) * _Offset : offset3D[i] * _Offset);
 
         // Make the fetch repeat:
-        o %= _Size.x;
+        o %= _Size;
         o.x += (o.x < 0) ? _Size.x : 0;
-        o.y += (o.y < 0) ? _Size.x : 0;
-        o.z += (o.z < 0) ? _Size.x : 0;
+        o.y += (o.y < 0) ? _Size.y : 0;
+        o.z += (o.z < 0) ? _Size.z : 0;
         float4 n1 = LoadOutput(o);
 
         // Discard invalid samples
         if (n1.w < 0.5)
             continue;
 
-        float3 uv = id / _Size.x;
+        float3 uv = id / _Size;
         if (Distance(uv - n1.xyz) < Distance(uv - nearest.xyz))
             nearest = n1;
     }
@@ -152,7 +152,7 @@ void JumpFlooding(uint3 id : SV_DispatchThreadID)
 void FinalPass(uint3 id : SV_DispatchThreadID)
 {
     float4 input = LoadInput(id);
-    float3 defaultUV = id / _Size.x;
+    float3 defaultUV = id / _Size;
     float3 uv = defaultUV;
     float fadeFactor = 1;
     float4 uvValue = LoadOutput(id);

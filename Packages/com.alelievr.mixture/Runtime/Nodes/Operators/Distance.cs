@@ -106,7 +106,7 @@ Smooth is only in alpha
 			UpdateTempRenderTexture(ref output);
 
 			cmd.SetComputeFloatParam(computeShader, "_Threshold", threshold);
-			cmd.SetComputeVectorParam(computeShader, "_Size", new Vector4(output.width, 1.0f / output.width));
+			cmd.SetComputeVectorParam(computeShader, "_Size", new Vector4(output.width, output.height, output.volumeDepth));
 			cmd.SetComputeFloatParam(computeShader, "_Distance", distance / 100.0f);
 			cmd.SetComputeIntParam(computeShader, "_ThresholdMode", (int)thresholdMode);
 			cmd.SetComputeIntParam(computeShader, "_DistanceMode", (int)distanceMode);
@@ -128,7 +128,7 @@ Smooth is only in alpha
 			MixtureUtils.SetTextureWithDimension(cmd, computeShader, fillUvKernel, "_Output", output);
 			MixtureUtils.SetTextureWithDimension(cmd, computeShader, fillUvKernel, "_FinalOutput", rt);
 			cmd.SetComputeIntParam(computeShader, "_DistanceMode", (int)distanceMode);
-			cmd.SetComputeFloatParam(computeShader, "_InputScaleFactor", (float)input.width / (float)output.width);
+			cmd.SetComputeVectorParam(computeShader, "_InputScaleFactor", new Vector3(input.width / (float)output.width, input.height / (float)output.height, TextureUtils.GetSliceCount(input) / (float)TextureUtils.GetSliceCount(output)));
 			DispatchCompute(cmd, fillUvKernel, output.width, output.height, output.volumeDepth);
 
 			int maxLevels = (int)Mathf.Log(input.width, 2);
@@ -144,7 +144,8 @@ Smooth is only in alpha
 				TextureUtils.CopyTexture(cmd, rt, output);
 			}
 
-			cmd.SetComputeFloatParam(computeShader, "_InputScaleFactor", (float)input.width / (float)output.width);
+			
+			cmd.SetComputeVectorParam(computeShader, "_InputScaleFactor", new Vector3(input.width / (float)output.width, input.height / (float)output.height, TextureUtils.GetSliceCount(input) / (float)TextureUtils.GetSliceCount(output)));
 			cmd.SetComputeIntParam(computeShader, "_DistanceMode", (int)distanceMode);
 			MixtureUtils.SetTextureWithDimension(cmd, computeShader, finalPassKernel, "_Input", input);
 			MixtureUtils.SetTextureWithDimension(cmd, computeShader, finalPassKernel, "_Output", rt);
