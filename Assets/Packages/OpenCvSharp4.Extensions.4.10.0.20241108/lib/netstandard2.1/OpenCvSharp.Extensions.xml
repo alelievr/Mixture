@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenCvSharp.Extensions</name>
+    </assembly>
+    <members>
+        <member name="T:OpenCvSharp.Extensions.Binarizer">
+            <summary>
+            Various binarization methods (ATTENTION : The methods of this class is not implemented in OpenCV)
+            </summary>
+        </member>
+        <member name="M:OpenCvSharp.Extensions.Binarizer.Niblack(OpenCvSharp.Mat,OpenCvSharp.Mat,System.Int32,System.Double)">
+            <summary>
+            Binarizes by Niblack's method (This is faster but memory-hogging)
+            </summary>
+            <param name="src">Input image</param>
+            <param name="dst">Output image</param>
+            <param name="kernelSize">Window size</param>
+            <param name="k">Adequate coefficient</param>
+        </member>
+        <member name="M:OpenCvSharp.Extensions.Binarizer.Sauvola(OpenCvSharp.Mat,OpenCvSharp.Mat,System.Int32,System.Double,System.Double)">
+            <summary>
+            Binarizes by Sauvola's method (This is faster but memory-hogging)
+            </summary>
+            <param name="src">Input image</param>
+            <param name="dst">Output image</param>
+            <param name="kernelSize">Window size</param>
+            <param name="k">Adequate coefficient</param>
+            <param name="r">Adequate coefficient</param>
+        </member>
+        <member name="M:OpenCvSharp.Extensions.Binarizer.Bernsen(OpenCvSharp.Mat,OpenCvSharp.Mat,System.Int32,System.Byte,System.Byte)">
+            <summary>
+            Binarizes by Bernsen's method
+            </summary>
+            <param name="src">Input image</param>
+            <param name="dst">Output image</param>
+            <param name="kernelSize">Window size</param>
+            <param name="constrastMin">Adequate coefficient</param>
+            <param name="bgThreshold">Adequate coefficient</param>
+        </member>
+        <member name="M:OpenCvSharp.Extensions.Binarizer.Nick(OpenCvSharp.Mat,OpenCvSharp.Mat,System.Int32,System.Double)">
+            <summary>
+            Binarizes by Nick's method
+            </summary>
+            <param name="src">Input image</param>
+            <param name="dst">Output image</param>
+            <param name="kernelSize">Window size</param>
+            <param name="k">Adequate coefficient</param>
+        </member>
+        <member name="M:OpenCvSharp.Extensions.Binarizer.MinMax(OpenCvSharp.Mat,System.Int32,System.Int32,System.Int32,System.Byte@,System.Byte@)">
+            <summary>
+            注目画素の周辺画素の最大値と最小値を求める
+            </summary>
+            <param name="img">画像の画素データ</param>
+            <param name="x">x座標</param>
+            <param name="y">y座標</param>
+            <param name="size">周辺画素の探索サイズ。奇数でなければならない</param>
+            <param name="min">出力される最小値</param>
+            <param name="max">出力される最大値</param>
+        </member>
+        <member name="T:OpenCvSharp.Extensions.BitmapConverter">
+            <summary>
+            static class which provides conversion between System.Drawing.Bitmap and Mat
+            </summary>
+        </member>
+        <member name="M:OpenCvSharp.Extensions.BitmapConverter.ToMat(System.Drawing.Bitmap)">
+            <summary>
+            Converts System.Drawing.Bitmap to Mat
+            </summary>
+            <param name="src">System.Drawing.Bitmap object to be converted</param>
+            <returns>A Mat object which is converted from System.Drawing.Bitmap</returns>
+        </member>
+        <member name="M:OpenCvSharp.Extensions.BitmapConverter.ToMat(System.Drawing.Bitmap,OpenCvSharp.Mat)">
+            <summary>
+            Converts System.Drawing.Bitmap to Mat
+            </summary>
+            <param name="src">System.Drawing.Bitmap object to be converted</param>
+            <param name="dst">A Mat object which is converted from System.Drawing.Bitmap</param>
+        </member>
+        <member name="M:OpenCvSharp.Extensions.BitmapConverter.ToBitmap(OpenCvSharp.Mat)">
+            <summary>
+            Converts Mat to System.Drawing.Bitmap
+            </summary>
+            <param name="src">Mat</param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCvSharp.Extensions.BitmapConverter.ToBitmap(OpenCvSharp.Mat,System.Drawing.Imaging.PixelFormat)">
+            <summary>
+            Converts Mat to System.Drawing.Bitmap
+            </summary>
+            <param name="src">Mat</param>
+            <param name="pf">Pixel Depth</param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCvSharp.Extensions.BitmapConverter.ToBitmap(OpenCvSharp.Mat,System.Drawing.Bitmap)">
+            <summary>
+            Converts Mat to System.Drawing.Bitmap
+            </summary>
+            <param name="src">Mat</param>
+            <param name="dst">Mat</param>
+            <remarks>Author: shimat, Gummo (ROI support)</remarks>
+        </member>
+        <member name="T:OpenCvSharp.Extensions.CvExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCvSharp.Extensions.CvExtensions.HoughLinesProbabilisticEx(OpenCvSharp.Mat,System.Double,System.Double,System.Int32,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="img"></param>
+            <param name="rho"></param>
+            <param name="theta"></param>
+            <param name="threshold"></param>
+            <param name="minLineLength"></param>
+            <param name="maxLineGap"></param>
+            <param name="thetaMin"></param>
+            <param name="thetaMax"></param>
+            <returns></returns>
+        </member>
+        <member name="T:OpenCvSharp.Extensions.OS">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:OpenCvSharp.Extensions.Runtime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:OpenCvSharp.Extensions.Platform">
+            <summary>
+            Provides information for the platform which the user is using 
+            </summary>
+        </member>
+        <member name="F:OpenCvSharp.Extensions.Platform.OS">
+            <summary>
+            OS type
+            </summary>
+        </member>
+        <member name="F:OpenCvSharp.Extensions.Platform.Runtime">
+            <summary>
+            Runtime type
+            </summary>
+        </member>
+    </members>
+</doc>
