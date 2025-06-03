@@ -49,5 +49,7 @@ public class ProcessMixture : MonoBehaviour
         // Write the file at the target destination
         var bytes = ImageConversion.EncodeToPNG(destination);
         File.WriteAllBytes(outputPath, bytes);
+
+        processor.Dispose();
     }
 }
