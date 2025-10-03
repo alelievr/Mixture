@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project template will be documented in this file.
 
+## 0.4.3
+
+Add compatibility for Unity 6 and above.
+
 ## 0.4.2
 
 ### Added
