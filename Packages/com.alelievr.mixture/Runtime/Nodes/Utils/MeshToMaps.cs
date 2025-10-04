@@ -1,8 +1,7 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
-using System.Linq;
 using UnityEngine.Rendering;
 
 namespace Mixture
@@ -39,7 +38,7 @@ This process is done using the UV of the mesh to flatten it and output it's attr
 		[ShowInInspector, Tooltip("Enable Conservative rasterization when rendering the mesh. It can help to keep small details in the mesh.")]
 		public bool conservative = false;
 
-		[Output]
+		[Output, NonSerialized]
         public CustomRenderTexture output;
 
 		public override string name => "Mesh To Maps";

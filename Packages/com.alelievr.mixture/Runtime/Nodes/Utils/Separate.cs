@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using GraphProcessor;
 using UnityEngine.Rendering;
@@ -23,13 +24,13 @@ Separates the 4 components (RGBA) of the input texture into 4 R channel texture.
         [Input]
         public Texture input;
 
-        [Output("R")]
+        [Output("R"), NonSerialized]
         public CustomRenderTexture outputR;
-        [Output("G")]
+        [Output("G"), NonSerialized]
         public CustomRenderTexture outputG;
-        [Output("B")]
+        [Output("B"), NonSerialized]
         public CustomRenderTexture outputB;
-        [Output("A")]
+        [Output("A"), NonSerialized]
         public CustomRenderTexture outputA;
 
 		[Tooltip("Select the output mode for the render texture. The R Channel Only mode uses 4 times less memory.")]
