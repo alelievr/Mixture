@@ -1,8 +1,7 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
-using System.Linq;
 using UnityEngine.Rendering;
 
 namespace Mixture
@@ -34,7 +33,7 @@ Renders a mesh using the material specified in the 'material' field.
 		[ShowInInspector, Tooltip("In case the mesh has multiple sub-meshes, you can select which one to render with this field")]
 		public int submeshIndex;
 
-		[Output]
+		[Output, NonSerialized]
         public CustomRenderTexture output;
 
 		public override string name => "Render Mesh";

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using GraphProcessor;
 using UnityEngine.Rendering;
@@ -16,7 +17,7 @@ Note that the unsigned distance field is faster to compute.
 		[Input("Input Mesh"), ShowAsDrawer]
 		public MixtureMesh inputMesh;
 
-        [Output("Volume")]
+        [Output("Volume"), NonSerialized]
         public CustomRenderTexture outputVolume;
 
 		[ShowInInspector, Tooltip("Enable Conservative rasterization when rendering the mesh. It can help to keep small details in the mesh.")]

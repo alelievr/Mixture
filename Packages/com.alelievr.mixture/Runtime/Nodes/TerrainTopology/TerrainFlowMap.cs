@@ -1,8 +1,6 @@
-﻿using System.Runtime.InteropServices;
-using System.Xml;
+﻿using System;
 using GraphProcessor;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 
 namespace Mixture
@@ -19,7 +17,7 @@ The VectorField output represent the direction took by the water in each point.
         public override string name => "Terrain Flow Map";
 
         [Input("Iteration")][ShowInInspector(true)] public int iteration = 5;
-        [Output("Vector Field")]public CustomRenderTexture vectorField;
+        [Output("Vector Field"), NonSerialized]public CustomRenderTexture vectorField;
         protected override string KernelName => "FillWaterMap";
         public override bool showDefaultInspector => true;
         public override Texture previewTexture => output;

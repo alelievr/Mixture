@@ -74,9 +74,13 @@ namespace Mixture
                         EditorGUILayout.LabelField(path);
                         if (GUILayout.Button("Select"))
                         {
-                            var mainAsset = AssetDatabase.LoadAssetAtPath<Texture>(path);
-                            EditorGUIUtility.PingObject(mainAsset);
-                            Selection.activeObject = mainAsset;
+                            if (graph.isCloned) {
+                              Selection.activeObject = graph;
+                            } else {
+                              var mainAsset = AssetDatabase.LoadAssetAtPath<Texture>(path);
+                              EditorGUIUtility.PingObject(mainAsset);
+                              Selection.activeObject = mainAsset;
+                            }
                         }
                     }
                 }

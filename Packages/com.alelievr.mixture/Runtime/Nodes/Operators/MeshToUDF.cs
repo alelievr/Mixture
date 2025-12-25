@@ -27,7 +27,7 @@ Note that the unsigned distance field is faster to compute.
 		[Input("Input Mesh"), ShowAsDrawer]
 		public MixtureMesh inputMesh = new MixtureMesh();
 
-        [Output("Volume")]
+        [Output("Volume"), NonSerialized]
         public CustomRenderTexture outputVolume;
 
         [Tooltip("Unsigned distance fields are faster to compute")]
