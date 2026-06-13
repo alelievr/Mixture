@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>OpenCvSharp4.Extensions</id>
+    <version>4.10.0.20241108</version>
+    <title>OpenCvSharp GDI+ extension library.</title>
+    <authors>shimat</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
+    <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/opencvsharp.png</iconUrl>
+    <description>OpenCvSharp GDI+ extension library.</description>
+    <summary>OpenCvSharp GDI+ extension library.</summary>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2008-2020</copyright>
+    <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
+    <repository type="git" url="https://github.com/shimat/opencvsharp.git" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.8">
+        <dependency id="OpenCvSharp4" version="4.10.0.20241108" />
+        <dependency id="System.Drawing.Common" version="8.0.0" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="OpenCvSharp4" version="4.10.0.20241108" />
+        <dependency id="System.Drawing.Common" version="8.0.0" />
+      </group>
+      <group targetFramework=".NETStandard2.1">
+        <dependency id="OpenCvSharp4" version="4.10.0.20241108" />
+        <dependency id="System.Drawing.Common" version="8.0.0" />
+      </group>
+      <group targetFramework="net6.0">
+        <dependency id="OpenCvSharp4" version="4.10.0.20241108" />
+        <dependency id="System.Drawing.Common" version="8.0.0" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Drawing" targetFramework=".NETFramework4.8" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework=".NETFramework4.8" />
+      <frameworkAssembly assemblyName="System.Xaml" targetFramework=".NETFramework4.8" />
+    </frameworkAssemblies>
+  </metadata>
+</package>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
