@@ -1,0 +1,70 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel LIC
+#pragma kernel Preview
+
+// Enable debug
+// #pragma enable_d3d11_debug_symbols
+
+// Include utility stuff to handle multi-dimension input textures
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureComputeUtils.hlsl"
+
+// By default all RW* structs (RWTexture, RWBuffer, etc) will appear as outputs in the node
+// If you don't want this behaviour, you can prefix your variable with '__',
+// it will prevent the property to show up in the code input/outputs.
+// Note that every property declared after a function won't be visible in the node UI.
+
+Texture2D<float4> __TFM;
+Texture2D<float4> __Noise;
+RWTexture2D<float4> _LIC;
+StructuredBuffer<float> __Kernel;
+SamplerState point_clamp_sampler;
+SamplerState linear_clamp_sampler;
+int __KernelRadius;
+
+half4 Integrate(half2 position, half2 direction, half2 invDimension) {
+       
+    half4 sumWeight = 0.0h;
+ 
+    for (int xi = 1; xi <= __KernelRadius; xi++){     
+        half2 G = __TFM.SampleLevel(point_clamp_sampler, position, 0).xy;
+        direction = dot(direction, G) > 0.0h ? G : -G;
+        
+        sumWeight += __Kernel[xi + __KernelRadius] * half4(__Noise.SampleLevel(linear_clamp_sampler, position, 0).xyz, 1.0);
+        position += direction * invDimension;
+    }  
+    return sumWeight;
+}
+
+float4 LineIntegralConvolution(uint2 id)
+{
+    half2 invDimension;
+    __TFM.GetDimensions(invDimension.x, invDimension.y);
+    invDimension = rcp(invDimension);
+    
+    half4 sumWeight = 0.0;    
+    half2 P = id.xy * invDimension;
+    half2 G = __TFM.SampleLevel(point_clamp_sampler, P, 0).xy;
+   
+    sumWeight += __Kernel[__KernelRadius] * half4(__Noise.SampleLevel(linear_clamp_sampler, P, 0).xyz, 1.0);
+    sumWeight += Integrate(P + G * invDimension, +G, invDimension);
+    sumWeight += Integrate(P - G * invDimension, -G, invDimension);
+    return float4(half3(sumWeight.xyz / sumWeight.w), 1);
+    
+}
+
+[numthreads(8,8,1)]
+void LIC (uint3 id : SV_DispatchThreadID)
+{
+    _LIC[id.xy] = LineIntegralConvolution(id);
+}
+
+// This will be used for the preview Texture in the node
+RWTexture2D<float4> _Preview;
+float4 _PreviewResolution; // xy is the pixel resolution and zw is 1 / xy
+
+[numthreads(8, 8, 1)]
+void Preview(uint3 id : SV_DispatchThreadID)
+{
+    // You can insert custom preview code here
+    _Preview[id.xy] = float4(_LIC[id.xy]);
+}

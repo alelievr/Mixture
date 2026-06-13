@@ -8,7 +8,7 @@
 		[InlineTexture]_Source_Cube("Source", Cube) = "white" {}
 
 		_Step("Step", Range(0.01, 2)) = 1
-		[Tooltip(Output color mode, it can either be white and black or input texture coor)][Enum(Edge, 0, ColorEdge, 1)] _Mode("Mode", Float) = 0
+		[Tooltip(Output color mode, it can either be white and black or input texture coor)][Enum(Edge, 0, ColorEdge, 1, StructuredTensor, 2)] _Mode("Mode", Float) = 0
 	}
 
 	HLSLINCLUDE
@@ -70,6 +70,24 @@
 #endif
 	}
 
+	float3 CalculateStructureTensor(float3x3 luminance)
+    {
+        // Compute Sobel gradients for x and y
+        float x = (
+            -1.0 * luminance[0][0] + 1.0 * luminance[2][0] +
+            -2.0 * luminance[0][1] + 2.0 * luminance[2][1] +
+            -1.0 * luminance[0][2] + 1.0 * luminance[2][2]
+        );
+
+        float y = (
+            -1.0 * luminance[0][0] - 2.0 * luminance[1][0] - 1.0 * luminance[2][0] +
+            1.0 * luminance[0][2] + 2.0 * luminance[1][2] + 1.0 * luminance[2][2]
+        );
+
+        // Return the components of the Structure Tensor
+        return float3(x * x, y * y, x * y);
+    }
+
 	ENDHLSL
 
 	SubShader
@@ -90,16 +108,23 @@
 					SamplePixelLuminance(float3(-1,  1, 0), i.localTexcoord.xyz), SamplePixelLuminance(float3( 0,  1, 0), i.localTexcoord.xyz), SamplePixelLuminance(float3( 1,  1, 0), i.localTexcoord.xyz)
 				);
 
-				float2 edgeValue = float2(EdgeDetect(horizontalPixels, true), EdgeDetect(horizontalPixels, false));
-				float edge = length(edgeValue);
+				float2 edgeValue = 0;
+				float edge = 0;
 
 				switch (_Mode)
 				{
 					default:
 					case 0:
+						edgeValue = float2(EdgeDetect(horizontalPixels, true), EdgeDetect(horizontalPixels, false));
+						edge = length(edgeValue);
 						return float4(edge.xxx, 1);
 					case 1:
+						edgeValue = float2(EdgeDetect(horizontalPixels, true), EdgeDetect(horizontalPixels, false));
+						edge = length(edgeValue);
 						return SAMPLE_X(_Source, i.localTexcoord.xyz, i.direction) * edge;
+					case 2:
+						float3 tensor = CalculateStructureTensor(horizontalPixels);
+						return float4(tensor, 1);
 				}
 			}
 			ENDHLSL

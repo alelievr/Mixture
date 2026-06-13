@@ -1,0 +1,144 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel AnisotropicKuwahara
+#pragma kernel Preview
+
+// Enable debug
+// #pragma enable_d3d11_debug_symbols
+
+// Include utility stuff to handle multi-dimension input textures
+#include "Packages/com.alelievr.mixture/Runtime/Shaders/MixtureComputeUtils.hlsl"
+
+
+Texture2D<float4> _Source;
+Texture2D<float4> _TFM;
+//Texture2D<float> _SaliencyMap;
+RWTexture2D<float4> _Output;
+
+int _KuwaharaRadius;
+float _KuwaharaAlpha;
+int _KuwaharaQ;
+float _StrokeScale;
+float _Hardness;
+float _ZeroCrossing;
+float _Zeta;
+
+
+
+[numthreads(8,8,1)]
+void AnisotropicKuwahara (uint3 id : SV_DispatchThreadID)
+{
+    int _N = 8;
+    float alpha = _KuwaharaAlpha;
+    float4 t = _TFM[id.xy];
+    int kernelRadius = _KuwaharaRadius / 2;
+    float a = float(kernelRadius) * clamp(alpha + t.w / alpha, 0.1f, 2.0f);
+    float b = float(kernelRadius) * clamp(alpha / (alpha + t.w), 0.1f, 2.0f);
+
+    float cos_phi = cos(t.z);
+    float sin_phi = sin(t.z);
+    float2x2 R = float2x2(cos_phi, -sin_phi, sin_phi, cos_phi);
+    float2x2 S = float2x2(0.5f / a, 0.0f, 0.0f, 0.5f / b);
+    float2x2 SR = mul(S, R);
+    int max_x = int(sqrt(a * a * cos_phi * cos_phi + b * b * sin_phi * sin_phi));
+    int max_y = int(sqrt(a * a * sin_phi * sin_phi + b * b * cos_phi * cos_phi));
+
+    //float zeta = 2.0f / (kernelRadius);
+    float zeta = _Zeta;
+
+    float zeroCross = _ZeroCrossing;
+    float sinZeroCross = sin(zeroCross);
+    float eta = (zeta + cos(zeroCross)) / (sinZeroCross * sinZeroCross);
+    int k;
+    float4 m[8];
+    float3 s[8];
+
+    for (k = 0; k < _N; ++k)
+    {
+        m[k] = 0.0f;
+        s[k] = 0.0f;
+    }
+
+    [loop]
+    for (int y = -max_y; y <= max_y; ++y)
+    {
+        [loop]
+        for (int x = -max_x; x <= max_x; ++x)
+        {
+            float2 v = mul(SR, float2(x, y));
+            if (dot(v, v) <= 0.25f)
+            {
+                float3 c = _Source[id.xy + int2(x, y)].rgb;
+                // tex2D(_MainTex, i.uv + float2(x, y) * _MainTex_TexelSize.xy).rgb;
+                c = saturate(c);
+                float sum = 0;
+                float w[8];
+                float z, vxx, vyy;
+
+                /* Calculate Polynomial Weights */
+                vxx = zeta - eta * v.x * v.x;
+                vyy = zeta - eta * v.y * v.y;
+                z = max(0, v.y + vxx);
+                w[0] = z * z;
+                sum += w[0];
+                z = max(0, -v.x + vyy);
+                w[2] = z * z;
+                sum += w[2];
+                z = max(0, -v.y + vxx);
+                w[4] = z * z;
+                sum += w[4];
+                z = max(0, v.x + vyy);
+                w[6] = z * z;
+                sum += w[6];
+                v = sqrt(2.0f) / 2.0f * float2(v.x - v.y, v.x + v.y);
+                vxx = zeta - eta * v.x * v.x;
+                vyy = zeta - eta * v.y * v.y;
+                z = max(0, v.y + vxx);
+                w[1] = z * z;
+                sum += w[1];
+                z = max(0, -v.x + vyy);
+                w[3] = z * z;
+                sum += w[3];
+                z = max(0, -v.y + vxx);
+                w[5] = z * z;
+                sum += w[5];
+                z = max(0, v.x + vyy);
+                w[7] = z * z;
+                sum += w[7];
+
+                float g = exp(-3.125f * dot(v, v)) / sum;
+
+                for (int k = 0; k < 8; ++k)
+                {
+                    float wk = w[k] * g;
+                    m[k] += float4(c * wk, wk);
+                    s[k] += c * c * wk;
+                }
+            }
+        }
+    }
+
+    float4 output = 0;
+    for (k = 0; k < _N; ++k)
+    {
+        m[k].rgb /= m[k].w;
+        s[k] = abs(s[k] / m[k].w - m[k].rgb * m[k].rgb);
+
+        float sigma2 = s[k].r + s[k].g + s[k].b;
+        float w = 1.0f / (1.0f + pow(_Hardness * 1000.0f * sigma2, 0.5f * _KuwaharaQ));
+
+        output += float4(m[k].rgb * w, w);
+    }
+
+    _Output[id.xy] = saturate(output / output.w);
+}
+
+// This will be used for the preview Texture in the node
+RWTexture2D<float4> _Preview;
+float4 _PreviewResolution; // xy is the pixel resolution and zw is 1 / xy
+
+[numthreads(8, 8, 1)]
+void Preview(uint3 id : SV_DispatchThreadID)
+{
+    // You can insert custom preview code here
+    _Preview[id.xy] = _Output[id.xy];
+}
