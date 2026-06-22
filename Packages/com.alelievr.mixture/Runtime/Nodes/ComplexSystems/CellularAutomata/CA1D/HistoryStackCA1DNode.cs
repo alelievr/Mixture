@@ -34,7 +34,7 @@ The time mode defines the number of evolution steps:
         [Input("Initial State")] public Texture input;
         [Input("Rules")] public ComputeBuffer rules;
         [Input("State Count")] public int stateCount;
-        [Output] public CustomRenderTexture output;
+        [Output, NonSerialized] public CustomRenderTexture output;
         public TimeMode timeMode;
         public RuleEvaluationMethod evaluationMethod;
 

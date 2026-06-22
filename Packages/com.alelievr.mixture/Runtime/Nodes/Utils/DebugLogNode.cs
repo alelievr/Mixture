@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using GraphProcessor;
-using System.Linq;
 using UnityEngine.Rendering;
 
 namespace Mixture
@@ -21,7 +18,12 @@ When processed, this node will do a Debug.Log() of it's connected input, this ca
 
 		protected override bool ProcessNode(CommandBuffer cmd)
 		{
-			Debug.Log(input);
+      if (input is Object o) {
+        Debug.Log(input, o);
+      } else {
+        Debug.Log(input);
+      }
+
 			return true;
 		}
 	}

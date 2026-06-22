@@ -24,7 +24,7 @@ Provide a set of the basic initial states for CA 1D suitable for CA with the num
 
         public Mode mode;
         public int seed;
-        [Output] public CustomRenderTexture output;
+        [Output, NonSerialized] public CustomRenderTexture output;
 
         public override string name => "Initial Conditions CA1D";
         public override bool showDefaultInspector => true;

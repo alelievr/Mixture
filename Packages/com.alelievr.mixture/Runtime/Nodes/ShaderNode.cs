@@ -37,13 +37,14 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 		[Input(name = "In")]
 		public List< object >		materialInputs;
 
-		[Output(name = "Out"), Tooltip("Output Texture")]
+		[Output(name = "Out"), Tooltip("Output Texture"), NonSerialized]
 		public CustomRenderTexture	output = null;
 
 		[HideInInspector]
 		public Shader			shader;
 		[HideInInspector]
 		public Material			material;
+    bool _materialIsCloned;
 
 		// We keep internally a list of ports generated from the material exposed properties so when
 		// there is an error in the shader or we can't import it, the connections still remains on the node.
@@ -111,6 +112,10 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 		{
 			base.Disable();
 			CoreUtils.Destroy(output);
+
+      if (graph != null && graph.isCloned && _materialIsCloned) {
+        CoreUtils.Destroy(material);
+      }
 		}
 
 		public bool InitializeNodeFromObject(Shader value)
@@ -252,6 +257,14 @@ For more information, you can check the [Shader Nodes](../ShaderNodes.md) docume
 		{
 			if (output == null)
 				return false;
+
+      // Cannot place this in `Enable()` because `graph.isCloned`
+      // is not set to true by the time the graph is instantiated
+      // (it is set to true after all the enable callbacks are called)
+      if (graph.isCloned && !_materialIsCloned) {
+        material = Material.Instantiate(material);
+        _materialIsCloned = true;
+      }
 
 			var outputDimension = settings.GetResolvedTextureDimension(graph);
 			MixtureUtils.SetupDimensionKeyword(material, outputDimension);
