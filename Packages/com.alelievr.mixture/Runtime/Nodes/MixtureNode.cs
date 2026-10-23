@@ -186,7 +186,7 @@ namespace Mixture
 			settings |= n is TextureNode;
 			settings |= n is SelfNode;
 
-			return true;
+			return settings;
 		}
 
 		void UpdateSettings() => UpdateSettings(null);
